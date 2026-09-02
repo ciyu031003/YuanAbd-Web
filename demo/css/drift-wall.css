@@ -1,0 +1,209 @@
+/* ============================================================
+   drift-wall.css — 行迹 · 记忆画廊（DriftWall 移植版）
+   原型：React DriftWall（倾斜 3D 照片墙 + 无限漂移 + 悬停点亮）
+   移植：vanilla JS + CSS，逻辑见 js/drift-wall.js
+   结构：.drift-wall（透视容器/遮罩）> .drift-wall__plane（倾斜平面）
+         > .drift-wall__col ×N > .drift-wall__track（无限位移）> 瓦片
+   ============================================================ */
+
+.drift-wall {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  perspective: var(--dw-perspective, 1200px);
+  perspective-origin: 50% 50%;
+  --dw-tile-w: 240px;
+  --dw-tile-h: 158px;
+  --dw-gap: 18px;
+  --dw-radius: 16px;
+  --dw-lift: 64px;
+  --dw-dim: 0.55;
+  --dw-gray: 0;
+  --dw-overlay: #180a14;
+  --dw-edge: 45%;
+  -webkit-mask-image:
+    radial-gradient(ellipse 78% 82% at 50% 46%, #000 var(--dw-edge), transparent 100%),
+    linear-gradient(to top, #000 var(--dw-edge), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(ellipse 78% 82% at 50% 46%, #000 var(--dw-edge), transparent 100%),
+    linear-gradient(to top, #000 var(--dw-edge), transparent 100%);
+  mask-composite: intersect;
+}
+
+.drift-wall__plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: row;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.drift-wall__col {
+  position: relative;
+  width: calc(var(--dw-tile-w) + var(--dw-gap));
+  transform-style: preserve-3d;
+}
+
+.drift-wall__track {
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.drift-wall__tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: calc(var(--dw-tile-h) + var(--dw-gap));
+  flex: 0 0 auto;
+  outline: none;
+  transform-style: preserve-3d;
+}
+
+.drift-wall__inner {
+  position: absolute;
+  inset: calc(var(--dw-gap) / 2);
+  display: block;
+  border-radius: var(--dw-radius);
+  overflow: hidden;
+  background: #0b0710;
+  opacity: var(--dw-dim);
+  transform: translateZ(0);
+  pointer-events: none;
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.drift-wall__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(var(--dw-gray)) saturate(0.92);
+  transition: filter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.drift-wall__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--dw-overlay);
+  opacity: 0.42;
+  pointer-events: none;
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 悬停 / 键盘聚焦点亮（原型为 is-active 类，这里用 CSS 原生状态，省一层 JS） */
+.drift-wall__tile:hover .drift-wall__inner,
+.drift-wall__tile.is-active .drift-wall__inner,
+.drift-wall__tile:focus-visible .drift-wall__inner {
+  opacity: 1;
+  transform: translateZ(var(--dw-lift));
+  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.7);
+}
+
+.drift-wall__tile:hover img,
+.drift-wall__tile.is-active img,
+.drift-wall__tile:focus-visible img {
+  filter: grayscale(0) saturate(1.05);
+}
+
+.drift-wall__tile:hover .drift-wall__overlay,
+.drift-wall__tile.is-active .drift-wall__overlay,
+.drift-wall__tile:focus-visible .drift-wall__overlay {
+  opacity: 0;
+}
+
+.drift-wall--static .drift-wall__plane,
+.drift-wall--static .drift-wall__track {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-wall__plane,
+  .drift-wall__track {
+    will-change: auto;
+  }
+}
+
+/* ============================================================
+   driftband — 行迹页里的展示段（深色影院段 + 标题 + 提示）
+   ============================================================ */
+
+.driftband {
+  position: relative;
+  z-index: 3;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #2c1220 0%, #1a0a14 52%, #12060e 100%);
+  padding-top: clamp(48px, 7vh, 88px);
+}
+
+.driftband__head {
+  max-width: 760px;
+}
+
+.driftband .section__label {
+  color: #ff9fbe;
+}
+
+.driftband .section__title {
+  color: #fdf0f5;
+  text-shadow: 0 2px 26px rgba(255, 159, 190, 0.24);
+}
+
+.driftband__desc {
+  margin: 0.9rem 0 0;
+  max-width: 58ch;
+  color: rgba(253, 240, 245, 0.7);
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.5vw, 1.16rem);
+  line-height: 1.8;
+}
+
+.driftband__stage {
+  position: relative;
+  height: clamp(540px, 90vh, 900px);
+  margin-top: clamp(26px, 4vh, 48px);
+}
+
+.driftband__caption {
+  position: absolute;
+  left: clamp(20px, 4vw, 54px);
+  bottom: clamp(24px, 5vh, 52px);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  pointer-events: none;
+  color: rgba(253, 240, 245, 0.78);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+}
+
+.driftband__caption .driftband__hint-line {
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, #ff9fbe, transparent);
+}
+
+@media (max-width: 640px) {
+  .driftband__stage {
+    height: clamp(420px, 72vh, 620px);
+  }
+
+  .driftband__caption {
+    left: 18px;
+    bottom: 20px;
+  }
+}

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>学习工作台 · 求职与学习手册</title>
+  <meta name="description" content="学习工作台：招聘市场分析、面试题库、学习路线图、求职看板、就绪度评估，把求职与学习装订成五本手册。已上线运行。" />
+  <meta name="theme-color" content="#29251d" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon-learn.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="学习工作台 · Learn Workbench" />
+  <meta property="og:title" content="学习工作台 · 求职与学习手册" />
+  <meta property="og:description" content="学习工作台：招聘市场分析、面试题库、学习路线图、求职看板、就绪度评估，把求职与学习装订成五本手册。" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300..600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/learn.css?v=20260830c" />
+</head>
+<body class="learn" data-mode="gallery" data-menu="closed">
+  <a class="skip-link" href="#live">跳到主要内容</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="stage" id="top" aria-label="学习工作台能力书架">
+    <header class="topbar">
+      <a class="brand" href="https://www.yuanabd.cn/" aria-label="学习工作台首页">学习工作台</a>
+      <div class="nav-actions">
+        <button class="icon-button" id="menuButton" type="button" aria-label="打开菜单" aria-expanded="false">
+          <span class="menu-glyph" aria-hidden="true"></span>
+        </button>
+        <button class="ticket-button" type="button" data-login>进入工作台</button>
+      </div>
+    </header>
+
+    <h1 class="hero-word" aria-hidden="true">学习</h1>
+
+    <section class="gallery" aria-label="学习工作台 · 五本能力手册">
+      <button
+        class="book-card"
+        type="button"
+        data-book="market"
+        aria-label="打开《市场》手册详情"
+        style="--cover-color:#a96346; --cover-ink:#3a1d10"
+      >
+        <span class="book" aria-hidden="true">
+          <span class="book-shadow"></span>
+          <span class="book-back"></span>
+          <span class="page-block"></span>
+          <span class="page-fan"><i></i><i></i><i></i><i></i></span>
+          <span class="front-cover">
+            <span class="cover-motif motif-market"><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="cover-copy">
+              <span class="cover-kicker">求职手册 · I</span>
+              <span class="cover-title">市场</span>
+              <span class="cover-subtitle">招聘市场分析</span>
+              <span class="cover-motif-row"><span class="motif-bars"><i></i><i></i><i></i><i></i></span></span>
+              <span class="cover-footer">3,024 样本 · 47 城市</span>
+            </span>
+          </span>
+          <span class="open-badge">阅读</span>
+        </span>
+      </button>
+
+      <button
+        class="book-card"
+        type="button"
+        data-book="quiz"
+        aria-label="打开《题库》手册详情"
+        style="--cover-color:#5f684f; --cover-ink:#1e2416"
+      >
+        <span class="book" aria-hidden="true">
+          <span class="book-shadow"></span>
+          <span class="book-back"></span>
+          <span class="page-block"></span>
+          <span class="page-fan"><i></i><i></i><i></i><i></i></span>
+          <span class="front-cover">
+            <span class="cover-copy">
+              <span class="cover-kicker">求职手册 · II</span>
+              <span class="cover-title">题库</span>
+              <span class="cover-subtitle">面试题库实战</span>
+              <span class="cover-motif-row"><span class="motif-quiz"><i></i><i></i><i></i></span></span>
+              <span class="cover-footer">刷题 · 模拟 · 复盘</span>
+            </span>
+          </span>
+          <span class="open-badge">阅读</span>
+        </span>
+      </button>
+
+      <button
+        class="book-card"
+        type="button"
+        data-book="roadmap"
+        aria-label="打开《路线》手册详情"
+        style="--cover-color:#363126; --cover-ink:#e8dcc4"
+      >
+        <span class="book" aria-hidden="true">
+          <span class="book-shadow"></span>
+          <span class="book-back"></span>
+          <span class="page-block"></span>
+          <span class="page-fan"><i></i><i></i><i></i><i></i></span>
+          <span class="front-cover">
+            <span class="cover-copy">
+              <span class="cover-kicker">求职手册 · III</span>
+              <span class="cover-title">路线</span>
+              <span class="cover-subtitle">学习路线图</span>
+              <span class="cover-motif-row"><span class="motif-road"><i></i><i></i><i></i><i></i></span></span>
+              <span class="cover-footer">19 主题 · 4 阶段</span>
+            </span>
+          </span>
+          <span class="open-badge">阅读</span>
+        </span>
+      </button>
+
+      <button
+        class="book-card"
+        type="button"
+        data-book="pipeline"
+        aria-label="打开《管道》手册详情"
+        style="--cover-color:#b7976c; --cover-ink:#332412"
+      >
+        <span class="book" aria-hidden="true">
+          <span class="book-shadow"></span>
+          <span class="book-back"></span>
+          <span class="page-block"></span>
+          <span class="page-fan"><i></i><i></i><i></i><i></i></span>
+          <span class="front-cover">
+            <span class="cover-copy">
+              <span class="cover-kicker">求职手册 · IV</span>
+              <span class="cover-title">管道</span>
+              <span class="cover-subtitle">求职看板</span>
+              <span class="cover-motif-row"><span class="motif-pipe"><i></i><i></i><i></i></span></span>
+              <span class="cover-footer">投递 · 面试 · Offer</span>
+            </span>
+          </span>
+          <span class="open-badge">阅读</span>
+        </span>
+      </button>
+
+      <button
+        class="book-card"
+        type="button"
+        data-book="readiness"
+        aria-label="打开《就绪》手册详情"
+        style="--cover-color:#566044; --cover-ink:#1c2214"
+      >
+        <span class="book" aria-hidden="true">
+          <span class="book-shadow"></span>
+          <span class="book-back"></span>
+          <span class="page-block"></span>
+          <span class="page-fan"><i></i><i></i><i></i><i></i></span>
+          <span class="front-cover">
+            <span class="cover-copy">
+              <span class="cover-kicker">求职手册 · V</span>
+              <span class="cover-title">就绪</span>
+              <span class="cover-subtitle">就绪度评估</span>
+              <span class="cover-motif-row"><span class="motif-ring"><svg viewBox="0 0 36 36"><circle class="ring-track" cx="18" cy="18" r="15"/><circle class="ring-bar" cx="18" cy="18" r="15"/></svg><b>72%</b></span></span>
+              <span class="cover-footer">技能 · 项目 · 简历 · 面试</span>
+            </span>
+          </span>
+          <span class="open-badge">阅读</span>
+        </span>
+      </button>
+    </section>
+
+    <section class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-label="手册详情" aria-live="polite" aria-hidden="true" inert>
+      <h2 class="detail-title" id="detailTitle">市场</h2>
+      <div class="detail-scroll" id="detailScroll" tabindex="0" aria-label="手册指南">
+        <p class="detail-description" id="detailDescription"></p>
+        <section class="doc-section" aria-labelledby="gettingStartedLabel">
+          <p class="doc-label" id="gettingStartedLabel">怎么用</p>
+          <ol class="doc-steps" id="detailSteps"></ol>
+        </section>
+        <section class="doc-section" aria-labelledby="dataLabel">
+          <p class="doc-label" id="dataLabel">今日实况</p>
+          <div class="prompt-block"><code id="detailPrompt"></code></div>
+        </section>
+        <section class="doc-section" aria-labelledby="reviewLabel">
+          <p class="doc-label" id="reviewLabel">用前提醒</p>
+          <p class="doc-review" id="detailReview"></p>
+        </section>
+      </div>
+      <div class="bottom-dock">
+        <div class="meta-row" aria-label="手册版本与年份">
+          <div class="stars" aria-label="手册版本">
+            <span>✦</span><span>✦</span><span>✦</span><span>✦</span><span class="dim">◇</span>
+          </div>
+          <span class="meta-divider" aria-hidden="true"></span>
+          <span class="review-source" id="detailSource">数据源</span>
+          <span class="year" id="detailYear">2026</span>
+        </div>
+        <hr class="detail-rule" />
+        <div class="action-rail" aria-label="手册操作">
+          <button class="pill language" type="button" data-login>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M3 12h18M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            立即使用
+          </button>
+          <a class="pill" href="./download.html">下载 App</a>
+          <button class="pill" type="button" data-goto="#live">部署实况</button>
+          <button class="pill icon-only" id="saveButton" type="button" aria-label="收藏手册" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6.8 4.2h10.4v15.6L12 16.6l-5.2 3.2V4.2Z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <button class="close-button" id="closeButton" type="button" aria-label="关闭详情" tabindex="-1">×</button>
+
+    <div class="blossom-field" aria-hidden="true">
+      <span class="blossom" style="--blossom-x: 4%; --blossom-size: 30px; --blossom-r: 18deg; --blossom-duration: 10s; --blossom-delay: -4s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 16%; --blossom-size: 19px; --blossom-r: 74deg; --blossom-duration: 8.5s; --blossom-delay: -1s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 31%; --blossom-size: 25px; --blossom-r: -20deg; --blossom-duration: 11s; --blossom-delay: -7s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 44%; --blossom-size: 17px; --blossom-r: 48deg; --blossom-duration: 9.5s; --blossom-delay: -5s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 58%; --blossom-size: 28px; --blossom-r: 12deg; --blossom-duration: 12s; --blossom-delay: -8s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 69%; --blossom-size: 20px; --blossom-r: 92deg; --blossom-duration: 9s; --blossom-delay: -3s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 79%; --blossom-size: 32px; --blossom-r: 32deg; --blossom-duration: 11.5s; --blossom-delay: -6s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 89%; --blossom-size: 22px; --blossom-r: -14deg; --blossom-duration: 10.5s; --blossom-delay: -9s;"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="blossom" style="--blossom-x: 96%; --blossom-size: 16px; --blossom-r: 56deg; --blossom-duration: 8s; --blossom-delay: -2s;"><i></i><i></i><i></i><i></i><i></i></span>
+    </div>
+
+    <nav class="menu-layer" id="menuLayer" aria-label="站内菜单" inert>
+      <ul class="menu-list">
+        <li><a class="menu-link" href="#top" data-menu-close>书架</a></li>
+        <li><a class="menu-link" href="#live" data-menu-close>部署实况</a></li>
+        <li><a class="menu-link" href="#jobs" data-menu-close>今日招花</a></li>
+        <li><a class="menu-link" href="./download.html" data-menu-close>下载</a></li>
+        <li><a class="menu-link" href="https://www.yuanabd.cn/" data-menu-close>回到首页</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <!-- ============ 数据一瞥（线上真实数据） ============ -->
+  <section class="numbers" aria-label="线上关键数据">
+    <div class="numbers__row wrap">
+      <div class="num"><b>3,279</b><span>在库职位</span></div>
+      <div class="num"><b>334</b><span>今日新增</span></div>
+      <div class="num"><b>47</b><span>覆盖城市</span></div>
+      <div class="num"><b>465</b><span>热门技能</span></div>
+      <div class="num"><b>19</b><span>数据源平台</span></div>
+      <div class="num"><b>14K</b><span>平均薪资</span></div>
+    </div>
+    <p class="numbers__note">数据截至 2026-08-30 · 每日自动抓取自 19 个招聘平台</p>
+  </section>
+
+  <!-- ============ 部署实况（按线上真实数据重绘的毛玻璃界面） ============ -->
+  <section class="section learn-live" id="live">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <span class="section__label">部署实况 · Live</span>
+        <h2 class="section__title">手册不是概念稿，<br />背后是正在运行的产品</h2>
+        <p class="section__desc">以下界面按线上服务的真实数据重绘：数据每天抓取，市场每天更新。</p>
+      </div>
+
+      <div class="stage-wrap" data-reveal="scale">
+        <span class="stage__glow" aria-hidden="true"></span>
+        <figure class="frame" data-tilt>
+          <div class="frame__bar" aria-hidden="true">
+            <span class="frame__dots"><i></i><i></i><i></i></span>
+            <span class="frame__url">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              learn.yuanabd.cn/jobs · 已上线
+            </span>
+          </div>
+          <div class="app" role="img" aria-label="学习工作台「招花 · 今日好岗」界面示意，按线上真实数据重绘：今日新增 334 岗，在库职位 3279，覆盖平台 19 个">
+            <div class="app__nav" aria-hidden="true">
+              <span class="app__logo"><i></i>学习工作台</span>
+              <span class="app__menu"><b>首页</b><b>学习</b><b class="on">招花</b><b>职业</b><b>设置</b></span>
+              <span class="app__me">前端开发工程师 · 0%</span>
+            </div>
+            <div class="app__head" aria-hidden="true">
+              <div>
+                <span class="app__pill">招聘信息</span>
+                <h3 class="app__title">招花 · 今日好岗</h3>
+                <p class="app__sub">2026 年 8 月 30 日 · 让好机会像花一样绽放</p>
+              </div>
+              <div class="app__actions"><b>市场分析</b><b>考试日历</b></div>
+            </div>
+            <div class="app__stats" aria-hidden="true">
+              <div class="app__stat"><b>今日新增</b><span>334<i>个</i></span></div>
+              <div class="app__stat"><b>在库职位</b><span>3279<i>个</i></span></div>
+              <div class="app__stat"><b>覆盖平台</b><span>19<i>个</i></span></div>
+              <div class="app__stat"><b>上次抓取</b><span>2<i>小时前</i></span></div>
+            </div>
+            <div class="app__bar" aria-hidden="true">
+              <span class="app__filter on">全部</span><span class="app__filter">互联网</span><span class="app__filter">考公考编</span><span class="app__filter">央国企</span>
+              <span class="app__search">搜索职位、公司、公告标题或标签</span>
+            </div>
+            <div class="app__grid" aria-hidden="true">
+              <article class="job">
+                <div class="job__top"><span class="job__ava" style="--c:#a96346">中</span><div class="job__name"><h4>算法与数据分析实习生</h4><span>北京 · 面议</span></div></div>
+                <p class="job__co">中智经济技术合作股份有限公司 · 经验不限 · 本科</p>
+                <div class="job__tags"><span>Python</span></div>
+                <div class="job__meta"><em>智联招聘</em><span>2 小时前</span><u>NEW</u></div>
+              </article>
+              <article class="job">
+                <div class="job__top"><span class="job__ava" style="--c:#5f684f">数</span><div class="job__name"><h4>数据分析实习生-业务中台</h4><span>北京 · 面议</span></div></div>
+                <p class="job__co">公司未知 · 经验不限 · 本科</p>
+                <div class="job__tags"><span>数据</span></div>
+                <div class="job__meta"><em>智联招聘</em><span>2 小时前</span><u>NEW</u></div>
+              </article>
+              <article class="job">
+                <div class="job__top"><span class="job__ava" style="--c:#b7976c">电</span><div class="job__name"><h4>电力交易数据分析工程师(J10855)</h4><span>西安 · 面议</span></div></div>
+                <p class="job__co">电力交易数据 · 经验不限 · 本科</p>
+                <div class="job__tags"><span>数据</span></div>
+                <div class="job__meta"><em>智联招聘</em><span>2 小时前</span><u>NEW</u></div>
+              </article>
+            </div>
+          </div>
+        </figure>
+        <div class="stage__chip stage__chip-a" aria-hidden="true"><b>今日新增</b><span>334 岗</span></div>
+        <div class="stage__chip stage__chip-b" aria-hidden="true"><b>在库职位</b><span>3,279 岗</span></div>
+        <div class="stage__chip stage__chip-c" aria-hidden="true"><b>数据源</b><span>19 个平台</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 今日招花（线上真实职位） ============ -->
+  <section class="section learn-jobs" id="jobs">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <span class="section__label">今日招花 · Fresh</span>
+        <h2 class="section__title">今天的机会，<br />已经在架上</h2>
+        <p class="section__desc">以下职位来自线上数据库，2026-08-30 抓取，两行对向滚动——登录后在「招花」可看全部 3,279 个在库职位，收藏后一键进入求职管道。</p>
+      </div>
+    </div>
+    <div class="jobfilm" data-reveal>
+      <div class="jobfilm__row jobfilm__row--rtl">
+<div class="jobfilm__track">
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">算</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">算法与数据分析实习生</h3>
+          <p class="jcard__co">中智经济技术合作股份有限公司</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5f684f">网</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络安全测试工程师</h3>
+          <p class="jcard__co">上海埃维汽车技术有限公司</p>
+          <div class="jcard__meta"><span>上海</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#b7976c">S</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">SE 网络及系统工程师-26 届实习生</h3>
+          <p class="jcard__co">苏州云奥信息科技有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span><span>硕士</span></div>
+          <div class="jcard__tags"><span>SE</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#566044">电</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">电力交易数据分析工程师</h3>
+          <p class="jcard__co">电力交易数据</p>
+          <div class="jcard__meta"><span>西安</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>数据</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#8a4a33">新</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络工程师（薪资＋项目奖金）</h3>
+          <p class="jcard__co">新疆熠天信息技术有限公司</p>
+          <div class="jcard__meta"><span>乌鲁木齐</span><span>面议</span><span>大专</span></div>
+          <div class="jcard__tags"><span>网络</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#453f33">运</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">高级运维工程师（精通 Python）</h3>
+          <p class="jcard__co">软通动力信息技术集团</p>
+          <div class="jcard__meta"><span>武汉</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>Ansible</span><span>Zabbix</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5c7690">前</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Java / C / C++ / Python / 前端 / 测试</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>南京</span><span>面议</span><span>接受应届</span></div>
+          <div class="jcard__tags"><span>JavaScript</span><span>Python</span><span>CSS</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">泊</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">泊车感知算法开发（自动驾驶）</h3>
+          <p class="jcard__co">科锐尔人力资源服务</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>C++</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">算</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">算法与数据分析实习生</h3>
+          <p class="jcard__co">中智经济技术合作股份有限公司</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5f684f">网</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络安全测试工程师</h3>
+          <p class="jcard__co">上海埃维汽车技术有限公司</p>
+          <div class="jcard__meta"><span>上海</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#b7976c">S</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">SE 网络及系统工程师-26 届实习生</h3>
+          <p class="jcard__co">苏州云奥信息科技有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span><span>硕士</span></div>
+          <div class="jcard__tags"><span>SE</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#566044">电</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">电力交易数据分析工程师</h3>
+          <p class="jcard__co">电力交易数据</p>
+          <div class="jcard__meta"><span>西安</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>数据</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#8a4a33">新</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络工程师（薪资＋项目奖金）</h3>
+          <p class="jcard__co">新疆熠天信息技术有限公司</p>
+          <div class="jcard__meta"><span>乌鲁木齐</span><span>面议</span><span>大专</span></div>
+          <div class="jcard__tags"><span>网络</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#453f33">运</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">高级运维工程师（精通 Python）</h3>
+          <p class="jcard__co">软通动力信息技术集团</p>
+          <div class="jcard__meta"><span>武汉</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>Ansible</span><span>Zabbix</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5c7690">前</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Java / C / C++ / Python / 前端 / 测试</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>南京</span><span>面议</span><span>接受应届</span></div>
+          <div class="jcard__tags"><span>JavaScript</span><span>Python</span><span>CSS</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">泊</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">泊车感知算法开发（自动驾驶）</h3>
+          <p class="jcard__co">科锐尔人力资源服务</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>C++</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+</div>
+      </div>
+      <div class="jobfilm__row jobfilm__row--ltr">
+<div class="jobfilm__track">
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5f684f">S</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">SE 网络及系统工程师-25 届毕业生</h3>
+          <p class="jcard__co">苏州云奥信息科技有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span><span>硕士</span></div>
+          <div class="jcard__tags"><span>NOKIA</span><span>RHCE</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#453f33">J</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Java / Python / C / C++ / Web / 测试</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>MySQL</span><span>Redis</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#8a4a33">安</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络安全工程师</h3>
+          <p class="jcard__co">河北纽派鞋业有限公司</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span></div>
+          <div class="jcard__tags"><span>安全</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5c7690">py</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Python 开发工程师</h3>
+          <p class="jcard__co">武汉瑞莱保科技有限公司</p>
+          <div class="jcard__meta"><span>武汉</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">运</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络运维（双休）</h3>
+          <p class="jcard__co">重庆晟宽高企业管理有限公司</p>
+          <div class="jcard__meta"><span>重庆</span><span>面议</span></div>
+          <div class="jcard__tags"><span>运维</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#b7976c">研</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">技术研发岗</h3>
+          <p class="jcard__co">重庆某停车服务公司</p>
+          <div class="jcard__meta"><span>重庆</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>Java</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#566044">数</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">数据分析实习生-业务中台</h3>
+          <p class="jcard__co">公司未知</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>数据</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#2c3a80">软</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">软件开发工程师（Java / C / C++ / JS）</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>C++</span><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5f684f">S</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">SE 网络及系统工程师-25 届毕业生</h3>
+          <p class="jcard__co">苏州云奥信息科技有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span><span>硕士</span></div>
+          <div class="jcard__tags"><span>NOKIA</span><span>RHCE</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#453f33">J</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Java / Python / C / C++ / Web / 测试</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>MySQL</span><span>Redis</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#8a4a33">安</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络安全工程师</h3>
+          <p class="jcard__co">河北纽派鞋业有限公司</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span></div>
+          <div class="jcard__tags"><span>安全</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#5c7690">py</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">Python 开发工程师</h3>
+          <p class="jcard__co">武汉瑞莱保科技有限公司</p>
+          <div class="jcard__meta"><span>武汉</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#a96346">运</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">网络运维（双休）</h3>
+          <p class="jcard__co">重庆晟宽高企业管理有限公司</p>
+          <div class="jcard__meta"><span>重庆</span><span>面议</span></div>
+          <div class="jcard__tags"><span>运维</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#b7976c">研</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">技术研发岗</h3>
+          <p class="jcard__co">重庆某停车服务公司</p>
+          <div class="jcard__meta"><span>重庆</span><span>面议</span></div>
+          <div class="jcard__tags"><span>Python</span><span>Java</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#566044">数</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">数据分析实习生-业务中台</h3>
+          <p class="jcard__co">公司未知</p>
+          <div class="jcard__meta"><span>北京</span><span>面议</span><span>本科</span></div>
+          <div class="jcard__tags"><span>数据</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+        <article class="jcard" aria-hidden="true">
+          <div class="jcard__top"><span class="jcard__ava" style="--c:#2c3a80">软</span><span class="jcard__new">NEW</span></div>
+          <h3 class="jcard__title">软件开发工程师（Java / C / C++ / JS）</h3>
+          <p class="jcard__co">外企德科数字技术有限公司</p>
+          <div class="jcard__meta"><span>苏州</span><span>面议</span></div>
+          <div class="jcard__tags"><span>C++</span><span>Python</span></div>
+          <div class="jcard__src">智联招聘 · 今日</div>
+        </article>
+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 全链路思维 ============ -->
+  <section class="section learn-mindset" id="mindset">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <span class="section__label">全链路思维 · Mindset</span>
+        <h2 class="section__title">不是学完再找工作，<br />而是让目标岗位决定今天学什么</h2>
+        <p class="section__desc">它不是「学习工具 + 招聘爬虫 + 简历工具」的功能集合，而是一个围绕个人职业成长的数据化工作台——从 Offer 倒推回今天的学习。</p>
+      </div>
+
+      <div class="chainline" data-reveal aria-label="思维链路：从职业目标到 Offer">
+        <span>职业目标</span><i>→</i><span>技能画像</span><i>→</i><span>能力缺口</span><i>→</i><span>学习计划</span><i>→</i><span>求职准备</span><i>→</i><span class="chainline__end">Offer</span>
+      </div>
+
+      <div class="mindgrid">
+        <article class="mcard" data-reveal>
+          <b>01</b>
+          <h3>以终为始，锁定职业目标</h3>
+          <p>先选方向再翻书：6 条职业路线（前端 / Java 后端 / 数据 / AI / 网安 / ICT）里锁定一条，仪表盘从此只为这条路记账。</p>
+        </article>
+        <article class="mcard" data-reveal>
+          <b>02</b>
+          <h3>用职业画像量化自己</h3>
+          <p>技能 · 项目 · 简历 · 面试四个维度汇成职业准备度环——先诚实地知道自己是谁，才知道该往哪走。</p>
+        </article>
+        <article class="mcard" data-reveal>
+          <b>03</b>
+          <h3>画像 × 市场对撞出缺口</h3>
+          <p>把「我会什么」和「市场要什么」放在一张图上对撞：Vue 26 岗、Python 20 岗……撞出来的差值，就是真正的能力缺口。</p>
+        </article>
+        <article class="mcard" data-reveal>
+          <b>04</b>
+          <h3>缺口倒逼学习计划</h3>
+          <p>缺口一键加入路线图，拆成每日任务与专注时段——每一分钟学习都有岗位背书，而不是漫无目的地刷教程。</p>
+        </article>
+        <article class="mcard" data-reveal>
+          <b>05</b>
+          <h3>面试回流，越战越强</h3>
+          <p>被问倒的问题当场录回题库，真实面试变成私人教材；下次面试前，看板和题库一起复习。</p>
+        </article>
+        <article class="mcard" data-reveal>
+          <b>06</b>
+          <h3>就绪度验证整条链路</h3>
+          <p>投递、面试、Offer 的每一次反馈都会回流进画像——曲线上升，就是这条思维链路在生效。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 为什么这样设计（闭环） ============ -->
+  <section class="section learn-why" id="why">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <span class="section__label">为什么这样设计 · Why</span>
+        <h2 class="section__title">五本手册，<br />其实是同一条闭环</h2>
+        <p class="section__desc">市场告诉你缺什么，路线帮你补上它，看板推着你走，就绪度告诉你还有多远——每一步都为下一步供数。</p>
+      </div>
+      <ol class="loopcards">
+        <li class="lcard" data-reveal>
+          <b>01</b>
+          <h3>市场洞察</h3>
+          <p>3,024 个岗位样本告诉你：哪些技能正在被需要，哪些城市在招人。</p>
+        </li>
+        <li class="lcard" data-reveal>
+          <b>02</b>
+          <h3>技能补齐</h3>
+          <p>缺口一键加入路线图，19 个主题按阶段推进，完成即打勾。</p>
+        </li>
+        <li class="lcard" data-reveal>
+          <b>03</b>
+          <h3>求职推进</h3>
+          <p>收藏 → 投递 → 笔试面试 → Offer，九态管道全程可视，不丢线索。</p>
+        </li>
+        <li class="lcard" data-reveal>
+          <b>04</b>
+          <h3>就绪评估</h3>
+          <p>答题量、准确率、面试场次，汇成一条就绪度曲线，看见真正的差距。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
+      <div class="footer__meta">
+        <span>© <span id="year">2026</span> 学习工作台 · Learn Workbench</span>
+        <span>ICP 备案号占位 · 公安备案号占位</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="./js/learn.js"></script>
+  <script src="./js/project.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# 设计草稿与生成工具产物（非站点源码）
+.threeui/
+gui-test-screenshots/
+
+# 部署备份文件 —— 版本管理走 git，不留 .bak
+demo/*.bak*
+demo/js/*.bak*
+demo/css/*.bak*
+demo/js/**/*.bak*
+
+# 系统文件
+Thumbs.db
+.DS_Store

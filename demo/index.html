@@ -173,12 +173,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tvisual__card{position:absolute;left:-14px;bottom:-20px;width:168px;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-soft);transform:rotate(-4deg);animation:floaty 6s ease-in-out infinite;z-index:1}
 .tvisual__card img{aspect-ratio:4/3;object-fit:cover;width:100%}
 .tvisual__card figcaption{padding:10px 14px;background:rgba(255,255,255,.94);font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;color:var(--ink-dim);display:flex;justify-content:space-between}
-/* 城市画廊带 */
+/* 城市画廊带：两行相对滚动 */
 .gallery{margin-top:96px;position:relative;z-index:1}
 .gallery__head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px}
-.gallery__track{display:flex;gap:18px;overflow-x:auto;padding:4px 32px 26px;margin:0 -32px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:rgba(24,32,42,.25) transparent}
-.gallery__track::-webkit-scrollbar{height:4px}.gallery__track::-webkit-scrollbar-thumb{background:rgba(24,32,42,.2);border-radius:99px}
-.city{flex:0 0 250px;scroll-snap-align:start;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);transition:transform .45s var(--ease-out),border-color .3s;box-shadow:var(--shadow-soft)}
+.gallery__rows{display:grid;gap:18px}
+.gallery__row{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.gallery__track{display:flex;gap:18px;width:max-content;padding:4px 0 12px;animation:gcityLTR 46s linear infinite}
+.gallery__row--rtl .gallery__track{animation-name:gcityRTL;animation-duration:58s}
+@keyframes gcityLTR{to{transform:translateX(-50%)}}
+@keyframes gcityRTL{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media (hover:hover) and (pointer:fine){ .gallery__rows:hover .gallery__track{animation-play-state:paused} }
+.city{flex:0 0 250px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);transition:transform .45s var(--ease-out),border-color .3s;box-shadow:var(--shadow-soft)}
 .city:hover{transform:translateY(-6px);border-color:rgba(255,146,120,.5)}
 .city img{aspect-ratio:3/4;object-fit:cover;width:100%;transition:transform .8s var(--ease-out)}
 .city:hover img{transform:scale(1.06)}
@@ -254,6 +259,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}[data-reveal]{opacity:1;transform:none}
+  .gallery__rows{grid-template-columns:1fr}
+  .gallery__row{overflow:visible;-webkit-mask-image:none;mask-image:none}
+  .gallery__track{width:auto;flex-wrap:wrap;justify-content:center;animation:none!important;gap:14px}
 }
 /* 响应式 */
 @media (max-width:1024px){
@@ -278,7 +286,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .gallery{margin-top:64px}.gallery__head{gap:14px}
   .gallery__head .section__label{font-size:.62rem;white-space:nowrap}
   .gallery__head .mono{white-space:nowrap}
-  .gallery__track{padding:4px 22px 22px;margin:0 -22px}
+  .gallery__track{padding:4px 0 10px}
   .city{flex-basis:200px}
   .credo__panel{padding:48px 24px;border-radius:24px}
   .build{padding:0 0 90px}.build__grid{grid-template-columns:1fr}
@@ -459,19 +467,33 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </div>
       </div>
 
-      <!-- 城市画廊带 -->
+      <!-- 城市画廊带：两行相对滚动 -->
       <div class="gallery">
         <div class="gallery__head" data-reveal>
           <span class="section__label">已收录的城市 · Cities</span>
-          <span class="mono">DRAG / SCROLL →</span>
+          <span class="mono">两行自动循环 · LTR / RTL</span>
         </div>
-        <div class="gallery__track" data-reveal tabindex="0" aria-label="城市画廊，可横向滚动">
-          <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="lazy" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
-          <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="lazy" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
-          <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="lazy" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
-          <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="lazy" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
-          <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="lazy" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
-          <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="lazy" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+        <div class="gallery__rows" data-reveal>
+          <div class="gallery__row gallery__row--ltr" aria-label="城市画廊 · 第一行">
+            <div class="gallery__track">
+              <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="lazy" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="lazy" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="lazy" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="lazy" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="lazy" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="lazy" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+            </div>
+          </div>
+          <div class="gallery__row gallery__row--rtl" aria-label="城市画廊 · 第二行">
+            <div class="gallery__track">
+              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="lazy" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="lazy" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="lazy" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="lazy" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="lazy" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="lazy" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -733,6 +755,24 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  function dupTracks(){
+    document.querySelectorAll(".gallery__track").forEach(function(track){
+      var kids = Array.prototype.slice.call(track.children);
+      kids.forEach(function(k){
+        var c = k.cloneNode(true);
+        c.setAttribute("aria-hidden", "true");
+        track.appendChild(c);
+      });
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", dupTracks);
+  else dupTracks();
 })();
 </script>
 </body>

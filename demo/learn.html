@@ -251,12 +251,12 @@
   <!-- ============ 数据一瞥（线上真实数据） ============ -->
   <section class="numbers" aria-label="线上关键数据">
     <div class="numbers__row wrap">
-      <div class="num"><b>3,279</b><span>在库职位</span></div>
-      <div class="num"><b>334</b><span>今日新增</span></div>
-      <div class="num"><b>47</b><span>覆盖城市</span></div>
-      <div class="num"><b>465</b><span>热门技能</span></div>
-      <div class="num"><b>19</b><span>数据源平台</span></div>
-      <div class="num"><b>14K</b><span>平均薪资</span></div>
+      <div class="num"><b data-count="3279" data-count-sep=",">3,279</b><span>在库职位</span></div>
+      <div class="num"><b data-count="334">334</b><span>今日新增</span></div>
+      <div class="num"><b data-count="47">47</b><span>覆盖城市</span></div>
+      <div class="num"><b data-count="465">465</b><span>热门技能</span></div>
+      <div class="num"><b data-count="19">19</b><span>数据源平台</span></div>
+      <div class="num"><b data-count="14" data-count-suffix="K">14K</b><span>平均薪资</span></div>
     </div>
     <p class="numbers__note">数据截至 2026-08-30 · 每日自动抓取自 19 个招聘平台</p>
   </section>
@@ -714,5 +714,49 @@
 
   <script src="./js/learn.js"></script>
   <script src="./js/project.js"></script>
+  <script>
+  /* 数字统计滚动动效：进入视口后数字滚动到目标值（复刻 motion.js count-up） */
+  (function () {
+    "use strict";
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function animate(el) {
+      var raw = el.getAttribute("data-count") || "0";
+      var sep = el.getAttribute("data-count-sep") || "";
+      var suffix = el.getAttribute("data-count-suffix") || "";
+      var target = parseFloat(raw);
+      if (reduce || !isFinite(target)) { return; }
+      var dur = 1500, start = null;
+      function fmt(v) {
+        var n = Math.round(v);
+        var s = String(n);
+        if (sep) {
+          s = s.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+        }
+        return s + suffix;
+      }
+      el.textContent = fmt(0);
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * eased);
+        if (p < 1) { requestAnimationFrame(step); }
+        else { el.textContent = fmt(target); }
+      }
+      requestAnimationFrame(step);
+    }
+    var els = Array.prototype.slice.call(document.querySelectorAll(".numbers [data-count]"));
+    if (!("IntersectionObserver" in window)) { els.forEach(animate); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          animate(en.target);
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.45 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+  </script>
 </body>
 </html>

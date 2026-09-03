@@ -613,28 +613,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </footer>
 </main>
 
-<script src="./vendor/lenis/lenis.min.js" defer></script>
+<!-- 原生滚动：不再加载 Lenis 平滑滚动 -->
 <script defer>
 (function(){
   "use strict";
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* ---------- Lenis 平滑滚动 ---------- */
-  function initLenis(){
-    if (reduced || typeof Lenis === "undefined") return;
-    var lenis = new Lenis({ duration: 0.85, smoothWheel: true, wheelMultiplier: 1.0 });
-    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    document.querySelectorAll('a[href^="#"]').forEach(function(a){
-      a.addEventListener("click", function(e){
-        var id = a.getAttribute("href");
-        if (id.length > 1) {
-          var el = document.querySelector(id);
-          if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -70 }); }
-        }
-      });
-    });
-  }
 
   /* ---------- Reveal ---------- */
   function initReveal(){
@@ -747,7 +730,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   /* ---------- boot ---------- */
   function boot(){
-    initLenis();
     initReveal();
     initParallax();
     initStars();

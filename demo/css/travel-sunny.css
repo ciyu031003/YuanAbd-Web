@@ -198,3 +198,5 @@ body{background:var(--bg);color:var(--ink)}
   .gallery-fallback__card{inset:12% 4% 10%}
   .gallery-fallback__card figcaption{left:16px;bottom:14px;max-width:84%}
 }
+/* 锚点滚动偏移（固定导航） */
+[id]{scroll-margin-top:84px}

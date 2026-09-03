@@ -254,3 +254,12 @@ body.learn::before{
   .hero-sub{font-size:.92rem}
   .topbar{padding:24px 20px 0}
 }
+/* Hero kicker（Travel 卡片类名在本页无样式，补充定义） */
+.hero-wrap .card__kicker{
+  display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--font-mono);font-size:.72rem;letter-spacing:.22em;
+  text-transform:uppercase;color:#0E5FA8;
+}
+.hero-wrap .card__kicker::before{content:"";width:26px;height:1px;background:currentColor;opacity:.6}
+/* 锚点滚动偏移（固定导航） */
+[id]{scroll-margin-top:96px}

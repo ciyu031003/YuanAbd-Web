@@ -1,0 +1,256 @@
+/* ============================================================
+   learn-sunny.css — 学习工作台 · Sunny Career Library 阳光化覆盖层
+   暖白底 + 天空蓝/阳光黄；保留五本书 3D 结构与全部交互逻辑
+   依据：DESIGN-SYSTEM.md（Learn = 蓝 + 黄 / 成长 / 行动）
+   ============================================================ */
+:root{
+  --ink:#18202A; --ink-deep:#18202A; --ink-soft-c:#3A4350;
+  --pink:#2A6FB5; --pink-bright:#79CFFF;
+  --text-c:#18202A; --muted-c:#5C6673;
+  --periwinkle:#79CFFF; --sage:#1FA97C; --clay:#E8773C; --moss:#2E9E63;
+  --paper:#FFFDF7;
+  --bg:#FFFDF7; --bg-2:#FFF6E2;
+  --surface:rgba(24,32,42,.045); --surface-2:rgba(24,32,42,.08);
+  --ink-soft:rgba(24,32,42,.72); --ink-faint:rgba(24,32,42,.5);
+  --accent:#2A6FB5; --accent-2:#0E5FA8; --accent-ink:#FFFFFF;
+  --line:rgba(24,32,42,.12); --line-strong:rgba(24,32,42,.2);
+  --grad:linear-gradient(120deg,#79CFFF 0%,#FFD84D 100%);
+}
+body.learn{
+  background:#FFFDF7;color:#18202A;
+}
+body.learn::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(52rem 34rem at 85% -6%,rgba(121,207,255,.22),transparent 62%),
+    radial-gradient(40rem 30rem at 6% 30%,rgba(255,216,77,.22),transparent 60%),
+    radial-gradient(30rem 26rem at 92% 64%,rgba(255,146,120,.12),transparent 60%);
+}
+.grain{opacity:.05}
+::selection{background:rgba(121,207,255,.4);color:#18202A}
+:focus-visible{outline:2px solid #79CFFF;outline-offset:3px;border-radius:4px}
+*{scrollbar-width:thin;scrollbar-color:rgba(42,111,181,.5) rgba(24,32,42,.08)}
+*::-webkit-scrollbar-thumb{background:rgba(42,111,181,.4);border-radius:20px}
+.skip-link{background:#2A6FB5;color:#fff}
+.scroll-progress{background:#79CFFF}
+.stage{
+  background:
+    radial-gradient(circle at 49% 84%,rgba(121,207,255,.30),transparent 38%),
+    radial-gradient(circle at 14% 4%,rgba(255,216,77,.28),transparent 30%),
+    linear-gradient(180deg,#FFFFFF 0%,#FFF6E2 100%);
+}
+.stage::after{opacity:.06}
+.hero-word{
+  color:#18202A;opacity:.06;
+}
+@media (min-width:901px){ .topbar{padding:74px 3.2vw 0} }
+.hero-wrap{
+  position:absolute;z-index:6;top:9vh;left:0;right:0;text-align:center;pointer-events:none;
+}
+.hero-wrap .card__kicker{color:#0E5FA8}
+.hero-title{
+  margin:10px auto 14px;max-width:15em;
+  font:900 clamp(2.1rem,5vw,4rem)/1.2 var(--font-serif);
+  letter-spacing:.01em;color:#18202A;
+}
+.hero-title em{
+  font-style:normal;white-space:nowrap;
+  background:linear-gradient(92deg,#0E5FA8,#E05E40);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin:0 auto;max-width:34em;
+  font-size:1.02rem;line-height:1.9;color:#5C6673;
+}
+.hero-sub b{color:#18202A;font-weight:600}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;pointer-events:auto;
+  margin-top:24px;padding:15px 30px;border-radius:999px;
+  background:#18202A;color:#FFFDF7;font-weight:600;font-size:.95rem;
+  box-shadow:0 16px 32px -14px rgba(24,32,42,.45);
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.hero-cta:hover{transform:translateY(-2px)}
+.hero-chips{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.hero-chips span{
+  padding:8px 16px;border-radius:999px;border:1px solid rgba(24,32,42,.18);
+  background:rgba(255,255,255,.6);color:#5C6673;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.12em;
+}
+.hero-chips span b{color:#0E5FA8;font-weight:600}
+.brand{color:#0E5FA8}
+.icon-button,.ticket-button{
+  border:1px solid rgba(24,32,42,.14);
+  background:#FFFFFF;color:#18202A;
+  box-shadow:0 8px 24px -12px rgba(24,32,42,.22);
+}
+.icon-button:hover,.ticket-button:hover{background:#F2FAFF;transform:translateY(-3px)}
+.ticket-button{background:#18202A;color:#FFFDF7}
+.ticket-button:hover{background:#0E5FA8}
+/* 书本阴影与纸张 —— 阳光化（暖白封面 + 轻量阴影） */
+.book-shadow{
+  background:rgba(24,32,42,.22);filter:blur(22px);opacity:.5;
+  transform:translate3d(14px,22px,-60px);
+}
+.book-back{
+  background:var(--cover-color);
+  box-shadow:0 18px 30px rgba(24,32,42,.16);
+}
+.page-block{
+  border:1px solid rgba(24,32,42,.14);
+  background:
+    repeating-linear-gradient(0deg,rgba(24,32,42,.05) 0,rgba(24,32,42,.05) 1px,transparent 1px,transparent 2.8px),
+    linear-gradient(90deg,#FFFFFF 0%,#FFFDF3 14%,#FFF6E2 87%,#FFEFC4 100%);
+  box-shadow:7px 5px 16px rgba(24,32,42,.14);
+}
+.page-block::before{background:repeating-linear-gradient(90deg,#FFF7E4 0,#FFF7E4 2px,#FFFDF5 2px,#FFFDF5 5px)}
+.page-block::after{background:repeating-linear-gradient(0deg,#FFE9B8 0,#FFE9B8 1px,#FFFDF5 1px,#FFFDF5 3px)}
+.page-fan i{
+  border:1px solid rgba(24,32,42,.12);
+  background:
+    linear-gradient(90deg,rgba(24,32,42,.06),transparent 9%),
+    repeating-linear-gradient(0deg,#FFFDF7 0,#FFFDF7 2px,#FFF3D6 2px,#FFF3D6 3px);
+  box-shadow:3px 5px 10px rgba(24,32,42,.08);
+}
+.front-cover{
+  border:1px solid rgba(24,32,42,.08);
+  box-shadow:
+    0 25px 38px rgba(24,32,42,.2),
+    inset -12px 0 18px rgba(24,32,42,.08),
+    inset 4px 0 9px rgba(255,255,255,.6);
+}
+.front-cover::before{background:linear-gradient(90deg,rgba(24,32,42,.12),rgba(255,255,255,.25) 35%,rgba(24,32,42,.05) 75%,transparent);mix-blend-mode:soft-light;opacity:.7}
+.open-badge{color:#18202A;background:#FFD84D}
+.book-card:focus-visible .open-badge{filter:drop-shadow(0 7px 12px rgba(24,32,42,.2)) drop-shadow(0 0 8px rgba(121,207,255,.35))}
+/* 详情面板 —— 阳光化 */
+.detail-description{color:#5C6673}
+.detail-scroll{scrollbar-color:rgba(42,111,181,.7) rgba(24,32,42,.1)}
+.detail-scroll::-webkit-scrollbar-track{background:rgba(24,32,42,.08)}
+.detail-scroll::-webkit-scrollbar-thumb{background:rgba(42,111,181,.6)}
+.detail-scroll:focus-visible{outline-color:rgba(121,207,255,.8)}
+.doc-section{border-top:1px solid rgba(24,32,42,.14)}
+.doc-steps li::before{color:#4B8FCC}
+.doc-step-copy strong{color:#18202A}
+.doc-step-copy span,.doc-review{color:#5C6673}
+.prompt-block{
+  border:1px solid rgba(24,32,42,.14);border-radius:12px;
+  background:rgba(255,255,255,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+.prompt-block code{color:#18202A}
+.stars .dim{color:#8A939E}
+.meta-divider{background:rgba(24,32,42,.18)}
+.review-source,.year{color:#5C6673}
+.detail-rule{background:rgba(24,32,42,.14)}
+.action-rail{
+  border:1px solid rgba(24,32,42,.14);border-radius:32px;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 16px 32px -18px rgba(24,32,42,.24);
+  backdrop-filter:blur(12px);
+}
+.pill{background:#79CFFF;color:#18202A}
+.pill:hover{filter:brightness(1.04)}
+.pill.language{background:#FFFDF7}
+.pill.icon-only{background:#18202A;color:#FFFDF7}
+.pill.icon-only[aria-pressed="true"] svg{fill:#79CFFF;stroke:#79CFFF}
+.close-button{
+  border:1px solid rgba(24,32,42,.16);
+  background:rgba(255,255,255,.9);color:#18202A;
+  box-shadow:0 12px 28px -12px rgba(24,32,42,.3);
+}
+.close-button:hover{background:#fff}
+[data-mode="detail"] .book-card.selected .front-cover{
+  box-shadow:
+    25px 26px 44px rgba(24,32,42,.2),
+    inset -12px 0 18px rgba(24,32,42,.08),
+    inset 4px 0 9px rgba(255,255,255,.5);
+}
+/* 菜单层：暖白玻璃 */
+.menu-layer{
+  background:
+    radial-gradient(circle at 50% 47%,rgba(121,207,255,.16),transparent 42%),
+    rgba(255,253,247,.94);
+}
+.menu-link{color:#0E5FA8}
+.menu-link:hover{color:#E05E40}
+/* Toast */
+.toast{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(24,32,42,.92);color:#FFFDF7;
+}
+/* 部署实况 · Live —— 重绘为浅色产品界面 */
+.learn-live{background:
+  radial-gradient(70% 55% at 50% 0%,rgba(121,207,255,.12),transparent 62%),#FFFDF7}
+.stage__glow{background:radial-gradient(60% 60% at 50% 50%,rgba(121,207,255,.3),transparent 70%)}
+.frame{
+  background:rgba(255,255,255,.92);backdrop-filter:blur(22px);
+  border:1px solid rgba(24,32,42,.14);
+  box-shadow:0 40px 90px -44px rgba(24,32,42,.3),0 0 0 1px rgba(255,255,255,.6) inset;
+}
+.frame:hover{box-shadow:0 50px 100px -44px rgba(24,32,42,.36),0 0 60px -18px rgba(121,207,255,.5)}
+.frame__bar{background:rgba(24,32,42,.03);border-bottom:1px solid rgba(24,32,42,.1)}
+.frame__url{background:rgba(24,32,42,.04);border:1px solid rgba(24,32,42,.1);color:#5C6673}
+.frame__url svg{color:#0E5FA8}
+.app{background:
+  radial-gradient(60% 50% at 78% 0%,rgba(121,207,255,.08),transparent 60%),
+  radial-gradient(50% 60% at 8% 100%,rgba(255,216,77,.1),transparent 60%)}
+.app__logo i{background:var(--grad);box-shadow:0 0 12px rgba(42,111,181,.35)}
+.app__menu b{color:#8A939E}
+.app__menu b.on{color:#18202A;background:rgba(121,207,255,.25);border:1px solid rgba(42,111,181,.18)}
+.app__me{color:#0E5FA8}
+.app__pill{color:#0E5FA8}
+.app__sub{color:#8A939E}
+.app__actions b{color:#5C6673;border:1px solid rgba(24,32,42,.18)}
+.app__stat{background:rgba(255,255,255,.7)}
+.app__filter{color:#5C6673;border:1px solid rgba(24,32,42,.1)}
+.app__filter.on{color:#18202A;background:var(--grad);border-color:transparent}
+.app__search{color:#8A939E;border:1px solid rgba(24,32,42,.1)}
+.job{border:1px solid rgba(24,32,42,.1);background:rgba(255,255,255,.72)}
+.job:hover{border-color:rgba(42,111,181,.45)}
+.stage__chip{
+  background:rgba(255,255,255,.92);border:1px solid rgba(24,32,42,.14);
+  box-shadow:0 20px 48px -24px rgba(24,32,42,.28);
+}
+.stage__chip b{color:#8A939E}
+.stage__chip span{color:#0E5FA8}
+/* 数据 / 职位带 / 思维链路 —— 变量驱动的区块自动适配，补强硬编码 */
+.learn-jobs{background:#FFFDF7}
+.jcard{
+  background:rgba(255,255,255,.8);
+  box-shadow:0 22px 48px -30px rgba(24,32,42,.24);
+}
+.mcard b,.lcard b{color:#4B8FCC}
+.mcard p,.lcard p{color:#5C6673}
+.learn-mindset{background:
+  radial-gradient(56% 44% at 12% 6%,rgba(121,207,255,.12),transparent 60%),#FFFDF7}
+.learn-why{background:
+  radial-gradient(60% 46% at 85% 0%,rgba(121,207,255,.12),transparent 60%),
+  radial-gradient(50% 40% at 10% 90%,rgba(255,216,77,.16),transparent 60%),#FFF6E2}
+.chainline{color:#5C6673}
+.chainline span{background:rgba(255,255,255,.7)}
+.chainline i{color:#0E5FA8}
+.chainline .chainline__end{color:#18202A;background:var(--grad);border-color:transparent}
+/* 下载区 */
+.learn-download{background:#FFFDF7}
+/* Footer 品牌壳 */
+.learn-footer-brand{
+  margin-top:clamp(38px,6vh,56px);
+  display:flex;flex-wrap:wrap;gap:1.2rem 2.2rem;align-items:center;
+  color:#5C6673;font-size:.9rem;
+}
+.learn-footer-brand b{
+  font-family:var(--font-display);font-size:1.05rem;color:#18202A;letter-spacing:.08em;
+}
+.learn-footer-brand a{transition:color .25s}
+.learn-footer-brand a:hover{color:#0E5FA8}
+.learn-footer-brand .sep{opacity:.4}
+/* 顶部 CTA 锚点滚动（hero 下方留出书本空间） */
+@media (max-width:900px){
+  .hero-wrap{top:7vh}
+  .hero-chips{display:none}
+}
+@media (max-width:560px){
+  .hero-wrap{top:11vh;padding:0 20px}
+  .hero-title{font-size:1.9rem}
+  .hero-sub{font-size:.92rem}
+  .topbar{padding:24px 20px 0}
+}

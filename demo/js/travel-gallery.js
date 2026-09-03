@@ -74,6 +74,7 @@
     currentP = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
     updateHud();
     updateStageDim();
+    if (domRender) domRender();
     if (typeof renderScene === "function") renderScene(performance.now());
   }
   function updateHud() {
@@ -102,8 +103,48 @@
   var THREE = window.THREE;
   var renderScene = null;
   var disposed = false;
+  var domRender = null;
 
-  if (THREE) {
+  /* ---------- 非 WebGL 降级：CSS 封面流（THREE 缺失或 WebGL 不可用时保底） ---------- */
+  function initDomFallback() {
+    var stage = document.getElementById("galleryStage");
+    if (!stage) return;
+    var wrap = document.createElement("div");
+    wrap.className = "gallery-fallback";
+    wrap.setAttribute("aria-hidden", "true");
+    images.forEach(function (url, i) {
+      var card = document.createElement("figure");
+      card.className = "gallery-fallback__card" + (i === 0 ? " is-on" : "");
+      var img = new Image();
+      img.src = url;
+      img.alt = "";
+      img.loading = "lazy";
+      img.decode && img.decode().catch(function(){});
+      card.appendChild(img);
+      var cap = document.createElement("figcaption");
+      var b = document.createElement("b"); b.textContent = cities[i].title;
+      var sp = document.createElement("span"); sp.textContent = cities[i].desc;
+      cap.appendChild(b); cap.appendChild(sp);
+      card.appendChild(cap);
+      wrap.appendChild(card);
+    });
+    stage.appendChild(wrap);
+    var cards = Array.prototype.slice.call(wrap.children);
+    domRender = function () {
+      var idx = Math.round(currentP * (n - 1));
+      cards.forEach(function (c, j) { c.classList.toggle("is-on", j === idx); });
+    };
+    domRender();
+  }
+
+  /* 探测 WebGL：上下文创建失败则走 DOM 降级 */
+  var webglOK = false;
+  try {
+    var probe = document.createElement("canvas");
+    webglOK = !!(probe.getContext("webgl") || probe.getContext("experimental-webgl"));
+  } catch (e) { webglOK = false; }
+
+  if (THREE && webglOK) {
     var documentVisible = !document.hidden;
     var hostVisible = true;
     var startTime = null;
@@ -280,6 +321,9 @@
       }, { threshold: 0 });
       visIO.observe(host() || track);
     }
+  } else {
+    /* WebGL 不可用：纯 CSS 封面流保底（页面不再空白） */
+    initDomFallback();
   }
 
   /* ---------- 关于 / 下载：XMind 弹出卡片揭示 ---------- */

@@ -46,10 +46,10 @@ body.learn::before{
 @media (min-width:901px){ .topbar{padding:74px 3.2vw 0} }
 .hero-wrap{
   position:absolute;z-index:6;top:9vh;left:0;right:0;text-align:center;pointer-events:none;
-  transition:opacity 420ms ease,transform 520ms cubic-bezier(.2,.78,.2,1),filter 420ms ease,visibility 0s linear 420ms;
+  transition:opacity 420ms ease,transform 520ms cubic-bezier(.2,.78,.2,1),filter 420ms ease;
 }
 [data-mode="detail"] .hero-wrap{
-  opacity:0;visibility:hidden;transform:translateY(-22px) scale(.96);filter:blur(12px);
+  opacity:0;transform:translateY(-22px) scale(.96);filter:blur(12px);
   pointer-events:none;
 }
 .hero-wrap .card__kicker{color:#0E5FA8}

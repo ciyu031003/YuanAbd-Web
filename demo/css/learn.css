@@ -106,7 +106,7 @@ body.learn[data-mode="detail"]{overflow:hidden}
   font-style:italic;font-weight:500;letter-spacing:-.085em;line-height:.84;
   white-space:nowrap;
   transform:translate3d(calc(-50% + var(--mx) * -.12),calc(var(--my) * -.12),0);
-  transition:opacity 700ms ease,filter 700ms ease,transform 900ms var(--ease),visibility 0s linear 700ms;
+  transition:opacity 700ms ease,filter 700ms ease,transform 900ms var(--ease);
   user-select:none;
 }
 
@@ -482,7 +482,7 @@ body.learn[data-mode="detail"]{overflow:hidden}
 
 /* ---------- 详情态切换（源规则保留） ---------- */
 [data-mode="detail"] .hero-word{
-  opacity:0;visibility:hidden;filter:blur(16px);
+  opacity:0;filter:blur(16px);
   transform:translate3d(-50%,-34px,0) scale(.9);
 }
 [data-mode="detail"] .book-card:not(.selected){

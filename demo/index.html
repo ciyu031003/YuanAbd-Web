@@ -262,6 +262,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .gallery__rows{grid-template-columns:1fr}
   .gallery__row{overflow:visible;-webkit-mask-image:none;mask-image:none}
   .gallery__track{width:auto;flex-wrap:wrap;justify-content:center;animation:none!important;gap:14px}
+  .gallery__track [aria-hidden="true"]{display:none}
 }
 /* 响应式 */
 @media (max-width:1024px){
@@ -478,44 +479,26 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <div class="gallery__track">
               <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="eager" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-a.webp" alt="山野公路" loading="eager" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="eager" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
               <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="eager" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="eager" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
               <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="eager" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="eager" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
-              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-d.webp" alt="城市车流" loading="eager" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
-              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="eager" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
-              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-f.webp" alt="海岸线" loading="eager" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
             </div>
           </div>
           <div class="gallery__row gallery__row--rtl" aria-label="城市画廊 · 第二行">
             <div class="gallery__track">
-              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-f.webp" alt="海岸线" loading="eager" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
-              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="eager" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
-              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-d.webp" alt="城市车流" loading="eager" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
-              <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="eager" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="eager" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
-              <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="eager" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="eager" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
-              <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="eager" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
               <figure class="city"><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="eager" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-a.webp" alt="山野公路" loading="eager" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
+              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
+              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
+              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+              <figure class="city"><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
+              <figure class="city"><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
+              <figure class="city"><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
             </div>
           </div>
         </div>
@@ -591,10 +574,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             </ul>
           </div>
           <div class="now__cards">
-            <div class="ncard" data-reveal data-reveal-delay="1"><b>2</b><span>在营产品 · 均已在线上运行</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="1"><b>7</b><span>行程城市 · 已收录进旅行画廊</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="2"><b>19</b><span>数据源平台 · 每日自动抓取</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="2"><b>100%</b><span>独立完成 · 设计与工程一体</span></div>
+            <div class="ncard" data-reveal data-reveal-delay="1"><b data-count="2">2</b><span>在营产品 · 均已在线上运行</span></div>
+            <div class="ncard" data-reveal data-reveal-delay="1"><b data-count="7">7</b><span>行程城市 · 已收录进旅行画廊</span></div>
+            <div class="ncard" data-reveal data-reveal-delay="2"><b data-count="19">19</b><span>数据源平台 · 每日自动抓取</span></div>
+            <div class="ncard" data-reveal data-reveal-delay="2"><b data-count="100" data-count-suffix="%">100%</b><span>独立完成 · 设计与工程一体</span></div>
           </div>
         </div>
       </div>
@@ -779,6 +762,43 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", dupTracks);
   else dupTracks();
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function formatValue(target, sep, suffix){
+    var rounded = Math.round(target);
+    var s = String(rounded);
+    if (sep) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    return s + (suffix || "");
+  }
+  function animate(el){
+    var target = parseFloat(el.getAttribute("data-count") || "0");
+    var sep = el.getAttribute("data-count-sep") || "";
+    var suffix = el.getAttribute("data-count-suffix") || "";
+    if (reduce || !isFinite(target)) { el.textContent = formatValue(target, sep, suffix); return; }
+    var dur = 1600, start = null;
+    function step(ts){
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatValue(target * eased, sep, suffix);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = formatValue(target, sep, suffix);
+    }
+    requestAnimationFrame(step);
+  }
+  var els = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
+  if (!els.length) return;
+  if (!("IntersectionObserver" in window)) { els.forEach(animate); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ animate(en.target); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.4 });
+  els.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>

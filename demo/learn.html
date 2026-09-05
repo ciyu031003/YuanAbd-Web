@@ -817,7 +817,18 @@
       setTimeout(function () { targets.forEach(function (el) { el.classList.add("play"); }); }, 300);
     }
 
-    function boot() { initLenis(); initSplit(); initLiveStats(); }
+    function initBookFlip() {
+      if (reduce) return;
+      document.querySelectorAll(".book-card").forEach(function (card) {
+        card.addEventListener("click", function () {
+          if (card.classList.contains("is-flipping")) return;
+          card.classList.add("is-flipping");
+          setTimeout(function () { card.classList.remove("is-flipping"); }, 620);
+        });
+      });
+    }
+
+    function boot() { initLenis(); initSplit(); initBookFlip(); initLiveStats(); }
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
     else boot();
 

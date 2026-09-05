@@ -574,7 +574,7 @@
   <script src="./js/project.js?v=20260905"></script>
   <script src="./js/travel-download.js?v=20260905"></script>
   <script>
-  /* 甜途品牌：滚动进度条 + 回到顶部（2026-09-05） */
+  /* 甜途品牌：滚动进度条 + 回到顶部 + 画廊拖拽惯性 + HUD 滑入（2026-09-05） */
   (function(){
     "use strict";
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -586,8 +586,10 @@
     top.className = "to-top";
     top.type = "button";
     top.setAttribute("aria-label", "回到顶部");
-    top.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>';
+    top.innerHTML = '<svg class="ring-svg" viewBox="0 0 48 48" aria-hidden="true"><circle class="ring-bg" cx="24" cy="24" r="22"/><circle class="ring-fg" cx="24" cy="24" r="22"/></svg><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>';
     document.body.appendChild(top);
+    var ring = top.querySelector(".ring-fg");
+    var CIRC = 138.2;
     top.addEventListener("click", function(){ window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
     var ticking = false;
     function update(){
@@ -595,10 +597,70 @@
       var max = document.documentElement.scrollHeight - window.innerHeight;
       var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       bar.style.width = (p * 100).toFixed(2) + "%";
+      ring.style.strokeDashoffset = (CIRC * (1 - p)).toFixed(1);
       top.classList.toggle("is-on", window.scrollY > window.innerHeight * 1.2);
     }
     window.addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
     update();
+
+    /* ---------- 3D 画廊拖拽（水平拖动=旋转）+ 惯性 ---------- */
+    function initGalleryDrag(){
+      var stage = document.getElementById("galleryTrack");
+      if (!stage || reduce) return;
+      var dragging = false, locked = null, startX = 0, startY = 0, lastX = 0, lastT = 0, vel = 0, raf = null;
+      function stopInertia(){ if (raf){ cancelAnimationFrame(raf); raf = null; } }
+      stage.addEventListener("pointerdown", function(e){
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        stopInertia();
+        dragging = true; locked = null;
+        startX = lastX = e.clientX; startY = e.clientY;
+        vel = 0; lastT = performance.now();
+      });
+      window.addEventListener("pointermove", function(e){
+        if (!dragging) return;
+        var dx = e.clientX - startX, dy = e.clientY - startY;
+        if (!locked){
+          if (Math.abs(dx) > 7 || Math.abs(dy) > 10){
+            locked = Math.abs(dx) > Math.abs(dy) * 1.15 ? "x" : "y";
+            if (locked === "x"){ stage.classList.add("is-dragging"); try { stage.setPointerCapture(e.pointerId); } catch(err){} }
+          }
+        }
+        if (locked !== "x") return;
+        var now = performance.now(), dt = Math.max(now - lastT, 1);
+        var move = e.clientX - lastX;
+        window.scrollBy(0, -move * 1.7);
+        vel = vel * 0.5 + (-move / dt * 16) * 0.5;
+        lastX = e.clientX; lastT = now;
+      });
+      function endDrag(){
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove("is-dragging");
+        if (locked !== "x" || Math.abs(vel) < 0.35){ locked = null; return; }
+        (function inertia(){
+          window.scrollBy(0, -vel * 1.7);
+          vel *= 0.93;
+          if (Math.abs(vel) > 0.3) raf = requestAnimationFrame(inertia);
+        })();
+        locked = null;
+      }
+      window.addEventListener("pointerup", endDrag);
+      window.addEventListener("pointercancel", endDrag);
+    }
+    initGalleryDrag();
+
+    /* ---------- HUD 城市名切换滑入 ---------- */
+    function initHudSwap(){
+      var hud = document.getElementById("hudName");
+      if (!hud || reduce || !("MutationObserver" in window)) return;
+      var meta = hud.closest(".hud__meta") || hud;
+      new MutationObserver(function(){
+        meta.classList.remove("hud-swap");
+        void meta.offsetWidth;
+        meta.classList.add("hud-swap");
+      }).observe(hud, { childList: true, characterData: true, subtree: true });
+    }
+    initHudSwap();
   })();
   </script>
 </body>

@@ -312,3 +312,21 @@ body.learn::before{
 /* --- 滚动进度条（learn） --- */
 .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,#79CFFF,#4B8FCC,#0E5FA8);border-radius:0 3px 3px 0;pointer-events:none;transition:width .12s linear}
 @media (prefers-reduced-motion:reduce){.scroll-progress{transition:none}}
+
+/* --- 书册点击翻页动效（2026-09-05 晚） --- */
+.book-card.is-flipping .book{animation:bookFlip .58s cubic-bezier(.3,.9,.3,1)}
+@keyframes bookFlip{
+  0%{transform:translateZ(0) rotateY(0) scale(1)}
+  40%{transform:translateZ(46px) rotateY(-24deg) scale(1.05)}
+  100%{transform:translateZ(0) rotateY(0) scale(1)}
+}
+.book-card.is-flipping .front-cover::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 62%);
+  animation:coverSheen .58s ease both;
+  pointer-events:none;
+}
+@keyframes coverSheen{from{transform:translateX(-110%)}to{transform:translateX(110%)}}
+@media (prefers-reduced-motion:reduce){
+  .book-card.is-flipping .book,.book-card.is-flipping .front-cover::after{animation:none}
+}

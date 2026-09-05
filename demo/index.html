@@ -103,9 +103,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero__scroll{display:flex;align-items:center;gap:12px;color:var(--ink-mute)}
 .hero__scroll svg{animation:bob 2.2s var(--ease-io) infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-/* Marquee 数据带 */
-.marquee{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;background:var(--bg-soft)}
+/* Marquee 数据带（双向车道） */
+.marquee{border-block:1px solid var(--line);padding:14px 0;overflow:hidden;background:var(--bg-soft)}
+.marquee__row{overflow:hidden}
+.marquee__row--rev{margin-top:6px}
 .marquee__track{display:flex;width:max-content;animation:marquee 36s linear infinite}
+.marquee__row--rev .marquee__track{animation-direction:reverse;animation-duration:44s}
 .marquee:hover .marquee__track{animation-play-state:paused}
 .marquee__group{display:flex;align-items:center;white-space:nowrap}
 .marquee__group span{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.18em;color:var(--ink-mute);padding:0 28px;display:flex;align-items:center}
@@ -325,6 +328,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .fcard__logo{display:block;margin-bottom:14px}
 .fcard__logo img{width:44px;height:44px;border-radius:11px;box-shadow:0 10px 24px -10px rgba(240,146,120,.5);transition:transform .45s var(--ease-out),box-shadow .45s}
 .fcard:hover .fcard__logo img{transform:scale(1.08) rotate(-4deg);box-shadow:0 16px 30px -10px rgba(240,146,120,.6)}
+/* --- 打字机数据行 --- */
+.hero__typer{
+  margin-top:16px;min-height:1.6em;
+  font-family:var(--font-mono);font-size:.76rem;letter-spacing:.12em;
+  color:var(--ink-dim);
+}
+.hero__typer .typer__prompt{color:var(--travel);font-weight:500}
+.typer__caret{display:inline-block;width:7px;height:1em;margin-left:3px;vertical-align:text-bottom;background:var(--sun);animation:caretBlink 1s steps(1) infinite}
+@keyframes caretBlink{0%,60%{opacity:1}61%,100%{opacity:0}}
+/* --- 回到顶部（环形进度版） --- */
+.to-top{width:52px;height:52px}
+.to-top .ring-svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.to-top .ring-svg circle{fill:none;stroke-width:3}
+.to-top .ring-bg{stroke:var(--line-strong)}
+.to-top .ring-fg{stroke:var(--sun);stroke-linecap:round;stroke-dasharray:138.2;stroke-dashoffset:138.2}
+.to-top svg.arr{width:15px;height:15px;position:relative}
 /* --- 滚动进度条 --- */
 .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--learn),var(--sun),var(--travel));border-radius:0 3px 3px 0;pointer-events:none;transition:width .12s linear}
 /* --- 回到顶部 --- */
@@ -383,6 +402,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <span>Design × Engineering</span>
         <span>Web + Android</span>
       </div>
+      <p class="hero__typer" aria-hidden="true"><span class="typer__prompt">&gt;</span> <span id="typerText"></span><i class="typer__caret"></i></p>
       <div class="hero__actions" data-reveal data-reveal-delay="3">
         <a class="btn btn--primary" href="#learn">探索作品 <i aria-hidden="true">↓</i></a>
         <a class="btn btn--ghost" href="#studio">关于工作室</a>
@@ -399,12 +419,24 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   <!-- ================= 数据带 ================= -->
   <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <div class="marquee__group">
-        <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+    <div class="marquee__row">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+        </div>
+        <div class="marquee__group">
+          <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+        </div>
       </div>
-      <div class="marquee__group">
-        <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+    </div>
+    <div class="marquee__row marquee__row--rev">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>100% INDEPENDENT</span>
+        </div>
+        <div class="marquee__group">
+          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>100% INDEPENDENT</span>
+        </div>
       </div>
     </div>
   </div>
@@ -943,7 +975,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     els.forEach(function(el){ io.observe(el); });
   }
 
-  /* ---------- 滚动进度条 + 回到顶部 ---------- */
+  /* ---------- 滚动进度条 + 回到顶部（环形进度） ---------- */
   function initProgress(){
     var bar = document.createElement("div");
     bar.className = "scroll-progress";
@@ -953,8 +985,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     top.className = "to-top";
     top.type = "button";
     top.setAttribute("aria-label", "回到顶部");
-    top.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>';
+    top.innerHTML = '<svg class="ring-svg" viewBox="0 0 48 48" aria-hidden="true"><circle class="ring-bg" cx="24" cy="24" r="22"/><circle class="ring-fg" cx="24" cy="24" r="22"/></svg><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>';
     document.body.appendChild(top);
+    var ring = top.querySelector(".ring-fg");
+    var CIRC = 138.2;
     top.addEventListener("click", function(){
       if (window.__lenis) window.__lenis.scrollTo(0, { duration: 1.2 });
       else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
@@ -965,10 +999,39 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       var max = document.documentElement.scrollHeight - window.innerHeight;
       var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       bar.style.width = (p * 100).toFixed(2) + "%";
+      ring.style.strokeDashoffset = (CIRC * (1 - p)).toFixed(1);
       top.classList.toggle("is-on", window.scrollY > window.innerHeight * 1.2);
     }
     window.addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
     update();
+  }
+
+  /* ---------- hero 打字机数据行 ---------- */
+  function initTyper(){
+    if (reduce) return;
+    var el = document.getElementById("typerText");
+    if (!el) return;
+    var lines = [
+      "tiantu v1.0.0 · 7 cities · live",
+      "learn-workbench v1.0.0 · 3,279 jobs indexed",
+      "Guangzhou · 23.1°N 113.2°E · always building"
+    ];
+    var li = 0, ci = 0, erasing = false;
+    function tick(){
+      var line = lines[li];
+      if (!erasing) {
+        ci++;
+        el.textContent = line.slice(0, ci);
+        if (ci >= line.length) { erasing = true; setTimeout(tick, 2400); return; }
+        setTimeout(tick, 42 + Math.random() * 55);
+      } else {
+        ci -= 2;
+        if (ci <= 0) { ci = 0; el.textContent = ""; erasing = false; li = (li + 1) % lines.length; setTimeout(tick, 420); return; }
+        el.textContent = line.slice(0, ci);
+        setTimeout(tick, 22);
+      }
+    }
+    setTimeout(tick, 900);
   }
 
   function boot(){
@@ -977,6 +1040,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     initTilt();
     initIndex();
     initProgress();
+    initTyper();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

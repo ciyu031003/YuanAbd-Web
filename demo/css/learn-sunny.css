@@ -268,3 +268,43 @@ body.learn::before{
 .hero-wrap .card__kicker::before{content:"";width:26px;height:1px;background:currentColor;opacity:.6}
 /* 锚点滚动偏移（固定导航） */
 [id]{scroll-margin-top:96px}
+
+/* ============================================================
+   2026-09-05 修复与增强层（P0/P1 + 动效）
+   ============================================================ */
+/* --- 1. hero 文案在书册上的可读性：加深 + 白描边 --- */
+.hero-sub{color:#39424E;text-shadow:0 1px 0 rgba(255,255,255,.92),0 2px 14px rgba(255,255,255,.7)}
+.hero-sub b{color:#141B24;text-shadow:0 1px 0 rgba(255,255,255,.95),0 2px 14px rgba(255,255,255,.75)}
+.hero-wrap .card__kicker{text-shadow:0 1px 0 rgba(255,255,255,.9)}
+.hero-wrap{top:6.5vh}
+.hero-title{text-shadow:0 2px 0 rgba(255,255,255,.75),0 8px 30px rgba(255,255,255,.6)}
+/* --- 2. 收紧"闭环"章节与 footer 之间的空白 --- */
+.learn-why{padding-bottom:clamp(48px,7vh,84px)}
+/* --- 3. footer 下载入口 --- */
+.learn-footer-brand a,.learn-footer-brand .flink{color:#5C6673;transition:color .25s}
+.learn-footer-brand a:hover{color:#0E5FA8}
+.footer__dl{
+  display:flex;width:fit-content;align-items:center;gap:10px;
+  margin-top:18px;padding:12px 24px;border-radius:999px;
+  background:#0E5FA8;color:#FFFDF7;font-weight:600;font-size:.9rem;
+  box-shadow:0 14px 30px -14px rgba(14,95,168,.55);
+  transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;
+}
+.footer__dl:hover{transform:translateY(-2px);box-shadow:0 18px 36px -14px rgba(14,95,168,.6)}
+.footer__dl i{font-style:normal;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.footer__dl:hover i{transform:translateX(3px)}
+.footer__back{margin-top:16px;display:inline-block}
+/* --- 4. 书册 hover 浮起阴影增强（配合动效层） --- */
+@media (prefers-reduced-motion:no-preference){
+  .book-card .book{transition:filter .4s ease}
+  .book-card:hover .book{filter:drop-shadow(0 26px 34px rgba(24,32,42,.18))}
+}
+
+/* --- 逐字入场样式（增强层配套） --- */
+.split .ch{display:inline-block;opacity:0;transform:translateY(.42em);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.split.play .ch{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .split .ch{opacity:1;transform:none;transition:none}
+}
+/* 渐变字拆分后继承渐变背景 */
+.split em .ch{background-image:inherit;background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}

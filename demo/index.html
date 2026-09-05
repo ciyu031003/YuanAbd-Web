@@ -297,6 +297,34 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .footer__base{justify-content:center;text-align:center}
 }
 
+/* ============================================================
+   2026-09-05 修复与增强层（P0-P3）
+   ============================================================ */
+/* --- P1 对比度修复：credo 引言 --- */
+.credo__quote em{color:#6B5A45}
+.credo__quote{color:#141B24}
+/* --- P1 now 标题渐变统一暖色调 --- */
+.now__title em{background:linear-gradient(92deg,#2E6FA8,#E05E40);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* --- P3 太阳收敛：缩小 + 降不透明度，还给文字呼吸空间 --- */
+.sun{width:min(46vw,620px);opacity:.82;top:-9%;right:-2%}
+/* --- P3 hero 渐变字与暖色主调统一 --- */
+.hero h1 em{background:linear-gradient(92deg,#E8A020,#E86A4A);-webkit-background-clip:text;background-clip:text}
+/* --- P2 描边编号：进入视口时从描边填充为实色 --- */
+.section__index{color:transparent;-webkit-text-stroke:1px var(--ink-mute);transition:color .9s var(--ease-out) .2s}
+.section__index.is-in{color:var(--ink-mute);-webkit-text-stroke:1px transparent}
+/* --- P2 卡片 3D 倾斜（JS 驱动，pointer:fine 才启用） --- */
+@media (hover:hover) and (pointer:fine){
+  .tilt{will-change:transform;transition:transform .5s var(--ease-out)}
+  .tilt.tilting{transition:transform .08s linear}
+}
+/* --- P1 逐字入场 --- */
+.split .ch{display:inline-block;opacity:0;transform:translateY(.42em);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.split.play .ch{opacity:1;transform:none}
+.split em .ch,.split .grad .ch{background-image:inherit;background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:reduce){
+  .split .ch{opacity:1;transform:none;transition:none}
+  .sun{animation:none}
+}
 </style>
 </head>
 <body>
@@ -562,7 +590,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <div class="now__inner">
           <div>
             <span class="now__kicker"><i aria-hidden="true"></i>Now · 2026</span>
-            <h2 class="now__title">正在发生：<br /><em>两件作品，一条成长曲线。</em></h2>
+            <h2 class="now__title">正在发生：<br /><em>两件作品，<br />一条成长曲线。</em></h2>
             <p class="now__desc">
               学习工作台正在用真实招聘数据打磨「职业准备度」闭环；行迹正在把城市画廊扩展成完整的旅行记忆空间。
               下一步：让 Learn 的路线图更聪明，让 Travel 的故事更完整。
@@ -799,6 +827,118 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     });
   }, { threshold: 0.4 });
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+<script src="./vendor/lenis/lenis.min.js" defer></script>
+<script defer>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+
+  /* ---------- P1 Lenis 平滑滚动（接管锚点） ---------- */
+  function initLenis(){
+    if (reduce || typeof Lenis === "undefined") return;
+    document.documentElement.style.scrollBehavior = "auto";
+    var lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    window.__lenis = lenis;
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener("click", function(e){
+        var id = a.getAttribute("href");
+        if (id.length > 1) {
+          var el = document.querySelector(id);
+          if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -80 }); }
+        }
+      });
+    });
+  }
+
+  /* ---------- P1 逐字入场 ---------- */
+  function splitChars(el){
+    if (el.dataset.splitDone) return;
+    el.dataset.splitDone = "1";
+    el.classList.add("split");
+    var idx = 0;
+    function walk(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(n){
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          Array.from(n.textContent).forEach(function(c){
+            if (c === " " || c === "\u00a0") { frag.appendChild(document.createTextNode(c)); return; }
+            var s = document.createElement("span");
+            s.className = "ch";
+            s.textContent = c;
+            s.style.transitionDelay = Math.min(idx++ * 26, 1400) + "ms";
+            frag.appendChild(s);
+          });
+          node.replaceChild(frag, n);
+        } else if (n.nodeType === 1 && n.tagName !== "BR") {
+          walk(n);
+        }
+      });
+    }
+    walk(el);
+  }
+  function initSplit(){
+    if (reduce) return;
+    var targets = document.querySelectorAll(".hero h1, .now__title, .footer__title");
+    if (!targets.length || !("IntersectionObserver" in window)) return;
+    targets.forEach(splitChars);
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add("play"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.25 });
+    targets.forEach(function(el){ io.observe(el); });
+    // 首屏 hero 立即播放（避免与现有 reveal 叠加延迟）
+    setTimeout(function(){
+      document.querySelectorAll(".hero h1").forEach(function(el){ el.classList.add("play"); });
+    }, 350);
+  }
+
+  /* ---------- P2 卡片 3D 倾斜 ---------- */
+  function initTilt(){
+    if (reduce || !fine) return;
+    var sel = ".credo__card,.ncard,.fcard,.mock,.chip,.duo .feat li";
+    var els = document.querySelectorAll(sel);
+    els.forEach(function(el){
+      el.classList.add("tilt");
+      el.addEventListener("pointermove", function(ev){
+        var r = el.getBoundingClientRect();
+        var x = (ev.clientX - r.left) / r.width - 0.5;
+        var y = (ev.clientY - r.top) / r.height - 0.5;
+        el.classList.add("tilting");
+        el.style.transform = "perspective(900px) rotateY(" + (x * 6).toFixed(2) + "deg) rotateX(" + (-y * 6).toFixed(2) + "deg) translateY(-2px)";
+      });
+      el.addEventListener("pointerleave", function(){
+        el.classList.remove("tilting");
+        el.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- P2 编号描边填充触发 ---------- */
+  function initIndex(){
+    var els = document.querySelectorAll(".section__index");
+    if (!els.length || !("IntersectionObserver" in window)) { els.forEach(function(e){ e.classList.add("is-in"); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.6 });
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  function boot(){
+    initLenis();
+    initSplit();
+    initTilt();
+    initIndex();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
 })();
 </script>
 </body>

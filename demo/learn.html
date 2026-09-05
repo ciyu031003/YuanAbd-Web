@@ -702,6 +702,7 @@
         <span class="sep" aria-hidden="true">·</span>
         <a href="https://github.com/yuanabd" target="_blank" rel="noopener">GitHub</a>
       </div>
+      <a class="footer__dl" href="./download.html">下载 App · Android / Web <i aria-hidden="true">→</i></a>
       <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
       <div class="footer__meta">
         <span>© <span id="year">2026</span> 学习工作台 · Learn Workbench</span>
@@ -755,6 +756,70 @@
       });
     }, { threshold: 0.45 });
     els.forEach(function (el) { io.observe(el); });
+  })();
+  </script>
+  <script src="./vendor/lenis/lenis.min.js" defer></script>
+  <script defer>
+  /* 2026-09-05 增强层：Lenis 平滑滚动 + hero 标题逐字入场 */
+  (function () {
+    "use strict";
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function initLenis() {
+      if (reduce || typeof Lenis === "undefined") return;
+      document.documentElement.style.scrollBehavior = "auto";
+      var lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+      window.__lenis = lenis;
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          var id = a.getAttribute("href");
+          if (id.length > 1) {
+            var el = document.querySelector(id);
+            if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -70 }); }
+          }
+        });
+      });
+    }
+
+    function splitChars(el) {
+      if (el.dataset.splitDone) return;
+      el.dataset.splitDone = "1";
+      el.classList.add("split");
+      var idx = 0;
+      function walk(node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            Array.from(n.textContent).forEach(function (c) {
+              if (c === " " || c === "\u00a0") { frag.appendChild(document.createTextNode(c)); return; }
+              var s = document.createElement("span");
+              s.className = "ch";
+              s.textContent = c;
+              s.style.transitionDelay = Math.min(idx++ * 26, 1200) + "ms";
+              frag.appendChild(s);
+            });
+            node.replaceChild(frag, n);
+          } else if (n.nodeType === 1 && n.tagName !== "BR") {
+            walk(n);
+          }
+        });
+      }
+      walk(el);
+    }
+
+    function initSplit() {
+      if (reduce) return;
+      var targets = document.querySelectorAll(".hero-title");
+      if (!targets.length) return;
+      targets.forEach(splitChars);
+      setTimeout(function () { targets.forEach(function (el) { el.classList.add("play"); }); }, 300);
+    }
+
+    function boot() { initLenis(); initSplit(); }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+    else boot();
   })();
   </script>
 </body>

@@ -88,6 +88,21 @@
 - ⚠️ 旧命名卷 `travel-notes_uploads-data`、`learn-workbench_bing` **保留未删**（回滚备份，稳定 1-2 周后可 `docker volume rm` 清理）
 - 可选后续优化：nginx 直接 alias `/data/travel-notes/uploads`（跳过 app 容器反代，静态图更快）；cosfs 大目录列表慢，若相册数暴涨考虑分目录
 
+### 2026-09-06（第七轮）推荐方案优化：3D 画廊 A1-A7 + nginx 直返 + SEO
+- **nginx**：`location ^~ /uploads/` alias `/data/travel-notes/uploads`（cosfs 静态直返，单图 0.65s→0.15s）。坑：必须用 `^~`，否则被 `\.(jpg...)$` 正则缓存 location 抢占
+- **3D 画廊**（travel-gallery.js）：
+  - A1 贴图换 `*-900.webp`（2.3MB→0.5MB）+ 纹理 onLoad 淡入防首帧空白（`texReady[]` 标记）
+  - A2 大号城市名浮层 `.stage__cityname`（衬线大字 + 品牌渐变下划线 + 玻璃底，`is-on` 随 currentP>0.06 出现，文本变化滑入）
+  - A3 正前方卡片品牌三色渐变描边（`makeRoundBorder` CanvasTexture，borders[] 随 falloff 淡入）
+  - A4 卡片倒影（`makeMirrorMask` 渐隐翻转 mask，mirrors[] 贴卡片下方）
+  - A5 移动端降级：dpr≤1.5、粒子 120、关 antialias
+  - A7 旋转 lerp 0.09（currentRot → scrollRot 插值）
+  - A6 点击画廊跳 `#stories`（pointer 位移 >8px 视为拖拽不触发）
+- **SEO**：C1 OG 分享图（`og-card.html` 1200×630 渲染截图 → `img/og-cover.jpg` 54KB，三站 og:image/twitter:image 指向门户绝对 URL）；C2 JSON-LD（门户 Organization+WebSite、甜途 MobileApplication、苦旅 WebApplication）
+- **清理**：7 张城市 jpg 原图 + product-features/product-map-large PNG fallback 删除（img/ 12M→6.3M；travel.html 的 png src 已换 webp）
+- 部署版本号：travel-gallery.js / travel-sunny.css → `?v=20260906`
+- 注意：`og-card.html` 是生成工具页，部署时不需要上传；改分享图时本地渲染重截即可
+
 ---
 
 ## 三、下一轮实施方案（待办，按建议顺序）

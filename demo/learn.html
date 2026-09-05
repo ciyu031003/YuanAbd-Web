@@ -258,7 +258,7 @@
       <div class="num"><b data-count="19">19</b><span>数据源平台</span></div>
       <div class="num"><b data-count="14" data-count-suffix="K">14K</b><span>平均薪资</span></div>
     </div>
-    <p class="numbers__note">数据截至 2026-08-30 · 每日自动抓取自 19 个招聘平台</p>
+    <p class="numbers__note" id="statsNote">数据每日自动抓取 · 加载中…</p>
   </section>
 
   <!-- ============ 部署实况（按线上真实数据重绘的毛玻璃界面） ============ -->
@@ -817,9 +817,46 @@
       setTimeout(function () { targets.forEach(function (el) { el.classList.add("play"); }); }, 300);
     }
 
-    function boot() { initLenis(); initSplit(); }
+    function boot() { initLenis(); initSplit(); initLiveStats(); }
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
     else boot();
+
+    /* 活数据：从应用接口拉取今日统计，失败时保留静态数值 */
+    function initLiveStats() {
+      try {
+        fetch("/api/public/stats").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+          if (!d || typeof d.total !== "number") return;
+          var setNum = function (label, value) {
+            var nodes = document.querySelectorAll(".numbers .num");
+            for (var i = 0; i < nodes.length; i++) {
+              var t = nodes[i].querySelector("span");
+              if (t && t.textContent === label) {
+                var b = nodes[i].querySelector("b");
+                if (!b) continue;
+                var suffix = b.getAttribute("data-count-suffix") || "";
+                var sep = b.getAttribute("data-count-sep") === ",";
+                var text = sep ? value.toLocaleString("en-US") : String(value);
+                b.textContent = text + suffix;
+                b.setAttribute("data-count", String(value));
+              }
+            }
+          };
+          setNum("在库职位", d.total);
+          setNum("今日新增", d.todayNew);
+          setNum("覆盖城市", d.cityCount);
+          setNum("数据源平台", d.platformCount);
+          if (d.avgSalary) setNum("平均薪资", d.avgSalary);
+          var note = document.getElementById("statsNote");
+          if (note && d.fetchedAt) {
+            var day = d.fetchedAt.slice(0, 10);
+            note.textContent = "数据截至 " + day + " · 每日自动抓取自 " + d.platformCount + " 个招聘平台";
+          }
+        }).catch(function () {
+          var note = document.getElementById("statsNote");
+          if (note) note.textContent = "数据每日自动抓取自多个招聘平台";
+        });
+      } catch (e) { /* 静态数值兜底 */ }
+    }
   })();
   </script>
 </body>

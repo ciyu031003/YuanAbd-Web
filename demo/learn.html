@@ -47,9 +47,9 @@
       <p class="hero-sub">市场 · 题库 · 路线 · 管道 · 就绪 —— <b>五本手册，一条职业路线</b>。真实招聘数据每日更新，从 Offer 倒推回今天该学什么。</p>
       <a class="hero-cta" href="#live">开始我的职业路线 <span aria-hidden="true">→</span></a>
       <div class="hero-chips">
-        <span>在库职位 <b>3,279</b></span>
-        <span>覆盖城市 <b>47</b></span>
-        <span>数据源平台 <b>19</b></span>
+        <span>在库职位 <b data-live="total">3,279</b></span>
+        <span>覆盖城市 <b data-live="cityCount">47</b></span>
+        <span>数据源平台 <b data-live="platformCount">19</b></span>
         <span>平均薪资 <b>14K</b></span>
       </div>
     </div>
@@ -845,6 +845,11 @@
           setNum("今日新增", d.todayNew);
           setNum("覆盖城市", d.cityCount);
           setNum("数据源平台", d.platformCount);
+          var liveEls = document.querySelectorAll("[data-live]");
+          for (var j = 0; j < liveEls.length; j++) {
+            var key = liveEls[j].getAttribute("data-live");
+            if (typeof d[key] === "number") liveEls[j].textContent = d[key].toLocaleString("en-US");
+          }
           var note = document.getElementById("statsNote");
           if (note && d.fetchedAt) {
             var day = d.fetchedAt.slice(0, 10);

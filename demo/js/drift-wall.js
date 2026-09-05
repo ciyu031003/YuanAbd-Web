@@ -1,5 +1,5 @@
 /* ============================================================
-   drift-wall.js — 行迹 · 记忆画廊（React DriftWall 的 vanilla 移植）
+   drift-wall.js — 甜途 · 记忆画廊（React DriftWall 的 vanilla 移植）
    原型：倾斜 3D 照片墙 + 相邻列反向无限漂移 + 指针视差 + 悬停点亮
    用法：
      <div class="drift-wall" data-drift-wall='{ "columns": 5, "items": [...] }'></div>

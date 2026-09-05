@@ -1,5 +1,5 @@
 /* ============================================================
-   travel-gallery.js — 行迹 · 三维旋转画廊（Active Theory / ThreeUI 风格）
+   travel-gallery.js — 甜途 · 三维旋转画廊（Active Theory / ThreeUI 风格）
    参考：
    - ThreeUI <Gallery />：编辑感卡片 + 环绕轨道
    - 用户附图：卡片环绕成一圈，滚动/旋转时当前城市卡片「放大到眼前」，
@@ -26,7 +26,7 @@
   var totalEl = document.querySelector(".hud__total");
 
   var cities = [
-    { title: "行迹",      desc: "把走过的路，画成一座可旋转的城市画廊。" },
+    { title: "甜途",      desc: "把走过的路，画成一座可旋转的城市画廊。" },
     { title: "北京",      desc: "故宫的红墙与长城的蜿蜒，在雪与银杏之间。" },
     { title: "上海",      desc: "黄浦江的镜面映着灯火，东方明珠把夜色点亮。" },
     { title: "成都",      desc: "竹影与盖碗茶，慢下来的日子才值得记住。" },

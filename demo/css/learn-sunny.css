@@ -308,3 +308,7 @@ body.learn::before{
 }
 /* 渐变字拆分后继承渐变背景 */
 .split em .ch{background-image:inherit;background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* --- 滚动进度条（learn） --- */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,#79CFFF,#4B8FCC,#0E5FA8);border-radius:0 3px 3px 0;pointer-events:none;transition:width .12s linear}
+@media (prefers-reduced-motion:reduce){.scroll-progress{transition:none}}

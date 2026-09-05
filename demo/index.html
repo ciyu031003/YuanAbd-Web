@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#FFFDF7" />
 <title>YUAN.ABD · 把好奇心，做成能用的作品</title>
-<meta name="description" content="YUAN.ABD 独立工作室：学习工作台把求职与学习装订成五本手册，行迹把走过的路转身成一座城市画廊。两件作品，持续构建。" />
+<meta name="description" content="YUAN.ABD 独立工作室：学习工作台把求职与学习装订成五本手册，甜途把走过的路转身成一座城市画廊。两件作品，持续构建。" />
 <link rel="canonical" href="https://www.yuanabd.cn/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="YUAN.ABD" />
 <meta property="og:title" content="YUAN.ABD · 把好奇心，做成能用的作品" />
-<meta property="og:description" content="学习工作台 × 行迹 —— 两件正在生长的独立作品。" />
+<meta property="og:description" content="学习工作台 × 甜途 —— 两件正在生长的独立作品。" />
 <meta property="og:url" content="https://www.yuanabd.cn/" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="./favicon-portal.svg" />
@@ -321,6 +321,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .split .ch{display:inline-block;opacity:0;transform:translateY(.42em);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
 .split.play .ch{opacity:1;transform:none}
 .split em .ch,.split .grad .ch{background-image:inherit;background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+/* --- 品牌集成：footer 产品卡 logo --- */
+.fcard__logo{display:block;margin-bottom:14px}
+.fcard__logo img{width:44px;height:44px;border-radius:11px;box-shadow:0 10px 24px -10px rgba(240,146,120,.5);transition:transform .45s var(--ease-out),box-shadow .45s}
+.fcard:hover .fcard__logo img{transform:scale(1.08) rotate(-4deg);box-shadow:0 16px 30px -10px rgba(240,146,120,.6)}
+/* --- 滚动进度条 --- */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--learn),var(--sun),var(--travel));border-radius:0 3px 3px 0;pointer-events:none;transition:width .12s linear}
+/* --- 回到顶部 --- */
+.to-top{position:fixed;right:26px;bottom:26px;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(255,253,247,.85);backdrop-filter:blur(10px);box-shadow:var(--shadow-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .35s,transform .35s var(--ease-out)}
+.to-top.is-on{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{transform:translateY(-3px)}
+.to-top svg{width:17px;height:17px}
 @media (prefers-reduced-motion:reduce){
   .split .ch{opacity:1;transform:none;transition:none}
   .sun{animation:none}
@@ -390,10 +401,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
       <div class="marquee__group">
-        <span>LEARN-WORKBENCH · LIVE</span><span>行迹 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 6 座城市</span><span>DESIGN × ENGINEERING</span>
+        <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
       </div>
       <div class="marquee__group">
-        <span>LEARN-WORKBENCH · LIVE</span><span>行迹 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 6 座城市</span><span>DESIGN × ENGINEERING</span>
+        <span>LEARN-WORKBENCH · LIVE</span><span>甜途 TRAVEL-NOTES · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
       </div>
     </div>
   </div>
@@ -452,8 +463,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     </div>
   </section>
 
-  <!-- ================= 02 行迹 ================= -->
-  <section class="section travel-sec" id="travel" aria-label="行迹">
+  <!-- ================= 02 甜途 ================= -->
+  <section class="section travel-sec" id="travel" aria-label="甜途">
     <div class="wrap">
       <div class="section__head" data-reveal>
         <span class="section__index">02</span>
@@ -462,7 +473,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <div class="duo">
         <div class="tvisual" data-reveal data-reveal-delay="2">
           <figure class="tvisual__main">
-            <img src="./img/cover-900.webp" alt="山间晨雾与日出——行迹 App 的旅行记忆" width="900" height="620" loading="eager" />
+            <img src="./img/cover-900.webp" alt="山间晨雾与日出——甜途 App 的旅行记忆" width="900" height="620" loading="eager" />
             <figcaption class="tvisual__tag" aria-hidden="true">57.4°N · ISLE OF SKYE</figcaption>
           </figure>
           <figure class="tvisual__card">
@@ -472,7 +483,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </div>
         <div>
           <span class="chip acc" data-reveal><i style="background:var(--travel)" aria-hidden="true"></i>旅行记忆空间</span>
-          <h2 class="duo__title" data-reveal data-reveal-delay="1">行迹
+          <h2 class="duo__title" data-reveal data-reveal-delay="1">甜途
             <span class="thin">把走过的路，转身成一座城市画廊。</span>
           </h2>
           <p class="duo__desc" data-reveal data-reveal-delay="2">
@@ -490,7 +501,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <span class="chip">ANDROID / WEB</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
-            <a class="btn btn--travel" href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">走进行迹 <i aria-hidden="true">→</i></a>
+            <a class="btn btn--travel" href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">走进甜途 <i aria-hidden="true">→</i></a>
             <a class="btn btn--ghost" href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener">下载甜途 App</a>
           </div>
         </div>
@@ -543,7 +554,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           小而完整，胜过大而空洞。<em>每一件产品都从第一行代码走到线上运行——设计、工程、部署，由同一双手完成。</em>
         </p>
         <div class="credo__grid">
-          <div class="credo__card" data-reveal><b class="u1">02</b><p>在营产品。学习工作台与行迹，均已上线运行并持续迭代。</p></div>
+          <div class="credo__card" data-reveal><b class="u1">02</b><p>在营产品。学习工作台与甜途，均已上线运行并持续迭代。</p></div>
           <div class="credo__card" data-reveal data-reveal-delay="1"><b class="u2">100%</b><p>独立完成。从界面设计、前后端工程到服务器部署与运维。</p></div>
           <div class="credo__card" data-reveal data-reveal-delay="2"><b class="u3">24×7</b><p>持续构建。产品在真实使用中生长，每一次迭代都公开进行。</p></div>
         </div>
@@ -592,7 +603,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <span class="now__kicker"><i aria-hidden="true"></i>Now · 2026</span>
             <h2 class="now__title">正在发生：<br /><em>两件作品，<br />一条成长曲线。</em></h2>
             <p class="now__desc">
-              学习工作台正在用真实招聘数据打磨「职业准备度」闭环；行迹正在把城市画廊扩展成完整的旅行记忆空间。
+              学习工作台正在用真实招聘数据打磨「职业准备度」闭环；甜途正在把城市画廊扩展成完整的旅行记忆空间。
               下一步：让 Learn 的路线图更聪明，让 Travel 的故事更完整。
             </p>
             <ul class="now__list">
@@ -624,8 +635,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
         <a class="fcard fcard--travel" href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener" data-reveal data-reveal-delay="1">
-          <span class="fcard__mono">02 · TRAVEL-NOTES</span>
-          <h3>行迹</h3>
+          <span class="fcard__logo"><img src="./img/tiantu-logo.png" alt="甜途 App 图标" width="44" height="44" loading="lazy" /></span>
+          <span class="fcard__mono">02 · TRAVEL-NOTES · TIAN TU</span>
+          <h3>甜途</h3>
           <p>一座安静的旅行记忆空间：足迹地图、城市画册、相册同步与旅行圈。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
@@ -931,11 +943,40 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     els.forEach(function(el){ io.observe(el); });
   }
 
+  /* ---------- 滚动进度条 + 回到顶部 ---------- */
+  function initProgress(){
+    var bar = document.createElement("div");
+    bar.className = "scroll-progress";
+    bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    var top = document.createElement("button");
+    top.className = "to-top";
+    top.type = "button";
+    top.setAttribute("aria-label", "回到顶部");
+    top.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>';
+    document.body.appendChild(top);
+    top.addEventListener("click", function(){
+      if (window.__lenis) window.__lenis.scrollTo(0, { duration: 1.2 });
+      else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+    var ticking = false;
+    function update(){
+      ticking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      bar.style.width = (p * 100).toFixed(2) + "%";
+      top.classList.toggle("is-on", window.scrollY > window.innerHeight * 1.2);
+    }
+    window.addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
   function boot(){
     initLenis();
     initSplit();
     initTilt();
     initIndex();
+    initProgress();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

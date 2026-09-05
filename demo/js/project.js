@@ -1,5 +1,5 @@
 /* ============================================================
-   project.js — 项目落地页（行迹 / 学习工作台）交互
+   project.js — 项目落地页（甜途 / 学习工作台）交互
    登录跳转到对应 Web 端登录页；下载跳转到对应产品真实 APK
    年份自动更新
    ============================================================ */
@@ -33,7 +33,7 @@
     box._t = setTimeout(function () { box.classList.remove("is-on"); }, 3200);
   }
 
-  /* ---------- 域名判断：本落地页属于「学习工作台」还是「行迹」 ---------- */
+  /* ---------- 域名判断：本落地页属于「学习工作台」还是「甜途」 ---------- */
   function domainFromPage() {
     return location.hostname.indexOf("learn") > -1 ? "learn.yuanabd.cn" : "travel-notes.yuanabd.cn";
   }
@@ -51,7 +51,7 @@
   var DOWNLOAD_PROTOCOL = "https";
   var DOWNLOAD_BASE = null; // 可选：临时指向服务器 IP
   // 部署于服务器的真实安装包地址（由 Nginx 静态托管）
-  var DOWNLOAD_TRAVEL = "/downloads/tiantu.apk";                    // 行迹 Android APK
+  var DOWNLOAD_TRAVEL = "/downloads/tiantu.apk";                    // 甜途 Android APK
   var DOWNLOAD_LEARN = "/download/learn-workbench-v1.0.0.apk";      // 学习工作台 Android APK
   function downloadUrl() {
     var isLearn = domainFromPage().indexOf("learn") > -1;

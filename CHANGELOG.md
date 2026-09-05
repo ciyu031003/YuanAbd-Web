@@ -78,6 +78,16 @@
 - 清理未引用文件：`favicon-travel.svg`、`favicon-learn.svg`、`img/app-icon.png`（download.html 已改用苦旅 favicon）、`served-stack.js`、`_sheet.html`；服务器门户 `vendor/three`（1.3MB 未引用）与 home 目录部署日志
 - 门户 HTML 已设 nginx no-cache（`location = /` + expires -1）
 
+### 2026-09-06（第六轮）业务数据迁移至 COS 存储桶（/data）
+- 服务器挂载了腾讯云 COS（cosfs FUSE，256T）到 `/data`
+- **已迁移**：甜途用户上传卷 `travel-notes_uploads-data`（218M，232 文件）→ `/data/travel-notes/uploads`；learn 必应壁纸卷 `learn-workbench_bing`（7M）→ `/data/learn-workbench/bing`
+- compose 修改：甜途 `uploads-data:/app/public/uploads` → `/data/travel-notes/uploads:/app/public/uploads`；learn `bing:` → `/data/learn-workbench/bing:...`；两个 compose 的顶级 volumes 声明同步删除（travel 只剩 `mysql-data`、learn 只剩 `pgdata`）
+- 两容器 `docker compose up -d` 重建，数据库容器未动（Up 2 weeks 连续运行）
+- 验证：232 文件 md5 抽样一致；线上上传图 URL 200（cosfs 读取 0.65s/556KB）；容器向 cosfs 写入成功（上传功能可用）；三站 200
+- ⚠️ **数据库卷刻意不迁**：MySQL/PG 依赖随机写/文件锁/rename 原子性，cosfs 对象存储语义会损坏数据——`travel-notes_mysql-data`、`learn-workbench_pgdata` 保留系统盘
+- ⚠️ 旧命名卷 `travel-notes_uploads-data`、`learn-workbench_bing` **保留未删**（回滚备份，稳定 1-2 周后可 `docker volume rm` 清理）
+- 可选后续优化：nginx 直接 alias `/data/travel-notes/uploads`（跳过 app 容器反代，静态图更快）；cosfs 大目录列表慢，若相册数暴涨考虑分目录
+
 ---
 
 ## 三、下一轮实施方案（待办，按建议顺序）

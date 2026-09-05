@@ -35,13 +35,15 @@
     { title: "重庆",      desc: "山城的灯火一层叠一层，洪崖洞把夜拉成长街。" }
   ];
   var n = cities.length;
+  /* A1：900w 贴图（总体积 2.3MB → 0.5MB），3D 显示尺寸 900px 足够 */
   var images = [
-    "./img/cover.webp", "./img/beijing.webp", "./img/shanghai.webp",
-    "./img/chengdu.webp", "./img/hangzhou.webp", "./img/xian.webp",
-    "./img/chongqing.webp"
+    "./img/cover-900.webp", "./img/beijing-900.webp", "./img/shanghai-900.webp",
+    "./img/chengdu-900.webp", "./img/hangzhou-900.webp", "./img/xian-900.webp",
+    "./img/chongqing-900.webp"
   ];
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isMobile = window.matchMedia("(max-width: 760px)").matches;
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
 
   /* ---------- 相册滚动长度 = 帧数 * 视口高 ---------- */
@@ -67,6 +69,9 @@
     /* 进入画廊后，主标题让位给城市画面；开始滚动即收起滚动提示 */
     if (galleryTitle) galleryTitle.classList.toggle("is-dim", currentP > 0.045);
     if (stageHint) stageHint.classList.toggle("is-dim", currentP > 0.02);
+    /* A2：大号城市名浮层在离开首屏后出现 */
+    var cityname = document.querySelector(".stage__cityname");
+    if (cityname) cityname.classList.toggle("is-on", currentP > 0.06);
   }
   function onScroll() {
     var rect = track.getBoundingClientRect();
@@ -83,6 +88,17 @@
     if (hudName) hudName.textContent = cities[idx].title;
     if (hudDesc) hudDesc.textContent = cities[idx].desc;
     dots.forEach(function (dot, j) { dot.classList.toggle("is-on", j === idx); });
+    /* A2：大号城市名随帧切换（文本变化时滑入） */
+    var cnEl = document.getElementById("cityName");
+    if (cnEl) {
+      if (cnEl.textContent !== cities[idx].title) {
+        cnEl.textContent = cities[idx].title;
+        var wrap = cnEl.parentElement;
+        if (wrap) { wrap.classList.remove("swap"); void wrap.offsetWidth; wrap.classList.add("swap"); }
+      }
+      var ciEl = document.getElementById("cityIdx");
+      if (ciEl) ciEl.textContent = String(idx + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+    }
   }
   onScroll();
 
@@ -149,7 +165,12 @@
     var hostVisible = true;
     var startTime = null;
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    var renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      /* A5：移动端关 antialias + 限 pixelRatio，省一半 GPU */
+      antialias: !isMobile
+    });
     renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -161,8 +182,9 @@
     scene.add(gallery);
 
     var loader = new THREE.TextureLoader();
-    var textures = images.map(function (url) {
-      var texture = loader.load(url);
+    var texReady = [];
+    var textures = images.map(function (url, i) {
+      var texture = loader.load(url, function () { texReady[i] = true; });
       texture.encoding = THREE.sRGBEncoding;
       texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
       return texture;
@@ -206,9 +228,75 @@
     }
     var roundMask = makeRoundMask();
 
+    /* A3：品牌渐变描边纹理（紫→深蓝→珊瑚 圆角框线） */
+    function makeRoundBorder() {
+      var c = document.createElement("canvas");
+      c.width = 512; c.height = 308;
+      var ctx = c.getContext("2d");
+      var w = c.width, h = c.height, r = 26, lw = 5;
+      var grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, "#A487BF");
+      grad.addColorStop(0.52, "#4E4D93");
+      grad.addColorStop(1, "#F88D82");
+      ctx.clearRect(0, 0, w, h);
+      ctx.beginPath();
+      ctx.moveTo(r, lw / 2);
+      ctx.lineTo(w - r, lw / 2);
+      ctx.quadraticCurveTo(w - lw / 2, lw / 2, w - lw / 2, r);
+      ctx.lineTo(w - lw / 2, h - r);
+      ctx.quadraticCurveTo(w - lw / 2, h - lw / 2, w - r, h - lw / 2);
+      ctx.lineTo(r, h - lw / 2);
+      ctx.quadraticCurveTo(lw / 2, h - lw / 2, lw / 2, h - r);
+      ctx.lineTo(lw / 2, r);
+      ctx.quadraticCurveTo(lw / 2, lw / 2, r, lw / 2);
+      ctx.closePath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = lw;
+      ctx.stroke();
+      var t = new THREE.CanvasTexture(c);
+      t.minFilter = THREE.LinearFilter;
+      return t;
+    }
+    var roundBorder = makeRoundBorder();
+
+    /* A4：倒影 mask（圆角 + 自上而下渐隐） */
+    function makeMirrorMask() {
+      var c = document.createElement("canvas");
+      c.width = 512; c.height = 308;
+      var ctx = c.getContext("2d");
+      var w = c.width, h = c.height, r = 26;
+      ctx.clearRect(0, 0, w, h);
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(w - r, 0);
+      ctx.quadraticCurveTo(w, 0, w, r);
+      ctx.lineTo(w, h - r);
+      ctx.quadraticCurveTo(w, h, w - r, h);
+      ctx.lineTo(r, h);
+      ctx.quadraticCurveTo(0, h, 0, h - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      var fade = ctx.createLinearGradient(0, 0, 0, h);
+      fade.addColorStop(0, "rgba(0,0,0,0.55)");
+      fade.addColorStop(0.55, "rgba(0,0,0,0.12)");
+      fade.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = fade;
+      ctx.fill();
+      var t = new THREE.CanvasTexture(c);
+      t.minFilter = THREE.LinearFilter;
+      return t;
+    }
+    var mirrorMask = makeMirrorMask();
+
     var geo = new THREE.PlaneGeometry(CARD_W, CARD_H);
     var panels = [];
     var panelAngles = [];
+    var borders = [];   /* A3：正前方卡片品牌渐变描边 */
+    var mirrors = [];   /* A4：卡片倒影 */
     for (var p = 0; p < N; p++) {
       var mat = new THREE.MeshBasicMaterial({
         map: textures[p],
@@ -225,11 +313,43 @@
       mesh.rotation.y = ang; // 面朝外（正前方朝向相机）
       gallery.add(mesh);
       panels.push(mesh);
+
+      /* A3：品牌渐变描边（圆角框线，随正前方淡入） */
+      var bMat = new THREE.MeshBasicMaterial({
+        map: roundBorder,
+        alphaMap: roundBorder,
+        transparent: true,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        toneMapped: false,
+        depthWrite: false
+      });
+      var bMesh = new THREE.Mesh(geo, bMat);
+      bMesh.position.copy(mesh.position);
+      bMesh.rotation.y = mesh.rotation.y;
+      bMesh.position.z += 0.012; /* 微抬避免 z-fighting */
+      gallery.add(bMesh);
+      borders.push(bMesh);
+
+      /* A4：倒影（同纹理垂直翻转 + 渐隐 mask） */
+      var mMat = new THREE.MeshBasicMaterial({
+        map: textures[p],
+        alphaMap: mirrorMask,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        toneMapped: false,
+        transparent: true,
+        depthWrite: false
+      });
+      var mMesh = new THREE.Mesh(geo, mMat);
+      mMesh.rotation.y = mesh.rotation.y;
+      gallery.add(mMesh);
+      mirrors.push(mMesh);
     }
 
-    /* 漂浮粒子（营造纵深与氛围） */
+    /* 漂浮粒子（营造纵深与氛围；A5：移动端减半） */
     var pGeo = new THREE.BufferGeometry();
-    var pCount = 240;
+    var pCount = isMobile ? 120 : 240;
     var pPos = new Float32Array(pCount * 3);
     for (var q = 0; q < pCount; q++) {
       pPos[q * 3]     = (Math.random() - 0.5) * 30;
@@ -243,12 +363,17 @@
     var particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
 
+    /* A7：旋转目标角与当前角分离，插值平滑滚轮步进 */
+    var currentRot = 0;
+
     function renderFrame(elapsed, p) {
       // 滚动驱动：正前方卡片随进度逐张切换
       var scrollRot = -p * STEP * (n - 1);
       var rock = reduceMotion ? 0 : Math.sin(elapsed * 0.25) * 0.06;
-      var rot = scrollRot + rock;
-      gallery.rotation.y = rot;
+      /* A7：向目标角插值（reduced-motion 直接贴合） */
+      currentRot += (scrollRot - currentRot) * (reduceMotion ? 1 : 0.09);
+      gallery.rotation.y = currentRot + rock;
+      var rot = currentRot + rock;
 
       // 整体呼吸（缓慢变大变小）
       var breathe = reduceMotion ? 0 : Math.sin(elapsed * 0.55) * 0.012;
@@ -263,10 +388,28 @@
 
         // 正前方卡片沿径向推向镜头，其余保持/退后
         var rr = RING_R + PUSH * falloff;
-        panels[i].position.x = Math.sin(panelAngles[i]) * rr;
-        panels[i].position.z = Math.cos(panelAngles[i]) * rr;
-        panels[i].position.y = reduceMotion ? 0 : Math.sin(elapsed * 0.6 + i) * 0.26;
-        panels[i].material.opacity = 0.55 + 0.45 * falloff;
+        var px = Math.sin(panelAngles[i]) * rr;
+        var pz = Math.cos(panelAngles[i]) * rr;
+        var py = reduceMotion ? 0 : Math.sin(elapsed * 0.6 + i) * 0.26;
+        panels[i].position.x = px;
+        panels[i].position.z = pz;
+        panels[i].position.y = py;
+        /* A1：贴图未就绪前整卡隐藏（防首帧空白/模糊） */
+        var fade = texReady[i] ? 1 : 0;
+        panels[i].material.opacity = (0.55 + 0.45 * falloff) * fade;
+
+        /* A3：描边仅正前方淡入；跟随卡片位置 */
+        borders[i].position.x = px; borders[i].position.z = pz + 0.012;
+        borders[i].position.y = py;
+        borders[i].scale.set(sc, sc, 1);
+        borders[i].material.opacity = 0.85 * falloff * fade;
+
+        /* A4：倒影贴在卡片正下方，翻转 + 随聚焦淡入 */
+        mirrors[i].position.x = px;
+        mirrors[i].position.z = pz;
+        mirrors[i].position.y = py - CARD_H * sc - 0.14;
+        mirrors[i].scale.set(sc, -sc, 1);
+        mirrors[i].material.opacity = 0.16 * falloff * fade;
       }
 
       particles.rotation.y = elapsed * 0.03;
@@ -297,7 +440,8 @@
       var b = (host() || track).getBoundingClientRect();
       var width = Math.max(1, Math.round(b.width));
       var height = Math.max(1, Math.round(b.height));
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      /* A5：移动端 pixelRatio 上限 1.5 */
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();

@@ -15,6 +15,8 @@
   <meta property="og:title" content="甜途 · 把走过的路，转身成一座旋转的城市画廊" />
   <meta property="og:description" content="把走过的路画成一座可旋转的城市画廊。足迹地图、旅行画册、旅行圈、相册与内容管理。" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
+  <meta name="twitter:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
   <link rel="canonical" href="https://travel-notes.yuanabd.cn/" />
 
 
@@ -27,7 +29,10 @@
   <link rel="stylesheet" href="./css/travel-gallery.css" />
   <link rel="stylesheet" href="./css/drift-wall.css" />
   <link rel="stylesheet" href="./css/travel-download.css?v=20260902b" />
-  <link rel="stylesheet" href="./css/travel-sunny.css?v=20260905d" />
+  <link rel="stylesheet" href="./css/travel-sunny.css?v=20260906" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"甜途 TianTu","url":"https://travel-notes.yuanabd.cn/","description":"甜途：把走过的路画成一座可旋转的城市画廊。足迹地图、旅行画册、旅行圈、相册与内容管理。","operatingSystem":"Android, Web","applicationCategory":"TravelApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"author":{"@type":"Organization","name":"YUAN.ABD"},"inLanguage":"zh-CN"}
+</script>
 </head>
 <body class="travel">
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -72,6 +77,11 @@
             <span class="card__kicker">TRAVEL-NOTES · 记忆画廊</span>
             <h1 class="gallery-title__name">甜途</h1>
             <p class="gallery-title__desc">把走过的路，变成自己的故事。滚动，开始环游这座城市画廊。</p>
+          </div>
+
+          <div class="stage__cityname" aria-hidden="true">
+            <b id="cityName">甜途</b>
+            <i id="cityIdx">01 / 07</i>
           </div>
 
           <div class="stage__hud" aria-hidden="true">
@@ -227,7 +237,7 @@
             <div class="scard__chips"><span>省份高亮</span><span>城市标记</span><span>虚线航线</span></div>
           </div>
           <div class="scard__media" aria-hidden="true">
-            <img src="./img/product-map-large.png" alt="" loading="lazy" />
+            <img src="./img/product-map-large.webp" alt="" loading="lazy" />
           </div>
         </article></div>
 
@@ -425,7 +435,7 @@
                     <span class="mock__dots"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span></span>
                     <span class="mock__title">足迹地图</span>
                   </div>
-                  <div class="mock__body mock__img"><img src="./img/product-map-large.png" srcset="./img/product-map-large.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途足迹地图" loading="lazy" /></div>
+                  <div class="mock__body mock__img"><img src="./img/product-map-large.webp" srcset="./img/product-map-large.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途足迹地图" loading="lazy" /></div>
                 </div>
               </div>
               <div class="shot-pane shot-pane--album">
@@ -464,7 +474,7 @@
                     <span class="mock__dots"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span></span>
                     <span class="mock__title">功能一览</span>
                   </div>
-                  <div class="mock__body mock__img"><img src="./img/product-features.png" srcset="./img/product-features.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途功能一览" loading="lazy" /></div>
+                  <div class="mock__body mock__img"><img src="./img/product-features.webp" srcset="./img/product-features.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途功能一览" loading="lazy" /></div>
                 </div>
               </div>
               <div class="shot-pane shot-pane--desktop">
@@ -568,7 +578,7 @@
 
   <script src="./vendor/three-umd/three.min.js"></script>
   <script src="./js/motion.js"></script>
-  <script src="./js/travel-gallery.js?v=20260905"></script>
+  <script src="./js/travel-gallery.js?v=20260906"></script>
   <script src="./js/drift-wall.js?v=20260905"></script>
   <script src="./js/travel-stack.js?v=20260905"></script>
   <script src="./js/project.js?v=20260905"></script>
@@ -648,6 +658,23 @@
       window.addEventListener("pointercancel", endDrag);
     }
     initGalleryDrag();
+
+    /* ---------- A6：点击画廊卡片跳转城市故事（与拖拽区分） ---------- */
+    function initCardClick(){
+      var canvas = document.getElementById("galleryCanvas");
+      if (!canvas) return;
+      var downX = 0, downY = 0, moved = false;
+      canvas.addEventListener("pointerdown", function(e){ downX = e.clientX; downY = e.clientY; moved = false; });
+      canvas.addEventListener("pointermove", function(e){
+        if (Math.abs(e.clientX - downX) > 8 || Math.abs(e.clientY - downY) > 8) moved = true;
+      });
+      canvas.addEventListener("click", function(){
+        if (moved) return;
+        var stories = document.getElementById("stories");
+        if (stories) stories.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      });
+    }
+    initCardClick();
 
     /* ---------- HUD 城市名切换滑入 ---------- */
     function initHudSwap(){

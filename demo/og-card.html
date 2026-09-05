@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>OG Card</title>
+<style>
+:root{--bg:#FFFDF7;--ink:#18202A;--learn:#79CFFF;--travel:#F88D82;--sun:#FFD84D;--purple:#A487BF;--navy:#4E4D93}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{position:relative;background:var(--bg);font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+.sun{position:absolute;top:-190px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFF7DA 0%,rgba(255,231,150,.9) 40%,rgba(255,216,77,.5) 70%,transparent 76%)}
+.glow-b{position:absolute;bottom:-180px;left:-140px;width:460px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(121,207,255,.35),transparent 65%)}
+.glow-t{position:absolute;bottom:-120px;right:200px;width:420px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(248,141,130,.3),transparent 62%)}
+.wrap{position:relative;z-index:2;padding:64px 72px;height:100%;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:14px}
+.brand i{width:34px;height:34px;border-radius:9px;background:conic-gradient(from 210deg,#FFD84D,#79CFFF,#F88D82,#FFD84D)}
+.brand b{font:600 22px/1 "Space Grotesk","Noto Sans SC",sans-serif;letter-spacing:.05em}
+.brand span{font:400 14px/1 "Space Grotesk",sans-serif;letter-spacing:.3em;color:#8A939E;text-transform:uppercase;margin-left:6px}
+h1{margin-top:66px;font:900 74px/1.28 "Noto Serif SC","Songti SC",serif;letter-spacing:.01em}
+h1 em{font-style:normal;background:linear-gradient(92deg,#E8A020,#E86A4A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:20px;font:400 22px/1.7 "Noto Sans SC",sans-serif;color:#5C6673}
+.cards{margin-top:auto;display:flex;gap:22px}
+.card{flex:1;display:flex;align-items:center;gap:18px;padding:24px 28px;border-radius:20px;background:rgba(255,255,255,.85);border:1px solid rgba(24,32,42,.1);box-shadow:0 20px 46px -26px rgba(24,32,42,.25)}
+.card img{width:64px;height:64px;border-radius:15px;box-shadow:0 10px 24px -10px rgba(24,32,42,.3)}
+.card .mono{font:500 12px/1 "IBM Plex Mono",monospace;letter-spacing:.18em;color:#8A939E;text-transform:uppercase}
+.card h2{margin-top:7px;font:900 26px/1.2 "Noto Serif SC",serif}
+.card p{margin-top:6px;font:400 15px/1.5 "Noto Sans SC",sans-serif;color:#5C6673}
+.card--learn .mono{color:#4B8FCC}
+.card--travel .mono{color:#E86A4A}
+.domain{position:absolute;right:72px;bottom:56px;font:500 16px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;color:#8A939E}
+</style>
+</head>
+<body>
+<div class="sun"></div><div class="glow-b"></div><div class="glow-t"></div>
+<div class="wrap">
+  <div class="brand"><i></i><b>YUAN.ABD</b><span>Personal Digital Studio</span></div>
+  <h1>把好奇心，<br />做成<em>能用</em>的作品。</h1>
+  <p class="sub">苦旅 · 把求职与学习装订成五本手册　｜　甜途 · 把走过的路转身成城市画廊</p>
+  <div class="cards">
+    <div class="card card--learn">
+      <img src="./img/kulv-logo.png" alt="" />
+      <div><div class="mono">01 · Learn-Workbench · Ku Lv</div><h2>苦旅</h2><p>求职与学习手册 · Web + Android</p></div>
+    </div>
+    <div class="card card--travel">
+      <img src="./img/tiantu-logo.png" alt="" />
+      <div><div class="mono">02 · Travel-Notes · Tian Tu</div><h2>甜途</h2><p>旅行记忆空间 · Android + Web</p></div>
+    </div>
+  </div>
+  <div class="domain">www.yuanabd.cn</div>
+</div>
+</body>
+</html>

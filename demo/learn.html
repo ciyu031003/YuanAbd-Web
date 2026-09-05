@@ -287,7 +287,7 @@
               learn.yuanabd.cn/jobs · 已上线
             </span>
           </div>
-          <div class="app" role="img" aria-label="苦旅「招花 · 今日好岗」界面示意，按线上真实数据重绘：今日新增 334 岗，在库职位 3279，覆盖平台 19 个">
+          <div class="app" role="img" aria-label="苦旅「招花 · 今日好岗」界面示意，数字随线上实时数据自动刷新">
             <div class="app__nav" aria-hidden="true">
               <span class="app__logo"><i></i>苦旅</span>
               <span class="app__menu"><b>首页</b><b>学习</b><b class="on">招花</b><b>职业</b><b>设置</b></span>
@@ -297,14 +297,14 @@
               <div>
                 <span class="app__pill">招聘信息</span>
                 <h3 class="app__title">招花 · 今日好岗</h3>
-                <p class="app__sub">2026 年 8 月 30 日 · 让好机会像花一样绽放</p>
+                <p class="app__sub"><span data-mock-date>2026 年 8 月 30 日</span> · 让好机会像花一样绽放</p>
               </div>
               <div class="app__actions"><b>市场分析</b><b>考试日历</b></div>
             </div>
             <div class="app__stats" aria-hidden="true">
-              <div class="app__stat"><b>今日新增</b><span>334<i>个</i></span></div>
-              <div class="app__stat"><b>在库职位</b><span>3279<i>个</i></span></div>
-              <div class="app__stat"><b>覆盖平台</b><span>19<i>个</i></span></div>
+              <div class="app__stat"><b>今日新增</b><span data-mock-live="todayNew">334<i>个</i></span></div>
+              <div class="app__stat"><b>在库职位</b><span data-mock-live="total">3279<i>个</i></span></div>
+              <div class="app__stat"><b>覆盖平台</b><span data-mock-live="platformCount">19<i>个</i></span></div>
               <div class="app__stat"><b>上次抓取</b><span>2<i>小时前</i></span></div>
             </div>
             <div class="app__bar" aria-hidden="true">
@@ -333,9 +333,9 @@
             </div>
           </div>
         </figure>
-        <div class="stage__chip stage__chip-a" aria-hidden="true"><b>今日新增</b><span>334 岗</span></div>
-        <div class="stage__chip stage__chip-b" aria-hidden="true"><b>在库职位</b><span>3,279 岗</span></div>
-        <div class="stage__chip stage__chip-c" aria-hidden="true"><b>数据源</b><span>19 个平台</span></div>
+        <div class="stage__chip stage__chip-a" aria-hidden="true"><b>今日新增</b><span data-mock-live="todayNew" data-suffix=" 岗">334 岗</span></div>
+        <div class="stage__chip stage__chip-b" aria-hidden="true"><b>在库职位</b><span data-mock-live="total" data-suffix=" 岗">3,279 岗</span></div>
+        <div class="stage__chip stage__chip-c" aria-hidden="true"><b>数据源</b><span data-mock-live="platformCount" data-suffix=" 个平台">19 个平台</span></div>
       </div>
     </div>
   </section>
@@ -867,6 +867,20 @@
           for (var j = 0; j < liveEls.length; j++) {
             var key = liveEls[j].getAttribute("data-live");
             if (typeof d[key] === "number") liveEls[j].textContent = d[key].toLocaleString("en-US");
+          }
+          var mockEls = document.querySelectorAll("[data-mock-live]");
+          for (var k = 0; k < mockEls.length; k++) {
+            var mk = mockEls[k].getAttribute("data-mock-live");
+            if (typeof d[mk] === "number" && mockEls[k].firstChild) {
+              mockEls[k].firstChild.nodeValue = d[mk].toLocaleString("en-US") + (mockEls[k].getAttribute("data-suffix") || "");
+            }
+          }
+          var mockDate = document.querySelector("[data-mock-date]");
+          if (mockDate && d.fetchedAt && mockDate.firstChild) {
+            var dt = d.fetchedAt.slice(0, 10).split("-");
+            if (dt.length === 3) {
+              mockDate.textContent = dt[0] + " 年 " + Number(dt[1]) + " 月 " + Number(dt[2]) + " 日";
+            }
           }
           var note = document.getElementById("statsNote");
           if (note && d.fetchedAt) {

@@ -845,7 +845,6 @@
           setNum("今日新增", d.todayNew);
           setNum("覆盖城市", d.cityCount);
           setNum("数据源平台", d.platformCount);
-          if (d.avgSalary) setNum("平均薪资", d.avgSalary);
           var note = document.getElementById("statsNote");
           if (note && d.fetchedAt) {
             var day = d.fetchedAt.slice(0, 10);

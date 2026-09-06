@@ -103,6 +103,15 @@
 - 部署版本号：travel-gallery.js / travel-sunny.css → `?v=20260906`
 - 注意：`og-card.html` 是生成工具页，部署时不需要上传；改分享图时本地渲染重截即可
 
+### 2026-09-06（第八轮）可靠性/运维加固轮
+- **数据库每日自动备份**：`/usr/local/bin/backup-db.sh`（容器内 mysqldump/pg_dump → `/data/backups/{travel-notes,learn-workbench}/`，gzip，保留 14 天）；cron `17 3 * * *`（错开已有 04:30/06:00/08:00 任务）；已实测 gzip 完整性（mysql 31K / pg 929K）
+- **Docker 日志轮转**：`/etc/docker/daemon.json` 加 `log-driver json-file / max-size 10m / max-file 3`（保留原有腾讯云 mirror 配置）；两个 compose 显式加 `logging` 段（travel 用 YAML 锚点 `&logging/*logging`，db+app 共用）——学习站 compose 曾插入重复键报错，已修复
+- **ufw 防火墙双保险**：先放行 22/80/443/8443 再 `--force enable`；外网验证三站 + 上传图 + App API 全部 200，SSH 不断
+- **certbot timer 确认正常**（三证 11 月底到期，自动续期在位）
+- **磁盘**：Build Cache 10GB 为活跃镜像层（0% 可回收，prune 无效）；数据库容器随 logging 重建（数据卷完好，healthcheck healthy）
+- 本地：`.threeui/`（5MB 设计草稿）删除；门户 Email 链接加 `title` 提示
+- 招花抓取 cron（08:00）与磁盘清理 cron（learn 周日 05:00 / travel 周日 04:30）均为既有任务，本次未改动
+
 ---
 
 ## 三、下一轮实施方案（待办，按建议顺序）

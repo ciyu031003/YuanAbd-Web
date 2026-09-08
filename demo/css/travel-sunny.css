@@ -4,14 +4,14 @@
    依据：DESIGN-SYSTEM.md（Travel = 天空蓝 + 橙 / 自由 / 记忆）
    ============================================================ */
 :root{
-  --bg:#F5FAFF; --bg-2:#E8F4FF;
+  --bg:#FAF6EF; --bg-2:#F1E9D7;
   --surface:rgba(255,255,255,.72); --surface-2:rgba(255,255,255,.9);
-  --ink:#17324D; --ink-soft:rgba(23,50,77,.8); --ink-faint:rgba(23,50,77,.52);
-  --accent:#FF8A5C; --accent-2:#2E8FD8; --accent-ink:#FFFFFF;
-  --line:rgba(23,50,77,.13); --line-strong:rgba(23,50,77,.24);
+  --ink:#2F2922; --ink-soft:rgba(47,41,34,.8); --ink-faint:rgba(47,41,34,.55);
+  --accent:#E8784A; --accent-2:#3D7FB5; --accent-ink:#FFFDF7;
+  --line:rgba(47,41,34,.13); --line-strong:rgba(47,41,34,.25);
 }
 body{background:var(--bg);color:var(--ink)}
-.vignette{display:block;background:radial-gradient(120% 90% at 50% 30%,transparent 62%,rgba(23,50,77,.10) 100%)}
+.vignette{display:block;background:radial-gradient(120% 90% at 50% 30%,transparent 62%,rgba(47,41,34,.10) 100%)}
 .grain{opacity:.05}
 /* 背景：天空光晕 + 海风颗粒 */
 .tv-bg{background:
@@ -22,15 +22,15 @@ body{background:var(--bg);color:var(--ink)}
 .tv-glow-a{background:radial-gradient(circle at 40% 40%,rgba(121,207,255,.5),transparent 66%)}
 .tv-glow-b{background:radial-gradient(circle at 50% 50%,rgba(255,190,140,.5),transparent 66%)}
 .tv-glow-c{background:radial-gradient(circle at 50% 50%,rgba(140,205,255,.45),transparent 66%)}
-.tv-ring{border:1px solid rgba(23,50,77,.12)}
+.tv-ring{border:1px solid rgba(47,41,34,.12)}
 .tv-ring-b{border-color:rgba(255,138,92,.16)}
 .tv-particles{background-image:
   radial-gradient(1.4px 1.4px at 20% 30%,rgba(46,143,216,.45),transparent 50%),
   radial-gradient(1.2px 1.2px at 70% 18%,rgba(255,138,92,.4),transparent 50%),
   radial-gradient(1.6px 1.6px at 84% 64%,rgba(46,143,216,.4),transparent 50%),
-  radial-gradient(1px 1px at 38% 82%,rgba(23,50,77,.35),transparent 50%),
+  radial-gradient(1px 1px at 38% 82%,rgba(47,41,34,.35),transparent 50%),
   radial-gradient(1.4px 1.4px at 55% 46%,rgba(255,138,92,.36),transparent 50%),
-  radial-gradient(1.1px 1.1px at 12% 62%,rgba(23,50,77,.3),transparent 50%);
+  radial-gradient(1.1px 1.1px at 12% 62%,rgba(47,41,34,.3),transparent 50%);
   background-repeat:repeat;background-size:440px 440px;opacity:.4}
 /* 旋转画廊舞台：天空 × 橙霞 */
 .gallery-hero{background:
@@ -38,33 +38,33 @@ body{background:var(--bg);color:var(--ink)}
   radial-gradient(60% 60% at 82% 88%,rgba(255,190,140,.4),transparent 60%),
   radial-gradient(50% 50% at 12% 78%,rgba(121,207,255,.4),transparent 58%),
   var(--bg)}
-.gallery-grid{background-image:radial-gradient(rgba(23,50,77,.16) 1px,transparent 1px)}
+.gallery-grid{background-image:radial-gradient(rgba(47,41,34,.16) 1px,transparent 1px)}
 .gallery__shade{background:
   radial-gradient(120% 90% at 50% 30%,transparent 46%,rgba(46,143,216,.10) 100%),
-  linear-gradient(180deg,rgba(255,255,255,.25) 0%,transparent 22%,transparent 64%,rgba(23,50,77,.07) 100%)}
+  linear-gradient(180deg,rgba(255,255,255,.25) 0%,transparent 22%,transparent 64%,rgba(47,41,34,.07) 100%)}
 .gallery-title .card__kicker{color:var(--accent-2)}
 .gallery-title__name{color:var(--ink);text-shadow:0 2px 0 rgba(255,255,255,.9),0 6px 26px rgba(255,255,255,.7)}
 .gallery-title__desc{color:var(--ink-soft);text-shadow:0 1px 0 rgba(255,255,255,.9),0 2px 12px rgba(255,255,255,.65)}
 .stage__hud .hud__meta{text-shadow:0 1px 0 rgba(255,255,255,.85)}
 .stage__hud .hud__cur{text-shadow:0 1px 0 rgba(255,255,255,.85)}
 /* 3D 卡片 */
-.card{background:var(--bg-2);box-shadow:0 40px 90px -40px rgba(23,50,77,.24),inset 0 0 0 1px rgba(23,50,77,.12)}
-.card::after{border:1px solid rgba(23,50,77,.1)}
-.card__skyline{background:linear-gradient(180deg,transparent,rgba(23,50,77,.42))}
+.card{background:var(--bg-2);box-shadow:0 40px 90px -40px rgba(47,41,34,.24),inset 0 0 0 1px rgba(47,41,34,.12)}
+.card::after{border:1px solid rgba(47,41,34,.1)}
+.card__skyline{background:linear-gradient(180deg,transparent,rgba(47,41,34,.42))}
 .card__shade{background:
-  linear-gradient(180deg,rgba(23,50,77,.12) 0%,rgba(23,50,77,.02) 36%,rgba(23,50,77,.72) 100%),
+  linear-gradient(180deg,rgba(47,41,34,.12) 0%,rgba(47,41,34,.02) 36%,rgba(47,41,34,.72) 100%),
   radial-gradient(120% 80% at 50% 0%,rgba(255,190,140,.18),transparent 60%)}
 .card__kicker{color:var(--accent)}
 .card__name{color:#FFFFFF}
 .card__desc{color:rgba(255,255,255,.9)}
 .card--content{background:
-  radial-gradient(90% 80% at 0% 0%,rgba(46,143,216,.25),transparent 60%),
-  radial-gradient(80% 80% at 100% 100%,rgba(255,190,140,.18),transparent 55%),
-  linear-gradient(150deg,#EAF6FF,#CDE9FF)}
-.card--content .card__shade{background:linear-gradient(180deg,rgba(23,50,77,.08),rgba(23,50,77,.02) 40%,rgba(23,50,77,.5) 100%)}
+  radial-gradient(90% 80% at 0% 0%,rgba(61,127,181,.16),transparent 60%),
+  radial-gradient(80% 80% at 100% 100%,rgba(232,120,74,.16),transparent 55%),
+  linear-gradient(150deg,#FBF6EC,#F1E8D3)}
+.card--content .card__shade{background:linear-gradient(180deg,rgba(47,41,34,.08),rgba(47,41,34,.02) 40%,rgba(47,41,34,.5) 100%)}
 .card--content .card__name{color:#FFFFFF}
 .card--content .card__desc{color:rgba(255,255,255,.92)}
-.card__shot{border:1px solid rgba(23,50,77,.16);box-shadow:0 28px 70px -28px rgba(23,50,77,.24),inset 0 0 0 1px rgba(23,50,77,.06)}
+.card__shot{border:1px solid rgba(47,41,34,.16);box-shadow:0 28px 70px -28px rgba(47,41,34,.24),inset 0 0 0 1px rgba(47,41,34,.06)}
 .card__stats .stat::before{background:var(--accent)}
 .card__stats .stat__num{color:var(--accent-2)}
 .dl-chip{background:rgba(255,255,255,.55)}
@@ -76,8 +76,8 @@ body{background:var(--bg);color:var(--ink)}
 .outro-card{
   background:
     radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.6),transparent 52%),
-    radial-gradient(96% 84% at 0% 100%,rgba(121,207,255,.28),transparent 58%),
-    linear-gradient(140deg,#EFF9FF,#D9EFFF 55%,#C4E6FF);
+    radial-gradient(96% 84% at 0% 100%,rgba(61,127,181,.2),transparent 58%),
+    linear-gradient(140deg,#FBF7EE,#F0E8D4 55%,#E7DBC2);
 }
 .outro-card--download{
   background:
@@ -89,9 +89,9 @@ body{background:var(--bg);color:var(--ink)}
 /* 特性堆叠卡 */
 .tfeatures .section__title{color:var(--ink)}
 .tfeatures .lede{color:var(--ink-soft)}
-.scard{background:rgba(255,255,255,.9);box-shadow:0 40px 90px -50px rgba(23,50,77,.3)}
+.scard{background:rgba(255,255,255,.92);box-shadow:0 46px 96px -54px rgba(47,41,34,.34),0 8px 22px -16px rgba(47,41,34,.2),inset 0 1px 0 rgba(255,255,255,.75)}
 .scard__num{color:var(--accent)}
-.scard__tag{color:var(--accent-2)}
+.scard__tag{color:var(--accent)}
 .scard__title{color:var(--ink)}
 .scard__text{color:var(--ink-soft)}
 .scard__chips span{color:var(--accent-2);border:1px solid color-mix(in srgb,var(--accent-2) 32%,transparent);background:color-mix(in srgb,var(--accent-2) 7%,transparent)}
@@ -101,10 +101,10 @@ body{background:var(--bg);color:var(--ink)}
 /* 城市足迹胶片带 */
 .cityfilm-wrap{background:var(--bg-2)}
 .ccard figcaption{color:var(--ink-faint)}
-.ccard img{border:1px solid var(--line-strong);box-shadow:0 24px 52px -30px rgba(23,50,77,.4)}
+.ccard img{border:1px solid var(--line-strong);box-shadow:0 24px 52px -30px rgba(47,41,34,.4)}
 /* 漂移墙 */
 .driftband__desc{color:var(--ink-soft)}
-.driftband__stage{background:linear-gradient(180deg,transparent,rgba(23,50,77,.18) 12%,rgba(23,50,77,.18) 88%,transparent)}
+.driftband__stage{background:linear-gradient(180deg,transparent,rgba(47,41,34,.18) 12%,rgba(47,41,34,.18) 88%,transparent)}
 .drift-wall{filter:saturate(1.04)}
 /* 页脚统一品牌壳 */
 .footer{background:var(--bg-2)}
@@ -118,9 +118,9 @@ body{background:var(--bg);color:var(--ink)}
 .travel-footer-brand a:hover{color:var(--accent-2)}
 .travel-footer-brand .sep{opacity:.4}
 /* 下载弹窗：天空 x 橙 */
-.dl-modal__backdrop{background:rgba(23,50,77,.28)}
-.dl-modal__panel{background:linear-gradient(180deg,#FFFFFF 0%,#F0F8FF 100%)}
-.dl-modal__close{background:rgba(23,50,77,.06);color:var(--ink-soft)}
+.dl-modal__backdrop{background:rgba(47,41,34,.28)}
+.dl-modal__panel{background:linear-gradient(180deg,#FFFFFF 0%,#F6F1E6 100%)}
+.dl-modal__close{background:rgba(47,41,34,.06);color:var(--ink-soft)}
 .dl-modal__close:hover{background:rgba(46,143,216,.16);color:var(--ink)}
 .dl-modal__kicker{color:var(--accent-2)}
 .dl-modal__version{background:rgba(255,255,255,.75);border:1px solid rgba(46,143,216,.3);color:var(--accent-2)}
@@ -134,15 +134,20 @@ body{background:var(--bg);color:var(--ink)}
 /* Your World 足迹 */
 .worldband{position:relative;z-index:2;padding:clamp(64px,11vh,130px) 0 clamp(40px,6vh,72px)}
 .worldband__head{max-width:720px;margin-bottom:clamp(36px,6vh,56px)}
-.worldband__head .section__label{color:var(--accent-2)}
+.worldband__head .section__label{color:var(--accent)}
 .worldband__desc{margin-top:1.1rem;font-family:var(--font-serif);color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.16rem);line-height:1.8;max-width:52ch}
 .worldband__body{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,4vw,56px);align-items:center}
-.worldmap{position:relative;border-radius:28px;border:1px solid var(--line);background:rgba(255,255,255,.7);box-shadow:0 40px 90px -50px rgba(23,50,77,.28);min-height:300px;overflow:hidden}
+.worldmap{position:relative;border-radius:28px;border:1px solid var(--line);background:rgba(255,255,255,.7);box-shadow:0 40px 90px -50px rgba(47,41,34,.28);min-height:300px;overflow:hidden}
 .worldmap::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 60% at 80% 12%,rgba(121,207,255,.3),transparent 60%),radial-gradient(46% 52% at 12% 88%,rgba(255,190,140,.24),transparent 60%)}
 .worldmap__svg{position:absolute;inset:0;width:100%;height:100%}
 .wdot{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:flex-start;font-family:var(--font-serif);font-weight:600;color:var(--ink);z-index:2}
-.wdot i{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(255,138,92,.22),0 6px 14px -4px rgba(23,50,77,.4);margin-bottom:4px}
+.wdot i{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(255,138,92,.22),0 6px 14px -4px rgba(47,41,34,.4);margin-bottom:4px;animation:wdotPulse 3.2s ease-in-out infinite}
 .wdot em{font:400 .62rem/1 var(--font-mono);font-style:normal;color:var(--ink-faint);letter-spacing:.06em}
+.wdot:nth-child(2n) i{animation-delay:-1.4s}
+.wdot:nth-child(3n) i{animation-delay:-2.2s}
+.worldmap__svg path{animation:dashFlow 12s linear infinite}
+@keyframes wdotPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 5px rgba(232,120,74,.22),0 6px 14px -4px rgba(47,41,34,.4)}50%{transform:scale(1.2);box-shadow:0 0 0 11px rgba(232,120,74,.1),0 6px 18px -4px rgba(47,41,34,.55)}}
+@keyframes dashFlow{to{stroke-dashoffset:-100}}
 .worldband__stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .wstat{border-radius:20px;padding:24px 22px;border:1px solid var(--line);background:rgba(255,255,255,.8)}
 .wstat b{display:block;font:600 1.8rem/1 var(--font-display);color:var(--accent-2);letter-spacing:-.01em}
@@ -150,31 +155,35 @@ body{background:var(--bg);color:var(--ink)}
 /* Travel Stories 城市故事 */
 .tstories{position:relative;z-index:2;padding:clamp(48px,7vh,84px) 0 clamp(64px,10vh,120px)}
 .tstories__head{max-width:720px;margin-bottom:clamp(34px,5vh,52px)}
-.tstories__head .section__label{color:var(--accent-2)}
+.tstories__head .section__label{color:var(--accent)}
 .tstories__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.scard-story{border-radius:26px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.88);box-shadow:0 36px 80px -46px rgba(23,50,77,.3);transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s}
-.scard-story:hover{transform:translateY(-6px);box-shadow:0 44px 90px -44px rgba(23,50,77,.36)}
+.scard-story{border-radius:26px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.88);box-shadow:0 36px 80px -46px rgba(47,41,34,.3);transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s}
+.scard-story:hover{transform:translateY(-6px);box-shadow:0 44px 90px -44px rgba(47,41,34,.36)}
 .sshot{aspect-ratio:4/3;overflow:hidden}
 .sshot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.16,1,.3,1)}
 .scard-story:hover .sshot img{transform:scale(1.06)}
 .scopy{padding:22px 22px 26px}
-.smeta{font:400 .66rem/1.4 var(--font-mono);letter-spacing:.14em;color:var(--accent-2)}
+.smeta{font:400 .66rem/1.4 var(--font-mono);letter-spacing:.14em;color:#B06A43}
 .scopy h3{margin:10px 0 10px;font:600 1.3rem/1.35 var(--font-display);letter-spacing:-.01em;color:var(--ink)}
 .scopy p{margin:0;color:var(--ink-soft);font-size:.93rem;line-height:1.85}
 /* Memories 记忆档案（Editorial / Film Strip） */
 .memories{position:relative;z-index:2;padding:clamp(48px,7vh,84px) 0 clamp(80px,12vh,150px)}
 .memories__head{max-width:720px;margin-bottom:clamp(36px,5vh,56px)}
-.memories__head .section__label{color:var(--accent-2)}
+.memories__head .section__label{color:var(--accent)}
 .memories__desc{margin-top:1.1rem;font-family:var(--font-serif);color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.16rem);line-height:1.8;max-width:52ch}
-.filmstrip{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:14px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:rgba(46,143,216,.4) transparent}
-.fstrip{position:relative;margin:0;scroll-snap-align:start;border-radius:18px;overflow:hidden;border:4px solid #fff;box-shadow:0 22px 50px -30px rgba(23,50,77,.4);background:#fff;transform:rotate(-1.2deg)}
+.filmstrip{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:14px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:rgba(232,120,74,.4) transparent;counter-reset:frame}
+.fstrip{position:relative;margin:0;scroll-snap-align:start;border-radius:14px;overflow:hidden;background:#241c15;padding:20px 12px 14px;box-shadow:0 24px 54px -32px rgba(47,41,34,.55);transform:rotate(-1.2deg);counter-increment:frame}
 .fstrip:nth-child(2n){transform:rotate(1.5deg)}
 .fstrip:nth-child(3n){transform:rotate(-.8deg)}
-.fstrip img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.fstrip img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:6px;filter:sepia(.14) saturate(1.06) contrast(1.03)}
 .fstrip--wide img{aspect-ratio:4/3}
-.fstrip figcaption{padding:10px 12px 12px}
-.fstrip figcaption b{display:block;font:600 .92rem/1.4 var(--font-sans);color:var(--ink)}
-.fstrip figcaption span{font:400 .62rem/1.4 var(--font-mono);letter-spacing:.1em;color:var(--ink-faint)}
+.fstrip::before,.fstrip::after{content:"";position:absolute;left:13px;right:13px;height:9px;z-index:3;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(244,236,221,.9) 0 6px,transparent 6px 14px);border-radius:2px}
+.fstrip::before{top:6px}
+.fstrip::after{bottom:6px}
+.fstrip figcaption{padding:10px 4px 6px}
+.fstrip figcaption b{display:block;font:600 .92rem/1.4 var(--font-sans);color:#F4ECDD}
+.fstrip figcaption span{font:400 .62rem/1.4 var(--font-mono);letter-spacing:.1em;color:rgba(244,236,221,.62)}
+.fstrip figcaption::after{content:"NO." counter(frame,decimal-leading-zero);float:right;font:600 .56rem/1.2 var(--font-mono);letter-spacing:.08em;color:rgba(244,236,221,.5);margin-top:2px}
 @media (max-width:1024px){
   .worldband__body{grid-template-columns:1fr}
   .tstories__grid{grid-template-columns:1fr 1fr}
@@ -187,7 +196,7 @@ body{background:var(--bg);color:var(--ink)}
 /* 非 WebGL 降级画廊（页面永不空白） */
 .gallery-fallback{position:absolute;inset:0;z-index:1;pointer-events:none}
 .gallery-fallback__card{position:absolute;inset:6% 10% 8%;margin:0;border-radius:24px;overflow:hidden;
-  border:1px solid rgba(23,50,77,.16);box-shadow:0 40px 90px -40px rgba(23,50,77,.5);
+  border:1px solid rgba(47,41,34,.16);box-shadow:0 40px 90px -40px rgba(47,41,34,.5);
   opacity:0;transform:scale(.92) translateY(14px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
 .gallery-fallback__card.is-on{opacity:1;transform:none}
 .gallery-fallback__card img{width:100%;height:100%;object-fit:cover;display:block}
@@ -212,10 +221,10 @@ body{background:var(--bg);color:var(--ink)}
   background:linear-gradient(100deg,rgba(253,251,246,.92) 0%,rgba(253,251,246,.78) 62%,rgba(253,251,246,0) 100%);
   backdrop-filter:blur(8px) saturate(1.2);
   -webkit-backdrop-filter:blur(8px) saturate(1.2);
-  box-shadow:0 18px 50px -28px rgba(23,50,77,.35);
+  box-shadow:0 18px 50px -28px rgba(47,41,34,.35);
 }
 .gallery-title__name{text-shadow:none}
-.gallery-title__desc{text-shadow:none;color:#3D4A57}
+.gallery-title__desc{text-shadow:none;color:#4A4038}
 .stage__hud .hud__inner{
   padding:12px 22px;border-radius:18px;
   background:linear-gradient(180deg,rgba(253,251,246,0) 0%,rgba(253,251,246,.88) 34%,rgba(253,251,246,.95) 100%);
@@ -223,7 +232,7 @@ body{background:var(--bg);color:var(--ink)}
   -webkit-backdrop-filter:blur(6px);
 }
 .stage__hud .hud__meta,.stage__hud .hud__cur{text-shadow:none}
-.stage__hud .hud__desc{color:#4A5866}
+.stage__hud .hud__desc{color:#4A4038}
 /* --- 2. mock 内下载芯片防竖排 --- */
 .mock .dl-chip{flex-wrap:nowrap;white-space:nowrap}
 .mock .dl-chip span,.mock .dl-chip small{white-space:nowrap}
@@ -232,8 +241,8 @@ body{background:var(--bg);color:var(--ink)}
 .shot-pane--desktop .mock__body{display:flex;flex-direction:column;align-items:stretch;gap:10px}
 .shot-pane--desktop .dl-chip{justify-content:center}
 /* --- 3. 城市故事说明文字对比度 --- */
-.scopy p{color:#43505E}
-.smeta{color:#2E6FA8}
+.scopy p{color:#4A4038}
+.smeta{color:#B06A43}
 /* --- 4. 移动端 hero 衬底加强 --- */
 @media (max-width:760px){
   .gallery-title{
@@ -254,55 +263,56 @@ body{background:var(--bg);color:var(--ink)}
 .nav__brand:hover .brand__logo{transform:rotate(-8deg) scale(1.06)}
 /* --- 滚动进度条 + 回到顶部 --- */
 .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,#79CFFF,#FFB380,#E86A4A);border-radius:0 3px 3px 0;pointer-events:none;transition:width .12s linear}
-.to-top{position:fixed;right:24px;bottom:24px;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid rgba(23,50,77,.16);background:rgba(253,251,246,.9);backdrop-filter:blur(10px);box-shadow:0 14px 30px -14px rgba(23,50,77,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+.to-top{position:fixed;right:24px;bottom:24px;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid rgba(47,41,34,.16);background:rgba(253,251,246,.9);backdrop-filter:blur(10px);box-shadow:0 14px 30px -14px rgba(47,41,34,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
 .to-top.is-on{opacity:1;transform:none;pointer-events:auto}
 .to-top:hover{transform:translateY(-3px)}
-.to-top svg{width:17px;height:17px;color:#23374d}
+.to-top svg{width:17px;height:17px;color:#2F2922}
 @media (prefers-reduced-motion:reduce){.scroll-progress{transition:none}.nav__brand:hover .brand__logo{transform:none}}
 
 /* ============================================================
-   品牌色延伸（2026-09-05 晚）：logo 三色 紫/深蓝/珊瑚
+   品牌色延伸（暖色统一）：日落橙 × 天空蓝，废弃紫/深蓝/珊瑚
    ============================================================ */
 :root{
-  --tu-purple:#A487BF;
-  --tu-navy:#4E4D93;
-  --tu-coral:#F88D82;
-  --tu-grad:linear-gradient(120deg,var(--tu-purple) 0%,var(--tu-navy) 52%,var(--tu-coral) 100%);
+  --tu-sun:#F28B55;
+  --tu-amber:#E9B06A;
+  --tu-ember:#E4613F;
+  --tu-sky:#3D7FB5;
+  --tu-grad:linear-gradient(120deg,var(--tu-sun) 0%,var(--tu-amber) 55%,var(--tu-ember) 100%);
 }
-/* 登录/主按钮 → 品牌渐变 */
+/* 登录/主按钮 → 日落橙渐变 */
 .btn--solid{
   background:var(--tu-grad);
-  color:#FFFDF7;
-  box-shadow:0 14px 34px -16px rgba(78,77,147,.65);
+  color:#FFF9F2;
+  box-shadow:0 14px 34px -16px rgba(196,99,58,.55);
 }
 .btn--solid:hover{
   background:var(--tu-grad);
-  box-shadow:0 20px 44px -18px rgba(168,135,191,.7);
+  box-shadow:0 20px 44px -18px rgba(196,99,58,.65);
 }
-/* HUD 圆点激活态 → 渐变 + 发光 */
+/* HUD 圆点激活态 → 日落橙发光 */
 .hud__dot.is-on{
   background:var(--tu-grad);
-  box-shadow:0 0 0 3px rgba(168,135,191,.18),0 0 12px rgba(248,141,130,.55);
+  box-shadow:0 0 0 3px rgba(242,139,85,.22),0 0 12px rgba(242,139,85,.5);
   transform:scale(1.15);
   transition:background .3s,transform .3s,box-shadow .3s;
 }
-/* hero 标签文字 → 渐变 */
+/* hero 标签文字 → 日落渐变文字 */
 .gallery-title .card__kicker,.outro__head .card__kicker{
   background:var(--tu-grad);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-/* 滚动进度条 → 品牌三色 */
-.scroll-progress{background:linear-gradient(90deg,var(--tu-purple),var(--tu-navy) 55%,var(--tu-coral))}
-/* 回到顶部 hover 呼应品牌色 */
-.to-top:hover{border-color:rgba(168,135,191,.6);color:var(--tu-navy)}
+/* 滚动进度条 → 日落三色 */
+.scroll-progress{background:linear-gradient(90deg,var(--tu-sun),var(--tu-amber) 55%,var(--tu-ember))}
+/* 回到顶部 hover 呼应日落橙 */
+.to-top:hover{border-color:rgba(242,139,85,.6);color:var(--tu-ember)}
 @media (prefers-reduced-motion:reduce){.hud__dot.is-on{transform:none}}
 
 /* --- 环形进度回顶 + 拖拽状态 + HUD 滑入（2026-09-05 晚） --- */
 .to-top{width:52px;height:52px;position:relative}
 .to-top .ring-svg{position:absolute;inset:0;transform:rotate(-90deg)}
 .to-top .ring-svg circle{fill:none;stroke-width:3}
-.to-top .ring-bg{stroke:rgba(23,50,77,.14)}
-.to-top .ring-fg{stroke:var(--tu-coral);stroke-linecap:round;stroke-dasharray:138.2;stroke-dashoffset:138.2}
+.to-top .ring-bg{stroke:rgba(47,41,34,.14)}
+.to-top .ring-fg{stroke:var(--tu-ember);stroke-linecap:round;stroke-dasharray:138.2;stroke-dashoffset:138.2}
 .to-top svg.arr{width:15px;height:15px;position:relative}
 /* 画廊拖拽 */
 #galleryTrack{touch-action:pan-y}
@@ -326,10 +336,10 @@ body{background:var(--bg);color:var(--ink)}
   opacity:0;transition:opacity .45s var(--ease, ease);
 }
 .stage__cityname.is-on{opacity:1}
-.stage__cityname b{display:block;font:900 clamp(1.9rem,4vw,3.4rem)/1.12 var(--font-serif, serif);letter-spacing:.04em;color:#16222F}
+.stage__cityname b{display:block;font:900 clamp(1.9rem,4vw,3.4rem)/1.12 var(--font-serif, serif);letter-spacing:.04em;color:#2F2922}
 .stage__cityname i{
   display:block;margin:10px auto 0;height:3px;width:58px;border-radius:99px;
-  background:linear-gradient(90deg,var(--tu-purple),var(--tu-navy),var(--tu-coral));
+  background:linear-gradient(90deg,var(--tu-sun),var(--tu-amber),var(--tu-ember));
 }
 .stage__cityname.swap b{animation:hudSwap .4s cubic-bezier(.16,1,.3,1)}
 @media (max-width:760px){

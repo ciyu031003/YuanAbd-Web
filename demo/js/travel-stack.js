@@ -18,6 +18,9 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) return;
 
+  /* 每张卡随机 ±3° 初始倾角：进入视口时「散落」，落定后回正（模拟落在桌上） */
+  var rots = items.map(function () { return (Math.random() * 6 - 3); });
+
   var ticking = false;
   var vh = window.innerHeight;
 
@@ -48,7 +51,8 @@
 
       var scale = 1 - progress * 0.055;
       var shift = progress * -14;
-      card.style.transform = "scale(" + scale.toFixed(4) + ") translateY(" + shift.toFixed(1) + "px)";
+      var rot = rots[i] * (1 - arrival(rect));
+      card.style.transform = "rotate(" + rot.toFixed(2) + "deg) scale(" + scale.toFixed(4) + ") translateY(" + shift.toFixed(1) + "px)";
       card.style.setProperty("--stack-dim", (progress * 0.16).toFixed(3));
 
       /* 落位 → 弹跳入场并保持；退回半屏之下 → 复位（再次靠近可重放） */

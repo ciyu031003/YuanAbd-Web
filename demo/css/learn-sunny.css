@@ -92,6 +92,15 @@ body.learn::before{
 .icon-button:hover,.ticket-button:hover{background:#F2FAFF;transform:translateY(-3px)}
 .ticket-button{background:#18202A;color:#FFFDF7}
 .ticket-button:hover{background:#0E5FA8}
+.portal-link{
+  display:inline-flex;align-items:center;gap:6px;height:50px;padding:0 20px;border-radius:999px;
+  border:1px solid rgba(24,32,42,.16);background:#FFFFFF;color:#18202A;
+  font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;
+  box-shadow:0 8px 24px -12px rgba(24,32,42,.22);
+  transition:transform 240ms cubic-bezier(.2,.78,.2,1),background-color 240ms ease,color 240ms ease,border-color 240ms ease;
+}
+.portal-link:hover{transform:translateY(-3px);background:#F0F7FF;color:#0E5FA8;border-color:rgba(14,95,168,.35)}
+@media (max-width:700px){.portal-link{display:none}}
 /* 书本阴影与纸张 —— 阳光化（暖白封面 + 轻量阴影） */
 .book-shadow{
   background:rgba(24,32,42,.22);filter:blur(22px);opacity:.5;

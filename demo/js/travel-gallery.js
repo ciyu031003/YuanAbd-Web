@@ -197,10 +197,10 @@
     var CARD_W = 5.2;
     var CARD_H = 3.2;
     var RING_R = 9;          // 环绕半径
-    var MIN_SCALE = 0.46;    // 后方卡片缩放
+    var MIN_SCALE = 0.6;     // 后方卡片缩放（提高，后排更可见）
     var MAX_SCALE = 1.34;    // 正前方卡片缩放（放大到眼前）
     var PUSH = 2.7;          // 正前方卡片向镜头推进量
-    var FALLOFF = 0.42;      // 高斯衰减宽度（越小越聚焦正前方）
+    var FALLOFF = 0.55;      // 高斯衰减宽度（越大越能看到邻卡纵深）
 
     /* 圆角卡片遮罩（白色=不透明，黑色=透明），贴合 PlaneGeometry UV */
     function makeRoundMask() {
@@ -235,9 +235,9 @@
       var ctx = c.getContext("2d");
       var w = c.width, h = c.height, r = 26, lw = 5;
       var grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, "#A487BF");
-      grad.addColorStop(0.52, "#4E4D93");
-      grad.addColorStop(1, "#F88D82");
+      grad.addColorStop(0, "#F28B55");
+      grad.addColorStop(0.52, "#E9B06A");
+      grad.addColorStop(1, "#E4613F");
       ctx.clearRect(0, 0, w, h);
       ctx.beginPath();
       ctx.moveTo(r, lw / 2);
@@ -301,7 +301,7 @@
       var mat = new THREE.MeshBasicMaterial({
         map: textures[p],
         alphaMap: roundMask,
-        opacity: 0.55,
+        opacity: 0.62,
         side: THREE.DoubleSide,
         toneMapped: false,
         transparent: true
@@ -358,7 +358,7 @@
     }
     pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
     var pMat = new THREE.PointsMaterial({
-      color: 0xbfa6ff, size: 0.09, transparent: true, opacity: 0.5, depthWrite: false
+      color: 0xE9B06A, size: 0.09, transparent: true, opacity: 0.5, depthWrite: false
     });
     var particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
@@ -396,7 +396,7 @@
         panels[i].position.y = py;
         /* A1：贴图未就绪前整卡隐藏（防首帧空白/模糊） */
         var fade = texReady[i] ? 1 : 0;
-        panels[i].material.opacity = (0.55 + 0.45 * falloff) * fade;
+        panels[i].material.opacity = (0.62 + 0.38 * falloff) * fade;
 
         /* A3：描边仅正前方淡入；跟随卡片位置 */
         borders[i].position.x = px; borders[i].position.z = pz + 0.012;

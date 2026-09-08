@@ -7,8 +7,8 @@ YUAN.ABD 门户与项目落地页（纯静态，单文件内联，无构建步�
 | 本地文件（`demo/`） | 线上地址 | 服务器路径 |
 |---|---|---|
 | `index.html` | https://www.yuanabd.cn/ | `/var/www/yuanabd/` |
-| `learn.html` + `download.html` | https://learn.yuanabd.cn/ | `/var/www/learn-landing/` |
-| `travel.html` + `js/travel-download.js` 等 | https://travel-notes.yuanabd.cn/ | `/var/www/travel-landing/` |
+| `learn.html` + `download.html` + `css/` + `js/` | https://learn.yuanabd.cn/ | `/data/learn-workbench/landing/` |
+| `travel.html` + `css/` + `js/` 等 | https://travel-notes.yuanabd.cn/ | `/var/www/travel-landing/` |
 
 后端应用（Docker，与本仓库无关）：learn-workbench(:3001)、travel-notes(:3000)，由 nginx 反代。
 
@@ -23,9 +23,19 @@ cd demo && node serve.cjs   # http://localhost:8080
 ```bash
 # 门户（本次重构的站点）
 scp demo/index.html travel-notes:/var/www/yuanabd/index.html
+
+# 苦旅落地页（注意：nginx root 是 /data/learn-workbench/landing，不是 /var/www/learn-landing）
+scp demo/learn.html travel-notes:/data/learn-workbench/landing/learn.html
+scp demo/css/learn-sunny.css travel-notes:/data/learn-workbench/landing/css/learn-sunny.css
+
+# 甜途落地页
+scp demo/travel.html travel-notes:/var/www/travel-landing/travel.html
+scp demo/css/travel-sunny.css travel-notes:/var/www/travel-landing/css/travel-sunny.css
+scp demo/js/travel-stack.js travel-notes:/var/www/travel-landing/js/travel-stack.js
 ```
 
 落地页同法。部署前先 `git commit`，不要在服务器上直接改文件；不再使用 `.bak` 备份（版本管理走 git）。
+> 三个站点的 nginx `root` 分别为：www → `/var/www/yuanabd/`、learn → `/data/learn-workbench/landing/`、travel → `/var/www/travel-landing/`。
 
 ## 服务器 nginx 要点（2026-09-03 加固）
 

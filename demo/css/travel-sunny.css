@@ -12,7 +12,7 @@
 }
 body{background:var(--bg);color:var(--ink)}
 .vignette{display:block;background:radial-gradient(120% 90% at 50% 30%,transparent 62%,rgba(47,41,34,.10) 100%)}
-.grain{opacity:.05}
+.grain{opacity:.08;mix-blend-mode:soft-light}
 /* 背景：天空光晕 + 海风颗粒 */
 .tv-bg{background:
   radial-gradient(90% 70% at 50% 8%,rgba(121,207,255,.55),transparent 62%),
@@ -215,7 +215,7 @@ body{background:var(--bg);color:var(--ink)}
    ============================================================ */
 /* --- 1. hero 文字玻璃衬底：任何画廊卡片经过都保证可读 --- */
 .gallery-title{
-  max-width:min(30em,72vw);
+  max-width:min(34em,86vw);
   padding:22px 26px;
   border-radius:22px;
   background:linear-gradient(100deg,rgba(253,251,246,.92) 0%,rgba(253,251,246,.78) 62%,rgba(253,251,246,0) 100%);
@@ -345,4 +345,11 @@ body{background:var(--bg);color:var(--ink)}
 @media (max-width:760px){
   .stage__cityname{bottom:104px;padding:12px 26px 10px}
   .stage__cityname b{font-size:1.7rem}
+}
+
+/* --- 主张句 Hero 标题（两行，略缩字号，保住品牌气质与可读性） --- */
+.gallery-title__name{
+  font-size:clamp(2.1rem,5.2vw,4.2rem);
+  line-height:1.08;
+  letter-spacing:-.02em;
 }

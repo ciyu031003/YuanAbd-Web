@@ -47,6 +47,12 @@
     return LOGIN_PROTOCOL + "://" + base + "/login";
   }
 
+  /* ---------- 应用内页面：已登录用户「进入空间」的目标 ---------- */
+  function appUrl(path) {
+    var base = LOGIN_BASE || domainFromPage();
+    return LOGIN_PROTOCOL + "://" + base + path;
+  }
+
   /* ---------- 下载：跳转到对应产品真实客户端安装包 ---------- */
   var DOWNLOAD_PROTOCOL = "https";
   var DOWNLOAD_BASE = null; // 可选：临时指向服务器 IP
@@ -73,9 +79,32 @@
         toast("Demo 环境", { detail: "登录入口将在部署后启用" });
         return;
       }
-      window.location.href = loginUrl();
+      // 跟随元素当前 href：未登录 → 登录页；已登录（refreshLoginState 已换链接）→ 应用
+      window.location.href = (el.tagName === "A" && el.getAttribute("href")) || el.getAttribute("data-app-url") || loginUrl();
     });
   });
+
+  /* ---------- 登录态检测：已登录用户把「登录」入口换成「进入空间」 ---------- */
+  function refreshLoginState() {
+    if (isDemoHost()) return;
+    var isLearn = domainFromPage().indexOf("learn") > -1;
+    var checkUrl = isLearn ? "/api/auth/me" : "/api/check-auth";
+    var target = appUrl(isLearn ? "/dashboard" : "/travel");
+    fetch(checkUrl, { headers: { "Accept": "application/json" }, credentials: "same-origin" })
+      .then(function (r) { if (!r.ok) throw new Error("bad status"); return r.json(); })
+      .then(function (data) {
+        var authed = isLearn ? !!(data && data.user) : !!(data && data.authenticated);
+        if (!authed) return; // 未登录保持默认登录入口
+        document.querySelectorAll("[data-login]").forEach(function (el) {
+          if (el.tagName === "A") el.setAttribute("href", target);
+          el.setAttribute("data-app-url", target);
+          if (el.textContent && el.textContent.trim() === "登录") el.textContent = "进入空间";
+        });
+      })
+      .catch(function () { /* 检测失败保持默认 */ });
+  }
+  refreshLoginState();
+  window.addEventListener("pageshow", function (e) { if (e.persisted) refreshLoginState(); });
 
   /* ---------- 下载入口：锚点直接可用；按钮由 JS 触发 ---------- */
   document.querySelectorAll("[data-download]").forEach(function (el) {

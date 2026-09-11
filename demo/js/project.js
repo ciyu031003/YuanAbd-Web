@@ -58,7 +58,7 @@
   var DOWNLOAD_BASE = null; // 可选：临时指向服务器 IP
   // 部署于服务器的真实安装包地址（由 Nginx 静态托管）
   var DOWNLOAD_TRAVEL = "/downloads/tiantu.apk";                    // 甜途 Android APK
-  var DOWNLOAD_LEARN = "/download/learn-workbench-v1.0.0.apk";      // 学习工作台 Android APK
+  var DOWNLOAD_LEARN = "/download/learn-workbench-v1.2.0.apk";      // 学习工作台 Android APK
   function downloadUrl() {
     var isLearn = domainFromPage().indexOf("learn") > -1;
     var base = DOWNLOAD_BASE || domainFromPage();

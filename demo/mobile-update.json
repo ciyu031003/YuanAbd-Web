@@ -1,0 +1,10 @@
+{
+  "versionName": "1.2.0",
+  "versionCode": 8,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.2.0.apk",
+  "releaseNotes": [
+    "新增移动端市场分析工作台",
+    "展示 App 备案信息并支持 OTA 更新"
+  ],
+  "publishedAt": "2026-09-11T00:00:00+08:00"
+}

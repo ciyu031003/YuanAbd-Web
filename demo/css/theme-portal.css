@@ -1,0 +1,42 @@
+/* ============================================================
+   theme-portal.css — YUAN.ABD 门户（Portal）主题映射
+   依据：DESIGN-SYSTEM.md §1.3（门户 = 暖白 + 阳光黄 / 阳光 · 创造）
+   ------------------------------------------------------------
+   门户首页 index.html 为单文件内联形态，自带一份等价 token（保持部署链路不变）；
+   本文件供 download/privacy 之外的门户型页面与本地预览页复用，
+   使「同一份组件层 + 换主题文件」即可得到三套站点外观。
+   ============================================================ */
+
+:root{
+  /* 品牌槽位：阳光黄 */
+  --brand:var(--c-sun-yellow);          /* #FFD84D */
+  --brand-ink:var(--c-ink-900);
+  --brand-soft:rgba(255,216,77,.18);
+  --brand-2:var(--c-sky-blue);
+
+  /* 兼容令牌：站点样式与既有组件层读取的旧命名 */
+  --bg:var(--c-warm-white);
+  --bg-2:#FFF6E2;
+  --surface:rgba(24,32,42,.04);
+  --surface-2:rgba(24,32,42,.07);
+  --ink:var(--c-ink-900);
+  --ink-soft:rgba(24,32,42,.72);
+  --ink-faint:rgba(24,32,42,.5);
+  --accent:var(--c-sun-yellow);
+  --accent-2:var(--c-sun-600);
+  --accent-ink:var(--c-ink-900);
+  --line:rgba(24,32,42,.10);
+  --line-strong:rgba(24,32,42,.18);
+
+  /* 表面与描边（暖白纸感） */
+  --ui-bg:var(--c-warm-white);
+  --ui-bg-soft:#FFF6E2;
+  --ui-surface:rgba(255,255,255,.72);
+  --ui-surface-2:rgba(255,255,255,.94);
+  --ui-line:rgba(24,32,42,.10);
+  --ui-line-strong:rgba(24,32,42,.18);
+
+  /* 阳光双色渐变（hero 标题 / 强调字） */
+  --ui-grad:linear-gradient(120deg,var(--c-sun-yellow) 0%,var(--c-coral) 100%);
+  --ui-grad-ink:linear-gradient(92deg,#E8A020,#E86A4A);
+}

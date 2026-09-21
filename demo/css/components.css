@@ -1,0 +1,399 @@
+/* ============================================================
+   components.css — YUAN.ABD 精美组件层（B 档）
+   ------------------------------------------------------------
+   设计原则（DESIGN-SYSTEM.md §4 / §7）：
+     · 禁止厚重投影：一律 1px 描边 + 分层软阴影 + 色块
+     · 动效只解释、不装饰：只用 transform / opacity / filter
+     · 反馈分三层：hover（意图）→ active（确认）→ focus-visible（可达）
+   ------------------------------------------------------------
+   兼容策略：本文件不改变既有类名的语义与布局，只叠加视觉反馈。
+     · 既有 .btn / .btn--solid / .btn--ghost / .chip / .ui-card 直接受益
+     · 新能力通过 .ui-* 与 data-* 属性按需启用
+   加载位置：tokens.css → base.css → components.css → 站点样式 → 主题
+   ============================================================ */
+
+/* ============================================================
+   A. 按钮族
+   ============================================================ */
+
+/* A1. 渐变描边 + 内高光 + 扫光（技法 1 / 2）
+   作用于既有实心按钮类，不新增类名即可升级。 */
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary){
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-color:transparent;
+  box-shadow:var(--fx-highlight),var(--ui-shadow-brand);
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out),
+             background-color var(--ui-t-fast) var(--ui-ease);
+}
+/* 扫光：一条斜向高光带，hover 时从左掠过 */
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary)::after{
+  content:"";
+  position:absolute;inset:0;z-index:1;
+  background:var(--fx-shine);
+  transform:translateX(-120%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--ui-t-fast) linear;
+}
+@media (hover:hover){
+  :is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):hover::after{
+    animation:uiShine .85s var(--ui-ease) forwards;
+  }
+}
+@keyframes uiShine{
+  0%{opacity:.9;transform:translateX(-120%)}
+  100%{opacity:0;transform:translateX(120%)}
+}
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):hover{
+  transform:translateY(-2px);
+  box-shadow:var(--fx-highlight),0 22px 46px -18px color-mix(in srgb,var(--brand) 72%,transparent);
+}
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):active{
+  transform:translateY(0) scale(.985);
+  box-shadow:var(--fx-highlight),var(--ui-shadow-1);
+}
+
+/* A2. 描边按钮：hover 时描边发光 + 轻微填充 */
+:is(.btn--ghost,.btn--line,.ui-btn--ghost){
+  position:relative;
+  transition:border-color var(--ui-t-fast) var(--ui-ease),
+             color var(--ui-t-fast) var(--ui-ease),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out),
+             transform var(--ui-t-fast) var(--ui-ease-out);
+}
+:is(.btn--ghost,.btn--line,.ui-btn--ghost):hover{
+  border-color:var(--ui-line-brand);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 22%,transparent),
+             0 14px 30px -18px rgba(24,32,42,.3);
+}
+
+/* A3. 图标按钮（技法 10 配套）：40px 圆形，图标 18px */
+.ui-iconbtn{
+  display:inline-grid;place-items:center;
+  width:40px;height:40px;flex:none;
+  border-radius:50%;
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  color:var(--ink);
+  backdrop-filter:blur(10px) saturate(1.2);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),
+             border-color var(--ui-t-fast) var(--ui-ease),
+             background-color var(--ui-t-fast) var(--ui-ease),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out);
+}
+.ui-iconbtn svg{width:18px;height:18px}
+.ui-iconbtn:hover{
+  transform:translateY(-2px);
+  border-color:var(--ui-line-brand);
+  background:var(--ui-surface-2);
+  box-shadow:var(--ui-shadow-1);
+}
+.ui-iconbtn:active{transform:translateY(0) scale(.94)}
+/* 复制成功后：图标切换 + 品牌色反馈 */
+.ui-iconbtn.is-done{
+  border-color:var(--ui-line-brand);
+  color:var(--brand);
+  box-shadow:var(--ui-ring);
+}
+.ui-iconbtn.is-done .ui-iconbtn__idle{display:none}
+.ui-iconbtn__done{display:none}
+.ui-iconbtn.is-done .ui-iconbtn__done{display:block}
+
+/* ============================================================
+   B. 卡片族：指针光斑 + 分层阴影 + 可选倾斜
+   ============================================================ */
+
+/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入 */
+[data-spotlight]{position:relative}
+[data-spotlight]::before{
+  content:"";
+  position:absolute;inset:0;z-index:0;
+  border-radius:inherit;
+  background:var(--fx-spot);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--ui-t-mid) var(--ui-ease);
+}
+@media (hover:hover) and (pointer:fine){
+  [data-spotlight]:hover::before{opacity:1}
+}
+/* 内容需浮在光斑之上 */
+[data-spotlight] > *{position:relative;z-index:1}
+
+/* B2. 分层悬浮（比 base.css 的 -3px 更有层次，按需启用） */
+.ui-lift{transition:transform var(--ui-t-mid) var(--ui-ease-out),
+                   box-shadow var(--ui-t-mid) var(--ui-ease-out),
+                   border-color var(--ui-t-mid) var(--ui-ease)}
+@media (hover:hover){
+  .ui-lift:hover{transform:translateY(-5px);box-shadow:var(--ui-shadow-3)}
+}
+
+/* B3. 卡片媒体：懒加载渐显 + 缓慢缩放 */
+.ui-card__media img,
+[data-fade]{opacity:0;transform:scale(1.03);
+  transition:opacity var(--ui-t-slow) var(--ui-ease-out),transform 1.2s var(--ui-ease-out)}
+.ui-card__media img.is-loaded,
+[data-fade].is-loaded{opacity:1;transform:none}
+/* 无 JS 兜底：不加载就永远看不见是灾难，故用 .js 门控 */
+html:not(.js) .ui-card__media img,
+html:not(.js) [data-fade]{opacity:1;transform:none}
+
+/* B4. 底部色条生长（列表卡/产品卡通用的轻量强调） */
+.ui-bar{position:relative;overflow:hidden}
+.ui-bar::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--brand);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--ui-t-mid) var(--ui-ease);
+}
+.ui-bar:hover::after{transform:scaleX(1)}
+
+/* ============================================================
+   C. 控件族
+   ============================================================ */
+
+/* C1. 气泡提示（技法 10）：纯 CSS，hover / focus-visible 出现 */
+.ui-tip{position:relative}
+.ui-tip::after{
+  content:attr(data-tip);
+  position:absolute;left:50%;bottom:calc(100% + 10px);z-index:70;
+  transform:translate(-50%,4px);
+  padding:.42em .78em;
+  border-radius:10px;
+  background:var(--ink);color:var(--ui-bg);
+  font-size:.74rem;line-height:1.3;letter-spacing:.02em;
+  white-space:nowrap;pointer-events:none;
+  opacity:0;
+  transition:opacity var(--ui-t-fast) var(--ui-ease),transform var(--ui-t-fast) var(--ui-ease-out);
+}
+.ui-tip::before{
+  content:"";position:absolute;left:50%;bottom:calc(100% + 4px);z-index:70;
+  width:7px;height:7px;border-radius:2px;
+  background:var(--ink);
+  transform:translate(-50%,4px) rotate(45deg);
+  opacity:0;pointer-events:none;
+  transition:opacity var(--ui-t-fast) var(--ui-ease),transform var(--ui-t-fast) var(--ui-ease-out);
+}
+.ui-tip:hover::after,.ui-tip:focus-visible::after,
+.ui-tip:hover::before,.ui-tip:focus-visible::before{opacity:1;transform:translate(-50%,0) rotate(0)}
+.ui-tip:hover::before,.ui-tip:focus-visible::before{transform:translate(-50%,0) rotate(45deg)}
+/* 触屏无 hover：不显示提示，避免残留气泡 */
+@media (hover:none){
+  .ui-tip::after,.ui-tip::before{display:none}
+}
+
+/* C2. 表单字段：浮动标签 + 聚焦光环（技法 11） */
+.ui-field{position:relative;display:block}
+.ui-field input,.ui-field textarea{
+  width:100%;
+  padding:1.35em .95em .55em;
+  border-radius:var(--ui-r-m);
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  color:var(--ink);
+  transition:border-color var(--ui-t-fast) var(--ui-ease),box-shadow var(--ui-t-fast) var(--ui-ease);
+}
+.ui-field > label{
+  position:absolute;left:1em;top:.95em;
+  font-size:.95rem;color:var(--ink-mute,var(--ink-faint));
+  pointer-events:none;
+  transform-origin:left top;
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-field:focus-within > label,
+.ui-field.is-filled > label{
+  transform:translateY(-.62em) scale(.76);
+  color:var(--brand);
+}
+.ui-field input:focus,.ui-field textarea:focus{
+  outline:0;
+  border-color:var(--ui-line-brand);
+  box-shadow:var(--ui-ring);
+}
+
+/* C3. 分段控件（技法 6）：滑块跟随，键盘可达 */
+.ui-seg{
+  position:relative;
+  display:inline-flex;
+  padding:4px;
+  border-radius:100px;
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  isolation:isolate;
+}
+.ui-seg__thumb{
+  position:absolute;top:4px;bottom:4px;left:4px;z-index:0;
+  border-radius:100px;
+  background:var(--brand);
+  box-shadow:var(--ui-shadow-1);
+  transition:transform var(--ui-t-mid) var(--ui-ease-out),width var(--ui-t-mid) var(--ui-ease-out);
+}
+.ui-seg__item{
+  position:relative;z-index:1;
+  padding:.5em 1.1em;
+  border-radius:100px;
+  font-size:.9rem;font-weight:500;
+  color:var(--ink-soft,var(--ink));
+  white-space:nowrap;
+  transition:color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-seg__item[aria-selected="true"]{color:var(--brand-ink)}
+
+/* C4. 开关（技法 6） */
+.ui-switch{
+  position:relative;
+  display:inline-flex;align-items:center;gap:.7em;
+  cursor:pointer;
+  font-size:.92rem;color:var(--ink);
+}
+.ui-switch input{position:absolute;opacity:0;width:0;height:0}
+.ui-switch__track{
+  position:relative;flex:none;
+  width:46px;height:26px;border-radius:100px;
+  background:color-mix(in srgb,var(--ink) 14%,transparent);
+  transition:background-color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-switch__track::after{
+  content:"";position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(24,32,42,.28);
+  transition:transform var(--ui-t-mid) var(--ui-ease-spring);
+}
+.ui-switch input:checked + .ui-switch__track{background:var(--brand)}
+.ui-switch input:checked + .ui-switch__track::after{transform:translateX(20px)}
+.ui-switch input:focus-visible + .ui-switch__track{box-shadow:var(--ui-ring)}
+
+/* C5. 骨架屏流光（技法 8） */
+.ui-skel{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--ui-r-s);
+  background:color-mix(in srgb,var(--ink) 7%,transparent);
+}
+.ui-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+  transform:translateX(-100%);
+  animation:uiSkel 1.4s var(--ui-ease) infinite;
+}
+@keyframes uiSkel{to{transform:translateX(100%)}}
+.ui-skel--line{height:.85em;margin:.35em 0}
+.ui-skel--title{height:1.2em;width:52%}
+.ui-skel--media{aspect-ratio:16/9;border-radius:var(--ui-r-m)}
+/* 数据到位后淡出，避免闪跳 */
+.ui-skel.is-done{opacity:0;transition:opacity var(--ui-t-fast) var(--ui-ease)}
+
+/* C6. 环形进度（技法 7）：--p 为 0–1 的进度 */
+.ui-ring{
+  --p:0;
+  position:relative;
+  display:inline-grid;place-items:center;
+  width:52px;height:52px;
+}
+.ui-ring::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(var(--brand) calc(var(--p) * 360deg),
+    color-mix(in srgb,var(--ink) 12%,transparent) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+}
+.ui-ring > *{position:relative;z-index:1}
+
+/* ============================================================
+   D. 容器族
+   ============================================================ */
+
+/* D1. 弹窗基座（技法 12）：从触发原点缩放升起 + 内高光描边
+   --ox / --oy 由 js/ui.js 依据触发元素写入（相对弹窗自身的百分比）。
+   动画加在 [data-modal] 面板上：覆盖层本身是 fixed 全屏元素，对它做 scale
+   会把「从按钮原点展开」变成「整屏缩放」，因此覆盖层只作可见性容器。 */
+.ui-modal [data-modal]{
+  transform-origin:var(--ox,50%) var(--oy,50%);
+}
+.ui-modal.is-open [data-modal]{
+  animation:uiModalIn var(--ui-t-mid) var(--ui-ease-out) both;
+}
+@keyframes uiModalIn{
+  from{opacity:0;transform:scale(.94) translateY(10px)}
+  to{opacity:1;transform:none}
+}
+/* 面板内高光描边（不改变既有圆角与配色，只加 1px 高光） */
+.ui-modal__rim{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),var(--ui-shadow-3);
+}
+
+/* D2. 提示堆栈（技法 9） */
+.ui-toasts{
+  position:fixed;left:50%;bottom:clamp(20px,4vh,40px);z-index:95;
+  display:grid;gap:.5rem;justify-items:center;
+  transform:translateX(-50%);
+  pointer-events:none;
+  width:max-content;max-width:min(92vw,420px);
+}
+.ui-toast{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.8rem 1.05rem;
+  border-radius:100px;
+  border:1px solid var(--ui-line);
+  background:color-mix(in srgb,var(--ui-bg) 88%,transparent);
+  color:var(--ink);
+  backdrop-filter:blur(14px) saturate(1.25);
+  -webkit-backdrop-filter:blur(14px) saturate(1.25);
+  box-shadow:var(--ui-shadow-2);
+  pointer-events:auto;
+  animation:uiToastIn var(--ui-t-mid) var(--ui-ease-spring) both;
+}
+.ui-toast.is-out{animation:uiToastOut var(--ui-t-fast) var(--ui-ease) both}
+@keyframes uiToastIn{
+  from{opacity:0;transform:translateY(14px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+@keyframes uiToastOut{
+  to{opacity:0;transform:translateY(10px) scale(.97)}
+}
+.ui-toast__icon{
+  flex:none;display:grid;place-items:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--brand-soft);color:var(--brand);
+}
+.ui-toast__icon svg{width:14px;height:14px}
+.ui-toast__text{font-size:.92rem;font-weight:500;line-height:1.35}
+.ui-toast__detail{font-family:var(--font-mono);font-size:.76rem;color:var(--ink-faint);margin-top:.1rem}
+.ui-toast--error .ui-toast__icon{background:rgba(224,94,64,.14);color:var(--c-travel-600)}
+
+/* ============================================================
+   E. 无障碍与降级（强制项）
+   ============================================================ */
+
+/* 统一焦点可见：品牌色光环 + 键盘可达 */
+:is(.ui-iconbtn,.ui-seg__item,.ui-switch,.ui-card,[data-spotlight]):focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
+  border-radius:var(--ui-r-s);
+}
+
+/* 毛玻璃降级：不支持 backdrop-filter 时改用不透明表面 */
+@supports not ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .ui-iconbtn,.ui-toast{background:var(--ui-bg)}
+}
+
+/* 减弱动效：全部反馈降级为静态（保留可用性，不保留动效） */
+@media (prefers-reduced-motion:reduce){
+  :is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary)::after,
+  .ui-skel::after{animation:none!important;opacity:0!important}
+  .ui-modal.is-open [data-modal],.ui-toast,.ui-toast.is-out{animation:none!important}
+  .ui-seg__thumb,.ui-switch__track::after,.ui-lift,.ui-iconbtn{transition:none!important}
+  [data-spotlight]::before{display:none}
+  .ui-skel{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+}
+
+/* 触屏：取消所有 hover 依赖态，避免“卡在 hover 态” */
+@media (hover:none){
+  .ui-lift:hover{transform:none;box-shadow:none}
+  .ui-bar:hover::after{transform:scaleX(0)}
+}

@@ -1,0 +1,28 @@
+/* ============================================================
+   theme-travel.css — 甜途（Travel）站点主题映射
+   依据：DESIGN-SYSTEM.md §1.3（Travel = 天空蓝 + 橙 / 自由 · 记忆）
+   ------------------------------------------------------------
+   只做「槽位 → 本站色」的映射，不写任何布局与组件规则。
+   必须在 tokens.css 之后加载；本站另有更细的 --tu-* 日落色阶
+   保留在 travel-sunny.css 中，二者互不冲突。
+   ============================================================ */
+
+:root{
+  /* 品牌槽位：日落橙 */
+  --brand:var(--c-travel-500);          /* #E8784A */
+  --brand-ink:#FFFDF7;
+  --brand-soft:rgba(232,120,74,.12);
+  --brand-2:var(--c-travel-600);        /* 深一阶：文字/图标可读 */
+
+  /* 表面与描边（暖白纸感） */
+  --ui-bg:#FAF6EF;
+  --ui-bg-soft:#F1E9D7;
+  --ui-surface:rgba(255,255,255,.72);
+  --ui-surface-2:rgba(255,255,255,.9);
+  --ui-line:rgba(47,41,34,.13);
+  --ui-line-strong:rgba(47,41,34,.25);
+
+  /* 日落三色渐变（与 travel-sunny.css 的 --tu-grad 一致） */
+  --ui-grad:linear-gradient(120deg,#F28B55 0%,#E9B06A 55%,#E4613F 100%);
+  --ui-grad-ink:linear-gradient(92deg,#3D7FB5,#E4613F);
+}

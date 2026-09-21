@@ -1,6 +1,21 @@
 /* ============================================================
    base.css — 共享设计系统（token + 组件层）
    每个站点仅通过 CSS 变量重设主题；组件层保持一致。
+
+   加载顺序（UI-REFACTOR-PLAN.md Phase 1）：
+     css/tokens.css      共享设计令牌（primitive + semantic）
+     css/base.css        本文件：Reset + 兼容令牌 + 组件层
+     css/components.css  精美组件层（B 档新增）
+     css/theme-<site>.css 站点主题映射
+     css/<site>.css       站点样式
+     css/<site>-sunny.css 站点覆盖层（历史层，逐步并入主题映射）
+
+   命名约定：
+     · 通用组件统一挂在 .ui-* 命名空间下；旧类名（.card / .chip / .btn …）
+       以别名形式并存，保证既有 HTML 与 JS 无需改动。
+     · Travel 站点的旋转画廊轮播卡同样使用 .card 类名（见 travel.css），
+       因此本文件的通用卡片不会与画廊卡产生定义冲突 —— 画廊卡由
+       travel.css 后加载接管，通用卡片建议新代码使用 .ui-card。
    ============================================================ */
 
 /* ---------- Reset ---------- */
@@ -25,7 +40,10 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 ul{list-style:none}
 input,textarea,select{font:inherit}
 
-/* ---------- 主题 Token（默认，站点覆盖） ---------- */
+/* ---------- 主题 Token（兼容层：站点覆盖这些值即可，无需改组件） ----------
+   说明：本块保留 base.css 原有深色默认值，仅作为「无主题文件时的兜底」。
+   三站实际观感由各自 theme-*.css 与站点样式决定（Learn 浅蓝、Travel 暖橙）。
+   新组件层请优先使用 tokens.css 的 --ui-* / --brand-* 语义令牌。 */
 :root{
   --max-w:1220px;
   --gutter:clamp(20px,5vw,64px);
@@ -139,17 +157,20 @@ input,textarea,select{font:inherit}
   transform-origin:top;animation:scrollCue 2.4s var(--ease) infinite}
 @keyframes scrollCue{0%{transform:scaleY(0)}55%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
-/* ---------- 卡片 ---------- */
-.card{position:relative;border:1px solid var(--line);border-radius:var(--radius-m);background:var(--surface);
+/* ---------- 卡片 ----------
+   通用卡片统一走 .ui-card 命名空间；.card / .card__* 作为兼容别名并存。
+   Travel 画廊的轮播卡同样叫 .card，由 travel.css 后加载接管其定位与外观，
+   两条规则各自负责不同属性，不产生冲突（详见文件头命名约定）。 */
+:is(.ui-card,.card){position:relative;border:1px solid var(--line);border-radius:var(--radius-m);background:var(--surface);
   overflow:hidden;transition:border-color var(--dur-m) var(--ease),transform var(--dur-m) var(--ease),box-shadow var(--dur-m) var(--ease)}
-.card:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:0 30px 60px -40px color-mix(in srgb,var(--ink) 30%,transparent)}
-.card--accent:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+:is(.ui-card,.card):hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:0 30px 60px -40px color-mix(in srgb,var(--ink) 30%,transparent)}
+:is(.ui-card--accent,.card--accent):hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 
-.card__media{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-2)}
-.card__body{padding:clamp(22px,3vw,30px)}
-.card__title{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.55rem);font-weight:560;letter-spacing:-.01em;color:var(--ink)}
-.card__text{margin-top:.6rem;color:var(--ink-soft);font-size:.96rem}
-.card__meta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+:is(.ui-card__media,.card__media){position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-2)}
+:is(.ui-card__body,.card__body){padding:clamp(22px,3vw,30px)}
+:is(.ui-card__title,.card__title){font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.55rem);font-weight:560;letter-spacing:-.01em;color:var(--ink)}
+:is(.ui-card__text,.card__text){margin-top:.6rem;color:var(--ink-soft);font-size:.96rem}
+:is(.ui-card__meta,.card__meta){display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
 
 /* ---------- 功能网格 ---------- */
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,24px)}

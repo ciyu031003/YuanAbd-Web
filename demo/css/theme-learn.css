@@ -1,0 +1,28 @@
+/* ============================================================
+   theme-learn.css — 苦旅（Learn）站点主题映射
+   依据：DESIGN-SYSTEM.md §1.3（Learn = 天空蓝 + 阳光黄 / 成长 · 行动）
+   ------------------------------------------------------------
+   只做「槽位 → 本站色」的映射，不写任何布局与组件规则。
+   组件层（components.css）读取 --ui-* / --brand-* 即可自动适配本站。
+   必须在 tokens.css 之后加载。
+   ============================================================ */
+
+:root{
+  /* 品牌槽位 */
+  --brand:var(--c-learn-600);           /* #2A6FB5 主强调 */
+  --brand-ink:#FFFFFF;
+  --brand-soft:rgba(42,111,181,.12);
+  --brand-2:var(--c-sun-yellow);        /* 次强调：阳光黄 */
+
+  /* 表面与描边 */
+  --ui-bg:var(--c-warm-white);
+  --ui-bg-soft:#FFF6E2;
+  --ui-surface:rgba(255,255,255,.72);
+  --ui-surface-2:rgba(255,255,255,.94);
+  --ui-line:rgba(24,32,42,.12);
+  --ui-line-strong:rgba(24,32,42,.2);
+
+  /* 品牌渐变（hero 标题 / 强调字） */
+  --ui-grad:linear-gradient(120deg,var(--c-sky-blue) 0%,var(--c-sun-yellow) 100%);
+  --ui-grad-ink:linear-gradient(92deg,var(--c-learn-700),var(--c-travel-600));
+}

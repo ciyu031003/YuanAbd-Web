@@ -11,3 +11,6 @@ demo/js/**/*.bak*
 # 系统文件
 Thumbs.db
 .DS_Store
+
+# 本地回归校验产物（截图 / 计算样式探针，仅本地用）
+.tmp-shots/

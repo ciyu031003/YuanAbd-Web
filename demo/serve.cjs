@@ -38,6 +38,16 @@ function contentType(ext) {
 
 const COMPRESSIBLE = [".html", ".css", ".js", ".mjs", ".json", ".svg", ".txt", ".map"];
 
+/* 确定性截图模式（仅本地预览）：请求带 ?test=1 时注入样式，冻结全部动画/过渡/揭示态，
+   并强制字体与图片渲染策略稳定，使多次截图可逐像素比较，用于重构回归校验。
+   生产环境不会命中（Nginx 不注入任何内容）。 */
+const TEST_FREEZE = `<style id="dsh-test-freeze">
+*,*::before,*::after{animation:none!important;transition:none!important}
+html{scroll-behavior:auto!important}
+[data-reveal],.split .ch,.mask__inner,.line__inner{opacity:1!important;transform:none!important}
+.grain,.cursor{display:none!important}
+</style>`;
+
 http.createServer((req, res) => {
   if (req.method !== "GET" && req.method !== "HEAD") {
     res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8" });
@@ -49,6 +59,7 @@ http.createServer((req, res) => {
   try { urlPath = decodeURIComponent(req.url.split("?")[0]); }
   catch { res.writeHead(400); res.end("bad request"); return; }
   if (urlPath === "/") urlPath = "/index.html";
+  const testMode = /(?:^|&)test=1(?:&|$)/.test((req.url.split("?")[1] || ""));
 
   // 解析后必须仍位于站点根目录内（防目录穿越：处理 .. 与兄弟目录前缀）
   const root = path.resolve(ROOT);
@@ -80,6 +91,18 @@ http.createServer((req, res) => {
 
     fs.readFile(filePath, (rerr, data) => {
       if (rerr) { res.writeHead(500); res.end("read error"); return; }
+
+      // 确定性截图模式：把冻结样式注入到 <head> 之后（仅注入一次，正文不变）
+      if (testMode && isHtml && !data.includes("dsh-test-freeze")) {
+        const html = data.toString("utf8");
+        const at = html.indexOf("<head>");
+        data = Buffer.from(
+          at >= 0
+            ? html.slice(0, at + 6) + TEST_FREEZE + html.slice(at + 6)
+            : TEST_FREEZE + html,
+          "utf8"
+        );
+      }
 
       const acceptsGzip = /\bgzip\b/.test(req.headers["accept-encoding"] || "");
       const gz = COMPRESSIBLE.includes(ext) && acceptsGzip && Buffer.byteLength(data) > 512;

@@ -14,6 +14,21 @@
   --brand-soft:rgba(42,111,181,.12);
   --brand-2:var(--c-sun-yellow);        /* 次强调：阳光黄 */
 
+  /* 兼容令牌：download.html / privacy.html 共用 learn.css，需要这一组才能
+     与 learn.html 的「暖白阳光」外观一致（否则会回落到 base.css 的深色兜底） */
+  --bg:var(--c-warm-white);
+  --bg-2:#FFF6E2;
+  --surface:rgba(24,32,42,.045);
+  --surface-2:rgba(24,32,42,.08);
+  --ink:var(--c-ink-900);
+  --ink-soft:rgba(24,32,42,.72);
+  --ink-faint:rgba(24,32,42,.5);
+  --accent:var(--c-learn-600);
+  --accent-2:var(--c-learn-700);
+  --accent-ink:#FFFFFF;
+  --line:rgba(24,32,42,.12);
+  --line-strong:rgba(24,32,42,.2);
+
   /* 表面与描边 */
   --ui-bg:var(--c-warm-white);
   --ui-bg-soft:#FFF6E2;

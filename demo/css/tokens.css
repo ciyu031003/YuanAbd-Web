@@ -79,6 +79,20 @@
   --fx-shine:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
   --fx-highlight:inset 0 1px 0 rgba(255,255,255,.55);
   --fx-spot:radial-gradient(22rem 22rem at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--brand) 16%,transparent),transparent 70%);
+
+  /* ---------- 8. 兼容别名：统一命名（--ui-*）与历史命名（--bg/--ink/--line…）
+     两组指向同一语义槽位，站点主题文件覆盖其中任意一组即可全局生效。 */
+  --bg:var(--ui-bg);
+  --bg-2:var(--ui-bg-soft);
+  --surface:var(--ui-surface);
+  --surface-2:var(--ui-surface-2);
+  --ink:var(--c-ink-900);
+  --ink-soft:rgba(24,32,42,.72);
+  --ink-faint:rgba(24,32,42,.5);
+  --line:var(--ui-line);
+  --line-strong:var(--ui-line-strong);
+  --accent:var(--brand);
+  --accent-ink:var(--brand-ink);
 }
 
 /* 降级：不支持 color-mix 时回落为固定暖灰（不依赖 JS，纯声明式） */

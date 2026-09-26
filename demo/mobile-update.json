@@ -1,14 +1,13 @@
 {
-  "versionName": "1.27.0",
-  "versionCode": 41,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.27.0.apk",
-  "sizeBytes": 72879403,
-  "sha256": "955213dc66a916e23f82df88c0d26f354dded72763a119fec61cb14843e622df",
+  "versionName": "1.27.1",
+  "versionCode": 42,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.27.1.apk",
+  "sizeBytes": 72895883,
+  "sha256": "882dc3790d009e9d3a205e0ba9f38b1a1684098c293bcc01eecb626dab79f49b",
   "releaseNotes": [
-    "底栏重新标定几何：图标与文字真正垂直居中，不再偏下；选中胶囊配色更干净",
-    "背景板改为可流动的呼吸模糊光效：多层柔光缓慢呼吸、颜色随时间流动（减弱动态时自动静态）",
-    "今日首页「添加记录」弹层可上拖展开、默认高度抬高，确认按钮改吸底，内容不再看不全",
-    "习惯卡片重新设计：去掉整卡铺色，强调色只用于状态，新增细化轨道与星期标签"
+    "修复「一键开始计时立刻闪退」：原生前台服务调用的两处未捕获异常已加固（Android 12+ 后台拉起前台服务、Android 8+ 后台 startService）",
+    "前台服务自身也全面兜底：startForeground 失败时安全退出，通知每秒刷新异常不再导致崩溃",
+    "常驻通知不可用时静默降级，App 内计时不受影响"
   ],
-  "publishedAt": "2026-09-26T09:02:47.584Z"
+  "publishedAt": "2026-09-26T11:54:51.744Z"
 }

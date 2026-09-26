@@ -1,13 +1,19 @@
 {
-  "versionName": "1.27.1",
-  "versionCode": 42,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.27.1.apk",
-  "sizeBytes": 72895883,
-  "sha256": "882dc3790d009e9d3a205e0ba9f38b1a1684098c293bcc01eecb626dab79f49b",
+  "versionName": "1.28.0",
+  "versionCode": 43,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.28.0.apk",
+  "sizeBytes": 72915787,
+  "sha256": "2d4b97878e60790f320317bac4620d460dac3886b9335dc8a10003ce6dcc7677",
   "releaseNotes": [
-    "修复「一键开始计时立刻闪退」：原生前台服务调用的两处未捕获异常已加固（Android 12+ 后台拉起前台服务、Android 8+ 后台 startService）",
-    "前台服务自身也全面兜底：startForeground 失败时安全退出，通知每秒刷新异常不再导致崩溃",
-    "常驻通知不可用时静默降级，App 内计时不受影响"
+    "iOS 质感专项：导航栈重构（原生 push/pop 转场 + 侧滑返回 + 预测性返回）",
+    "大标题滚动折叠并吸顶（18 个页面），顶部留白统一",
+    "边到边显示：内容延伸至状态栏下，去掉实色状态栏带",
+    "底栏材质升级：选中弹跳 + 切换触觉；iOS 26 液态玻璃，低版本安全回退",
+    "配色与表面去土：暖中性底、卡片去描边、投影中性化、背景色斑降档",
+    "字阶统一到 iOS 语义（标题不再多种尺寸打架）",
+    "下拉刷新统一（转圈位置正确、深色下不再是白圈）",
+    "列表入场错峰 + 勾选/完成的动效与触觉反馈",
+    "启动页 250ms 渐隐，与首屏底色连续"
   ],
-  "publishedAt": "2026-09-26T11:54:51.744Z"
+  "publishedAt": "2026-09-26T14:52:38.645Z"
 }

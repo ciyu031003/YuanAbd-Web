@@ -1,15 +1,14 @@
 {
-  "versionName": "1.26.1",
-  "versionCode": 40,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.26.1.apk",
-  "sizeBytes": 72874583,
-  "sha256": "3fae788e12bcfe962e8d40abb88f8764179806618a39ab4485115ba7f6db5684",
+  "versionName": "1.27.0",
+  "versionCode": 41,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.27.0.apk",
+  "sizeBytes": 72879403,
+  "sha256": "955213dc66a916e23f82df88c0d26f354dded72763a119fec61cb14843e622df",
   "releaseNotes": [
-    "修复运动档案保存报错（HTTP 500）：同一列被重复赋值导致 SQL 失败",
-    "修复简历上传失败：按文件类型补齐扩展名（PDF / Word）",
-    "修复训练记录保存后抽屉一直弹出、关不掉",
-    "编辑运动档案页精修：分组化（证件照/图鉴/战绩/装备/公开）+ 保存吸底",
-    "装备行已有配图时直接显示缩略图，一眼看出哪几行配过图"
+    "底栏重新标定几何：图标与文字真正垂直居中，不再偏下；选中胶囊配色更干净",
+    "背景板改为可流动的呼吸模糊光效：多层柔光缓慢呼吸、颜色随时间流动（减弱动态时自动静态）",
+    "今日首页「添加记录」弹层可上拖展开、默认高度抬高，确认按钮改吸底，内容不再看不全",
+    "习惯卡片重新设计：去掉整卡铺色，强调色只用于状态，新增细化轨道与星期标签"
   ],
-  "publishedAt": "2026-09-25T12:47:27.969Z"
+  "publishedAt": "2026-09-26T09:02:47.584Z"
 }

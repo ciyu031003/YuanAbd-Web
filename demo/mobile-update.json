@@ -1,15 +1,13 @@
 {
-  "versionName": "1.28.1",
-  "versionCode": 44,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.28.1.apk",
-  "sizeBytes": 72926403,
-  "sha256": "548bb9c8797c8e72ee437a8ad1fb2a1762d46f67ec0c508ed18e051eb733bb22",
+  "versionName": "1.28.2",
+  "versionCode": 45,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.28.2.apk",
+  "sizeBytes": 72926343,
+  "sha256": "35ef49fe1fe05a1720fc36530e1ccdc1a30277bc0d79a9e75f248f1811b4fa16",
   "releaseNotes": [
-    "下拉刷新全量统一（9 个页面），修正 3 处进度圈偏移",
-    "字阶第二轮收敛：430 处硬编码字号降到 208 处（其余为图形/KPI/微信息例外）",
-    "新增「次级正文」灰阶，正文说明文字满足 WCAG AA 对比度",
-    "列表入场错峰与勾选/完成的动效、触觉反馈推广到更多页面",
-    "完善字阶回归护栏，防止后续新增硬编码字号"
+    "修复岗位列表向下滑动闪退（虚拟化列表项上的入场动画在回收时导致原生崩溃）",
+    "修复浅色主题顶部黑带（状态栏背景未显式透明，回落到系统主题色）",
+    "修复页面顶部出现的空白条（吸顶栏背景与小标题淡入区间不一致）"
   ],
-  "publishedAt": "2026-09-26T15:50:46.470Z"
+  "publishedAt": "2026-09-27T03:31:14.482Z"
 }

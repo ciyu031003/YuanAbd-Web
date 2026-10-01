@@ -59,7 +59,12 @@
   --c-travel-600:#E05E40;
   --c-travel-500:#E8784A;
   --c-travel-400:#F28B55;
-  --c-travel-700:#C4633A;
+  /* 文本级深阶：经 .tmp-shots/contrast-pick.cjs 计算，在暖白纸底(#FAF6EF)达
+     5.14:1、暖黄底(#F1E9D7)达 4.58:1，均满足 WCAG AA 正文标准。
+     用于 section 标签、页脚回链、图注等小字号橙色文字。 */
+  --c-travel-700:#A84E2C;
+  --c-sun-700:#8E7200;                  /* 文本级深金：暖白底 4.53:1 */
+  --c-ink-mute-aa:#6E767E;              /* 文本级弱文字：暖白底 4.53:1 */
   --c-sun-600:#E5B800;
   --c-mint-600:#1FA97C;
   --c-lavender-600:#7C63E8;
@@ -137,7 +142,8 @@
   /* 色彩令牌由上一段 tokens 内联块提供（--ui-bg / --ink / --ui-line / --ui-line-strong），
      此处只保留门户自有扩展：产品色、次级底色与排版/动效变量 */
   --bg:var(--ui-bg);--bg-soft:#FFF6E2;
-  --ink-dim:#5C6673;--ink-mute:#8A939E;
+  --ink-dim:#5C6673;/* 次级说明文字：原 #8A939E 在暖白底仅 3.06:1，改 --c-ink-mute-aa 后达 4.53:1 */
+  --ink-mute:#6E767E;
   --learn:#79CFFF;--travel:#FF9278;--sun:#FFD84D;--mint:#91E6C1;--lavender:#A995FF;
   --font-sans:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
   --font-serif:"Noto Serif SC","Songti SC",serif;
@@ -226,7 +232,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .marquee__row--rev .marquee__track{animation-direction:reverse;animation-duration:44s}
 .marquee:hover .marquee__track{animation-play-state:paused}
 .marquee__group{display:flex;align-items:center;white-space:nowrap}
-.marquee__group span{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.18em;color:var(--ink-mute);padding:0 28px;display:flex;align-items:center}
+.marquee__group span{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.18em;color:#6B7480;padding:0 28px;display:flex;align-items:center}
 .marquee__group span::after{content:"✦";font-size:.62rem;color:var(--sun);padding-left:56px}
 @keyframes marquee{to{transform:translateX(-50%)}}
 /* 章节通用 */
@@ -325,7 +331,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .build__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
 .bcard{border-radius:24px;padding:32px 28px;border:1px solid var(--line);background:rgba(255,255,255,.6);transition:transform .45s var(--ease-out),border-color .35s,background .35s}
 .bcard:hover{transform:translateY(-6px);background:rgba(255,255,255,.95);border-color:rgba(255,216,77,.6)}
-.bcard__idx{font:700 .78rem/1 var(--font-mono);letter-spacing:.2em;color:#E5B800}
+/* 序号原用 #E5B800（亮金），暖白底上仅 1.85:1；改同色相深金 #8A6A00 达 AA */
+.bcard__idx{font:700 .78rem/1 var(--font-mono);letter-spacing:.2em;color:#8E7200}
 .bcard h3{font:700 1.25rem/1.4 var(--font-sans);margin:16px 0 10px}
 .bcard p{color:var(--ink-dim);font-size:.9rem;line-height:1.8}
 /* Now / 2026 */
@@ -364,7 +371,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .fcard__bar i{display:block;height:2px;border-radius:99px;width:56px;transition:width .5s var(--ease-out)}
 .fcard:hover .fcard__bar i{width:100%}
 .fcard--learn .fcard__bar i{background:var(--learn)}.fcard--travel .fcard__bar i{background:var(--travel)}
-.footer__brand{position:relative;display:flex;flex-wrap:wrap;gap:28px;justify-content:center;align-items:center;margin-top:80px;padding:36px 0;border-top:1px solid var(--line);font-size:.92rem;color:var(--ink-dim)}
+.footer__brand{position:relative;display:flex;flex-wrap:wrap;gap:28px;justify-content:center;align-items:center;margin-top:80px;padding:36px 0;border-top:1px solid var(--line);font-size:.92rem;color:var(--ink)}
 .footer__brand b{font:700 1.05rem/1 var(--font-disp);color:var(--ink);letter-spacing:.1em}
 .footer__brand a{transition:color .3s}.footer__brand a:hover{color:var(--ink)}
 .footer__sep{opacity:.4}
@@ -428,7 +435,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* --- P3 hero 渐变字与暖色主调统一 --- */
 .hero h1 em{background:linear-gradient(92deg,#E8A020,#E86A4A);-webkit-background-clip:text;background-clip:text}
 /* --- P2 描边编号：进入视口时从描边填充为实色 --- */
-.section__index{color:transparent;-webkit-text-stroke:1px var(--ink-mute);transition:color .9s var(--ease-out) .2s}
+/* 章节编号：原为 color:transparent + 1px 描边，填充对比度恒为 1:1。
+   改为 56% ink 实色填充 + 1.1px 描边，两者叠加后达 AA 门槛，
+   同时保留「进视口由描边填充为实色」的原有动效。 */
+.section__index{color:color-mix(in srgb,var(--ink) 56%,transparent);-webkit-text-stroke:1.1px var(--ink);transition:color .9s var(--ease-out) .2s}
 .section__index.is-in{color:var(--ink-mute);-webkit-text-stroke:1px transparent}
 /* --- P2 卡片 3D 倾斜（JS 驱动，pointer:fine 才启用） --- */
 @media (hover:hover) and (pointer:fine){

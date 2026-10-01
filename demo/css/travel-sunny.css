@@ -6,7 +6,7 @@
 :root{
   --bg:#FAF6EF; --bg-2:#F1E9D7;
   --surface:rgba(255,255,255,.72); --surface-2:rgba(255,255,255,.9);
-  --ink:#2F2922; --ink-soft:rgba(47,41,34,.8); --ink-faint:rgba(47,41,34,.55);
+  --ink:#2F2922; --ink-soft:rgba(47,41,34,.8); --ink-faint:rgba(47,41,34,.68);
   --accent:#E8784A; --accent-2:#3D7FB5; --accent-ink:#FFFDF7;
   --line:rgba(47,41,34,.13); --line-strong:rgba(47,41,34,.25);
 }
@@ -361,3 +361,56 @@ body{background:var(--bg);color:var(--ink)}
   line-height:1.08;
   letter-spacing:-.02em;
 }
+
+
+/* ============================================================
+   可读性修正（依据 .tmp-shots/contrast-audit.cjs 实测）
+   ------------------------------------------------------------
+   .section__label / .footer__back / .eyebrow 为小字号单色橙文字，
+   原用 --accent(#E8784A)，在暖白/暖黄底上实测 2.41–2.7:1（AA 需 4.5:1）。
+   统一改用 --c-travel-600(#C4633A)，保持同一色相、仅加深明度。
+   ============================================================ */
+.section__label,
+.footer__back,
+.eyebrow { color:var(--c-travel-700,#A84E2C); }
+
+/* 足迹地图城市标签：白字压在照片上，补一层柔和暗底保证可读 */
+.wdot { text-shadow:0 1px 3px rgba(20,16,12,.55); }
+
+
+/* ============================================================
+   对比度收口（第三批，依据 contrast-audit.cjs 实测）
+   ============================================================ */
+/* 品牌副标与页脚回链：与 section__label 同批处理，统一深一阶橙 */
+.brand__sub { color:var(--c-travel-700,#A84E2C); }
+/* 跳转链接：白字压橙底仅 2.86:1，改为深墨底 + 暖白字（保留可见性） */
+.skip-link { background:#2F2922; color:#FFFDF7; }
+/* 城市胶片带图注：--ink-faint 之外再补一档，确保在暖黄底上达 AA */
+.cityfilm figcaption { color:rgba(47,41,34,.68); }
+/* 下载弹窗「APK 直装」等橙色标签 */
+.dl-modal__dl-meta, .dl-modal__kicker { color:#FFFDF7; }
+.dl-modal__kicker { color:var(--c-travel-700,#A84E2C); }
+
+
+/* ============================================================
+   对比度收口（第四批）
+   既有实现用 .worldband__head .section__label 这类后代选择器（特异性 0,2,0）
+   指定 --accent(#E8784A)，实测 2.7:1 低于 AA(4.5:1)。这里以同级特异性
+   显式对齐，颜色统一取 --c-travel-600(#C4633A)：同一色相、仅加深明度，
+   视觉上仍是「日落橙」，但小字号文本可读。
+   ============================================================ */
+.worldband__head .section__label,
+.tstories__head .section__label,
+.memories__head .section__label,
+.tfeatures .section__label,
+.cityfilm-wrap .section__label,
+.outro .section__label,
+.driftband .section__label {
+  color: var(--c-travel-700, #A84E2C);
+}
+.nav__brand .brand__sub { color: var(--c-travel-700, #A84E2C); }
+.footer .footer__back { color: var(--c-travel-700, #A84E2C); }
+/* 下载卡与功能卡里的小号橙色标签 */
+.tfeatures .card__kicker,
+.cityfilm-wrap .card__kicker,
+.outro .card__kicker { color: var(--c-travel-700, #A84E2C); }

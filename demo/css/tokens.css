@@ -34,7 +34,12 @@
   --c-travel-600:#E05E40;
   --c-travel-500:#E8784A;
   --c-travel-400:#F28B55;
-  --c-travel-700:#C4633A;
+  /* 文本级深阶：经 .tmp-shots/contrast-pick.cjs 计算，在暖白纸底(#FAF6EF)达
+     5.14:1、暖黄底(#F1E9D7)达 4.58:1，均满足 WCAG AA 正文标准。
+     用于 section 标签、页脚回链、图注等小字号橙色文字。 */
+  --c-travel-700:#A84E2C;
+  --c-sun-700:#8E7200;                  /* 文本级深金：暖白底 4.53:1 */
+  --c-ink-mute-aa:#6E767E;              /* 文本级弱文字：暖白底 4.53:1 */
   --c-sun-600:#E5B800;
   --c-mint-600:#1FA97C;
   --c-lavender-600:#7C63E8;

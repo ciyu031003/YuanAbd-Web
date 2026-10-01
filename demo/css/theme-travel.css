@@ -9,6 +9,9 @@
 
 :root{
   /* 品牌槽位：日落橙 */
+  /* 可读性修正：小字号单色文字需要更深一阶，
+     原 #E8784A 在暖底上仅 2.41–2.7:1；正文级橙色统一走 --c-travel-600。 */
+  --accent-text:var(--c-travel-600);
   --brand:var(--c-travel-500);          /* #E8784A */
   --brand-ink:#FFFDF7;
   --brand-soft:rgba(232,120,74,.12);
@@ -19,6 +22,7 @@
   --ui-bg-soft:#F1E9D7;
   --ui-surface:rgba(255,255,255,.72);
   --ui-surface-2:rgba(255,255,255,.9);
+  /* 弱文字（图注/版本号）原 55% 透明度实测 3.26:1，提高到 .68 达 AA */
   --ui-line:rgba(47,41,34,.13);
   --ui-line-strong:rgba(47,41,34,.25);
 

@@ -29,14 +29,22 @@
   --ink-deep:var(--c-ink-900);
   --ink-soft-c:#3A4350;
   --ink-soft:rgba(24,32,42,.72);
-  --ink-faint:rgba(24,32,42,.5);
+  /* 弱文字（页脚版权/版本号）原 50% 透明度实测 3.18:1，提高到 62% 达 AA */
+  --ink-faint:rgba(24,32,42,.62);
   --text-c:var(--c-ink-900);
   --muted-c:var(--c-ink-500);
   --paper:#FFFDF7;
   --pink:var(--c-learn-600);
   --pink-bright:var(--c-sky-blue);
   --periwinkle:var(--c-sky-blue);
-  --sage:#1FA97C;
+  /* 可读性修正（对比度审计）：头像底 #B7976C 等浅色配白字仅 1.02–3.5:1，
+     NEW 徽章 #1FA97C 在暖白底 2.94:1。此处给出同色相深阶，用于正文级小字。 */
+  --sage:#0F7A57;
+  --c-job-clay:#8A4F32;
+  --c-job-moss:#4A5236;
+  --c-job-sand:#7A6244;
+  --c-job-olive:#414A32;
+  --c-job-ink:#3A3428;
   --clay:#E8773C;
   --moss:#2E9E63;
   --accent:var(--c-learn-600);
@@ -64,4 +72,25 @@
 body.learn{
   background:var(--bg);
   color:var(--ink);
+}
+
+
+/* ============================================================
+   可读性修正（依据 .tmp-shots/contrast-audit.cjs 实测）
+   ------------------------------------------------------------
+   职位卡头像原实现为 background:color-mix(in srgb,var(--c) 82%,transparent)
+   + color:#fff，头像底被 18% 透明稀释后趋近页面底色，白字实测仅 1.02–3.5:1。
+   这里把 --c 映射到同色相深阶，并让底色不再被稀释。
+   ============================================================ */
+.learn-jobs .jcard__ava,
+.learn-jobs .jcard__ava[style*="#a96346"] { --c: #8A4F32; }
+.learn-jobs .jcard__ava[style*="#5f684f"] { --c: #414A32; }
+.learn-jobs .jcard__ava[style*="#b7976c"] { --c: #7A6244; }
+.learn-jobs .jcard__ava[style*="#566044"] { --c: #3F4830; }
+.learn-jobs .jcard__ava[style*="#8a4a33"] { --c: #7A3F28; }
+.learn-jobs .jcard__ava[style*="#453f33"] { --c: #383226; }
+.jcard__ava{
+  background:var(--c);
+  color:#fff;
+  text-shadow:0 1px 1px rgba(0,0,0,.18);
 }

@@ -8,7 +8,12 @@
 <meta name="theme-color" content="#FFFDF7" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<!-- 与三站保持一致的字体策略：中文走系统字族（PingFang SC / 微软雅黑 / 系统宋体），
+     只加载拉丁品牌字体。此前这里仍请求 Noto Serif SC + Noto Sans SC，
+     会拖来约 1.4MB 的 CJK 子集，并使 document.fonts.ready 长时间处于 loading
+     （实测直接导致组件层交互测试在初始化阶段超时）。
+     详见 .tmp-shots/fix-kit-fonts.cjs 与 UI-REFACTOR-REPORT.md 第五轮。 -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./css/tokens.css" />
 <link rel="stylesheet" href="./css/base.css" />
 <link rel="stylesheet" href="./css/components.css" />

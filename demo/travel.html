@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="./css/tokens.css" />
   <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/travel.css?v=20260830k" />
   <link rel="stylesheet" href="./css/travel-gallery.css" />
   <link rel="stylesheet" href="./css/drift-wall.css" />
@@ -63,7 +64,7 @@
       <a class="nav__link" href="#" data-nav="about">关于</a>
       <a class="nav__link" href="#" data-nav="download">下载</a>
       <a class="nav__link" href="https://learn.yuanabd.cn/">苦旅 <span aria-hidden="true">↗</span></a>
-      <a class="btn btn--solid btn--sm" href="#" data-login data-magnetic>登录</a>
+      <a class="btn btn--solid btn--sm" data-ripple href="#" data-login data-magnetic>登录</a>
     </nav>
   </header>
 
@@ -128,10 +129,10 @@
           <span class="wdot" style="--x:34.25%;--y:54.62%"><i></i>西安<em>34.3°N</em></span>
         </div>
         <div class="worldband__stats" data-reveal data-reveal-delay="1">
-          <div class="wstat"><b>07</b><span>Cities · 城市</span></div>
-          <div class="wstat"><b>12</b><span>Trips · 旅程</span></div>
-          <div class="wstat"><b>240+</b><span>Memories · 记忆</span></div>
-          <div class="wstat"><b>6,800km</b><span>Distance · 足迹里程</span></div>
+          <div class="wstat ui-lift" data-spotlight><b>07</b><span>Cities · 城市</span></div>
+          <div class="wstat ui-lift" data-spotlight><b>12</b><span>Trips · 旅程</span></div>
+          <div class="wstat ui-lift" data-spotlight><b>240+</b><span>Memories · 记忆</span></div>
+          <div class="wstat ui-lift" data-spotlight><b>6,800km</b><span>Distance · 足迹里程</span></div>
         </div>
       </div>
     </section>
@@ -143,24 +144,24 @@
         <h2 class="section__title">每一座城市，<br />都是一段故事的开头</h2>
       </div>
       <div class="tstories__grid">
-        <article class="scard-story" data-reveal>
-          <figure class="sshot"><img src="./img/chongqing-900.webp" alt="重庆山城夜景" loading="lazy" /></figure>
+        <article class="scard-story ui-lift" data-spotlight data-reveal>
+          <figure class="sshot"><img src="./img/chongqing-900.webp" alt="重庆山城夜景" loading="lazy" data-fade /></figure>
           <div class="scopy">
             <span class="smeta">重庆 · 29.6°N · 2026.05</span>
             <h3>山城的灯，一层叠一层</h3>
             <p>洪崖洞把夜拉成长街，轻轨从楼宇间穿过。在重庆，地图是立体的，路是走出来的。</p>
           </div>
         </article>
-        <article class="scard-story" data-reveal data-reveal-delay="1">
-          <figure class="sshot"><img src="./img/xian-900.webp" alt="西安城墙" loading="lazy" /></figure>
+        <article class="scard-story ui-lift" data-spotlight data-reveal data-reveal-delay="1">
+          <figure class="sshot"><img src="./img/xian-900.webp" alt="西安城墙" loading="lazy" data-fade /></figure>
           <div class="scopy">
             <span class="smeta">西安 · 34.3°N · 2025.10</span>
             <h3>城墙下的灯火与马蹄</h3>
             <p>从钟楼到鼓楼，从兵马俑到回民街。历史的重量压在黄土上，也被一碗羊肉泡馍轻轻接住。</p>
           </div>
         </article>
-        <article class="scard-story" data-reveal data-reveal-delay="2">
-          <figure class="sshot"><img src="./img/chengdu-900.webp" alt="成都慢生活" loading="lazy" /></figure>
+        <article class="scard-story ui-lift" data-spotlight data-reveal data-reveal-delay="2">
+          <figure class="sshot"><img src="./img/chengdu-900.webp" alt="成都慢生活" loading="lazy" data-fade /></figure>
           <div class="scopy">
             <span class="smeta">成都 · 30.6°N · 2025.04</span>
             <h3>慢下来的日子，才值得记住</h3>
@@ -179,27 +180,27 @@
       </div>
       <div class="filmstrip" data-reveal>
         <figure class="fstrip">
-          <img src="./img/beijing-900.webp" alt="北京 · 故宫" loading="lazy" />
+          <img src="./img/beijing-900.webp" alt="北京 · 故宫" loading="lazy" data-fade />
           <figcaption><b>故宫的雪</b><span>北京 · 2025.12</span></figcaption>
         </figure>
         <figure class="fstrip fstrip--tall">
-          <img src="./img/shanghai-900.webp" alt="上海 · 外滩" loading="lazy" />
+          <img src="./img/shanghai-900.webp" alt="上海 · 外滩" loading="lazy" data-fade />
           <figcaption><b>外滩的夜</b><span>上海 · 2026.01</span></figcaption>
         </figure>
         <figure class="fstrip fstrip--wide">
-          <img src="./img/hangzhou-900.webp" alt="杭州 · 西湖" loading="lazy" />
+          <img src="./img/hangzhou-900.webp" alt="杭州 · 西湖" loading="lazy" data-fade />
           <figcaption><b>西湖的烟柳</b><span>杭州 · 2025.08</span></figcaption>
         </figure>
         <figure class="fstrip">
-          <img src="./img/chongqing-900.webp" alt="重庆 · 洪崖洞" loading="lazy" />
+          <img src="./img/chongqing-900.webp" alt="重庆 · 洪崖洞" loading="lazy" data-fade />
           <figcaption><b>洪崖洞的人潮</b><span>重庆 · 2026.05</span></figcaption>
         </figure>
         <figure class="fstrip fstrip--tall">
-          <img src="./img/xian-900.webp" alt="西安 · 城墙" loading="lazy" />
+          <img src="./img/xian-900.webp" alt="西安 · 城墙" loading="lazy" data-fade />
           <figcaption><b>城墙的黄昏</b><span>西安 · 2025.10</span></figcaption>
         </figure>
         <figure class="fstrip">
-          <img src="./img/chengdu-900.webp" alt="成都 · 盖碗茶" loading="lazy" />
+          <img src="./img/chengdu-900.webp" alt="成都 · 盖碗茶" loading="lazy" data-fade />
           <figcaption><b>盖碗茶的午后</b><span>成都 · 2025.04</span></figcaption>
         </figure>
       </div>
@@ -216,7 +217,7 @@
       </div>
       <div class="stack" id="featureStack">
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">01</span>
             <span class="scard__tag">画册 · Album</span>
@@ -225,13 +226,13 @@
             <div class="scard__chips"><span>海报排版</span><span>胶片颗粒</span><span>全屏沉浸</span></div>
           </div>
           <div class="scard__media scard__media--strip" aria-hidden="true">
-            <img src="./img/beijing-900.webp" alt="" loading="lazy" />
-            <img src="./img/shanghai-900.webp" alt="" loading="lazy" />
-            <img src="./img/chengdu-900.webp" alt="" loading="lazy" />
+            <img src="./img/beijing-900.webp" alt="" loading="lazy" data-fade />
+            <img src="./img/shanghai-900.webp" alt="" loading="lazy" data-fade />
+            <img src="./img/chengdu-900.webp" alt="" loading="lazy" data-fade />
           </div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">02</span>
             <span class="scard__tag">地图 · Map</span>
@@ -240,11 +241,11 @@
             <div class="scard__chips"><span>省份高亮</span><span>城市标记</span><span>虚线航线</span></div>
           </div>
           <div class="scard__media" aria-hidden="true">
-            <img src="./img/product-map-large.webp" alt="" loading="lazy" />
+            <img src="./img/product-map-large.webp" alt="" loading="lazy" data-fade />
           </div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">03</span>
             <span class="scard__tag">规划 · Plan</span>
@@ -252,10 +253,10 @@
             <p class="scard__text">Travel → TravelDay → 行程项 → 花费。完整数据模型支撑行程编排，后台可视化排布每一天的安排与开销。</p>
             <div class="scard__chips"><span>按天编排</span><span>行程项</span><span>花费记账</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1015.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1015.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">04</span>
             <span class="scard__tag">时间线 · Timeline</span>
@@ -263,10 +264,10 @@
             <p class="scard__text">旅行详情内按天回顾：每天的行程、回忆与照片按时间轴排布，像日记一样，把这次出发重读一遍。</p>
             <div class="scard__chips"><span>按天回顾</span><span>行程 / 回忆 / 照片</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-10.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-10.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">05</span>
             <span class="scard__tag">相册 · Gallery</span>
@@ -274,10 +275,10 @@
             <p class="scard__text">复古像素风与银河星空两套视觉随心情切换；Three.js 粒子银河，把你的照片轻轻悬在星空里。</p>
             <div class="scard__chips"><span>复古像素</span><span>银河星空</span><span>Three.js</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1039.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1039.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">06</span>
             <span class="scard__tag">空间 · Space</span>
@@ -285,10 +286,10 @@
             <p class="scard__text">Space / SpaceMember / SpaceInvite 三层数据模型，OWNER / MEMBER / VIEWER 角色体系：独旅、情侣、朋友、家庭都能共用一本画册。</p>
             <div class="scard__chips"><span>邀请加入</span><span>角色权限</span><span>IDOR 防护</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1043.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1043.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">07</span>
             <span class="scard__tag">旅行圈 · Circle</span>
@@ -296,10 +297,10 @@
             <p class="scard__text">Masonry 瀑布流 Feed：推荐 / 最新 / 热门 / 关注四种视野；点赞、评论、收藏与举报审核闭环。</p>
             <div class="scard__chips"><span>瀑布流</span><span>四种视野</span><span>互动闭环</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1016.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-1016.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
-        <div class="stack__item"><article class="scard">
+        <div class="stack__item"><article class="scard" data-spotlight>
           <div class="scard__body">
             <span class="scard__num" aria-hidden="true">08</span>
             <span class="scard__tag">档案 · Archive</span>
@@ -307,7 +308,7 @@
             <p class="scard__text">/me 护照式个人旅行档案：统计、最近旅行与照片化记忆，一键导出 JSON + Markdown + 原图 ZIP，数据永远是你的。</p>
             <div class="scard__chips"><span>护照式统计</span><span>JSON / MD / ZIP</span></div>
           </div>
-          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-29.jpg" alt="" loading="lazy" /></div>
+          <div class="scard__media" aria-hidden="true"><img src="./img/travel/cand-29.jpg" alt="" loading="lazy" data-fade /></div>
         </article></div>
 
       </div>
@@ -321,18 +322,18 @@
       </div>
       <div class="cityfilm" data-reveal>
         <div class="cityfilm__track">
-          <figure class="ccard"><img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="300px" alt="北京" loading="lazy" /><figcaption>北京 · 北京</figcaption></figure>
-          <figure class="ccard"><img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="300px" alt="上海" loading="lazy" /><figcaption>上海 · 上海</figcaption></figure>
-          <figure class="ccard"><img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="300px" alt="成都" loading="lazy" /><figcaption>四川 · 成都</figcaption></figure>
-          <figure class="ccard"><img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="300px" alt="杭州" loading="lazy" /><figcaption>浙江 · 杭州</figcaption></figure>
-          <figure class="ccard"><img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="300px" alt="西安" loading="lazy" /><figcaption>陕西 · 西安</figcaption></figure>
-          <figure class="ccard"><img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="300px" alt="重庆" loading="lazy" /><figcaption>重庆 · 重庆</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="300px" alt="" loading="lazy" /><figcaption>北京 · 北京</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="300px" alt="" loading="lazy" /><figcaption>上海 · 上海</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="300px" alt="" loading="lazy" /><figcaption>四川 · 成都</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="300px" alt="" loading="lazy" /><figcaption>浙江 · 杭州</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="300px" alt="" loading="lazy" /><figcaption>陕西 · 西安</figcaption></figure>
-          <figure class="ccard" aria-hidden="true"><img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="300px" alt="" loading="lazy" /><figcaption>重庆 · 重庆</figcaption></figure>
+          <figure class="ccard"><img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="300px" alt="北京" loading="lazy" data-fade /><figcaption>北京 · 北京</figcaption></figure>
+          <figure class="ccard"><img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="300px" alt="上海" loading="lazy" data-fade /><figcaption>上海 · 上海</figcaption></figure>
+          <figure class="ccard"><img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="300px" alt="成都" loading="lazy" data-fade /><figcaption>四川 · 成都</figcaption></figure>
+          <figure class="ccard"><img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="300px" alt="杭州" loading="lazy" data-fade /><figcaption>浙江 · 杭州</figcaption></figure>
+          <figure class="ccard"><img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="300px" alt="西安" loading="lazy" data-fade /><figcaption>陕西 · 西安</figcaption></figure>
+          <figure class="ccard"><img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="300px" alt="重庆" loading="lazy" data-fade /><figcaption>重庆 · 重庆</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>北京 · 北京</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>上海 · 上海</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>四川 · 成都</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>浙江 · 杭州</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>陕西 · 西安</figcaption></figure>
+          <figure class="ccard" aria-hidden="true"><img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="300px" alt="" loading="lazy" data-fade /><figcaption>重庆 · 重庆</figcaption></figure>
         </div>
       </div>
     </section>
@@ -438,7 +439,7 @@
                     <span class="mock__dots"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span></span>
                     <span class="mock__title">足迹地图</span>
                   </div>
-                  <div class="mock__body mock__img"><img src="./img/product-map-large.webp" srcset="./img/product-map-large.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途足迹地图" loading="lazy" /></div>
+                  <div class="mock__body mock__img"><img src="./img/product-map-large.webp" srcset="./img/product-map-large.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途足迹地图" loading="lazy" data-fade /></div>
                 </div>
               </div>
               <div class="shot-pane shot-pane--album">
@@ -448,9 +449,9 @@
                     <span class="mock__title">旅行相册</span>
                   </div>
                   <div class="mock__body mock__album">
-                    <img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="北京" loading="lazy" />
-                    <img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="上海" loading="lazy" />
-                    <img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="成都" loading="lazy" />
+                    <img src="./img/beijing.webp" srcset="./img/beijing-900.webp 900w, ./img/beijing.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="北京" loading="lazy" data-fade />
+                    <img src="./img/shanghai.webp" srcset="./img/shanghai-900.webp 900w, ./img/shanghai.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="上海" loading="lazy" data-fade />
+                    <img src="./img/chengdu.webp" srcset="./img/chengdu-900.webp 900w, ./img/chengdu.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="成都" loading="lazy" data-fade />
                   </div>
                 </div>
               </div>
@@ -477,7 +478,7 @@
                     <span class="mock__dots"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span></span>
                     <span class="mock__title">功能一览</span>
                   </div>
-                  <div class="mock__body mock__img"><img src="./img/product-features.webp" srcset="./img/product-features.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途功能一览" loading="lazy" /></div>
+                  <div class="mock__body mock__img"><img src="./img/product-features.webp" srcset="./img/product-features.webp 1600w" sizes="(max-width:760px) 92vw, 640px" alt="甜途功能一览" loading="lazy" data-fade /></div>
                 </div>
               </div>
               <div class="shot-pane shot-pane--desktop">
@@ -500,9 +501,9 @@
                     <span class="mock__title">移动端</span>
                   </div>
                   <div class="mock__body mock__album">
-                    <img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="杭州" loading="lazy" />
-                    <img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="(max-width:760px) 92vw, 640px" alt="西安" loading="lazy" />
-                    <img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="重庆" loading="lazy" />
+                    <img src="./img/hangzhou.webp" srcset="./img/hangzhou-900.webp 900w, ./img/hangzhou.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="杭州" loading="lazy" data-fade />
+                    <img src="./img/xian.webp" srcset="./img/xian-900.webp 900w, ./img/xian.webp 1280w" sizes="(max-width:760px) 92vw, 640px" alt="西安" loading="lazy" data-fade />
+                    <img src="./img/chongqing.webp" srcset="./img/chongqing-900.webp 900w, ./img/chongqing.webp 1920w" sizes="(max-width:760px) 92vw, 640px" alt="重庆" loading="lazy" data-fade />
                   </div>
                 </div>
               </div>
@@ -533,7 +534,7 @@
   <!-- ============ 扫码下载弹窗（Android 直装 / 版本信息）============ -->
   <div class="dl-modal" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlModalTitle">
     <div class="dl-modal__backdrop" id="dlModalBackdrop" aria-hidden="true"></div>
-    <div class="dl-modal__panel" role="document">
+    <div class="dl-modal__panel ui-modal__rim" role="document" data-modal="download" data-modal-drag=".dl-modal__head">
       <button type="button" class="dl-modal__close" id="dlModalClose" aria-label="关闭">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -559,7 +560,7 @@
             <button type="button" class="dl-modal__copy" data-copy="https://travel-notes.yuanabd.cn/downloads/tiantu.apk"><span>复制下载链接</span></button>
           </div>
         </section>
-        <a class="dl-modal__dl" id="dlDownload" href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener" download="tiantu.apk">
+        <a class="dl-modal__dl" data-ripple id="dlDownload" href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener" download="tiantu.apk">
           <span class="dl-modal__dl-name">Android</span>
           <span class="dl-modal__dl-meta">APK 直装</span>
           <span class="dl-modal__dl-arrow">→</span>
@@ -581,6 +582,7 @@
 
   <script src="./vendor/three-umd/three.min.js"></script>
   <script src="./js/motion.js"></script>
+  <script src="./js/ui.js" defer></script>
   <script src="./js/travel-gallery.js?v=20260909a"></script>
   <script src="./js/drift-wall.js?v=20260905"></script>
   <script src="./js/travel-stack.js?v=20260908a"></script>

@@ -25,6 +25,7 @@
 
   <link rel="stylesheet" href="./css/tokens.css" />
   <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/learn.css?v=20260905a" />
   <link rel="stylesheet" href="./css/learn-sunny.css?v=20260908a" />
   <link rel="stylesheet" href="./css/theme-learn.css" />
@@ -45,7 +46,7 @@
         <button class="icon-button" id="menuButton" type="button" aria-label="打开菜单" aria-expanded="false">
           <span class="menu-glyph" aria-hidden="true"></span>
         </button>
-        <button class="ticket-button" type="button" data-login>进入工作台</button>
+        <button class="ticket-button" data-ripple type="button" data-login>进入工作台</button>
       </div>
     </header>
 
@@ -187,7 +188,7 @@
       </button>
     </section>
 
-    <section class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-label="手册详情" aria-live="polite" aria-hidden="true" inert>
+    <section class="detail-panel ui-lift" data-spotlight id="detailPanel" role="dialog" aria-modal="true" aria-label="手册详情" aria-live="polite" aria-hidden="true" inert>
       <h2 class="detail-title" id="detailTitle">市场</h2>
       <div class="detail-scroll" id="detailScroll" tabindex="0" aria-label="手册指南">
         <p class="detail-description" id="detailDescription"></p>
@@ -215,7 +216,7 @@
         </div>
         <hr class="detail-rule" />
         <div class="action-rail" aria-label="手册操作">
-          <button class="pill language" type="button" data-login>
+          <button class="pill language" data-ripple type="button" data-login>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>
               <path d="M3 12h18M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
@@ -316,19 +317,19 @@
               <span class="app__search">搜索职位、公司、公告标题或标签</span>
             </div>
             <div class="app__grid" aria-hidden="true">
-              <article class="job">
+              <article class="job ui-lift" data-spotlight>
                 <div class="job__top"><span class="job__ava" style="--c:#a96346">中</span><div class="job__name"><h4>算法与数据分析实习生</h4><span>北京 · 面议</span></div></div>
                 <p class="job__co">中智经济技术合作股份有限公司 · 经验不限 · 本科</p>
                 <div class="job__tags"><span>Python</span></div>
                 <div class="job__meta"><em>智联招聘</em><span>2 小时前</span><u>NEW</u></div>
               </article>
-              <article class="job">
+              <article class="job ui-lift" data-spotlight>
                 <div class="job__top"><span class="job__ava" style="--c:#5f684f">数</span><div class="job__name"><h4>数据分析实习生-业务中台</h4><span>北京 · 面议</span></div></div>
                 <p class="job__co">公司未知 · 经验不限 · 本科</p>
                 <div class="job__tags"><span>数据</span></div>
                 <div class="job__meta"><em>智联招聘</em><span>2 小时前</span><u>NEW</u></div>
               </article>
-              <article class="job">
+              <article class="job ui-lift" data-spotlight>
                 <div class="job__top"><span class="job__ava" style="--c:#b7976c">电</span><div class="job__name"><h4>电力交易数据分析工程师(J10855)</h4><span>西安 · 面议</span></div></div>
                 <p class="job__co">电力交易数据 · 经验不限 · 本科</p>
                 <div class="job__tags"><span>数据</span></div>
@@ -635,32 +636,32 @@
       </div>
 
       <div class="mindgrid">
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>01</b>
           <h3>以终为始，锁定职业目标</h3>
           <p>先选方向再翻书：6 条职业路线（前端 / Java 后端 / 数据 / AI / 网安 / ICT）里锁定一条，仪表盘从此只为这条路记账。</p>
         </article>
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>02</b>
           <h3>用职业画像量化自己</h3>
           <p>技能 · 项目 · 简历 · 面试四个维度汇成职业准备度环——先诚实地知道自己是谁，才知道该往哪走。</p>
         </article>
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>03</b>
           <h3>画像 × 市场对撞出缺口</h3>
           <p>把「我会什么」和「市场要什么」放在一张图上对撞：Vue 26 岗、Python 20 岗……撞出来的差值，就是真正的能力缺口。</p>
         </article>
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>04</b>
           <h3>缺口倒逼学习计划</h3>
           <p>缺口一键加入路线图，拆成每日任务与专注时段——每一分钟学习都有岗位背书，而不是漫无目的地刷教程。</p>
         </article>
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>05</b>
           <h3>面试回流，越战越强</h3>
           <p>被问倒的问题当场录回题库，真实面试变成私人教材；下次面试前，看板和题库一起复习。</p>
         </article>
-        <article class="mcard" data-reveal>
+        <article class="mcard ui-lift" data-spotlight data-reveal>
           <b>06</b>
           <h3>就绪度验证整条链路</h3>
           <p>投递、面试、Offer 的每一次反馈都会回流进画像——曲线上升，就是这条思维链路在生效。</p>
@@ -713,7 +714,7 @@
         <span class="sep" aria-hidden="true">·</span>
         <a href="https://github.com/yuanabd" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <a class="footer__dl" href="./download.html">下载 App · Android / Web <i aria-hidden="true">→</i></a>
+      <a class="footer__dl" data-ripple href="./download.html">下载 App · Android / Web <i aria-hidden="true">→</i></a>
       <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
         <div class="footer__meta">
           <span>© <span id="year">2026</span> 苦旅 · KuLv —— 学习之路虽苦，行则将至</span>
@@ -772,6 +773,7 @@
   })();
   </script>
   <script src="./vendor/lenis/lenis.min.js" defer></script>
+  <script src="./js/ui.js" defer></script>
   <script defer>
   /* 2026-09-05 增强层：Lenis 平滑滚动 + hero 标题逐字入场 */
   (function () {

@@ -175,28 +175,68 @@
   }
 
   /* ---------- 6. 弹窗原点缩放 + 下拉关闭 ---------- */
+  /* 原点计算刻意采用「监听可见性变化」而不是「绑定各站开关函数」：
+     三站各用自己的脚本控制弹窗（travel-download.js 直接加 .is-open、
+     learn.js 用 body[data-mode]、门户用类名开关），任何逐站绑定都会漏掉一种。
+     这里只记录最近一次点击落点，待任何弹窗变为可见时把落点换算成相对弹窗
+     自身的百分比写入 --ox/--oy，即可得到「从点击处展开」的效果。 */
+  var lastClick = null;
+  on(doc, "pointerdown", function (e) {
+    lastClick = { x: e.clientX, y: e.clientY, el: e.target };
+  }, true);
+  on(doc, "click", function (e) {
+    lastClick = { x: e.clientX, y: e.clientY, el: e.target };
+  }, true);
+
+  function applyModalOrigin(panel) {
+    /* 参考系取最近的 fixed/absolute 祖先（即弹窗覆盖层），找不到才退回视口。
+       面板自身往往不是定位元素，用它当参考系会算出离谱的百分比（曾算出 582%）。 */
+    var frame = panel, node = panel.parentElement;
+    while (node && node !== doc.body) {
+      var pos = getComputedStyle(node).position;
+      if (pos === "fixed" || pos === "absolute") { frame = node; break; }
+      node = node.parentElement;
+    }
+    var fr = frame.getBoundingClientRect();
+    if (!fr.width || !fr.height) return;
+    var px = lastClick ? lastClick.x : window.innerWidth / 2;
+    var py = lastClick ? lastClick.y : window.innerHeight / 2;
+    panel.style.setProperty("--ox", (Math.max(0, Math.min(1, (px - fr.left) / fr.width)) * 100).toFixed(2) + "%");
+    panel.style.setProperty("--oy", (Math.max(0, Math.min(1, (py - fr.top) / fr.height)) * 100).toFixed(2) + "%");
+  }
+
   function initModalOrigin() {
-    $$("[data-modal]").forEach(function (panel) {
+    var panels = $$("[data-modal]");
+    if (!panels.length) return;
+    /* 显式声明 data-modal-trigger 时按触发元素中心定位（比落点更精确） */
+    panels.forEach(function (panel) {
       var name = panel.getAttribute("data-modal");
       on(doc, "click", function (e) {
         if (!e.target.closest) return;
         var trigger = e.target.closest('[data-modal-trigger="' + name + '"]');
         if (!trigger) return;
-        /* 参考系 = 最近的 fixed/absolute 祖先（即弹窗覆盖层）；找不到则退回视口。
-           面板自身往往不是定位元素，用它当参考系会算出离谱的百分比。 */
-        var frame = null, node = panel.parentElement;
-        while (node && node !== doc.body) {
-          var pos = getComputedStyle(node).position;
-          if (pos === "fixed" || pos === "absolute") { frame = node; break; }
-          node = node.parentElement;
-        }
-        var fr = frame ? frame.getBoundingClientRect() : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
-        var tr = trigger.getBoundingClientRect();
-        if (!fr.width || !fr.height) return;
-        var mx = tr.left + tr.width / 2, my = tr.top + tr.height / 2;
-        panel.style.setProperty("--ox", (Math.max(0, Math.min(1, (mx - fr.left) / fr.width)) * 100).toFixed(2) + "%");
-        panel.style.setProperty("--oy", (Math.max(0, Math.min(1, (my - fr.top) / fr.height)) * 100).toFixed(2) + "%");
+        var r = trigger.getBoundingClientRect();
+        lastClick = { x: r.left + r.width / 2, y: r.top + r.height / 2, el: trigger };
       }, true);
+    });
+
+    if (!window.MutationObserver) return;
+    var observer = new MutationObserver(function () {
+      panels.forEach(function (panel) {
+        var visible = panel.getClientRects().length > 0 &&
+          getComputedStyle(panel).visibility !== "hidden";
+        if (visible && !panel.dataset.uiOriginSet) {
+          applyModalOrigin(panel);
+          panel.dataset.uiOriginSet = "1";
+        } else if (!visible && panel.dataset.uiOriginSet) {
+          delete panel.dataset.uiOriginSet;   /* 关闭后重置，下次重新计算 */
+        }
+      });
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ["class", "style", "data-mode", "aria-hidden"] });
+    /* 初始即可见的弹窗（罕见）也补一次 */
+    panels.forEach(function (panel) {
+      if (panel.getClientRects().length > 0) { applyModalOrigin(panel); panel.dataset.uiOriginSet = "1"; }
     });
   }
   function initDragClose() {

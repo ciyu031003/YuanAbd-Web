@@ -104,12 +104,19 @@
 - 线上复验：`https://www.yuanabd.cn/`、`https://learn.yuanabd.cn/`（含 download/privacy）、
   `https://travel-notes.yuanabd.cn/portal/` 全部 200，新增资源可用
 
-### 第二轮（首屏垂直节奏）
+### 第二轮（首屏垂直节奏 + 首屏性能）
 
 - 备份：`/var/www/backups/ui-refactor-20261001-123724/`（21 个文件）
 - 上传：`learn-sunny.css` + 苦旅 3 HTML + 甜途 `travel.html`（引用版本号 `?v=20261001b`）
 - 线上复验：`learn-sunny.css` md5 与本地一致；线上 1440 截图与本地逐字节同尺寸
-  （542643 bytes / contentH 5433）
+
+### 第三轮（首屏性能）
+
+- 备份：`/var/www/backups/ui-refactor-20261001-125000/`（21 个文件）
+- 上传：门户 `index.html`、苦旅 3 HTML + `learn-sunny.css`、甜途 `travel.html`
+  （引用版本号 `?v=20261001c`）
+- 线上复验：三个入口 HTML 的 md5 与服务端逐一一致；
+  线上 1440 渲染 contentH 与本地一致（门户 7125 / 苦旅 5433）
 
 > **注意**：甜途门户线上入口是 `/portal/`，根路径已由 Next.js 应用接管（README 已同步）。
 
@@ -137,11 +144,42 @@
 （浮动照片卡与主图叠置）与 travel 的 6 处（固定导航叠在首屏画廊上）均为
 设计意图内的层叠，z-index 已正确分层，不计为缺陷。
 
+### 第三轮：首屏性能（已修复）
+
+用 `perf-audit.cjs` / `block-hunt.cjs` / `reveal-timing.cjs` 定位到三处瓶颈：
+
+| # | 问题 | 证据 | 修复 | 效果 |
+|---|---|---|---|---|
+| 1 | Google Fonts 样式表为渲染阻塞资源，推迟 DOMContentLoaded，进而推迟全部 deferred 脚本 | DOMContentLoaded 964ms | 改为 `media="print"` + `onload` 异步加载 + `noscript` 兜底 | DCL 964→324ms，load 1681→388ms |
+| 2 | `[data-reveal]` 转场 1s，首屏文字在 opacity≈0.9 才被记为 LCP | 透明度时间线：1490ms 起从 0 爬到 0.92 | 首屏 reveal 转场缩到 .5s（滚动区块仍 1s） | LCP 2.75→1.9s |
+| 3 | `boot()` 在 DOMContentLoaded 同步执行 403ms，星点 canvas 初始化占大头 | `block-hunt` 单次回调 403ms | canvas 改为 `requestIdleCallback` 延后（rAF 双帧兜底） | boot 403→261ms |
+
+另按实测字重收敛 Google Fonts 请求（`font-usage.cjs`）：门户由
+Space Grotesk 400;500;600;700 + Noto Serif SC 600;700;900 收敛到实际用到的
+700 / 900；苦旅与甜途的可变字重轴改为具体字重。字体传输 1600KB→1262KB。
+
+**A/B 实测的取舍**：`display=optional` 与 `display=swap` 对 LCP 无差异
+（均 1.85–2.1s），且 optional 会随机掉到系统字体、造成跨次渲染不一致，
+因此保留 `swap`。
+
+**尝试后撤销**：对首屏外区块加 `content-visibility:auto` 使 scrollHeight
+从 7125 涨到 8313（+1188px）且性能无改善，已完全回退。
+
+三站 LCP：门户 1900ms / 苦旅 1428ms / 甜途 1352ms；CLS ≤ 0.01（基线 0.023）。
+
 ---
 
 ## 8. 剩余可继续优化项
 
-1. **甜途画廊构图**：主卡在部分滚动位置偏右、留有左侧空档（滚动联动逻辑既有行为，需单独调整 Three.js 相机与卡片布局参数）。
-2. **对比度收尾**：剩余项中，照片上的文字建议加半透明暗底；微型大写标签可考虑提高字号而非继续加深颜色。
-3. **`.tvisual` 卡片负偏移**：`left:-14px` 在窄屏仍会轻微出血，可改为容器内缩。
-4. **动效曲线统一**：三站缓动函数已有公共令牌，但少数历史覆盖层仍写死 `cubic-bezier`，可做一次收敛。
+1. **CJK 字体体积**（最大剩余项，约 1.2MB）：`font-breakdown.cjs` 实测
+   `notosanssc` 855KB/17 文件 + `notoserifsc` 370KB/10 文件，拉丁字体仅 42KB。
+   阻断全部字体后 FCP 仅快约 120ms，说明它主要影响带宽与常驻内存，而非首屏绘制。
+   可选方案（需产品取舍）：仅保留一个 CJK 字族的常用字重；或正文改用系统 CJK、
+   仅标题保留有限的 Noto Serif SC 用字。
+2. **首屏 FCP 仍在 1.4–1.6s**：阻断字体后仍有 ~1.4s，说明成本来自文档自身
+   （门户单文件内联 HTML ~100KB + 内联 CSS ~1900 行）的解析与首次样式/布局计算。
+   可考虑把门户内联 CSS 拆成外链文件（需同步改部署命令与缓存版本号）。
+3. **甜途画廊构图**：主卡在部分滚动位置偏右、留有左侧空档（需调整 Three.js 相机与卡片布局参数）。
+4. **对比度收尾**：剩余项中，照片上的文字建议加半透明暗底；微型大写标签可考虑提高字号而非继续加深颜色。
+5. **`.tvisual` 卡片负偏移**：`left:-14px` 在窄屏仍会轻微出血，可改为容器内缩。
+6. **动效曲线统一**：三站缓动函数已有公共令牌，但少数历史覆盖层仍写死 `cubic-bezier`，可做一次收敛。

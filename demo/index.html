@@ -21,11 +21,123 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
+/* @inline:tokens */
+/* ==== 由 build-portal.cjs 内联自 demo/css/tokens.css（请勿手改；改源文件后重新构建）==== */
+/* ============================================================
+   tokens.css — YUAN.ABD 三门户共享设计令牌（Design Tokens）
+   依据：DESIGN-SYSTEM.md §1–§4 + UI-REFACTOR-PLAN.md Phase 1
+   ------------------------------------------------------------
+   分层原则：
+     1) Primitive  —— 品牌原始色，永不被站点覆盖，只被引用
+     2) Semantic   —— 语义槽位（品牌 / 状态 / 表面 / 描边 / 阴影 / 动效）
+                      由各站主题文件（theme-*.css）按需覆盖
+     3) 外观技法常量 —— 扫光、光斑、内高光等，站点无需关心
+   ------------------------------------------------------------
+   注意：本站点保留 base.css 中既有的 --bg / --ink / --accent / --line
+   等旧令牌作为兼容层，站点样式表继续覆盖它们即可；新组件层统一走
+   本文件的 semantic 令牌，不再产生第三套命名。
+   ============================================================ */
+
+:root{
+  /* ---------- 1. Primitive：品牌色（三站共享，DESIGN-SYSTEM §1.1） ---------- */
+  --c-warm-white:#FFFDF7;
+  --c-sun-yellow:#FFD84D;
+  --c-sky-blue:#79CFFF;
+  --c-mint:#91E6C1;
+  --c-coral:#FF9278;
+  --c-lavender:#A995FF;
+
+  --c-ink-900:#18202A;
+  --c-ink-700:#3A4350;
+  --c-ink-500:#5C6673;
+  --c-ink-300:#8A939E;
+
+  /* 站点主色深阶（文字/图标可读性层级） */
+  --c-learn-600:#2A6FB5;
+  --c-learn-700:#0E5FA8;
+  --c-learn-400:#4B8FCC;
+  --c-travel-600:#E05E40;
+  --c-travel-500:#E8784A;
+  --c-travel-400:#F28B55;
+  --c-travel-700:#C4633A;
+  --c-sun-600:#E5B800;
+  --c-mint-600:#1FA97C;
+  --c-lavender-600:#7C63E8;
+
+  /* ---------- 2. Semantic：品牌 ---------- */
+  --brand:var(--c-sun-yellow);          /* 站点主强调（主题文件覆盖） */
+  --brand-ink:var(--c-ink-900);         /* 主色上的文字 */
+  --brand-soft:rgba(255,216,77,.16);    /* 主色淡底 */
+  --brand-2:var(--c-sky-blue);          /* 次强调 */
+
+  /* ---------- 3. Semantic：表面与描边 ---------- */
+  --ui-bg:var(--c-warm-white);
+  --ui-bg-soft:#FFF6E2;
+  --ui-surface:rgba(255,255,255,.72);
+  --ui-surface-2:rgba(255,255,255,.92);
+  --ui-line:rgba(24,32,42,.10);
+  --ui-line-strong:rgba(24,32,42,.18);
+  --ui-line-brand:color-mix(in srgb,var(--brand) 55%,transparent);
+
+  /* ---------- 4. Semantic：阴影（DESIGN-SYSTEM §4：禁止厚重投影） ---------- */
+  --ui-shadow-1:0 10px 24px -14px rgba(24,32,42,.22);
+  --ui-shadow-2:0 24px 60px -30px rgba(24,32,42,.18);
+  --ui-shadow-3:0 40px 90px -40px rgba(24,32,42,.26);
+  --ui-shadow-brand:0 16px 38px -18px color-mix(in srgb,var(--brand) 62%,transparent);
+  --ui-ring:0 0 0 3px color-mix(in srgb,var(--brand) 28%,transparent);
+
+  /* ---------- 5. Semantic：圆角（DESIGN-SYSTEM §3） ---------- */
+  --ui-r-s:10px;
+  --ui-r-m:16px;
+  --ui-r-l:24px;
+  --ui-r-xl:32px;
+
+  /* ---------- 6. Semantic：动效 ---------- */
+  --ui-ease:cubic-bezier(.22,1,.36,1);
+  --ui-ease-out:cubic-bezier(.16,1,.3,1);
+  --ui-ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --ui-t-fast:.22s;
+  --ui-t-mid:.42s;
+  --ui-t-slow:.8s;
+
+  /* ---------- 7. 外观技法常量（组件层内部使用） ---------- */
+  --fx-shine:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
+  --fx-highlight:inset 0 1px 0 rgba(255,255,255,.55);
+  --fx-spot:radial-gradient(22rem 22rem at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--brand) 16%,transparent),transparent 70%);
+
+  /* ---------- 8. 兼容别名：统一命名（--ui-*）与历史命名（--bg/--ink/--line…）
+     两组指向同一语义槽位，站点主题文件覆盖其中任意一组即可全局生效。 */
+  --bg:var(--ui-bg);
+  --bg-2:var(--ui-bg-soft);
+  --surface:var(--ui-surface);
+  --surface-2:var(--ui-surface-2);
+  --ink:var(--c-ink-900);
+  --ink-soft:rgba(24,32,42,.72);
+  --ink-faint:rgba(24,32,42,.5);
+  --line:var(--ui-line);
+  --line-strong:var(--ui-line-strong);
+  --accent:var(--brand);
+  --accent-ink:var(--brand-ink);
+}
+
+/* 降级：不支持 color-mix 时回落为固定暖灰（不依赖 JS，纯声明式） */
+@supports not (color:color-mix(in srgb,red 50%,transparent)){
+  :root{
+    --ui-line-brand:rgba(255,216,77,.55);
+    --ui-shadow-brand:0 16px 38px -18px rgba(24,32,42,.28);
+    --ui-ring:0 0 0 3px rgba(255,216,77,.3);
+    --fx-spot:radial-gradient(22rem 22rem at var(--mx,50%) var(--my,50%),rgba(24,32,42,.05),transparent 70%);
+  }
+}
+/* @endinline:tokens */
+</style>
+<style>
 /* YUAN.ABD Portal · v3 重构 · 暖白阳光 · 双章节产品叙事 · 巨型太阳 */
 :root{
-  --bg:#FFFDF7;--bg-soft:#FFF6E2;
-  --ink:#18202A;--ink-dim:#5C6673;--ink-mute:#8A939E;
-  --line:rgba(24,32,42,.10);--line-strong:rgba(24,32,42,.18);
+  /* 色彩令牌由上一段 tokens 内联块提供（--ui-bg / --ink / --ui-line / --ui-line-strong），
+     此处只保留门户自有扩展：产品色、次级底色与排版/动效变量 */
+  --bg:var(--ui-bg);--bg-soft:#FFF6E2;
+  --ink-dim:#5C6673;--ink-mute:#8A939E;
   --learn:#79CFFF;--travel:#FF9278;--sun:#FFD84D;--mint:#91E6C1;--lavender:#A995FF;
   --font-sans:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
   --font-serif:"Noto Serif SC","Songti SC",serif;
@@ -358,6 +470,434 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .split .ch{opacity:1;transform:none;transition:none}
   .sun{animation:none}
 }
+
+/* ============================================================
+   组件层接入（UI-REFACTOR-PLAN.md Phase 3）
+   这里只放「门户结构所需的补充规则」：新增的组件样式全部来自上方内联的
+   components 块，本节不重复定义任何组件外观。
+   ============================================================ */
+/* 指针光斑 [data-spotlight] 的 ::before 是绝对定位，宿主需为定位元素 */
+.credo__card,.bcard,.ncard,.fcard{position:relative}
+/* 光斑层位于内容之下：卡片内容统一抬到 z-index 1 */
+.credo__card > *,.bcard > *,.ncard > *,.fcard > *{position:relative;z-index:1}
+/* 城市画廊：图片懒加载渐显（首屏 eager 的北京/上海不做渐显，避免影响 LCP） */
+.city img{transition:transform .8s var(--ease-out),opacity .8s var(--ease-out)}
+.city img[loading="lazy"]{opacity:0}
+.city img[loading="lazy"].is-loaded{opacity:1}
+html:not(.js) .city img[loading="lazy"]{opacity:1}
+/* 数据带 marquee：hover 时轻微降对比度做「减速感」提示。
+   注：纯 CSS keyframes 动画无法在保持相位的前提下平滑减速（改 animation-duration
+   会造成时间轴跳帧），因此仍保留原有 pause 行为，只叠加视觉提示。 */
+.marquee__track{transition:opacity .5s var(--ease-out)}
+.marquee:hover .marquee__track{opacity:.72}
+/* 城市画廊同理：hover 已有暂停，此处只加边缘渐隐加深 */
+.gallery__row{-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+@media (prefers-reduced-motion:reduce){
+  .marquee:hover .marquee__track{opacity:1}
+}
+/* @inline:components */
+/* ==== 由 build-portal.cjs 内联自 demo/css/components.css（请勿手改；改源文件后重新构建）==== */
+/* ============================================================
+   components.css — YUAN.ABD 精美组件层（B 档）
+   ------------------------------------------------------------
+   设计原则（DESIGN-SYSTEM.md §4 / §7）：
+     · 禁止厚重投影：一律 1px 描边 + 分层软阴影 + 色块
+     · 动效只解释、不装饰：只用 transform / opacity / filter
+     · 反馈分三层：hover（意图）→ active（确认）→ focus-visible（可达）
+   ------------------------------------------------------------
+   兼容策略：本文件不改变既有类名的语义与布局，只叠加视觉反馈。
+     · 既有 .btn / .btn--solid / .btn--ghost / .chip / .ui-card 直接受益
+     · 新能力通过 .ui-* 与 data-* 属性按需启用
+   加载位置：tokens.css → base.css → components.css → 站点样式 → 主题
+   ============================================================ */
+
+/* ============================================================
+   A. 按钮族
+   ============================================================ */
+
+/* A1. 渐变描边 + 内高光 + 扫光（技法 1 / 2）
+   作用于既有实心按钮类，不新增类名即可升级。 */
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary){
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-color:transparent;
+  box-shadow:var(--fx-highlight),var(--ui-shadow-brand);
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out),
+             background-color var(--ui-t-fast) var(--ui-ease);
+}
+/* 扫光：一条斜向高光带，hover 时从左掠过 */
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary)::after{
+  content:"";
+  position:absolute;inset:0;z-index:1;
+  background:var(--fx-shine);
+  transform:translateX(-120%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--ui-t-fast) linear;
+}
+@media (hover:hover){
+  :is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):hover::after{
+    animation:uiShine .85s var(--ui-ease) forwards;
+  }
+}
+@keyframes uiShine{
+  0%{opacity:.9;transform:translateX(-120%)}
+  100%{opacity:0;transform:translateX(120%)}
+}
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):hover{
+  transform:translateY(-2px);
+  box-shadow:var(--fx-highlight),0 22px 46px -18px color-mix(in srgb,var(--brand) 72%,transparent);
+}
+:is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary):active{
+  transform:translateY(0) scale(.985);
+  box-shadow:var(--fx-highlight),var(--ui-shadow-1);
+}
+
+/* A2. 描边按钮：hover 时描边发光 + 轻微填充 */
+:is(.btn--ghost,.btn--line,.ui-btn--ghost){
+  position:relative;
+  transition:border-color var(--ui-t-fast) var(--ui-ease),
+             color var(--ui-t-fast) var(--ui-ease),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out),
+             transform var(--ui-t-fast) var(--ui-ease-out);
+}
+:is(.btn--ghost,.btn--line,.ui-btn--ghost):hover{
+  border-color:var(--ui-line-brand);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 22%,transparent),
+             0 14px 30px -18px rgba(24,32,42,.3);
+}
+
+/* A3. 图标按钮（技法 10 配套）：40px 圆形，图标 18px */
+.ui-iconbtn{
+  display:inline-grid;place-items:center;
+  width:40px;height:40px;flex:none;
+  border-radius:50%;
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  color:var(--ink);
+  backdrop-filter:blur(10px) saturate(1.2);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),
+             border-color var(--ui-t-fast) var(--ui-ease),
+             background-color var(--ui-t-fast) var(--ui-ease),
+             box-shadow var(--ui-t-mid) var(--ui-ease-out);
+}
+.ui-iconbtn svg{width:18px;height:18px}
+.ui-iconbtn:hover{
+  transform:translateY(-2px);
+  border-color:var(--ui-line-brand);
+  background:var(--ui-surface-2);
+  box-shadow:var(--ui-shadow-1);
+}
+.ui-iconbtn:active{transform:translateY(0) scale(.94)}
+/* 复制成功后：图标切换 + 品牌色反馈 */
+.ui-iconbtn.is-done{
+  border-color:var(--ui-line-brand);
+  color:var(--brand);
+  box-shadow:var(--ui-ring);
+}
+.ui-iconbtn.is-done .ui-iconbtn__idle{display:none}
+.ui-iconbtn__done{display:none}
+.ui-iconbtn.is-done .ui-iconbtn__done{display:block}
+
+/* ============================================================
+   B. 卡片族：指针光斑 + 分层阴影 + 可选倾斜
+   ============================================================ */
+
+/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入 */
+[data-spotlight]{position:relative}
+[data-spotlight]::before{
+  content:"";
+  position:absolute;inset:0;z-index:0;
+  border-radius:inherit;
+  background:var(--fx-spot);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--ui-t-mid) var(--ui-ease);
+}
+@media (hover:hover) and (pointer:fine){
+  [data-spotlight]:hover::before{opacity:1}
+}
+/* 内容需浮在光斑之上 */
+[data-spotlight] > *{position:relative;z-index:1}
+
+/* B2. 分层悬浮（比 base.css 的 -3px 更有层次，按需启用） */
+.ui-lift{transition:transform var(--ui-t-mid) var(--ui-ease-out),
+                   box-shadow var(--ui-t-mid) var(--ui-ease-out),
+                   border-color var(--ui-t-mid) var(--ui-ease)}
+@media (hover:hover){
+  .ui-lift:hover{transform:translateY(-5px);box-shadow:var(--ui-shadow-3)}
+}
+
+/* B3. 卡片媒体：懒加载渐显 + 缓慢缩放 */
+.ui-card__media img,
+[data-fade]{opacity:0;transform:scale(1.03);
+  transition:opacity var(--ui-t-slow) var(--ui-ease-out),transform 1.2s var(--ui-ease-out)}
+.ui-card__media img.is-loaded,
+[data-fade].is-loaded{opacity:1;transform:none}
+/* 无 JS 兜底：不加载就永远看不见是灾难，故用 .js 门控 */
+html:not(.js) .ui-card__media img,
+html:not(.js) [data-fade]{opacity:1;transform:none}
+
+/* B4. 底部色条生长（列表卡/产品卡通用的轻量强调） */
+.ui-bar{position:relative;overflow:hidden}
+.ui-bar::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--brand);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--ui-t-mid) var(--ui-ease);
+}
+.ui-bar:hover::after{transform:scaleX(1)}
+
+/* ============================================================
+   C. 控件族
+   ============================================================ */
+
+/* C1. 气泡提示（技法 10）：纯 CSS，hover / focus-visible 出现 */
+.ui-tip{position:relative}
+.ui-tip::after{
+  content:attr(data-tip);
+  position:absolute;left:50%;bottom:calc(100% + 10px);z-index:70;
+  transform:translate(-50%,4px);
+  padding:.42em .78em;
+  border-radius:10px;
+  background:var(--ink);color:var(--ui-bg);
+  font-size:.74rem;line-height:1.3;letter-spacing:.02em;
+  white-space:nowrap;pointer-events:none;
+  opacity:0;
+  transition:opacity var(--ui-t-fast) var(--ui-ease),transform var(--ui-t-fast) var(--ui-ease-out);
+}
+.ui-tip::before{
+  content:"";position:absolute;left:50%;bottom:calc(100% + 4px);z-index:70;
+  width:7px;height:7px;border-radius:2px;
+  background:var(--ink);
+  transform:translate(-50%,4px) rotate(45deg);
+  opacity:0;pointer-events:none;
+  transition:opacity var(--ui-t-fast) var(--ui-ease),transform var(--ui-t-fast) var(--ui-ease-out);
+}
+.ui-tip:hover::after,.ui-tip:focus-visible::after,
+.ui-tip:hover::before,.ui-tip:focus-visible::before{opacity:1;transform:translate(-50%,0) rotate(0)}
+.ui-tip:hover::before,.ui-tip:focus-visible::before{transform:translate(-50%,0) rotate(45deg)}
+/* 触屏无 hover：不显示提示，避免残留气泡 */
+@media (hover:none){
+  .ui-tip::after,.ui-tip::before{display:none}
+}
+
+/* C2. 表单字段：浮动标签 + 聚焦光环（技法 11） */
+.ui-field{position:relative;display:block}
+.ui-field input,.ui-field textarea{
+  width:100%;
+  padding:1.35em .95em .55em;
+  border-radius:var(--ui-r-m);
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  color:var(--ink);
+  transition:border-color var(--ui-t-fast) var(--ui-ease),box-shadow var(--ui-t-fast) var(--ui-ease);
+}
+.ui-field > label{
+  position:absolute;left:1em;top:.95em;
+  font-size:.95rem;color:var(--ink-mute,var(--ink-faint));
+  pointer-events:none;
+  transform-origin:left top;
+  transition:transform var(--ui-t-fast) var(--ui-ease-out),color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-field:focus-within > label,
+.ui-field.is-filled > label{
+  transform:translateY(-.62em) scale(.76);
+  color:var(--brand);
+}
+.ui-field input:focus,.ui-field textarea:focus{
+  outline:0;
+  border-color:var(--ui-line-brand);
+  box-shadow:var(--ui-ring);
+}
+
+/* C3. 分段控件（技法 6）：滑块跟随，键盘可达 */
+.ui-seg{
+  position:relative;
+  display:inline-flex;
+  padding:4px;
+  border-radius:100px;
+  border:1px solid var(--ui-line);
+  background:var(--ui-surface);
+  isolation:isolate;
+}
+.ui-seg__thumb{
+  position:absolute;top:4px;bottom:4px;left:4px;z-index:0;
+  border-radius:100px;
+  background:var(--brand);
+  box-shadow:var(--ui-shadow-1);
+  transition:transform var(--ui-t-mid) var(--ui-ease-out),width var(--ui-t-mid) var(--ui-ease-out);
+}
+.ui-seg__item{
+  position:relative;z-index:1;
+  padding:.5em 1.1em;
+  border-radius:100px;
+  font-size:.9rem;font-weight:500;
+  color:var(--ink-soft,var(--ink));
+  white-space:nowrap;
+  transition:color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-seg__item[aria-selected="true"]{color:var(--brand-ink)}
+
+/* C4. 开关（技法 6） */
+.ui-switch{
+  position:relative;
+  display:inline-flex;align-items:center;gap:.7em;
+  cursor:pointer;
+  font-size:.92rem;color:var(--ink);
+}
+.ui-switch input{position:absolute;opacity:0;width:0;height:0}
+.ui-switch__track{
+  position:relative;flex:none;
+  width:46px;height:26px;border-radius:100px;
+  background:color-mix(in srgb,var(--ink) 14%,transparent);
+  transition:background-color var(--ui-t-fast) var(--ui-ease);
+}
+.ui-switch__track::after{
+  content:"";position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(24,32,42,.28);
+  transition:transform var(--ui-t-mid) var(--ui-ease-spring);
+}
+.ui-switch input:checked + .ui-switch__track{background:var(--brand)}
+.ui-switch input:checked + .ui-switch__track::after{transform:translateX(20px)}
+.ui-switch input:focus-visible + .ui-switch__track{box-shadow:var(--ui-ring)}
+
+/* C5. 骨架屏流光（技法 8） */
+.ui-skel{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--ui-r-s);
+  background:color-mix(in srgb,var(--ink) 7%,transparent);
+}
+.ui-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+  transform:translateX(-100%);
+  animation:uiSkel 1.4s var(--ui-ease) infinite;
+}
+@keyframes uiSkel{to{transform:translateX(100%)}}
+.ui-skel--line{height:.85em;margin:.35em 0}
+.ui-skel--title{height:1.2em;width:52%}
+.ui-skel--media{aspect-ratio:16/9;border-radius:var(--ui-r-m)}
+/* 数据到位后淡出，避免闪跳 */
+.ui-skel.is-done{opacity:0;transition:opacity var(--ui-t-fast) var(--ui-ease)}
+
+/* C6. 环形进度（技法 7）：--p 为 0–1 的进度 */
+.ui-ring{
+  --p:0;
+  position:relative;
+  display:inline-grid;place-items:center;
+  width:52px;height:52px;
+}
+.ui-ring::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(var(--brand) calc(var(--p) * 360deg),
+    color-mix(in srgb,var(--ink) 12%,transparent) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+}
+.ui-ring > *{position:relative;z-index:1}
+
+/* ============================================================
+   D. 容器族
+   ============================================================ */
+
+/* D1. 弹窗基座（技法 12）：从触发原点缩放升起 + 内高光描边
+   --ox / --oy 由 js/ui.js 依据触发元素写入（相对弹窗自身的百分比）。
+   动画加在 [data-modal] 面板上：覆盖层本身是 fixed 全屏元素，对它做 scale
+   会把「从按钮原点展开」变成「整屏缩放」，因此覆盖层只作可见性容器。 */
+.ui-modal [data-modal]{
+  transform-origin:var(--ox,50%) var(--oy,50%);
+}
+.ui-modal.is-open [data-modal]{
+  animation:uiModalIn var(--ui-t-mid) var(--ui-ease-out) both;
+}
+@keyframes uiModalIn{
+  from{opacity:0;transform:scale(.94) translateY(10px)}
+  to{opacity:1;transform:none}
+}
+/* 面板内高光描边（不改变既有圆角与配色，只加 1px 高光） */
+.ui-modal__rim{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),var(--ui-shadow-3);
+}
+
+/* D2. 提示堆栈（技法 9） */
+.ui-toasts{
+  position:fixed;left:50%;bottom:clamp(20px,4vh,40px);z-index:95;
+  display:grid;gap:.5rem;justify-items:center;
+  transform:translateX(-50%);
+  pointer-events:none;
+  width:max-content;max-width:min(92vw,420px);
+}
+.ui-toast{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.8rem 1.05rem;
+  border-radius:100px;
+  border:1px solid var(--ui-line);
+  background:color-mix(in srgb,var(--ui-bg) 88%,transparent);
+  color:var(--ink);
+  backdrop-filter:blur(14px) saturate(1.25);
+  -webkit-backdrop-filter:blur(14px) saturate(1.25);
+  box-shadow:var(--ui-shadow-2);
+  pointer-events:auto;
+  animation:uiToastIn var(--ui-t-mid) var(--ui-ease-spring) both;
+}
+.ui-toast.is-out{animation:uiToastOut var(--ui-t-fast) var(--ui-ease) both}
+@keyframes uiToastIn{
+  from{opacity:0;transform:translateY(14px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+@keyframes uiToastOut{
+  to{opacity:0;transform:translateY(10px) scale(.97)}
+}
+.ui-toast__icon{
+  flex:none;display:grid;place-items:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--brand-soft);color:var(--brand);
+}
+.ui-toast__icon svg{width:14px;height:14px}
+.ui-toast__text{font-size:.92rem;font-weight:500;line-height:1.35}
+.ui-toast__detail{font-family:var(--font-mono);font-size:.76rem;color:var(--ink-faint);margin-top:.1rem}
+.ui-toast--error .ui-toast__icon{background:rgba(224,94,64,.14);color:var(--c-travel-600)}
+
+/* ============================================================
+   E. 无障碍与降级（强制项）
+   ============================================================ */
+
+/* 统一焦点可见：品牌色光环 + 键盘可达 */
+:is(.ui-iconbtn,.ui-seg__item,.ui-switch,.ui-card,[data-spotlight]):focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
+  border-radius:var(--ui-r-s);
+}
+
+/* 毛玻璃降级：不支持 backdrop-filter 时改用不透明表面 */
+@supports not ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .ui-iconbtn,.ui-toast{background:var(--ui-bg)}
+}
+
+/* 减弱动效：全部反馈降级为静态（保留可用性，不保留动效） */
+@media (prefers-reduced-motion:reduce){
+  :is(.btn--solid,.btn--primary,.btn--learn,.btn--travel,.nav__cta,.ui-btn--primary)::after,
+  .ui-skel::after{animation:none!important;opacity:0!important}
+  .ui-modal.is-open [data-modal],.ui-toast,.ui-toast.is-out{animation:none!important}
+  .ui-seg__thumb,.ui-switch__track::after,.ui-lift,.ui-iconbtn{transition:none!important}
+  [data-spotlight]::before{display:none}
+  .ui-skel{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+}
+
+/* 触屏：取消所有 hover 依赖态，避免“卡在 hover 态” */
+@media (hover:none){
+  .ui-lift:hover{transform:none;box-shadow:none}
+  .ui-bar:hover::after{transform:scaleX(0)}
+}
+/* @endinline:components */
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -413,7 +953,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
       <p class="hero__typer" aria-hidden="true"><span class="typer__prompt">&gt;</span> <span id="typerText"></span><i class="typer__caret"></i></p>
       <div class="hero__actions" data-reveal data-reveal-delay="3">
-        <a class="btn btn--primary" href="#learn">探索作品 <i aria-hidden="true">↓</i></a>
+        <a class="btn btn--primary" data-ripple href="#learn">探索作品 <i aria-hidden="true">↓</i></a>
       </div>
     </div>
     <div class="hero__meta">
@@ -477,18 +1017,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <span class="chip">WEB + ANDROID</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
-            <a class="btn btn--learn" href="https://learn.yuanabd.cn" target="_blank" rel="noopener">进入工作台 <i aria-hidden="true">→</i></a>
-            <a class="btn btn--ghost" href="https://learn.yuanabd.cn/download.html" target="_blank" rel="noopener">下载 App</a>
+            <a class="btn btn--learn" data-ripple href="https://learn.yuanabd.cn" target="_blank" rel="noopener">进入工作台 <i aria-hidden="true">→</i></a>
+            <a class="btn btn--ghost" data-ripple href="https://learn.yuanabd.cn/download.html" target="_blank" rel="noopener">下载 App</a>
           </div>
         </div>
-        <div class="mock" data-reveal data-reveal-delay="2" role="img" aria-label="苦旅界面示意：五本手册与学习进度">
+        <div class="mock ui-lift" data-spotlight data-reveal data-reveal-delay="2" role="img" aria-label="苦旅界面示意：五本手册与学习进度">
           <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
           <div class="mock__grid" aria-hidden="true">
-            <div class="mock__card"><i class="mico"></i><h4>市场雷达</h4><p>Market</p></div>
-            <div class="mock__card"><i class="mico"></i><h4>面试题库</h4><p>Questions</p></div>
-            <div class="mock__card"><i class="mico"></i><h4>学习路线图</h4><p>Roadmap</p></div>
-            <div class="mock__card"><i class="mico"></i><h4>求职看板</h4><p>Kanban</p></div>
-            <div class="mock__card mock__card--wide">
+            <div class="mock__card" data-spotlight><i class="mico"></i><h4>市场雷达</h4><p>Market</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h4>面试题库</h4><p>Questions</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h4>学习路线图</h4><p>Roadmap</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h4>求职看板</h4><p>Kanban</p></div>
+            <div class="mock__card mock__card--wide" data-spotlight>
               <i class="mico"></i>
               <div style="flex:1">
                 <h4>就绪度 · 本周</h4>
@@ -511,7 +1051,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <span class="section__label">Product · Travel-Notes</span>
       </div>
       <div class="duo">
-        <div class="tvisual" data-reveal data-reveal-delay="2">
+        <div class="tvisual ui-lift" data-spotlight data-reveal data-reveal-delay="2">
           <figure class="tvisual__main">
             <img src="./img/cover-900.webp" alt="山间晨雾与日出——甜途 App 的旅行记忆" width="900" height="620" loading="eager" />
             <figcaption class="tvisual__tag" aria-hidden="true">57.4°N · ISLE OF SKYE</figcaption>
@@ -541,8 +1081,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <span class="chip">ANDROID / WEB</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
-            <a class="btn btn--travel" href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">走进甜途 <i aria-hidden="true">→</i></a>
-            <a class="btn btn--ghost" href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener">下载甜途 App</a>
+            <a class="btn btn--travel" data-ripple href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">走进甜途 <i aria-hidden="true">→</i></a>
+            <a class="btn btn--ghost" data-ripple href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener">下载甜途 App</a>
           </div>
         </div>
       </div>
@@ -556,28 +1096,28 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <div class="gallery__rows" data-reveal>
           <div class="gallery__row gallery__row--ltr" aria-label="城市画廊 · 第一行">
             <div class="gallery__track">
-              <figure class="city"><img src="./img/beijing-900.webp" alt="北京" loading="eager" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-a.webp" alt="山野公路" loading="eager" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
-              <figure class="city"><img src="./img/shanghai-900.webp" alt="上海" loading="eager" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="eager" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
-              <figure class="city"><img src="./img/hangzhou-900.webp" alt="杭州" loading="eager" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="eager" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-d.webp" alt="城市车流" loading="eager" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="eager" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-f.webp" alt="海岸线" loading="eager" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/beijing-900.webp" alt="北京" loading="eager" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-a.webp" alt="山野公路" loading="eager" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/shanghai-900.webp" alt="上海" loading="eager" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="eager" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/hangzhou-900.webp" alt="杭州" loading="eager" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="eager" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-d.webp" alt="城市车流" loading="eager" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="eager" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-f.webp" alt="海岸线" loading="eager" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
             </div>
           </div>
           <div class="gallery__row gallery__row--rtl" aria-label="城市画廊 · 第二行">
             <div class="gallery__track">
-              <figure class="city"><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="eager" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
-              <figure class="city"><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
-              <figure class="city"><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
-              <figure class="city"><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
-              <figure class="city"><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="eager" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
             </div>
           </div>
         </div>
@@ -594,9 +1134,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           小而完整，胜过大而空洞。<em>每一件产品都从第一行代码走到线上运行——设计、工程、部署，由同一双手完成。</em>
         </p>
         <div class="credo__grid">
-          <div class="credo__card" data-reveal><b class="u1">02</b><p>在营产品。苦旅与甜途，均已上线运行并持续迭代。</p></div>
-          <div class="credo__card" data-reveal data-reveal-delay="1"><b class="u2">100%</b><p>独立完成。从界面设计、前后端工程到服务器部署与运维。</p></div>
-          <div class="credo__card" data-reveal data-reveal-delay="2"><b class="u3">24×7</b><p>持续构建。产品在真实使用中生长，每一次迭代都公开进行。</p></div>
+          <div class="credo__card ui-lift" data-spotlight data-reveal><b class="u1">02</b><p>在营产品。苦旅与甜途，均已上线运行并持续迭代。</p></div>
+          <div class="credo__card ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b class="u2">100%</b><p>独立完成。从界面设计、前后端工程到服务器部署与运维。</p></div>
+          <div class="credo__card ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b class="u3">24×7</b><p>持续构建。产品在真实使用中生长，每一次迭代都公开进行。</p></div>
         </div>
       </div>
     </div>
@@ -610,22 +1150,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <span class="section__label">How I Build · 构建方式</span>
       </div>
       <div class="build__grid">
-        <article class="bcard" data-reveal>
+        <article class="bcard ui-lift" data-spotlight data-reveal>
           <span class="bcard__idx">01 · DESIGN</span>
           <h3>先想清楚，再动手</h3>
           <p>从一句话价值主张出发，先搭信息架构与设计系统，再进入像素。每个页面都先回答「它为什么存在」。</p>
         </article>
-        <article class="bcard" data-reveal data-reveal-delay="1">
+        <article class="bcard ui-lift" data-spotlight data-reveal data-reveal-delay="1">
           <span class="bcard__idx">02 · ENGINEERING</span>
           <h3>小步上线，真实使用</h3>
           <p>不做演示级 Demo。功能从第一行代码走到线上运行，在真实数据与真实使用中迭代。</p>
         </article>
-        <article class="bcard" data-reveal data-reveal-delay="2">
+        <article class="bcard ui-lift" data-spotlight data-reveal data-reveal-delay="2">
           <span class="bcard__idx">03 · DEPLOY</span>
           <h3>自己运维，自己负责</h3>
           <p>从界面设计、前后端工程到服务器部署与性能监控，由同一双手完成，端到端可控。</p>
         </article>
-        <article class="bcard" data-reveal data-reveal-delay="3">
+        <article class="bcard ui-lift" data-spotlight data-reveal data-reveal-delay="3">
           <span class="bcard__idx">04 · LEARN</span>
           <h3>公开构建，持续分享</h3>
           <p>每一步进展都公开进行；踩过的坑写下来，变成下一件作品的地基。</p>
@@ -653,10 +1193,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             </ul>
           </div>
           <div class="now__cards">
-            <div class="ncard" data-reveal data-reveal-delay="1"><b data-count="2">2</b><span>在营产品 · 均已在线上运行</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="1"><b data-count="7">7</b><span>行程城市 · 已收录进旅行画廊</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="2"><b data-count="19">19</b><span>数据源平台 · 每日自动抓取</span></div>
-            <div class="ncard" data-reveal data-reveal-delay="2"><b data-count="100" data-count-suffix="%">100%</b><span>独立完成 · 设计与工程一体</span></div>
+            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b data-count="2">2</b><span>在营产品 · 均已在线上运行</span></div>
+            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b data-count="7">7</b><span>行程城市 · 已收录进旅行画廊</span></div>
+            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b data-count="19">19</b><span>数据源平台 · 每日自动抓取</span></div>
+            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b data-count="100" data-count-suffix="%">100%</b><span>独立完成 · 设计与工程一体</span></div>
           </div>
         </div>
       </div>
@@ -668,14 +1208,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="wrap">
       <h2 class="footer__title" data-reveal>两件作品，都在等你。<br /><em>从这一页出发。</em></h2>
       <div class="footer__cards">
-        <a class="fcard fcard--learn" href="https://learn.yuanabd.cn" target="_blank" rel="noopener" data-reveal>
+        <a class="fcard fcard--learn ui-lift" data-spotlight href="https://learn.yuanabd.cn" target="_blank" rel="noopener" data-reveal>
           <span class="fcard__logo"><img src="./img/kulv-logo.png" alt="苦旅 App 图标" width="44" height="44" loading="lazy" /></span>
           <span class="fcard__mono">01 · LEARN-WORKBENCH · KU LV</span>
           <h3>苦旅</h3>
           <p>把求职与学习装订成五本手册：市场雷达、题库、路线图、看板、就绪度评估。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
-        <a class="fcard fcard--travel" href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener" data-reveal data-reveal-delay="1">
+        <a class="fcard fcard--travel ui-lift" data-spotlight href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener" data-reveal data-reveal-delay="1">
           <span class="fcard__logo"><img src="./img/tiantu-logo.png" alt="甜途 App 图标" width="44" height="44" loading="lazy" /></span>
           <span class="fcard__mono">02 · TRAVEL-NOTES · TIAN TU</span>
           <h3>甜途</h3>
@@ -883,6 +1423,337 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 })();
 </script>
 <script src="./vendor/lenis/lenis.min.js" defer></script>
+<script defer>
+// @inline:ui */
+/* ==== 由 build-portal.cjs 内联自 demo/js/ui.js（请勿手改；改源文件后重新构建）==== */
+/* ============================================================
+   ui.js — 精美组件层交互（Phase 2）
+   ------------------------------------------------------------
+   零依赖、可延迟加载、渐进增强。所有能力均通过 data-* 属性按需启用，
+   元素缺失时对应逻辑自动跳过，因此同一份文件可安全用于三个站点。
+
+   提供的能力（与 css/components.css 一一对应）：
+     [data-spotlight]      指针跟随光斑（写入 --mx / --my）
+     [data-ripple]         点击涟漪
+     [data-fade]           图片解码后渐显（含 .ui-card__media img）
+     [data-copy]           复制到剪贴板并切换按钮状态
+     [data-seg]            分段控件滑块跟随（技法 6）
+     [data-modal]          弹窗从触发原点缩放（写入 --ox / --oy）
+     .ui-field             浮动标签的 is-filled 状态
+     [data-skel]           数据就绪后移除骨架屏
+     window.UI.toast()     统一提示堆栈（按需创建容器）
+
+   无障碍：所有效果均为视觉增强，不改变语义、焦点顺序与可访问名称。
+   减弱动效：动效由 CSS 层统一降级，本文件不做额外分支。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var doc = document;
+  var root = doc.documentElement;
+  var fine = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+  /* 标记 JS 已启用：CSS 中依赖 .js 的初始隐藏态以此为准（禁用 JS 时内容仍可见） */
+  root.classList.add("js");
+
+  function on(el, type, fn, opts) { if (el && el.addEventListener) el.addEventListener(type, fn, opts); }
+  function $(sel, ctx) { return (ctx || doc).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); }
+
+  /* ---------- 1. 指针光斑 ---------- */
+  function initSpotlight() {
+    var nodes = $$("[data-spotlight]");
+    if (!nodes.length || !fine || reduce) return;
+    var raf = 0, pending = null;
+    function flush() {
+      raf = 0;
+      if (!pending) return;
+      var r = pending.el.getBoundingClientRect();
+      if (!r.width) return;
+      pending.el.style.setProperty("--mx", ((pending.x - r.left) / r.width * 100).toFixed(2) + "%");
+      pending.el.style.setProperty("--my", ((pending.y - r.top) / r.height * 100).toFixed(2) + "%");
+      pending = null;
+    }
+    nodes.forEach(function (el) {
+      on(el, "pointermove", function (e) {
+        pending = { el: el, x: e.clientX, y: e.clientY };
+        if (!raf) raf = requestAnimationFrame(flush);
+      }, { passive: true });
+    });
+  }
+
+  /* ---------- 2. 点击涟漪 ---------- */
+  function initRipple() {
+    var nodes = $$("[data-ripple]");
+    if (!nodes.length || reduce) return;
+    nodes.forEach(function (el) {
+      on(el, "pointerdown", function (e) {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        var r = el.getBoundingClientRect();
+        var size = Math.max(r.width, r.height) * 2;
+        var span = doc.createElement("span");
+        span.className = "ui-ripple";
+        span.style.cssText = "position:absolute;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%) scale(0);" +
+          "background:radial-gradient(circle,color-mix(in srgb,var(--brand) 45%,transparent) 0%,transparent 70%);" +
+          "width:" + size + "px;height:" + size + "px;" +
+          "left:" + (e.clientX - r.left) + "px;top:" + (e.clientY - r.top) + "px;" +
+          "transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .55s linear;opacity:.85;z-index:0";
+        if (getComputedStyle(el).position === "static") el.style.position = "relative";
+        var overflow = getComputedStyle(el).overflow;
+        if (overflow === "visible") el.style.overflow = "hidden";
+        el.appendChild(span);
+        requestAnimationFrame(function () {
+          span.style.transform = "translate(-50%,-50%) scale(1)";
+          span.style.opacity = "0";
+        });
+        setTimeout(function () { if (span.parentNode) span.parentNode.removeChild(span); }, 620);
+      }, { passive: true });
+    });
+  }
+
+  /* ---------- 3. 图片渐显 ---------- */
+  function loadImage(img) {
+    var reveal = function () { img.classList.add("is-loaded"); };
+    if (img.complete && img.naturalWidth > 0) { reveal(); return; }
+    if (img.decode) {
+      img.decode().then(reveal, reveal);
+    } else {
+      on(img, "load", reveal, { once: true });
+      on(img, "error", reveal, { once: true });
+    }
+  }
+  function initFade() {
+    var imgs = $$("[data-fade], .ui-card__media img");
+    imgs.forEach(loadImage);
+  }
+
+  /* ---------- 4. 复制按钮 ---------- */
+  function initCopy() {
+    $$("[data-copy]").forEach(function (btn) {
+      if (!btn.hasAttribute("data-copy-orig-label")) {
+        btn.setAttribute("data-copy-orig-label", btn.getAttribute("aria-label") || "复制");
+      }
+      var restore = null;
+      function done() {
+        btn.classList.add("is-done");
+        btn.setAttribute("aria-label", btn.getAttribute("data-copy-label") || "已复制链接");
+        clearTimeout(restore);
+        restore = setTimeout(function () {
+          btn.classList.remove("is-done");
+          btn.setAttribute("aria-label", btn.getAttribute("data-copy-orig-label"));
+        }, 2000);
+      }
+      function fail() { UI.toast({ type: "error", text: "复制失败，请手动选择链接" }); }
+      function legacyCopy(text) {
+        var ta = doc.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly", "");
+        ta.style.cssText = "position:fixed;top:-1000px;opacity:0";
+        doc.body.appendChild(ta); ta.select();
+        var ok = false;
+        try { ok = doc.execCommand("copy"); } catch (err) { ok = false; }
+        doc.body.removeChild(ta);
+        return ok;
+      }
+      on(btn, "click", function () {
+        var text = btn.getAttribute("data-copy") || "";
+        if (!text) return;
+        /* 优先异步剪贴板 API；缺失或被策略拒绝（无用户手势/非安全上下文）时
+           退回 execCommand，两者都失败才提示——避免静默无反馈。 */
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            legacyCopy(text) ? done() : fail();
+          });
+        } else {
+          legacyCopy(text) ? done() : fail();
+        }
+      });
+    });
+  }
+
+  /* ---------- 5. 分段控件 ---------- */
+  function syncSeg(seg) {
+    var thumb = $(".ui-seg__thumb", seg);
+    var active = $('[aria-selected="true"]', seg) || $(".ui-seg__item", seg);
+    if (!thumb || !active) return;
+    thumb.style.width = active.offsetWidth + "px";
+    thumb.style.transform = "translateX(" + (active.offsetLeft - 4) + "px)";
+  }
+  function initSeg() {
+    var segs = $$("[data-seg]");
+    if (!segs.length) return;
+    segs.forEach(function (seg) {
+      var items = $$(".ui-seg__item", seg);
+      if (!items.length) return;
+      if (!$('[aria-selected="true"]', seg)) items[0].setAttribute("aria-selected", "true");
+      items.forEach(function (item) {
+        on(item, "click", function () {
+          items.forEach(function (o) { o.setAttribute("aria-selected", String(o === item)); });
+          syncSeg(seg);
+          seg.dispatchEvent(new CustomEvent("seg:change", {
+            bubbles: true, detail: { value: item.getAttribute("data-value") || item.textContent.trim() },
+          }));
+        });
+      });
+      syncSeg(seg);
+      /* 字体/尺寸变化后重新对齐 */
+      if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { syncSeg(seg); });
+      on(window, "resize", function () { syncSeg(seg); }, { passive: true });
+    });
+  }
+
+  /* ---------- 6. 弹窗原点缩放 + 下拉关闭 ---------- */
+  function initModalOrigin() {
+    $$("[data-modal]").forEach(function (panel) {
+      var name = panel.getAttribute("data-modal");
+      on(doc, "click", function (e) {
+        if (!e.target.closest) return;
+        var trigger = e.target.closest('[data-modal-trigger="' + name + '"]');
+        if (!trigger) return;
+        /* 参考系 = 最近的 fixed/absolute 祖先（即弹窗覆盖层）；找不到则退回视口。
+           面板自身往往不是定位元素，用它当参考系会算出离谱的百分比。 */
+        var frame = null, node = panel.parentElement;
+        while (node && node !== doc.body) {
+          var pos = getComputedStyle(node).position;
+          if (pos === "fixed" || pos === "absolute") { frame = node; break; }
+          node = node.parentElement;
+        }
+        var fr = frame ? frame.getBoundingClientRect() : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+        var tr = trigger.getBoundingClientRect();
+        if (!fr.width || !fr.height) return;
+        var mx = tr.left + tr.width / 2, my = tr.top + tr.height / 2;
+        panel.style.setProperty("--ox", (Math.max(0, Math.min(1, (mx - fr.left) / fr.width)) * 100).toFixed(2) + "%");
+        panel.style.setProperty("--oy", (Math.max(0, Math.min(1, (my - fr.top) / fr.height)) * 100).toFixed(2) + "%");
+      }, true);
+    });
+  }
+  function initDragClose() {
+    if (!fine && !("ontouchstart" in window)) return;
+    $$("[data-modal-drag]").forEach(function (panel) {
+      var startY = 0, dy = 0, active = false;
+      var handle = panel.getAttribute("data-modal-drag") || panel;
+      var el = handle === "self" ? panel : $(handle, panel) || panel;
+      on(el, "pointerdown", function (e) {
+        if (e.pointerType === "mouse") return;         /* 仅触屏下拉，避免与桌面交互冲突 */
+        if (panel.scrollTop > 2) return;               /* 内容已滚动时不接管手势 */
+        active = true; startY = e.clientY; dy = 0;
+        panel.style.transition = "none";
+      });
+      on(el, "pointermove", function (e) {
+        if (!active) return;
+        dy = Math.max(0, e.clientY - startY);
+        panel.style.transform = "translateY(" + dy + "px)";
+      }, { passive: true });
+      var end = function () {
+        if (!active) return;
+        active = false;
+        panel.style.transition = "";
+        if (dy > 90) {
+          panel.style.transform = "";
+          var closer = $("[data-modal-close]", panel);
+          if (closer) closer.click();
+        } else {
+          panel.style.transform = "";
+        }
+        dy = 0;
+      };
+      on(el, "pointerup", end); on(el, "pointercancel", end);
+    });
+  }
+
+  /* ---------- 7. 浮动标签 ---------- */
+  function initFields() {
+    $$(".ui-field").forEach(function (field) {
+      var input = $("input, textarea", field);
+      if (!input) return;
+      var sync = function () {
+        field.classList.toggle("is-filled", !!input.value || input.value === "0");
+      };
+      on(input, "input", sync); on(input, "change", sync);
+      sync();
+    });
+  }
+
+  /* ---------- 8. 骨架屏收尾 ---------- */
+  function initSkeleton() {
+    $$("[data-skel]").forEach(function (host) {
+      var done = function () {
+        $$(".ui-skel", host).forEach(function (s) { s.classList.add("is-done"); });
+        host.removeAttribute("data-skel");
+      };
+      if (host.getAttribute("data-skel") === "ready") done();
+    });
+  }
+
+  /* ---------- 9. 提示堆栈 ---------- */
+  var toastHost = null;
+  function ensureToastHost() {
+    if (toastHost && doc.body.contains(toastHost)) return toastHost;
+    toastHost = doc.createElement("div");
+    toastHost.className = "ui-toasts";
+    toastHost.setAttribute("role", "status");
+    toastHost.setAttribute("aria-live", "polite");
+    doc.body.appendChild(toastHost);
+    return toastHost;
+  }
+  var ICONS = {
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+    error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+  };
+  function toast(opts) {
+    opts = opts || {};
+    var host = ensureToastHost();
+    while (host.children.length >= 3) host.removeChild(host.firstChild);
+    var el = doc.createElement("div");
+    el.className = "ui-toast" + (opts.type === "error" ? " ui-toast--error" : "");
+    el.setAttribute("role", opts.type === "error" ? "alert" : "status");
+    var kind = opts.type === "error" ? "error" : (opts.type === "info" ? "info" : "ok");
+    el.innerHTML =
+      '<span class="ui-toast__icon">' + ICONS[kind] + "</span>" +
+      '<span><span class="ui-toast__text"></span>' +
+      (opts.detail ? '<span class="ui-toast__detail"></span>' : "") + "</span>";
+    $(".ui-toast__text", el).textContent = opts.text || "";
+    if (opts.detail) $(".ui-toast__detail", el).textContent = opts.detail;
+    host.appendChild(el);
+    var life = typeof opts.duration === "number" ? opts.duration : 2600;
+    var timer = setTimeout(close, life);
+    function close() {
+      clearTimeout(timer);
+      el.classList.add("is-out");
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+    }
+    on(el, "click", close);
+    return { close: close, el: el };
+  }
+
+  /* ---------- 10. 统一导出 ---------- */
+  var UI = {
+    toast: toast,
+    seg: { sync: function (seg) { syncSeg(seg); } },
+    fade: initFade,
+  };
+  window.UI = UI;
+
+  function init() {
+    initSpotlight();
+    initRipple();
+    initFade();
+    initCopy();
+    initSeg();
+    initModalOrigin();
+    initDragClose();
+    initFields();
+    initSkeleton();
+    /* 让页面其余脚本可在初始化完成后接管（如替换骨架屏、推提示） */
+    doc.dispatchEvent(new CustomEvent("ui:ready"));
+  }
+
+  if (doc.readyState === "loading") on(doc, "DOMContentLoaded", init);
+  else init();
+})();
+// @endinline:ui */
+</script>
 <script defer>
 (function(){
   "use strict";

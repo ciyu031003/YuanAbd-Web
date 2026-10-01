@@ -19,7 +19,12 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./img/app-icon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<!-- 字体请求按实测字重收敛（.tmp-shots/font-usage.cjs）：
+       Space Grotesk 仅用 700；IBM Plex Mono 仅用 400/500；
+       Noto Serif SC 仅用 900（约 104 字，且中文回退链含宋体/思源宋体）；
+       Noto Sans SC 用 400/500/600/700。 -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all';this.removeAttribute('onload')" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" /></noscript>
 <style>
 /* @inline:tokens */
 /* ==== 由 build-portal.cjs 内联自 demo/css/tokens.css（请勿手改；改源文件后重新构建）==== */
@@ -377,6 +382,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .footer__sep{opacity:.4}
 .footer__base{border-top:1px solid var(--line);padding:30px 0 36px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
 /* Reveal 动效 */
+/* 首屏元素的入场转场缩短到 .5s：
+   实测原 1s 转场会把 LCP（首屏文字）推迟到 1.4s 之后才被记录。
+   滚动进入的区块仍用 1s，观感不变。 */
+.hero [data-reveal]{transition-duration:.5s}
 [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
 [data-reveal].is-in{opacity:1;transform:none}
 [data-reveal-delay="1"]{transition-delay:.1s}[data-reveal-delay="2"]{transition-delay:.2s}
@@ -1392,11 +1401,18 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   }
 
   /* ---------- boot ---------- */
+  /* 首屏优先：reveal / parallax / nav 立即执行（它们决定首屏可见性），
+     星点 canvas 初始化实测占 DOMContentLoaded 同步耗时的大头（累计约 400ms），
+     延后到首帧之后再执行，避免与首屏绘制竞争主线程。 */
   function boot(){
     initReveal();
     initParallax();
-    initStars();
     initNav();
+    if (window.requestIdleCallback) {
+      requestIdleCallback(function(){ initStars(); }, { timeout: 1200 });
+    } else {
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ initStars(); }); });
+    }
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

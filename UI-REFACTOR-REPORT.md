@@ -202,23 +202,46 @@ Space Grotesk 400;500;600;700 + Noto Serif SC 600;700;900 收敛到实际用到�
 3. 以 `build-portal.cjs --check`、门户自身内容与 HEAD 的行级差异（0 行）、
    三站 `scrollHeight`、1440/390 像素对比（差异 ≤0.15%）完成回归。
 
+### 第五轮：中文改用系统字族（已修复，最大单项收益）
+
+`cjk-variant-measure.cjs` / `font-breakdown.cjs` 实测并落地：
+
+| 站点 | 改动前字体 | 改动后 | 节省 |
+|---|---|---|---|
+| 门户 | 31 个 / 1419KB | 4 个 / **43KB** | 1376KB |
+| 苦旅 | 23 个 / 759KB | 4 个 / **55KB** | 705KB |
+| 甜途 | 16 个 / 942KB | 3 个 / **114KB** | 828KB |
+
+**为什么这是安全的排版决策**：
+1. 三站字体栈**本来就**把 `PingFang SC` / `Microsoft YaHei` / `Songti SC` 写在
+   fallback 里，`DESIGN-SYSTEM.md` §2 也正是这么规定的——中文网络字体只是插在
+   系统字体之前；
+2. 苦旅与甜途的 `--font-display` 是 `Fraunces` / `Iowan Old Style`，
+   `Noto Serif SC` 仅是其**备选**，在 Georgia/Songti 之前几乎不会命中，
+   属「下载了却用不上」；
+3. 拉丁字体（Space Grotesk / IBM Plex Mono / Inter / Fraunces）全部保留，
+   它们才是品牌气质的主要来源。
+
+**一处诚实的澄清**：四路对照（`fcp-isolate.cjs`）显示，先前观察到的
+「FCP 1.4s → 60ms」主要来自**首次访问时对 fonts.gstatic.com 的 DNS/TLS 冷启动**
+（第二轮即回到 60ms）。因此本改动的主要收益是**传输体积**（每页省 0.7–1.4MB）
+与冷启动连接数，而非稳态首屏绘制速度。原始数字已按此口径修正。
+
 ---
 
 ## 8. 剩余可继续优化项
 
-1. **CJK 字体体积**（最大剩余项，约 1.2MB）：`font-breakdown.cjs` 实测
-   `notosanssc` 855KB/17 文件 + `notoserifsc` 370KB/10 文件，拉丁字体仅 42KB。
-   阻断全部字体后 FCP 仅快约 120ms，说明它主要影响带宽与常驻内存，而非首屏绘制。
-   **需要产品取舍**（会改变中文正文字族，落到系统字体）：
-   a) 仅保留 Noto Sans SC 的 400/500，去掉 Noto Serif SC（省约 370KB，标题改用系统宋体）；
-   b) 正文改用系统 CJK、仅标题保留有限用字的 Noto Serif SC（省约 855KB）；
-   c) 维持现状（视觉最统一，代价是 1.2MB 字体请求）。
-2. **首屏 FCP 仍在 1.4–1.6s**：阻断字体后仍有 ~1.4s，说明成本来自文档自身
-   （门户单文件内联 HTML ~100KB + 内联 CSS ~1900 行）的解析与首次样式/布局计算。
-   可考虑把门户内联 CSS 拆成外链文件（需同步改部署命令与缓存版本号）。
-3. **甜途画廊构图**：已复测——滚动位置与城市序号一一对应（0→01 甜途、
+1. **首屏 FCP 冷启动成本**：`fcp-isolate.cjs` 实测——第二轮（DNS/TLS 已预热）
+   FCP 降到 60ms，说明稳态首屏绘制本身很快；剩下的约 1.4s 是**冷启动成本**：
+   对 `fonts.googleapis.com` / `fonts.gstatic.com` 的 DNS + 连接，以及
+   门户单文件内联 HTML ~100KB + 内联 CSS ~1900 行的解析。
+2. **甜途画廊构图**：已复测——滚动位置与城市序号一一对应（0→01 甜途、
    1000→02 北京、2000→03 上海…），此前的「主卡偏右」是转场瞬时态，
    非静态缺陷；若仍想调整主卡停位，需改 Three.js 相机与 `gallery.position.x`。
-4. **对比度收尾**：剩余项中，照片上的文字建议加半透明暗底；微型大写标签可考虑提高字号而非继续加深颜色。
+3. **窄视口 3px 横向溢出**（甜途 360/390）：`overflow-by-scroll.cjs` 逐段扫描未
+   复现稳定溢出，`documentElement.scrollWidth - innerWidth` 为 0；因 `body` 已设
+   `overflow-x:hidden`，无用户可见影响。如要彻底消除，可对
+   `.cityfilm__track` / `.filmstrip` / `.driftband` 容器补 `overflow:hidden`。
+4. **对比度收尾**：照片上的文字可加半透明暗底；微型大写标签可提高字号而非继续加深颜色。
 5. **`.tvisual` 卡片负偏移**：`left:-14px` 在窄屏仍会轻微出血，可改为容器内缩。
 6. **动效曲线统一**：三站缓动函数已有公共令牌，但少数历史覆盖层仍写死 `cubic-bezier`，可做一次收敛。

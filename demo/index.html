@@ -481,6 +481,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    —— 曾因给所有子元素统一加 position:relative，把 .tvisual / .mock 内部
    绝对定位的图片盒拉回静态流，导致 #travel 区块高度 +714px。 */
 .credo__card,.bcard,.ncard,.fcard{position:relative}
+/* 甜途视觉块必须自建定位上下文。
+   它的两个子元素是绝对定位（.tvisual__main 常规流 + .tvisual__card 浮动照片卡
+   left:-14px;bottom:-20px），但 .tvisual 此前没有任何 position 声明，绝对定位
+   子元素便以更外层的祖先为参照，导致浮动照片卡脱离栅格轨道、向上溢出到
+   「02 —— PRODUCT · TRAVEL-NOTES」标题上（桌面与移动端均可见）。
+   position:relative 不产生位移、不改变盒模型，只把参照系收回到它自己。 */
+.tvisual{position:relative}
+/* 浮动照片卡的内图原先写作 height:100% —— 卡片高度由 bottom:-20px 相对主图
+   反推、没有确定高度，于是图片以「高度已定、宽度自适应」解析 4:3 自然比例，
+   把卡片撑成 168×714 的长条（实测值），正是上一条溢出的直接原因。
+   改为按宽度定尺寸：width:100% + 固定宽高比 + object-fit，卡片回到设计意图的
+   小照片尺寸，也不再依赖父级高度。 */
+.tvisual__card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
 /* 光斑需压在界面示意内容之下：把承载主体的容器标为抬层元素。
    .mock__card / .tvisual__main / .tvisual__card 自身已有定位或独立层叠上下文，
    一律不做改写 —— 组件层只认显式标注，不推断子元素定位。 */

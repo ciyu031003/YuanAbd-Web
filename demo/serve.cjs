@@ -77,14 +77,15 @@ http.createServer((req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const type = contentType(ext);
     const isHtml = ext === ".html";
-    // HTML 不强缓存，静态资源缓存 1 小时（本地预览；生产可用 hash + immutable）
-    const cache = isHtml
-      ? "no-cache"
-      : (COMPRESSIBLE.includes(ext) ? "public, max-age=3600" : "public, max-age=86400");
+    // 本地预览一律 no-store：改完源码刷新即生效。
+    // （曾对 CSS/JS 设 max-age=3600，导致改动后仍取到旧样式，回归比对结论被污染。）
+    // 生产环境的长缓存由 Nginx 负责，与本文件无关。
+    const cache = "no-store";
 
     const headers = {
       "Content-Type": type,
       "Cache-Control": cache,
+      "Pragma": "no-cache",
       "X-Content-Type-Options": "nosniff",
       "Content-Length": st.size,
     };

@@ -15,14 +15,30 @@
   --brand-2:var(--c-sun-yellow);        /* 次强调：阳光黄 */
 
   /* 兼容令牌：download.html / privacy.html 共用 learn.css，需要这一组才能
-     与 learn.html 的「暖白阳光」外观一致（否则会回落到 base.css 的深色兜底） */
+     与 learn.html 的「暖白阳光」外观一致。
+     注意：learn.css 的 :root 定义了一批令牌（--ink-deep / --text-c / --pink…），
+     但只有 learn-sunny.css 给出浅色取值；只加载 learn.css 的页面
+     （download.html / privacy.html）会因此拿到深色或未定义值 —— 例如
+     learn.css 的 body.learn{background:var(--ink-deep)} 就因 --ink-deep 未定义
+     而整条声明失效。本文件必须给出完整取值，页面才能不依赖覆盖层独立成立。 */
   --bg:var(--c-warm-white);
   --bg-2:#FFF6E2;
   --surface:rgba(24,32,42,.045);
   --surface-2:rgba(24,32,42,.08);
   --ink:var(--c-ink-900);
+  --ink-deep:var(--c-ink-900);
+  --ink-soft-c:#3A4350;
   --ink-soft:rgba(24,32,42,.72);
   --ink-faint:rgba(24,32,42,.5);
+  --text-c:var(--c-ink-900);
+  --muted-c:var(--c-ink-500);
+  --paper:#FFFDF7;
+  --pink:var(--c-learn-600);
+  --pink-bright:var(--c-sky-blue);
+  --periwinkle:var(--c-sky-blue);
+  --sage:#1FA97C;
+  --clay:#E8773C;
+  --moss:#2E9E63;
   --accent:var(--c-learn-600);
   --accent-2:var(--c-learn-700);
   --accent-ink:#FFFFFF;
@@ -40,4 +56,12 @@
   /* 品牌渐变（hero 标题 / 强调字） */
   --ui-grad:linear-gradient(120deg,var(--c-sky-blue) 0%,var(--c-sun-yellow) 100%);
   --ui-grad-ink:linear-gradient(92deg,var(--c-learn-700),var(--c-travel-600));
+}
+
+/* 页面底色与文字色显式声明：learn.css 的 body.learn 规则只设了
+   background:var(--ink-deep)，未设 color（依赖 base.css 的 body 规则）。
+   这里用更高特异性补齐，确保「只加载 learn.css」的页面也有完整浅色外观。 */
+body.learn{
+  background:var(--bg);
+  color:var(--ink);
 }

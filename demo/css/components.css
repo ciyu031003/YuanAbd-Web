@@ -107,11 +107,18 @@
    B. 卡片族：指针光斑 + 分层阴影 + 可选倾斜
    ============================================================ */
 
-/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入 */
+/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入
+   ------------------------------------------------------------
+   实现要点（踩坑记录）：光斑层刻意**不设 z-index**，保持 z-index:auto。
+   它作为宿主的子元素，绘制顺序天然位于宿主背景之上、普通子元素之下；
+   而需要抬到光斑之上的子元素由各站按需加 .ui-spot-up 类（见下方）。
+   早期写法是给宿主的所有子元素统一加 position:relative;z-index:1，
+   那会把宿主内部原本绝对定位的浮层（图片盒等）拉回静态流，实测导致
+   旅行区块高度 +714px —— 组件层绝不能无条件改写子元素的定位。 */
 [data-spotlight]{position:relative}
 [data-spotlight]::before{
   content:"";
-  position:absolute;inset:0;z-index:0;
+  position:absolute;inset:0;
   border-radius:inherit;
   background:var(--fx-spot);
   opacity:0;
@@ -121,8 +128,8 @@
 @media (hover:hover) and (pointer:fine){
   [data-spotlight]:hover::before{opacity:1}
 }
-/* 内容需浮在光斑之上 */
-[data-spotlight] > *{position:relative;z-index:1}
+/* 需要压在光斑之上的子元素：由站点显式标注，组件层不做推断 */
+[data-spotlight] > .ui-spot-up{position:relative;z-index:1}
 
 /* B2. 分层悬浮（比 base.css 的 -3px 更有层次，按需启用） */
 .ui-lift{transition:transform var(--ui-t-mid) var(--ui-ease-out),

@@ -59,6 +59,30 @@ http.createServer((req, res) => {
   try { urlPath = decodeURIComponent(req.url.split("?")[0]); }
   catch { res.writeHead(400); res.end("bad request"); return; }
   if (urlPath === "/") urlPath = "/index.html";
+
+  /* ---------- 本地样例 API（仅本地预览；线上由应用后端提供） ----------
+     苦旅会根据 /api/public/stats 覆盖「数据一瞥」的静态数值，失败则保留静态值。
+     线上该接口为 200（实测返回 {"total","todayNew","avgSalary","cityCount",
+     "fetchedAt","platformCount"}）；本地原本没有，导致预览拿不到活数据，
+     且每次资源回归都多一条 404 噪音。这里返回**同形状**的样例数据，
+     数值用页面内置的静态兜底值，保证本地预览与静态值一致。 */
+  if (urlPath === "/api/public/stats") {
+    const body = JSON.stringify({
+      total: 3279,
+      todayNew: 334,
+      avgSalary: 14000,
+      cityCount: 47,
+      platformCount: 19,
+      fetchedAt: new Date().toISOString(),
+    });
+    res.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Content-Length": Buffer.byteLength(body),
+    });
+    res.end(req.method === "HEAD" ? undefined : body);
+    return;
+  }
   const testMode = /(?:^|&)test=1(?:&|$)/.test((req.url.split("?")[1] || ""));
 
   // 解析后必须仍位于站点根目录内（防目录穿越：处理 .. 与兄弟目录前缀）

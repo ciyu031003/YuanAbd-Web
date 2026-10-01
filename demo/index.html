@@ -180,6 +180,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav__links a{position:relative;padding:6px 0;transition:color .25s}
 .nav__links a::after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:2px;background:var(--sun);transition:right .35s var(--ease-out)}
 .nav__links a:hover{color:var(--ink)}.nav__links a:hover::after{right:0}
+/* 滚动后把玻璃胶囊压成实底：
+   实测导航在每个滚动位置都会与正文相交（最宽 606×33px），
+   而 .78 的玻璃底不足以把正文压成背景；这里提到 .94 并补细描边与轻阴影，
+   使其在内容之上形成明确的面。首屏（未滚动）保持通透玻璃观感。 */
+.nav__inner.is-solid{background:rgba(255,253,247,.94);border-color:rgba(24,32,42,.14);box-shadow:0 18px 40px -22px rgba(24,32,42,.34)}
 .nav__cta{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font:500 .84rem/1 var(--font-sans);transition:transform .3s var(--ease-out);box-shadow:0 10px 24px -12px rgba(24,32,42,.5)}
 .nav__cta:hover{transform:scale(1.04)}
 .nav__dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px rgba(145,230,193,.9)}
@@ -966,6 +971,34 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   .ui-lift:hover{transform:none;box-shadow:none}
   .ui-bar:hover::after{transform:scaleX(0)}
 }
+
+/* ============================================================
+   滚动后导航实底（可读性）
+   ------------------------------------------------------------
+   依据 .tmp-shots/nav-overlay.cjs 实测：固定导航在**每个滚动位置**都会与
+   正文相交（门户最宽处 606×33px），而半透明玻璃底不足以把正文压成清晰的
+   背景。滚动后切到更实的底 + 细描边 + 轻阴影，使其在内容之上形成明确的「面」；
+   首屏（未滚动）保持通透玻璃观感。
+   ============================================================ */
+.nav.is-solid,
+.nav__inner.is-solid,
+.topbar.is-solid{
+  background:color-mix(in srgb,var(--ui-bg) 94%,transparent);
+  border-bottom-color:var(--ui-line-strong);
+  box-shadow:0 18px 40px -26px rgba(24,32,42,.34);
+}
+/* 苦旅 .topbar 的背景改由 ::before 承载（见下方「苦旅顶栏胶囊底」）：
+   若把背景加在 .topbar 自身，会盖住 z-index:-1 的胶囊伪元素，
+   实测表现为「加了规则但看不见」。 */
+@supports not (background:color-mix(in srgb,red 50%,transparent)){
+  .nav.is-solid,.nav__inner.is-solid,.topbar.is-solid{background:rgba(255,253,247,.95)}
+}
+
+/* 苦旅顶栏：通栏实底（.topbar 是 pointer-events:none 的通栏容器，
+   加背景不会拦住下方点击；文案底部补一条细描边强化「面」的边界）。 */
+.topbar.is-solid{
+  border-bottom:1px solid var(--ui-line);
+}
 /* @endinline:components */
 
 </style>
@@ -1351,7 +1384,15 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         it.el.style.setProperty("--parallax", (-mid * it.speed).toFixed(1) + "px");
       });
     }
-    function onScroll(){
+    /* 导航可读性：滚动后切实底（.nav__inner.is-solid）。
+     实测导航在每个滚动位置都与正文相交（最宽 606×33px），
+     而 .78 的玻璃底不足以把正文压成背景。 */
+  function syncNavSolid(){
+    var el = document.getElementById("navInner");
+    if (el) el.classList.toggle("is-solid", window.scrollY > 24);
+  }
+  function onScroll(){
+    syncNavSolid();
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }
     window.addEventListener("scroll", onScroll, { passive: true });

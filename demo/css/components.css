@@ -404,3 +404,31 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   .ui-lift:hover{transform:none;box-shadow:none}
   .ui-bar:hover::after{transform:scaleX(0)}
 }
+
+/* ============================================================
+   滚动后导航实底（可读性）
+   ------------------------------------------------------------
+   依据 .tmp-shots/nav-overlay.cjs 实测：固定导航在**每个滚动位置**都会与
+   正文相交（门户最宽处 606×33px），而半透明玻璃底不足以把正文压成清晰的
+   背景。滚动后切到更实的底 + 细描边 + 轻阴影，使其在内容之上形成明确的「面」；
+   首屏（未滚动）保持通透玻璃观感。
+   ============================================================ */
+.nav.is-solid,
+.nav__inner.is-solid,
+.topbar.is-solid{
+  background:color-mix(in srgb,var(--ui-bg) 94%,transparent);
+  border-bottom-color:var(--ui-line-strong);
+  box-shadow:0 18px 40px -26px rgba(24,32,42,.34);
+}
+/* 苦旅 .topbar 的背景改由 ::before 承载（见下方「苦旅顶栏胶囊底」）：
+   若把背景加在 .topbar 自身，会盖住 z-index:-1 的胶囊伪元素，
+   实测表现为「加了规则但看不见」。 */
+@supports not (background:color-mix(in srgb,red 50%,transparent)){
+  .nav.is-solid,.nav__inner.is-solid,.topbar.is-solid{background:rgba(255,253,247,.95)}
+}
+
+/* 苦旅顶栏：通栏实底（.topbar 是 pointer-events:none 的通栏容器，
+   加背景不会拦住下方点击；文案底部补一条细描边强化「面」的边界）。 */
+.topbar.is-solid{
+  border-bottom:1px solid var(--ui-line);
+}

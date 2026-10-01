@@ -476,10 +476,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    这里只放「门户结构所需的补充规则」：新增的组件样式全部来自上方内联的
    components 块，本节不重复定义任何组件外观。
    ============================================================ */
-/* 指针光斑 [data-spotlight] 的 ::before 是绝对定位，宿主需为定位元素 */
+/* 指针光斑 [data-spotlight] 的 ::before 是绝对定位，宿主需为定位元素。
+   内容抬层交由 components 块内的通用规则处理，此处不再重复声明子元素定位
+   —— 曾因给所有子元素统一加 position:relative，把 .tvisual / .mock 内部
+   绝对定位的图片盒拉回静态流，导致 #travel 区块高度 +714px。 */
 .credo__card,.bcard,.ncard,.fcard{position:relative}
-/* 光斑层位于内容之下：卡片内容统一抬到 z-index 1 */
-.credo__card > *,.bcard > *,.ncard > *,.fcard > *{position:relative;z-index:1}
+/* 光斑需压在界面示意内容之下：把承载主体的容器标为抬层元素。
+   .mock__card / .tvisual__main / .tvisual__card 自身已有定位或独立层叠上下文，
+   一律不做改写 —— 组件层只认显式标注，不推断子元素定位。 */
+.mock__grid,.feat,.duo__stats{position:relative;z-index:1}
 /* 城市画廊：图片懒加载渐显（首屏 eager 的北京/上海不做渐显，避免影响 LCP） */
 .city img{transition:transform .8s var(--ease-out),opacity .8s var(--ease-out)}
 .city img[loading="lazy"]{opacity:0}
@@ -607,11 +612,18 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
    B. 卡片族：指针光斑 + 分层阴影 + 可选倾斜
    ============================================================ */
 
-/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入 */
+/* B1. 指针光斑（技法 3）：--mx/--my 由 js/ui.js 写入
+   ------------------------------------------------------------
+   实现要点（踩坑记录）：光斑层刻意**不设 z-index**，保持 z-index:auto。
+   它作为宿主的子元素，绘制顺序天然位于宿主背景之上、普通子元素之下；
+   而需要抬到光斑之上的子元素由各站按需加 .ui-spot-up 类（见下方）。
+   早期写法是给宿主的所有子元素统一加 position:relative;z-index:1，
+   那会把宿主内部原本绝对定位的浮层（图片盒等）拉回静态流，实测导致
+   旅行区块高度 +714px —— 组件层绝不能无条件改写子元素的定位。 */
 [data-spotlight]{position:relative}
 [data-spotlight]::before{
   content:"";
-  position:absolute;inset:0;z-index:0;
+  position:absolute;inset:0;
   border-radius:inherit;
   background:var(--fx-spot);
   opacity:0;
@@ -621,8 +633,8 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
 @media (hover:hover) and (pointer:fine){
   [data-spotlight]:hover::before{opacity:1}
 }
-/* 内容需浮在光斑之上 */
-[data-spotlight] > *{position:relative;z-index:1}
+/* 需要压在光斑之上的子元素：由站点显式标注，组件层不做推断 */
+[data-spotlight] > .ui-spot-up{position:relative;z-index:1}
 
 /* B2. 分层悬浮（比 base.css 的 -3px 更有层次，按需启用） */
 .ui-lift{transition:transform var(--ui-t-mid) var(--ui-ease-out),

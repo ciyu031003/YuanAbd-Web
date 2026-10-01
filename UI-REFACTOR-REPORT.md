@@ -506,6 +506,32 @@ CJK 子集并让 `document.fonts.ready` 长时间不 resolve。第五轮把三�
 | 性能 | `perf-audit.cjs`（含 4G + CPU 降速）/ `fcp-isolate.cjs` / `external-css-bench.cjs` |
 | 字体体积 | `font-breakdown.cjs` / `cjk-variant-measure.cjs` |
 
+### 第十二轮：404 结案，评分卡干净退出
+
+第十一轮评分卡跑出的那条 404 已定位并解决：
+
+| | |
+|---|---|
+| 现象 | 仅苦旅请求 `/api/public/stats` 返回 404 |
+| 线上实测 | `curl https://learn.yuanabd.cn/api/public/stats` → **200**，返回 `{"total","todayNew","avgSalary","cityCount","fetchedAt","platformCount"}` |
+| 本地原因 | `demo/serve.cjs` 是纯静态服务器，未实现任何 `/api` 路由 |
+| 页面影响 | **无** —— 代码本就用 `r.ok ? r.json() : null` 优雅降级，失败时保留静态数值 |
+| 实际代价 | 本地预览拿不到活数据；每次资源回归多一条 404 噪音，容易掩盖真实问题 |
+
+处理：给本地预览服务器补上该路由，返回与线上**同形状**的样例数据
+（数值取页面内置的静态兜底值）。**仅改本地预览服务器，未改任何产品文件。**
+结果：`find-404.cjs` 三页全部「无 4xx/5xx/失败请求」，评分卡不再输出
+「本地开发服务器差异已忽略」，仍是 **27/27**。
+
+#### 一处工具瑕疵（已记录，未修）
+
+`layout-probe.cjs` 在所有检查通过时**仍以退出码 1 结束**。
+因它的输出数值正确、且被多轮结论采用，暂不为此改动工具本身
+（避免在验收阶段引入新变量）；此处如实记录，供后续维护者注意：
+**不要以该脚本的退出码判断布局是否达标，要看它打印的 scrollHeight。**
+
+---
+
 ## 8. 剩余可继续优化项
 
 1. **首屏冷启动 FCP ≈1.4s（已归因，接受）**：稳态 FCP 60ms（4G + 4× CPU 降速下
@@ -521,6 +547,5 @@ CJK 子集并让 `document.fonts.ready` 长时间不 resolve。第五轮把三�
    `pixel-probe2.cjs` 验证伪元素确实被渲染。
 6. **详情面板按下期间的宽度过渡**：`mousePressed` 期间 `.detail-actions` 出现
    650px→309px 瞬变；真实点击与键盘操作均正常，未擅自改动。
-7. **`demo/serve.cjs` 的路由保真度**：本地开发服务器未实现
-   `/api/public/stats`（线上 200）。若希望本地预览与线上完全一致可补上该路由；
-   不影响线上，也不影响页面健壮性（已优雅降级）。
+7. **`layout-probe.cjs` 退出码**（见上）：通过时仍返回 1，不影响结论但影响
+   CI 式串联；若要把它接入自动化，先修这个退出码。

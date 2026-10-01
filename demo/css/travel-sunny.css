@@ -327,7 +327,13 @@ body{background:var(--bg);color:var(--ink)}
   #galleryTrack{touch-action:auto}
 }
 
-/* --- A2：大号城市名浮层（2026-09-06 画廊优化） --- */
+/* --- A2：大号城市名浮层（2026-09-06 画廊优化；2026-10 序号语义修复） ---
+   修复说明：<i id="cityIdx"> 的内容由 travel-gallery.js 每帧写成「05 / 07」这类
+   计数器文本，但下面这条规则把它当成一根装饰性渐变下划线来排版
+   （height:3px + width:58px），导致文字被压在 3px 高的条里、四周溢出，
+   观感上像一处渲染错误。序号本身是有信息量的，因此按「计数器」而非
+   「装饰条」重新排版：去掉固定高度，改为可读的等宽小字 + 品牌色分隔符，
+   让「大号城市名 + 序号」形成一组完整的视觉锚点。 */
 .stage__cityname{
   position:absolute;left:50%;bottom:118px;transform:translateX(-50%);z-index:2;
   text-align:center;pointer-events:none;
@@ -338,8 +344,10 @@ body{background:var(--bg);color:var(--ink)}
 .stage__cityname.is-on{opacity:1}
 .stage__cityname b{display:block;font:900 clamp(1.9rem,4vw,3.4rem)/1.12 var(--font-serif, serif);letter-spacing:.04em;color:#2F2922}
 .stage__cityname i{
-  display:block;margin:10px auto 0;height:3px;width:58px;border-radius:99px;
-  background:linear-gradient(90deg,var(--tu-sun),var(--tu-amber),var(--tu-ember));
+  display:block;margin:8px auto 0;
+  font:600 .72rem/1 var(--font-mono, monospace);
+  font-style:normal;letter-spacing:.28em;
+  color:var(--accent-2,#3D7FB5);
 }
 .stage__cityname.swap b{animation:hudSwap .4s cubic-bezier(.16,1,.3,1)}
 @media (max-width:760px){

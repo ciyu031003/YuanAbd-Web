@@ -73,7 +73,7 @@
 
         <div class="download-hero" data-reveal>
           <div class="qr-card">
-<div class="qr-card__wrap"><img src="./img/learn-download-qr.png?v=20260930a" alt="扫码下载学习工作台" width="320" height="320"/></div>
+<div class="qr-card__wrap ui-lift" data-spotlight><img src="./img/learn-download-qr.png?v=20260930a" data-fade alt="扫码下载学习工作台" width="320" height="320"/></div>
             <span class="qr-card__cap">扫码下载</span>
           </div>
           <div class="download-hero__body">
@@ -81,7 +81,7 @@
             <h2 class="hero-title">学习工作台 v1.33.0</h2>
             <p class="hero-desc">用手机摄像头扫描左侧二维码，或直接点击下方按钮下载安装包。</p>
             <div class="download-actions">
-              <a class="btn btn--solid" href="https://learn.yuanabd.cn/download/learn-workbench-v1.33.0.apk" download target="_blank" rel="noopener">
+              <a class="btn btn--solid" data-ripple href="https://learn.yuanabd.cn/download/learn-workbench-v1.33.0.apk" download target="_blank" rel="noopener">
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
                 下载 APK
               </a>
@@ -95,7 +95,7 @@
         </div>
 
         <div class="download-list" data-reveal>
-          <a class="dl-row" href="https://learn.yuanabd.cn/download/learn-workbench-v1.33.0.apk" download data-download>
+          <a class="dl-row ui-lift" data-spotlight href="https://learn.yuanabd.cn/download/learn-workbench-v1.33.0.apk" download data-download>
             <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
             <div class="dl-row__body">
               <span class="dl-row__name">Android</span>
@@ -122,7 +122,7 @@
             </div>
             <span class="dl-row__go">即将上线</span>
           </div>
-          <a class="dl-row" href="https://learn.yuanabd.cn/login" data-login>
+          <a class="dl-row ui-lift" data-spotlight href="https://learn.yuanabd.cn/login" data-login>
             <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18"/></svg></span>
             <div class="dl-row__body">
               <span class="dl-row__name">Web 版</span>
@@ -150,6 +150,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="./js/project.js"></script>
+  <script src="./js/ui.js" defer></script>
   <script>
     (function () {
       "use strict";

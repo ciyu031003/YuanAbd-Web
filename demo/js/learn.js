@@ -192,6 +192,31 @@
   }
 
   /* ---------- 选中 / 关闭（源逻辑保留，内容替换） ---------- */
+  /* ---------- 页面滚动锁：详情打开时同时停掉 Lenis 与 documentElement 滚动 ----------
+     背景（实测）：详情面板内容在 .detail-scroll 里滚动，但 Lenis 接管了全局滚轮，
+     面板打开时没有停它，于是滚轮滚的是页面 —— 用户把鼠标移到右侧文字上滚动，
+     整页被滚走 3000+px、面板被顶出视口，看起来像「面板缩成一块、看不到内容」。
+     body 上原有的 overflow:hidden 不够：本页真正的滚动容器是 documentElement，
+     所以要同时锁 html。Lenis 若在场则一并 stop()，避免它继续吞噬 wheel 事件。 */
+  function syncPageScrollLock(locked) {
+    /* 详情面板锚定在书架容器内（top:14.5%），若在页面已滚动的状态下打开，
+       面板会落在视口之外（实测滚到 600px 时 panelTop=-489，看不到内容）。
+       故进入详情时先回到顶部 —— 必须在加 overflow 锁**之前**做，
+       否则滚动容器已被锁住、scrollTo 不生效。 */
+    if (locked) {
+      try {
+        if (window.__lenis && window.__lenis.scrollTo) window.__lenis.scrollTo(0, { immediate: true });
+        else window.scrollTo(0, 0);
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (e2) { /* 忽略 */ }
+      }
+    }
+    document.documentElement.style.overflow = locked ? "hidden" : "";
+    if (window.__lenis) {
+      try { locked ? window.__lenis.stop() : window.__lenis.start(); } catch (e) { /* 版本差异时忽略 */ }
+    }
+  }
+
   function selectBook(card) {
     if (body.dataset.mode === "detail") return;
     var data = books[card.dataset.book];
@@ -228,6 +253,13 @@
     detailPanel.inert = false;
     closeButton.tabIndex = 0;
     saveButton.setAttribute("aria-pressed", "false");
+    /* 详情打开时停掉全局平滑滚动（Lenis）。
+       否则滚轮仍被 Lenis 接管去滚页面，而详情 .detail-scroll 自己滚不动
+       —— 实测用户把鼠标移到右侧文字上滚动，结果整页被滚走 3000+px、
+       面板被顶出视口，表现为「面板缩成一块、看不到内容」。
+       同时给 html 加 overflow:hidden：仅靠 body 上的规则在
+       documentElement 才是滚动容器时不生效。 */
+    syncPageScrollLock(true);
     window.setTimeout(function () {
       closeButton.focus({ preventScroll: true });
     }, reducedMotion.matches ? 0 : 700);
@@ -239,6 +271,7 @@
     detailPanel.setAttribute("aria-hidden", "true");
     detailPanel.inert = true;
     closeButton.tabIndex = -1;
+    syncPageScrollLock(false);
     var lastCard = selectedCard;
     if (lastCard) {
       lastCard.style.setProperty("--detail-yaw", "-5deg");

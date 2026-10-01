@@ -376,3 +376,24 @@ body.learn::before{
   .book-card[data-book="pipeline"] {--y:44%}
   .book-card[data-book="readiness"]{--y:49%}
 }
+
+
+/* ============================================================
+   触屏命中区（品牌/首页链接）
+   ------------------------------------------------------------
+   390px 视口实测点击区仅 22px 高（WCAG 2.5.8 目标尺寸建议 ≥24px）。
+   该链接位于左上角、相邻为导航按钮，间距充足，可安全用覆盖层把命中区
+   补到 44px；不改变盒模型与视觉。页脚文字链实测 25.8px 已达标且相邻
+   间距仅 28px，扩展会互相重叠，故不处理。
+   ============================================================ */
+.nav__logo,.brand{position:relative}
+.nav__logo::after,.brand::after{
+    content:"";
+    position:absolute;
+    left:-6px; right:-6px;
+    top:50%;
+    height:44px;
+    transform:translateY(-50%);
+    background:transparent;
+    pointer-events:auto;
+}

@@ -277,7 +277,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mock__card i.mico{width:34px;height:34px;border-radius:10px;flex:none;display:block;background:rgba(121,207,255,.25);position:relative}
 .mock__card i.mico::after{content:"";position:absolute;inset:9px;border-radius:3px;border:1.5px solid rgba(75,143,204,.85)}
 .mock__card--wide .mico{border-radius:50%}
-.mock__card h4{font:500 .92rem/1.4 var(--font-sans)}
+/* 卡片标签按文档大纲使用 h3（原为 h4，造成 h2→h4 跳级）*/
+.mock__card h3,/* 卡片标签按文档大纲使用 h3（原为 h4，造成 h2→h4 跳级）*/
+.mock__card h3,.mock__card h4{font:500 .92rem/1.4 var(--font-sans)}
 .mock__card p{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.1em;color:var(--ink-mute);margin-top:5px;text-transform:uppercase}
 .mock__chart{display:flex;align-items:flex-end;gap:6px;height:52px;margin-top:14px}
 .mock__chart i{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(to top,rgba(121,207,255,.3),rgba(75,143,204,.85));animation:rise 1.4s var(--ease-out) both}
@@ -532,6 +534,25 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
   mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
 @media (prefers-reduced-motion:reduce){
   .marquee:hover .marquee__track{opacity:1}
+}
+/* ============================================================
+   触屏命中区（品牌/首页链接）
+   ------------------------------------------------------------
+   390px 视口实测点击区仅 22px 高（WCAG 2.5.8 目标尺寸建议 ≥24px）。
+   该链接位于左上角、相邻为导航按钮，间距充足，可安全用覆盖层把命中区
+   补到 44px；不改变盒模型与视觉。页脚文字链实测 25.8px 已达标且相邻
+   间距仅 28px，扩展会互相重叠，故不处理。
+   ============================================================ */
+.nav__logo,.brand{position:relative}
+.nav__logo::after,.brand::after{
+    content:"";
+    position:absolute;
+    left:-6px; right:-6px;
+    top:50%;
+    height:44px;
+    transform:translateY(-50%);
+    background:transparent;
+    pointer-events:auto;
 }
 /* @inline:components */
 /* ==== 由 build-portal.cjs 内联自 demo/css/components.css（请勿手改；改源文件后重新构建）==== */
@@ -942,6 +963,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   .ui-bar:hover::after{transform:scaleX(0)}
 }
 /* @endinline:components */
+
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -1068,14 +1090,14 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         <div class="mock ui-lift" data-spotlight data-reveal data-reveal-delay="2" role="img" aria-label="苦旅界面示意：五本手册与学习进度">
           <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
           <div class="mock__grid" aria-hidden="true">
-            <div class="mock__card" data-spotlight><i class="mico"></i><h4>市场雷达</h4><p>Market</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h4>面试题库</h4><p>Questions</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h4>学习路线图</h4><p>Roadmap</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h4>求职看板</h4><p>Kanban</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h3>市场雷达</h3><p>Market</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h3>面试题库</h3><p>Questions</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h3>学习路线图</h3><p>Roadmap</p></div>
+            <div class="mock__card" data-spotlight><i class="mico"></i><h3>求职看板</h3><p>Kanban</p></div>
             <div class="mock__card mock__card--wide" data-spotlight>
               <i class="mico"></i>
               <div style="flex:1">
-                <h4>就绪度 · 本周</h4>
+                <h3>就绪度 · 本周</h3>
                 <div class="mock__chart"><i style="height:34%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:80%"></i><i style="height:94%"></i></div>
               </div>
               <b style="font:700 1.6rem/1 var(--font-disp);color:var(--learn)">82<span style="font-size:.9rem;color:var(--ink-mute)">%</span></b>

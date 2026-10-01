@@ -54,7 +54,10 @@
       .catch(function () { /* 保守：保留默认值 */ });
   }
 
-  function openModal() {
+  function openModal(triggerEl) {
+    /* 先声明展开原点：本函数由触发器**自身**的 click 监听器同步调用，
+       早于 ui.js 的 document 捕获监听器，不显式声明则原点会退化为面板中心。 */
+    if (window.UI && UI.origin && triggerEl) UI.origin(triggerEl);
     activeEl = document.activeElement;
     modal.classList.add("is-open");
     document.documentElement.style.overflow = "hidden";
@@ -84,7 +87,7 @@
       if (isModalInternal(el)) return; // 弹窗内下载按钮放行
       e.preventDefault();
       e.stopPropagation();
-      openModal();
+      openModal(el);
     });
   });
 

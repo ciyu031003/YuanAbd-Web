@@ -205,6 +205,26 @@
     panel.style.setProperty("--oy", (Math.max(0, Math.min(1, (py - fr.top) / fr.height)) * 100).toFixed(2) + "%");
   }
 
+  /* 显式声明弹窗展开原点：供「自己控制打开时机」的脚本在 openModal() 前调用。
+     未声明时行为不变（回落到 document 捕获阶段的落点或视口中心）。 */
+  function setOrigin(el) {
+    if (!el || !el.getBoundingClientRect) return;
+    var r = el.getBoundingClientRect();
+    if (!r.width && !r.height) return;
+    lastClick = { x: r.left + r.width / 2, y: r.top + r.height / 2, el: el };
+    /* 直接落到当前可见的面板上。
+       不能只记录落点等 MutationObserver 去算：加载时「初始补算」会把
+       dataset.uiOriginSet 置上，之后再次打开既不重算也不清除，
+       原点会永远停在初始值（实测：--ox/--oy 的写入轨迹为空）。 */
+    var panels = $$("[data-modal]");
+    panels.forEach(function (panel) {
+      if (panel.getClientRects().length) {
+        applyModalOrigin(panel);
+        panel.dataset.uiOriginSet = "1";
+      }
+    });
+  }
+
   function initModalOrigin() {
     var panels = $$("[data-modal]");
     if (!panels.length) return;
@@ -343,6 +363,7 @@
   var UI = {
     toast: toast,
     seg: { sync: function (seg) { syncSeg(seg); } },
+    origin: setOrigin,
     fade: initFade,
   };
   window.UI = UI;

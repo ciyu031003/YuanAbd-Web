@@ -69,7 +69,8 @@
      用于 section 标签、页脚回链、图注等小字号橙色文字。 */
   --c-travel-700:#A84E2C;
   --c-sun-700:#8E7200;                  /* 文本级深金：暖白底 4.53:1 */
-  --c-ink-mute-aa:#6E767E;              /* 文本级弱文字：暖白底 4.53:1 */
+  --c-ink-mute-aa:#6E767E;              /* 文本级弱文字：米白 #FFFDF7 上 4.53:1；
+                                            在暖白 #FFF6E2 上仅 4.29:1，暖底请改用 --c-ink-500 */
   --c-sun-600:#E5B800;
   --c-mint-600:#1FA97C;
   --c-lavender-600:#7C63E8;
@@ -247,7 +248,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .marquee__row--rev .marquee__track{animation-direction:reverse;animation-duration:44s}
 .marquee:hover .marquee__track{animation-play-state:paused}
 .marquee__group{display:flex;align-items:center;white-space:nowrap}
-.marquee__group span{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.18em;color:#6B7480;padding:0 28px;display:flex;align-items:center}
+/* 小号大写标签改用 --c-ink-500：原硬编码 #6B7480 在跑马灯底色
+   rgb(255,246,226) 上仅 4.40:1，未达 AA。
+   注意 --c-ink-mute-aa(#6E767E) 在该底色上只有 4.29:1（它在米白 #FFFDF7 上
+   才是 4.53:1），因此这里用更深的既有令牌 --c-ink-500(#5C6673)，实测 5.42:1。
+   不新增颜色。 */
+.marquee__group span{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.18em;color:var(--c-ink-500);padding:0 28px;display:flex;align-items:center}
 .marquee__group span::after{content:"✦";font-size:.62rem;color:var(--sun);padding-left:56px}
 @keyframes marquee{to{transform:translateX(-50%)}}
 /* 章节通用 */
@@ -261,7 +267,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* Learn 章节 */
 .learn-sec{overflow:hidden}
 .learn-sec::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(46rem 34rem at 85% 30%,rgba(121,207,255,.28),transparent 62%)}
-.learn-sec .acc{color:#4B8FCC}
+/* 小号 chip 文字改用文本级令牌：原 #4B8FCC 在暖白底 rgb(255,253,247) 上仅 3.38:1，
+   未达 AA 4.5:1；--c-learn-700(#0E5FA8) 是既有的文本级深蓝。圆点仍用亮品牌色作装饰。 */
+.learn-sec .acc{color:var(--c-learn-700)}
 .duo{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;position:relative;z-index:1}
 .duo__title{font:900 clamp(2.1rem,4.4vw,3.6rem)/1.22 var(--font-serif);margin:20px 0 24px}
 .duo__title .thin{display:block;font:500 clamp(.95rem,1.4vw,1.15rem)/1.7 var(--font-sans);color:var(--ink-dim);margin-top:16px;letter-spacing:.01em}
@@ -302,7 +310,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* Travel 章节 */
 .travel-sec{overflow:hidden}
 .travel-sec::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(46rem 34rem at 12% 35%,rgba(255,146,120,.22),transparent 62%)}
-.travel-sec .acc{color:#E05E40}
+/* 同上：#E05E40 在暖白底仅 3.53:1，改用文本级深橙 --c-travel-700(#A84E2C)。 */
+.travel-sec .acc{color:var(--c-travel-700)}
 .btn--travel{background:var(--travel);color:#4A2114}
 .btn--travel:hover{transform:translateY(-2px);box-shadow:0 12px 34px -10px rgba(255,146,120,.55)}
 .tvisual{position:relative;transform:translateY(var(--parallax,0))}

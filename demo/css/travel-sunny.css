@@ -414,3 +414,25 @@ body{background:var(--bg);color:var(--ink)}
 .tfeatures .card__kicker,
 .cityfilm-wrap .card__kicker,
 .outro .card__kicker { color: var(--c-travel-700, #A84E2C); }
+
+/* ============================================================
+   小号文本对比度收口
+   ------------------------------------------------------------
+   依据 .tmp-shots/ca-cluster.cjs 在 1440px 的实测（背景取半透明层合成后的颜色，
+   比旧审计更严）。三类小号文本未达 WCAG AA 4.5:1：
+
+     构件                   原色        实测     改为        实测
+     .scard__chips span     #3D7FB5    3.98:1   #3773A4    5.06:1
+     .scard__tag            #E8784A    2.70:1   --c-travel-700(#A84E2C)  5.14:1
+     .smeta                 #B06A43    3.91:1   #9E5F3C    5.05:1
+
+   色值均为「沿同一色相压暗到刚好达标」的结果，不改变品牌色相。
+   放在本文件末尾：travel-sunny.css 最后加载，同级特异性下可稳定覆盖
+   travel.css 与 travel-sunny.css 中更靠前的同名规则。
+   ============================================================ */
+:root{
+  /* 卡片功能区标签用的浅蓝：压暗后 #3773A4（浅底 5.06:1） */
+  --accent-2:#3773A4;
+}
+.scard__tag{color:var(--c-travel-700)}
+.smeta{color:#9E5F3C}

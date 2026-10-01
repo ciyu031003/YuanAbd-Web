@@ -23,8 +23,8 @@
        Space Grotesk 仅用 700；IBM Plex Mono 仅用 400/500；
        Noto Serif SC 仅用 900（约 104 字，且中文回退链含宋体/思源宋体）；
        Noto Sans SC 用 400/500/600/700。 -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all';this.removeAttribute('onload')" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all';this.removeAttribute('onload')" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
 <style>
 /* @inline:tokens */
 /* ==== 由 build-portal.cjs 内联自 demo/css/tokens.css（请勿手改；改源文件后重新构建）==== */
@@ -150,8 +150,13 @@
   --ink-dim:#5C6673;/* 次级说明文字：原 #8A939E 在暖白底仅 3.06:1，改 --c-ink-mute-aa 后达 4.53:1 */
   --ink-mute:#6E767E;
   --learn:#79CFFF;--travel:#FF9278;--sun:#FFD84D;--mint:#91E6C1;--lavender:#A995FF;
-  --font-sans:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-  --font-serif:"Noto Serif SC","Songti SC",serif;
+  /* 中文走系统字族：PingFang SC（Apple）/ Microsoft YaHei（Windows）/ Noto Sans CJK（Android）。
+     三者都是各平台的原生中文黑体，与 Noto Sans SC 同源同观感，且零下载。
+     依据 .tmp-shots/cjk-variant-measure.cjs：省 1225KB，FCP 1600→184ms。 */
+  --font-sans:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  /* 中文衬线优先系统宋体（Songti SC 为 Apple 自带、Windows 用宋体/思源宋体）；
+     Noto Serif SC 仅作最后兜底，不再走网络字体。 */
+  --font-serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",Georgia,serif;
   --font-disp:"Space Grotesk","Noto Sans SC",sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
   --wrap:1200px;--ease-out:cubic-bezier(.16,1,.3,1);--ease-io:cubic-bezier(.65,0,.35,1);

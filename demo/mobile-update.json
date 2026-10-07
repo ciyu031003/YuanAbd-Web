@@ -1,13 +1,16 @@
 {
-  "versionName": "1.34.1",
-  "versionCode": 56,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.34.1.apk",
-  "sizeBytes": 73883007,
-  "sha256": "24a56539c8d4a247da48529494fde05b32764d2fdd85f0d0dcc3e002e298b625",
+  "versionName": "1.35.0",
+  "versionCode": 57,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.35.0.apk",
+  "sizeBytes": 73885143,
+  "sha256": "0276416ee4455f7ca1ff33b35c0c97a47b7aa4faaaa720cbb47a5550ef234e80",
   "releaseNotes": [
-    "「我的 → 关于」新增公安联网备案展示（粤公网安备44010602017246号，可点击跳转公安部查询页）",
-    "门户/隐私政策页脚同步：ICP 备案号按域名口径展示（赣ICP备2024031528号-2）+ 公安备案号",
-    "无其它功能变化"
+    "崩溃取证与隐私收口",
+    "修复相邻手机号漏脱敏；超大诊断包自动裁剪，上传不再偶发失败",
+    "崩溃现场在暂停记录后仍保留，可先关记录再上传",
+    "省电：取证心跳 5 秒放宽到 30 秒且仅前台运行",
+    "招花/我的求职/学习日志列表滚动更稳（列表项动画彻底收口）",
+    "学习页清理与统计页跨年边界修正；正式包禁明文 HTTP（安全）"
   ],
-  "publishedAt": "2026-10-07T09:56:36.325Z"
+  "publishedAt": "2026-10-07T11:14:01.533Z"
 }

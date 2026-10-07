@@ -1,13 +1,13 @@
 {
-  "versionName": "1.33.0",
-  "versionCode": 54,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.33.0.apk",
-  "sizeBytes": 73881243,
-  "sha256": "009dbfd7c93dd3f1c8c1a8db5fbabb5211b4b723ebf9aa1bfa07f954945feb71",
+  "versionName": "1.34.1",
+  "versionCode": 56,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.34.1.apk",
+  "sizeBytes": 73883007,
+  "sha256": "24a56539c8d4a247da48529494fde05b32764d2fdd85f0d0dcc3e002e298b625",
   "releaseNotes": [
-    "学习页：阶段卡圆角/顶部高光/描边整体精修；选中卡的「白斜线扫光」改为「流云呼吸」光效——光晕缓慢呼吸、颜色不停流转、底部云带左右游走",
-    "学习统计：从底部弹层升级为独立全屏页面（原生转场、左滑返回），热力图/学习内容维度/时段趋势重新排版",
-    "今日饮食：添加按钮按当前时间段自动变化为「添加早餐 / 添加午餐 / 添加晚餐 / 加餐」"
+    "「我的 → 关于」新增公安联网备案展示（粤公网安备44010602017246号，可点击跳转公安部查询页）",
+    "门户/隐私政策页脚同步：ICP 备案号按域名口径展示（赣ICP备2024031528号-2）+ 公安备案号",
+    "无其它功能变化"
   ],
-  "publishedAt": "2026-09-30T13:50:02.900Z"
+  "publishedAt": "2026-10-07T09:56:36.325Z"
 }

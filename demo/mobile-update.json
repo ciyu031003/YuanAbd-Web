@@ -1,16 +1,16 @@
 {
-  "versionName": "1.35.0",
-  "versionCode": 57,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.35.0.apk",
-  "sizeBytes": 73885143,
-  "sha256": "0276416ee4455f7ca1ff33b35c0c97a47b7aa4faaaa720cbb47a5550ef234e80",
+  "versionName": "1.36.0",
+  "versionCode": 58,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.36.0.apk",
+  "sizeBytes": 73886915,
+  "sha256": "3225e47f5f95bdfdb7ff5744ec1c2872e9ff6cddad78d39d68c283d3fd2e3681",
   "releaseNotes": [
-    "崩溃取证与隐私收口",
-    "修复相邻手机号漏脱敏；超大诊断包自动裁剪，上传不再偶发失败",
-    "崩溃现场在暂停记录后仍保留，可先关记录再上传",
-    "省电：取证心跳 5 秒放宽到 30 秒且仅前台运行",
-    "招花/我的求职/学习日志列表滚动更稳（列表项动画彻底收口）",
-    "学习页清理与统计页跨年边界修正；正式包禁明文 HTTP（安全）"
+    "全量适配系统「减弱动态」，开启后页面切换、弹层与反馈动画自动简化",
+    "移动端常用操作统一补齐 44pt 触控热区，并完善按钮、标签与状态读屏语义",
+    "修复底部弹层嵌套滚动、键盘弹出及小屏设备内容遮挡问题",
+    "修复设置页开关重复切换和部分列表 Hook 抖动，提升复杂交互稳定性",
+    "补强图片上传成功/失败契约与错误恢复，降低上传中断造成的状态不一致",
+    "正式 Android 包继续禁用明文 HTTP，并统一发布工具链到 Node 24.12"
   ],
-  "publishedAt": "2026-10-07T11:14:01.533Z"
+  "publishedAt": "2026-10-08T13:20:07.248Z"
 }

@@ -1,16 +1,15 @@
 {
-  "versionName": "1.37.0",
-  "versionCode": 59,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.37.0.apk",
-  "sizeBytes": 74009663,
-  "sha256": "a72a22a228e7b044224b2ce00f0cea5508372f3cc4ba4d42c012c1ad9659482e",
+  "versionName": "1.38.0",
+  "versionCode": 60,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.38.0.apk",
+  "sizeBytes": 74109531,
+  "sha256": "59b845551606f60b3529abaabbb0972b084426cadbfa96df560ba25ad880680a",
   "releaseNotes": [
-    "学习首页新增技术题库入口，阶段路线默认收入收纳栏",
-    "首发 Python、Java、SQL 与数据分析、Power BI 四条学习路线",
-    "题库支持搜索、技术分类、阶段路线、两级折叠和练习记录",
-    "支持每日练习、按阶段练习和错题复习，答题后即时反馈",
-    "每题提供答案解析与来源说明，离线可练习，登录后同步记录",
-    "深色模式、减弱动态和收纳栏展开/收起动效完成兼容"
+    "修复刷题页顶部被手机状态栏遮挡，底部操作区适配手势导航安全区",
+    "技术详情新增知识点页签，可按章节阅读概念、原理、场景、误区、方法与练习",
+    "新增 JavaScript、Linux 运维、AI 应用工程三条完整学习路线",
+    "Python、Java、SQL 与数据分析、Power BI 题库扩容并保持答案与解析可追溯",
+    "题库现共覆盖 7 条路线、28 个章节、84 个知识点和 160 道题"
   ],
-  "publishedAt": "2026-10-09T11:42:25.504Z"
+  "publishedAt": "2026-10-09T13:17:01.098Z"
 }

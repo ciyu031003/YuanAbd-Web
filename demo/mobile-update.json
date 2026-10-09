@@ -1,16 +1,16 @@
 {
-  "versionName": "1.36.0",
-  "versionCode": 58,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.36.0.apk",
-  "sizeBytes": 73886915,
-  "sha256": "3225e47f5f95bdfdb7ff5744ec1c2872e9ff6cddad78d39d68c283d3fd2e3681",
+  "versionName": "1.37.0",
+  "versionCode": 59,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.37.0.apk",
+  "sizeBytes": 74009663,
+  "sha256": "a72a22a228e7b044224b2ce00f0cea5508372f3cc4ba4d42c012c1ad9659482e",
   "releaseNotes": [
-    "全量适配系统「减弱动态」，开启后页面切换、弹层与反馈动画自动简化",
-    "移动端常用操作统一补齐 44pt 触控热区，并完善按钮、标签与状态读屏语义",
-    "修复底部弹层嵌套滚动、键盘弹出及小屏设备内容遮挡问题",
-    "修复设置页开关重复切换和部分列表 Hook 抖动，提升复杂交互稳定性",
-    "补强图片上传成功/失败契约与错误恢复，降低上传中断造成的状态不一致",
-    "正式 Android 包继续禁用明文 HTTP，并统一发布工具链到 Node 24.12"
+    "学习首页新增技术题库入口，阶段路线默认收入收纳栏",
+    "首发 Python、Java、SQL 与数据分析、Power BI 四条学习路线",
+    "题库支持搜索、技术分类、阶段路线、两级折叠和练习记录",
+    "支持每日练习、按阶段练习和错题复习，答题后即时反馈",
+    "每题提供答案解析与来源说明，离线可练习，登录后同步记录",
+    "深色模式、减弱动态和收纳栏展开/收起动效完成兼容"
   ],
-  "publishedAt": "2026-10-08T13:20:07.248Z"
+  "publishedAt": "2026-10-09T11:42:25.504Z"
 }

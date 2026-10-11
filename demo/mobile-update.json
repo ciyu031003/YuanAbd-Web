@@ -1,13 +1,14 @@
 {
-  "versionName": "1.43.7",
-  "versionCode": 72,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.7.apk",
-  "sizeBytes": 76828711,
-  "sha256": "dd5210ad60bfdfa1effc7ac07e4a50cc08212543fbea12fe5c90b3ed3bfa6bfb",
+  "versionName": "1.43.8",
+  "versionCode": 73,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.8.apk",
+  "sizeBytes": 76853755,
+  "sha256": "5bab63fb96835419543ea6b16f45d52bb140d265b7cbc71736f1696f7b354bcf",
   "releaseNotes": [
-    "进入题库、知识点和面试专区后自动开始学习计时，离开或切到后台时暂停并写入学习统计。",
-    "题库区间覆盖课程、章节、知识点、408 原卷和练习页；面试区间覆盖面试题库与快速过题。",
-    "自动计时复用现有 focus_sessions 统计链路，学习统计按「题库学习」和「面试刷题」分类展示。"
+    "「408 考研」从技术题库拆出，学习页新增独立入口，技术题库不再混入 408。",
+    "408 专区整合四科 25 章、234 个知识点和 717 道专项题，章节内可直接查看知识点并进入练习。",
+    "新增 2009–2026 共 18 套历年原卷、846 道真题，可按题型或题号开始刷题并查看参考答案与图片。",
+    "修复 1.43.7 真机端历年真题模块依赖的生产接口缺失问题。"
   ],
-  "publishedAt": "2026-10-11T10:06:16.869Z"
+  "publishedAt": "2026-10-11T11:01:58.050Z"
 }

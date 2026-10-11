@@ -1,14 +1,14 @@
 {
-  "versionName": "1.43.1",
-  "versionCode": 66,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.1.apk",
-  "sizeBytes": 74729043,
-  "sha256": "6fecdd9aefb7c8fca95976558bad731d357a3fc2a09a341240d5206670cc1ea6",
+  "versionName": "1.43.2",
+  "versionCode": 67,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.2.apk",
+  "sizeBytes": 74845623,
+  "sha256": "2abdd8d815532b622340c5c8f4c1bd9440d2e7cf52ac551d1f3af1e27c1d7c18",
   "releaseNotes": [
-    "修复知识点阅读页下拉闪退：Reanimated 的滚动处理器被当成函数调用（TypeError）导致进程退出",
-    "新增三门课程：计算机网络、操作系统、计算机组成原理；题库由 472 题增至 544 题",
-    "新增 36 个知识点讲解与 12 个阶段学习计划，配套练习题与掌握清单",
-    "内容来源实名登记 Wireshark / Linux / xv6 / raspberry-pi-os / rCore / nand2tetris / Digital / RISC-V ISA / TheAlgorithms-C / OSSU-CS"
+    "学习题库新增 296 道真题选择题（408 统考真题、等级考试、教材习题），题库 544 → 840 题",
+    "真题按课程归类：算法与数据结构、操作系统、计算机网络、计算机组成原理、数据库、Java、应用安全",
+    "面试/技术题库新增 6883 条（选择题 + 问答 + 知识点卡），覆盖 89 个题型分类",
+    "来源覆盖：考研各校真题、计算机等级考试一至四级、408 统考、面试资料、教材书库"
   ],
-  "publishedAt": "2026-10-11T01:58:46.357Z"
+  "publishedAt": "2026-10-11T03:06:16.633Z"
 }

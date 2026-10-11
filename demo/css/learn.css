@@ -371,6 +371,16 @@ body.learn[data-mode="detail"]{overflow:hidden}
 .bottom-dock .meta-row{margin:0 10px}
 .bottom-dock .detail-rule{margin:10px 8px 14px}
 
+/* 桌面详情：正文区按剩余高度伸缩，底部元信息与操作栏不再覆盖滚动文字。 */
+@media (min-width:901px){
+  .detail-panel{
+    bottom:28px;display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+  }
+  .detail-scroll{min-height:0;max-height:600px}
+  .bottom-dock{position:static;right:auto;bottom:auto;width:100%}
+}
+
 .action-rail{
   --action-inset:8px;
   display:flex;align-items:center;gap:var(--action-inset);width:100%;

@@ -1,14 +1,15 @@
 {
-  "versionName": "1.43.5",
-  "versionCode": 70,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.5.apk",
-  "sizeBytes": 76224339,
-  "sha256": "b1fb87e5742ce8543a310c0949f2fd0452bcb5df00f06b3e7541471765d2d5da",
+  "versionName": "1.43.6",
+  "versionCode": 71,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.6.apk",
+  "sizeBytes": 76757111,
+  "sha256": "5bf3de3dd33aef9f70ecdbb13d53999cfbb097e2c28b827fba2bbb4aac60aa37",
   "releaseNotes": [
-    "新增「菜鸟教程 · Web 前端 / 编程语言 / 数据库与开发工具」三门课程，来自 runoob.com 的 19 个教程",
-    "知识点按站内阅读顺序整理：HTML/CSS/JavaScript/jQuery/TypeScript/Vue3/XML、Python/Java/C++/C#/Go/PHP/ASP、SQL/NumPy/Pandas/Git/Linux",
-    "每个知识点都配有官方测验题（题干、选项、答案与解析），读完就能立刻练",
-    "知识点正文取自教程原文（含示例代码），按「读一节 → 做这一节的题 → 回读错题」编排"
+    "「算法与数据结构」课程从 4 章扩到 14 章：新增线性表、栈与队列、串与 KMP、树与二叉树、查找树与平衡树、堆、图、查找、排序、算法策略十章",
+    "数据结构新增 39 个知识点与 78 道 408 级题目，全部带解析并绑定知识点；该课程题量从 24 题增至 102 题",
+    "12 个算法知识点配了 SVG 动图（15 组 / 94 帧）：链表插入、顺序栈、循环队列、二叉树中序遍历、BST 查找、堆下沉、图 BFS/DFS、哈希链地址法、插入/冒泡/快速/选择/堆/归并排序",
+    "动图支持播放、暂停、重放与逐帧查看，每一步都配一句说明，Web 与 App 都能看",
+    "知识点编辑接口接入乐观锁：版本冲突返回 409 并回传当前版本，内容改动不再互相覆盖"
   ],
-  "publishedAt": "2026-10-11T05:57:29.773Z"
+  "publishedAt": "2026-10-11T08:50:52.155Z"
 }

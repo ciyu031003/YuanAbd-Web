@@ -1,18 +1,14 @@
 {
-  "versionName": "1.43.0",
-  "versionCode": 65,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.0.apk",
-  "sizeBytes": 74631483,
-  "sha256": "ba78efbe5ad22c597ae6aa1ae9f84e55d756c5516a4b5825c8731a9fba9aa552",
+  "versionName": "1.43.1",
+  "versionCode": 66,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.1.apk",
+  "sizeBytes": 74729043,
+  "sha256": "6fecdd9aefb7c8fca95976558bad731d357a3fc2a09a341240d5206670cc1ea6",
   "releaseNotes": [
-    "新增三门课程：算法与数据结构、后端工程、应用安全；题库由 400 题增至 472 题",
-    "新增「题库总览」页：按课程 / 知识点 / 题型 / 难度 / 标签 / 来源筛选，答案可展开查看",
-    "题目生命周期：draft / review / published / archived 落到题目维度，下线不删除、历史作答可追溯",
-    "双向关联：知识点页可直接跳到本节题目，答完题可一键回看对应知识点",
-    "知识点五状态：阅读 / 练习 / 掌握 / 复习 / 实践分别在课程页可见",
-    "内容搜索扩展：课程页搜索现在覆盖知识点正文与题干",
-    "内容时效提示：超过复核周期的知识点会标注「内容待复核」",
-    "面试题库与学习题库来源许可逐项核验（MIT 可复用，CC BY-SA 仅外链引用）"
+    "修复知识点阅读页下拉闪退：Reanimated 的滚动处理器被当成函数调用（TypeError）导致进程退出",
+    "新增三门课程：计算机网络、操作系统、计算机组成原理；题库由 472 题增至 544 题",
+    "新增 36 个知识点讲解与 12 个阶段学习计划，配套练习题与掌握清单",
+    "内容来源实名登记 Wireshark / Linux / xv6 / raspberry-pi-os / rCore / nand2tetris / Digital / RISC-V ISA / TheAlgorithms-C / OSSU-CS"
   ],
-  "publishedAt": "2026-10-10T18:00:46.198Z"
+  "publishedAt": "2026-10-11T01:58:46.357Z"
 }

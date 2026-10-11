@@ -1,15 +1,13 @@
 {
-  "versionName": "1.43.6",
-  "versionCode": 71,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.6.apk",
-  "sizeBytes": 76757111,
-  "sha256": "5bf3de3dd33aef9f70ecdbb13d53999cfbb097e2c28b827fba2bbb4aac60aa37",
+  "versionName": "1.43.7",
+  "versionCode": 72,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.43.7.apk",
+  "sizeBytes": 76828711,
+  "sha256": "dd5210ad60bfdfa1effc7ac07e4a50cc08212543fbea12fe5c90b3ed3bfa6bfb",
   "releaseNotes": [
-    "「算法与数据结构」课程从 4 章扩到 14 章：新增线性表、栈与队列、串与 KMP、树与二叉树、查找树与平衡树、堆、图、查找、排序、算法策略十章",
-    "数据结构新增 39 个知识点与 78 道 408 级题目，全部带解析并绑定知识点；该课程题量从 24 题增至 102 题",
-    "12 个算法知识点配了 SVG 动图（15 组 / 94 帧）：链表插入、顺序栈、循环队列、二叉树中序遍历、BST 查找、堆下沉、图 BFS/DFS、哈希链地址法、插入/冒泡/快速/选择/堆/归并排序",
-    "动图支持播放、暂停、重放与逐帧查看，每一步都配一句说明，Web 与 App 都能看",
-    "知识点编辑接口接入乐观锁：版本冲突返回 409 并回传当前版本，内容改动不再互相覆盖"
+    "进入题库、知识点和面试专区后自动开始学习计时，离开或切到后台时暂停并写入学习统计。",
+    "题库区间覆盖课程、章节、知识点、408 原卷和练习页；面试区间覆盖面试题库与快速过题。",
+    "自动计时复用现有 focus_sessions 统计链路，学习统计按「题库学习」和「面试刷题」分类展示。"
   ],
-  "publishedAt": "2026-10-11T08:50:52.155Z"
+  "publishedAt": "2026-10-11T10:06:16.869Z"
 }

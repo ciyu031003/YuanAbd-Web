@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Windows 更新卡在 0% / 一直失败，怎么强制修好 · 修盒子 FIXBOX</title>
+<meta name="description" content="更新卡住基本逃不出四类原因：磁盘空间不足、组件存储损坏、第三方杀软拦截、网络或代理干扰。先看错误码和剩余空间，再用 DISM /RestoreHealth 修组件存储、然后跑 sfc /scannow，最后才重置更新缓存">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-update-stuck">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>系统更新</span></nav>
+<h1 class="fx-title">Windows 更新卡在 0% / 一直失败，怎么强制修好</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">40-120 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">更新卡住基本逃不出四类原因：磁盘空间不足、组件存储损坏、第三方杀软拦截、网络或代理干扰。先看错误码和剩余空间，再用 <code>DISM /RestoreHealth</code> 修组件存储、然后跑 <code>sfc /scannow</code>，最后才重置更新缓存。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>先等 30-60 分钟。</strong> 看硬盘灯是否还在闪、风扇是否还在转；有动静说明在装，别强制关机。卡在「正在配置更新」时断电最危险。</li><li><strong>看错误码。</strong> 「设置 → Windows 更新 → 更新历史记录」，记下失败更新的编号（如 KB5063878）和错误码，对照下文表格定方向。</li><li><strong>看 C 盘空间。</strong> 文件资源管理器 →「此电脑」，C 盘剩余不到 20 GB 就先去腾空间：<span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span>。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会重命名系统更新缓存目录、清理组件存储并可能卸载更新，操作前请创建还原点并备份重要文件。<br>⛔ 有数据风险：步骤 8 的重置电脑和步骤 4 的组件存储清理都会改变系统状态，动手前请备份重要数据，并确认你不需要回退已安装的更新。<br>合规提示：本文只讨论「系统更新被代理设置干扰」的排查方法。请遵守中国大陆法律法规和单位网络管理规定；企业网络下不要自行修改代理配置，一律联系 IT。本文不提供任何绕过网络管控或翻墙的方法与工具。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>下载卡在 0%、检查更新转圈很久</li><li>更新装到某个百分比（如 30%、99%）就不动</li><li>更新反复失败并给出 <code>0x8007xxxx</code>、<code>0x800fxxxx</code> 错误码</li><li>每次重启都回到「正在配置更新」，反复循环</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>卡在开机品牌 Logo 或无限转圈 → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>更新过程中蓝屏 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>电脑根本连不上网 → 属网络故障，先解决联网问题</li><li>就是 C 盘满了 → <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span></li><li>公司统一推送更新的电脑 → 联系公司 IT，不要改更新策略</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本接好电源，全程不要断电</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>C 盘可用空间 ≥ 20 GB（功能更新建议更多）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已经创建系统还原点（开始菜单搜「创建还原点」）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下当前系统版本号：设置 → 系统 → 关于，截个图</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道错误码，或者知道失败的是哪个 KB 编号</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>企业/学校设备、装有公司管控软件 → 先联系 IT，不要自行操作</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">「设置 → Windows 更新」显示「你已是最新版本」，或更新历史里那条失败记录变成「成功安装」；重启后系统版本号已提升，并且不再回到「正在配置更新」的界面。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>更新过程中蓝屏并回滚 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>更新后卡在开机 Logo 或一直转圈 → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>反复失败都是因为 C 盘空间不够 → <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span></li><li>公司统一推送更新、装了管控软件 → 联系公司 IT</li><li>系统盘有坏道、组件存储反复损坏且重置也失败 → 硬盘可能已老化，先备份数据再送修</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>保持 C 盘至少 20-30 GB 可用空间，开启「存储感知」自动清理。</li><li>更新前接好电源、别用手机热点半途断网，更新中不要强制关机。</li><li>只装一个杀毒软件（推荐系统自带的 Microsoft Defender），多个安全软件会互相拦截。</li><li>每月手动检查一次更新，别攒半年一次性打，出问题更难定位。</li><li>大版本升级前创建还原点并备份数据，升级后 10 天内保留「以前的 Windows 安装」以便回退。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：四类原因分类 + DISM→sfc 修复顺序</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先判断是真卡住还是在慢慢装</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>避免误判后强制关机，把一次普通更新变成系统损坏。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>保持通电、保持联网，等 30-60 分钟。</li><li>打开任务管理器看「磁盘」「网络」占用：有明显活动就是在装。</li><li>打开「设置 → Windows 更新 → 更新历史记录」，记录失败项和错误码。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>进度继续前进并且更新完成；或拿到一条明确的错误码，供后面按表处理。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>超过 2 小时完全无变化且磁盘零占用 → 长按电源键重启，重启后仍卡在同一处 → 做步骤 2。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">腾出磁盘空间</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>空间不足是更新失败最常见的原因，错误码常为 0x80070070、0x80070008。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 系统 → 存储 → 清理建议」，勾选临时文件等分类并清理。这是微软官方推荐的首选方式。</li><li>需要清得更狠时，按 Win+R 输入 <code>cleanmgr</code> → 选择 C 盘 → 点「清理系统文件」→ 勾选「Windows 更新清理」「传递优化文件」「以前的 Windows 安装」等。</li><li>清理建议的详细做法见 <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span>。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>C 盘可用空间回到 20 GB 以上。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>清理后仍不够 → 把「下载」「桌面」「视频」里的大文件挪到 D 盘或移动硬盘；同时注意「以前的 Windows 安装」删除后就无法回退旧版本。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">跑一遍更新疑难解答并重启</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>疑难解答会自动重置更新组件、修复常见配置问题，是最省事的一步。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 系统 → 疑难解答 → 其他疑难解答 → Windows 更新 → 运行」。</li><li>同时运行「Windows 商店应用」疑难解答（商店组件异常也会影响更新）。</li><li>完成后重启电脑，再检查更新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>疑难解答提示已修复若干问题，重新检查更新能继续下载。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>疑难解答跑完没变化 → 继续步骤 4；如果提示修复了但很快又失败 → 记下错误码继续。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用 DISM 修组件存储，再跑 sfc（关键顺序）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>组件存储（WinSxS）损坏是 0x80073712、0x800f081f 这类错误的根因；先修好组件存储，sfc 才有可用的修复源。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>以管理员身份打开命令提示符（开始菜单搜 <code>cmd</code> → 右键 → 以管理员身份运行）。</li><li>先快速体检，再详细扫描，最后修复：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /CheckHealth
+DISM /Online /Cleanup-Image /ScanHealth
+DISM /Online /Cleanup-Image /RestoreHealth</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>修复完成后再执行系统文件检查：</li></ol>
+<div class="fx-cmd"><pre><code>sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>如果组件存储缺修复源（报 0x800f081f），用同版本安装镜像挂载后的 <code>install.wim</code> 所在目录当源：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth /Source:E:\Sources\install.wim /LimitAccess</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>/CheckHealth</code> 秒级返回「未检测到组件存储损坏」或提示可修复；<code>/RestoreHealth</code> 最终报告「操作成功完成」；sfc 报告未发现完整性冲突或已修复。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>/RestoreHealth</code> 卡在 20% 很久是正常的，别关窗口；仍失败 → 换有线网络重试，或继续步骤 5。</div></details>
+<p class="fx-p"><strong>DISM 参数速查：</strong></p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>参数</th><th>作用</th><th>耗时</th><th>何时用</th></tr></thead><tbody><tr><td>/CheckHealth</td><td>只读检查是否有损坏标记</td><td>几秒</td><td>第一步体检</td></tr><tr><td>/ScanHealth</td><td>详细扫描损坏范围</td><td>几分钟</td><td>需要确认损坏程度</td></tr><tr><td>/RestoreHealth</td><td>从 Windows 更新或 /Source 修复</td><td>10-30 分钟</td><td>确认损坏后修复</td></tr><tr><td>/StartComponentCleanup</td><td>清理被取代的旧组件、释放空间</td><td>较久</td><td>空间紧张且更新反复失败；执行后无法再卸载已装更新</td></tr></tbody></table></div></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置 Windows 更新组件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>更新缓存目录（SoftwareDistribution）或加密服务目录（catroot2）损坏时，下载会反复失败。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符中逐条执行：</p>
+<div class="fx-cmd"><pre><code>net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
+ren C:\Windows\System32\catroot2 catroot2.old
+net start cryptsvc
+net start bits
+net start wuauserv
+net start msiserver</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>重命名成功，服务重新启动。回到「设置 → Windows 更新」重新检查更新，会重新开始下载。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「服务未启动」可忽略；提示「拒绝访问」→ 确认命令提示符是管理员身份；执行完后如果一切正常，可以过几天再手动删除 <code>SoftwareDistribution.old</code> 释放空间。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排查第三方杀软与安全软件拦截</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>第三方杀毒软件、加固软件会锁住更新文件，导致 0x80070005 等拒绝访问错误。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开第三方杀软的设置，找到「自我保护」「文件防护」等选项，临时关闭防护。</li><li>立刻运行更新。装完马上把防护打开。</li><li>如果多次都在杀软开启时失败，考虑卸载第三方杀软，使用系统自带的 Microsoft Defender。</li><li>公司装的加密、准入、桌管软件 → 联系 IT，不要自行卸载。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>临时关闭防护后更新顺利完成。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>关闭后依旧失败 → 说明不是杀软问题，回步骤 4；企业管控软件无法关闭 → 联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排查网络与代理干扰</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>代理配置错误、断流、按流量计费设置都会让更新下载卡在 0%。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先换网络：把 Wi-Fi 换成网线，或用手机热点试一次。</li><li>看当前系统代理（管理员命令提示符）：</li></ol>
+<div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>再到「设置 → 网络和 Internet → 代理」检查「使用代理服务器」「自动检测设置」是否被不明软件打开。</li><li>关掉「按流量计费的连接」：设置 → 网络和 Internet → 属性 → 关闭「按流量计费的连接」。</li><li>确认系统时间准确（时间偏差会导致证书校验失败，更新下载中断）。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>换网络或清掉异常代理后，更新能正常下载。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>公司统一配置的代理 → 一律联系 IT；不确定 <code>netsh winhttp reset proxy</code> 会不会影响办公软件 → 不要执行，先问 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">手动安装更新包，最后才考虑重置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>绕开更新客户端，直接装上那个失败的更新；重置是最后一招。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>到 Microsoft Update Catalog 搜索失败更新的 KB 编号。</li><li>下载与本机系统版本、架构（x64 / ARM64）匹配的 <code>.msu</code> 文件。</li><li>双击安装；若安装器报「不适用」，可改用 DISM 直接添加包：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Add-Package /PackagePath:&quot;C:\Users\你的用户名\Downloads\windows10.0-kb5063878-x64.msu&quot;</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：重置电脑会清空系统盘上安装的程序和设置，「删除所有内容」还会清空个人文件。动手前必须备份重要数据。</div></div>
+<ol class="fx-ol"><li>上面都无效时：「设置 → 系统 → 恢复 → 重置此电脑」→ 选「保留我的文件」。重置后 Windows 会回到较新的版本，再检查更新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>更新历史里出现「成功安装」；系统版本号或内部版本号已经升级。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>手动安装仍失败 → 先确认补丁和系统版本完全匹配；安装包报错码与之前一致 → 保留错误码，联系微软支持或（企业设备）IT。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

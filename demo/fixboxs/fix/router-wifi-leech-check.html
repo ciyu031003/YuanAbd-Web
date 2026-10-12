@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>怎么查谁在蹭网 / 给设备限速与拉黑 · 修盒子 FIXBOX</title>
+<meta name="description" content="网速被占多半是&quot;自家设备认不出来&quot;，先在路由器后台的客户端列表逐台核对；确认有陌生设备，再改 Wi-Fi 密码 + 开访客网络，最后才考虑 MAC 过滤和限速。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="router-wifi-leech-check">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router" aria-current="page">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#router">路由器与家庭网络</a><span class="fx-crumb__sep">›</span><span>蹭网与限速</span></nav>
+<h1 class="fx-title">怎么查谁在蹭网 / 给设备限速与拉黑</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">通用</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">网速被占多半是&quot;自家设备认不出来&quot;，先在路由器后台的<strong>客户端列表</strong>逐台核对；确认有陌生设备，再改 Wi-Fi 密码 + 开访客网络，最后才考虑 MAC 过滤和限速。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>拿手机连家里 Wi-Fi，打开浏览器输入路由器后台地址（常见 <code>192.168.1.1</code>、<code>192.168.0.1</code>、<code>192.168.31.1</code>、<code>tplogin.cn</code>），登录后找到&quot;已连接设备 / 客户端列表 / 终端管理&quot;。<strong>期望结果</strong>：看到一份设备清单，每行有设备名、IP、MAC 地址。</li><li>把清单上的设备数量和家里实际在用的设备数量对一遍（手机、电脑、电视、音箱、摄像头、扫地机都算）。<strong>期望结果</strong>：数量对得上就是没有外人；多出 1 台以上，记下它的 MAC 再处理。</li><li>如果你只想先快速止血：把 Wi-Fi 密码改掉并重启路由器。<strong>期望结果</strong>：所有设备需要重新输密码，陌生设备立即下线。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改路由器的无线与设备管理设置。动手前请先记下当前 Wi-Fi 名称、密码和管理员密码；改错了可以在这里改回来，但改 Wi-Fi 密码会让所有设备重新连接一次。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>自家路由器，你知道后台地址和管理员密码，路由器的 Wi-Fi 是自己能控制的。</li><li>感觉晚上变慢、测速不达标，怀疑被别的设备占带宽。</li><li>想给孩子的平板、家里的电视单独限速。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>不知道路由器后台地址、密码也忘了：先看<span class="fx-link" style="cursor:help">「路由器后台 192.168.1.1 打不开怎么办」</span>。</li><li>全家所有设备都上不了网（不是慢，是断）：看<span class="fx-link" style="cursor:help">「家里所有设备都上不了网：先分清是谁的问题」</span>。</li><li>用的是房东、邻居、单位提供的网络：<strong>不要登录和修改别人家的路由器</strong>，这是别人的设备；有问题请联系网络提供方。</li><li>想用 MAC 过滤把别人&quot;锁死&quot;在门外：先看完本文下面的说明，MAC 过滤很容易把自己也关在门外。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>你连的是<strong>自己家</strong>的 Wi-Fi，不是热点、不是邻居的网络。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已经拿到路由器后台地址和管理员密码（不是 Wi-Fi 密码，两个不一样）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果这是单位/公司统一配发的路由器或网络设备，<strong>请联系 IT</strong>，不要自行修改。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记录当前 Wi-Fi 名称与密码（改密码后要重新配一遍所有设备）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备一支笔或手机备忘录，用来记陌生设备的 MAC 地址。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果有智能家居设备，先确认它们在线（否则你会把它们当成&quot;陌生人&quot;）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">在路由器后台的客户端列表里，<strong>所有设备你都能说出它是什么</strong>；同时在晚上用网高峰做一次测速（有线连接下测），速度接近套餐标称值的 80% 以上，就算修好了。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>陌生设备删了又来</strong> → 说明密码泄露渠道没堵上（WPS、远程管理、或路由器后台密码太弱），重点看本文步骤 4，并考虑升级固件：<span class="fx-link" style="cursor:help">「路由器怎么恢复出厂 / 固件要不要升级」</span>。</li><li><strong>没人蹭网但网速还是慢</strong> → 不是蹭网问题，去看<span class="fx-link" style="cursor:help">「网速变慢了：测速、延迟、丢包怎么一步步查」</span>。</li><li><strong>路由器后台密码忘了、进不去</strong> → 看<span class="fx-link" style="cursor:help">「路由器后台 192.168.1.1 打不开怎么办」</span>。</li><li><strong>路由器用 5 年以上、反复被陌生设备接入、固件早已停止更新</strong> → 建议直接换新路由器；如果是单位/公司提供的网络设备，<strong>请联系 IT</strong>，不要自行修改。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>Wi-Fi 密码每 6-12 个月换一次，或用路由器 App 的&quot;一键改密&quot;，顺手把全家设备重新连一遍。</li><li>关闭 WPS 与路由器远程管理，管理员密码不要和 Wi-Fi 密码相同。</li><li>客人一律走访客网络，主网络密码不写在纸上贴墙、不发在群里。</li><li>每季度打开一次客户端列表看一眼，陌生设备趁早处理。</li><li>路由器固件保持厂商最新版本，旧型号长期无更新就该换。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：客户端列表核对、改密、WPS/远程管理、访客网络、MAC 过滤、QoS 限速</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">找到路由器后台地址并登录</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>客户端列表只在路由器管理后台里，先要能进去。</p>
+<p class="fx-p"><strong>操作</strong>：电脑上按 <code>Win + R</code>，输入 <code>cmd</code> 回车，执行：</p>
+<div class="fx-cmd"><pre><code>ipconfig</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">在输出里找<strong>默认网关</strong>（例如 <code>192.168.1.1</code>），这就是路由器后台地址。macOS 用：</p>
+<div class="fx-cmd"><pre><code>netstat -nr | grep default</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后在浏览器地址栏输入 <code>http://默认网关地址</code>，用管理员密码登录。</p>
+<div class="fx-step__expect"><b>预期结果：</b>看到路由器的管理页面。不同品牌的入口名字不一样，通常在&quot;设备管理 / 终端管理 / 客户端列表 / DHCP 客户端列表 / 已连接设备&quot;里。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>打不开就换 http://、换浏览器、关掉浏览器代理插件；仍不行看<span class="fx-link" style="cursor:help">「路由器后台 192.168.1.1 打不开怎么办」</span>。注意别登错到光猫（光猫和路由器可能都是 192.168.1.1，以实际默认网关为准）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">核对客户端列表，找出陌生设备</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先确认到底有没有外人，避免误伤自家设备。</p>
+<p class="fx-p"><strong>操作</strong>：打开客户端列表，逐行看三列信息：<strong>设备名 / IP 地址 / MAC 地址</strong>。对照下面这张表判断：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>看到的设备名</th><th>大概率是什么</th><th>处理</th></tr></thead><tbody><tr><td>手机型号、电脑名、<code>DESKTOP-xxxx</code></td><td>自家设备</td><td>保留</td></tr><tr><td><code>ESP_xxxx</code>、<code>Tuya</code>、<code>Mi-xxxx</code></td><td>智能插座、灯泡、传感器</td><td>保留</td></tr><tr><td>电视、音箱、摄像头品牌名</td><td>自家家电</td><td>保留</td></tr><tr><td><code>Android-xxxx</code> 这类通用名</td><td>手机（关掉了设备名广播）</td><td>用 MAC 前 3 位到网上查厂商缩写</td></tr><tr><td>完全对不上的名字 + 对不上的时间</td><td>可疑设备</td><td>记下 MAC，进入步骤 3</td></tr></tbody></table></div>
+<p class="fx-p">Windows 上想从电脑侧看局域网里的邻居，可以辅助执行：</p>
+<div class="fx-cmd"><pre><code>arp -a</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>能明确说出&quot;这台是电视、这台是扫地机、这台不认识&quot;。<code>arp -a</code> 只会显示最近通信过的设备，看不到全部，只作辅助。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>路由器列表只有 MAC 没有名字，就用 MAC 地址前 3 段（OUI）在浏览器里搜厂商名；仍然判断不了，就把不认识的设备先记下来，按步骤 3 处理——改了 Wi-Fi 密码后如果家里少了哪台设备，再把它加回来。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">改 Wi-Fi 密码（最有效、最干净的一招）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让所有陌生设备一次性掉线，而且它们无法自动重连。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台的&quot;无线设置 / Wi-Fi 设置&quot;里，把 Wi-Fi 密码改成新的强密码，加密方式选 <strong>WPA2-PSK（AES）</strong> 或 <strong>WPA3</strong>，不要选 WEP、不要选&quot;混合 WPA/WPA2 但只有 TKIP&quot;。保存后路由器通常会自动重启无线。</p>
+<div class="fx-cmd"><pre><code>新密码建议：长度 ≥ 12 位，大小写字母 + 数字 + 符号，不含自家门牌号、手机号、生日</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>所有设备断线，需要重新输入新密码才能连上。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>家里设备多、怕麻烦，可以先只改 5GHz 的密码测试；如果连自己的设备都连不上，检查是不是密码里带了中文或特殊符号导致老设备不支持，改用纯英文数字符号组合。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">关闭 WPS 和远程管理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>堵住两个常见的&quot;不必知道密码也能进来&quot;的口子。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台里找这两项并关闭：</p>
+<ul class="fx-ul"><li><strong>WPS / QSS / 一键连接</strong>：关闭。WPS 的 PIN 方式历史上存在被暴力猜解的风险，家庭场景一般用不上。</li><li><strong>远程管理 / 远程 Web 管理 / 从外网访问路由器</strong>：关闭。除非你明确需要在外网管理路由器，并且已经按<span class="fx-link" style="cursor:help">「端口映射 / 外网访问 NAS、摄像头怎么设置」</span>做过安全加固。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>后台里这两项显示为&quot;关闭&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>找不到对应菜单，就在后台里用搜索框搜 WPS 或查阅<strong>路由器厂商官网的说明书</strong>（不同品牌位置差异很大），以官方文档为准。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">开访客网络，把&quot;来客&quot;隔离出去</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>朋友、租客、临时设备走独立网络，接触不到你的电脑和 NAS。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台找&quot;访客网络 / 访客 Wi-Fi&quot;，开启并设置一个单独的密码，勾选&quot;<strong>隔离访客网络 / 禁止访客访问内网</strong>&quot;这类选项。访客网络一般是 2.4GHz 或 5GHz 单独一个 SSID，名称建议不要和主网络一样。</p>
+<div class="fx-step__expect"><b>预期结果：</b>多出一个新的 Wi-Fi 名称，连上去后只能上网，看不到你的共享文件和打印机。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>路由器太旧没有访客网络功能，就用&quot;改主密码 + 定期查看客户端列表&quot;代替；长期需要隔离，考虑换一台支持访客网络的路由器。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">步骤 6（可选）：MAC 地址过滤——先想清楚再开</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>只允许白名单里的设备接入，其余一律拒绝。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台的&quot;MAC 地址过滤 / 访问控制&quot;里：</p>
+<ol class="fx-ol"><li>选择&quot;<strong>仅允许列表中的设备接入</strong>&quot;（白名单）或&quot;禁止列表中的设备接入&quot;（黑名单）。</li><li>把自家所有设备的 MAC 逐个填进去（从步骤 2 的客户端列表里复制，格式通常是 <code>AA:BB:CC:11:22:33</code>）。</li><li>保存并重启路由器无线。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>黑名单模式下陌生设备被拒绝；白名单模式下只有列表内设备能连。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div></div></details>
+<ul class="fx-ul"><li><strong>把自己也关在门外了</strong>：用网线直连路由器（网线通常不受无线过滤限制），或者长按 Reset 恢复出厂后重配——<strong>恢复出厂会清空宽带拨号账号等所有配置，动手前先记录</strong>。</li><li>白名单模式漏填了设备，家里人回来说连不上 Wi-Fi：去后台补上那台设备的 MAC。</li><li>说明：MAC 地址可以被改（伪造），所以过滤只挡得住&quot;顺手蹭网&quot;的人，挡不住有心人。<strong>改强密码 + 关 WPS 比 MAC 过滤更根本。</strong></li></ul></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">步骤 7（可选）：用 QoS 给设备限速</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不踢人，但要保证自家设备（尤其是开会、网课）的带宽。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台找&quot;<strong>QoS / 带宽控制 / 智能限速 / 设备限速</strong>&quot;：</p>
+<ol class="fx-ol"><li>先填写宽带的<strong>上行/下行带宽</strong>（不知道就填运营商套餐标称值，比如 500Mbps 下行 / 50Mbps 上行）。</li><li>在设备列表里选中要限速的设备，设置它的最大上行、下行速率。</li><li>如果路由器支持&quot;<strong>优先级</strong>&quot;模式，把电脑/手机设为高优先级，把下载机、电视盒子设为低优先级，比你手动填数字更简单。</li><li>保存生效。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>该设备测速被压到你设置的数值以下，其他设备不再被它拖慢。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不同品牌 QoS 的叫法和参数完全不同（有的按百分比、有的按 Mbps），<strong>以路由器厂商官网的说明为准</strong>；开启 QoS 后整体网速反而下降，说明这台路由器的 QoS 是软件转发实现，直接关掉，改用&quot;限速那台设备自身的下载速度&quot;这种土办法。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查并保留一份记录</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>确认陌生设备已下线，并且下次能快速对比。</p>
+<p class="fx-p"><strong>操作</strong>：改完设置后，隔 10 分钟再看一次客户端列表，确认陌生设备不在列表里。把当前正常的清单（设备名 + MAC）抄下来或截图保存。</p>
+<div class="fx-step__expect"><b>预期结果：</b>列表里只剩自家设备；网速恢复。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>陌生设备仍在列表里，说明它掌握了新密码——检查是否有人能看到你输入密码的过程，或是否开了 WPS/远程管理，回到步骤 4。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../search.html?q=router%20admin%20login">router-admin-login</a><a href="../search.html?q=wifi%20coverage">wifi-coverage</a><a href="../search.html?q=slow%20network">slow-network</a><a href="../search.html?q=router%20firmware%20reset">router-firmware-reset</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

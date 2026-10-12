@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U 盘 / 移动硬盘不识别、提示格式化怎么办 · 修盒子 FIXBOX</title>
+<meta name="description" content="&quot;需要格式化才能使用&quot;通常是文件系统损坏或分区表异常，盘里的数据多数还在；先停止写入、换口换机确认，然后立刻把能读到的数据拷出来，最后才考虑修复文件系统。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="usb-drive-not-recognized">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>U 盘与移动硬盘</span></nav>
+<h1 class="fx-title">U 盘 / 移动硬盘不识别、提示格式化怎么办</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-90 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;需要格式化才能使用&quot;通常是<strong>文件系统损坏或分区表异常</strong>，盘里的数据多数还在；先<strong>停止写入</strong>、换口换机确认，然后立刻把能读到的数据拷出来，最后才考虑修复文件系统。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>什么按钮都别点</strong>，尤其不要点&quot;格式化&quot;。把 U 盘拔下来，换到电脑<strong>另一个 USB 口</strong>（台式机优先机箱后置口）重插。<strong>期望结果</strong>：能打开就说明只是接触/供电问题。</li><li>打开&quot;此电脑&quot;，看这个盘有没有盘符；如果没有，右键&quot;开始&quot;菜单 → <strong>磁盘管理</strong>，看它是否显示为 <code>RAW</code> 或&quot;未分配&quot;。<strong>期望结果</strong>：确认是&quot;没有盘符&quot;还是&quot;文件系统坏了&quot;。</li><li>换一台电脑（或 Mac）再插一次。<strong>期望结果</strong>：只有一台电脑不认 = 电脑侧问题；两台都不认 = 盘本身问题。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：本文涉及磁盘与文件系统操作。<strong>在把重要数据复制出来之前，绝对不要点&quot;格式化&quot;、不要初始化磁盘、不要跑全盘修复。</strong><br>那些操作会覆盖原始数据，之后再想恢复就难了。先把数据救出来，再谈修盘。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>插入后弹出&quot;使用驱动器中的光盘之前需要将其格式化&quot;&quot;需要格式化才能使用&quot;。</li><li>&quot;此电脑&quot;里能看到盘但打不开、提示&quot;参数错误&quot;&quot;无法访问&quot;。</li><li>换电脑/换口后 U 盘时认时不认、传输中途断开。</li><li>盘能读但<strong>不能写入</strong>（复制时说&quot;磁盘被写保护&quot;）。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>盘整个转都不转、有咔咔异响：<strong>立刻断电</strong>，看<span class="fx-link" style="cursor:help">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</span>。</li><li>文件只是被你删了或清空了回收站，盘本身正常：看<span class="fx-link" style="cursor:help">「文件误删了怎么恢复（先做这一步，别写磁盘）」</span>。</li><li>打印机、显示器等外设不识别：看<span class="fx-link" style="cursor:help">「打印机显示脱机 / 打印没反应怎么修」</span>、<span class="fx-link" style="cursor:help">「显示器无信号 / 分辨率不对 / 外接屏不亮」</span>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span><strong>已经停止对该盘的一切写入</strong>（不再往里存文件、不装软件到它上面）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备另一个<strong>容量足够</strong>的存储设备，用来接收拷出来的数据（不要拷回原盘）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果你没有第二块盘，先别动手修，优先去借一个——腾挪空间本身就是写入风险。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>数据极其重要（工作资料、唯一一份照片）时，先明确：<strong>继续操作可能降低专业数据恢复的成功率</strong>，这种情况下直接考虑专业恢复机构（见&quot;还是不行&quot;）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑上有管理员权限（要用磁盘管理、命令行）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>U 盘上是否有写保护物理开关（很多 SD 卡和部分 U 盘侧面有个小拨片）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">盘能正常出现在&quot;此电脑&quot;里、能打开、能读能写；连续拷入并打开 3 个不同大小的文件都不报错；重要数据已经<strong>同时存在于另外一块盘上</strong>。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>显示&quot;未分配&quot;、分区不见了</strong> → 看<span class="fx-link" style="cursor:help">「格式化后数据还能恢复吗 / 分区不见了怎么找回」</span>，<strong>不要再做任何写入</strong>。</li><li><strong>读取时持续报 I/O 错误、有咔咔声或规律异响</strong> → 立即断电，看<span class="fx-link" style="cursor:help">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</span>。</li><li><strong>只是误删了文件，盘本身好的</strong> → 看<span class="fx-link" style="cursor:help">「文件误删了怎么恢复（先做这一步，别写磁盘）」</span>。</li><li><strong>数据是无法替代的唯一副本（毕业设计、公司财务、家人照片）且自己拷不出来</strong> → <strong>停止一切操作</strong>，找正规的数据恢复机构（优先选择有实体门店、能签保密协议、先检测后报价的）；公司设备<strong>请联系 IT</strong>，不要自行反复尝试。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>重要数据遵循&quot;<strong>3-2-1</strong>&quot;：3 份副本、2 种介质、1 份放在别处。</li><li>U 盘/移动硬盘不要用&quot;直接拔&quot;的方式断开，先点任务栏的&quot;安全删除硬件&quot;。</li><li>移动硬盘工作时不要挪动、不要放在被子/沙发上（震动对机械盘是致命的）。</li><li>别把唯一一份资料放在 U 盘里长期保存，闪存会老化、也会突然掉盘。</li><li>每隔几个月插上跑一次小文件读写测试，发现速度异常就及时转移数据。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：物理排查、磁盘管理判别、只读抢救数据、写保护解除、chkdsk 修复、macOS 急救</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">物理层确认——换个口、换根线、换台机器</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先用最无损的方式排除接触不良与供电不足，这类原因占比很高。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>拔下 U 盘，换电脑上<strong>另一个 USB 口</strong>（台式机优先机箱后置、直插主板的 USB 口）。</li><li>移动硬盘用<strong>原装数据线</strong>，换一根已知良好的线再试；如果是 Type-C 硬盘盒，换一条支持数据（不是只充电）的线。</li><li>换一台电脑或 Mac 交叉验证。</li><li>插上时听声音、看提示：Windows 有&quot;叮咚&quot;提示音说明系统认到了设备，只是存储层有问题。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>换个口后盘正常识别并打开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>所有口和电脑都不认，继续步骤 2；某台电脑认、某台不认，基本是电脑侧 USB 驱动/供电问题，可先看<span class="fx-link" style="cursor:help">「电脑没有 WLAN 选项 / 网络适配器不见了」</span>里更新驱动的思路。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">在磁盘管理里看它是&quot;没盘符&quot;还是&quot;RAW&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这两种情况处理方式完全不同，别搞错顺序。</p>
+<p class="fx-p"><strong>操作</strong>：右键&quot;开始&quot;菜单 → <strong>磁盘管理</strong>（或在&quot;运行&quot;里输入 <code>diskmgmt.msc</code>）。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>看到的现象</th><th>含义</th><th>该怎么做</th></tr></thead><tbody><tr><td>有分区，但<strong>没有盘符</strong>（只有卷标或&quot;新加卷&quot;）</td><td>只是盘符丢了，数据完好</td><td>右键该分区 → <strong>更改驱动器号和路径</strong> → 添加一个字母</td></tr><tr><td>显示 <strong>RAW</strong></td><td>文件系统结构损坏</td><td>先拷数据，再修文件系统（步骤 3、5）</td></tr><tr><td>显示&quot;<strong>未分配</strong>&quot;</td><td>分区表丢失或未初始化</td><td><strong>先不要初始化</strong>，参考<span class="fx-link" style="cursor:help">「格式化后数据还能恢复吗 / 分区不见了怎么找回」</span>，必要时找专业人员</td></tr><tr><td>完全不显示这块盘</td><td>系统在硬件层没认到</td><td>回步骤 1，或按<span class="fx-link" style="cursor:help">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</span>处理</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>知道自己这块盘属于哪一类。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>磁盘管理弹出&quot;初始化磁盘&quot;窗口时，<strong>直接点取消</strong>——初始化会破坏分区表；先按步骤 3 抢救数据。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">立刻把能读到的数据拷出来（最重要的一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不管后面修不修，数据先出来才有安全垫。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在&quot;此电脑&quot;里双击该盘。能打开就把重要文件夹<strong>复制</strong>（不是剪切）到另一个盘。</li><li>打不开时，用命令行<strong>只读式</strong>复制。以管理员身份打开命令提示符，先看盘符：</li></ol>
+<div class="fx-cmd"><pre><code>wmic logicaldisk get deviceid,volumename,size,freespace</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后整盘复制（把 <code>X:</code> 换成出问题的盘符，<code>E:\backup\</code> 换成你的备用盘目录，<strong>目标盘绝不能是原盘</strong>）：</p>
+<div class="fx-cmd"><pre><code>robocopy X:\ E:\backup\ /E /R:1 /W:1 /XJ</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<code>robocopy</code> 的源和目标写反会覆盖数据；执行前把两个盘符再核对一遍。红色报错很多不要紧，能救多少救多少。</div></div>
+<ol class="fx-ol"><li>硬盘读取很慢或报错时，<strong>分批拷</strong>：先拷最要紧的文档、照片，再拷其他。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重要文件出现在备用盘里，能正常打开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>读取时反复报 I/O 错误，不要反复重试同一批文件——换个目录先拷能读的部分；如果报&quot;循环冗余检查(CRC)&quot;，说明有物理坏块，请直接看<span class="fx-link" style="cursor:help">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</span>的&quot;只读抢救&quot;部分。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">解除写保护（能读不能写的情况）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>写保护会让所有复制/删除操作失败。</p>
+<p class="fx-p"><strong>操作</strong>：按可能性从高到低查：</p>
+<ol class="fx-ol"><li><strong>物理开关</strong>：SD 卡/U 盘侧面若有 <code>Lock</code> 拨片，拨到解锁位再试。</li><li><strong>只读属性</strong>：管理员命令提示符执行（<code>X</code> 换成实际盘符）：</li></ol>
+<div class="fx-cmd fx-cmd--danger"><pre><code>diskpart</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">在 diskpart 提示符下依次执行：</p>
+<div class="fx-cmd"><pre><code>list disk
+select disk N
+attributes disk</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">如果输出里有 <code>当前只读状态: 是</code>，执行：</p>
+<div class="fx-cmd"><pre><code>attributes disk clear readonly
+exit</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ <code>select disk N</code> 选错磁盘会破坏其他磁盘的分区表。先执行 <code>list disk</code>，按<strong>容量</strong>核对你要操作的那一块，确认无误再 select。</div></div>
+<ol class="fx-ol"><li><strong>注册表写保护</strong>（部分 Windows 会设置 <code>WriteProtect</code>）：这一项<strong>以微软官方文档与电脑厂商说明为准</strong>，不确定就不要改注册表。</li><li>若以上都不是，且盘在别的电脑上也不能写——是主控或闪存老化触发的自我保护，<strong>该换盘了</strong>，不要指望修好继续用。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>写保护解除，能正常复制文件进去。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>清只读后重启又恢复只读，说明是硬件层保护，停止写入、尽快备份并更换该盘。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复文件系统（数据已备份之后再动手）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把 RAW/损坏的文件系统修回可用状态。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：文件系统修复会改动分区结构。<strong>只在步骤 3 已把重要数据拷出来后执行。</strong> 如果这块盘有异响或明显坏块，<strong>不要执行</strong>，直接走备份和更换。</div></div>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符执行（<code>X</code> 换成实际盘符）：</p>
+<div class="fx-cmd"><pre><code>chkdsk X: /f</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">只有&quot;扫描坏扇区&quot;需求时才加 <code>/r</code>（<strong>耗时可能数小时，中途不要断电</strong>）：</p>
+<div class="fx-cmd"><pre><code>chkdsk X: /r</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>chkdsk 报告已修复文件系统错误，盘能正常打开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>chkdsk 卡住不动或报&quot;无法锁定驱动器&quot;，先关掉所有占用该盘的窗口再试；反复失败就停手，改用下面步骤 6 或送去专业恢复。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">macOS 上的处理顺序</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Mac 用户的修复工具与 Windows 不同，顺序原则一样——先数据后修复。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先尝试把文件拷到 Mac 本地或另一块盘。<strong>注意</strong>：macOS 默认<strong>不能写入 NTFS</strong> 格式的盘，只能读，这属于正常现象，不是盘坏了。</li><li>打开&quot;<strong>磁盘工具</strong>&quot;（应用程序 → 实用工具），左侧选中该磁盘的<strong>卷</strong>，点&quot;<strong>急救(First Aid)</strong>&quot; → 运行。</li><li>急救失败时，先别点&quot;抹掉&quot;（抹掉 = 格式化），改用专业恢复工具或送修。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>急救完成并显示卷可用，盘能在访达里正常打开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>急救报&quot;无法修复&quot;，且数据已经拷出来，才考虑重新格式化；数据没出来就停手，走下面的&quot;还是不行&quot;。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认可用性并决定去留</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>修好不代表可以放心长期用。</p>
+<p class="fx-p"><strong>操作</strong>：修好后做一次小文件读写测试：拷入一个 10MB 文件再打开，重复 3 次，看速度是否稳定、是否掉盘。然后用 Windows 自带的错误检查（此电脑右键盘 → 属性 → 工具 → 检查）再验证一次。</p>
+<div class="fx-step__expect"><b>预期结果：</b>读写稳定，没有中途掉盘。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>一拷大文件就掉盘、速度忽高忽低，说明闪存/主控老化，<strong>换新盘</strong>，别拿它存唯一一份重要数据。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../search.html?q=connected%20no%20internet">connected-no-internet</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

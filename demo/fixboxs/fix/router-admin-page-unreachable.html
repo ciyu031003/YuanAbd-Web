@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>路由器后台 192.168.1.1 打不开怎么办 · 修盒子 FIXBOX</title>
+<meta name="description" content="打不开路由器后台，第一位原因不是浏览器坏了，而是地址不对：真正的网段是 192.168.0.1 或路由器被改成了桥接/AP 模式。先查出你电脑真正的默认网关，用它去访问。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="router-admin-page-unreachable">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router" aria-current="page">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#router">路由器与家庭网络</a><span class="fx-crumb__sep">›</span><span>路由器后台登录</span></nav>
+<h1 class="fx-title">路由器后台 192.168.1.1 打不开怎么办</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">通用</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">打不开路由器后台，第一位原因不是浏览器坏了，而是<strong>地址不对</strong>：真正的网段是 192.168.0.1 或路由器被改成了桥接/AP 模式。先查出你电脑真正的默认网关，用它去访问。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>查默认网关</strong>：Windows 命令提示符执行 <code>ipconfig</code>，macOS 终端执行 <code>netstat -nr</code>，看第一条 <code>default</code> 后面的地址。期望：拿到你家路由器真正的地址。</li><li><strong>用它去访问</strong>，并在浏览器地址栏里明确写上 <code>http://</code>（不要用 https）。期望：出现路由器登录页。</li><li><strong>换无痕窗口、换浏览器、换一台设备（手机）再试。</strong> 期望：如果换设备能打开，就是原电脑的浏览器缓存或代理问题。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会查询并可能修改本机网络设置，最后一步会涉及路由器恢复出厂（会清空配置）。操作前请把当前的 IP、网关、Wi-Fi 名称与密码、宽带账号记录下来。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>浏览器输入 192.168.1.1 后一直转圈、提示&quot;无法访问此网站&quot;</li><li>输入厂家域名（如 tplogin.cn、miwifi.com）也打不开</li><li>刚换过路由器、改过网线接法，之后就进不去后台</li><li>主路由能进，接在后面的那台设备进不去</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>网络整个断了，不是进不了后台的问题 → <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li>能上网但打不开网页 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>提示 IP 冲突或拿不到 IP → <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li>公司、宿舍、出租屋的网络由房东或单位统一管理 → 直接联系网管/房东，不要自行改设备</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑或手机已经连上这台路由器的网络（有线或无线都行）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>路由器机身标签在（上面有默认管理地址、默认用户名密码）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机可以拍照，用来记录当前网络配置</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道宽带账号密码（万一需要恢复出厂后重新配置）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>不打算在公司/学校网络上做恢复出厂这类操作</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足：</p>
+<ol class="fx-ol"><li>在浏览器里能稳定打开登录页（刷新两次都出现），地址与你 <code>ipconfig</code> / <code>netstat -nr</code> 看到的默认网关一致；</li><li>输入账号密码后能进入后台状态页，能看到 WAN/上网状态和设备列表；</li><li>退出浏览器重新打开、或换一台连同一网络的设备，同样能进入。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>ping 得通网关但仍打不开页面</strong> → 换浏览器/无痕窗口、关闭代理；老机型改用网线直连</li><li><strong>ping 不通网关</strong> → 看 <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span> 和 <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li><strong>地址被改成桥接模式、或家里有两台路由器</strong> → 先确认当前网关是哪台设备，再决定登录哪一台；必要时联系设备厂商客服</li><li><strong>公司/宿舍/出租屋，或光猫需要超级管理员密码</strong> → 联系 IT、网管或运营商，不要尝试破解或跳过管控</li><li><strong>恢复出厂后连宽带账号都找不到了</strong> → 联系运营商客服重置宽带密码，或预约装维上门</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>把路由器的管理地址、管理密码、宽带账号密码记录在手机备忘录或纸上，别只存在浏览器里。</li><li>不要随意把路由器改成桥接/AP 模式，改动前先截图保存原配置。</li><li>家里只保留一台设备负责拨号和 DHCP，避免网段重叠。</li><li>路由器提示固件升级时，先确认升级不会清空配置，升级期间不要断电。</li><li>定期用机身标签核对一次管理地址，换过光猫或宽带后重新记录。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：网关查询、网段与桥接判定、代理干扰、出厂恢复与合规分流</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查出你真正的默认网关</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>90% 的&quot;打不开&quot;都是因为输入了一个不属于当前网段的地址。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows（命令提示符或 PowerShell）：</p>
+<div class="fx-cmd"><pre><code>ipconfig
+route print</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-cmd"><pre><code>Get-NetIPConfiguration | Format-List InterfaceAlias, IPv4Address, IPv4DefaultGateway</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端）：</p>
+<div class="fx-cmd"><pre><code>netstat -nr
+route -n get default</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">手机也可以看：iOS 在 <strong>设置 → Wi-Fi → 点网络旁的 (i)</strong>，Android 在 <strong>Wi-Fi → 当前网络详情</strong>，其中&quot;路由器&quot;或&quot;网关&quot;字段就是管理地址。</p>
+<div class="fx-step__expect"><b>预期结果：</b>拿到形如 <code>192.168.1.1</code>、<code>192.168.0.1</code>、<code>192.168.31.1</code> 的网关地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看不到默认网关、或本机地址是 <code>169.254.x.x</code> → 先解决拿不到 IP 的问题，看 <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用正确的方式打开管理页面</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>很多&quot;打不开&quot;其实是浏览器行为造成的。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>地址栏输入 <code>http://192.168.1.1</code>（把地址换成第 1 步查到的网关），<strong>明确写 <code>http://</code></strong>，不要用 <code>https://</code>。</li><li>用<strong>无痕/隐私窗口</strong>打开，或换一个浏览器。</li><li>试一次厂家的域名地址（如果机身标签上有）。</li><li>换一台设备（手机连同一个 Wi-Fi）再试。</li><li>先 ping 一下确认能通：</li></ol>
+<div class="fx-cmd"><pre><code>ping 192.168.1.1</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>出现登录页，或在 ping 时看到正常回复（说明网络可达，问题在浏览器）。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>ping 得通但页面打不开 → 大概率是浏览器代理、缓存或安全软件；ping 不通 → 继续步骤 4 检查网段与接线。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除代理、VPN 与浏览器缓存</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>代理会把局域网地址也&quot;绕出去&quot;，导致永远打不开。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows：</p>
+<div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">再打开 <strong>设置 → 网络和 Internet → 代理</strong>，关闭&quot;自动检测设置&quot;和&quot;使用代理服务器&quot;；退出所有 VPN、加速器、抓包工具。</p>
+<p class="fx-p">macOS：<strong>系统设置 → 网络 → 详细信息 → 代理</strong>，关闭全部开关；退出 VPN/加速器类 App。</p>
+<p class="fx-p">浏览器：清除该站点的缓存与 Cookie；关闭代理类扩展；关掉&quot;始终使用 HTTPS&quot;这类强制跳转设置，或用无痕窗口测试。</p>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>合规提示：这里只讲&quot;代理残留导致局域网管理页面打不开&quot;的排查，不提供任何跨境代理或翻墙方法与工具。公司设备请直接联系 IT。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>关闭代理后能打开登录页。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>关掉代理仍不行 → 回到步骤 1 核对地址，继续步骤 4。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理网段不对、双路由与桥接模式</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是&quot;地址没错却打不开&quot;的核心原因。</p>
+<p class="fx-p"><strong>操作</strong>：先按自己的现象对照下表判断，再动手处理。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>现象</th><th>原因</th><th>处理</th></tr></thead><tbody><tr><td>网关是 <code>192.168.0.1</code>，却一直输 <code>192.168.1.1</code></td><td>网段不同</td><td>用第 1 步查到的地址访问</td></tr><tr><td>本机 IP 是手动设的静态地址，跟网关不同网段</td><td>静态配置错误</td><td>改回自动获取 (DHCP)</td></tr><tr><td>光猫下接了自己的路由器，两台设备网段相同</td><td>地址冲突</td><td>登录&quot;离你最近的那台&quot;（也就是你的网关）</td></tr><tr><td>路由器被改成桥接/AP 模式</td><td>它不再拨号，管理地址会变或只在特定网口可访问</td><td>用扫描或查客户端列表找到它的新地址；必要时按机身说明改回路由模式</td></tr><tr><td>只能在有线连接时进入后台</td><td>老机型限制</td><td>用网线直连路由器 LAN 口再访问</td></tr></tbody></table></div>
+<p class="fx-p">查找被改成桥接的路由器：登录当前网关（多半是光猫或主路由），在其&quot;已连接设备/DHCP 客户端列表&quot;里找到那台设备的 IP，用它访问。</p>
+<div class="fx-step__expect"><b>预期结果：</b>确认真正的管理地址并成功打开页面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>家里设备接法复杂（光猫 + 主路由 + 扩展器），建议先画一张接线简图再排查；拿不准就联系运营商或设备厂商客服。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">光猫与路由器都是 192.168.1.1 怎么办</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是家庭网络里最常见的&quot;地址撞车&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>电脑用<strong>网线直连光猫的 LAN 口</strong>，只连光猫，访问 <code>192.168.1.1</code>（部分光猫是 <code>192.168.100.1</code> 等，以机身标签为准）。</li><li>把光猫的 LAN 网段改成别的（例如 <code>192.168.100.1</code>），或把自己的路由器 LAN 地址改成 <code>192.168.2.1</code> 之类，避免重叠。</li><li>改完后重启两台设备，按第 1 步重新确认网关。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>光猫和路由器各有一个不冲突的管理地址，两台都能登录。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>光猫的管理账号（特别是超级管理员账号）通常不对外公开 → 联系运营商客服或装维人员，不要尝试破解。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">忘记密码或需要恢复出厂</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：恢复出厂会<strong>清空路由器的全部配置</strong>——宽带拨号账号密码、Wi-Fi 名称和密码、端口映射、家长控制等都会消失。恢复后如果不记得宽带账号密码，可能整屋断网。请先联系运营商确认账号，并记录好现有配置。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>在密码彻底找不到时，用出厂默认值重新进入后台。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先在机身标签或说明书上找<strong>默认管理地址和默认用户名/密码</strong>，很多机型默认是 <code>admin</code>/<code>admin</code>，也有的首次登录要求自设密码。</li><li>确实找不回密码时，通电状态下用牙签/笔尖长按机身 <strong>Reset</strong> 小孔约 5-10 秒（各品牌时长不同，以官方说明为准），等指示灯闪烁后松开。</li><li>用标签上的默认地址和账号登录，重新配置上网方式（PPPoE 需要宽带账号密码）和 Wi-Fi。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>能用默认地址进入后台，并重新配置好宽带上网。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>恢复出厂后仍进不去、或配置完上不了网 → 联系设备厂商客服或运营商装维人员；公司设备一律联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认是不是&quot;本来就不该能进&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>有些环境从设计上就不允许你登录。</p>
+<p class="fx-p"><strong>操作</strong>：判断自己属于哪种情况：</p>
+<ul class="fx-ul"><li>公司、学校、宿舍、出租屋、酒店：网络设备由管理方管控，后台不对普通用户开放；</li><li>运营商提供的一体化光猫：普通账号只能看状态，改桥接/端口等需要超级管理员权限；</li><li>房东只给了一个 Wi-Fi 密码：你手上没有管理权限。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>明确该找谁，而不是继续折腾。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>需要改配置（例如端口映射、改 Wi-Fi 名）→ 联系管理方；只有管理方能操作。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><a href="../fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

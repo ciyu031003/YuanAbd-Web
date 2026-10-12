@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C 盘爆红快满了，怎么安全清理出空间 · 修盒子 FIXBOX</title>
+<meta name="description" content="C 盘满不要瞎删：先用「设置 → 系统 → 存储」看清是哪一类文件占的空间，再用系统自带的存储感知、磁盘清理（清理系统文件）逐级处理，最后才考虑压缩休眠文件、清理组件存储这类进阶操作。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-c-drive-full-cleanup">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>磁盘空间</span></nav>
+<h1 class="fx-title">C 盘爆红快满了，怎么安全清理出空间</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">C 盘满不要瞎删：先用「设置 → 系统 → 存储」看清是哪一类文件占的空间，再用系统自带的存储感知、磁盘清理（清理系统文件）逐级处理，最后才考虑压缩休眠文件、清理组件存储这类进阶操作。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看谁占了空间</strong>：「设置 → 系统 → 存储」，等它扫描完，看是「应用和功能」「临时文件」「文档」「其他」哪一类最大。</li><li><strong>一键清临时文件</strong>：同一页面点「清理建议」或打开「存储感知」，先清临时文件和回收站，动辄能空出几个 GB。</li><li><strong>带系统文件深清</strong>：按 Win+R 输入 <code>cleanmgr</code> → 选 C 盘 → 点「清理系统文件」→ 勾选「Windows 更新清理」「传递优化文件」等。这一步通常最有效。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会删除缓存、临时文件、旧系统备份和还原点。动手前请确认重要文件已有备份，并把不清楚用途的文件先挪到别处而不是直接删。<br>⛔ 有数据风险：删除「以前的 Windows 安装」（Windows.old）后无法回退旧版本；删除卷影副本/还原点后无法再用系统还原；这两项操作前请务必确认数据已备份。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>C 盘图标变红，提示空间不足</li><li>Windows 更新因空间不足失败</li><li>想安全清理但怕删错系统文件</li><li>想知道到底是什么吃掉了 C 盘</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>更新反复失败但不缺空间 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>电脑整体变慢，不只是空间问题 → <span class="fx-link" style="cursor:help">电脑越来越卡怎么办：一张表定位是哪里卡</span></li><li>想减少开机自启占用 → <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span></li><li>C 盘是 128 GB 且常年告急 → 本文能缓解但不能根治，考虑换更大的 SSD</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件已经备份到移动硬盘或网盘</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道自己装的哪些软件比较重要，别误卸载</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认近期没有刚升级过系统（升级后 10 天内删 Windows.old 就无法回退）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限（清理系统文件、关闭休眠都需要）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>企业设备 → 清理前先问 IT，部分管控软件依赖这些缓存</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">「此电脑」里 C 盘可用空间回到总容量的 15% 以上（或至少 20 GB），红色容量条消失；系统能正常开关机，常用软件可以正常打开，Windows 更新能够顺利下载安装。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>清完几天又满 → 回步骤 1 复查，重点看日志、聊天软件缓存、OneDrive 同步目录和系统还原</li><li>空间够但更新仍失败 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>C 盘本身容量太小（128 GB 及以下）→ 换更大的 SSD，或用做好的系统镜像迁移系统</li><li>不敢再动手，怕删错 → 只做步骤 2、3 两种系统自带清理，其余交给专业人员</li><li>公司电脑、C 盘由 IT 统一管理 → 联系公司 IT，不要自行清理系统文件</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>新软件一律装到 D 盘，安装时手动改路径。</li><li>微信、QQ、钉钉等把「文件保存位置」改到 D 盘，并定期清理聊天缓存。</li><li>打开存储感知，让它每周自动清临时文件和回收站。</li><li>桌面和下载文件夹不要当仓库，重要大文件放到其他盘或网盘。</li><li>每月打开一次「设置 → 系统 → 存储」看一眼趋势，别等到爆红才处理。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：占空间定位 + 系统自带清理八步</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先看是什么占了空间</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不看清占用就去删，既清不出多少，还容易误删重要文件。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 系统 → 存储」，等待扫描完成，逐项展开： - 「应用和功能」看哪些软件体积大 - 「临时文件」看缓存和更新残留 - 「文档/图片/视频/其他」看个人文件 - 「清理建议」会列出临时文件、大文件、云端已同步文件、不常用应用</li><li>想看得更细，用「目录树」类工具，二选一： - <strong>WinDirStat</strong>：开源软件（GPL），免费、无捆绑，扫描较慢但结果直观，推荐优先选它。 - <strong>WizTree</strong>：读取 NTFS 主文件表，扫描速度快得多，但它是闭源免费软件，且需要管理员权限读取磁盘，是否使用请自行取舍。 - 取舍原则：只用系统自带工具或知名开源/知名厂商工具；不要用「XX 管家 C 盘瘦身」「一键清理大师」这类来路不明的清理工具，它们可能误删文件、捆绑安装甚至改系统设置。</li><li>用资源管理器排查个人大文件：进入 <code>C:\Users\你的用户名</code>，右键各文件夹 →「属性」看大小，重点看「下载」「桌面」「文档」「视频」。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>明确最大的空间占用属于哪一类：系统缓存、软件安装、个人文件，还是系统还原/休眠文件。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>分类里显示「其他」很大 → 多半是恢复分区、休眠文件、页面文件或组件存储，继续做步骤 5、6、7。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用存储感知和清理建议清临时文件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是微软官方推荐的首选方式，安全且不用懂技术。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 系统 → 存储 → 清理建议」，逐类查看并勾选要删的内容，点「清理」。</li><li>「设置 → 系统 → 存储 → 存储感知」，打开开关，并设置自动清理频率（如每周）和回收站、下载文件夹的保留天数。</li><li>手动补充：按 Win+R 输入 <code>%temp%</code> 回车，全选删除（提示占用中的文件跳过即可）。</li><li>清空回收站，确认里面没有被误删的文件。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>通常能释放 2-20 GB，取决于之前的积累。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>清理建议里显示的内容你不敢删 → 只勾「临时文件」「缩略图」这类明确安全的项；删除时提示「文件正在使用」→ 正常，跳过即可。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">磁盘清理 + 清理系统文件（关键一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Windows 更新残留、「以前的 Windows 安装」、传递优化文件动辄十几 GB，只有「清理系统文件」模式才能看到。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 Win+R 输入 <code>cleanmgr</code>，选择 C 盘。</li><li>在「磁盘清理」窗口点左下角的「<strong>清理系统文件</strong>」，程序会重新扫描（这一步是关键，很多人漏掉）。</li><li>勾选下列项目： - Windows 更新清理 - 传递优化文件 - 以前的 Windows 安装（相当于 Windows.old） - 临时文件、缩略图、回收站、错误报告</li><li>点「确定」→「删除文件」，等待完成。</li></ol>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：勾选「以前的 Windows 安装」后，系统将无法回退到升级前的旧版本；如果升级还不满 10 天且你可能会后悔，请先不要勾这一项。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>通常释放 5-30 GB；「以前的 Windows 安装」单独就可能占 10 GB 以上。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>列表里没有「Windows 更新清理」→ 说明当前没有可清理的更新残留，属正常；清理过程中卡住 → 耐心等待，别强制关机。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卸载不用的软件，把大文件挪出 C 盘</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>软件安装位置和个人文件才是长期占用的大头，清缓存只能缓解一时。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 应用 → 已安装的应用」，按大小排序，卸载不再使用的软件（尤其是游戏、旧版办公软件、多个播放器）。</li><li>把「下载」「桌面」「视频」「图片」里的大文件剪切到 D 盘或移动硬盘。</li><li>云盘用户开启按需同步：OneDrive → 设置 →「文件按需」，把不常用文件夹设为「释放空间」（文件仍在云端，占位符留在本地）。</li><li>聊天软件缓存搬家：微信、QQ、钉钉的设置里都能改「文件保存位置」，改到 D 盘。</li><li>新软件安装时把路径改成 <code>D:\Program Files</code>，别再往 C 盘装。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>C 盘释放数 GB 到数十 GB，且日后增长变慢。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没有 D 盘或 D 盘也快满 → 先加一块硬盘或用移动硬盘；不敢确认哪些文件能挪 → 只挪自己创建的文档、图片、视频。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">关闭休眠，删掉 hiberfil.sys</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>休眠文件大小约等于内存容量，16 GB 内存的机器可能占十几 GB。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符执行：</p>
+<div class="fx-cmd"><pre><code>powercfg /h off</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">想恢复休眠和快速启动时执行：</p>
+<div class="fx-cmd"><pre><code>powercfg /h on</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>执行后 <code>hiberfil.sys</code> 消失，C 盘立刻多出接近内存容量大小的空间。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「拒绝访问」→ 确认是管理员命令提示符；关掉后你习惯用「休眠」而不是「睡眠」→ 执行 <code>powercfg /h on</code> 恢复。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">调整页面文件与系统还原占用</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>页面文件和系统还原（卷影副本）会占用不小的空间，可以按需限流。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>页面文件默认由系统管理，一般不需要动；确实紧张时可在「系统属性 → 高级 → 性能 → 设置 → 高级 → 虚拟内存」里改到 D 盘（注意：物理内存较小或系统盘是唯一磁盘时不要关闭）。</li><li>查看还原点占用（管理员命令提示符）：</li></ol>
+<div class="fx-cmd"><pre><code>vssadmin list shadowstorage</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>限制最大占用（示例：C 盘上限 10 GB）：</li></ol>
+<div class="fx-cmd"><pre><code>vssadmin resize shadowstorage /for=C: /on=C: /maxsize=10GB</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：下面的命令会删除所有还原点和卷影副本，删除后无法再用「系统还原」或「以前的版本」找回文件。执行前请确认已备份重要数据，且你确实不需要这些还原点。<br>企业设备不要执行，相关信息可能由 IT 统一管理。</div></div>
+<div class="fx-cmd"><pre><code>vssadmin delete shadows /for=C: /all /quiet</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>还原点占用被限制或释放，C 盘多出数 GB。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「没有找到卷影副本」→ 说明系统保护未开启，可忽略；执行后想重新启用 → 「系统属性 → 系统保护 → 配置 → 启用系统保护」。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理组件存储（WinSxS）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Windows 组件存储里堆积的旧版本组件可能占几 GB，只能由 DISM 清理，不能手动删。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符执行，先分析再清理：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /AnalyzeComponentStore
+DISM /Online /Cleanup-Image /StartComponentCleanup</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">需要连旧更新备份一起清（影响回退能力，可选）：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /StartComponentCleanup /ResetBase</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>分析结果里「组件存储清理建议」为「是」时执行清理，通常释放 1-10 GB。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>/ResetBase</code> 之后无法再卸载已安装的更新，若你需要保留卸载更新的能力就不要加这个参数；DISM 报错 → 先按 <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span> 修组件存储。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">这些地方千万别手动删</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>划出安全红线，避免清完空间把系统搞坏。</p>
+<p class="fx-p"><strong>操作</strong>：以下目录不要手动删除或移动：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>位置</th><th>为什么不能删</th></tr></thead><tbody><tr><td>C:\Windows\WinSxS</td><td>组件存储，只能通过 DISM 维护</td></tr><tr><td>C:\Windows\System32</td><td>系统核心文件，删了可能无法开机</td></tr><tr><td>C:\Windows\Installer</td><td>已安装软件的安装缓存，删了会导致无法修复/卸载</td></tr><tr><td>C:\Windows\Fonts</td><td>系统字体</td></tr><tr><td>C:\ProgramData 下的未知文件夹</td><td>可能是软件配置或授权信息</td></tr><tr><td>C:\Recovery</td><td>恢复分区相关文件</td></tr><tr><td>C:\$Recycle.Bin、System Volume Information</td><td>系统管理目录，由系统维护</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>清理过程不触碰这些目录。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>已经误删导致软件报错 → 用「控制面板 → 程序和功能」修复该软件，或重装；系统无法启动 → 用恢复环境的「启动修复」。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><a href="../fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

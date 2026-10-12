@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>显示器无信号 / 分辨率不对 / 外接屏不亮 · 修盒子 FIXBOX</title>
+<meta name="description" content="八成是显示器的输入源选错了（线插在 HDMI1，显示器却停在 HDMI2/USB-C），或者线材/接口接触不良；先按显示器上的 Source/Input 键切换到正确输入源，再换线换口交叉验证。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="monitor-no-signal">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>显示器</span></nav>
+<h1 class="fx-title">显示器无信号 / 分辨率不对 / 外接屏不亮</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">八成是<strong>显示器的输入源选错了</strong>（线插在 HDMI1，显示器却停在 HDMI2/USB-C），或者线材/接口接触不良；先按显示器上的 Source/Input 键切换到正确输入源，再换线换口交叉验证。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>按显示器边框上的 <strong>Source / Input / 信号源</strong> 键，逐个切一遍输入源，每个停留 3-5 秒。<strong>期望结果</strong>：切到正确那一路时画面出现。</li><li>把显示线<strong>拔下来重插</strong>，并换电脑上另一个视频接口（比如从主板的 HDMI 换到显卡的 DP，或反之）。<strong>期望结果</strong>：画面恢复，说明是接触或接口问题。</li><li>Windows 上按 <code>Win + P</code>，选择&quot;<strong>复制</strong>&quot;或&quot;<strong>扩展</strong>&quot;。<strong>期望结果</strong>：如果之前被设成了&quot;仅电脑屏幕&quot;，外接屏这时会亮。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本文只做连接与显示设置的排查，不涉及拆机、不涉及重装系统，操作可随时还原，属于安全操作。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>显示器亮电源灯但显示&quot;No Signal&quot;&quot;无信号&quot;&quot;检查信号线&quot;。</li><li>笔记本接外接屏不亮、投影到电视没反应。</li><li>分辨率突然变得很大/很小、字发虚、屏幕显示&quot;超出范围(Out of Range)&quot;。</li><li>换过电脑或换过显示器之后出现的画面异常。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>笔记本<strong>自带屏幕</strong>完全没画面、开机只有风扇转：看<span class="fx-link" style="cursor:help">「电脑开机没反应 / 主机亮灯但显示器没信号」</span>。</li><li>画面能显示但花屏、有彩色条纹、不定时闪：看<span class="fx-link" style="cursor:help">「电脑花屏 / 显示器闪屏，显卡还是线的问题」</span>。</li><li>是打印机之类的设备连不上：看<span class="fx-link" style="cursor:help">「打印机显示脱机 / 打印没反应怎么修」</span>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>显示器<strong>电源线</strong>已插紧，电源灯亮着（有通电反应）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑主机已开机（听风扇声、看主机电源灯），不是&quot;没开机自然没信号&quot;。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手上有一根<strong>已知良好</strong>的显示线（HDMI/DP/Type-C）可以替换测试。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本用户确认已按 <code>Win + P</code> 或 Mac 的&quot;侦测显示器&quot;，不是被设成&quot;仅电脑屏幕&quot;。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果有独显，分清楚线插在<strong>主板接口</strong>还是<strong>显卡接口</strong>（台式机两者不能混用）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">显示器在<strong>不按任何按键、不改任何设置</strong>的情况下，冷启动电脑后 30 秒内自动出现正常画面；分辨率是原生推荐值；多屏场景下两块屏都亮且排列与物理位置一致；拔插一次线后画面能自动恢复。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>画面能显示但花屏、有条纹、间歇闪黑</strong> → 看<span class="fx-link" style="cursor:help">「电脑花屏 / 显示器闪屏，显卡还是线的问题」</span>。</li><li><strong>主机开机没反应、显示器从头到尾没亮过</strong> → 看<span class="fx-link" style="cursor:help">「电脑开机没反应 / 主机亮灯但显示器没信号」</span>。</li><li><strong>笔记本外接屏不亮，但自带屏幕正常，且换线换屏都试过</strong> → 可能是笔记本的视频输出口或显卡故障，按电脑厂商官网的保修流程报修。</li><li><strong>显示器在所有电脑上都不亮、屏上一直没有信号提示，或面板有物理损伤</strong> → 显示器硬件故障，联系<strong>显示器厂商售后或送修</strong>；公司设备<strong>请联系 IT</strong>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>显示线不要长期折死弯，尤其是 HDMI/DP 接头根部，这是最常见的断线位置。</li><li>拔插显示线时先握住接头外壳再拔，别拽线身。</li><li>记住自己电脑哪个口接哪块屏，换位置时对照显示器上的接口编号。</li><li>更新显卡驱动只从 NVIDIA/AMD/Intel 官网或电脑厂商官网下载。</li><li>Type-C 一线连场景使用带供电的扩展坞，并保留一根直连线作为备份。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：输入源切换、替换法排线、Win/macOS 显示设置、Type-C 供电、分辨率与刷新率</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先确认电脑到底开机了没有</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>很多人以为&quot;显示器无信号 = 显示器坏了&quot;，实际是主机没启动。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>看主机电源灯是否常亮、风扇是否在转、键盘的 Num Lock/Caps Lock 灯按一下会不会亮。</li><li>如果键盘灯按了不亮、风扇转但没有任何反应，说明主机本身没完成启动。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>确认主机是正常开机运行状态，还是根本没起来。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>主机没启动，别在显示器上找原因——看<span class="fx-link" style="cursor:help">「电脑开机没反应 / 主机亮灯但显示器没信号」</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">切换显示器输入源</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是&quot;无信号&quot;里出现频率最高的原因。</p>
+<p class="fx-p"><strong>操作</strong>：用显示器边框上的物理按键（或摇杆/触摸键）打开 OSD 菜单，找到 <strong>Input / Source / 信号源</strong>，列出 HDMI1、HDMI2、DisplayPort、USB-C、VGA 等选项，逐个切换，每个停留几秒。同时看清显示器上标注的接口编号，和线实际插的口对应。</p>
+<div class="fx-step__expect"><b>预期结果：</b>切到线所插的那一路时，画面立刻出现。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>切了一圈都没画面，记下每个输入源提示的文字（有的会显示&quot;未检测到信号&quot;），进入步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">换线、换口、换设备交叉验证</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>用替换法把&quot;线 / 接口 / 显示器 / 电脑&quot;四个嫌疑对象逐个排除。</p>
+<p class="fx-p"><strong>操作</strong>：按下表的顺序试，每次只改一个变量：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>测试</th><th>做法</th><th>结果说明</th></tr></thead><tbody><tr><td>换线</td><td>用另一根 HDMI/DP 线</td><td>好了 = 原线坏了</td></tr><tr><td>换接口</td><td>换到电脑上另一个视频接口</td><td>好了 = 原接口/接口通道问题</td></tr><tr><td>换显示器</td><td>接到电视或另一台显示器上</td><td>好了 = 原显示器问题</td></tr><tr><td>换主机</td><td>显示器接到另一台电脑上</td><td>好了 = 原电脑显卡/输出问题</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>能锁定到底哪个环节坏了。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>全都试过还是无信号，且主机能正常启动，进入步骤 4、5 检查系统侧设置。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查系统显示设置（Windows）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统可能把外接屏设成了&quot;断开&quot;，或者选了显示器不支持的分辨率。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Win + P</code>，选&quot;<strong>复制</strong>&quot;或&quot;<strong>扩展</strong>&quot;。</li><li>桌面右键 → <strong>显示设置</strong>，在顶部&quot;选择要查看或更改设置的显示器&quot;里点&quot;<strong>检测</strong>&quot;；能看到 1 号和 2 号显示器就说明系统认到了。</li><li>点 2 号显示器 → <strong>显示分辨率</strong>，选带&quot;（推荐）&quot;的那个值。</li><li>点&quot;<strong>高级显示设置</strong>&quot; → 确认<strong>刷新率</strong>也是推荐值（常见 60Hz，高刷屏选显示器支持的档位）。</li><li>多屏排列错乱时，在显示设置顶部拖动 1、2 号方框，让排列与桌面物理位置一致，并勾选&quot;设为主显示器&quot;。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>设置里能看到两块显示器，画面正常、字清晰。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>设置完黑屏但有倒计时→什么都不做等 15 秒会自动回滚；&quot;检测&quot;点不动且系统完全认不到外接屏，回到步骤 3 检查线材和显卡驱动，或更新显卡驱动后重试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查系统显示设置（macOS）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Mac 的检测入口与 Windows 不同。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>系统设置 → 显示器</strong>，按住 <code>Option</code> 键，右下角会出现&quot;<strong>检测显示器</strong>&quot;按钮，点它。</li><li>在弹出的显示器窗口里设置分辨率（选&quot;默认&quot;或&quot;更多空间/更大文字&quot;），外接屏建议先用&quot;默认&quot;。</li><li>排列设置里可以拖动两块屏的相对位置，并把菜单栏拖到主屏。</li><li>如果是通过扩展坞/转接头连接，先<strong>直连</strong>测试一次。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>外接屏出现画面，分辨率可选、刷新率可选。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>Mac 上完全检测不到，检查线材与转接头是否支持该分辨率与刷新率（4K@60Hz 需要 DP1.2/HDMI2.0 以上规格），必要时重启 Mac 并把外接屏<strong>先开电源再连电脑</strong>（以 Apple 支持文档为准）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理 Type-C / 扩展坞导致的供电与带宽问题</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Type-C 一线连既传视频又供电，供电不足或转接芯片带宽不够都会变成&quot;无信号&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>确认转接头/扩展坞支持<strong>视频输出（DP Alt Mode）</strong>，不是纯充电/纯 USB 数据的头子。</li><li>需要外接供电的扩展坞，把它的电源适配器接上。</li><li>能直连就直连：把显示线直接插到电脑的视频输出口上，绕开扩展坞测试。</li><li>4K 高刷屏信号不稳时，把刷新率降到 60Hz、分辨率降到 2560×1440 试一次，判断是不是带宽不够。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>绕开扩展坞后信号正常，或接上供电后恢复。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>直连也不行，说明是电脑输出口或显示器接口问题，按步骤 3 的表格继续替换验证；扩展坞本身故障就换一个（选购时确认支持的视频规格）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理&quot;分辨率不对 / 字发虚 / 超出范围&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这类问题多是用错分辨率或刷新率，或接了不支持该模式的显示器。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>分辨率：设成&quot;推荐&quot;值。显示器原生分辨率才是清晰的（例如 2560×1440 的屏就设 2560×1440）。</li><li>刷新率：在&quot;高级显示设置&quot;里选显示器支持的档位；屏幕显示&quot;<strong>超出范围 / Out of Range</strong>&quot;时，通常需要进<strong>安全模式</strong>把分辨率/刷新率降回保守值（如 1920×1080 @60Hz）。</li><li>台式机插在主板的 HDMI 上、用的是核显，而游戏/绘图需要独显：把线改插到<strong>显卡</strong>的接口上。</li><li>显卡驱动异常也会导致分辨率选项缺失：到<strong>显卡厂商官网</strong>（NVIDIA/AMD/Intel）下载对应驱动更新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>字迹锐利、比例正常、可选分辨率里出现原生分辨率。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>安全模式下也不给调，重装显卡驱动后再设置；&quot;超出范围&quot;发生在<strong>进入系统之前</strong>（BIOS 画面就出现），则需要在开机时进安全模式或低分辨率模式调整（不同品牌进入方法<strong>以电脑厂商官网说明为准</strong>）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">收尾确认与固定设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让配置在多屏之间不再&quot;自己变来变去&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：把显示设置调好后，拔插一次线、重启一次电脑，确认配置仍生效；多屏用户把主显示器固定好并记住 <code>Win + P</code> 的常用模式。</p>
+<div class="fx-step__expect"><b>预期结果：</b>重启/拔插后仍保持正确配置。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>配置总是丢失，检查是不是用了切换器（KVM）、延长线或不同协议的转接头，改用直连；仍反复丢失就走步骤 7 的驱动更新。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><a href="../search.html?q=connected%20no%20internet">connected-no-internet</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

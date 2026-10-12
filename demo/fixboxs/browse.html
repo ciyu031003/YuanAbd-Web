@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>全部领域 · 修盒子 FIXBOX</title>
+<meta name="description" content="12 个故障领域：网络基础、Windows、macOS、硬件、外设、路由器、IP 与 DNS、代理与 VPN、账号安全、数据备份。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">
+/* 临界样式内联：避免首帧闪烁（外链 CSS 到达前就要生效） */
+html.fx-entering body{opacity:0}
+html.fx-first:not(.fx-leaving) .fx-curtain{display:none}
+.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}
+html.fx-entering .fx-curtain{transform:translateY(0)}
+html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}
+html.fx-leaving .fx-curtain{transform:translateY(0)}
+.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}
+.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}
+</style>
+<script id="fx-boot">/* 在首帧前决定：首次访问→显示加载动画；二次进入→幕布先盖住再做转场 */
+try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="./css/theme-fix.css">
+<link rel="stylesheet" href="./css/fix.css">
+</head>
+<body>
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
+  <div class="fx-preloader__inner">
+    <div class="fx-preloader__mark">
+      <span class="fx-preloader__ring" aria-hidden="true"></span>
+      <span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span>
+      <span class="fx-preloader__core" aria-hidden="true">修</span>
+      <span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span>
+    </div>
+    <p class="fx-preloader__text">正在打开修盒子…</p>
+    <div class="fx-preloader__bar" aria-hidden="true"><i></i></div>
+  </div>
+</div>
+<div class="fx-curtain" aria-hidden="true"></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top">
+  <div class="fx-top__inner">
+    <a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+    <nav class="fx-nav" aria-label="主导航">
+      <a href="./browse.html" aria-current="page">领域</a>
+      <a href="./wizard.html">症状向导</a>
+      <a href="./tools.html">工具</a>
+      <a href="./about.html">关于</a>
+    </nav>
+    <a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+  </div>
+</header>
+<main id="main" class="fx-wrap">
+  <nav class="fx-crumb" aria-label="面包屑"><a href="./index.html">首页</a><span class="fx-crumb__sep">›</span><span aria-current="page">全部领域</span></nav>
+  <h1 class="fx-title">全部领域</h1>
+  <p class="fx-p" style="max-width:64ch">12 个领域 · <strong data-fx-count-all>0</strong> 篇教程。领域按常见程度排序——最上面的是最常被搜到的。</p>
+  <section class="fx-section" data-reveal id="net-basic">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/></svg></span>
+        <div><h2>网络基础</h2><p>网线、Wi-Fi、网卡驱动、完全上不了网</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="net-basic"></div>
+  </section>
+  <section class="fx-section" data-reveal id="win-system">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+        <div><h2>Windows 系统与开机</h2><p>开机黑屏、蓝屏、更新失败、密码</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="win-system"></div>
+  </section>
+  <section class="fx-section" data-reveal id="router">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13" width="18" height="8" rx="2"/><path d="M7 17h.01M11 17h.01M15 17h2M12 13V9M8.5 6.5a5 5 0 017 0M6 4a8.5 8.5 0 0112 0"/></svg></span>
+        <div><h2>路由器与家庭网络</h2><p>拨号、桥接、限速、固件、后台</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="router"></div>
+  </section>
+  <section class="fx-section" data-reveal id="ip-dns">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span>
+        <div><h2>IP 与 DNS</h2><p>IP 冲突、DHCP、169.254、DNS 解析</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="ip-dns"></div>
+  </section>
+  <section class="fx-section" data-reveal id="win-app">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6v4h2a2 2 0 010 4v6h-4v-2a2 2 0 10-4 0v2H5v-6H3a2 2 0 010-4h2z"/></svg></span>
+        <div><h2>Windows 软件与性能</h2><p>卡顿、C 盘满、自启、闪退、弹窗</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="win-app"></div>
+  </section>
+  <section class="fx-section" data-reveal id="mac-system">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8c-3 0-5 2-5 5.5 0 3 2 6 5 6s5-3 5-6C17 10 15 8 12 8z"/><path d="M12 8c0-2 1-4 3-4.5"/></svg></span>
+        <div><h2>macOS 系统与开机</h2><p>开不了机、恢复模式、权限、更新</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="mac-system"></div>
+  </section>
+  <section class="fx-section" data-reveal id="mac-app">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8c-3 0-5 2-5 5.5 0 3 2 6 5 6s5-3 5-6C17 10 15 8 12 8z"/><path d="M12 8c0-2 1-4 3-4.5"/></svg></span>
+        <div><h2>macOS 软件与性能</h2><p>发热、风扇、存储、电池、闪退</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="mac-app"></div>
+  </section>
+  <section class="fx-section" data-reveal id="hardware">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5a4 4 0 015.6 5.6l-9 9L6 21l-3-3 1.9-5.1 9-9z"/></svg></span>
+        <div><h2>硬件与主机</h2><p>内存、硬盘、显卡、电源、散热</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="hardware"></div>
+  </section>
+  <section class="fx-section" data-reveal id="peripheral">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 17h10v4H7z"/></svg></span>
+        <div><h2>外设</h2><p>打印机、显示器、键鼠、蓝牙、U 盘</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="peripheral"></div>
+  </section>
+  <section class="fx-section" data-reveal id="proxy-vpn">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/></svg></span>
+        <div><h2>代理与 VPN</h2><p>系统代理、浏览器代理、PAC、抓包冲突</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="proxy-vpn"></div>
+  </section>
+  <section class="fx-section" data-reveal id="account-sec">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 118 0v3"/></svg></span>
+        <div><h2>账号与安全</h2><p>登录、密码、恶意软件、诈骗防范</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="account-sec"></div>
+  </section>
+  <section class="fx-section" data-reveal id="data-backup">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5"/></svg></span>
+        <div><h2>数据与备份</h2><p>误删恢复、备份、迁移、分区</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="data-backup"></div>
+  </section>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+  <div class="fx-foot__inner">
+    <div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 12 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li></ul></div>
+    <div><h3>常用</h3><ul><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
+    <div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
+  </div>
+  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="./data/articles.js"></script>
+<script src="./js/fix.js"></script>
+</body>
+</html>

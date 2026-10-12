@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑获取不到 IP 地址 / IP 是 169.254 开头 · 修盒子 FIXBOX</title>
+<meta name="description" content="169.254.x.x 是系统在&quot;没要到 IP&quot;时给自己随便发的地址，叫 APIPA/链路本地地址，不代表网卡坏了。九成情况是 DHCP 没响应：先重启路由器和本机，再查路由器 DHCP 是否开启、地址池是否用完。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="dhcp-no-ip-169-254">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns" aria-current="page">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ip-dns">IP 与 DNS</a><span class="fx-crumb__sep">›</span><span>DHCP 与获取 IP</span></nav>
+<h1 class="fx-title">电脑获取不到 IP 地址 / IP 是 169.254 开头</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p"><code>169.254.x.x</code> 是系统在&quot;没要到 IP&quot;时给自己随便发的地址，叫 APIPA/链路本地地址，不代表网卡坏了。九成情况是 DHCP 没响应：先重启路由器和本机，再查路由器 DHCP 是否开启、地址池是否用完。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>重启路由器和电脑</strong>：路由器断电 30 秒后通电，等 2 分钟，再重启电脑。期望：约一半情况地址会变回 <code>192.168.x.x</code>。</li><li><strong>让本机强制重新要一次地址</strong>：管理员命令提示符执行 <code>ipconfig /release</code>，再执行 <code>ipconfig /renew</code>。期望：提示里出现新的 IPv4 地址。</li><li><strong>用手机连同一个 Wi-Fi 看它的 IP</strong>（Wi-Fi 详情里有&quot;IP 地址&quot;）。期望：手机拿到 192.168 开头的地址 → 路由器 DHCP 正常，问题在这台电脑；手机也是 169.254 → 路由器 DHCP 出问题了。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改网络配置并可能重置网络。操作前请截图保存当前 IP、DNS 设置，并确认你知道 Wi-Fi 密码（重置后需要重新输入）。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li><code>ipconfig /all</code> 里写&quot;自动配置 IPv4 地址：169.254.x.x&quot;，或&quot;没有有效的 IP 配置&quot;</li><li>Windows 网络显示&quot;未识别的网络&quot;&quot;无 Internet 访问权限&quot;</li><li>网络图标一直在转圈&quot;正在识别…&quot;</li><li>换过路由器、改过路由器设置之后就上不了网</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>已经拿到 192.168 开头地址，但网页打不开 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>Windows 弹出&quot;检测到 IP 地址冲突&quot; → <span class="fx-link" style="cursor:help">IP 地址冲突怎么查是哪台设备</span></li><li>家里所有设备（含手机）都拿不到地址 → <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li>网络适配器整个消失、没有 WLAN 选项 → <span class="fx-link" style="cursor:help">电脑没有 WLAN 选项 / 网络适配器不见了</span></li><li>进不去路由器管理页面 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span></li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道 Wi-Fi 密码（网络重置后会清空已保存的网络）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Windows 用管理员身份打开命令提示符：开始菜单搜索 <code>cmd</code> → 右键 → 以管理员身份运行</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>能登录路由器管理页面（地址和密码通常在机身标签上）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>台式机/有线网络准备一根备用网线</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>公司/学校电脑：先联系 IT，企业网络常用 802.1X 或 MAC 准入，自行改设置可能被拒绝入网</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足：</p>
+<ol class="fx-ol"><li>Windows <code>ipconfig /all</code> 或 macOS <code>ifconfig en0</code> 里，IPv4 地址在路由器网段内（例如 <code>192.168.1.x</code>），<strong>不再是 169.254</strong>；</li><li>默认网关是本机 ping 得通的路由器地址，<code>ipconfig /release</code> 再 <code>ipconfig /renew</code> 能拿到同一网段地址；</li><li>连续上网 30 分钟不断线，<code>ipconfig /all</code> 里的&quot;DHCP 已启用&quot;为&quot;是&quot;。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>手机也拿不到 192.168 地址</strong> → 问题在路由器/光猫，看 <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li><strong>只有这一台设备拿不到，其他设备正常</strong> → 检查路由器 MAC 过滤/家长控制，或重置本机网络、更新网卡驱动</li><li><strong>拿到地址后提示 IP 冲突</strong> → 看 <span class="fx-link" style="cursor:help">IP 地址冲突怎么查是哪台设备</span></li><li><strong>事件查看器里有来源 Tcpip、事件 ID 4199 的记录</strong> → 这是&quot;无法从 DHCP 服务器获取地址&quot;的典型事件，含义与处理见文末 Microsoft 来源；企业网络中常见原因是三层交换机的 ARP 探测被误判为地址重复，需要网络管理员处理</li><li><strong>公司/学校设备或多次重装驱动无效</strong> → 联系 IT 或送修，不要在公司网络里关闭地址冲突检测（<code>Set-NetIPInterface -DadTransmits 0</code> 这类改动只应由网络管理员在有管理的环境下使用）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>家用路由器把 DHCP 地址池设大一些（例如 100 个地址以上），并保留 DHCP 功能常开。</li><li>智能家居、摄像头等设备接入前，先在路由器里规划好地址池，避免与手工固定 IP 重叠。</li><li>只保留一台设备负责 DHCP，扩展器/第二台路由器改为桥接或 AP 模式。</li><li>不要把&quot;手动设置 IP&quot;当成长期方案，用完改回自动获取。</li><li>路由器固件保持更新，设备较多时定期重启路由器。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：APIPA 释义、DHCP 续约、路由器侧排查、4199 事件说明与应急静态地址</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先读懂 169.254 这个地址</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>知道它的含义，才不会把时间浪费在&quot;杀毒、重装系统&quot;上。</p>
+<p class="fx-p"><strong>操作</strong>：在 Windows 里执行 <code>ipconfig /all</code>，在 macOS 里执行 <code>ifconfig en0</code>，找到 IPv4 地址那一行。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>看到的地址</th><th>含义</th><th>说明</th></tr></thead><tbody><tr><td><code>192.168.x.x</code>、<code>10.x.x.x</code>、<code>172.16-31.x.x</code></td><td>私有地址，正常</td><td>由路由器 DHCP 分配</td></tr><tr><td><code>169.254.0.0/16</code>（掩码 <code>255.255.0.0</code>）</td><td><strong>APIPA / 链路本地地址</strong></td><td>系统没等到 DHCP 应答时自我分配的临时地址，只能和同一链路上的设备通信，不能上网</td></tr><tr><td><code>0.0.0.0</code></td><td>没有地址</td><td>网卡未连接或协议未启用</td></tr><tr><td><code>fe80::</code> 开头</td><td>IPv6 链路本地地址</td><td>和 169.254 不是一回事，IPv6 有它是正常的</td></tr></tbody></table></div>
+<p class="fx-p">APIPA 的行为由 RFC 3927 定义，Windows 与 macOS 都实现了它。<strong>看到 169.254 说明&quot;本机网络本身是好的，是没要到地址&quot;</strong>，绝大多数情况下问题在 DHCP 服务器（也就是路由器）那一侧。</p>
+<div class="fx-step__expect"><b>预期结果：</b>确认自己看到的就是 169.254 开头，继续下一步。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>地址是 0.0.0.0 或根本没有 IPv4 → 先检查网线/Wi-Fi 是否连上，再看 <span class="fx-link" style="cursor:help">电脑没有 WLAN 选项 / 网络适配器不见了</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启设备，最省事的办法</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>DHCP 服务临时卡死、租约表异常，重启常常直接解决。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>路由器断电 30 秒，通电后等 2 分钟。</li><li>电脑关机再开机（不是&quot;睡眠唤醒&quot;）。</li><li>如果是有线网络，拔插一次网线，确认网口指示灯亮。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>开机后 <code>ipconfig /all</code> 显示 192.168 开头的地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍然 169.254 → 继续步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">强制释放并重新获取地址</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>清掉本机残留的地址状态，重新走一次 DHCP 四步流程。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows（管理员命令提示符，逐条执行）：</p>
+<div class="fx-cmd"><pre><code>ipconfig /release
+ipconfig /renew
+ipconfig /all</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">如果提示&quot;媒体已断开连接&quot;，说明链路层没通，先检查 Wi-Fi 是否连上或网线是否插好。</p>
+<p class="fx-p">macOS（终端，服务名一般是 <code>Wi-Fi</code>，可用 <code>networksetup -listallnetworkservices</code> 确认）：</p>
+<div class="fx-cmd"><pre><code>sudo ipconfig set en0 NONE
+sudo ipconfig set en0 DHCP
+ipconfig getpacket en0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b></div>
+<ul class="fx-ul"><li>Windows 的 <code>/renew</code> 显示新的 IPv4 地址与默认网关；</li><li>macOS 的 <code>ipconfig getpacket en0</code> 能打印出 DHCP 服务器返回的包（含 <code>yiaddr</code> 分配的地址、<code>server_identifier</code> 服务器地址）。</li></ul>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div></div></details>
+<ul class="fx-ul"><li><code>/renew</code> 一直等、最后报&quot;操作超时&quot; → 路由器没有应答，进入步骤 4；</li><li>macOS 提示 <code>No DHCP server</code> → 同样是路由器侧问题；</li><li>命令本身报错&quot;服务未启动&quot; → 看步骤 5 检查 DHCP Client 服务。</li></ul></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查路由器侧的 DHCP</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>既然本机在要地址，就要看&quot;发地址的人&quot;是否正常工作。</p>
+<p class="fx-p"><strong>操作</strong>：用手机登录路由器管理页面（默认地址常在机身标签上），逐项确认：</p>
+<ol class="fx-ol"><li><strong>DHCP 服务器是否开启</strong>（有些路由器默认关闭，或在&quot;AP/桥接模式&quot;下自动关闭）。</li><li><strong>地址池范围与剩余数量</strong>：例如 <code>192.168.1.100</code> - <code>192.168.1.199</code>，如果家里设备多（手机、电视、摄像头、智能家居），池子可能已经用完。</li><li><strong>DHCP 客户端列表</strong>：看这台电脑有没有出现在列表里。</li><li><strong>MAC 过滤 / 黑名单 / 家长控制</strong>：有没有把这台电脑的 MAC 拉黑。</li><li><strong>访客网络或 Mesh 子节点</strong>：子节点故障时，它下面的设备常常拿不到地址。</li><li><strong>是不是有两台路由器都在发地址</strong>（双 DHCP），或上级光猫也开了 DHCP。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>找到具体原因（关闭 / 池满 / 被拉黑 / 双 DHCP），修正后本机即可拿到地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>进不去管理页面 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span>；地址池确实太小，把结束地址改大（例如到 <code>192.168.1.250</code>）并保存重启。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查本机 DHCP 服务与第三方软件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Windows 的 DHCP Client 服务被禁用或被杀软拦截，也会一直拿不到地址。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<div class="fx-cmd"><pre><code>Get-Service Dhcp, WlanSvc, NetSetupSvc | Format-Table Name, Status, StartType</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ul class="fx-ul"><li><code>Dhcp</code> 应为 Running、启动类型 Automatic。若不是，在 <code>services.msc</code> 里手动启动并设为自动。</li><li>检查是否装了 VPN、加速器、抓包工具、虚拟机软件——它们创建的虚拟网卡有时会抢走默认路由或干扰 DHCP。临时禁用这些虚拟网卡再试。</li><li>关闭第三方防火墙/杀毒软件 5 分钟做一次测试（测完立刻打开）。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>服务正常后，<code>ipconfig /renew</code> 能拿到地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>服务启动后自动停止 → 查看系统日志中的服务错误，或执行步骤 6 的系统修复。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置网络栈（会清空网络配置）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 网络重置会删除并重装所有网络适配器，<strong>已保存的 Wi-Fi 名称和密码、固定 IP、DNS、代理设置都会被清空</strong>。动手前请先记下这些信息。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>把协议栈恢复初始状态，解决配置损坏类问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">图形方式：<strong>设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置</strong>，重启。</p>
+<p class="fx-p">命令方式（管理员命令提示符，执行后重启）：</p>
+<div class="fx-cmd"><pre><code>netsh winsock reset
+netsh int ip reset
+ipconfig /flushdns
+shutdown /r /t 0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS 换成重建 Wi-Fi 服务：<strong>系统设置 → 网络</strong> → 选中 Wi-Fi → 点&quot;-&quot;移除 → 再用&quot;+&quot;重新添加 Wi-Fi。</p>
+<div class="fx-step__expect"><b>预期结果：</b>重启后网络适配器重新枚举，能正常获取 192.168 开头的地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍然 169.254，且已确认路由器 DHCP 正常 → 优先怀疑网卡驱动或无线模块，转 <span class="fx-link" style="cursor:help">电脑没有 WLAN 选项 / 网络适配器不见了</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">步骤 7（应急）：临时手动设置一个地址</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 手动设置地址如果与别的设备重复，会造成 IP 冲突。请务必选择路由器地址池<strong>之外</strong>的空闲地址，恢复后及时改回&quot;自动获取&quot;。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>在 DHCP 一时修不好时，先让电脑能上网应急。</p>
+<p class="fx-p"><strong>操作</strong>：Windows <strong>设置 → 网络和 Internet → 你的网卡 → 编辑 → IP 分配 → 手动 → IPv4</strong>，填写：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>项目</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td>IP 地址</td><td><code>192.168.1.240</code></td><td>必须与路由器同网段，且不在 DHCP 池内</td></tr><tr><td>子网掩码</td><td><code>255.255.255.0</code></td><td>家用网络通常是这个</td></tr><tr><td>网关</td><td><code>192.168.1.1</code></td><td>用 <code>ipconfig</code> 里看到的实际网关</td></tr><tr><td>DNS</td><td><code>223.5.5.5</code></td><td>或用路由器地址</td></tr></tbody></table></div>
+<p class="fx-p">macOS：<strong>系统设置 → 网络 → 详细信息 → TCP/IP → 配置 IPv4 → 手动</strong>，填同样的四项。</p>
+<div class="fx-step__expect"><b>预期结果：</b>能上网，但<strong>这只是应急</strong>，根因仍是 DHCP。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>设置后提示冲突或上不了网 → 立刻改回&quot;自动 (DHCP)&quot;，并按 <span class="fx-link" style="cursor:help">IP 地址冲突怎么查是哪台设备</span> 排查。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><a href="../fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑老是弹广告、浏览器主页被劫持改不回来 · 修盒子 FIXBOX</title>
+<meta name="description" content="先别急着改主页：主页改不回来，通常是某个常驻程序在每次开机时把设置写回去。先用任务管理器或 Process Explorer 定位弹窗是哪个进程弹的，卸载它，最后才处理浏览器主页和搜索设置。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-popup-ads-hijack">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>弹窗与主页劫持</span></nav>
+<h1 class="fx-title">电脑老是弹广告、浏览器主页被劫持改不回来</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">40-120 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">先别急着改主页：主页改不回来，通常是某个常驻程序在每次开机时把设置写回去。先用任务管理器或 Process Explorer 定位弹窗是哪个进程弹的，卸载它，最后才处理浏览器主页和搜索设置。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>弹窗出现的瞬间</strong>：不要关，按 Ctrl+Shift+Esc 打开任务管理器 →「详细信息」标签，找可疑进程 → 右键 →「打开文件所在位置」，路径就是元凶的安装目录。</li><li><strong>看浏览器快捷方式</strong>：右键桌面/任务栏的浏览器图标 →「属性」，如果「目标」末尾多了一串网址（如 <code>chrome.exe&quot; http://xxx.com</code>），说明快捷方式被劫持。</li><li><strong>看扩展</strong>：浏览器里打开 <code>chrome://extensions</code> 或 <code>edge://extensions</code>，删掉不认识的扩展。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会卸载软件、清理启动项与计划任务，并会修改浏览器设置。清理前请确认重要 bookmark、密码已同步或导出。<br>⛔ 有数据风险：步骤 8 可能涉及重置此电脑或新建用户配置文件，动手前请备份重要数据。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>浏览器主页、搜索引擎被改成陌生网站，设置改回又被改走</li><li>桌面右下角定时弹广告窗口</li><li>打开浏览器就跳转到推广页面</li><li>桌面、收藏夹里莫名多出一堆图标和链接</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>只是系统自带的「提示与建议」通知 → 属系统设置，见步骤 7</li><li>软件打不开、报缺 dll → <span class="fx-link" style="cursor:help">软件打不开、闪退，提示缺少 dll 或 0xc000007b</span></li><li>电脑整体卡顿但没广告 → <span class="fx-link" style="cursor:help">电脑越来越卡怎么办：一张表定位是哪里卡</span></li><li>开机自启太多导致开机慢 → <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span></li><li>公司电脑出现弹窗或主页被策略修改 → 联系公司 IT</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已导出/同步浏览器书签和密码（清理扩展可能会重置部分设置）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下弹窗出现的时间规律（开机后、固定整点、打开浏览器时）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>回忆最近装过什么「下载器」「播放器」「PDF 工具」「系统优化」类软件</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要数据有备份</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">连续使用 3 天以上不再出现任何弹窗；关闭并重开浏览器、重启电脑后，主页和搜索引擎都保持在你设置的值；「任务管理器 → 启动」和 Autoruns 里不再有陌生条目；浏览器快捷方式「目标」中没有多余网址。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>不确定弹窗是哪个程序，也找不到陌生进程 → 用 Process Explorer 抓一次截图，按步骤 1 重新定位</li><li>主页只在某个浏览器里被改，其他浏览器正常 → 该浏览器的扩展或配置文件问题，按步骤 5 重置</li><li>电脑同时明显变卡、CPU 常年高占用 → <span class="fx-link" style="cursor:help">电脑越来越卡怎么办：一张表定位是哪里卡</span></li><li>桌面出现陌生图标、开机总多出新启动项 → 回到步骤 2、3，重点检查计划任务</li><li>公司电脑装有统一管控软件、或反复重装也无法清除 → 联系公司 IT，或请专业人员现场处理</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>只从软件官网、微软商店等正规渠道下载软件，避开「高速下载器」和捆绑安装包。</li><li>安装时选「自定义安装」，逐屏取消勾选附带的浏览器、输入法和「设为首页」。</li><li>浏览器只装必要扩展，定期检查扩展列表。</li><li>每周用 Windows 安全中心做一次快速扫描，保持系统自动更新开启。</li><li>不要使用第三方「主页锁定」「IE 修复」「浏览器保护」类工具，它们本身就是劫持来源之一。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：先定位进程、再清理、最后修主页</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">定位弹窗到底是哪个进程弹的</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不找到源头，光改主页和删图标，第二天还会回来。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>快速法</strong>：弹窗出现时按 <code>Ctrl+Shift+Esc</code> →「详细信息」标签，逐项右键 →「打开文件所在位置」，能打开目录的就是候选。</li><li><strong>精准法</strong>：下载微软官方 Sysinternals 的 Process Explorer，右键 <code>procexp64.exe</code> 以管理员身份运行；把工具栏上的「准星」图标拖到弹窗上松开，列表中高亮的那一行就是弹窗进程。</li><li>查看该进程的「公司名称」「数字签名」，没有签名或名字乱码的，基本就是流氓软件。</li><li>也可以用 PowerShell 列出所有带可见窗口的进程：</li></ol>
+<div class="fx-cmd"><pre><code>Get-Process | Where-Object { $_.MainWindowTitle } |
+  Select-Object Id, ProcessName, MainWindowTitle, Path</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确写出「哪个 exe、在哪个目录、属于哪个软件」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>弹窗一闪就没了 → 用 Process Explorer 的 <code>View → Show Lower Pane</code> 配合持续观察，或改成查看步骤 2 的启动项清单。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">顺藤摸瓜，查它靠什么自动运行</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>找到自启方式，才能彻底断根。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>下载微软官方 Autoruns，以管理员身份运行 <code>Autoruns64.exe</code>。</li><li>依次检查 <code>Logon</code>（登录启动）、<code>Scheduled Tasks</code>（计划任务）、<code>Services</code>（服务）三个标签。</li><li>重点看「Image Path」指向步骤 1 找到的那个目录的条目。</li><li>右键可疑项 → 先「取消勾选」临时禁用，观察几天没问题再删除。</li><li>手工复查两处： - 任务计划程序：Win+R 输入 <code>taskschd.msc</code>，看「任务计划程序库」里触发器为「登录时」「启动时」的任务 - 启动文件夹：Win+R 输入 <code>shell:startup</code></li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>找到并禁用/删除所有指向该流氓程序的自启条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定某项能否删 → 只取消勾选不要删除，观察稳定后再清理。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卸载来源程序并清理残留</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把软件主体卸掉，否则它会重新注册自启项。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 应用 → 已安装的应用」，按安装时间排序，找最近装的可疑程序，卸载。</li><li>有些流氓软件不在列表里：用步骤 1 记录的目录，先结束进程（任务管理器 → 结束任务），再运行该目录里的 <code>uninstall.exe</code>。</li><li>卸载后检查并删除残留目录（<code>C:\Program Files\可疑软件名</code>、<code>C:\Users\你的用户名\AppData\Local\可疑软件名</code>、<code>AppData\Roaming</code> 下的同名目录）。</li><li>删除桌面和开始菜单里的可疑快捷方式。</li><li>重启后再观察是否还有弹窗。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>弹窗消失，重启后不再出现。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「文件正在使用」→ 先在任务管理器结束其进程再删，或重启后立刻删除；卸不掉 → 进安全模式再卸载。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用微软官方工具做一次全盘扫描</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>流氓软件常捆绑木马，卸载后仍要确认系统干净。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>Windows 安全中心 →「病毒和威胁防护」→ 扫描选项 →「完全扫描」，并打开「勒索软件防护」等基础防护。</li><li>需要一次性深度扫描时，使用微软官方的 Microsoft Safety Scanner（免安装，下载后直接运行，扫描完成自动退出）。</li><li>扫描结果里有威胁就按提示隔离或删除，然后重启。</li><li>同时检查「设置 → 应用」里有没有没见过的浏览器、输入法、压缩软件、PDF 阅读器，一并卸载。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>扫描无威胁或威胁已被清除。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>反复扫描仍有威胁 → 用 Windows 安全中心的「脱机扫描」（Defender 脱机扫描），或在安全模式下扫描。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复浏览器主页与搜索引擎</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>弹窗源头处理干净后，再来修浏览器设置，否则会被反复覆盖。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>先查快捷方式</strong>：右键浏览器图标 →「属性」→「目标」，正常应该只以 <code>chrome.exe</code> 结尾；如果后面跟着网址，把多出来的部分删掉（或删除该快捷方式，从开始菜单重新固定一个）。</li><li><strong>浏览器内设置</strong>： - Chrome：<code>chrome://settings/onStartup</code> 设为「打开新标签页」；<code>chrome://settings/search</code> 改回常用搜索引擎；扩展页 <code>chrome://extensions</code> 删除不认识的扩展。 - Edge：<code>edge://settings/startHomeNTP</code>、<code>edge://settings/search</code>、<code>edge://extensions</code> 同理。 - Firefox：<code>about:preferences</code> 改主页与搜索引擎；扩展页 <code>about:addons</code> 清理；必要时用 <code>about:support</code> 里的「刷新 Firefox」。</li><li><strong>一键重置</strong>：Chrome 用 <code>chrome://settings/reset</code>（将设置还原为原始默认值），Edge 用 <code>edge://settings/reset</code>。</li><li>检查同步账户：如果书签和扩展会自动同步回来，先在浏览器里退出账号、清理完再登录。</li><li>再检查任务栏固定项、开始菜单磁贴里有没有夹带网址的快捷方式。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>主页、搜索引擎、新标签页都恢复正常且重启浏览器不再反弹。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>设置改完立刻被改回 → 说明还有常驻程序没清干净，回到步骤 1、2 重新定位。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 hosts、DNS 与系统代理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>部分劫持不走程序，而是通过系统级配置把网页请求导向推广站。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>hosts 文件</strong>：用记事本以管理员身份打开</li></ol>
+<div class="fx-cmd"><pre><code>C:\Windows\System32\drivers\etc\hosts</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">   正常情况下这个文件只有以 <code>#</code> 开头的注释行；如果看到把常用网站域名指向某个 IP 的行，删掉该行并保存。注意：极少数正规软件也会写入条目，不确定就先备份该文件再改。</p>
+<ol class="fx-ol"><li><strong>DNS 设置</strong>：「网络和 Internet → 高级网络设置 → 适配器」，右键正在使用的网卡 →「属性」→ 双击「Internet 协议版本 4 (TCP/IPv4)」，确认 DNS 是「自动获得」或你自己设置的常用 DNS，不是陌生地址。</li><li><strong>系统代理</strong>：设置 →「网络和 Internet → 代理」，关掉不明来源的「使用代理服务器」；管理员命令提示符里查看：</li></ol>
+<div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>改完执行 <code>ipconfig /flushdns</code> 刷新 DNS 缓存，重启浏览器。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>hosts 干净、DNS 正常、代理关闭，浏览器不再跳转。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>公司电脑代理是 IT 配置的 → 不要改，联系 IT；改完断网 → 把 DNS 改回「自动获得」。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">分清「系统通知广告」和真劫持</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>有些推送不是病毒，而是系统自带的推荐内容，改设置即可。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「设置 → 系统 → 通知」，关闭不需要的应用通知，尤其「获取有关 Windows 的提示和建议」。</li><li>「设置 → 个性化 → 锁屏界面」，把背景从「Windows 聚焦」改为「图片」，可关闭锁屏上的推广内容。</li><li>「设置 → 个性化 → 开始」，关闭「显示有关应用的建议」等推荐项。</li><li>「设置 → 隐私和安全性 → 常规」，关闭「让应用使用广告 ID」等选项。</li><li>这类通知的特点是：只出现在通知中心或锁屏，卸载软件无法解决，改了设置就好。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>不再出现系统级推广通知，也不再和弹窗广告混淆。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>区分不了 → 记住判据：能在任务管理器里找到进程的才是第三方弹窗；只在通知中心出现的属于系统设置项。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">反复清不掉时的兜底方案</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>有些流氓软件会重建自身，需要更强的手段。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：新建用户或重置系统会影响已安装的程序和部分个人设置，动手前请备份重要数据。</div></div>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先试安全模式：在安全模式下重复步骤 1-4，此时第三方程序无法自启，成功率更高。</li><li>新建一个用户账户（「设置 → 账户 → 其他用户」，授予管理员），登录新账户观察是否还有弹窗：新账户干净说明问题在旧账户的配置里。</li></ol>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：重置此电脑会卸载所有已安装程序，选「删除所有内容」还会清空个人文件。执行前请再确认一次备份已完成。</div></div>
+<ol class="fx-ol"><li>仍无解时：「设置 → 系统 → 恢复 → 重置此电脑」，选「保留我的文件」，重装后再把需要的软件从官网装一遍。</li><li>公司设备、装有企业管控或加密软件 → 直接联系 IT，不要自行重置。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统恢复干净，主页不再被改。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重装后立刻又出现 → 说明是你在重装后安装的某个软件带来的，逐个回忆并卸载。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a><a href="../fix/win-app-crash-missing-dll.html">软件打不开、闪退，提示缺少 dll 或 0xc000007b</a><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

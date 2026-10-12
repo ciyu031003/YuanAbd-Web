@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mac 风扇狂转、机身发烫怎么办 · 修盒子 FIXBOX</title>
+<meta name="description" content="风扇狂转多半不是硬件坏了：先打开「活动监视器」按 CPU 排序，找出长时间占满处理器的程序，再检查散热环境和后台备份有没有卡住。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="mac-fan-noise-overheat">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>发热与风扇</span></nav>
+<h1 class="fx-title">Mac 风扇狂转、机身发烫怎么办</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-40 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">风扇狂转多半不是硬件坏了：先打开「活动监视器」按 CPU 排序，找出长时间占满处理器的程序，再检查散热环境和后台备份有没有卡住。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>打开「活动监视器」</strong>（访达 → 应用程序 → 实用工具），点「CPU」标签，再点「% CPU」列排序，看排在前三名的程序。期望：能说出占 CPU 最高的那个名字。</li><li><strong>正常退出那个程序</strong>（不要强制退出名字里带 com.apple 的系统进程），等 2 分钟再听风扇。期望：噪音明显变小、机身温度下降。</li><li><strong>把 Mac 挪到硬质平面上</strong>（桌面、支架），别放在被子、沙发、抱枕或腿上，拔掉不用的外接硬盘和扩展坞，改用原装或合规充电器。期望：机身底部进风口和转轴处出风口不被遮挡。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>风扇长时间高速转，机身明显发烫，但电脑还能正常用</li><li>待机（没开大程序）时风扇也一直响</li><li>每次打开某个软件就开始响</li><li>系统更新、照片分析、时间机器备份之后一直响</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>磁盘快满、系统整体卡顿，怀疑是空间不足引起的负载 → <span class="fx-link" style="cursor:help">Mac 储存空间不足 /「系统数据」占了上百 G</span></li><li>风扇有咔哒声、摩擦声、机身变形或有液体泼溅/跌落 → 属于硬件问题，直接看 <span class="fx-link" style="cursor:help">Mac 硬件异常与送修判断</span></li><li>电脑根本进不去系统、反复重启 → <span class="fx-link" style="cursor:help">Mac 无法开机 / 反复重启怎么办</span></li><li>电池鼓包、机身被顶起 → 立即停止使用并联系 Apple 支持或 Apple 授权服务商</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Mac 已接电源，或电量高于 30%</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道开机密码（进入安全模式、重置 SMC 时需要）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已保存并退出正在编辑的文档</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>大致记下：什么时候开始响、响之前装过什么软件、是不是插了扩展坞或外接显示器</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>公司/学校统一管理的 Mac，安装更新或改系统设置前先问 IT</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">在插电、屏幕亮着、不运行大型程序的状态下观察 10 分钟，同时满足三条才算修好：</p>
+<ol class="fx-ol"><li>活动监视器里 CPU 总占用低于约 10%，且前几名是你熟悉的程序；</li><li>终端执行 <code>pmset -g therm</code>，<code>CPU_Speed_Limit</code> 回到 100；</li><li>风扇噪音明显回落（贴近出风口能感觉到风但不刺耳），机身不再烫手。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>主要问题是磁盘快满、系统卡顿</strong> → 去 <span class="fx-link" style="cursor:help">Mac 储存空间不足 /「系统数据」占了上百 G</span></li><li><strong>只在某个软件运行/开机自启时出现</strong> → 卸载该软件，或在「登录项」里关掉它</li><li><strong>安全模式下正常、正常启动就狂转</strong> → 逐项排查第三方登录项与后台程序</li><li><strong>Apple 诊断报出参考代码、风扇机械异响、液体泼溅或跌落</strong> → 送修：预约 Apple Store 或 Apple 授权服务商；公司/学校设备先联系 IT</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>不要把笔记本放在被子、沙发、抱枕或腿上使用，尽量用硬质支架垫高机身。</li><li>每周花 1 分钟看一眼活动监视器，退出不用的虚拟机和浏览器标签页。</li><li>保持启动磁盘至少 15% 的可用空间，磁盘太满会让系统整体负载升高。</li><li>每 3 到 6 个月清理一次进风口/出风口的灰尘（关机断电后，用气吹或软毛刷）。</li><li>夏天避免在高温环境长时间满负载运行渲染、游戏或视频导出。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：活动监视器定位、散热环境、安全模式与 SMC、Apple 诊断分流</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断是真过热还是只是风扇吵</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>确认系统是不是真的在因为温度限制性能，避免白折腾散热。</p>
+<p class="fx-p"><strong>操作</strong>：打开「终端」（访达 → 应用程序 → 实用工具 → 终端），执行：</p>
+<div class="fx-cmd"><pre><code>pmset -g therm</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">想看得更细，可以临时执行（需要管理员密码，输出较专业）：</p>
+<div class="fx-cmd"><pre><code>sudo powermetrics -n 1 -i 1000 | head -40</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>pmset -g therm</code> 显示 <code>CPU_Speed_Limit</code> 一行的数值，正常是 100；如果明显低于 100，说明系统正在给 CPU 限频降温。同时在活动监视器的「CPU」标签里，总占用长期高于 50%。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示 <code>command not found</code> 说明输错了命令；<code>powermetrics</code> 要求管理员密码，输入时不显示字符是正常的。如果两条命令都不认，直接看活动监视器的 CPU 和「能耗」两个标签即可。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">找出占 CPU 的程序</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>风扇狂转的本质是&quot;有东西在长期占用处理器&quot;，先抓到它。</p>
+<p class="fx-p"><strong>操作</strong>：活动监视器 → 「CPU」标签 → 点「% CPU」列排序，观察 1 分钟。也可以在终端执行：</p>
+<div class="fx-cmd"><pre><code>ps -Ao pcpu,comm -r | head -n 11</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>能列出占用最高的 10 个进程。常见&quot;元凶&quot;和处理方式见下表。</div>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>进程名</th><th>它是什么</th><th>怎么处理</th></tr></thead><tbody><tr><td><code>mds</code> / <code>mdworker</code> / <code>mds_stores</code></td><td>Spotlight 正在重建索引</td><td>通常几小时内自己结束；刚升级系统或刚恢复备份时正常，先等</td></tr><tr><td><code>backupd</code></td><td>时间机器正在备份</td><td>等它备份完；<code>tmutil status</code> 可看进度</td></tr><tr><td><code>photolibraryd</code> / <code>photoanalysisd</code></td><td>照片图库在分析人脸和场景</td><td>让它跑完，别中途关；别在此时做大量照片导入</td></tr><tr><td><code>kernel_task</code></td><td>macOS 的散热管理进程</td><td>它高占用往往是&quot;系统在限频降温&quot;，处理办法是关掉其它高负载程序并改善散热，不要强行结束它</td></tr><tr><td>浏览器</td><td>视频、网页游戏、太多标签页</td><td>关掉不看的标签页，退出后台播放的视频</td></tr><tr><td>Docker / 虚拟机</td><td>容器和虚拟系统</td><td>不用时退出，而不是最小化</td></tr><tr><td>Xcode / 模拟器</td><td>编译和模拟器</td><td>退出模拟器，清 DerivedData</td></tr><tr><td>不认识的程序</td><td>可能是挖矿类恶意软件</td><td>查来源，用系统自带方式卸载；不要轻信&quot;一键清理&quot;工具</td></tr></tbody></table></div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>活动监视器里进程一闪就没了，说明是短时任务，不是元凶；抓不到就改用「能耗」标签看&quot;12 小时电量&quot;一列，找出长期大户。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">按嫌疑逐个收尾</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把&quot;临时关掉&quot;变成&quot;以后不再反复&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开<strong>系统设置 → 通用 → 登录项</strong>，关掉不需要开机自启的程序。</li><li>检查磁盘空间：<strong>系统设置 → 通用 → 储存空间</strong>，可用空间低于 15% 会明显加重系统负担，此时先处理空间问题。</li><li>打开<strong>软件更新</strong>，把 macOS 更新到当前版本。</li><li>重启一次 Mac（很多临时负载重启就消失）。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重启后待机 10 分钟，活动监视器 CPU 总占用降到 10% 以下，风扇转速回落。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重启后依旧高，进下一步；如果只在装了某个软件后出现，先卸载该软件再看。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">改善散热环境与供电</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>同样负载下，散热条件差会让风扇一直高速转。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ul class="fx-ul"><li>把 Mac 放在硬质、平整、通风的平面上，别挡进风口和出风口。</li><li>取下会盖住键盘/底部的保护壳、键盘膜。</li><li>环境温度保持在 10°C 到 35°C 之间（Apple 对 Mac 笔记本的使用温度建议）。</li><li>用原装充电器或通过 Apple 认证的充电器；边充边跑大型程序会更热。</li><li>查看电池状态：</li></ul>
+<div class="fx-cmd"><pre><code>system_profiler SPPowerDataType | grep -A 6 &quot;电池信息&quot;
+pmset -g batt</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>电池状态显示「正常」，循环计数在合理范围；移走遮挡物、换到硬质平面后风扇转速下降。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>电池状态显示「建议维修」或「更换电池」，或机身有鼓包，停止私自处理，预约 Apple 支持或授权服务商。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">系统层面排查（安全模式 / SMC）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除第三方软件和电源管理状态异常。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>安全模式</strong>排查：Apple 芯片 Mac 关机后按住电源键不放，出现启动选项后，按住 Shift 选择启动磁盘，再点「以安全模式继续」；Intel Mac 开机立即按住 Shift 键直到看到登录窗口。在安全模式下观察风扇是否还狂转，然后正常重启。</li><li><strong>重置 SMC</strong>（仅 Intel Mac 需要，Apple 芯片机型不需要）：具体按键顺序按 Apple 官方文档操作，见文末来源。</li><li><strong>重置 NVRAM</strong>（仅 Intel Mac）：同样以 Apple 官方文档为准。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>安全模式下风扇正常 → 说明是某个第三方登录项或后台程序导致，回到步骤 3 排查登录项；安全模式下也狂转 → 更可能是硬件或系统本身的问题。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不记得自己是不是 Intel Mac，可在「关于本机」里看芯片一栏（Apple M 开头就是 Apple 芯片）；拿不准就别做重置，直接进入步骤 6。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">怀疑硬件时用 Apple 诊断</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>用官方自检区分&quot;软件负载&quot;和&quot;硬件故障&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>关机。</li><li>Apple 芯片 Mac：按住电源键开机，出现启动选项后按住 Command (⌘) + D；Intel Mac：开机时按住 D 键（联网诊断按住 Option + D）。</li><li>等待诊断完成，记下参考代码。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>显示「未检测到问题」，或者给出一个参考代码（例如以 PPN、NDD、VFD 开头的代码）。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>出现任何参考代码、或风扇在没有高 CPU 占用的情况下持续满速、或有异响，都不要再自行拆机，带上参考代码联系 Apple 支持或 Apple 授权服务商；公司设备先联系 IT。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../search.html?q=%E7%94%B5%E8%84%91%E6%B2%A1%E6%9C%89%20WLAN%20%E9%80%89%E9%A1%B9%20%2F%20%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8D%E8%A7%81%E4%BA%86">电脑没有 WLAN 选项 / 网络适配器不见了</a><a href="../search.html?q=%E7%BD%91%E9%A1%B5%E6%89%93%E4%B8%8D%E5%BC%80%E4%BD%86%20QQ%20%2F%20%E5%BE%AE%E4%BF%A1%E8%83%BD%E7%94%A8%EF%BC%9ADNS%20%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E4%BF%AE">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

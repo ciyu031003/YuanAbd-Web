@@ -17,3 +17,6 @@ Thumbs.db
 # 修盒子部署产物（由 deploy-fixboxs.cjs 生成，部署用；不入库）
 dist/
 dist-fixboxs.tgz
+
+# 设计文档（本地保留，不入库 —— 按项目负责人要求）
+docs/

@@ -1,0 +1,215 @@
+{
+  "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。",
+  "version": "1.0",
+  "updated": "2026-10-12",
+  "domains": [
+    {
+      "id": "net-basic",
+      "name": "网络基础",
+      "cats": [
+        {
+          "id": "net-nowifi",
+          "name": "Wi-Fi 连不上"
+        },
+        {
+          "id": "net-connected-noint",
+          "name": "连上但上不了网"
+        },
+        {
+          "id": "net-adapter",
+          "name": "网卡与适配器"
+        }
+      ]
+    },
+    {
+      "id": "win-system",
+      "name": "Windows 系统与开机",
+      "cats": [
+        {
+          "id": "win-boot",
+          "name": "开机与引导故障"
+        },
+        {
+          "id": "win-bluescreen",
+          "name": "蓝屏与死机"
+        },
+        {
+          "id": "win-update",
+          "name": "系统更新"
+        },
+        {
+          "id": "win-login",
+          "name": "登录与密码"
+        }
+      ]
+    },
+    {
+      "id": "router",
+      "name": "路由器与家庭网络",
+      "cats": [
+        {
+          "id": "rt-login",
+          "name": "路由器后台登录"
+        },
+        {
+          "id": "rt-qos",
+          "name": "蹭网与限速"
+        }
+      ]
+    },
+    {
+      "id": "ip-dns",
+      "name": "IP 与 DNS",
+      "cats": [
+        {
+          "id": "ip-conflict",
+          "name": "IP 地址冲突"
+        },
+        {
+          "id": "ip-dhcp",
+          "name": "DHCP 与获取 IP"
+        },
+        {
+          "id": "ip-dns-fail",
+          "name": "DNS 解析"
+        }
+      ]
+    },
+    {
+      "id": "win-app",
+      "name": "Windows 软件与性能",
+      "cats": [
+        {
+          "id": "win-slow",
+          "name": "卡顿与性能"
+        },
+        {
+          "id": "win-startup",
+          "name": "开机启动"
+        },
+        {
+          "id": "win-storage",
+          "name": "磁盘空间"
+        },
+        {
+          "id": "win-app-crash",
+          "name": "软件打不开与闪退"
+        },
+        {
+          "id": "win-popup",
+          "name": "弹窗与主页劫持"
+        }
+      ]
+    },
+    {
+      "id": "mac-system",
+      "name": "macOS 系统与开机",
+      "cats": []
+    },
+    {
+      "id": "mac-app",
+      "name": "macOS 软件与性能",
+      "cats": [
+        {
+          "id": "mac-thermal",
+          "name": "发热与风扇"
+        },
+        {
+          "id": "mac-disk-space",
+          "name": "储存空间"
+        }
+      ]
+    },
+    {
+      "id": "hardware",
+      "name": "硬件与主机",
+      "cats": [
+        {
+          "id": "hw-disk",
+          "name": "硬盘与存储"
+        }
+      ]
+    },
+    {
+      "id": "peripheral",
+      "name": "外设",
+      "cats": [
+        {
+          "id": "per-printer",
+          "name": "打印机"
+        },
+        {
+          "id": "per-display",
+          "name": "显示器"
+        },
+        {
+          "id": "per-usb",
+          "name": "U 盘与移动硬盘"
+        }
+      ]
+    },
+    {
+      "id": "proxy-vpn",
+      "name": "代理与 VPN",
+      "cats": [
+        {
+          "id": "px-system",
+          "name": "系统代理"
+        },
+        {
+          "id": "px-capture",
+          "name": "抓包与加速工具冲突"
+        }
+      ]
+    },
+    {
+      "id": "account-sec",
+      "name": "账号与安全",
+      "cats": [
+        {
+          "id": "as-malware",
+          "name": "恶意软件"
+        },
+        {
+          "id": "as-phishing",
+          "name": "诈骗识别"
+        }
+      ]
+    },
+    {
+      "id": "data-backup",
+      "name": "数据与备份",
+      "cats": [
+        {
+          "id": "db-delete",
+          "name": "误删与恢复"
+        }
+      ]
+    }
+  ],
+  "enums": {
+    "risk": [
+      "安全",
+      "需谨慎",
+      "有数据风险"
+    ],
+    "difficulty": [
+      "入门",
+      "进阶",
+      "专家"
+    ],
+    "sourceType": [
+      "official",
+      "vendor",
+      "standard",
+      "tested",
+      "community"
+    ]
+  },
+  "notes": [
+    "domains 的 id/name 与顺序沿用原有 DOMAINS 常量，保证站点展示顺序不变。",
+    "cats 为该领域下「当前实际在用」的分类。mac-system 当前为空（尚无文章），保留以便后台建稿。",
+    "enums.risk / enums.difficulty 供后台表单下拉与 content-lint 校验共用。",
+    "difficulty 的「专家」参照《故障分类与内容体系》§4 的难度定义；现有 30 篇未使用，不强制。"
+  ]
+}

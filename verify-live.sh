@@ -11,7 +11,11 @@
 #   bash verify-live.sh --list           # 只打印将要校验的 URL，不发请求
 #
 # 退出码：0 = 全部 200；非零 = 有失败（并列出失败项）
-set -euo pipefail
+# 注意：本脚本刻意只用 POSIX sh 语法。
+# 原因：后台服务跑在精简容器里（不装 bash —— 实测本机到 alpine CDN 只有 ~79 字节/秒，
+# 装 bash 要十几分钟且会中途停滞）。若这里用 mapfile / 进程替换等 bash 专有语法，
+# 后台的发布 worker 就无法复用同一份校验脚本，又会退化成「两份实现各自漂移」。
+set -eu
 
 DIR="dist/fixboxs"
 DOMAIN="pc-fixboxs.yuanabd.cn"
@@ -30,9 +34,12 @@ done
 
 # 从产物实际文件推导 URL：
 #   fix/xxx.html        -> /fix/xxx.html
-#   brow se.html 等根页 -> /xxx.html
-#   /index.html         -> /
-mapfile -t URLS < <(
+#   根页 xxx.html       -> /xxx.html
+#   index.html          -> /
+# 用 POSIX 兼容写法（不用 mapfile / 进程替换），以便在无 bash 的容器里运行。
+URLS_FILE="$(mktemp)"
+trap 'rm -f "$URLS_FILE"' EXIT
+(
   cd "$DIR"
   find . -name '*.html' -type f | sed 's|^\./||' | sort | while read -r f; do
     case "$f" in
@@ -40,24 +47,25 @@ mapfile -t URLS < <(
       *) echo "/$f" ;;
     esac
   done
-)
+) > "$URLS_FILE"
 
-COUNT="${#URLS[@]}"
+COUNT=$(wc -l < "$URLS_FILE" | tr -d ' ')
 if [ "$LIST_ONLY" = "1" ]; then
   echo "将校验 $COUNT 个 URL（来源：$DIR 实际文件）"
-  printf '%s\n' "${URLS[@]}"
+  cat "$URLS_FILE"
   exit 0
 fi
 
 echo "==> 线上全量校验：$COUNT 个 URL（来源：$DIR 实际文件，非手工维护清单）"
 FAILED=0
-for p in "${URLS[@]}"; do
+while IFS= read -r p; do
+  [ -z "$p" ] && continue
   code=$(curl -sS -o /dev/null -w '%{http_code}' "https://${DOMAIN}${p}" || echo "000")
   if [ "$code" != "200" ]; then
     printf '     ✗ %-52s %s\n' "$p" "$code"
     FAILED=$((FAILED+1))
   fi
-done
+done < "$URLS_FILE"
 
 if [ "$FAILED" -gt 0 ]; then
   echo "VERIFY_FAIL failed=$FAILED total=$COUNT domain=$DOMAIN" >&2

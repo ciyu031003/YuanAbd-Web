@@ -19,7 +19,10 @@
 # 输出（机器可读，供后台 worker 解析）：
 #   SWITCH_OK files=<n> root=<path> prev=<path>
 #   失败时以非零退出并在 stderr 输出 SWITCH_FAIL reason=<...>
-set -euo pipefail
+# 注意：本脚本刻意只用 POSIX sh 语法（不用 function/local 等 bash 专有写法）。
+# 原因：后台服务跑在精简容器里（不装 bash —— 实测本机到 alpine CDN 只有 ~79 字节/秒）。
+# 后台的发布 worker 必须能复用**同一份**原子切换脚本，否则又会退化成两份实现各自漂移。
+set -eu
 
 LOCAL=0
 if [ "${1:-}" = "--local" ]; then LOCAL=1; shift; fi
@@ -32,11 +35,12 @@ KEY="${FX_SSH_KEY:-$HOME/.ssh/id_ed25519}"
 REMOTE_TMP="${FX_REMOTE_TMP:-/tmp}"
 BASENAME="$(basename "$TARBALL")"
 
-# ---- 原子切换的核心动作。这段正文只有一份，两种模式都调用它。----
-# 参数：$1=tar 包绝对路径  $2=目标 root
-run_switch() {
-  local tar_path="$1" root="$2"
-  set -e
+# ---- 原子切换的核心动作（POSIX sh 写法，不用 local）----
+# 这段正文只有一份，本地模式与远端模式都调用它。
+# 参数：$1=tar 包路径  $2=目标 root
+switch_one() {
+  tar_path="$1"
+  root="$2"
   sudo rm -rf "${root}.new" && sudo mkdir -p "${root}.new"
   sudo tar -xzf "$tar_path" -C "${root}.new"
   sudo find "${root}.new" -type d -exec chmod 755 {} +
@@ -45,11 +49,12 @@ run_switch() {
   sudo rm -rf "${root}.prev"
   if [ -d "${root}" ]; then sudo mv "${root}" "${root}.prev"; fi
   sudo mv "${root}.new" "${root}"
-  echo "SWITCH_OK files=$(sudo find "${root}" -type f | wc -l) root=${root} prev=${root}.prev"
+  n=$(sudo find "${root}" -type f | wc -l | tr -d ' ')
+  echo "SWITCH_OK files=${n} root=${root} prev=${root}.prev"
 }
 
 if [ "$LOCAL" = "1" ]; then
-  run_switch "$TARBALL" "$REMOTE_ROOT" || { echo "SWITCH_FAIL reason=local-switch-error" >&2; exit 1; }
+  switch_one "$TARBALL" "$REMOTE_ROOT" || { echo "SWITCH_FAIL reason=local-switch-error" >&2; exit 1; }
   exit 0
 fi
 

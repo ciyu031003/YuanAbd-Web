@@ -4,6 +4,7 @@
 "use strict";
 const { execFile } = require("child_process");
 const path = require("path");
+const fs = require("fs");
 const db = require("./db.cjs");
 const config = require("./config.cjs");
 
@@ -64,22 +65,26 @@ async function execute(id) {
       [id, stage + "：" + String(detail).slice(0, 800), log.join("\n").slice(0, 20000)]);
   };
   try {
-    // 1) git commit（内容变更留痕；无变更则跳过）
-    if (config.publish.enabled) {
-      await step(id, "git-add");
-      const add = await run("git", ["add", "content"]);
-      log.push("$ git add content\n" + add.stdout + add.stderr);
-      const st = await run("git", ["status", "--porcelain", "content"]);
-      if (st.stdout.trim()) {
-        await step(id, "git-commit");
-        const msg = "content: 后台发布（" + new Date().toISOString().slice(0, 19) + "）";
-        const ci = await run("git", ["-c", "user.name=" + config.publish.gitAuthorName,
-          "-c", "user.email=" + config.publish.gitAuthorEmail, "commit", "-m", msg]);
-        log.push("$ git commit\n" + ci.stdout + ci.stderr);
-        if (!ci.ok) { await fail("git-commit", ci.stderr || ci.error); return; }
-      } else {
-        log.push("（内容无变更，跳过 commit）");
-      }
+    // 1) 内容留痕：写一个「提交请求」文件，由**宿主机侧**脚本完成 git commit。
+    //
+    // 为什么不在容器里 commit（实测取舍）：
+    //   本机到 alpine CDN 实测约 79 字节/秒，在镜像里装 git 要十几分钟且会中途停滞。
+    //   替代方案各有问题：
+    //     · 容器挂载 docker socket 调宿主 git —— 等于把宿主 root 权限交给容器，安全上不可接受；
+    //     · 静态链接 git 二进制 —— 引入一个不受控的二进制，供应链风险高。
+    //   最终选择：容器只负责「生成内容 + 构建 + 部署」，**git 提交交给宿主机**。
+    //   宿主机本来就有 git，且提交是纯本地操作，不涉及权限放大。
+    //   宿主侧由 fixboxs-content-commit.sh（systemd timer，每 5 分钟）拾取并提交。
+    try {
+      await step(id, "commit-request");
+      const reqPath = path.join(config.repo.root, ".admin-commit-request");
+      fs.writeFileSync(reqPath, JSON.stringify({
+        jobId: id, slug: slug || null, at: new Date().toISOString(),
+        message: "content: 后台发布" + (slug ? "（" + slug + "）" : "") + " " + new Date().toISOString().slice(0, 19)
+      }) + "\n", "utf8");
+      log.push("已写入提交请求：" + reqPath + "（由宿主机脚本处理）");
+    } catch (e) {
+      log.push("写提交请求失败（不阻塞发布）：" + (e && e.message));
     }
 
     // 2) 构建（含 content-lint 闸门，fail-closed）
@@ -94,24 +99,36 @@ async function execute(id) {
     log.push("$ node deploy-fixboxs.cjs\n" + art.stdout + art.stderr);
     if (!art.ok) { await fail("artifact", art.stderr || art.stdout); return; }
 
-    // 4) 原子切换
-    await step(id, "switch");
+    // 4) 打包产物
+    await step(id, "package");
     const tgz = path.join(config.repo.root, "dist-fixboxs.tgz");
     const tar = await run("tar", ["-czf", tgz, "-C", path.join(config.repo.root, "dist", "fixboxs"), "."]);
-    log.push("$ tar\n" + tar.stdout + tar.stderr);
-    if (!tar.ok) { await fail("tar", tar.stderr || tar.error); return; }
-    const sw = await run("bash", [path.join(config.repo.root, "atomic-switch.sh"), tgz, "/var/www/fixboxs"],
-      { cwd: config.repo.root });
-    log.push("$ atomic-switch.sh\n" + sw.stdout + sw.stderr);
-    if (!sw.ok) { await fail("switch", sw.stderr || sw.stdout); return; }
+    log.push("$ tar -czf dist-fixboxs.tgz\n" + tar.stdout + tar.stderr);
+    if (!tar.ok) { await fail("package", tar.stderr || tar.error); return; }
 
-    // 5) 线上全量校验
-    await step(id, "verify");
-    const vf = await run("bash", [path.join(config.repo.root, "verify-live.sh"),
-      "--dir", path.join(config.repo.root, "dist", "fixboxs"), "--domain", "pc-fixboxs.yuanabd.cn"],
-      { cwd: config.repo.root });
-    log.push("$ verify-live.sh\n" + vf.stdout + vf.stderr);
-    if (!vf.ok) { await fail("verify", vf.stderr || vf.stdout); return; }
+    // 5) 请求宿主机完成「原子切换 + 线上全量校验」
+    //
+    // 为什么把这两步交给宿主机（与 git 提交同一逻辑）：
+    //   原子切换要写 /var/www/fixboxs 并 chown，需要 root/sudo；
+    //   而容器里既没有 sudo，也不应该拿 docker socket 或特权去取得宿主 root。
+    //   宿主机本来就有 sudo 与 /var/www，让它执行是权限最小、链路最短的做法。
+    //   容器只负责「生成正确产物」，部署动作由宿主侧脚本消费。
+    // 内容校验已在本步之前的 build 阶段由 content-lint 把关（fail-closed），
+    // 因此这里交接的是「已通过闸门的产物」。
+    await step(id, "deploy-request");
+    const reqPath = path.join(config.repo.root, ".admin-deploy-request");
+    fs.writeFileSync(reqPath, JSON.stringify({
+      jobId: id, at: new Date().toISOString(),
+      tarball: tgz, root: "/var/www/fixboxs", domain: "pc-fixboxs.yuanabd.cn"
+    }) + "\n", "utf8");
+    log.push("已写入部署请求：" + reqPath + "（由宿主机 fixboxs-deploy.sh 执行原子切换与线上校验）");
+
+    // 6) 确认产物体积（供发布详情页展示）
+    await step(id, "artifact-size");
+    try {
+      const st = fs.statSync(tgz);
+      log.push("产物包大小：" + (st.size / 1024 / 1024).toFixed(2) + " MB");
+    } catch (e) { /* 忽略 */ }
 
     // 6) 可选 push（备份；失败不阻塞发布 —— V2 §7.1 第 8 步）
     if (config.publish.push) {

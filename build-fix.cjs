@@ -320,9 +320,30 @@ function main() {
   if (!fs.existsSync(SRC)) { console.error("源目录不存在：" + SRC); process.exit(1); }
   fs.mkdirSync(OUT_FIX, { recursive: true });
   fs.mkdirSync(OUT_DATA, { recursive: true });
-  const files = fs.readdirSync(SRC).filter(function (f) { return f.endsWith(".md"); }).sort();
+  /* ---------- 草稿隔离第 1 把锁：显式断言非递归枚举 ----------
+     原先「子目录天然不进构建」依赖 readdirSync 的非递归行为，
+     属于「偶然正确」：任何人把它改成 { recursive: true }（一次很自然的“改进”）
+     都会让 _drafts/ 里的全部草稿被直接构建并发布到线上。
+     这里把该不变量写成显式断言，改动枚举方式会立刻失败而不是静默发布。 */
+  const entries = fs.readdirSync(SRC, { withFileTypes: true });
+  const files = entries.filter(function (e) {
+    return e.isFile() && e.name.endsWith(".md");
+  }).map(function (e) { return e.name; }).sort();
+  const subdirs = entries.filter(function (e) { return e.isDirectory(); }).map(function (e) { return e.name; });
+  const RESERVED_DIRS = ["_drafts", "_archive", "_assets"];
+  const unexpectedDirs = subdirs.filter(function (d) { return RESERVED_DIRS.indexOf(d) < 0; });
+  if (unexpectedDirs.length) {
+    console.error("[构建失败] content/fixboxs 下出现未登记的子目录：" + unexpectedDirs.join(", "));
+    console.error("  子目录不会进入构建。若确需新增目录，请同步更新 build-fix.cjs 的 RESERVED_DIRS 与草稿隔离断言。");
+    process.exitCode = 1;
+  }
+  if (subdirs.length) {
+    console.log("  已隔离目录（不参与构建）：" + subdirs.join(", "));
+  }
+
   const articles = [];
   const parsedAll = {};
+  const errors = [];
   files.forEach(function (f) {
     const raw = fs.readFileSync(path.join(SRC, f), "utf8");
     const parsed = parseFrontMatter(raw);
@@ -331,10 +352,16 @@ function main() {
     parsedAll[f] = { raw: raw, parsed: parsed, meta: meta };
     if (meta.title) TITLES[meta.slug] = meta.title;
   });
+  /* ---------- 失败策略：fail-closed ----------
+     原先缺 title 时只 console.warn 后 return，构建 exit 0 —— 文章从站点静默消失。
+     现改为收集全部错误，构建结束时统一以非零退出。 */
   files.forEach(function (f) {
     const entry = parsedAll[f];
     const raw = entry.raw, parsed = entry.parsed, meta = entry.meta;
-    if (!meta.title) { console.warn("跳过（缺 title）：" + f); return; }
+    if (!meta.title) { errors.push(f + "：缺少 title（该文章会从站点消失）"); return; }
+    if (parsed.shapes && parsed.shapes.sources === "scalar") {
+      errors.push(f + "：sources 被解析成标量，应为列表（front-matter 格式异常）");
+    }
     const html = renderArticle(meta, parsed.body);
     fs.writeFileSync(path.join(OUT_FIX, meta.slug + ".html"), html, "utf8");
     const conclusion = (parsed.body.match(/^##\s*一句话结论\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1];
@@ -361,9 +388,42 @@ function main() {
     });
   });
   articles.sort(function (a, b) { return b.hot - a.hot; });
+
+  /* ---------- 草稿隔离第 2 把锁：产物侧双向对账 ----------
+     不看实现怎么改，只看结果：产物里的 slug 集合必须与源目录顶层 slug 集合一致。
+     多了 → 说明有草稿/非顶层内容泄漏进了构建；
+     少了 → 说明有文章被静默丢弃（正是历史缺陷的真实后果）。 */
+  const sourceSlugs = files.map(function (f) {
+    const meta = parsedAll[f].meta;
+    return meta.slug || f.replace(/\.md$/, "");
+  }).sort();
+  const builtSlugs = fs.existsSync(OUT_FIX)
+    ? fs.readdirSync(OUT_FIX).filter(function (f) { return f.endsWith(".html"); })
+        .map(function (f) { return f.replace(/\.html$/, ""); }).sort()
+    : [];
+  const leaked = builtSlugs.filter(function (s) { return sourceSlugs.indexOf(s) < 0; });
+  const missing = sourceSlugs.filter(function (s) { return builtSlugs.indexOf(s) < 0; });
+  if (leaked.length) {
+    errors.push("产物中出现源目录之外的 slug（疑似草稿泄漏）：" + leaked.join(", "));
+  }
+  if (missing.length) {
+    errors.push("源目录中的 slug 未产出页面：" + missing.join(", "));
+  }
+
   fs.writeFileSync(path.join(OUT_DATA, "articles.js"),
     "/* 由 build-fix.cjs 生成，请勿手改。源：content/fixboxs/*.md */\nwindow.FX_ARTICLES = " +
     JSON.stringify(articles, null, 1) + ";\n", "utf8");
+
+  if (errors.length) {
+    console.error("");
+    console.error("[构建失败] 发现 " + errors.length + " 个问题（构建未通过，不产生产物）：");
+    errors.forEach(function (e) { console.error("  ✗ " + e); });
+    console.error("");
+    console.error("提示：修复以上问题后重新运行 node build-fix.cjs");
+    process.exitCode = 1;
+    return;
+  }
+
   console.log((process.argv.includes("--check") ? "校验" : "构建") + "完成：文章 " + articles.length + " 篇");
   if (articles.length) console.log("  示例：" + articles.slice(0, 3).map(function (a) { return a.slug; }).join(", "));
 }

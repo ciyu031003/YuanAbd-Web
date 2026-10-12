@@ -19,25 +19,16 @@ const OUT = path.join(ROOT, "demo", "fixboxs");
 const OUT_FIX = path.join(OUT, "fix");
 const OUT_DATA = path.join(OUT, "data");
 
-const DOMAINS = {
-  "net-basic": "网络基础", "win-system": "Windows 系统与开机", "router": "路由器与家庭网络",
-  "ip-dns": "IP 与 DNS", "win-app": "Windows 软件与性能", "mac-system": "macOS 系统与开机",
-  "mac-app": "macOS 软件与性能", "hardware": "硬件与主机", "peripheral": "外设",
-  "proxy-vpn": "代理与 VPN", "account-sec": "账号与安全", "data-backup": "数据与备份"
-};
-const CATS = {
-  "net-nowifi": "Wi-Fi 连不上", "net-connected-noint": "连上但上不了网", "net-adapter": "网卡与适配器",
-  "win-boot": "开机与引导故障", "win-bluescreen": "蓝屏与死机", "win-update": "系统更新",
-  "win-login": "登录与密码", "win-slow": "卡顿与性能", "win-startup": "开机启动",
-  "win-storage": "磁盘空间", "win-app-crash": "软件打不开与闪退", "win-popup": "弹窗与主页劫持",
-  "mac-thermal": "发热与风扇", "mac-disk-space": "储存空间",
-  "ip-conflict": "IP 地址冲突", "ip-dhcp": "DHCP 与获取 IP", "ip-dns-fail": "DNS 解析",
-  "rt-login": "路由器后台登录", "rt-qos": "蹭网与限速",
-  "px-system": "系统代理", "px-capture": "抓包与加速工具冲突",
-  "per-printer": "打印机", "per-display": "显示器", "per-usb": "U 盘与移动硬盘",
-  "hw-disk": "硬盘与存储", "db-delete": "误删与恢复",
-  "as-malware": "恶意软件", "as-phishing": "诈骗识别"
-};
+/* 分类字典已外置到 content/taxonomy.json（原先硬编码在此处）。
+   外置的意义：后台编辑器的 domain/category 下拉框与构建读**同一份数据**，
+   避免两处各维护一份而漂移。校验规则见 content-lint.cjs 的 V4。 */
+const TAXONOMY = JSON.parse(fs.readFileSync(path.join(ROOT, "content", "taxonomy.json"), "utf8"));
+const DOMAINS = {};
+const CATS = {};
+TAXONOMY.domains.forEach(function (d) {
+  DOMAINS[d.id] = d.name;
+  d.cats.forEach(function (c) { CATS[c.id] = c.name; });
+});
 /* slug → 标题 映射，由主流程预扫描后填充，供「相关教程」生成可点击链接 */
 const TITLES = {};
 const PRIORITY = ["wifi-connected-but-no-internet","win-blackscreen-cursor","ip-conflict-locate-device",
@@ -344,6 +335,29 @@ function main() {
   const articles = [];
   const parsedAll = {};
   const errors = [];
+
+  /* ---------- 构建闸门：先跑内容校验（与后台共用同一实现） ----------
+     校验规则见 content-lint.cjs（V1–V15）。这里只取 error 级：
+     warning 不阻塞构建（例如指向「规划中文章」的 related，属于存量内容债，
+     见 content-lint.cjs 中 V8 的说明与升级路径）。 */
+  try {
+    const lint = require("./content-lint.cjs");
+    const lintRes = lint.lintAll();
+    const lintErrors = lintRes.issues.filter(function (i) { return i.level === "error"; });
+    if (lintErrors.length) {
+      console.error("[构建失败] content-lint 发现 " + lintErrors.length + " 个错误：");
+      lintErrors.slice(0, 20).forEach(function (i) {
+        console.error("  ✗ [" + i.rule + "] " + i.file + " :: " + i.msg);
+      });
+      if (lintErrors.length > 20) console.error("  ... 另有 " + (lintErrors.length - 20) + " 项");
+      process.exitCode = 1;
+      return;
+    }
+  } catch (e) {
+    console.error("[构建失败] content-lint 执行异常：" + e.message);
+    process.exitCode = 1;
+    return;
+  }
   files.forEach(function (f) {
     const raw = fs.readFileSync(path.join(SRC, f), "utf8");
     const parsed = parseFrontMatter(raw);

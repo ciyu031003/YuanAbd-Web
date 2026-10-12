@@ -71,6 +71,42 @@ files.forEach(function (f) {
   });
 });
 
+
+/* ---- R10/R11：换行风格与 BOM 保真（新增，2026-10-12） ----
+   为什么必须测：仓库里 29 篇是 LF、1 篇（printer-offline.md）是 CRLF。
+   若序列化器一律输出 LF，那一篇每次「无改动保存」都会整文件 diff —— 内容没变但历史全乱。
+   这与 R8 是同一类问题，只是触发条件是换行风格而非字段值。 */
+files.forEach(function (f) {
+  const original = fs.readFileSync(path.join(SRC, f), "utf8");
+  const p = fx.parse(original);
+  const s = fx.serialize(p.meta, { original: p });
+  const origEol = /\r\n/.test(original) ? "\r\n" : "\n";
+  check("R10", f + " 换行风格保真", p.eol === origEol, "期望 " + JSON.stringify(origEol) + " 实得 " + JSON.stringify(p.eol));
+  check("R11", f + " 序列化后换行风格一致", /\r\n/.test(s) === /\r\n/.test(original));
+  const origBom = original.charCodeAt(0) === 0xFEFF;
+  check("R12", f + " BOM 保真", (s.charCodeAt(0) === 0xFEFF) === origBom);
+});
+
+/* ---- R13：空值语义（针对后台表单提交） ----
+   后台表单会把所有字段都提交上来，未填即空串。
+   对已存在的文件，「空」必须解释为「本次未改动」，不能解释为「清空」。
+   这条测的就是「全字段提交 + 部分为空 ⇒ 文件不变」。 */
+files.forEach(function (f) {
+  const original = fs.readFileSync(path.join(SRC, f), "utf8");
+  const p = fx.parse(original);
+  const metaWithEmpties = Object.assign({}, p.meta, { time: "", tools: [], prerequisites: [] });
+  const cleaned = {};
+  Object.keys(metaWithEmpties).forEach(function (k) {
+    const v = metaWithEmpties[k];
+    const isEmpty = (v === "" || v === null || v === undefined || (Array.isArray(v) && v.length === 0));
+    if (isEmpty) { if (p.meta[k] !== undefined) cleaned[k] = p.meta[k]; return; }
+    cleaned[k] = v;
+  });
+  Object.keys(p.meta).forEach(function (k) { if (!(k in cleaned)) cleaned[k] = p.meta[k]; });
+  const s2 = fx.serialize(cleaned, { original: p });
+  check("R13", f + " 空值不改变文件", s2 === original);
+});
+
 // ---- E1 / E2：数量基线 ----
 check("E1", "url 总条数 = 109", urlCount === 109, "got " + urlCount);
 check("E2", "type 总条数 = 32", typeCount === 32, "got " + typeCount);

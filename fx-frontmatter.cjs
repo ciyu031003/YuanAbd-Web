@@ -48,18 +48,24 @@ function parseInlineArray(inner) {
 
 /**
  * 解析 front-matter。
- * 返回 { meta, order, lines, body, rawFm, hasFm }
+ * 返回 { meta, order, lines, body, rawFm, hasFm, eol, bom }
  *  - meta:   字段 → 值（标量 string / 数组 string[] / 对象数组 [{...}]）
  *  - shapes: 字段 → 形态标记（"scalar" | "inline-array" | "block-array" | "block-objects"）
  *  - lines:  front-matter 的原始行数组（最小改写时作为基准）
+ *  - eol:    原文换行符（"\r\n" 或 "\n"）—— 序列化时必须还原，
+ *            否则一次「无改动保存」会把整个文件的行尾改写，产生满屏 diff
+ *  - bom:    原文是否带 BOM（同样要还原）
  */
 function parse(text) {
   const src = String(text);
+  const bom = src.charCodeAt(0) === 0xFEFF;
   const m = src.match(/^\uFEFF?---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
   if (!m) {
-    return { meta: {}, shapes: {}, lines: [], body: src, rawFm: null, hasFm: false };
+    return { meta: {}, shapes: {}, lines: [], body: src, rawFm: null, hasFm: false, eol: "\n", bom: bom };
   }
   const rawFm = m[1];
+  // 记录原文换行风格：只要出现 CRLF 就按 CRLF 还原
+  const eol = /\r\n/.test(m[0]) ? "\r\n" : "\n";
   const lines = rawFm.split(/\r?\n/);
   const body = src.slice(m[0].length);
   const meta = {};
@@ -124,7 +130,7 @@ function parse(text) {
     i++;
   }
 
-  return { meta: meta, shapes: shapes, lines: lines, body: body, rawFm: rawFm, hasFm: true };
+  return { meta: meta, shapes: shapes, lines: lines, body: body, rawFm: rawFm, hasFm: true, eol: eol, bom: bom };
 }
 
 /* ---------- 序列化（最小改写） ---------- */
@@ -246,10 +252,18 @@ function serialize(meta, opts) {
     }
   });
 
-  const fm = out.join("\n");
-  const body = (orig && orig.body !== undefined) ? orig.body : (o.body || "");
-  // 保持项目既有格式：---\n<fm>\n---\n<body>
-  return "---\n" + fm + "\n---\n" + body;
+  // 还原原文的换行风格与 BOM：这是「无改动保存不产生 diff」的必要条件。
+  // 实测：仓库里 29 篇是 LF、1 篇（printer-offline.md）是 CRLF；
+  // 若一律输出 LF，那一篇每次保存都会整文件 diff，历史随之失真。
+  const eol = (orig && orig.eol) ? orig.eol : (o.eol || "\n");
+  const bom = (orig && orig.bom) ? "\uFEFF" : (o.bom ? "\uFEFF" : "");
+  const fm = out.join(eol);
+  let body = (orig && orig.body !== undefined) ? orig.body : (o.body || "");
+  // 正文同样按原风格统一（parse 时未规范化，这里只补 front-matter 与正文的衔接）
+  if (eol === "\r\n") {
+    body = body.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+  }
+  return bom + "---" + eol + fm + eol + "---" + eol + body;
 }
 
 module.exports = { parse: parse, serialize: serialize, parseScalar: parseScalar, dumpScalar: dumpScalar };

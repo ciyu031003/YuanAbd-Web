@@ -1,0 +1,24 @@
+{
+  "name": "yuanabd-pc-fixboxs-admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "修盒子内容管理后台（独立服务；与站点构建依赖分开 —— V2 §7.3.1）",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.cjs",
+    "migrate": "node src/migrate.cjs",
+    "seed-root": "node src/seed-root.cjs",
+    "test": "node test/run.cjs"
+  },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "gray-matter": "^4.0.3"
+  },
+  "comments": {
+    "why": "依赖面刻意限定在最小范围（V2 §7.3.1/§6.13）：pg 负责数据库访问，gray-matter 负责 front-matter 解析。HTTP 服务、会话、RBAC、模板渲染均用 Node 内置能力实现，不引入框架。",
+    "note": "本 package.json 只作用于 admin/ 子目录，不影响站点构建（build-fix.cjs 等仍为零依赖）。"
+  }
+}

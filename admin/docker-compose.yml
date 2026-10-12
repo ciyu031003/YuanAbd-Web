@@ -1,0 +1,48 @@
+# admin/docker-compose.yml — 内容后台
+# 与现有 learn-workbench / travel-notes 容器共存；端口 3020（3000/3001 已被占用）。
+#
+# 重要：数据库**不在这里**起新容器，而是连到已有的 PostgreSQL 容器
+#      （learn-workbench-db-1，网络 learn-workbench_default），使用独立库
+#      yuanabd_pc_fixboxs 与专用角色 yuanabd_pc_fixboxs_app。
+services:
+  admin:
+    build:
+      context: ..
+      dockerfile: admin/Dockerfile
+    image: yuanabd-pc-fixboxs-admin:latest
+    container_name: yuanabd-pc-fixboxs-admin
+    restart: unless-stopped
+    env_file:
+      - /srv/fixboxs/admin.env
+    environment:
+      NODE_ENV: production
+      ADMIN_PORT: "3020"
+      REPO_ROOT: /srv/fixboxs/repo
+      DB_HOST: learn-workbench-db-1
+      DB_PORT: "5432"
+      DB_NAME: yuanabd_pc_fixboxs
+      DB_USER: yuanabd_pc_fixboxs_app
+      SESSION_SECURE: "true"
+      TRUST_PROXY: "true"
+      PUBLISH_ENABLED: "true"
+    volumes:
+      # 站点仓库（后台要写 content/、跑构建与部署脚本）
+      - /srv/fixboxs/repo:/srv/fixboxs/repo
+      # 发布用的 SSH 私钥（只读挂载）
+      - /home/ubuntu/.ssh:/home/admin/.ssh:ro
+    networks:
+      - lwb
+    # 只监听宿主回环，由 nginx 反代；不直接对外
+    ports:
+      - "127.0.0.1:3020:3020"
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  lwb:
+    external: true
+    name: learn-workbench_default

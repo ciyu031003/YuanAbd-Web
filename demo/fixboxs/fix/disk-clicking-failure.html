@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了 · 修盒子 FIXBOX</title>
+<meta name="description" content="规律性的咔咔/哒哒/刮擦声，基本可以判定机械硬盘已经出现物理故障；此时第一件事是断电并把重要数据备份到别的盘，而不是运行检测或修复——修复工具在坏盘上只会加重损伤。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="disk-clicking-failure">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware" aria-current="page">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>硬盘与存储</span></nav>
+<h1 class="fx-title">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-120 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p"><strong>规律性的咔咔/哒哒/刮擦声，基本可以判定机械硬盘已经出现物理故障</strong>；此时第一件事是断电并把重要数据备份到别的盘，而不是运行检测或修复——修复工具在坏盘上只会加重损伤。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>立刻关机断电</strong>（长按电源键 5 秒），拔掉外接硬盘的数据线和电源。<strong>期望结果</strong>：停止对异常盘的任何通电和读写。</li><li>判断声音来源：拔掉所有硬盘电源线后只给主机通电（不进系统也行），看声音还在不在。<strong>期望结果</strong>：声音消失 = 来自硬盘；声音还在 = 可能是风扇（风扇异响见&quot;不适用&quot;里的分流）。</li><li>电脑还能进系统的话，打开<strong>磁盘管理</strong>看这块盘是否显示&quot;未知/未初始化/RAW&quot;。<strong>期望结果</strong>：确认系统在什么层面上&quot;看不到&quot;它——是 BIOS 看不到，还是系统看不到分区。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<strong>听到规律的咔咔声、哒哒声、金属摩擦声，请立刻断电，不要再反复开机尝试。</strong><br>这类声音通常代表机械硬盘的磁头或盘片已经受损，每一次通电都可能让坏区扩大，甚至变成&quot;完全读不出&quot;。<br>正确顺序永远是：<strong>先断电 → 再备份 → 最后才检测和更换</strong>，而不是先跑修复工具。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>机械硬盘（台式机 3.5 寸盘、笔记本 2.5 寸盘、移动硬盘）出现规律咔咔/哒哒/嗡嗡异响。</li><li>BIOS 里能看到硬盘，但进不了系统、报&quot;找不到启动设备&quot;。</li><li>系统里磁盘占用长期 100%、文件打开卡很久、复制大文件报错。</li><li>固态硬盘（SSD）突然&quot;掉盘&quot;，重启才能看到，用一会儿又消失。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>听到的是机箱风扇、CPU 风扇、电源风扇或水冷泵的声音：这类异响通常随转速变化，拆开侧板用手轻按风扇停转来确认，清灰或换风扇即可。</li><li>U 盘/移动硬盘只是提示格式化、没有异响：看<span class="fx-link" style="cursor:help">「U 盘 / 移动硬盘不识别、提示格式化怎么办」</span>。</li><li>只是误删了文件、盘本身健康：看<span class="fx-link" style="cursor:help">「文件误删了怎么恢复（先做这一步，别写磁盘）」</span>。</li><li>电脑开机完全没反应、风扇转但屏幕不亮：看<span class="fx-link" style="cursor:help">「电脑开机没反应 / 主机亮灯但显示器没信号」</span>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已经<strong>断电</strong>，没有在对异常盘做任何读写。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备好另一块容量足够的硬盘（或云盘）作为备份目标，且<strong>目标盘健康</strong>。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>想清楚哪些数据是最要紧的（文档、照片、财务、工作文件），备份时优先拷这些。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>接受一个事实：<strong>继续通电检测一次，成功恢复的概率就可能下降一点</strong>；数据不可替代时优先考虑专业恢复。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果是公司/单位电脑：<strong>立即联系 IT</strong>，不要自行拆盘或反复尝试。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">分两种情况：<strong>数据层已解决</strong> = 重要文件全部在健康盘上、随机打开 10 个都能正常显示；<strong>硬件层已解决</strong> = 换了新盘后系统连续运行一周没有掉盘、没有异响、SMART 中 05/C5/C6 保持为 0。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>盘上数据是唯一副本、自己拷不出来</strong> → 停手，找正规数据恢复机构；公司设备<strong>请联系 IT</strong> 并保留现场。</li><li><strong>盘识别不到，BIOS 里也没有</strong> → 硬件层故障，台式机可换线换口再确认一次，笔记本/一体机的硬盘更换<strong>建议送修</strong>（保修期内自行拆机可能失去保修）。</li><li><strong>只是文件误删、盘还健康</strong> → 看<span class="fx-link" style="cursor:help">「文件误删了怎么恢复（先做这一步，别写磁盘）」</span>。</li><li><strong>电脑能开机但特别卡、磁盘占用 100%</strong> → 先按本文步骤 3 看 SMART；如果盘健康，看<span class="fx-link" style="cursor:help">「电脑越来越卡怎么办：一张表定位是哪里卡」</span>与<span class="fx-link" style="cursor:help">「CPU 或内存占用 100%，电脑卡到不能用」</span>。</li><li><strong>是单位电脑、或盘上有公司数据</strong> → <strong>立即联系 IT</strong>，由 IT 决定是否做取证实盘恢复。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>重要数据坚持&quot;<strong>3-2-1</strong>&quot;：3 份副本、2 种介质、1 份异地（云盘或另一地点）。</li><li>用知名工具（厂商工具或 CrystalDiskInfo 这类）每季度看一眼 SMART，<strong>05/C5/C6 一有非零值就开始准备换盘</strong>。</li><li>机械盘使用中不要移动主机、不要让移动硬盘悬空或被震动。</li><li>机械硬盘用到 4-5 年后主动更换，别等它报错——那时往往已经拷不动了。</li><li>笔记本避免长期高温运行（散热垫、清灰），高温会加速盘体与主控老化。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：异响判定、BIOS 层确认、SMART 读取与属性对照、只读抢救、禁止操作清单、SSD 掉盘</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认声音到底来自哪里</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>别把风扇噪音当硬盘故障，也别把硬盘故障当风扇问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>台式机：打开侧板，通电后用手（<strong>注意不要碰扇叶</strong>）轻按各个风扇中心让其停转，逐个排除 CPU 风扇、机箱风扇、显卡风扇、电源风扇。</li><li>笔记本/移动硬盘：把移动硬盘拿在手里通电，听声音是否随它一起出现；拔掉它再看电脑是否还有声音。</li><li>记录声音特征：规律&quot;咔—咔—咔&quot;（磁头反复复位）与&quot;嗡—嗡&quot;（电机/风扇）含义完全不同。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>明确是硬盘在响，还是风扇/其他部件在响。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>判断不了就把所有硬盘的数据线拔掉只留系统盘，逐一接回寻找；笔记本不便拆机时，把耳朵贴近键盘托掌区域听大致方位（<strong>拆机有风险，保修期内送修</strong>）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">看 BIOS/UEFI 里能不能认到这块盘</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>区分&quot;硬盘本身没被识别&quot;和&quot;硬盘能被识别但数据坏了&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：重启电脑，开机时按 <strong>Del / F2 / F10 / F12</strong>（不同品牌不同，<strong>以电脑或主板厂商手册为准</strong>）进入 BIOS/UEFI，找 <strong>Storage / SATA Configuration / NVMe</strong> 一类的页面，看是否列出了这块硬盘的型号与容量。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>BIOS 里</th><th>系统里</th><th>说明</th></tr></thead><tbody><tr><td>看得到</td><td>看得到，但打不开/RAW</td><td>多为文件系统/分区表问题，重点备份数据</td></tr><tr><td>看得到</td><td>完全看不到</td><td>可能是分区表损坏、驱动问题或接口问题</td></tr><tr><td>看不到</td><td>看不到</td><td>硬盘本体、数据线或供电问题，属于硬件层</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>知道问题在硬件层还是数据层。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>BIOS 里看不到时，先换一根 SATA 数据线、换一个主板 SATA 口、换一路电源线再试；M.2 固态可换另一个 M.2 插槽（注意插槽支持的协议是 SATA 还是 NVMe 要匹配）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">读一次 SMART 健康数据（有异响的先跳过这步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>SMART 能给出&quot;盘自己报告的&quot;健康指标，是判断去留最直接的依据。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：如果这块盘<strong>已经发出咔咔声</strong>，<strong>不要</strong>为了跑检测而反复通电。<strong>先做步骤 4 的备份</strong>，SMART 放在备份之后再看。</div></div>
+<p class="fx-p"><strong>操作（Windows 自带方式）</strong>：以管理员身份打开 <strong>PowerShell</strong>，执行：</p>
+<div class="fx-cmd"><pre><code>Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus, Size</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">看 <code>HealthStatus</code>（Healthy / Warning / Unhealthy）与 <code>OperationalStatus</code>。想读更细的可靠性计数（这一条<strong>需要管理员权限</strong>，普通权限会报 &quot;Access to a CIM resource was not available&quot;）：</p>
+<div class="fx-cmd"><pre><code>Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Wear, ReadErrorsTotal, WriteErrorsTotal, Temperature, PowerOnHours</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">也可以使用<strong>知名厂商工具</strong>（如硬盘厂商自家的检测工具，或 CrystalDiskInfo 这类被广泛使用的 SMART 查看工具）读取 05/C5/C6 等属性值——<strong>只作为&quot;知名工具&quot;提及，请务必从官方渠道获取，不要用来源不明的下载站</strong>。</p>
+<p class="fx-p"><strong>常见 SMART 属性对照</strong>（名称因厂商与工具而异，<strong>具体含义以硬盘厂商文档为准</strong>）：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>属性</th><th>通俗含义</th><th>危险信号</th></tr></thead><tbody><tr><td>05 重映射扇区计数</td><td>已被替换掉的坏扇区数</td><td>数值 &gt; 0 且持续增长</td></tr><tr><td>C5 当前待处理扇区</td><td>读不稳、等确认的扇区</td><td>数值 &gt; 0</td></tr><tr><td>C6 无法修正的扇区</td><td>彻底读不出来的扇区</td><td>数值 &gt; 0</td></tr><tr><td>C7 接口 CRC 错误</td><td>数据线/接口传输错误</td><td>数值大 → 先换线</td></tr><tr><td>C2 温度</td><td>盘体温度</td><td>长期高于厂商标称上限</td></tr><tr><td>通电时间 Power-On Hours</td><td>累计通电小时</td><td>参考寿命，不是唯一判据</td></tr><tr><td>SSD 磨损 Wear / 剩余寿命</td><td>闪存写入寿命</td><td>接近耗尽即更换</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>拿到健康结论，能判断是&quot;立即更换&quot;还是&quot;可继续观察&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>PowerShell 报 <code>Get-StorageReliabilityCounter</code> 不可用，说明这块盘/驱动不支持通过该命令读计数，改用厂商工具；<strong>不要因为工具读不出来就认为盘是好的</strong>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">只读抢救数据（最重要的一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>数据是唯一不可替代的东西，盘可以换，数据换不回来。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>把故障盘接到电脑上（优先用<strong>外置硬盘盒/USB 转接线</strong>，避免它再当系统盘被反复读写）。</li><li><strong>一次只拷要紧的数据</strong>，不要整盘全拷；拷完一批就拔下来让它休息。</li><li>命令行分批复制（把盘符换成实际值，目标必须是另一块健康的盘）：</li></ol>
+<div class="fx-cmd"><pre><code>robocopy X:\重要文件夹 E:\backup\重要文件夹 /E /R:1 /W:1 /XJ</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：源和目标写反会覆盖数据；<code>/R:1</code> 表示出错只重试 1 次，避免在坏块上反复撕扯。拷贝过程中<strong>尽量不要再打开该盘里的其他文件</strong>。</div></div>
+<ol class="fx-ol"><li>拷不动就<strong>跳过报错的文件</strong>，先保住其余的，最后再单独处理那几个。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重要数据出现在健康的盘上，并能正常打开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>拷到一半掉盘，把盘断电冷却后再试一次，能拷多少算多少；报 CRC 错误就绕过该文件。<strong>数据是唯一副本且拷不出来时，停止尝试，找专业数据恢复机构</strong>（优先有实体门店、可签保密协议、先检测后报价）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认&quot;不要做什么&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>很多盘是被错误的&quot;修复操作&quot;彻底弄废的。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>不要做</th><th>原因</th></tr></thead><tbody><tr><td>对异响盘跑 <code>chkdsk /f</code> 或 <code>/r</code></td><td>会强制读取坏区、加重损伤，可能让盘彻底不认</td></tr><tr><td>对识别不到的盘做&quot;格式化/初始化&quot;</td><td>直接破坏分区表与文件索引，数据几乎不可逆</td></tr><tr><td>用来源不明的&quot;坏道修复&quot;&quot;一键分区修复&quot;工具</td><td>常捆绑木马，且会写入原盘</td></tr><tr><td>反复开机、反复插拔尝试</td><td>机械盘每次通电都是一次磨损</td></tr><tr><td>自己拆开盘体（机械盘）</td><td>需要在洁净环境下操作，拆开即报废，且失去专业恢复的可能</td></tr><tr><td>把冷冻、敲击等&quot;土办法&quot;用在盘上</td><td>有冷凝水与二次损伤风险，无法预测</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确知道哪些操作必须避开。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>已经误操作过，就按步骤 4 重新尝试只读拷贝；仍拷不出来就交给专业机构，别再加码。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">固态硬盘（SSD）&quot;掉盘&quot;怎么处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>SSD 的故障表现和机械盘完全不同，往往没有预警。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>掉盘后先<strong>关机断电 1 分钟</strong>再开机，看能否恢复识别（有时是主控过热或固件异常）。</li><li>检查散热：M.2 固态长期超过 70℃ 可能掉盘，加装散热马甲、改善机箱风道。</li><li>到<strong>固态硬盘厂商官网</strong>查看该型号是否有固件更新与已知问题说明（<strong>以厂商文档为准</strong>）。</li><li>用厂商工具（如各家 SSD 工具箱）查看&quot;剩余寿命/写入量&quot;，判断是否接近寿命终点。</li><li>Windows 下可执行 TRIM 优化（正常使用无需频繁操作）：</li></ol>
+<div class="fx-cmd"><pre><code>Optimize-Volume -DriveLetter C -ReTrim -Verbose</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>温度下降后掉盘不再复现，或确认是固件/寿命问题。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>反复掉盘且已备份完毕，就尽快更换——SSD 从&quot;偶发掉盘&quot;到&quot;彻底不认&quot;可能只隔几天。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">决定修还是换，并做收尾</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把不确定的&quot;也许还能用&quot;变成明确结论。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ul class="fx-ul"><li>属于<strong>下列任一情况</strong>：机械盘有异响 / SMART 出现 05、C5、C6 且增长 / 反复掉盘 / 通电时间很长且频繁读写错误 → <strong>立即更换</strong>，不要继续存重要数据。</li><li>只是<strong>C7 接口 CRC 错误</strong>且数值不再增长 → 换一根 SATA 线、换接口，观察一周。</li><li>更换后：把旧盘上的数据再验证一遍（随机打开若干文件确认完整），旧盘如果要留存，标记&quot;仅作离线备份、不可依赖&quot;。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>有明确结论并已执行。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定是否该换，就不要把重要数据留在它上面——<strong>换一块新盘的成本远低于数据丢失的成本</strong>。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

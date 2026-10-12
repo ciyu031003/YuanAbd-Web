@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑越来越卡怎么办：一张表定位是哪里卡 · 修盒子 FIXBOX</title>
+<meta name="description" content="「卡」不是一种病，得先分清卡在哪：先看任务管理器里 CPU、内存、磁盘、网络哪一项长期接近 100%，再按症状对照表定位到具体环节，然后只修那一处，别一上来就重装。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-slow-diagnose">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>卡顿与性能</span></nav>
+<h1 class="fx-title">电脑越来越卡怎么办：一张表定位是哪里卡</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「卡」不是一种病，得先分清卡在哪：先看任务管理器里 CPU、内存、磁盘、网络哪一项长期接近 100%，再按症状对照表定位到具体环节，然后只修那一处，别一上来就重装。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>Ctrl+Shift+Esc 打开任务管理器</strong>，点「性能」看四条曲线：哪一项长期贴顶（多数是磁盘 100% 或内存 90%+），问题就在那一栏对应的步骤。</li><li><strong>「启动」标签看影响</strong>：标着「高」的项目全列出来，能关的先关，做法见 <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span>。</li><li><strong>看 C 盘剩余空间</strong>：低于 10% 会明显拖慢系统，先去清理：<span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span>。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文只做检测和常规维护，不涉及格式化、分区等有风险的操作，可以放心按步骤执行。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>开机要好几分钟才进桌面</li><li>打开任何程序都要转半天圈</li><li>用一会儿就卡，重启后短暂恢复</li><li>鼠标一顿一顿、声音断续、视频卡帧</li><li>想知道到底该换硬盘还是加内存</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>开机开机慢但主要是自启动软件太多 → <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span></li><li>C 盘快满导致整体变慢 → <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span></li><li>卡着卡着蓝屏或自动重启 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>上网慢但电脑本身流畅 → 属网络问题，不是本文范围</li><li>只有一个软件卡、其他都正常 → 直接看本文步骤 2 的对应行</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>接上电源再测（电池模式下 CPU 会被降频，结果不准）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>关掉不用的后台大程序，最好重启一次再开始</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记录现象：什么时候卡、卡多久、做什么操作时卡</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道自己电脑的硬盘类型（机械硬盘还是固态硬盘）和内存容量，设置 → 系统 → 关于里能看内存</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限最好（部分命令需要）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启后连续使用 1-2 小时，任务管理器中 CPU、内存、磁盘不再长期贴近 100%；开机进入桌面时间明显缩短；打开常用软件不再长时间转圈，并且「可靠性监视器」里最近三天没有新的应用崩溃记录。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>主要是开机慢，进桌面后还算正常 → <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span></li><li>主要是 C 盘满导致变慢 → <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span></li><li>卡着卡着蓝屏、死机、自动重启 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>只有某个软件卡、其他都正常 → 卸载重装该软件，或联系软件官方支持</li><li>已经按本文排查完、硬件也换过还是卡 → 主板或 CPU 可能存在故障，送修检测</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>系统盘尽量用 SSD，并保持 15%-20% 的剩余空间。</li><li>只装必要的常驻软件，开机自启越少越好。</li><li>浏览器标签页别开几十个，定期重启浏览器。</li><li>每 6-12 个月清一次灰，笔记本注意散热垫和出风口。</li><li>不要安装「系统加速」「深度优化」类工具，它们往往是卡顿的来源。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：症状对照表 + 七步定位</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用任务管理器做 20 秒定位</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先确定瓶颈在哪一类资源，后面的排查才有的放矢。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Ctrl+Shift+Esc</code> 打开任务管理器。</li><li>点「性能」标签，盯住 30 秒，看 CPU、内存、磁盘、以太网/Wi-Fi 四条曲线。</li><li>回到「进程」标签，点列头按 CPU、内存、磁盘排序，看排在前三位的是谁。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>明确一项长期接近 100% 的资源，例如「磁盘 100%」「内存 95%」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>四项都不高但依然卡 → 转到步骤 5，用资源监视器和可靠性监视器找间歇性问题。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">按症状对照表定位</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不同「卡」对应完全不同的原因，一张表就能少走弯路。</p>
+<p class="fx-p"><strong>操作</strong>：对照下表找到最接近你的一行。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>症状</th><th>先看哪里</th><th>常见原因</th></tr></thead><tbody><tr><td>开机到桌面要 2-5 分钟</td><td>任务管理器「启动」标签、事件查看器 <code>Diagnostics-Performance</code> 日志</td><td>启动项太多、机械硬盘、快速启动异常</td></tr><tr><td>打开任何程序都慢</td><td>磁盘占用、硬盘类型</td><td>机械硬盘老化、磁盘 100%、C 盘接近写满</td></tr><tr><td>用 10-30 分钟后开始卡</td><td>内存占用</td><td>内存不足、浏览器标签太多、内存泄漏</td></tr><tr><td>鼠标卡顿、声音断续</td><td>磁盘和 CPU 曲线</td><td>磁盘坏道、驱动异常、电源模式被设为节能</td></tr><tr><td>特定软件卡</td><td>该进程的 CPU/内存</td><td>软件本身、插件、显卡驱动不匹配</td></tr><tr><td>上网、开网页慢</td><td>网络占用、浏览器扩展</td><td>下载任务占满带宽、扩展过多、DNS 慢</td></tr><tr><td>一插电就快、用电池就卡</td><td>电源模式</td><td>电池模式降频，属正常现象</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>锁定 1-2 个最可疑的方向，进入对应步骤。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上号 → 直接做步骤 3、4、5，覆盖最常见的三类瓶颈。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理磁盘瓶颈（最常见的元凶）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>磁盘 100% 是 Windows 卡顿的头号原因，先排除硬件老化再谈软件。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先看硬盘类型和健康状态（管理员 PowerShell）：</li></ol>
+<div class="fx-cmd"><pre><code>Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus
+Get-Disk | Select-Object Number, FriendlyName, HealthStatus</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li><code>MediaType</code> 显示 <code>HDD</code> → 是机械硬盘，这是系统盘的话，卡是必然的，参考步骤 7。</li><li><code>HealthStatus</code> 不是 <code>Healthy</code>、或 <code>OperationalStatus</code> 不是 <code>OK</code> → 硬盘在衰退，先备份数据。</li><li>软件层面：暂停正在进行的 Windows 更新（设置 → Windows 更新 → 暂停更新 1 周）、暂停 OneDrive 同步、临时关闭杀软的实时扫描试一次。</li><li>「设置 → 系统 → 存储 → 存储感知」打开自动清理。</li><li>在任务管理器里看看是不是 <code>System</code>、<code>MsMpEng.exe</code>（Defender 扫描）、<code>SearchIndexer.exe</code> 占着磁盘：Defender 扫描时卡属于正常，等它跑完。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>磁盘占用回落到正常水平；或者确认瓶颈就是机械硬盘老化。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>HealthStatus</code> 异常或伴随异响 → 立即备份数据并准备更换硬盘；磁盘占用忽高忽低查不出原因 → 做步骤 5。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理内存与页面文件瓶颈</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>内存不足时系统会频繁读写硬盘上的页面文件，表现为「一直卡、硬盘灯常亮」。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>任务管理器「性能 → 内存」，看「已提交」是否接近上限，以及「使用中（压缩）」的比例。</li><li>找出吃内存最多的进程（管理员 PowerShell）：</li></ol>
+<div class="fx-cmd"><pre><code>Get-Process | Sort-Object WS -Descending | Select-Object -First 10 Name, WS, CPU</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>常见大户：浏览器（几十个标签页）、微信/QQ、虚拟机、设计软件。</li><li>内存 4 GB 且经常超过 90% → 加内存是最有效的手段；8 GB 只够轻办公，16 GB 适合大多数场景。</li><li>不要迷信「内存整理」「释放内存」类工具，它们只会让系统更忙。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>内存占用降到 80% 以下，卡顿明显缓解。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>内存占比不高但依然卡 → 回步骤 3 看磁盘；怀疑内存条故障 → 按 Win+R 输入 <code>mdsched.exe</code> 做内存诊断。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用系统自带工具收集证据</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>间歇性卡顿需要记录一段时间的表现才能定位。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>资源监视器：按 Win+R 输入 <code>resmon</code>，看「概览」里的 CPU、磁盘、网络、内存四张图，以及「磁盘」标签里各文件的读写量。</li><li>可靠性监视器：按 Win+R 输入 <code>perfmon /rel</code>，查看最近几天的「警告」「错误」以及每次系统崩溃、应用失败的时间点。</li><li>开机耗时：事件查看器 →「应用程序和服务日志 → Microsoft → Windows → Diagnostics-Performance → Operational」，看事件 ID <code>100</code>（启动性能）的耗时明细。</li><li>系统文件体检（管理员命令提示符）：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /ScanHealth
+sfc /verifyonly</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>拿到具体的时间点、进程名或文件路径，能把「卡」对应到一个明确对象。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看不懂日志 → 记下时间点和进程名即可，再回到步骤 2 对照；<code>sfc /verifyonly</code> 报告有损坏 → 用 <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span> 里的 <code>DISM /RestoreHealth</code> + <code>sfc /scannow</code> 修复。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">做一轮系统维护</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把可控的软件因素一次性处理干净，观察是否改善。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>关闭多余启动项：见 <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span>。</li><li>清理磁盘空间：见 <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span>。</li><li>更新系统与驱动：设置 → Windows 更新；显卡驱动到厂商官网或 Windows 更新安装。</li><li>全盘杀毒：Windows 安全中心 →「病毒和威胁防护」→ 扫描选项 → 完全扫描。</li><li>调整电源模式：「设置 → 系统 → 电源和电池 → 电源模式」选「最佳性能」（笔记本注意发热和续航）。</li><li>检查散热：出风口烫手、风扇长时间狂转说明积灰或硅脂老化，会导致 CPU 降频变卡。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重启后开机和日常操作明显变快。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>维护后毫无变化 → 大概率是硬件瓶颈，做步骤 7。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断该换硬件还是送修</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>软件层面已经查完，剩下的问题要靠硬件解决，避免白花钱。</p>
+<p class="fx-p"><strong>操作</strong>：对照下表决定下一步。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>情况</th><th>建议</th><th>说明</th></tr></thead><tbody><tr><td>系统盘还是机械硬盘（HDD）</td><td>换 SSD</td><td>提升最明显，换完开机通常从几分钟降到十几秒</td></tr><tr><td>内存 4 GB / 8 GB 常年吃满</td><td>加内存</td><td>优先加到 16 GB，注意型号与插槽</td></tr><tr><td>硬盘 <code>HealthStatus</code> 异常或有异响</td><td>立即备份并更换</td><td>随时可能彻底损坏</td></tr><tr><td>清灰后仍高温降频</td><td>清灰、换硅脂或送修</td><td>笔记本建议找专业人员</td></tr><tr><td>换 SSD、加内存后依旧卡</td><td>送修检测主板/CPU</td><td>别再继续买配件试</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确是「花小钱升级」还是「该送修」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定能不能自己加内存/换硬盘 → 查整机型号的官方维护手册，或直接找售后。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

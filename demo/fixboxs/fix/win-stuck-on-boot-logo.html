@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑开机一直转圈 / 卡在品牌 Logo 进不去系统 · 修盒子 FIXBOX</title>
+<meta name="description" content="卡 Logo 或无限转圈，绝大多数是启动阶段的软件问题：更新没装完、系统文件或启动配置损坏、外接设备与快速启动捣乱。先等够 30 分钟、拔掉外设，再进「自动修复」做启动修复和卸载更新。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-stuck-on-boot-logo">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>开机与引导故障</span></nav>
+<h1 class="fx-title">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">卡 Logo 或无限转圈，绝大多数是启动阶段的软件问题：更新没装完、系统文件或启动配置损坏、外接设备与快速启动捣乱。先等够 30 分钟、拔掉外设，再进「自动修复」做启动修复和卸载更新。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>先等，别断电。</strong> 正在安装更新的机器会在这个界面停 10-30 分钟，硬盘灯或风扇有动静就继续等。期间可以拔掉网线，缩短卡在联网检查的时间。</li><li><strong>断网 + 拔掉所有 USB 设备</strong>（U 盘、移动硬盘、打印机、扩展坞、读卡器），再开机。外接设备导致的卡 Logo 非常常见。</li><li><strong>看到开机画面立刻长按电源键 10 秒关机，连续 3 次</strong>，第 4 次正常开机，系统会自动进入「自动修复」→「高级选项」。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会修改启动设置、检查磁盘并可能重置系统，请按步骤顺序做，不要跳步。<br>⛔ 有数据风险：步骤 4（chkdsk 磁盘检查）和步骤 8（重置此电脑）可能影响数据。动手前先把重要文件备份到 U 盘或网盘；如果系统已经完全进不去，优先考虑拆下硬盘接到别的电脑上拷数据。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>开机停在品牌 Logo 或 Windows 徽标，一直转圈，十几分钟没动静</li><li>转圈后自动重启，反复循环</li><li>卡在「正在准备 Windows」「正在配置更新」不动</li><li>进系统前反复进入「正在准备自动修复」</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>变成蓝底 + 哭脸 + 错误代码 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>转圈之后黑屏只剩鼠标指针 → <span class="fx-link" style="cursor:help">电脑开机黑屏只有鼠标指针，怎么救回来</span></li><li>反复卡在「正在配置更新 30%」这类更新步骤 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>完全黑屏无信号、风扇也不转 → 属供电或硬件问题，见「还是不行？」</li><li>屏幕要求输入 BitLocker 恢复密钥 → 先去找密钥，别继续操作</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有手机或另一台电脑可以查资料</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记得本机登录密码（进恢复环境的部分操作要验证）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>回忆故障前做过什么：装更新、换内存硬盘、改 BIOS、装新驱动</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要数据已有备份；没有的话，先按步骤 8 的说明处理，不要急着重置</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本插上电源，保证电量充足</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>大致知道这台机器是 UEFI + GPT 还是 Legacy + MBR（固件设置里能看到，不确定就先记下来）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">正常关机再开机，能在 1-3 分钟内稳定进入桌面；连续开关机 3 次都不再卡在 Logo；并且「事件查看器 → Windows 日志 → 系统」里没有新的 41 号（Kernel-Power）意外关机记录。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>转圈之后变成蓝屏并给出错误代码 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>转圈之后黑屏只剩鼠标指针 → <span class="fx-link" style="cursor:help">电脑开机黑屏只有鼠标指针，怎么救回来</span></li><li>反复卡在「正在配置更新」并重启 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>进系统后频繁蓝屏、文件无故损坏、硬盘有异响 → 硬件故障，先备份数据再送修</li><li>公司电脑、开了 BitLocker 或提示输入恢复密钥 → 联系公司 IT，不要自行重置</li><li>已经折腾 2 小时以上且有重要数据 → 直接找专业维修或数据恢复，动手越少越有救</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>装更新前接好电源、腾出至少 20 GB 空间，更新过程中不要强制关机。</li><li>每季度创建一次系统还原点，重要文件定期备份到移动硬盘和网盘。</li><li>不要在开机状态下拔插硬盘、内存，装硬件前先断电。</li><li>不用的外设（扩展坞、读卡器、老打印机）用完就拔，别留在开机前。</li><li>还用机械硬盘当系统盘的机器，尽早换 SSD，这类启动故障会明显减少。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：卡 Logo / 转圈的八步排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先排除「其实正在正常工作」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>避免在系统正常安装更新时断电，把可修的问题变成进不去系统。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>观察机箱或笔记本的硬盘指示灯是否闪烁，听风扇转速是否有变化。</li><li>保持通电，等待 15-30 分钟。</li><li>拔掉网线或关闭路由的 Wi-Fi（避免反复重试联网检查）。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>一段时间后自动进入桌面，或进度条继续前进。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>超过 30 分钟毫无变化 → 做步骤 2。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">拔掉外设并进入 Windows 恢复环境</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>恢复环境（WinRE）是后面所有修复的入口，先把入口打开。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>长按电源键 10 秒关机，拔掉除键盘鼠标外的所有外接设备。</li><li>开机，看到品牌 Logo 就长按电源键关机，重复 3 次，第 4 次正常开机。</li><li>屏幕会显示「正在准备自动修复」，随后进入蓝色恢复界面。</li><li>选择「高级选项」。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>看到「疑难解答 / 高级选项」菜单。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>三次强制关机也进不去 → 用另一台电脑到微软官网「下载 Windows 11」页面下载媒体创建工具，制作安装 U 盘，从 U 盘启动后选「修复计算机」。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">启动修复 + 卸载最近的更新</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>启动记录损坏和最近更新装坏，是卡 Logo 的两大主因，这两项操作基本无损。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「高级选项」→「疑难解答」→「启动修复」，等它跑完并自动重启。</li><li>仍不行，回到「高级选项」→「卸载更新」→ 先卸载「最新质量更新」。</li><li>还不行，再卸载「最新功能更新」。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重启后能进入桌面，或至少能进入登录界面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>两项都无法卸载或报错 → 继续步骤 4。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查磁盘错误（chkdsk）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>硬盘存在坏道或文件系统损坏时，系统会卡在启动阶段。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：如果硬盘已经有物理故障征兆（异响、掉盘），chkdsk 可能让数据更难恢复，请先备份。</div></div>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>「高级选项」→「命令提示符」。</li><li>先确认系统盘盘符。执行下面的命令，看 <code>osdevice</code> 指向哪个盘（恢复环境里系统盘不一定是 C:）：</li></ol>
+<div class="fx-cmd fx-cmd--danger"><pre><code>bcdedit</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>假设系统盘是 C:，执行：</li></ol>
+<div class="fx-cmd"><pre><code>chkdsk C: /f</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>需要连坏道一起扫描时加 <code>/r</code>（很慢，可能几小时）：</li></ol>
+<div class="fx-cmd"><pre><code>chkdsk C: /f /r</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>报告「Windows 已扫描文件系统并且没有发现问题」，或提示已修复若干错误。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「无法锁定驱动器」→ 输入 <code>Y</code> 同意下次启动时检查；提示「坏扇区」「设备未就绪」或反复出现同一批错误 → 大概率硬盘要坏了，停止反复修复，先想办法备份数据。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统文件与组件存储</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统文件损坏导致启动失败时，DISM 负责修组件存储，sfc 负责修系统文件。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在恢复环境的命令提示符里执行（假设 Windows 装在 D:\Windows，请按步骤 4 查到的实际盘符替换）：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Image:D:\ /Cleanup-Image /RestoreHealth
+sfc /scannow /offbootdir=D:\ /offwindir=D:\Windows</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>如果系统还能进桌面，直接用在线方式，管理员命令提示符中执行：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>DISM 报告「操作成功完成」；sfc 报告「未找到完整性冲突」或「已成功修复」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DISM 报 <code>0x800f081f</code> → 缺修复源，需要用安装镜像做 <code>/Source</code>；离线修复时盘符写错会直接报错，先用 <code>bcdedit</code> 核对。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 BIOS / UEFI 与启动顺序</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>换过主板、加过硬盘、清过 CMOS 之后，启动模式与原系统不匹配也会卡住或找不到系统。</p>
+<p class="fx-p"><strong>操作</strong>：开机按 <code>Del</code>、<code>F2</code> 或 <code>F10</code> 进入固件设置，逐项检查：</p>
+<ul class="fx-ul"><li>启动模式：UEFI 还是 Legacy/CSM，必须和系统安装时一致</li><li>启动顺序：装系统的硬盘排在第一</li><li>Secure Boot：改动过就注意，装某些系统或 Linux 双系统时会用到</li><li>是否误开了网络启动（PXE），把它调到硬盘之后</li></ul>
+<p class="fx-p">改完按 <code>F10</code> 保存退出。</p>
+<div class="fx-step__expect"><b>预期结果：</b>保存后能正常进入系统。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定该选哪种模式 → 现在的默认组合一般是 UEFI + GPT；改错会提示「找不到引导设备」，把刚才改的项改回去即可。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">安全模式 + 干净启动 + 关闭快速启动</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>判断是不是第三方驱动、软件或快速启动导致的卡顿，并把元凶揪出来。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>进安全模式：「高级选项」→「启动设置」→「重启」→ 按 <code>4</code>。</li><li>如果能进安全模式：回到正常模式，按 Win+R 输入 <code>msconfig</code> →「服务」标签 → 勾选「隐藏所有 Microsoft 服务」→ 全部禁用 → 重启。</li><li>正常后再逐批启用服务，找出导致卡顿的那一个。</li><li>能进桌面后关闭快速启动：控制面板 →「电源选项」→「选择电源按钮的功能」→「更改当前不可用的设置」→ 取消勾选「启用快速启动」→ 保存。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>安全模式能正常进入；关闭快速启动或禁用可疑服务后，开机不再卡在 Logo。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>安全模式同样卡住 → 继续步骤 8。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">备份数据，然后重置系统</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>前面都无效时，重置是最后的软件手段，但必须先保数据。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：重置时选择「删除所有内容」会清空系统盘，务必先备份。</div></div>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>最稳的做法：关机断电，把硬盘拆下来接到另一台电脑上，拷出重要文件。</li><li>也可以用 U 盘启动到 PE 环境，把文件拷到移动硬盘。</li><li>数据安全后：用安装 U 盘启动 →「修复计算机」→「疑难解答」→「重置此电脑」→ 选择「保留我的文件」。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>重置完成后能正常进入桌面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重置过程中报错或反复失败 → 硬盘或主板可能存在硬件问题，联系维修点，不要再继续折腾。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a><a href="../fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

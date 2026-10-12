@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IP 地址冲突怎么查是哪台设备 · 修盒子 FIXBOX</title>
+<meta name="description" content="IP 冲突=同一个网段里有两台设备用了同一个地址。查法是：先在系统日志确认冲突事件，再用 arp -a 和路由器的 DHCP 客户端列表把人找出来，最后用&quot;DHCP 保留&quot;根治。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="ip-conflict-locate-device">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns" aria-current="page">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ip-dns">IP 与 DNS</a><span class="fx-crumb__sep">›</span><span>IP 地址冲突</span></nav>
+<h1 class="fx-title">IP 地址冲突怎么查是哪台设备</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">IP 冲突=同一个网段里有两台设备用了同一个地址。查法是：先在系统日志确认冲突事件，再用 <code>arp -a</code> 和路由器的 DHCP 客户端列表把人找出来，最后用&quot;DHCP 保留&quot;根治。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>Windows 上打开事件查看器 → Windows 日志 → 系统</strong>，右侧点「筛选当前日志」，来源选 <code>Tcpip</code>，事件 ID 填 <code>4198</code>。期望：能看到&quot;检测到地址冲突&quot;的记录，并带对方的 MAC 地址。</li><li><strong>在命令提示符执行</strong> <code>ipconfig /release</code> 后接 <code>ipconfig /renew</code>。期望：重新拿到一个不冲突的地址，网络暂时恢复。</li><li><strong>登录路由器后台，看 DHCP 客户端列表</strong>。期望：能列出在线设备的 IP、MAC 和主机名，对照第 1 步的 MAC 就能锁定是哪台设备。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改本机与路由器的网络配置（释放/续约 IP、设置地址保留）。操作前建议截图保存当前 IP、网关与 DHCP 设置，方便还原。公司网络请先联系 IT。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>Windows 弹出&quot;检测到 IP 地址冲突&quot;，或网络图标出现感叹号</li><li>网络时通时断、两台设备轮流掉线</li><li>刚给某台设备设过固定 IP，之后家里网络开始不稳定</li><li>事件查看器里有来源 <code>Tcpip</code>、事件 ID <code>4198</code> 的记录</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>电脑拿不到地址、地址是 169.254 开头 → <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li>网页打不开但能 ping 通公网 IP → <span class="fx-link" style="cursor:help">网页打不开但 QQ / 微信能用：DNS 问题怎么修</span></li><li>完全连不上 Wi-Fi 或有线 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>进不去路由器管理页面 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span></li><li>公司/学校网络出现冲突 → 联系 IT，地址通常由 IT 统一分配，不要自行改动</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>能登录路由器管理页面（地址和密码通常在机身标签上）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Windows 用管理员身份打开命令提示符：开始菜单搜索 <code>cmd</code> → 右键 → 以管理员身份运行</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下本机当前的 IP、网关、DNS（截图或抄写）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>大致清点家里设备：电脑、手机、电视、摄像头、打印机、NAS、智能网关、扫地机器人等</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道哪些设备是&quot;手动设过固定 IP&quot;的（这类设备最容易冲突）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">连续观察 24 小时，同时满足：</p>
+<ol class="fx-ol"><li>事件查看器里筛选 <code>Tcpip</code> + <code>4198</code>，<strong>不再新增</strong>记录；</li><li><code>arp -a</code> 中该 IP 始终只对应一个 MAC；</li><li>两台曾被冲突影响的设备同时在线，各看 10 分钟视频、下载文件不中断。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>每台设备单独用都正常，一起用就冲突</strong> → 多半是双 DHCP（路由器 + 扩展器/光猫），只保留一台做 DHCP</li><li><strong>路由器不支持地址保留，设备又多</strong> → 统一改为自动获取，把手工固定 IP 的设备集中改到池外区间</li><li><strong>公司/学校网络、或地址由单位统一分配</strong> → 联系 IT，不要自行改 IP，也不要改动路由器/交换机配置</li><li><strong>确认是某一台设备网卡&quot;乱报地址&quot;（换了 MAC 还冲突）</strong> → 该设备网卡可能故障，先停用它测试，必要时送修</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>家里所有普通设备一律用自动获取 (DHCP)，不要手工填 IP。</li><li>NAS、打印机、摄像头等需要固定地址的设备，统一用路由器的&quot;DHCP 地址保留&quot;，而不是在自己设备上手填。</li><li>只允许一台路由器开启 DHCP；扩展器、第二台路由器一律改为桥接或 AP 模式。</li><li>把家里的设备清单（名称、MAC、期望 IP）记一份在手机备忘录里。</li><li>路由器固件保持更新，出现频繁冲突时先重启并检查 DHCP 池是否够用。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：4198 事件判定、ARP 定位法、DHCP 保留根治与分流</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用系统日志确认&quot;确实是 IP 冲突&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先确认现象，别把普通断网误判成冲突。</p>
+<p class="fx-p"><strong>操作</strong>（Windows）：</p>
+<ol class="fx-ol"><li>按 <code>Win + R</code> 输入 <code>eventvwr.msc</code> 回车，打开<strong>事件查看器</strong>。</li><li>左侧展开 <strong>Windows 日志 → 系统</strong>。</li><li>右侧点「<strong>筛选当前日志…</strong>」，在&quot;事件来源&quot;里勾选或输入 <code>Tcpip</code>，在&quot;事件 ID&quot;里填 <code>4198</code>，确定。</li><li>双击列表中的记录查看详细信息。</li></ol>
+<p class="fx-p">冲突事件的英文原文类似：</p>
+<div class="fx-cmd"><pre><code>The system detected an address conflict for IP address 192.168.1.50 with the system having network hardware address 00-11-22-33-44-55. Network operations on this system may be disrupted as a result.</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">其中 <code>192.168.1.50</code> 是冲突的 IP，后面那串就是<strong>对方的 MAC 地址</strong>。</p>
+<p class="fx-p">macOS 没有对应的事件 ID，可以在终端里查最近日志，或用「控制台」App 搜关键词：</p>
+<div class="fx-cmd"><pre><code>log show --last 2h --style compact | grep -i -E &quot;conflict|duplicate&quot;</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>能看到冲突事件，或至少确认&quot;本机地址与另一台设备相同&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没有 4198 记录，说明可能不是 IP 冲突（更可能是 DNS、DHCP 或驱动问题）；macOS 上 <code>log show</code> 输出很慢，可以改小时间范围（例如 <code>--last 30m</code>）。另可留意来源为 <code>Tcpip</code> 的其它事件，其含义以 Microsoft Learn 文档为准。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查本机 IP 和网关</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先明确&quot;我们讨论的是哪个地址、哪个网段&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows（管理员命令提示符或 PowerShell）：</p>
+<div class="fx-cmd"><pre><code>ipconfig /all</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-cmd"><pre><code>Get-NetIPConfiguration | Format-List
+Get-NetIPAddress -AddressFamily IPv4 | Format-Table IPAddress, PrefixLength, InterfaceAlias</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端）：</p>
+<div class="fx-cmd"><pre><code>ifconfig en0
+netstat -nr</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>看到本机 IPv4 地址、子网掩码、默认网关。例如 IP 是 <code>192.168.1.50</code>、网关是 <code>192.168.1.1</code>。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没有 IPv4 地址或地址是 <code>169.254.x.x</code> → 不是冲突问题，转 <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用 ARP 表找出&quot;同一个 IP 是谁&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>ARP 表记录了 IP 与 MAC 的对应关系，是定位冲突设备的关键。</p>
+<p class="fx-p"><strong>操作</strong>（Windows）：</p>
+<div class="fx-cmd"><pre><code>arp -a
+ping 192.168.1.50
+arp -a</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">把 <code>192.168.1.50</code> 换成第 1 步里冲突的地址。中间先 ping 一下，是为了强制刷新 ARP 缓存。也可以直接用 PowerShell：</p>
+<div class="fx-cmd"><pre><code>Get-NetNeighbor -IPAddress 192.168.1.50 | Format-List</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端）：</p>
+<div class="fx-cmd"><pre><code>arp -a
+ping -c 1 192.168.1.50
+arp -a | grep 192.168.1.50</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>输出中该 IP 对应的 MAC 与第 1 步日志里的 MAC 一致，说明确实存在两台设备使用同一地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>arp -a</code> 里没有该地址 → 先 ping 一次再查；查到的 MAC 每几分钟就变来变去，说明两台设备在抢这个地址，属于典型冲突。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">把 MAC 变成&quot;看得懂的名字&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>拿到 MAC 还不够，要知道是哪台设备。</p>
+<p class="fx-p"><strong>操作</strong>（按成功率排序）：</p>
+<ol class="fx-ol"><li><strong>路由器 DHCP 客户端列表</strong>（最可靠）：登录路由器后台，找「DHCP 服务器 / 已连接设备 / 终端管理」，对照 MAC 查看主机名（例如 <code>iPhone-de-Li</code>、<code>DESKTOP-ABC</code>）。很多路由器还能直接看到&quot;离线/在线&quot;和网络名。</li><li><strong>Windows 反查名称</strong>：</li></ol>
+<div class="fx-cmd"><pre><code>ping -a 192.168.1.50
+nbtstat -A 192.168.1.50</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li><strong>macOS</strong>：路由器后台同样适用；也可以看「系统设置 → 网络」里当前网络的详细信息，或对照路由器列表。</li></ol>
+<p class="fx-p">常见&quot;冲突制造者&quot;清单：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>设备类型</th><th>为什么会冲突</th><th>处理办法</th></tr></thead><tbody><tr><td>NAS、网络打印机、摄像头、录像机</td><td>安装时被手工设了固定 IP，后来该地址又被 DHCP 分配出去</td><td>给它们做 DHCP 保留，或把固定 IP 改到地址池之外</td></tr><tr><td>第二台路由器、无线扩展器</td><td>两台设备都开着 DHCP，各自分配地址</td><td>只保留一台做 DHCP，另一台改为桥接/AP 模式</td></tr><tr><td>手机热点、随身 Wi-Fi</td><td>用了与家里相同的网段</td><td>改热点网段，或不用时关闭</td></tr><tr><td>虚拟机、软路由、开发板</td><td>手动配过静态 IP</td><td>统一规划地址，避免与 DHCP 池重叠</td></tr><tr><td>被人为改过 IP 的电脑</td><td>抄了别人的地址</td><td>改回自动获取 (DHCP)</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>能明确说出&quot;冲突的另一台设备是 XXX&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>路由器列表里看不到主机名，就按 MAC 前缀（前 6 位）在浏览器里搜索厂商名缩小范围；仍无法确认时，拔掉可疑设备的网线/电源逐个排除。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断是&quot;静态 IP 冲突&quot;还是&quot;DHCP 池冲突&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不同成因的根治方法不同。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台查看两个信息：</p>
+<ol class="fx-ol"><li><strong>DHCP 地址池范围</strong>（例如 <code>192.168.1.100</code> 到 <code>192.168.1.200</code>）；</li><li><strong>冲突的 IP 是否落在池内</strong>。</li></ol>
+<p class="fx-p">判定表：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>现象</th><th>结论</th><th>根治方向</th></tr></thead><tbody><tr><td>冲突 IP 在 DHCP 池内，且有一台设备是手工固定 IP</td><td>静态设备占用了池内地址</td><td>把静态设备移出池范围，或给它做 DHCP 保留</td></tr><tr><td>两台设备都是自动获取，却撞在一起</td><td>路由器 DHCP 分配异常（常见于双 DHCP）</td><td>关闭多余 DHCP，重启路由器，更新固件</td></tr><tr><td>冲突 IP 在池外，两台都是手动设置</td><td>人为配置重复</td><td>重新规划地址，只保留一处固定</td></tr><tr><td>公司/学校网段</td><td>地址由 IT 分配</td><td>联系 IT，不要自行修改</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确属于哪一类，知道该改哪台设备。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>路由器后台没有 DHCP 池设置项（运营商光猫常见）→ 联系运营商客服或查看其官方说明，不要盲目恢复出厂。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">立即缓解——释放并续约</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让本机换一个不冲突的地址，先恢复上网。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows（管理员命令提示符）：</p>
+<div class="fx-cmd"><pre><code>ipconfig /release
+ipconfig /renew
+ipconfig /all</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端，服务名一般是 <code>Wi-Fi</code>）：</p>
+<div class="fx-cmd"><pre><code>sudo ipconfig set en0 NONE
+sudo ipconfig set en0 DHCP
+ifconfig en0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">也可以直接重启冲突的设备与路由器。</p>
+<div class="fx-step__expect"><b>预期结果：</b>本机拿到新地址（例如从 <code>192.168.1.50</code> 变成 <code>192.168.1.137</code>），网络恢复稳定。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>续约后仍拿到同一个冲突地址 → 说明路由器还不知道那台设备的存在，先按步骤 7 做地址保留，再续约一次。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">根治——用 DHCP 保留固定地址</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让每台设备始终拿到同一个、互不重复的地址，从根上杜绝冲突。</p>
+<p class="fx-p"><strong>操作</strong>（路由器后台，菜单名各品牌略有不同）：</p>
+<ol class="fx-ol"><li>找到「DHCP 服务器 → <strong>地址保留 / 静态地址分配 / MAC 绑定</strong>」。</li><li>添加一条：MAC 地址 = 目标设备的 MAC，IP 地址 = 你希望它固定使用的地址（建议放在 DHCP 池范围<strong>之外</strong>，或使用路由器提供的保留功能）。</li><li>把手工设过固定 IP 的设备改为自动获取，由保留功能统一分配。</li><li>保存后重启路由器，并让相关设备重新连接网络。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>所有设备地址稳定，冲突事件不再出现。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>路由器不支持地址保留（老旧或运营商定制机型）→ 把手工固定 IP 的设备统一改到 <code>192.168.1.2</code>-<code>192.168.1.99</code> 这类池外区间，并把 DHCP 池设为 <code>192.168.1.100</code> 起。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

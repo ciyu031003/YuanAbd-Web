@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>网页打不开但 QQ / 微信能用：DNS 问题怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="&quot;能 ping 通 IP、却打不开网页&quot;几乎可以断定是 DNS（域名解析）出了问题。先用 nslookup 验证一次，再清缓存、换 DNS 服务器，两步就能修好大多数情况。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="dns-broken-but-app-works">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns" aria-current="page">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ip-dns">IP 与 DNS</a><span class="fx-crumb__sep">›</span><span>DNS 解析</span></nav>
+<h1 class="fx-title">网页打不开但 QQ / 微信能用：DNS 问题怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-40 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;能 ping 通 IP、却打不开网页&quot;几乎可以断定是 DNS（域名解析）出了问题。先用 <code>nslookup</code> 验证一次，再清缓存、换 DNS 服务器，两步就能修好大多数情况。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>验证是不是 DNS</strong>：管理员命令提示符执行 <code>ping 223.5.5.5</code>（能通）再执行 <code>ping www.baidu.com</code>（提示找不到主机）。期望：前者通、后者不通 → 确认是 DNS 问题。</li><li><strong>清一次 DNS 缓存</strong>：Windows 执行 <code>ipconfig /flushdns</code>；macOS 执行 <code>sudo dscacheutil -flushcache</code> 和 <code>sudo killall -HUP mDNSResponder</code>。期望：缓存造成的解析错误立刻修复。</li><li><strong>临时换公共 DNS</strong>：Windows 在网络设置里把 DNS 改成手动 <code>223.5.5.5</code>；macOS 执行 <code>networksetup -setdnsservers Wi-Fi 223.5.5.5 119.29.29.29</code>。期望：网页恢复打开。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改 DNS 设置。操作前建议把当前的 DNS 配置截图保存，改完若无效可按文中的方法改回&quot;自动获取&quot;。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>微信、QQ、钉钉能正常收发消息，但浏览器打不开网页</li><li>提示&quot;找不到服务器&quot;&quot;DNS_PROBE_FINISHED_NXDOMAIN&quot;&quot;无法解析域名&quot;</li><li>大部分网页能开，个别网站打不开</li><li>网页打开很慢，先卡在&quot;正在解析主机&quot;</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>连 QQ/微信也用不了、所有程序都断网 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>电脑 IP 是 169.254 开头或拿不到地址 → <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li>所有设备（含手机）都上不了网 → <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li>只是进不去路由器后台 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span></li><li>公司/学校内网系统打不开 → 联系 IT，内网域名通常由单位 DNS 解析</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>能确认 QQ/微信能正常收发消息（说明物理链路和 IP 层没问题）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Windows 用管理员身份打开命令提示符：开始菜单搜索 <code>cmd</code> → 右键 → 以管理员身份运行</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下当前 DNS 设置（截图），方便改回自动</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道路由器管理地址与密码（要检查路由器侧的 DNS）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>明白本文只做 DNS 故障排查，不涉及任何跨境代理或翻墙方法</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足：</p>
+<ol class="fx-ol"><li><code>nslookup www.baidu.com</code> 和 <code>nslookup www.qq.com</code> 都能解析出 IP 地址；</li><li>浏览器里连续打开 3 个不同网站（含一个以前打不开的），刷新两次都正常；</li><li>关闭无痕窗口、第二天再打开，网页依旧能正常访问（说明不是缓存碰巧命中）。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>电脑完全断网，不只是网页打不开</strong> → 看 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li><strong>拿不到 IP 地址或地址是 169.254 开头</strong> → 看 <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li><strong>家里所有设备都上不了网</strong> → 看 <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li><strong>只有公司的内网系统/办公网站打不开</strong> → 联系单位 IT，内网域名和分流由 IT 配置</li><li><strong>反复出现、DNS 换成公共的也无效</strong> → 联系运营商报修，说明&quot;域名解析异常、IP 可达&quot;，并保留 <code>nslookup</code> 的结果截图</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>DNS 平时保持&quot;自动获取&quot;，只有确认解析异常时才临时改公共 DNS，用完改回。</li><li>不要安装来源不明的&quot;上网加速&quot;&quot;DNS 优选&quot;工具，也不要随意改 hosts 文件。</li><li>浏览器里的安全 DNS（DoH）保持默认，除非你清楚它对当前网络的影响。</li><li>路由器固件保持更新，开启家长控制/域名过滤时记下自己加过的规则。</li><li>遇到解析异常时，先截图 <code>nslookup</code> 的结果，报修时能省很多沟通时间。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：DNS 三步判定表、缓存刷新、公共 DNS 对照、安全 DNS 与 hosts 排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">三步判定——到底是不是 DNS</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把&quot;DNS 问题&quot;和&quot;网络完全不通&quot;分开，避免用错方法。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<div class="fx-cmd"><pre><code>ping 223.5.5.5
+ping www.baidu.com
+nslookup www.baidu.com
+nslookup www.baidu.com 223.5.5.5</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS 上把第一条改成 <code>ping -c 4 223.5.5.5</code> 和 <code>ping -c 4 www.baidu.com</code>，其余命令相同。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>现象</th><th>结论</th><th>下一步</th></tr></thead><tbody><tr><td>ping 通 223.5.5.5，但 ping 不通 www.baidu.com</td><td>DNS 解析失败</td><td>继续本文</td></tr><tr><td><code>nslookup www.baidu.com</code> 失败，加 <code>223.5.5.5</code> 后成功</td><td>本机/路由器的 DNS 配置有问题</td><td>跳到步骤 3</td></tr><tr><td>两条 nslookup 都能解析，但网页打不开</td><td>不是 DNS</td><td>转 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></td></tr><tr><td>连 223.5.5.5 都 ping 不通</td><td>网络根本没通</td><td>转 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></td></tr></tbody></table></div>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>小提示：部分公共 DNS 不响应 ping 属于正常；只要 <code>ping 114.114.114.114</code> 能通，就说明公网可达。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>确认&quot;IP 可达、域名不可解析&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示 <code>nslookup</code> 不是内部命令 → 命令拼写有误；Windows 上也可用 PowerShell 的 <code>Resolve-DnsName www.baidu.com</code> 代替。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清空 DNS 缓存</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>缓存里存着过期的或错误的解析结果，清一次成本最低。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows（管理员命令提示符）：</p>
+<div class="fx-cmd"><pre><code>ipconfig /displaydns
+ipconfig /flushdns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端）：</p>
+<div class="fx-cmd"><pre><code>sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
+scutil --dns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b></div>
+<ul class="fx-ul"><li>Windows 提示&quot;已成功刷新 DNS 解析缓存&quot;；</li><li>macOS 的 <code>scutil --dns</code> 能列出当前的 DNS 配置和解析顺序。</li></ul>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>清缓存后仍打不开 → 说明不是缓存问题，继续步骤 3；<code>ipconfig /displaydns</code> 输出的条目过多时可以只看开头几条。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">换一个可用的 DNS 服务器</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>直接绕过出问题的 DNS。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">Windows：右键任务栏网络图标 → <strong>网络和 Internet 设置 → 高级网络设置</strong> → 选中你的网卡 → <strong>编辑</strong> → IP 分配保持&quot;自动 (DHCP)&quot;，把 DNS 服务器分配改为&quot;手动&quot;，打开 IPv4，填：</p>
+<ul class="fx-ul"><li>首选：<code>223.5.5.5</code>（阿里公共 DNS）</li><li>备用：<code>119.29.29.29</code>（腾讯公共 DNS）</li></ul>
+<p class="fx-p">保存后执行 <code>ipconfig /flushdns</code> 验证。</p>
+<p class="fx-p">macOS（终端，服务名一般是 <code>Wi-Fi</code>）：</p>
+<div class="fx-cmd"><pre><code>networksetup -listallnetworkservices
+networksetup -setdnsservers Wi-Fi 223.5.5.5 119.29.29.29
+networksetup -getdnsservers Wi-Fi
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">常用公共 DNS 对照：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>服务商</th><th>主 DNS</th><th>备用 DNS</th><th>说明</th></tr></thead><tbody><tr><td>阿里公共 DNS</td><td><code>223.5.5.5</code></td><td><code>223.6.6.6</code></td><td>国内常用，延迟低</td></tr><tr><td>腾讯 DNSPod</td><td><code>119.29.29.29</code></td><td><code>119.28.28.28</code></td><td>国内常用</td></tr><tr><td>114DNS</td><td><code>114.114.114.114</code></td><td><code>114.114.115.115</code></td><td>老牌公共 DNS</td></tr><tr><td>运营商 / 路由器</td><td>自动获取</td><td>—</td><td>默认状态，通常最省心</td></tr></tbody></table></div>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>境外公共 DNS（如 8.8.8.8、1.1.1.1）在中国大陆可能不可用或解析结果不佳，遇到打不开时不要把它们当成首选方案。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>网页打开正常，<code>nslookup www.baidu.com</code> 返回 IP 地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>改回自动——Windows 把 DNS 服务器分配改回&quot;自动 (DHCP)&quot;；macOS 执行：</div></details>
+<div class="fx-cmd"><pre><code>networksetup -setdnsservers Wi-Fi Empty</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">若换 DNS 后仍不能解析，继续步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查浏览器的&quot;安全 DNS&quot;和代理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>浏览器自带的安全 DNS（DoH）会绕过系统 DNS，配置不当就是&quot;只有浏览器打不开&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ul class="fx-ul"><li>Chrome：<strong>设置 → 隐私和安全 → 安全 → 使用安全 DNS</strong>，先改成&quot;关闭&quot;或&quot;使用当前服务提供商&quot;再测试。</li><li>Edge：<strong>设置 → 隐私、搜索和服务 → 安全性 → 使用安全 DNS</strong>，做同样处理。</li><li>关闭浏览器里所有代理类扩展（VPN、代理、广告拦截），用无痕窗口再试一次。</li><li>系统代理：Windows <strong>设置 → 网络和 Internet → 代理</strong>，关闭&quot;自动检测设置&quot;&quot;使用代理服务器&quot;；macOS <strong>系统设置 → 网络 → 详细信息 → 代理</strong>，关闭所有开关。</li></ul>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>合规提示：本文只讲 DNS 与代理残留导致的网页打不开，不提供任何跨境代理或翻墙方法与工具。公司/学校设备请直接联系 IT。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>关闭后网页恢复；<code>netsh winhttp show proxy</code> 显示&quot;直接访问&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定是哪个扩展导致，先全部禁用再逐个打开；普通浏览器插件不会影响系统 DNS，问题多出在代理类扩展上。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查路由器侧的 DNS 与过滤</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>所有设备都解析异常时，问题往往在路由器。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>登录路由器管理页面，在「上网设置 / WAN」里查看 DNS 是&quot;自动获取&quot;还是被手工填了地址。</li><li>如果被手工填过，改回自动获取，或填入上面表格里的公共 DNS。</li><li>检查有没有开启&quot;家长控制&quot;&quot;域名过滤&quot;&quot;上网时间限制&quot;，这类功能会拦截特定域名的解析。</li><li>保存后重启路由器，并让设备重新连接。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>路由器侧 DNS 正常后，家里所有设备都能正常解析。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>进不去管理页面 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span>；运营商光猫里的 DNS 一般不用改，拿不准就联系客服。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 hosts 文件与安全软件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>hosts 文件被改写、安全软件劫持解析，也会造成&quot;某些网站打不开&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ul class="fx-ul"><li>Windows：用记事本（以管理员身份运行）打开 <code>C:\Windows\System32\drivers\etc\hosts</code>，看有没有别人加过、你不认识的域名映射；有的话删掉或整行前面加 <code>#</code> 注释掉，保存。</li><li>macOS：终端执行 <code>sudo nano /etc/hosts</code> 检查，<code>Ctrl+O</code> 保存、<code>Ctrl+X</code> 退出。</li><li>临时关闭第三方杀毒/防火墙/上网管理软件 5 分钟测试（测完立刻打开）。</li><li>近期装过&quot;加速&quot;&quot;优化&quot;&quot;内网穿透&quot;类软件，先卸载并重启。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>删除异常条目后，原本打不开的网站能正常访问。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不知道哪些条目是系统必需的，就只删掉你确定是自己或某个软件最近添加的那几行；改坏了可把整段删除保留默认内容（Windows 的 hosts 默认只有注释行）。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">区分&quot;单个网站打不开&quot;和&quot;全部打不开&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>判断是对方网站的问题还是自己这边的问题。</p>
+<p class="fx-p"><strong>操作</strong>：换手机用流量打开同一个网站；再用电脑打开另外 3 个不同网站。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>结果</th><th>结论</th><th>处理</th></tr></thead><tbody><tr><td>只有这一个网站打不开，手机流量也打不开</td><td>网站自身故障或本地网络到该站的线路问题</td><td>等待或联系该网站客服，不用折腾电脑</td></tr><tr><td>电脑所有网站都打不开，手机正常</td><td>本机 DNS 或代理问题</td><td>回到步骤 2-4</td></tr><tr><td>家里所有设备都打不开同一个网站</td><td>路由器过滤或运营商侧问题</td><td>检查家长控制，联系运营商</td></tr><tr><td>换手机热点后一切正常</td><td>家里网络出口的问题</td><td>检查路由器 DNS 与过滤</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确责任方，不再做无效操作。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>情况反复出现，记录打不开的网站域名和时间点，报修时提供给运营商。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a><a href="../fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

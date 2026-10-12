@@ -14,3 +14,6 @@ Thumbs.db
 
 # 本地回归校验产物（截图 / 计算样式探针，仅本地用）
 .tmp-shots/
+# 修盒子部署产物（由 deploy-fixboxs.cjs 生成，部署用；不入库）
+dist/
+dist-fixboxs.tgz

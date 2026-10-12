@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑开机黑屏只有鼠标指针，怎么救回来 · 修盒子 FIXBOX</title>
+<meta name="description" content="能看见鼠标说明系统其实已经启动，只是桌面程序 explorer.exe 没起来，或者显卡驱动、最近一次更新出了故障。先按 Ctrl+Alt+Del 打开任务管理器，运行 explorer.exe，多数情况当场恢复。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-blackscreen-cursor">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>开机与引导故障</span></nav>
+<h1 class="fx-title">电脑开机黑屏只有鼠标指针，怎么救回来</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">能看见鼠标说明系统其实已经启动，只是桌面程序 explorer.exe 没起来，或者显卡驱动、最近一次更新出了故障。先按 Ctrl+Alt+Del 打开任务管理器，运行 explorer.exe，多数情况当场恢复。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>按 Ctrl+Alt+Del</strong>，出现蓝底选项说明系统活着。选「任务管理器」→ 左上角「文件」→「运行新任务」→ 输入 <code>explorer.exe</code> → 确定。桌面和任务栏出现，就是它。</li><li><strong>按 Win+Ctrl+Shift+B</strong>。这是 Windows 内置的「重启显卡驱动」快捷键，屏幕会闪黑一下、可能「叮」一声。按完桌面出现，问题在显卡驱动。</li><li><strong>长按电源键 10 秒强制关机</strong>，拔掉所有 USB 设备（U 盘、移动硬盘、打印机、扩展坞）后重新开机。外接设备冲突导致黑屏很常见。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会改动启动项、显卡驱动和注册表。操作前把桌面上的重要文件拷到 U 盘或网盘。<br>⛔ 有数据风险：步骤 6（系统还原）和步骤 7（注册表）会改动系统状态，动手前请先备份重要文件，并按文中提示导出注册表备份。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>开机后屏幕全黑，但鼠标指针能移动</li><li>输完密码进入系统后黑屏，只有指针</li><li>桌面图标和任务栏消失，只剩一片黑或只剩壁纸</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>卡在品牌 Logo 或一直转圈 → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>蓝底 + 哭脸 + 错误代码 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>完全没反应，连鼠标都没有、风扇也不转 → 属硬件/供电问题，见本文「还是不行？」</li><li>忘了登录密码进不去 → <span class="fx-link" style="cursor:help">电脑开机密码忘了 / PIN 突然用不了</span></li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>按键盘 Caps Lock / Num Lock，指示灯能亮 → 系统没死，是显示或桌面问题</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记得开机密码（进安全模式、系统还原都要用）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有手机或另一台电脑可以查资料</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件平时有备份；没有就趁桌面还能恢复时先拷走</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>回忆一下：黑屏是否发生在「刚装完更新 / 刚换显卡驱动 / 刚插了新设备」之后</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>台式机确认显示器线插在显卡上而不是主板上，线缆两端都插紧</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启后能稳定看到桌面图标和任务栏，鼠标点击、双击都正常；把电脑正常关机再开机两次都能进桌面，且任务管理器里 <code>explorer.exe</code> 一直在运行，才算真的修好。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>只在装了某个软件或驱动之后黑屏 → 用「干净启动」逐项排除，思路见 <span class="fx-link" style="cursor:help">开机太慢：关掉这些开机自启软件</span>。</li><li>安全模式正常、正常模式必黑屏，也不想再折腾 → 「设置 → 系统 → 恢复 → 重置此电脑」，选「保留我的文件」。</li><li>黑屏同时伴随蓝屏或自动重启 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span>。</li><li>开机风扇转但显示器始终无信号，换线换显示器都一样 → 属于内存、显卡、主板等硬件问题，不要自己拆机，联系售后维修点或报修。</li><li>公司或学校配发的电脑 → 直接联系公司 IT，不要自行重装系统或改注册表。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>显卡驱动只从显卡厂商官网或 Windows 更新安装，不用来路不明的「驱动大师」。</li><li>安装大版本更新或显卡驱动前，先创建一个系统还原点（开始菜单搜「创建还原点」）。</li><li>不要用「系统优化」「注册表清理」类工具，它们是黑屏和启动失败的常见来源。</li><li>扩展坞、采集卡、老打印机等外设，不用时拔掉，尤其别留在开机前。</li><li>重要文件按「本机 + 移动硬盘 + 网盘」存三份。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：黑屏只剩鼠标指针的七步排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先分清是真黑屏还是桌面没起来</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>避免把硬件没信号当成软件问题修，白折腾一晚上。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>移动鼠标，看指针是否跟手。</li><li>按 Win+P，连按几次，看屏幕是否切到「仅电脑屏幕」「复制」等模式。</li><li>笔记本插上电源，再按一次 Win+Ctrl+Shift+B。</li><li>如果接了外接显示器，用 Win+P 切到「复制」，看外接屏有没有画面。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>指针能动、Caps Lock 灯能亮 → 系统正在运行，是桌面程序或显示输出的问题，继续往下做。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>键盘灯完全不亮、风扇不转、外接显示器也无信号 → 停止软件排查，直接看「还是不行？」最后一档，考虑送修。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用任务管理器重新拉起桌面（最可能一次解决）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>黑屏最常见的原因是资源管理器（explorer.exe）没有启动，重新运行它就能恢复桌面。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 Ctrl+Alt+Del。</li><li>选择「任务管理器」。如果看不到窗口，按 Alt+Tab 切换，或用方向键 + 回车。</li><li>点左上角「文件」→「运行新任务」。</li><li>输入下面的命令后点「确定」：</li></ol>
+<div class="fx-cmd"><pre><code>explorer.exe</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>任务栏和桌面图标出现，鼠标点击正常。任务管理器「详细信息」里能看到 <code>explorer.exe</code> 进程。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没有任何变化 → 先做步骤 3 再回来重试；连任务管理器都打不开 → 跳到步骤 5 进安全模式。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启显卡驱动</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>显卡驱动卡死时，屏幕上可能只剩一个鼠标指针，重启驱动不用重启电脑。</p>
+<p class="fx-p"><strong>操作</strong>：同时按下 <code>Win + Ctrl + Shift + B</code>。</p>
+<div class="fx-step__expect"><b>预期结果：</b>屏幕闪黑一下，可能听到提示音，随后显示恢复正常。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没反应或依旧黑屏 → 继续步骤 4。如果是刚更新显卡驱动才黑屏，做完步骤 5 后优先回退驱动。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">拔掉外接设备后强制重启</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除外接设备、扩展坞、线缆接触不良和休眠残留造成的假黑屏。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>长按电源键 10 秒以上，直到断电。</li><li>拔掉所有 USB 设备（U 盘、移动硬盘、打印机、摄像头、扩展坞、读卡器），只留键盘鼠标。</li><li>台式机拔掉电源线等 30 秒再插回；笔记本可拆电池的拆下电池，不可拆的忽略。</li><li>重新开机。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>正常进入桌面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍然黑屏 → 继续下一步。如果拔掉某个设备后就好了，就是该设备或其驱动的问题，先别急着装回它的驱动。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">进安全模式，回退或重装显卡驱动</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>安全模式只加载基本驱动，能进去说明是第三方驱动或软件引起的黑屏。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>强制关机 2-3 次（开机看到 Logo 就长按电源键），系统会自动进入「自动修复」。</li><li>选「高级选项」→「启动设置」→「重启」→ 按 <code>4</code> 进入安全模式（需要联网按 <code>5</code>）。</li><li>进入后：右键开始菜单 →「设备管理器」→ 展开「显示适配器」→ 右键显卡 →「属性」→「驱动程序」标签 →「回退驱动程序」。</li><li>如果「回退」是灰的，就选「卸载设备」并勾选「尝试删除此设备的驱动程序」，重启后到显卡厂商官网重新安装正式驱动。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>安全模式下能正常看到桌面；回退或重装驱动后，正常模式也能进桌面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>安全模式同样黑屏 → 跳到步骤 6；设备管理器里显卡带黄色感叹号 → 直接用官网驱动重装，不要用第三方驱动工具。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卸载最近的更新，或用系统还原退回</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把系统退回到出问题之前的状态，对「更新后黑屏」最有效。</p>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：系统还原一般不动个人文件，但会卸载还原点之后安装的软件和驱动。动手前把重要文件备份到 U 盘或网盘。</div></div>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>再进一次「自动修复」→「高级选项」。</li><li>要卸载更新：选「卸载更新」→ 先卸载「最新质量更新」，仍不行再卸载「最新功能更新」。</li><li>要还原系统：选「系统还原」，挑一个黑屏之前的时间点，按提示完成。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>还原或卸载完成后重启，能正常进入桌面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>没有可用还原点 → 继续步骤 7；还原报错 → 记下错误码，先按步骤 7 修系统文件，再回来重试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统文件，核对登录外壳设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统文件损坏，或登录外壳被改成不存在的程序，都会造成「只有指针的黑屏」。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>以管理员身份打开命令提示符（开始菜单搜索 <code>cmd</code> → 右键 →「以管理员身份运行」），依次执行：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：改注册表前先备份。打开 <code>regedit</code>，右键 <code>Winlogon</code> 这一项 →「导出」，保存为 .reg 文件，出问题可双击还原。</div></div>
+<ol class="fx-ol"><li>打开注册表编辑器，定位到：</li></ol>
+<div class="fx-cmd"><pre><code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>确认右侧 <code>Shell</code> 的值是 <code>explorer.exe</code>（微软官方黑屏排查文档就要求核对这一项）。不是就改回 <code>explorer.exe</code>，重启电脑。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>DISM 报告「操作成功完成」，sfc 报告「未找到完整性冲突」或「已成功修复」；<code>Shell</code> 值为 <code>explorer.exe</code>。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DISM 报 <code>0x800f081f</code> 等错误 → 说明组件存储缺少修复源，按官方文档用 <code>/Source</code> 指定源；两条命令都失败 → 考虑「设置 → 系统 → 恢复 → 重置此电脑」并选「保留我的文件」。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a><a href="../fix/win-forgot-password.html">电脑开机密码忘了 / PIN 突然用不了</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

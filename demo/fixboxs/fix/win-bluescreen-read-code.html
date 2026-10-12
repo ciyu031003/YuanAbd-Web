@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑蓝屏了怎么办：先学会读蓝屏代码 · 修盒子 FIXBOX</title>
+<meta name="description" content="蓝屏上的那行代码不是给你猜的：停止代码说明哪一类部件出问题，下面的 .sys 文件名往往就是元凶驱动。先拍照记下代码，再去事件查看器确认，然后从「最近装了什么」开始回退。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-bluescreen-read-code">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>蓝屏与死机</span></nav>
+<h1 class="fx-title">电脑蓝屏了怎么办：先学会读蓝屏代码</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">蓝屏上的那行代码不是给你猜的：停止代码说明哪一类部件出问题，下面的 .sys 文件名往往就是元凶驱动。先拍照记下代码，再去事件查看器确认，然后从「最近装了什么」开始回退。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>先拍照。</strong> 把整屏拍下来，重点是停止代码（如 <code>IRQL_NOT_LESS_OR_EQUAL</code>）、错误编号（如 <code>0x0000000A</code>）和下面那个文件名（如 <code>nvlddmkm.sys</code>）。</li><li><strong>回想最近装了什么。</strong> 蓝屏前装过驱动、杀软、外设、系统更新？按本文步骤 4 先卸载它，这一步能解决大多数「突然开始蓝屏」。</li><li><strong>偶尔蓝屏一次、之后一切正常</strong>，可以先观察：去「事件查看器 → Windows 日志 → 系统」看是否有 1001 号 BugCheck 记录，记下时间和代码，再决定要不要动手。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 需谨慎：本文会卸载更新、回退驱动并检查硬件。动手前先把重要文件备份到 U 盘或网盘。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>出现蓝底「你的设备遇到问题，需要重启」+ 停止代码</li><li>蓝屏后自动重启，来不及看清代码</li><li>隔几天蓝屏一次，想找出规律</li><li>蓝屏后能正常进系统，只是偶尔再犯</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>蓝屏后进不去系统、卡在 Logo → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>开机黑屏只有鼠标指针 → <span class="fx-link" style="cursor:help">电脑开机黑屏只有鼠标指针，怎么救回来</span></li><li>每次都在装 Windows 更新时蓝屏 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>屏幕要求输入 BitLocker 恢复密钥 → 先找回密钥，再去 account.microsoft.com/devices/recoverykey</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已经拍到或抄下蓝屏代码（没有也没关系，事件查看器里能补看）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>能正常进入系统，并拥有管理员账户</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件有备份</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>回忆蓝屏前 3 天内的变化：驱动、软件、外设、系统更新、清灰或搬运</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>台式机可以打开侧板，方便后面重插内存（可选）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">连续使用 3-5 天，事件查看器里没有新的 1001 号 BugCheck 事件，也没有 41 号 Kernel-Power 意外关机记录，并且睡眠唤醒、开机、跑大型软件都不再蓝屏，就算解决。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>蓝屏只发生在装系统更新时 → <span class="fx-link" style="cursor:help">Windows 更新卡在 0% / 一直失败，怎么强制修好</span></li><li>蓝屏后直接进不了系统 → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>代码指向硬件（0x124、内存/硬盘检测已报错） → 先备份数据，再联系维修点检测</li><li>公司电脑或装了企业管控软件 → 联系公司 IT，不要自行卸载安全软件</li><li>新买不久、还在保修期 → 走官方售后，附上蓝屏照片和代码</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>驱动只从厂商官网或 Windows 更新装，装前创建还原点。</li><li>不要用「驱动精灵」「一键优化」类工具批量更新驱动。</li><li>机箱定期清灰，内存条每 1-2 年重插一次，避免接触不良。</li><li>保留至少 15% 的 C 盘空闲空间，磁盘长期满载会加剧文件系统错误。</li><li>重要数据定期备份；硬盘出现异响或健康度下降就尽早更换。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：蓝屏代码读法 + 八步排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">蓝屏发生当下该做什么</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>保住线索，避免把能定位的问题变成查不出来的随机故障。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>用手机拍下整屏，别只拍代码那一行，下面的文件名同样重要。</li><li>如果电脑卡在 0% 不收尾，等待 5 分钟；仍无反应再长按电源键 10 秒关机。</li><li>记下时间点，后面去事件查看器按时间找。</li><li>重启后不要马上继续工作，先按步骤 2 把日志导出来。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>拿到停止代码、错误编号和 .sys 文件名三样线索。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>屏幕太快看不清 → 关掉自动重启（见步骤 7 的「启动和故障恢复」），下次蓝屏就会停在屏幕上。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">从事件查看器里把代码读出来</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>蓝屏会自动记录到系统日志，代码和转储文件都能在这里找到。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 Win+R，输入 <code>eventvwr.msc</code> 回车。</li><li>左侧依次展开「Windows 日志 → 系统」。</li><li>右侧点「筛选当前日志」，事件 ID 填 <code>1001</code> 或 <code>41</code>。</li><li>找到 1001 号（来源 BugCheck）的记录，双击查看详细信息，里面有停止代码和参数。</li></ol>
+<p class="fx-p">也可以用管理员 PowerShell 一次性拉出来：</p>
+<div class="fx-cmd"><pre><code>Get-WinEvent -FilterHashtable @{LogName='System'; Id=1001,41} -MaxEvents 20 |
+  Format-List TimeCreated, Id, ProviderName, Message</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>能看到类似「计算机已从 bug 检查中重新启动。Bug 检查代码：0x0000000a」的内容；41 号事件来源是 Kernel-Power，代表一次非正常关机。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>查不到任何 1001 记录 → 说明可能不是内核蓝屏（比如显卡驱动崩溃、硬件掉电），按步骤 5 查硬件；日志本身打不开 → 用 <code>wevtutil qe System /c:20 /rd:true /f:text</code> 试试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">对照代码表判断方向</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不同代码指向不同部件，先判断大概方向，别盲目重装。</p>
+<p class="fx-p"><strong>操作</strong>：在表里找到你的停止代码，记下「常见指向」，再去对应步骤。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>停止代码（常见写法）</th><th>常见指向</th><th>优先看</th></tr></thead><tbody><tr><td>IRQL_NOT_LESS_OR_EQUAL（0x0000000A）</td><td>驱动或内存</td><td>步骤 4、5</td></tr><tr><td>PAGE_FAULT_IN_NONPAGED_AREA（0x00000050）</td><td>内存或驱动</td><td>步骤 5</td></tr><tr><td>SYSTEM_SERVICE_EXCEPTION（0x0000003B）</td><td>驱动、系统文件</td><td>步骤 6</td></tr><tr><td>KMODE_EXCEPTION_NOT_HANDLED（0x0000001E）</td><td>驱动</td><td>步骤 4</td></tr><tr><td>DRIVER_IRQL_NOT_LESS_OR_EQUAL（0x000000D1）</td><td>驱动</td><td>步骤 4</td></tr><tr><td>MEMORY_MANAGEMENT（0x0000001A）</td><td>内存</td><td>步骤 5</td></tr><tr><td>CRITICAL_PROCESS_DIED</td><td>关键系统进程、系统文件</td><td>步骤 6</td></tr><tr><td>KERNEL_SECURITY_CHECK_FAILURE（0x00000139）</td><td>驱动或内存</td><td>步骤 5、6</td></tr><tr><td>DPC_WATCHDOG_VIOLATION（0x00000133）</td><td>驱动、SSD 固件</td><td>步骤 4</td></tr><tr><td>WHEA_UNCORRECTABLE_ERROR（0x00000124）</td><td>硬件（CPU/内存/主板/电源）</td><td>步骤 8</td></tr><tr><td>INACCESSIBLE_BOOT_DEVICE（0x0000007B）</td><td>存储驱动、BIOS 模式</td><td>步骤 6、8</td></tr><tr><td>UNMOUNTABLE_BOOT_VOLUME（0x000000ED）</td><td>文件系统、硬盘</td><td>步骤 5</td></tr><tr><td>NTFS_FILE_SYSTEM（0x00000024）</td><td>硬盘、文件系统</td><td>步骤 5</td></tr><tr><td>VIDEO_TDR_FAILURE（0x00000116）</td><td>显卡驱动</td><td>步骤 4</td></tr><tr><td>SYSTEM_THREAD_EXCEPTION_NOT_HANDLED（0x0000007E）</td><td>驱动</td><td>步骤 4</td></tr><tr><td>BAD_SYSTEM_CONFIG_INFO（0x00000074）</td><td>注册表、启动配置</td><td>步骤 6</td></tr></tbody></table></div>
+<p class="fx-p">代码的完整定义和参数含义以微软官方《错误检查代码参考》为准。</p>
+<div class="fx-step__expect"><b>预期结果：</b>把代码归入「驱动类 / 内存类 / 系统文件类 / 硬件类」其中一类。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>表里没有你的代码 → 直接在官方《错误检查代码参考》页面搜代码名，或直接跳到步骤 4，从最近变更的驱动和软件查起。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卸掉最近装的东西</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>多数「突然开始蓝屏」由新装的驱动、软件、外设引起，回退最快见效。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>拔掉最近新加的外设（采集卡、无线网卡、扩展坞、打印机）。</li><li>「设置 → Windows 更新 → 更新历史记录 → 卸载更新」，卸掉最近的质量更新。</li><li>「设备管理器」里找到蓝屏文件名对应的设备（如 <code>nvlddmkm.sys</code> 是 NVIDIA 显卡驱动），右键 →「属性」→「驱动程序」→「回退驱动程序」。没有回退按钮就卸载设备并勾选删除驱动，重启后再装官网正式版。</li><li>「设置 → 应用 → 已安装的应用」，卸载蓝屏前新装的软件尤其是安全软件、加速器、虚拟网卡类工具。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>卸载并重启后，观察 1-2 天不再蓝屏。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>回退按钮灰掉 → 直接去厂商官网下载上一个稳定版本驱动手动安装；卸载更新报错 → 进恢复环境用「卸载更新」。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查内存和硬盘</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>内存接触不良或坏块、硬盘坏道都会造成随机蓝屏，且代码常来回变。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>内存检测：按 Win+R 输入 <code>mdsched.exe</code> →「立即重新启动并检查问题」。重启后自动测试，结果在下次进系统时弹出，也可在「事件查看器 → Windows 日志 → 系统」里找来源 <code>MemoryDiagnostics-Results</code> 的记录。</li><li>硬盘健康（管理员 PowerShell）：</li></ol>
+<div class="fx-cmd"><pre><code>Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus
+Get-Disk | Select-Object Number, FriendlyName, HealthStatus, OperationalStatus</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>在线扫描文件系统（只读扫描，不修改数据）：</li></ol>
+<div class="fx-cmd"><pre><code>chkdsk C: /scan</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>如果是知名品牌的 SSD，可安装该品牌官方工具（如三星 Magician、Crucial Storage Executive、铠侠 SSD Utility）查看健康度。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>内存诊断无错误；<code>HealthStatus</code> 显示 <code>Healthy</code>、<code>OperationalStatus</code> 显示 <code>OK</code>；chkdsk 报告未发现问题。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>内存诊断报错 → 关机断电，重新插拔内存条，多条内存只留一条逐个测试；<code>HealthStatus</code> 不是 Healthy 或 chkdsk 报大量错误 → 硬盘在衰退，马上备份数据并更换。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统文件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统文件或组件存储损坏会导致 CRITICAL_PROCESS_DIED、SYSTEM_SERVICE_EXCEPTION 这类蓝屏。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符中依次执行：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>DISM 报「操作成功完成」，sfc 报「未找到完整性冲突」或「已成功修复」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DISM 报 <code>0x800f081f</code> → 缺修复源，需要挂载同版本安装镜像当 <code>/Source</code>；两条都失败且蓝屏频繁 → 考虑「重置此电脑（保留个人文件）」。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">让下次蓝屏留下证据（进阶）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>偶然蓝屏查不出来时，先确保系统会保存转储文件，再用微软官方调试器分析。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 Win+R 输入 <code>sysdm.cpl</code> →「高级」→「启动和故障恢复」的「设置」。</li><li>「写入调试信息」选「小内存转储(256 KB)」，目录默认为 <code>%SystemRoot%\Minidump</code>。</li><li>取消勾选「自动重新启动」，这样蓝屏会停在屏幕上，能看清代码。</li><li>复现蓝屏后，从 Microsoft Store 安装微软官方调试器 WinDbg，打开 <code>C:\Windows\Minidump</code> 里的 .dmp 文件，在命令栏执行：</li></ol>
+<div class="fx-cmd"><pre><code>!analyze -v</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>输出里 <code>MODULE_NAME</code>、<code>IMAGE_NAME</code> 指向的驱动就是重点怀疑对象。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看不懂输出 → 把 <code>!analyze -v</code> 的结果贴上微软社区或厂商支持论坛求助；公司电脑 → 把转储文件交给 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断该不该送修</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>硬件类蓝屏越修越糟，及时停手更省钱。</p>
+<p class="fx-p"><strong>操作</strong>：出现下列任一情况，不要再折腾软件：</p>
+<ul class="fx-ul"><li>WHEA_UNCORRECTABLE_ERROR（0x124）反复出现</li><li>蓝屏代码每次都不一样，且伴随死机、花屏、自动关机</li><li>内存诊断或硬盘健康检查已经报错</li><li>清灰、重插内存、换电源后依旧蓝屏</li><li>机器有焦味、异响、风扇狂转</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>把「已做过哪些排查、蓝屏代码是什么」记下来，交给维修点，能大幅缩短诊断时间。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>在保修期内 → 直接走官方售后，别自己拆机破坏保修封条。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

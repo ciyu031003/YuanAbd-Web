@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>装了抓包/加速工具后全网断网怎么恢复 · 修盒子 FIXBOX</title>
+<meta name="description" content="这类工具会装一块虚拟网卡（TAP/TUN/WinTun）并改写默认路由、DNS 和系统代理，卸载只删了程序、没删这些改动；按&quot;卸软件 → 删虚拟网卡 → 清代理 → 修 DNS → 清路由表 → 重置网络栈&quot;这个顺序来，">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="proxy-tool-broke-network">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn" aria-current="page">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#proxy-vpn">代理与 VPN</a><span class="fx-crumb__sep">›</span><span>抓包与加速工具冲突</span></nav>
+<h1 class="fx-title">装了抓包/加速工具后全网断网怎么恢复</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">这类工具会<strong>装一块虚拟网卡（TAP/TUN/WinTun）并改写默认路由、DNS 和系统代理</strong>，卸载只删了程序、没删这些改动；按&quot;卸软件 → 删虚拟网卡 → 清代理 → 修 DNS → 清路由表 → 重置网络栈&quot;这个顺序来，绝大多数能救回。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>右键任务栏网络图标 → &quot;网络和 Internet 设置&quot;，看适配器列表里<strong>是不是多了一块不认识、带黄色感叹号或&quot;未识别的网络&quot;的网卡</strong>（名字里常带 TAP、TUN、WireGuard、WinTun、VPN 字样）。<strong>期望结果</strong>：找到那块多余的虚拟网卡。</li><li>打开&quot;设置 → 网络和 Internet → 代理&quot;，把自动检测、脚本、手动代理都关掉，刷新网页。<strong>期望结果</strong>：网页能打开，说明只是代理残留。</li><li>命令行执行 <code>ipconfig /all</code>，看<strong>默认网关还在不在</strong>（正常应该指向你家路由器地址）。<strong>期望结果</strong>：默认网关为空或指向一个陌生地址，说明路由被工具接管了。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>📌 <strong>合规提示</strong><br>本文只讲<strong>把被工具改乱的网络设置恢复原状</strong>（虚拟网卡、系统代理、DNS、路由表、Winsock 栈），属于本机故障排查。<br>本文不涉及任何跨境访问方法，不提供、不推荐任何用于绕过网络管理措施的软件或配置；抓包相关内容仅限在<strong>自有设备、自有网络</strong>上排查自己的网络问题。<br>请遵守《中华人民共和国网络安全法》及所在单位网络管理规定。设备由单位统一管理时，请先联系单位 IT，不要自行删除管控客户端。</div></div>
+<div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改网卡、路由表与系统网络栈。改之前请把当前状态记录下来（<code>ipconfig /all</code>、<code>route print</code> 的输出各截一次图存好），以便对照还原。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>装过抓包工具（Wireshark 及其抓包驱动）、游戏加速器、网络代理客户端之后，<strong>所有</strong>联网软件都上不了网。</li><li>已经卸载了那个工具，网络仍然不通。</li><li>能连上 Wi-Fi、能拿到 IP，但打不开任何网页、ping 公网也不通。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只有浏览器报&quot;代理服务器无响应&quot;，其他软件正常：看<span class="fx-link" style="cursor:help">「浏览器提示「代理服务器无响应」怎么修」</span>。</li><li>网卡在设备管理器里<strong>完全消失</strong>了：看<span class="fx-link" style="cursor:help">「电脑没有 WLAN 选项 / 网络适配器不见了」</span>。</li><li>家里所有设备（含手机）都上不了网：不是本机问题，看<span class="fx-link" style="cursor:help">「家里所有设备都上不了网：先分清是谁的问题」</span>。</li><li>公司/学校电脑上装了单位统一下发的管控或 VPN 客户端：<strong>请联系 IT</strong>，不要自行删除。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认这台设备是你本人的；单位设备先联系 IT。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>先记录当前状态：命令行执行 <code>ipconfig /all</code> 与 <code>route print</code>，把输出截图或存成文本文件。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备好联网的备用手段：手机 USB 共享网络或手机热点（万一网卡被删了还能下载驱动）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>想清楚断网前装过哪些网络类软件，名字记下来，步骤 1 要用。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>关闭正在运行的下载、同步任务，避免重置过程中断在半路。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启电脑后<strong>不做任何手动设置</strong>，直接打开浏览器访问 3 个不同网站（至少一个视频网站）都能正常加载；同时 <code>route print -4</code> 里 <code>0.0.0.0</code> 默认路由只有一条、指向真实网卡；设备管理器里没有多余的 TAP/TUN 虚拟网卡。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>能上内网、上不了外网，或反过来</strong> → 分流路由残留，个人设备按本文步骤 5-6 再做一遍；公司设备请联系 IT。</li><li><strong>网卡在设备管理器里彻底不见了</strong> → 看<span class="fx-link" style="cursor:help">「电脑没有 WLAN 选项 / 网络适配器不见了」</span>。</li><li><strong>网线插上没反应、网口灯不亮</strong> → 看<span class="fx-link" style="cursor:help">「网线插上没反应 / 网口灯不亮怎么排查」</span>。</li><li><strong>全部步骤做完仍不通</strong> → 用手机热点连一次，如果热点下正常，说明是家庭网络侧问题，看<span class="fx-link" style="cursor:help">「家里所有设备都上不了网：先分清是谁的问题」</span>；热点下也不通就是本机系统问题，可考虑用系统还原点回退，或联系品牌售后/维修点处理——单位设备一律<strong>联系 IT</strong>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>装这类工具前，先手动创建一次<strong>系统还原点</strong>，出事能一键回退。</li><li>卸载此类工具时，优先用它自带的&quot;恢复网络设置/卸载驱动&quot;选项，别只删程序目录。</li><li>不要在正在办公、开会的电脑上试用抓包或加速类工具；先用备用机或虚拟机。</li><li>卸载完成后按本文步骤 3-6 自查一遍，再重启确认。</li><li>公司电脑上不安装来源不明的网络工具，需要抓包时向 IT 申请测试环境。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：卸载顺序、虚拟网卡清理、代理与 DNS 恢复、路由表清理、网络栈重置</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">把工具本体彻底卸载</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先拆掉&quot;不断写设置&quot;的源头，否则后面清完它又改回去。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>退出该软件的托盘进程（右下角图标右键 → 退出）。</li><li>打开&quot;<strong>设置 → 应用 → 已安装的应用</strong>&quot;，找到并卸载。</li><li>优先用<strong>该工具自带的卸载程序</strong>；如果它自带&quot;恢复网络设置/清除驱动&quot;的选项，先勾上。</li><li>卸载完<strong>重启电脑</strong>。</li></ol>
+<div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 不要为了&quot;清干净&quot;去删公司管控客户端或安全软件，那属于绕过管控，请联系 IT。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>程序从应用列表消失，重启后托盘不再出现它的图标。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>卸载程序报错或列表里找不到它，先在&quot;任务管理器 → 服务/启动&quot;里停掉相关项，再从<strong>该软件官方网站</strong>找卸载说明；仍无法卸载时做下一步（删虚拟网卡）也能恢复大部分网络。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">删除残留的虚拟网卡（TAP / TUN / WinTun）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这块残留的虚拟网卡常常还是&quot;默认路由&quot;的出口，导致真实网卡的流量被送进一个已失效的隧道。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><code>Win + X</code> → <strong>设备管理器</strong> → 展开&quot;<strong>网络适配器</strong>&quot;。</li><li>逐条看设备名，见到 <code>TAP-Windows Adapter V9</code>、<code>TAP-Windows6</code>、<code>TUN</code>、<code>Wintun</code>、<code>WireGuard Tunnel</code>、<code>OpenVPN</code>、<code>XXX VPN Adapter</code> 这类名字，就是虚拟网卡。</li><li>右键该设备 → <strong>卸载设备</strong> → <strong>勾选&quot;删除此设备的驱动程序软件&quot;</strong> → 卸载。</li><li>全部多余的虚拟网卡都这样删掉，然后重启。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>设备管理器的&quot;网络适配器&quot;里只剩真实网卡（Intel/Realtek/MediaTek 这类无线或有线网卡）和系统自带项。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>卸载后重启又自动出现，说明还有服务在重建它——回到步骤 1 再查一遍是否真的卸载干净；删错了真实网卡也没关系，重启后 Windows 一般会自动重装，或用&quot;扫描检测硬件改动&quot;重建。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清除系统代理与 WinHTTP 代理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>工具常会把系统代理指向本机端口（如 <code>127.0.0.1:某端口</code>），程序关掉后这个端口已经没人监听，所有网页就都打不开。</p>
+<p class="fx-p"><strong>操作</strong>：按 <code>Win + I</code> → <strong>网络和 Internet → 代理</strong>，关闭&quot;自动检测设置&quot;&quot;使用设置脚本&quot;&quot;使用代理服务器&quot;三项。</p>
+<p class="fx-p">再以<strong>管理员身份</strong>打开命令提示符，执行：</p>
+<div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">确认输出里没有残留的 <code>127.0.0.1</code> 或陌生地址后，若确实有，执行：</p>
+<div class="fx-cmd"><pre><code>netsh winhttp reset proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS 上在&quot;系统设置 → 网络 → 详细信息 → 代理&quot;里关闭所有代理开关，或执行：</p>
+<div class="fx-cmd"><pre><code>scutil --proxy
+sudo networksetup -setwebproxystate &quot;Wi-Fi&quot; off
+sudo networksetup -setsecurewebproxystate &quot;Wi-Fi&quot; off</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>Windows 设置里的代理开关全是&quot;关闭&quot;；<code>netsh winhttp show proxy</code> 显示&quot;直接访问&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>开关点不动，检查是不是被组策略或安全软件锁定；个人设备可临时退出安全软件再试，<strong>试完记得开回来</strong>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">恢复 DNS 设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>工具常把 DNS 改成自己的本机解析端口（如 <code>127.0.0.1</code>），程序没了，域名就再也解析不出来。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><code>Win + R</code> → <code>ncpa.cpl</code> → 右键当前网卡 → 属性 → 双击&quot;Internet 协议版本 4 (TCP/IPv4)&quot;。</li><li>确认勾选的是&quot;<strong>自动获得 DNS 服务器地址</strong>&quot;；如果家里路由器 DNS 不理想，选&quot;使用下面的 DNS 服务器地址&quot;填 <code>223.5.5.5</code> 和 <code>119.29.29.29</code>。</li><li>确定保存，然后清缓存：</li></ol>
+<div class="fx-cmd"><pre><code>ipconfig /flushdns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS 用：</p>
+<div class="fx-cmd"><pre><code>networksetup -getdnsservers Wi-Fi
+networksetup -setdnsservers Wi-Fi Empty
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>ipconfig /all</code> 里的 DNS 服务器指向路由器或你填的公共 DNS，不再是 <code>127.0.0.1</code>。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DNS 改完还是解析失败，用 <code>nslookup www.baidu.com</code> 看具体报错；如果解析到陌生 IP，怀疑被劫持，看<span class="fx-link" style="cursor:help">「打开网页要等很久 / DNS 被劫持怎么判断」</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理被劫持的路由表</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是&quot;卸载了还断网&quot;最常见的原因——工具把默认路由（<code>0.0.0.0</code>）指向了虚拟网卡，虚拟网卡删了，默认路由却还在。</p>
+<p class="fx-p"><strong>操作</strong>：查看当前路由表：</p>
+<div class="fx-cmd"><pre><code>route print -4</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">重点看&quot;<strong>IPv4 路由表</strong>&quot;里的 <code>0.0.0.0</code> 那一行：</p>
+<ul class="fx-ul"><li>正常：接口指向你的真实网卡，网关是你家路由器地址。</li><li>异常：出现两条 <code>0.0.0.0</code>，或度量值（Metric）更小的那条接口是个陌生/已删除的地址。</li></ul>
+<p class="fx-p">如果发现异常路由，删除它（把 <code>&lt;目标&gt;</code> 换成实际看到的地址，<strong>只删你能确认是工具留下的那一条</strong>）：</p>
+<div class="fx-cmd"><pre><code>route delete 0.0.0.0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后让 Windows 重新获取默认路由：</p>
+<div class="fx-cmd"><pre><code>ipconfig /release
+ipconfig /renew</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>route print -4</code> 里 <code>0.0.0.0</code> 的默认路由只剩一条，网关是路由器地址；<code>ping 路由器IP</code> 和 <code>ping 223.5.5.5</code> 都通。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定该删哪一条时<strong>不要瞎删</strong>——先断开 Wi-Fi 再重新连接（这一步会重建默认路由）；或者用下面的步骤 6 做整体重置。企业设备上路由由 IT 下发，请联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置网络栈（Winsock / IP / 网络重置）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>前面都清干净了还不通，说明 Winsock 目录或 TCP/IP 栈被工具的过滤器驱动改坏了。</p>
+<p class="fx-p"><strong>操作</strong>：以<strong>管理员身份</strong>打开命令提示符，依次执行：</p>
+<div class="fx-cmd"><pre><code>netsh winsock reset
+netsh int ip reset
+ipconfig /flushdns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后<strong>必需重启电脑</strong>。</p>
+<p class="fx-p">如果重启后仍不通，再用系统自带的整体重置：<strong>设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置</strong>（会重装所有网卡驱动并重启）。</p>
+<div class="fx-step__expect"><b>预期结果：</b>重启后网卡正常工作，能获取到 IP、能解析域名、能打开网页。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>网络重置后网卡驱动没了、连不上网，用手机 USB 共享网络给电脑联网，再到<strong>网卡厂商官网</strong>或电脑厂商官网下载对应驱动安装。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">验证并做收尾检查</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>确认不是&quot;看着好了&quot;，而是真的恢复。</p>
+<p class="fx-p"><strong>操作</strong>：逐条执行：</p>
+<div class="fx-cmd"><pre><code>ipconfig /all
+ping 你的路由器IP
+ping 223.5.5.5
+ping www.baidu.com
+route print -4</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后打开浏览器访问 2-3 个不同网站。另外检查一处容易被忽略的地方——<strong>hosts 文件</strong>是否被工具写过条目：用记事本以管理员身份打开 <code>C:\Windows\System32\drivers\etc\hosts</code>，除了以 <code>#</code> 开头的注释行和系统默认行，其他条目一律删掉再保存。</p>
+<div class="fx-step__expect"><b>预期结果：</b>四条 ping/解析命令都正常，浏览器能打开网页，hosts 文件只剩注释行。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>能 ping 通 IP、打不开域名 = DNS 问题，回步骤 4；能 ping 通外网、浏览器打不开 = 代理问题，回步骤 3。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/proxy-server-not-responding.html">浏览器提示「代理服务器无响应」怎么修</a><a href="../search.html?q=browser%20proxy">browser-proxy</a><a href="../search.html?q=pac%20script">pac-script</a><a href="../search.html?q=enterprise%20proxy">enterprise-proxy</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

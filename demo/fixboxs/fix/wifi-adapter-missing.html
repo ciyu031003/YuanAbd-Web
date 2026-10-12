@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电脑没有 WLAN 选项 / 网络适配器不见了 · 修盒子 FIXBOX</title>
+<meta name="description" content="&quot;没有 WLAN 选项&quot;通常是三种情况之一：无线开关被关掉（含飞行模式）、驱动被卸载或损坏、网卡被硬件禁用/松动。先确认网卡是&quot;消失&quot;还是&quot;被禁用&quot;，再决定重装驱动还是送修。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="wifi-adapter-missing">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic" aria-current="page">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#net-basic">网络基础</a><span class="fx-crumb__sep">›</span><span>网卡与适配器</span></nav>
+<h1 class="fx-title">电脑没有 WLAN 选项 / 网络适配器不见了</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;没有 WLAN 选项&quot;通常是三种情况之一：无线开关被关掉（含飞行模式）、驱动被卸载或损坏、网卡被硬件禁用/松动。先确认网卡是&quot;消失&quot;还是&quot;被禁用&quot;，再决定重装驱动还是送修。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看 Windows 快速设置面板有没有飞行模式、Wi-Fi 磁贴。</strong> 期望：飞行模式是关的；Wi-Fi 磁贴可以点亮 → 只是被关掉了，不用重装驱动。</li><li><strong>打开设备管理器 → 网络适配器</strong>，看有没有带&quot;无线/Wireless/WLAN/Wi-Fi&quot;字样的设备。期望：有但带黄色感叹号 → 驱动问题；完全没有 → 网卡未被识别。</li><li><strong>重启一次电脑并接上网线试。</strong> 期望：网线能上网 → 至少系统网络组件正常，问题集中在无线网卡上。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改系统网络设置并重装驱动。操作前建议记下当前的 IP、DNS 配置和 Wi-Fi 密码，以便随时还原。公司/学校管理的电脑请先联系 IT。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>右下角没有 Wi-Fi 图标，设置里找不到&quot;WLAN&quot;开关</li><li>设备管理器里无线网卡带黄色感叹号、或整个&quot;网络适配器&quot;里没有无线设备</li><li>换过驱动、装过系统、进过 BIOS 之后 Wi-Fi 就没了</li><li>网络适配器列表里连&quot;以太网&quot;也不见了</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>有 WLAN 选项、能看到网络但搜不到自家网络名 → <span class="fx-link" style="cursor:help">Wi-Fi 列表里找不到自家网络怎么办</span></li><li>能连上 Wi-Fi 但打不开网页 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>所有设备都没网（不是单台电脑的问题） → <span class="fx-link" style="cursor:help">家里所有设备都上不了网：先分清是谁的问题</span></li><li>提示 IP 地址冲突、地址是 169.254 开头 → <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li>公司配发的笔记本、带企业管控或 BIOS 密码 → 直接联系 IT，不要自行改 BIOS</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑能正常开机进入系统</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限（重装驱动、重置网络需要）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有另一台能上网的设备，用于下载网卡驱动</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下当前的 IP、DNS、Wi-Fi 密码（网络重置后要重输）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道电脑型号（笔记本看机身底部标签或&quot;关于本机&quot;，台式机看主板型号）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足：</p>
+<ol class="fx-ol"><li><code>netsh wlan show interfaces</code>（Windows）或 <code>networksetup -listallhardwareports</code>（macOS）能正常列出无线网卡；</li><li>系统设置里 WLAN / Wi-Fi 开关可见且能打开；</li><li>能在 Wi-Fi 列表里看到自家网络并成功连上，打开网页正常。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>只有搜不到某几个网络</strong> → 看 <span class="fx-link" style="cursor:help">Wi-Fi 列表里找不到自家网络怎么办</span></li><li><strong>能连上但打不开网页</strong> → 看 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li><strong>无线不行、网线也不认</strong> → 主板或网卡硬件问题，先备份重要文件再送修</li><li><strong>公司/学校设备、或 BIOS 被锁定</strong> → 联系 IT 处理，不要尝试绕过管控</li><li><strong>Apple 诊断报出参考代码</strong> → 预约 Apple Store 或 Apple 授权服务商</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>更新驱动只用笔记本/主板厂商官网的版本，不装&quot;驱动大师&quot;&quot;一键修复&quot;类工具。</li><li>做网络重置前先记下 Wi-Fi 密码、固定 IP 和 DNS。</li><li>系统大版本更新前做一次还原点或备份，更新后确认网络正常。</li><li>不要在 BIOS 里随意修改与网络无关的选项；改动前先拍照记录原值。</li><li>笔记本避免在开机状态下震动、摔碰，无线网卡的天线接口比较脆弱。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：网卡消失/禁用分诊、驱动重装、系统修复、网络重置与 macOS 对照</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先判断网卡是&quot;消失&quot;还是&quot;被禁用&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这两种情况的处理方式完全不同，先分清能省一半时间。</p>
+<p class="fx-p"><strong>操作</strong>：以管理员身份运行 PowerShell（开始菜单搜索 <code>PowerShell</code> → 右键 → 以管理员身份运行）：</p>
+<div class="fx-cmd"><pre><code>Get-NetAdapter -IncludeHidden
+Get-PnpDevice -Class Net | Format-Table Status, FriendlyName
+netsh wlan show interfaces</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">再打开<strong>设备管理器</strong>（右键开始菜单 → 设备管理器），点菜单「查看 → 显示隐藏的设备」，展开「网络适配器」。</p>
+<div class="fx-step__expect"><b>预期结果：</b></div>
+<ul class="fx-ul"><li><code>Get-NetAdapter</code> 里能看到无线网卡（名字常含 Intel、Realtek、MediaTek、Qualcomm、Wireless、Wi-Fi），状态是 Up 或 Disconnected；</li><li>设备管理器里能看到无线网卡，或至少能看到带感叹号/灰色的设备。</li></ul>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div></div></details>
+<ul class="fx-ul"><li>完全看不到任何无线设备 → 直接跳到步骤 3（重装驱动）和步骤 5（网络重置）；</li><li><code>netsh wlan show interfaces</code> 报&quot;无线自动配置服务(wlansvc)没有运行&quot; → 先在服务里启动 <code>WLAN AutoConfig</code>，见步骤 3。</li></ul></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查被关掉的开关（含 BIOS）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>很多&quot;网卡消失&quot;其实是开关或固件层被禁用，不需要动驱动。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>飞行模式</strong>：Windows 11 点右下角网络图标打开快速设置，确认飞行模式关闭。</li><li><strong>快捷键</strong>：笔记本常见 <code>Fn</code> + <code>F2</code>/<code>F12</code> 等组合键用于切换无线开关，键帽上有天线或飞机图标。</li><li><strong>物理开关</strong>：老机型机身侧面可能有拨动开关。</li><li><strong>BIOS/UEFI</strong>：重启时按 <code>F2</code>、<code>F10</code>、<code>Del</code> 或 <code>Esc</code> 进入 BIOS（各品牌不同），找到 <code>Wireless LAN</code>、<code>WLAN</code>、<code>Network</code> 相关项，确认没有被设为 <code>Disabled</code>。<strong>不要改动其它设置，改完保存退出。</strong></li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>开关打开后，Wi-Fi 图标和 WLAN 选项立刻出现。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>BIOS 里相关项是灰色、或提示需要密码 → 不要强行破解，联系品牌售后或单位 IT；有些企业机型会在 BIOS 里锁定无线网卡，这是正常的管理策略。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卸载并重装无线网卡驱动</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>驱动损坏或不兼容是&quot;网卡带感叹号/消失&quot;最常见的原因。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在设备管理器里找到无线网卡（可能显示为&quot;未知设备&quot;），右键 → <strong>卸载设备</strong>；如果出现&quot;删除此设备的驱动程序软件&quot;选项，勾选它，确定。</li><li>重启电脑，让 Windows 自动重新识别（多数情况会自动装回可用驱动）。</li><li>如果仍不行，用另一台电脑到<strong>笔记本/主板厂商官网</strong>或<strong>网卡芯片厂商官网</strong>（Intel、Realtek、MediaTek、Qualcomm）下载对应型号的驱动，拷到本机安装。</li><li>也可以用命令行查看当前系统里已注册的驱动包：</li></ol>
+<div class="fx-cmd"><pre><code>pnputil /enum-drivers
+Get-Service WlanSvc, Dhcp | Format-Table Name, Status, StartType</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>设备管理器里无线网卡恢复正常、无感叹号；<code>netsh wlan show interfaces</code> 能输出网卡信息；系统出现 WLAN 选项。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div></div></details>
+<ul class="fx-ul"><li>安装驱动时报&quot;系统找不到指定的文件&quot; → 确认下载的是本机型、本系统版本的驱动；</li><li>装了厂商驱动仍无效 → 继续步骤 4、5；</li><li>不确定型号时，优先用笔记本厂商官网按机型查驱动，不要用第三方&quot;驱动大师&quot;类工具。</li></ul></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统组件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统文件或组件损坏也会让网络适配器反复出问题。</p>
+<p class="fx-p"><strong>操作</strong>：管理员 PowerShell 或命令提示符，逐条执行（每条约几分钟，需要联网）：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后运行 Windows 更新（<strong>设置 → Windows 更新</strong>），检查&quot;可选更新 → 驱动程序更新&quot;里有没有网卡相关项。</p>
+<div class="fx-step__expect"><b>预期结果：</b>DISM 显示&quot;还原操作已成功完成&quot;，<code>sfc</code> 显示&quot;未找到完整性冲突&quot;或已修复并提示重启。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>命令报错且无法联网时，可以用系统安装介质做离线修复；不熟悉的话，先做步骤 5 的网络重置，或联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置网络（会清空已保存的 Wi-Fi 密码）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 网络重置会删除并重装所有网络适配器，<strong>已保存的 Wi-Fi 名称和密码会被清空</strong>，自定义的 IP、DNS、代理设置也会还原。请先把这些信息记下来。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>把网络组件恢复到初始状态，解决适配器配置损坏类问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p">图形方式：<strong>设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置</strong>，然后重启。</p>
+<p class="fx-p">命令行方式（管理员命令提示符，执行后重启）：</p>
+<div class="fx-cmd"><pre><code>netsh winsock reset
+netsh int ip reset
+shutdown /r /t 0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>重启后网络适配器重新枚举，WLAN 选项恢复，需要重新输入 Wi-Fi 密码。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重启后设备管理器里依然没有无线设备，说明大概率不是软件问题，进入步骤 6/7。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">Mac 上&quot;Wi-Fi 服务消失&quot;的处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>macOS 上类似现象通常是网络服务被删、NVRAM 异常或硬件识别失败。</p>
+<p class="fx-p"><strong>操作</strong>（终端）：</p>
+<div class="fx-cmd"><pre><code>networksetup -listallhardwareports
+system_profiler SPAirPortDataType | head -n 60</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ul class="fx-ul"><li>如果硬件端口里有 Wi-Fi，但<strong>系统设置 → 网络</strong>里没有 Wi-Fi 服务：点网络设置右下角的&quot;…&quot;→ <strong>添加服务</strong> → 选 Wi-Fi → 创建。</li><li>如果硬件端口列表里完全没有 Wi-Fi：关机后重启；仍不行按 Apple 官方文档重置 NVRAM（Intel 机型）；Intel 机型还可尝试重置 SMC；Apple 芯片机型不需要重置 SMC。</li><li>以安全模式启动一次（Apple 芯片：关机后按住电源键进入启动选项，选磁盘时按住 Shift；Intel：开机按住 Shift），观察 Wi-Fi 是否出现。</li><li>最后用 Apple 诊断（关机后按官方文档的按键进入）检查硬件。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>网络设置里重新出现 Wi-Fi 服务并能扫描到网络。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>Apple 诊断报出以 NDD、PPN 等开头的参考代码，或硬件端口里始终没有 Wi-Fi，说明可能是无线模块故障，预约 Apple 支持或授权服务商；公司设备先联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断是否需要送修</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>区分&quot;还能救&quot;和&quot;必须修&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：把前面几步的现象汇总判断：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>现象</th><th>大概原因</th><th>接下来做什么</th></tr></thead><tbody><tr><td>重装驱动后立刻恢复，过几天又消失</td><td>驱动/更新冲突</td><td>固定使用厂商官网驱动版本，关闭自动驱动更新或回退</td></tr><tr><td>设备管理器里完全没有无线设备，重装驱动也无效</td><td>网卡硬件或主板接口故障</td><td>送修</td></tr><tr><td>插网线能用，无线始终没有</td><td>无线模块或天线故障</td><td>送修；可先用 USB 无线网卡应急</td></tr><tr><td>只在某次系统更新/断电/进 BIOS 之后出现</td><td>设置或固件问题</td><td>检查 BIOS 无线开关，或恢复 BIOS 默认设置</td></tr><tr><td>公司/学校统一管理的电脑</td><td>管控策略</td><td>联系 IT，不要自行改 BIOS 或驱动</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确下一步是&quot;继续自救&quot;还是&quot;送修/找 IT&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>拿不准就先接一根网线保证能用，再联系品牌售后描述现象和已做过的步骤。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/wifi-ssid-not-found.html">Wi-Fi 列表里找不到自家网络怎么办</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mac 储存空间不足 /「系统数据」占了上百 G · 修盒子 FIXBOX</title>
+<meta name="description" content="「系统数据」不是病毒也不是系统垃圾，它大多是缓存、日志、时间机器本地快照和 iPhone 备份。先删本地快照和缓存，再按体积找大文件，动手前一定先备份。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="mac-storage-system-data">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>储存空间</span></nav>
+<h1 class="fx-title">Mac 储存空间不足 /「系统数据」占了上百 G</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「系统数据」不是病毒也不是系统垃圾，它大多是缓存、日志、时间机器本地快照和 iPhone 备份。先删本地快照和缓存，再按体积找大文件，动手前一定先备份。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>打开系统设置 → 通用 → 储存空间</strong>，等进度条算完，看「系统数据」旁边写了多少。期望：拿到一个具体数字（例如 120 GB）。</li><li><strong>在终端执行</strong> <code>tmutil listlocalsnapshots /</code>。期望：如果出现一排 <code>com.apple.TimeMachine.2026-...</code> 记录，说明本地快照正在占空间，通常是几十 GB。</li><li><strong>打开访达，按住 Option 点菜单栏「前往」→「资源库」</strong>，进入 <code>Caches</code> 文件夹，按大小排序看前几名。期望：能看到几个明显很大的缓存文件夹。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：本文会删除缓存、日志、本地快照和备份文件。<strong>动手前请先把重要文件复制到外置硬盘或云盘</strong>，并确认你删除的每一项都不是唯一副本。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>系统设置里「系统数据」几十到几百 GB，可用空间越来越少</li><li>提示「启动磁盘几乎已满」「储存空间不足」</li><li>删了文件、清了废纸篓，可用空间却没怎么变</li><li>想找出到底是哪些文件在占空间</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>iCloud 云盘、iCloud 照片提示空间不足 → <span class="fx-link" style="cursor:help">iCloud 储存空间不足怎么办</span></li><li>磁盘工具报错、SMART 状态异常、磁盘发出异响 → <span class="fx-link" style="cursor:help">Mac 磁盘报错与磁盘工具急救</span></li><li>系统已经卡到进不去桌面 → <span class="fx-link" style="cursor:help">Mac 无法开机 / 反复重启怎么办</span></li><li>准备抹掉磁盘重装系统 → 先看 <span class="fx-link" style="cursor:help">Mac 重装系统前如何完整备份</span></li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件已复制到外置硬盘、NAS 或云盘，并<strong>实际打开确认能打开</strong></li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Mac 已接电源</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道管理员密码（下面多条命令需要 sudo）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下当前「可用空间」的数字，方便清理后对比</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>本文删除的内容无法从废纸篓恢复（快照、缓存、备份都是直接删除）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足两条：</p>
+<ol class="fx-ol"><li>系统设置 → 通用 → 储存空间 里，「系统数据」比清理前明显变小（多数情况能减少 20-80 GB），可用空间达到磁盘总容量的 15% 以上（512 GB 的盘至少留 75 GB）；</li><li>在桌面新建一个 1 GB 的大文件、复制到别处再删除，全程不提示「储存空间不足」，Finder 删除文件后可用空间会即时回升。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>清理后几天又涨回来</strong> → 回到步骤 3、4 找持续写入的 App（同步盘、虚拟机、录屏软件、日志狂写的软件）</li><li><strong>大头是 iPhone 备份而你不打算从本机恢复</strong> → 删掉 <code>MobileSync/Backup</code> 下对应的备份目录，注意删了就无法从本机恢复</li><li><strong>磁盘工具报错或 SMART 异常</strong> → 先完整备份，再送修（Apple 授权服务商）</li><li><strong>磁盘本身太小，清理已到极限</strong> → 外接 SSD 存放素材，或更换容量更大的机型；公司/学校设备联系 IT</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>开启时间机器并接一块外置硬盘做完整备份，同时定期用 <code>tmutil listlocalsnapshots /</code> 检查本地快照数量。</li><li>每月花 5 分钟看一次「储存空间」，顺手清空下载文件夹和废纸篓。</li><li>iPhone 备份改用 iCloud，或导出到电脑后立即删除本机备份。</li><li>不装「一键清理/加速」类第三方工具，不手动删除系统目录。</li><li>Xcode、Docker、虚拟机用户每月清理一次 DerivedData、无用镜像和旧模拟器。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：本地快照、缓存、体积排行、磁盘急救与分流</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先看清空间到底在哪</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>分清「真的被占满」和「系统把可随时回收的空间算成了占用」。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>系统设置 → 通用 → 储存空间</strong>，等分类算完，把每一类都点开看一遍。</li><li>终端执行：</li></ol>
+<div class="fx-cmd"><pre><code>df -h /System/Volumes/Data
+diskutil info / | grep -i -E &quot;Free Space|可用空间&quot;</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>能同时看到系统设置里的分类数值和命令行里的可用空间。两者略有差异是正常的：macOS 有一部分空间叫「可清除空间」，系统需要时会自动回收，所以不同界面显示可能不一致。</div>
+<p class="fx-p">按 Apple 的说法，「系统数据」收纳的是无法归入文稿、照片、邮件等类别的文件，常见包括：应用缓存、日志、时间机器本地快照、iPhone/iPad 本机备份、字体、插件和部分 App 支持文件。</p>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>储存空间界面长时间只显示「正在计算…」，先接上电源再等几分钟；<code>df</code> 看到的是数据宗卷，不要去看只读的系统宗卷，那是正常的系统占用。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">删除时间机器本地快照</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：本地快照是你最近一次可以回滚的时间点，删掉后就不能再用它恢复文件。如果这台 Mac 很久没做过完整备份，请先做一次外部备份。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>本地快照是「系统数据」变成几十上百 GB 的头号原因。</p>
+<p class="fx-p"><strong>操作</strong>（终端，逐条执行）：</p>
+<div class="fx-cmd"><pre><code># 1. 先看有哪些本地快照
+tmutil listlocalsnapshots /
+
+# 2. 删除全部本地快照（不会删你的文件）
+sudo tmutil deletelocalsnapshots /
+
+# 3.（可选）只瘦身、保留最近的快照，示例约释放 10GB 以上
+sudo tmutil thinlocalsnapshots / 10000000000 4</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>第 1 条列出形如 <code>com.apple.TimeMachine.2026-10-11-103000.local</code> 的快照名；第 2 条逐个返回 <code>Deleted local snapshot '...'</code>；随后系统设置里的「系统数据」明显下降。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示 <code>Operation not permitted</code> 或 <code>No local snapshots</code>，先执行 <code>tmutil status</code> 看是不是正在备份；等备份结束再试。仍然失败说明该宗卷没有可删的本地快照，直接进入步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理缓存与日志（安全范围）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：只删缓存和日志。<strong>不要删</strong> <code>~/Library/Application Support</code>、<code>~/Library/Keychains</code>、<code>~/Library/Preferences</code>、<code>/Library/Extensions</code>、<code>/System</code>，里面是应用数据、钥匙串和系统文件。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>缓存和日志是可以安全重建的占用，删掉不影响功能。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先量一下大小：</li></ol>
+<div class="fx-cmd"><pre><code>du -sh ~/Library/Caches 2&gt;/dev/null
+sudo du -sh /Library/Caches 2&gt;/dev/null
+du -sh ~/Library/Logs 2&gt;/dev/null</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>打开访达，按 Option 点「前往」→「资源库」，进入 <code>Caches</code>，按大小排序，删掉明显很大的那几项（例如浏览器、地图、视频软件的缓存）。</li><li><code>Logs</code> 里可以删掉旧的日志文件。</li><li>终端执行 <code>sudo du -sh /Library/Logs</code> 检查系统日志目录，体积大时可删旧的 <code>.log</code> 文件。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>可用空间增加几个 GB 到几十 GB。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示「不能删除，因为正在使用」→ 先退出对应 App 再删；删除缓存后第一次打开某个 App 会变慢，这是正常现象。任何你看不懂名字的文件夹，一律不要删。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用体积排行找出真正的大文件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把&quot;猜&quot;换成&quot;看到&quot;。</p>
+<p class="fx-p"><strong>操作</strong>（终端，逐条执行，输出可能较慢）：</p>
+<div class="fx-cmd"><pre><code># 主目录下各文件夹体积，最大的在最后
+du -sh ~/* 2&gt;/dev/null | sort -h | tail -n 20
+
+# 资源库下各文件夹体积
+du -sh ~/Library/* 2&gt;/dev/null | sort -h | tail -n 20</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">常见的大户和正确处理方式：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>位置</th><th>是什么</th><th>怎么处理</th></tr></thead><tbody><tr><td><code>~/Library/Application Support/MobileSync/Backup</code></td><td>iPhone/iPad 本机备份</td><td>在访达里删除不需要的备份；删了就<strong>无法</strong>从本机恢复该手机</td></tr><tr><td><code>~/Library/Developer/Xcode/DerivedData</code></td><td>Xcode 编译中间产物</td><td>可整个删除，Xcode 会重建</td></tr><tr><td><code>~/Library/Developer/CoreSimulator</code></td><td>iOS 模拟器</td><td>可在终端执行 <code>xcrun simctl delete unavailable</code></td></tr><tr><td><code>~/Library/Containers</code></td><td>沙盒应用的数据</td><td>不要手删，用应用自带的清理功能</td></tr><tr><td><code>~/Downloads</code></td><td>下载文件夹</td><td>自己看一眼，删掉已经不需要的安装包</td></tr><tr><td><code>~/Library/Mail</code> / <code>~/Library/Messages/Attachments</code></td><td>邮件附件、信息附件</td><td>在对应 App 里删；邮件需清空「废纸篓」</td></tr><tr><td>Docker / 虚拟机镜像</td><td>容器与虚拟磁盘</td><td>装了 Docker 可执行 <code>docker system prune -a</code>；虚拟机用自带工具压缩磁盘</td></tr><tr><td><code>/private/var/vm</code></td><td>交换文件与睡眠镜像</td><td><strong>不要手动删</strong>，重启后系统会自行回收</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>能明确说出是哪几个目录在占空间，并对可删的目录动手清理。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>输出太长看不过来，把 <code>tail -n 20</code> 改成 <code>tail -n 10</code>；<code>du</code> 报权限错误属正常，忽略即可。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用系统自带功能收尾</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>图形界面里能一眼看懂的清理，交给系统。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>系统设置 → 通用 → 储存空间</strong>，逐个分类点开：删除不用的 App、删掉「文稿」里的大文件、清理「信息」里的附件、删除已下载的电影与剧集。</li><li><strong>清空废纸篓</strong>（访达 → 废纸篓 → 清倒废纸篓）。放进废纸篓的文件仍然占空间。</li><li><strong>照片</strong>：如果不使用 iCloud 照片，请在「照片」App 里自行删除不需要的照片与视频，并清空「最近删除」；如果使用 iCloud 照片，「优化 Mac 储存空间」才有意义。</li><li><strong>删除 App</strong>：从「应用程序」拖到废纸篓，再用 App 自带的卸载器清理残留。</li><li>不要安装「一键清理 / 系统加速」类工具；系统自带的「储存空间」已经覆盖了主要场景。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统设置里各类别的数值下降，可用空间回到 15% 以上。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>删不动、提示权限不足 → 确认你删的是自己账户下的文件，系统目录不要碰；时间机器备份盘上的旧备份需要单独处理，且以 Apple 官方说明为准。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查磁盘健康与&quot;删不掉的空间&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：磁盘检查与修复过程中如果磁盘本身有故障，可能无法恢复。请确认重要文件已有外部副本再继续。</div></div>
+<p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除磁盘错误导致空间统计异常。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先看磁盘结构：</li></ol>
+<div class="fx-cmd"><pre><code>diskutil list</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>打开<strong>磁盘工具</strong>（访达 → 应用程序 → 实用工具），点「显示」→「显示所有设备」，选中启动磁盘下的「Macintosh HD - 数据」宗卷，点「急救」。</li><li>如果「系统数据」持续增长：重启进入安全模式再清理一次，观察是否还在涨。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>急救显示宗卷似乎正常；清理后可用空间稳定不再掉。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>急救报错、SMART 状态不是「已验证」，说明磁盘可能有硬件问题——先备份，再联系 Apple 支持或授权服务商。命令行的 <code>diskutil</code> 修复动词对 APFS 支持有限，请以「磁盘工具」的急救为准，并以 <code>diskutil help</code> 的输出和 Apple 官方文档为依据。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><a href="../search.html?q=Mac%20%E6%97%A0%E6%B3%95%E5%BC%80%E6%9C%BA%20%2F%20%E5%8F%8D%E5%A4%8D%E9%87%8D%E5%90%AF%E6%80%8E%E4%B9%88%E5%8A%9E">Mac 无法开机 / 反复重启怎么办</a><a href="../search.html?q=iCloud%20%E5%82%A8%E5%AD%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3%E6%80%8E%E4%B9%88%E5%8A%9E">iCloud 储存空间不足怎么办</a><a href="../search.html?q=Mac%20%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%89%8D%E5%A6%82%E4%BD%95%E5%AE%8C%E6%95%B4%E5%A4%87%E4%BB%BD">Mac 重装系统前如何完整备份</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>命令速查 · 修盒子 FIXBOX</title>
+<meta name="description" content="Windows 与 macOS 常用网络/系统排查命令速查。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">
+/* 临界样式内联：避免首帧闪烁（外链 CSS 到达前就要生效） */
+html.fx-entering body{opacity:0}
+html.fx-first:not(.fx-leaving) .fx-curtain{display:none}
+.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}
+html.fx-entering .fx-curtain{transform:translateY(0)}
+html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}
+html.fx-leaving .fx-curtain{transform:translateY(0)}
+.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}
+.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}
+</style>
+<script id="fx-boot">/* 在首帧前决定：首次访问→显示加载动画；二次进入→幕布先盖住再做转场 */
+try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="./css/theme-fix.css">
+<link rel="stylesheet" href="./css/fix.css">
+</head>
+<body>
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
+  <div class="fx-preloader__inner">
+    <div class="fx-preloader__mark">
+      <span class="fx-preloader__ring" aria-hidden="true"></span>
+      <span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span>
+      <span class="fx-preloader__core" aria-hidden="true">修</span>
+      <span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span>
+    </div>
+    <p class="fx-preloader__text">正在打开修盒子…</p>
+    <div class="fx-preloader__bar" aria-hidden="true"><i></i></div>
+  </div>
+</div>
+<div class="fx-curtain" aria-hidden="true"></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航">
+<a href="./browse.html">领域</a>
+<a href="./wizard.html">症状向导</a>
+<a href="./tools.html" aria-current="page">工具</a>
+<a href="./about.html">关于</a>
+</nav>
+<a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<nav class="fx-crumb" aria-label="面包屑"><a href="./index.html">首页</a><span class="fx-crumb__sep">›</span><span aria-current="page">命令速查</span></nav>
+<h1 class="fx-title">命令速查</h1>
+<p class="fx-p" style="max-width:66ch">这里只放<b>只读</b>或可安全回滚的命令。每一条都可以直接复制到「命令提示符 / PowerShell」（Windows）或「终端」（macOS）里执行。不确定的命令不要凭空尝试。</p>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div><strong>安全</strong>：本页命令均为查询类操作，不会修改系统设置、不会删除数据。</div></div>
+<section class="fx-section" data-reveal style="padding-top:30px">
+<h2 class="fx-h2" style="margin-top:0">网络四步定位法</h2>
+<p class="fx-p">按顺序执行，哪一步失败，问题就在那一层——这是最省时间的排查顺序。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>步骤</th><th>目的</th><th>Windows 命令</th><th>macOS 命令</th></tr></thead><tbody>
+<tr><td>1</td><td>本机 IP 是否正常</td><td><code>ipconfig</code></td><td><code>ifconfig</code></td></tr>
+<tr><td>2</td><td>能否连到路由器</td><td><code>ping 192.168.1.1</code></td><td><code>ping 192.168.1.1</code></td></tr>
+<tr><td>3</td><td>能否连到外网（绕过 DNS）</td><td><code>ping 223.5.5.5</code></td><td><code>ping 223.5.5.5</code></td></tr>
+<tr><td>4</td><td>DNS 解析是否正常</td><td><code>nslookup www.baidu.com</code></td><td><code>dig www.baidu.com</code></td></tr>
+</tbody></table></div>
+<p class="fx-p" style="color:var(--c-ink-500);font-size:14.5px">判读：第 2 步不通 → 查本机网卡与网段；第 3 步不通 → 查路由器/宽带；第 4 步不通但第 3 步通 → DNS 问题。</p>
+</section>
+<section class="fx-section" data-reveal>
+<h2 class="fx-h2" style="margin-top:0">Windows 常用命令</h2>
+<h3 class="fx-h3" style="margin-top:22px">查看完整网络配置（找 IP、网关、DNS）</h3>
+<div class="fx-cmd"><pre><code>ipconfig /all</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">刷新 DNS 缓存</h3>
+<div class="fx-cmd"><pre><code>ipconfig /flushdns</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">释放并重新获取 IP（DHCP）</h3>
+<div class="fx-cmd"><pre><code>ipconfig /release
+ipconfig /renew</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看路由表默认网关</h3>
+<div class="fx-cmd"><pre><code>route print</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看本机 ARP 表（排查 IP 冲突/蹭网）</h3>
+<div class="fx-cmd"><pre><code>arp -a</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">测试连通性与 DNS 解析</h3>
+<div class="fx-cmd"><pre><code>ping 223.5.5.5
+nslookup www.baidu.com</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看当前系统代理设置</h3>
+<div class="fx-cmd"><pre><code>reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">检查系统文件完整性（需管理员）</h3>
+<div class="fx-cmd"><pre><code>sfc /scannow</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">检查并修复系统映像（需管理员）</h3>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+</section>
+<section class="fx-section" data-reveal>
+<h2 class="fx-h2" style="margin-top:0">macOS 常用命令</h2>
+<h3 class="fx-h3" style="margin-top:22px">查看网络接口与 IP</h3>
+<div class="fx-cmd"><pre><code>ifconfig</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看 Wi-Fi 详情（信道、速率、信号）</h3>
+<div class="fx-cmd"><pre><code>system_profiler SPAirPortDataType</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看当前 DNS 配置</h3>
+<div class="fx-cmd"><pre><code>scutil --dns</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看默认路由（网关）</h3>
+<div class="fx-cmd"><pre><code>netstat -rn | grep default</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">刷新 DNS 缓存</h3>
+<div class="fx-cmd"><pre><code>sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看系统代理设置</h3>
+<div class="fx-cmd"><pre><code>scutil --proxy</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看磁盘空间与挂载情况</h3>
+<div class="fx-cmd"><pre><code>df -h</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<h3 class="fx-h3" style="margin-top:22px">查看电池健康与循环次数</h3>
+<div class="fx-cmd"><pre><code>system_profiler SPPowerDataType</code></pre>
+<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+</section>
+<div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div><strong>需谨慎</strong>：带 <code>sudo</code> 或需要管理员权限的命令会修改系统状态。执行前请确认你理解它的作用，并参考对应教程。</div></div>
+<div style="height:50px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="./browse.html">全部 12 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="./data/articles.js"></script>
+<script src="./js/fix.js"></script>
+</body>
+</html>

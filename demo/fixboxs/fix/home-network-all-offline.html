@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>家里所有设备都上不了网：先分清是谁的问题 · 修盒子 FIXBOX</title>
+<meta name="description" content="全家断网时，问题几乎都在光猫、路由器或运营商的线路上，跟某台电脑无关。先看两台设备的指示灯，再看路由器里的 WAN/拨号状态，两边都正常才轮到查电脑。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="home-network-all-offline">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic" aria-current="page">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#net-basic">网络基础</a><span class="fx-crumb__sep">›</span><span>连上但上不了网</span></nav>
+<h1 class="fx-title">家里所有设备都上不了网：先分清是谁的问题</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">通用</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-40 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">全家断网时，问题几乎都在光猫、路由器或运营商的线路上，跟某台电脑无关。先看两台设备的指示灯，再看路由器里的 WAN/拨号状态，两边都正常才轮到查电脑。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>用手机流量（关掉 Wi-Fi）打开一个网页。</strong> 期望：能打开，说明手机本身正常，问题在家里这条宽带；打不开就先解决手机流量问题。</li><li><strong>看光猫的 <code>LOS</code> 灯。</strong> 期望：<code>LOS</code> 不亮或常灭 = 正常；<strong>红闪 = 光信号断了</strong>，直接报修。</li><li><strong>断电重启：光猫先断 30 秒，通电等指示灯稳定，再给路由器通电。</strong> 期望：等 2-3 分钟，多数临时故障会自己恢复。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>家里手机、电脑、电视盒子同时上不了网</li><li>Wi-Fi 名字能看到、也能连上，但所有设备都打不开网页</li><li>光猫或路由器上有红灯、指示灯异常</li><li>路由器刚重启完、或者刚停电/打雷之后就没网了</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>只有一台电脑上不了网，手机正常 → <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li><li>手机搜不到自家 Wi-Fi 名字 → <span class="fx-link" style="cursor:help">Wi-Fi 列表里找不到自家网络怎么办</span></li><li>想进路由器后台看设置却打不开页面 → <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span></li><li>电脑单独提示拿不到 IP 地址 → <span class="fx-link" style="cursor:help">电脑获取不到 IP 地址 / IP 是 169.254 开头</span></li><li>是公司、店铺、出租屋的整栋网络 → 直接联系 IT 或网管</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机能切到移动数据（用来上网查资料和打客服电话）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>能找到光猫和路由器，并看清它们的指示灯</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道宽带是哪家运营商（电信 / 移动 / 联通 / 广电等）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>尽量找到办宽带时的宽带账号、密码或业务受理单（改路由器拨号设置时要用）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>路由器管理地址和登录密码（一般贴在机身底部标签上）</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">同时满足：</p>
+<ol class="fx-ol"><li>光猫 <code>Power</code>、<code>PON</code> 常亮，<code>LOS</code> 熄灭；路由器 <code>WAN</code> 灯亮；</li><li>路由器后台的 WAN 状态显示&quot;已连接&quot;并带有 IP 地址；</li><li>家里至少两台设备（例如手机 + 电脑）分别用不同浏览器打开 2 个网站都能正常显示。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>光猫 <code>LOS</code> 红闪、<code>PON</code> 不亮</strong> → 外部线路或光猫故障，联系运营商报修</li><li><strong>光猫正常、路由器 WAN 灯不亮或拨号失败</strong> → 先换网线、换光猫 LAN 口；仍不行联系运营商确认是否需要更换光猫</li><li><strong>路由器后台进不去</strong> → 看 <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span></li><li><strong>只有一台电脑不行</strong> → 看 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span>；公司/学校设备联系 IT</li><li><strong>反复出现、每次重启只能好一会儿</strong> → 记录出现时间与指示灯状态，报修时提供给运营商，必要时要求上门检测线路</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>给光猫和路由器留出通风空间，不要堆在杂物柜里，也不要频繁拔插电源。</li><li>宽带到期前留意运营商短信/App 提醒，避免因欠费突然停网。</li><li>把宽带账号密码、路由器管理地址和密码记在纸上或密码管理器里。</li><li>雷雨季节给光猫、路由器加装合格的防雷插排，打雷时尽量断电。</li><li>每 1-2 个月重启一次光猫和路由器，固件提示更新时及时升级。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：指示灯对照表、断电重启顺序、WAN 拨号错误对照、报修分流</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">分清是&quot;全家断网&quot;还是&quot;只有一台设备&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是唯一能决定后面方向的一步，做错了后面全是无用功。</p>
+<p class="fx-p"><strong>操作</strong>：用 2 台设备测试——手机（连 Wi-Fi）和另一台电脑或平板（连同一个 Wi-Fi），各自打开一个网页。</p>
+<div class="fx-step__expect"><b>预期结果：</b></div>
+<ul class="fx-ul"><li>两台都不行 → 全家断网，继续步骤 2</li><li>只有一台不行 → 问题在那台设备上，转 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span></li></ul>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>有设备连的是手机热点或邻居的 Wi-Fi，先确认连的是自家网络；智能电视、扫地机器人等设备可能只支持 2.4GHz，不能作为&quot;全家断网&quot;的判据。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">看光猫（ONU）的指示灯</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>光猫负责把运营商的光信号转成网络，它的灯能直接告诉你&quot;外面那条线&quot;是否正常。</p>
+<p class="fx-p"><strong>操作</strong>：观察光猫面板上的指示灯，对照下表判断。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>指示灯</th><th>正常状态</th><th>异常状态与含义</th><th>该做什么</th></tr></thead><tbody><tr><td>Power / 电源</td><td>常亮</td><td>不亮 = 没通电或设备坏</td><td>检查电源适配器和插座</td></tr><tr><td>PON</td><td>常亮</td><td>闪烁/熄灭 = 未在运营商局端注册成功</td><td>重启光猫；仍不行报修</td></tr><tr><td>LOS</td><td>熄灭</td><td><strong>红色闪烁 = 光信号丢失</strong></td><td>不要自己拆光纤，直接报修</td></tr><tr><td>LAN / 网口</td><td>亮或闪</td><td>不亮 = 与路由器没连上</td><td>检查网线两端是否插紧</td></tr><tr><td>Internet / 网络</td><td>常亮</td><td>熄灭 = 未建立上网连接</td><td>重启光猫和路由器</td></tr></tbody></table></div>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>不同品牌光猫的灯名和位置不一样，以设备机身标识和运营商说明为准。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>Power</code>、<code>PON</code> 常亮，<code>LOS</code> 熄灭，<code>LAN</code> 灯闪烁。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>LOS</code> 红闪、<code>PON</code> 不亮 → 基本可以判定是外部线路或光猫故障，直接跳到步骤 6，不要自行拆机。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">看路由器的指示灯</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>路由器负责拨号和分发网络，看它的 WAN 灯就知道&quot;拨号是否成功&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：观察路由器面板，对照下表。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>指示灯</th><th>正常状态</th><th>异常状态与含义</th><th>该做什么</th></tr></thead><tbody><tr><td>Power / 电源</td><td>常亮</td><td>不亮 = 没通电</td><td>换插座、检查电源头</td></tr><tr><td>WAN / Internet</td><td>常亮或规律闪烁</td><td>熄灭或慢闪 = 没有连上外网</td><td>检查 WAN 口网线是否插到光猫的 LAN 口</td></tr><tr><td>SYS / 系统</td><td>有规律闪烁</td><td>长亮不闪 = 系统卡死</td><td>断电 30 秒重启</td></tr><tr><td>Wi-Fi / WLAN</td><td>常亮或闪</td><td>熄灭 = 无线被关闭</td><td>按机身上的 Wi-Fi 按钮或登录后台开启</td></tr><tr><td>LAN 1-4</td><td>插了设备才亮</td><td>不亮 = 该口没连通</td><td>换网线或换端口</td></tr></tbody></table></div>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>部分路由器只用颜色表示状态（例如绿灯正常、红灯异常），具体含义以厂商说明为准。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>Power</code> 与 <code>SYS</code> 正常，<code>WAN</code> 灯亮。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div><code>WAN</code> 灯始终不亮 → 优先怀疑网线或光猫端口，换一根网线、换光猫的另一个 LAN 口再试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">按正确顺序断电重启</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>光猫和路由器都需要重新向运营商拨号，顺序错了会一直失败。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>拔掉光猫和路由器的电源，等 30 秒。</li><li>先给<strong>光猫</strong>通电，等 2 分钟，确认 <code>PON</code> 常亮、<code>LOS</code> 熄灭。</li><li>再给<strong>路由器</strong>通电，等 1-2 分钟，看 <code>WAN</code> 灯是否亮起。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>光猫灯正常后，路由器 <code>WAN</code> 灯在 1 分钟内亮起，设备恢复上网。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重启两次仍然不行，进入步骤 5 看拨号状态；如果是刚停电或雷雨后出现，且 <code>LOS</code> 红闪，直接跳到步骤 6 报修。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">登录路由器看 WAN（上网）状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>路由器后台会直接告诉你&quot;拨号失败&quot;还是&quot;已连接但没网&quot;。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>用手机或电脑连上路由器，打开浏览器，输入机身标签上的管理地址（常见 <code>192.168.1.1</code>、<code>192.168.0.1</code>、<code>192.168.31.1</code>、<code>tplogin.cn</code>）。</li><li>找到「上网设置 / 外网设置 / WAN」页面，查看： - 连接类型是 <strong>PPPoE 拨号</strong>、<strong>动态 IP</strong> 还是<strong>静态 IP</strong>； - WAN 口是否获取到 IP 地址（<code>0.0.0.0</code> 表示没拿到）； - 是否有&quot;拨号失败&quot;&quot;未连接&quot;&quot;正在连接&quot;字样和错误提示。</li></ol>
+<p class="fx-p">常见拨号错误提示与含义（不同品牌表述不同，以厂商和运营商说明为准）：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>错误提示</th><th>常见含义</th><th>先做什么</th></tr></thead><tbody><tr><td>691 / 用户名密码错误</td><td>宽带账号或密码填错</td><td>核对受理单；忘记密码找运营商重置</td></tr><tr><td>678 / 651 / 远程计算机无响应</td><td>拨号没有回应</td><td>重启光猫；线路问题则报修</td></tr><tr><td>769 / 无法访问指定目标</td><td>本机网卡或网线问题</td><td>换网线、换端口</td></tr><tr><td>拨号一直显示&quot;正在连接&quot;</td><td>光路或局端问题</td><td>看 <code>LOS</code> 灯后报修</td></tr><tr><td>获取不到 IP / DHCP 失败</td><td>线路侧没有下发地址</td><td>报修，同时记录具体提示</td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>WAN 口状态显示&quot;已连接&quot;，并拿到一个公网或运营商内网 IP 地址。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>进不去管理页面 → 看 <span class="fx-link" style="cursor:help">路由器后台 192.168.1.1 打不开怎么办</span>；账号密码不确定不要反复试，避免被锁定，直接联系运营商核对。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查欠费、停网和运营商故障</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>很多&quot;全家断网&quot;其实是宽带到期、欠费或片区故障。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开办理宽带那家运营商的<strong>官方 App 或官网</strong>，查看宽带是否欠费、是否到期、是否有片区故障公告。</li><li>打运营商客服电话咨询（中国电信 10000、中国移动 10086、中国联通 10010，以运营商官方公布为准），说明&quot;光猫 <code>LOS</code> 红闪/路由器拨号失败&quot;。</li><li>报修时准备好：宽带账号或办理手机号、地址、光猫上的指示灯状态。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>确认是欠费/停网/线路故障，缴费或等运营商处理。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>客服说是线路正常，就请对方远程检测端口状态，并记下工单号；不要相信任何主动上门收费&quot;提速&quot;的陌生电话。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">若以上都正常，回到单台设备排查</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>光猫、路由器、运营商都正常时，问题就只剩电脑或手机自身。</p>
+<p class="fx-p"><strong>操作</strong>：在路由器后台确认 WAN 正常后，用一台电脑连 Wi-Fi，先做两条最基础的连通性测试。</p>
+<p class="fx-p">Windows（命令提示符，网关地址换成 <code>ipconfig</code> 里看到的默认网关）：</p>
+<div class="fx-cmd"><pre><code>ping 192.168.1.1
+ping 223.5.5.5
+nslookup www.baidu.com</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">macOS（终端）：</p>
+<div class="fx-cmd"><pre><code>ping -c 4 192.168.1.1
+ping -c 4 223.5.5.5
+nslookup www.baidu.com</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">然后按 <span class="fx-link" style="cursor:help">Wi-Fi 显示已连接但无法上网（打不开网页）</span> 里的四层定位法（物理层 → IP 层 → DNS 层 → 代理层）逐层判断。</p>
+<div class="fx-step__expect"><b>预期结果：</b>定位到具体是某一台设备的 DNS、代理或网卡问题。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>所有设备都正常、只有某一台不行且重装系统级网络设置也没用，考虑该设备网卡硬件问题，送修或联系 IT。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a><a href="../fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a><a href="../fix/wifi-ssid-not-found.html">Wi-Fi 列表里找不到自家网络怎么办</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

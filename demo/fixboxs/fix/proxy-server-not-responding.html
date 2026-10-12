@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>浏览器提示「代理服务器无响应」怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="九成是本机代理设置里留着一条已经失效的代理地址（装过加速器、抓包工具或公司的代理脚本之后没清干净）；先到「设置 → 网络和 Internet → 代理」把开关关掉试一次，再清 WinHTTP 代理。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="proxy-server-not-responding">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn" aria-current="page">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#proxy-vpn">代理与 VPN</a><span class="fx-crumb__sep">›</span><span>系统代理</span></nav>
+<h1 class="fx-title">浏览器提示「代理服务器无响应」怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-40 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">九成是<strong>本机代理设置里留着一条已经失效的代理地址</strong>（装过加速器、抓包工具或公司的代理脚本之后没清干净）；先到「设置 → 网络和 Internet → 代理」把开关关掉试一次，再清 WinHTTP 代理。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>按 <code>Win + I</code> 打开设置 → <strong>网络和 Internet → 代理</strong>，把「使用代理服务器」和「自动检测设置」都关掉，回到浏览器刷新页面。<strong>期望结果</strong>：网页能打开，说明就是残留的代理设置。</li><li>如果设置里本来就是关的，打开无痕/隐私窗口再试一次。<strong>期望结果</strong>：无痕能开、正常窗口不能开，是浏览器扩展在管代理（见步骤 5）。</li><li>打开微信或 QQ 看能不能收发消息。<strong>期望结果</strong>：聊天软件正常、只有浏览器不行 = 浏览器侧问题；所有软件都不行 = 系统级代理或网络本身有问题。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>📌 <strong>合规提示</strong><br>本文只讲<strong>本机代理设置的故障排查与恢复</strong>：把被改乱、已失效的代理设置改回正常，让电脑重新能上网。<br>本文不涉及任何跨境访问方法，不提供、不推荐任何用于绕过网络管理措施的工具或配置。<br>请遵守《中华人民共和国网络安全法》及所在单位网络管理规定，仅对<strong>你本人拥有或已获授权</strong>的设备进行操作。设备由单位统一管理的，请先联系单位 IT。</div></div>
+<div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改系统网络设置。动手前建议把当前的代理设置页<strong>截图保存</strong>（设置 → 网络和 Internet → 代理），改错了可以照原样填回去。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>浏览器报&quot;代理服务器无响应&quot;&quot;无法连接到代理服务器&quot;&quot;ERR_PROXY_CONNECTION_FAILED&quot;。</li><li>刚卸载过加速器、抓包工具、公司 VPN 客户端，之后浏览器就打不开网页。</li><li>昨天还好、今天突然上不了网，但你<strong>没改过</strong>任何网络设置。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只有某一个网站打不开，其他都正常：看<span class="fx-link" style="cursor:help">「只有某个网站打不开，其他都正常」</span>。</li><li>网页打不开但 QQ / 微信能用：更可能是 DNS 问题，看<span class="fx-link" style="cursor:help">「网页打不开但 QQ / 微信能用：DNS 问题怎么修」</span>。</li><li>公司电脑上代理设置是灰的、改不动：那是单位的管控策略，不要尝试绕过，看<span class="fx-link" style="cursor:help">「公司电脑改不了代理/网络设置，该怎么办」</span>。</li><li>装完加速器/抓包工具后<strong>整台电脑</strong>都断网了：看<span class="fx-link" style="cursor:help">「装了抓包/加速工具后全网断网怎么恢复」</span>，那篇有完整的恢复顺序。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认这台电脑是<strong>你本人</strong>的设备；公司/学校配发的设备请先联系 IT。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已连上 Wi-Fi 或网线，右下角网络图标不是&quot;无 Internet&quot;红叉。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有一台能正常上网的手机，可以随时对比&quot;是不是只有电脑不行&quot;。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记得自己<strong>是否</strong>配置过代理（公司代理、加速器、抓包工具、浏览器插件），这决定后面该保留还是清除。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果单位要求必须走代理才能访问内网系统，请先向 IT 确认代理地址，<strong>不要擅自删除</strong>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">关掉浏览器再重开，连续访问 3 个不同网站（含一个视频网站）都能正常加载，并且<strong>再也不会弹出代理相关的错误提示</strong>，就算修好了。命令行 <code>netsh winhttp show proxy</code> 显示&quot;直接访问&quot;是更硬的一条判据。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li><strong>只有某一个浏览器不行</strong> → 看<span class="fx-link" style="cursor:help">「只有浏览器上不了网，其他软件都正常」</span>。</li><li><strong>改完全部设置，联网软件还是全都不通</strong> → 看<span class="fx-link" style="cursor:help">「装了抓包/加速工具后全网断网怎么恢复」</span>，按那篇的顺序清理虚拟网卡和路由表。</li><li><strong>能上内网系统、上不了外网，或反过来</strong> → 这是代理分流策略问题，公司设备请联系 IT，个人设备看<span class="fx-link" style="cursor:help">「PAC 自动配置脚本 / 自动检测设置要不要开」</span>。</li><li><strong>公司/学校配发的电脑，代理设置改不动或不让改</strong> → 不要尝试绕过管控，看<span class="fx-link" style="cursor:help">「公司电脑改不了代理/网络设置，该怎么办」</span>并按单位流程提交工单。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>卸载加速器、抓包工具、VPN 客户端后，顺手检查一遍&quot;设置 → 网络和 Internet → 代理&quot;，把残留开关关掉。</li><li>不要安装来源不明的&quot;网络加速&quot;&quot;一键代理&quot;插件，它们常在后台改系统代理。</li><li>把当前正常的代理设置页截图存到手机相册，出问题时对照恢复。</li><li>公司办公电脑上的代理、脚本地址一律按 IT 下发的填写，不自行改动。</li><li>定期执行一次 <code>netsh winhttp show proxy</code> 留个底，出问题时能立刻判断是不是被改了。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首次发布：范围判定、系统代理、PAC、WinHTTP 重置、浏览器扩展、macOS 代理开关</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先分清是&quot;系统代理&quot;还是&quot;浏览器自己的代理&quot;</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>决定后面改哪里，避免白折腾。</p>
+<p class="fx-p"><strong>操作</strong>：依次做两个测试：</p>
+<ol class="fx-ol"><li>打开<strong>另一个浏览器</strong>（比如平时用 Edge，就试 Chrome 或系统自带的 Edge）访问同一个网站。</li><li>用微信/QQ 发一条消息给自己。</li></ol>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>测试结果</th><th>说明</th><th>往下看</th></tr></thead><tbody><tr><td>两个浏览器都不行，但微信正常</td><td>系统级代理设置被改</td><td>步骤 2、3、4</td></tr><tr><td>只有一个浏览器不行，另一个正常</td><td>这个浏览器的扩展或设置问题</td><td>步骤 5</td></tr><tr><td>所有联网软件都不行</td><td>不只是代理问题</td><td>先看<span class="fx-link" style="cursor:help">「装了抓包/加速工具后全网断网怎么恢复」</span></td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>能明确说出问题范围。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>手机连同一个 Wi-Fi 也上不了网，说明问题不在电脑上，先看<span class="fx-link" style="cursor:help">「家里所有设备都上不了网：先分清是谁的问题」</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">关闭 Windows 的系统代理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>清掉最表层、也最常见的一处残留。</p>
+<p class="fx-p"><strong>操作</strong>：按 <code>Win + I</code> → <strong>网络和 Internet → 代理</strong>，把这几项都处理掉：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>设置项</th><th>该怎么做</th></tr></thead><tbody><tr><td>自动检测设置</td><td>关闭</td></tr><tr><td>使用设置脚本（PAC）</td><td>关闭（除非公司明确要求）</td></tr><tr><td>手动设置代理 → 使用代理服务器</td><td>关闭</td></tr></tbody></table></div>
+<p class="fx-p">关完按 <code>Win + R</code> 输入 <code>cmd</code>，执行下面这条刷新一下：</p>
+<div class="fx-cmd"><pre><code>ipconfig /flushdns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>三项都是&quot;关闭&quot;状态，浏览器刷新后能正常打开网页。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>开关是灰的、点不动，说明被组策略或安全软件锁定了——公司设备<strong>请联系 IT</strong>；个人设备检查是不是装了带&quot;上网保护&quot;的安全软件，退出它再试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 PAC 自动配置脚本地址是否失效</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>PAC 脚本地址一旦失效，浏览器就会报代理错误。</p>
+<p class="fx-p"><strong>操作</strong>：在步骤 2 的同一个页面，看&quot;<strong>使用设置脚本</strong>&quot;里填的地址（形如 <code>http://某地址/proxy.pac</code>）。把这个地址直接粘到浏览器地址栏访问：</p>
+<ul class="fx-ul"><li>能下载到一个文本文件、里面是 <code>function FindProxyForURL(...)</code> 这类内容 → 脚本还在，问题在别处。</li><li>打不开、404、一直转圈 → 脚本已失效，关掉这个开关。</li></ul>
+<div class="fx-step__expect"><b>预期结果：</b>确认脚本可用就保留，不可用就关闭。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>这是<strong>公司下发的</strong>脚本地址，<strong>不要自行修改或删除</strong>，联系 IT 确认新地址，详见<span class="fx-link" style="cursor:help">「PAC 自动配置脚本 / 自动检测设置要不要开」</span>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清除系统级 WinHTTP 代理（容易漏掉的一处）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Windows 有些程序（含部分系统组件和更新）不走&quot;设置&quot;里的代理，而是走 WinHTTP 代理，卸载工具后常留在这里。</p>
+<p class="fx-p"><strong>操作</strong>：以<strong>管理员身份</strong>打开命令提示符（开始菜单搜 cmd → 右键 → 以管理员身份运行），先查看：</p>
+<div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">如果输出里出现了你不认识的代理地址，再执行：</p>
+<div class="fx-cmd"><pre><code>netsh winhttp reset proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 只有在<strong>你确认自己不需要这个代理</strong>时才执行重置。公司设备上如果 IT 配置了 WinHTTP 代理，重置会导致内网系统访问不了。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>show proxy</code> 的输出变成&quot;直接访问(没有代理服务器)&quot;。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示&quot;需要提升权限&quot;，就用管理员身份重开命令行；如果重置后内网系统打不开了，把原来的地址用 <code>netsh winhttp set proxy &lt;地址:端口&gt;</code> 填回去，或联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排查浏览器扩展（SwitchyOmega 一类）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>浏览器插件可以单独接管代理，优先级高于系统设置。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开<strong>无痕窗口</strong>访问网站（无痕默认禁用扩展）。能打开 → 就是扩展问题。</li><li>在正常窗口进入浏览器的扩展管理页（Chrome/Edge 地址栏输入 <code>chrome://extensions</code> 或 <code>edge://extensions</code>）。</li><li>把代理类、VPN 类、&quot;网络加速&quot;类扩展<strong>逐个关闭</strong>，每关一个刷新一次页面，定位到出问题的那一个。</li><li>找到后卸载，或打开它的设置把情景模式切回&quot;<strong>直接连接 / 系统代理</strong>&quot;。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>关掉那个扩展后网页立刻恢复，且不再报代理错误。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>关掉所有扩展还是不行，回到步骤 2-4；如果你登录了浏览器账号，扩展会被自动同步回来，卸载后记得在同步设置里也删掉一次。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">macOS 上关闭各代理开关</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Mac 的代理设置藏在每个网络服务的&quot;详细信息&quot;里，位置和 Windows 不同。</p>
+<p class="fx-p"><strong>操作</strong>：<strong>系统设置 → 网络 → 选中当前在用的服务（Wi-Fi 或以太网）→ 详细信息 → 代理</strong>，把不需要的开关全部关掉：网页代理(HTTP)、安全网页代理(HTTPS)、SOCKS 代理、自动代理配置、自动发现代理。</p>
+<p class="fx-p">命令行也可以核对与清理（终端执行，需要输入密码）：</p>
+<div class="fx-cmd"><pre><code>scutil --proxy
+networksetup -listallnetworkservices</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">要清掉某个服务（把 Wi-Fi 换成你在上一步列出的服务名）的 HTTP 代理：</p>
+<div class="fx-cmd"><pre><code>sudo networksetup -setwebproxystate &quot;Wi-Fi&quot; off
+sudo networksetup -setsecurewebproxystate &quot;Wi-Fi&quot; off</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>scutil --proxy</code> 输出里 <code>HTTPEnable</code>、<code>HTTPSEnable</code> 都是 0。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>命令提示找不到服务名，就用 <code>networksetup -listallnetworkservices</code> 的原文（注意大小写和空格）；公司 Mac 上这些设置可能被描述文件（MDM）锁定，<strong>请联系 IT</strong>。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启并做最终验证</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让代理相关设置彻底生效。</p>
+<p class="fx-p"><strong>操作</strong>：重启电脑和浏览器，然后同时做三件事：</p>
+<ol class="fx-ol"><li>浏览器访问任意网站；</li><li>命令行 <code>ping www.baidu.com</code>（Windows）或 <code>ping www.baidu.com</code>（macOS）；</li><li>打开一个必须联网的应用（比如网盘客户端）。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>三处都能正常工作，且不再出现代理相关提示。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>如果 ping 域名失败但能 ping 通 IP，是 DNS 问题，看<span class="fx-link" style="cursor:help">「网页打不开但 QQ / 微信能用：DNS 问题怎么修」</span>。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../search.html?q=browser%20proxy">browser-proxy</a><a href="../search.html?q=pac%20script">pac-script</a><a href="../search.html?q=capture%20tool%20conflict">capture-tool-conflict</a><a href="../search.html?q=enterprise%20proxy">enterprise-proxy</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

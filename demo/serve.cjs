@@ -58,7 +58,10 @@ http.createServer((req, res) => {
   let urlPath;
   try { urlPath = decodeURIComponent(req.url.split("?")[0]); }
   catch { res.writeHead(400); res.end("bad request"); return; }
-  if (urlPath === "/") urlPath = "/index.html";
+  /* 目录式 URL 自动落到该目录下的 index.html，与线上 nginx 的 index 行为一致。
+     例：/ → /index.html；/fixboxs/ → /fixboxs/index.html；
+         /fixboxs/fix/ → /fixboxs/fix/index.html */
+  if (urlPath.endsWith("/")) urlPath += "index.html";
 
   /* ---------- 本地样例 API（仅本地预览；线上由应用后端提供） ----------
      苦旅会根据 /api/public/stats 覆盖「数据一瞥」的静态数值，失败则保留静态值。

@@ -1,0 +1,102 @@
+/* ============================================================
+   theme-fix.css — 修盒子 FIXBOX 主题映射 v2「青春活泼」
+   ------------------------------------------------------------
+   参考：StrategyBreakdowns（奶油纸底 + 墨色描边 + 蓝图手绘连线）
+         SiteQuest（沉浸式加载 + 高饱和色块）
+         DesignBookmark（卡片网格 + 悬浮预览）
+   ------------------------------------------------------------
+   分层：面（高饱和色块，只做背景/图形）vs 字（深阶，只做文字）。
+   所有「字」色已逐项实测对比度，在纸底 / 次级底 / 白卡三种底上均 ≥4.5:1（WCAG AA）。
+   依据：《pc-fixboxs.yuanabd.cn-门户网站设计方案》§4；素材清单文档。
+   ============================================================ */
+
+:root{
+  /* ---------- 1. 表面：奶油纸（比 v1 的 #FFFDF7 更有温度） ---------- */
+  --fx-paper:#FBF6EC;        /* 页面底 */
+  --fx-paper-2:#F5EDDC;      /* 次级区块底 */
+  --fx-paper-3:#EFE6D2;      /* 更深一档（页脚、代码块）*/
+  --fx-card:#FFFFFF;         /* 卡片（必须比纸底亮，制造层次）*/
+
+  /* ---------- 2. 墨色（蓝图描边与文字） ---------- */
+  --fx-ink:#1A1F2B;         /* 主文字 / 蓝图描边，15.29:1 */
+  --fx-ink-2:#55606E;       /* 次文字，5.94:1 */
+  --fx-ink-3:#626B79;       /* 弱文字（仅非关键信息），≈4.9:1 */
+  --fx-line:rgba(26,31,43,.16);
+  --fx-line-strong:rgba(26,31,43,.34);
+
+  /* ---------- 3. 活泼色板：面（高饱和，配墨色文字） ---------- */
+  --fx-mint:#7FE3C0;        /* 修复 / 成功 —— 主色 */
+  --fx-coral:#FF8A6B;       /* 情绪 / CTA —— 次色 */
+  --fx-lav:#A995FF;         /* 青春 / 点缀 —— 第三色 */
+  --fx-sun:#FFD84D;         /* 提醒 / 高亮 */
+  --fx-sky:#79CFFF;         /* 信息 / 网络类 */
+  --fx-blush:#FFC7D9;       /* 装饰彩蛋 */
+
+  /* ---------- 4. 活泼色板：字（深阶，全部 ≥4.5:1） ---------- */
+  --fx-mint-ink:#0F766E;    /* 5.08 / 4.70 / 5.47 */
+  --fx-coral-ink:#B23E1C;   /* 5.42 / 5.01 / 5.84 */
+  --fx-lav-ink:#6B4FE0;     /* 5.10 / 4.72 / 5.50 */
+  --fx-sun-ink:#7A6200;     /* 5.45 / 5.04 / 5.87 */
+  --fx-sky-ink:#0E5FA8;     /* 6.05 / 5.60 / 6.52 */
+
+  /* ---------- 5. 淡底（色块的浅色版本，用于卡片内部） ---------- */
+  --fx-mint-soft:#DFF6EC;
+  --fx-coral-soft:#FFE4DA;
+  --fx-lav-soft:#EDE9FF;
+  --fx-sun-soft:#FFF0CE;
+  --fx-sky-soft:#E1F2FF;
+
+  /* ---------- 6. 风险分级（语义固定，色值随新色板更新） ---------- */
+  --risk-safe:#0F766E;      --risk-safe-bg:#DFF6EC;
+  --risk-caution:#9A5B00;   --risk-caution-bg:#FFF0CE;
+  --risk-danger:#B23E1C;    --risk-danger-bg:#FFE4DA;
+
+  /* ---------- 7. 系统标识色（仅用于系统徽章） ---------- */
+  --os-windows:#0E5FA8;
+  --os-macos:#55606E;
+  --os-router:#6B4FE0;
+  --os-hardware:#B23E1C;
+
+  /* ---------- 8. 代码块 ---------- */
+  --code-bg:#F4F1E8;
+  --code-line:rgba(26,31,43,.20);
+  --code-ink:#1A1F2B;
+
+  /* ---------- 9. 布局常量 ---------- */
+  --fx-max:1200px;
+  --fx-read:760px;
+  --fx-gutter:clamp(18px,4vw,32px);
+  --fx-navy:66px;
+  --fx-face:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  --fx-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Noto Sans Mono CJK SC",monospace;
+
+  /* ---------- 10. 动效令牌（弹簧感 = 青春活泼的关键） ---------- */
+  --fx-ease-spring:cubic-bezier(.34,1.56,.64,1);   /* 回弹 */
+  --fx-ease-out:cubic-bezier(.16,1,.3,1);          /* 顺滑收尾 */
+  --fx-ease-in-out:cubic-bezier(.65,0,.35,1);
+  --fx-t-fast:.18s;
+  --fx-t-mid:.34s;
+  --fx-t-slow:.62s;
+
+  /* ---------- 11. 兼容别名：沿用 v1 的语义名，避免旧规则失效 ---------- */
+  --brand:var(--fx-mint);
+  --brand-strong:var(--fx-mint-ink);
+  --brand-deep:var(--fx-mint-ink);
+  --brand-soft:var(--fx-mint-soft);
+  --brand-ink:var(--fx-ink);
+  --ui-bg:var(--fx-paper);
+  --ui-bg-soft:var(--fx-paper-2);
+  --ui-surface:var(--fx-card);
+  --ui-surface-2:var(--fx-card);
+  --ui-line:var(--fx-line);
+  --ui-line-strong:var(--fx-line-strong);
+  --ui-shadow-1:0 1px 0 rgba(26,31,43,.04),0 6px 16px -12px rgba(26,31,43,.20);
+  --ui-shadow-2:0 2px 0 rgba(26,31,43,.05),0 18px 40px -24px rgba(26,31,43,.26);
+  --ui-shadow-3:0 3px 0 rgba(26,31,43,.06),0 34px 70px -34px rgba(26,31,43,.30);
+  --ui-r-s:10px; --ui-r-m:16px; --ui-r-l:22px; --ui-r-xl:30px;
+}
+
+/* 降级：不支持 color-mix 的老浏览器，用固定值兜底（本站仍可正常阅读） */
+@supports not (color:color-mix(in srgb,red 50%,transparent)){
+  :root{ --fx-line:rgba(26,31,43,.18); --fx-line-strong:rgba(26,31,43,.38); }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>软件打不开、闪退，提示缺少 dll 或 0xc000007b · 修盒子 FIXBOX</title>
+<meta name="description" content="「缺少 dll」和 0xc000007b 九成是运行库没装齐或位数不匹配，不是系统坏了。先重装出问题的软件、装齐 Visual C++ 运行库和 DirectX 旧版组件，最后才修系统文件。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+</head>
+<body data-slug="win-app-crash-missing-dll">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>软件打不开与闪退</span></nav>
+<h1 class="fx-title">软件打不开、闪退，提示缺少 dll 或 0xc000007b</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「缺少 dll」和 0xc000007b 九成是运行库没装齐或位数不匹配，不是系统坏了。先重装出问题的软件、装齐 Visual C++ 运行库和 DirectX 旧版组件，最后才修系统文件。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>先记下 DLL 名字或错误码。</strong> 弹窗里的 <code>xxx.dll</code> 和 <code>0xc000007b</code> 直接决定方向，拍照或抄下来。</li><li><strong>直接重装那个软件。</strong> 用软件官方安装包再装一次（选「修复」），大多数闪退就此消失。</li><li><strong>装两个运行库先试。</strong> Visual C++ 可再发行程序包（x64 和 x86 都要装）和 DirectX 终端用户运行时，这两样是 80% 的「缺 dll」元凶。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 需谨慎：本文会安装系统运行库、修复系统文件。请从微软官网或软件官网下载组件，不要从「DLL 下载站」获取单个 dll 文件。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>双击软件弹「应用程序无法正常启动(0xc000007b)」</li><li>提示「找不到 xxx.dll」「缺少 msvcp140.dll」「api-ms-win-crt-*.dll 缺失」</li><li>软件启动几秒后闪退，没有明显提示</li><li>刚重装系统后很多软件都打不开</li></ul>
+<p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
+<ul class="fx-ul"><li>开机黑屏、卡 Logo、蓝屏 → <span class="fx-link" style="cursor:help">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</span></li><li>系统整体变慢，不是单个软件问题 → <span class="fx-link" style="cursor:help">电脑越来越卡怎么办：一张表定位是哪里卡</span></li><li>打不开的是浏览器且主页被改、弹广告 → <span class="fx-link" style="cursor:help">电脑老是弹广告、浏览器主页被劫持改不回来</span></li><li>软件能打开但提示授权/激活失败 → 联系该软件官方支持</li><li>公司软件、内部系统打不开 → 联系公司 IT</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下出错软件的名字、版本和完整报错信息</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道系统是 64 位（现在绝大多数都是），设置 → 系统 → 关于里能看</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认软件是从官网或正规渠道下载的（破解版本身就会缺 dll）</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要数据有备份，最好先创建还原点</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">出问题的软件能连续打开 3 次以上并正常使用核心功能，不再弹出 dll 或 0xc000007b 提示；「事件查看器 → Windows 日志 → 应用程序」中不再出现该软件的 Application Error 记录。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>只有浏览器打不开、主页被改、频繁弹广告 → <span class="fx-link" style="cursor:help">电脑老是弹广告、浏览器主页被劫持改不回来</span></li><li>多个软件同时打不开，还伴随蓝屏 → <span class="fx-link" style="cursor:help">电脑蓝屏了怎么办：先学会读蓝屏代码</span></li><li>提示磁盘空间不足导致无法安装运行库 → <span class="fx-link" style="cursor:help">C 盘爆红快满了，怎么安全清理出空间</span></li><li>报错指向系统文件且 sfc 修不好 → 考虑「设置 → 系统 → 恢复 → 重置此电脑（保留我的文件）」</li><li>公司内部软件、带加密狗或专用组件的软件 → 联系公司 IT 或软件供应商，不要自行装运行库</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>只从软件官网、微软商店或正规渠道下载软件，不用「破解版」「绿色版」。</li><li>新装完系统后，先把 Visual C++ 运行库、DirectX 运行库装一遍，一劳永逸。</li><li>不从来路不明的网站下载单个 dll 文件，也不往 System32 里塞文件。</li><li>安装路径尽量用纯英文，避免中文和特殊符号。</li><li>保持系统更新和显卡驱动为较新版本，减少兼容性问题。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：错误码对照 + 运行库与依赖排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先看清报错到底说什么</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不同提示对应完全不同的处理方向，先分类再动手。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>把弹窗拍照，重点记录 DLL 文件名、错误码和软件名称。</li><li>对照下表判断方向。</li></ol>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>提示内容</th><th>大概含义</th><th>优先做</th></tr></thead><tbody><tr><td>0xc000007b 应用程序无法正常启动</td><td>位数不匹配，或运行库/DLL 版本混乱</td><td>步骤 2、3、5</td></tr><tr><td>0xc0000135</td><td>缺少 .NET Framework 或某个 DLL</td><td>步骤 3</td></tr><tr><td>0xc0000142</td><td>DLL 初始化失败</td><td>步骤 2、4</td></tr><tr><td>0x8007007e 找不到指定的模块</td><td>依赖的 DLL 缺失</td><td>步骤 3、5</td></tr><tr><td>api-ms-win-crt-*.dll</td><td>通用 C 运行库缺失（VC++ 2015-2022）</td><td>步骤 3</td></tr><tr><td>msvcp140.dll / vcruntime140.dll</td><td>VC++ 2015-2022 运行库</td><td>步骤 3</td></tr><tr><td>msvcr100.dll / msvcp100.dll</td><td>VC++ 2010 运行库</td><td>步骤 3</td></tr><tr><td>d3dx9_43.dll / xinput1_3.dll</td><td>DirectX 旧版组件</td><td>步骤 3</td></tr><tr><td>mscoree.dll 或提示 .NET</td><td>.NET Framework</td><td>步骤 3</td></tr></tbody></table></div>
+<ol class="fx-ol"><li>如果没有任何弹窗、双击后毫无反应，去事件查看器 →「Windows 日志 → 应用程序」，找来源为 <code>Application Error</code> 或 <code>.NET Runtime</code> 的记录，里面有出错模块名。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>把问题归类为「运行库缺失」「系统文件损坏」「软件自身问题」中的一类。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看不懂 → 先把 DLL 名字和错误码抄下来，照步骤 3 把所有运行库装一遍，能解决大部分情况。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重装或修复出问题的软件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>软件自身文件损坏是最常见原因，重装最快且无副作用。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>到软件官网下载最新版安装包，重新运行安装程序。</li><li>如果安装程序提供「修复」选项，优先选「修复」。</li><li>已经装过的话，先「设置 → 应用 → 已安装的应用」卸载，再重新安装。</li><li>全程用官方原版，不要用「绿色版」「精简版」「破解版」——它们经常删掉依赖文件，本身就带毒。</li><li>装完重启电脑再试。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>软件能正常启动。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重装后依旧报同样的 dll → 说明缺的是系统级运行库，做步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">装齐系统运行库</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>绝大多数「缺 dll」是这三类运行库没装全。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li><strong>Visual C++ 可再发行程序包</strong>：到微软官方页面下载最新支持版本，<code>x64</code> 和 <code>x86</code> 两个安装包都要装（32 位软件在 64 位系统上运行时需要 x86 版本）。历史版本（2010、2013 等）也建议一起装。 - 官方下载：<code>https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist</code></li><li><strong>DirectX 终端用户运行时</strong>：到微软下载中心搜「DirectX 终端用户运行时 Web 安装程序」并安装，它会补齐 d3dx9、xinput 等旧版组件。 - 官方下载：<code>https://www.microsoft.com/download/details.aspx?id=35</code></li><li><strong>.NET Framework</strong>：Windows 10/11 自带 4.x；遇到 0xc0000135 且是老软件，可能需要启用 .NET Framework 3.5。管理员命令提示符执行：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Enable-Feature /FeatureName:NetFx3 /All</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">   也可以在「控制面板 → 程序 → 启用或关闭 Windows 功能」里勾选「.NET Framework 3.5 (包括 .NET 2.0 和 3.0)」。</p>
+<ol class="fx-ol"><li>每装完一类重启一次，再试软件。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>软件能正常启动，不再提示缺 dll。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>运行库安装失败 → 确认下载文件与本机架构匹配；装完仍报错 → 做步骤 4、5。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统文件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统自带的运行库文件被破坏或被替换时，需要修复组件存储与系统文件。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符中依次执行：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>DISM 报「操作成功完成」；sfc 报「未找到完整性冲突」或「已成功修复」。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>sfc 报「找到了损坏文件但无法修复」→ 先看 <code>C:\Windows\Logs\CBS\CBS.log</code> 末尾的错误，再考虑用同版本安装镜像的 <code>/Source</code> 修复；DISM 报 <code>0x800f081f</code> → 缺修复源。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用开源工具查出到底缺哪个 DLL</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>报错窗口不一定告诉你真正缺失的那个文件，依赖查看器能列出完整清单。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>从开源项目 <code>https://github.com/lucasg/Dependencies</code> 下载并解压（无需安装，开源免费）。</li><li>打开 <code>DependenciesGui.exe</code>，把打不开的 <code>.exe</code> 拖进去。</li><li>列表中红色/带感叹号的条目就是缺失或加载失败的模块及其依赖链。</li><li>找到缺失的模块名后，判断它属于哪个运行库，回到步骤 3 安装对应的官方组件。</li></ol>
+<div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>不要从「DLL 下载站」下载单个 dll 文件，也不要把它拷进 <code>C:\Windows\System32</code>。这类文件常被替换成带毒版本，还可能因为版本、位数不符导致更多软件崩溃。</div></div>
+<div class="fx-step__expect"><b>预期结果：</b>明确知道缺的是哪个运行库文件，装对应官方组件后软件正常。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>缺失的是软件自己的 dll → 回到步骤 2 用官方安装包重装；缺失项指向系统目录里的文件 → 做步骤 4。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排查位数、路径与兼容性</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>0xc000007b 有很大一部分是 32/64 位混用或路径问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>确认位数：右键软件 <code>.exe</code> →「属性」→「兼容性」，或看安装目录是否在 <code>Program Files (x86)</code>（32 位）。</li><li>确保 32 位和 64 位的运行库都装了（步骤 3）。</li><li>安装路径改成纯英文，例如 <code>D:\Apps\软件名</code> 改成 <code>D:\Apps\SoftName</code>，中文和特殊符号有时会让老程序加载失败。</li><li>右键 <code>.exe</code> →「属性」→「兼容性」：试着勾选「以兼容模式运行」（如 Windows 7）、「以管理员身份运行此程序」。</li><li>关闭可能注入进程的第三方工具：游戏加速器、屏幕录制、输入法美化、杀软的游戏模式。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>软件正常启动。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>换路径后仍不行 → 做步骤 7；公司软件建议直接问 IT 是否有专用运行环境。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s7"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查杀恶意软件并确认软件与系统版本</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 7 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>部分 dll 报错来自被病毒替换的系统文件，或软件本身不兼容当前系统版本。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>用系统自带防护全盘扫描：Windows 安全中心 →「病毒和威胁防护」→ 扫描选项 → 完全扫描。</li><li>需要更强的一次性扫描时，用微软官方的 Microsoft Safety Scanner（免安装，下载后直接运行）。</li><li>到软件官网确认它支持的 Windows 版本；太老的软件在 Windows 11 上可能确实跑不起来，找官方新版本或替代方案。</li><li>显卡相关软件或游戏闪退，先去显卡厂商官网更新驱动。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>排除病毒因素；确认软件与系统版本兼容。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>扫描出威胁并已清除但软件仍打不开 → 重装该软件；软件确实不支持当前系统 → 联系软件官方支持或更换软件。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">最后验证是不是软件自身的问题</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>区分「你的系统有问题」和「这个软件有问题」，避免白折腾。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>把安装包拿到另一台同版本 Windows 电脑上装一次，同样报错 → 是软件本身的问题。</li><li>在同一台电脑上换个用户账户登录再试（设置 → 账户 → 其他用户 → 添加）。</li><li>如果是游戏，先在官方论坛或 Steam 社区搜错误码，通常已有官方解决方案。</li><li>以上都确认是软件问题时，直接联系软件官方客服，附上报错截图和 Dependencies 的截图。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>明确问题归属，找到正确的求助对象。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>两个账户都不行、别的电脑也一样 → 属于软件缺陷，等待官方修复或使用旧版本。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a><a href="../fix/win-popup-ads-hijack.html">电脑老是弹广告、浏览器主页被劫持改不回来</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

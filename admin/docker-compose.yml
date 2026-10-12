@@ -12,6 +12,10 @@ services:
     image: yuanabd-pc-fixboxs-admin:latest
     container_name: yuanabd-pc-fixboxs-admin
     restart: unless-stopped
+    # 以宿主 ubuntu 的 uid:gid 运行，这样容器才能写入挂载进来的仓库
+    # （/srv/fixboxs/repo 属主是 ubuntu:ubuntu = 1000:1001）。
+    # 实测踩过：镜像内默认用户是 admin(100)，导致 listAll 建 _drafts 目录时报 EACCES。
+    user: "1000:1001"
     env_file:
       - /srv/fixboxs/admin.env
     environment:
@@ -43,6 +47,9 @@ services:
         max-file: "3"
 
 networks:
+  # 实测网络名是 learn-workbench_lwb（compose 项目名 + 网络别名），
+  # 不是 learn-workbench_default。用 external 复用现有网络，
+  # 后台容器才能按容器名 learn-workbench-db-1 连到数据库。
   lwb:
     external: true
-    name: learn-workbench_default
+    name: learn-workbench_lwb

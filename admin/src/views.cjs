@@ -272,7 +272,25 @@ details.grp .grp__bd{padding:var(--s5)}
   main{padding:var(--s4)}
   .editor-side{position:static}
 }
-`;
+
+/* ---- 修订 diff（借鉴 WordPress 修订对比的行级高亮） ---- */
+table.dif{font-family:var(--mono);font-size:12.5px;line-height:1.6}
+table.dif td{padding:2px 10px;border-bottom:0;vertical-align:top;white-space:pre-wrap;word-break:break-word}
+table.dif .dif-n{width:28px;text-align:right;color:var(--text-3);user-select:none;padding-right:6px}
+tr.dif-same td{color:var(--text-2)}
+tr.dif-del td{background:var(--danger-weak);color:var(--danger)}
+tr.dif-add td{background:var(--ok-weak);color:var(--ok)}
+
+/* ---- 审核评论线程 ---- */
+.cmt{border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px;background:var(--bg-1)}
+.cmt--done{background:var(--bg-2);opacity:.75}
+.cmt__hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--fs-sm);margin-bottom:6px}
+.cmt__hd .muted{font-size:var(--fs-xs)}
+.cmt__bd{color:var(--text-1);font-size:var(--fs-base);line-height:1.7;white-space:pre-wrap}
+.cmt__ft{margin-top:8px;display:flex;justify-content:flex-end}
+
+/* ---- 保存视图下拉 ---- */
+details>summary::-webkit-details-marker{display:none}`;
 
 function layout(title, bodyHtml, opts) {
   opts = opts || {};
@@ -498,6 +516,7 @@ function articlesPage(opts) {
     "</div>" +
     (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
 
+    viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf }) +
     '<form class="card" method="get" action="/articles" style="padding:14px 20px">' +
       '<div class="row" style="gap:12px;align-items:flex-end">' +
         '<div style="flex:2;min-width:180px"><label for="q">搜索</label>' +
@@ -644,6 +663,7 @@ function editorPage(opts) {
         (opts.contentHash ? '<div class="muted">版本 <span class="kbd">' + esc(opts.contentHash.slice(0, 12)) + "</span> · 他人已修改时保存会提示冲突</div>" : "") +
       "</div>" +
       '<div class="row"><a class="btn" href="/articles">返回</a>' +
+        (isNew ? "" : '<a class="btn" href="/articles/' + esc(opts.slug) + '/revisions">修订历史' + (opts.revCount ? " (" + opts.revCount + ")" : "") + "</a>") +
         '<button class="btn" type="submit" name="action" value="save">保存草稿</button>' + buttons + "</div>" +
     "</div>" +
 
@@ -723,6 +743,7 @@ function editorPage(opts) {
         '<div class="card" style="padding:16px"><h3 style="margin-top:0">段落导航</h3>' + tocHost + '</div>' +
       "</div>" +
     "</div>" +
+    commentsBlock({ slug: opts.slug, comments: opts.comments || [], csrf: opts.csrf }) +
     "</form>" +
     '<template id="src-type-options">' + typeOptionsHtml + "</template>";
 
@@ -733,6 +754,111 @@ function editorPage(opts) {
                      : [{ label: "文章", href: "/articles" }, { label: m.title || opts.slug }]
     }, opts));
 }
+/* ---------------- 修订历史页 ---------------- */
+function revisionsPage(opts) {
+  const rows = (opts.revisions || []).map(function (r, i) {
+    const t = String(r.created_at || "").slice(0, 19).replace("T", " ");
+    const label = r.revision_no === (opts.revisions[0] ? opts.revisions[0].revision_no : -1) ? "最新" : ("v" + r.revision_no);
+    return "<tr><td class=\"tight\"><span class=\"kbd\">" + label + "</span></td>" +
+      "<td class=\"muted num\">" + esc(t) + "</td>" +
+      "<td>" + esc(r.author_name || r.author_email || "—") + "</td>" +
+      "<td>" + esc(r.note || "") + "</td>" +
+      "<td class=\"muted num\">" + (r.content_len || 0) + " 字节</td>" +
+      "<td class=\"tight\"><a class=\"btn btn--sm\" href=\"/articles/" + esc(opts.slug) + "/revisions/" + r.revision_no + "\">与当前对比</a></td></tr>";
+  }).join("");
+  return layout("修订历史",
+    "<div class=\"spread\" style=\"margin-bottom:16px\"><h1 style=\"margin:0\">修订历史</h1>" +
+      '<a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '\">返回文章</a></div>' +
+    '<p class=\"muted\">每次保存都会留一份完整快照（含 front-matter），最多保留最近 30 版。</p>' +
+    '<div class=\"card card--flush\"><div class=\"tablewrap\"><table>' +
+    "<thead><tr><th>版本</th><th>时间</th><th>作者</th><th>说明</th><th>体积</th><th></th></tr></thead><tbody>" +
+    (rows || '<tr><td colspan=\"6\" class=\"empty\"><div class=\"empty__ico\">◷</div><div class=\"empty__t\">还没有修订记录</div><div>从本功能上线后开始的每次保存都会被记录</div></td></tr>') +
+    "</tbody></table></div></div>",
+    Object.assign({ current: "articles", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订历史" }] }, opts));
+}
+
+/* ---------------- 修订对比页（行级 diff） ---------------- */
+function revisionDiffPage(opts) {
+  const rows = (opts.rows || []).map(function (r) {
+    if (r.t === "same") return '<tr class=\"dif-same\"><td class=\"dif-n\"></td><td colspan=\"2\">' + esc(r.a || "") + "</td></tr>";
+    if (r.t === "del") return '<tr class=\"dif-del\"><td class=\"dif-n\">−</td><td colspan=\"2\">' + esc(r.a || "") + "</td></tr>";
+    return '<tr class=\"dif-add\"><td class=\"dif-n\">+</td><td colspan=\"2\">' + esc(r.b || "") + "</td></tr>";
+  }).join("");
+  const nAdd = (opts.rows || []).filter(function (r) { return r.t === "add"; }).length;
+  const nDel = (opts.rows || []).filter(function (r) { return r.t === "del"; }).length;
+  return layout("修订对比",
+    "<div class=\"spread\" style=\"margin-bottom:16px\"><div><h1 style=\"margin:0\">v" + esc(opts.rev.revision_no) + " → 当前</h1>" +
+      '<div class=\"muted\">作者 ' + esc(opts.rev.author_email || "—") + " · " + esc(String(opts.rev.created_at || "").slice(0, 19).replace("T", " ")) + "</div></div>" +
+      '<div class=\"row\"><a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '/revisions\">返回历史</a>' +
+      '<a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '\">打开文章</a></div></div>' +
+    '<div class=\"row\" style=\"gap:12px;margin-bottom:12px\">' +
+      '<span class=\"pill pill--published\">+' + nAdd + ' 行</span>' +
+      '<span class=\"pill pill--changes_requested\">−' + nDel + ' 行</span>' +
+      (opts.hasCurrent ? "" : '<span class=\"pill pill--archived\">文章已不存在，无法对比</span>') +
+    "</div>" +
+    '<div class=\"card card--flush\"><div class=\"tablewrap\"><table class=\"dif\">' +
+    "<tbody>" + (rows || '<tr><td class=\"empty\">无差异</td></tr>') + "</tbody></table></div></div>",
+    Object.assign({ current: "articles", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订对比" }] }, opts));
+}
+
+/* ---------------- 审核评论区块（嵌入编辑器页） ---------------- */
+function commentsBlock(opts) {
+  const list = opts.comments || [];
+  const items = list.map(function (c) {
+    const resolved = !!c.resolved_at;
+    return '<div class=\"cmt' + (resolved ? " cmt--done" : "") + '\">' +
+      '<div class=\"cmt__hd\"><strong>' + esc(c.author_name || c.author_email || "—") + "</strong>" +
+        '<span class=\"muted\">' + esc(String(c.created_at || "").slice(0, 16).replace("T", " ")) + "</span>" +
+        (c.anchor ? '<span class=\"kbd\">' + esc(c.anchor) + "</span>" : "") +
+        (resolved ? '<span class=\"pill pill--published\">已解决</span>' : "") +
+      "</div>" +
+      '<div class=\"cmt__bd\">' + esc(c.body).replace(/\n/g, "<br>") + "</div>" +
+      '<div class=\"cmt__ft\"><form method=\"post\" action=\"/comments/' + c.id + (resolved ? "/reopen" : "/resolve") + '\">' +
+        '<input type=\"hidden\" name=\"_csrf\" value=\"' + esc(opts.csrf || "") + '\">' +
+        '<input type=\"hidden\" name=\"slug\" value=\"' + esc(opts.slug) + '\">' +
+        '<button class=\"btn btn--sm btn--ghost\" type=\"submit\">' + (resolved ? "重新打开" : "标记已解决") + "</button>" +
+      "</form></div></div>";
+  }).join("");
+  return '<details class=\"grp\"' + (list.length ? " open" : "") + '><summary>审核评论' +
+      '<span class=\"grp__hint\">' + list.length + ' 条' + (list.filter(function (c) { return !c.resolved_at; }).length ? "（" + list.filter(function (c) { return !c.resolved_at; }).length + " 条未解决）" : "") + "</span></summary>" +
+    '<div class=\"grp__bd\" id=\"comments\">' +
+      (items || '<p class=\"muted\" style=\"margin-top:0\">还没有评论。审核意见写在这里，比在聊天工具里说更不容易丢。</p>') +
+      '<form method=\"post\" action=\"/articles/' + esc(opts.slug) + '/comments\" style=\"margin-top:16px\">' +
+        '<input type=\"hidden\" name=\"_csrf\" value=\"' + esc(opts.csrf || "") + '\">' +
+        '<label for=\"cmtbody\">新增评论</label>' +
+        '<textarea id=\"cmtbody\" name=\"body\" style=\"min-height:90px;font-family:inherit;font-size:14px\" placeholder=\"例如：第 3 步的命令需要管理员权限，请补充说明。\"></textarea>' +
+        '<div class=\"row row--end\" style=\"margin-top:10px\"><button class=\"btn btn--primary\" type=\"submit\">发表评论</button></div>' +
+      "</form>" +
+    "</div></details>";
+}
+
+/* ---------------- 保存视图工具条 ---------------- */
+function viewsBar(opts) {
+  const views = opts.views || [];
+  const cur = opts.currentQs || "";
+  const chips = views.map(function (v) {
+    const active = (v.querystring || "") === cur;
+    return '<a class=\"btn btn--sm' + (active ? " btn--primary" : "") + '" href=\"/articles' + (v.querystring ? "?" + v.querystring : "") + '\">' +
+      esc(v.name) + (v.is_shared ? " · 共享" : "") + "</a>";
+  }).join("");
+  return '<div class=\"row\" style=\"gap:8px;margin-bottom:12px\">' +
+    '<span class=\"muted\">保存的视图：</span>' +
+    (chips || '<span class=\"muted\">（无）</span>') +
+    '<details style=\"display:inline-block;position:relative\">' +
+      '<summary class=\"btn btn--sm\" style=\"list-style:none;cursor:pointer\">＋ 保存当前筛选</summary>' +
+      '<div class=\"card\" style=\"position:absolute;z-index:30;width:280px;padding:14px;margin-top:6px\">' +
+        '<form method=\"post\" action=\"/views/save\">' +
+          '<input type=\"hidden\" name=\"_csrf\" value=\"' + esc(opts.csrf || "") + '\">' +
+          '<input type=\"hidden\" name=\"qs\" value=\"' + esc(cur) + '\">' +
+          '<label for=\"vname\">视图名称</label>' +
+          '<input id=\"vname\" name=\"name\" type=\"text\" required maxlength=\"40\" placeholder=\"例如：待我审核\">' +
+          '<label style=\"margin-top:10px\"><input type=\"checkbox\" name=\"is_shared\" value=\"1\"> 共享给团队</label>' +
+          '<div class=\"row row--end\" style=\"margin-top:12px\"><button class=\"btn btn--primary btn--sm\" type=\"submit\">保存</button></div>' +
+        "</form>" +
+      "</div></details>" +
+  "</div>";
+}
+
 function dashboardPage(opts) {
   const s = opts.stats || {};
   function stat(key, label, hint, kind, href) {
@@ -897,5 +1023,6 @@ module.exports = {
   layout: layout, loginPage: loginPage, changePasswordPage: changePasswordPage,
   articlesPage: articlesPage, editorPage: editorPage, publishPage: publishPage,
   usersPage: usersPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
+  revisionsPage: revisionsPage, revisionDiffPage: revisionDiffPage, commentsBlock: commentsBlock, viewsBar: viewsBar,
   statusLabel: statusLabel
 };

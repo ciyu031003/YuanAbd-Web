@@ -11,6 +11,7 @@ const views = require("./views.cjs");
 const articles = require("./articles.cjs");
 const publisher = require("./publish.cjs");
 const invites = require("./invites.cjs");
+const collab = require("./collab.cjs");
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
@@ -296,8 +297,10 @@ async function handle(req, res) {
     const pages = Math.max(1, Math.ceil(filtered / perPage));
     const pageItems = items.slice((pageNo - 1) * perPage, pageNo * perPage);
 
+    const savedViews = await collab.listViews(sess.user.user_id);
+    const currentQs = url.searchParams.toString().replace(/(^|&)notice=[^&]*/g, "").replace(/^&/, "");
     return html(res, 200, views.articlesPage(Object.assign({
-      items: pageItems, canCreate: canCreate,
+      items: pageItems, canCreate: canCreate, views: savedViews, currentQs: currentQs,
       total: total, filtered: filtered, page: pageNo, pages: pages, perPage: perPage,
       filters: { status: qStatus, domain: qDomain, risk: qRisk, q: qSearch, stale: qStale, missing: qMissing, sort: qSort },
       domains: taxonomy().domains, risks: taxonomy().enums.risk,
@@ -350,10 +353,14 @@ async function handle(req, res) {
 
     if (method === "GET") {
       const canPublish = await auth.can(sess.user, "article:publish");
+      const cmts = await collab.listComments(slug);
+      let revCount = 0;
+      try { const rv = await collab.listRevisions(slug); revCount = rv.length; } catch (e) {}
       return html(res, 200, views.editorPage(Object.assign({
         isExisting: true, slug: slug, meta: art.meta, body: art.body,
         contentHash: art.contentHash, taxonomy: taxonomy(), canPublish: canPublish,
-        notice: url.searchParams.get("notice")
+        comments: cmts, revCount: revCount,
+        notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
       }, pageOpts)));
     }
 
@@ -402,6 +409,9 @@ async function handle(req, res) {
       }
       await db.query("UPDATE articles_meta SET title=$2, domain=$3, category=$4, content_hash=$5, updated_at=now() WHERE slug=$1",
         [slug, meta.title, meta.domain, meta.category, saved.contentHash]);
+      // 修订快照（含完整文件内容，便于精确回滚）
+      await collab.addRevision(slug, fs.readFileSync(articles.locate(slug).file, "utf8"),
+        { title: meta.title, status: "saved", contentHash: saved.contentHash }, sess.user.user_id, "保存");
       await auth.audit(sess.user, "article.save", slug, { sources: afterSources }, c.ip);
       return redirect(res, "/articles/" + slug + "?notice=" + encodeURIComponent("已保存"));
     } catch (e) {
@@ -414,6 +424,83 @@ async function handle(req, res) {
     }
   }
 
+  // ---- 保存视图：新建/删除 ----
+  if (p === "/views/save" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    try {
+      await collab.saveView(sess.user.user_id, form.name, form.qs || "", form.is_shared === "1");
+      await auth.audit(sess.user, "view.save", form.name, { qs: form.qs }, c.ip);
+      return redirect(res, "/articles?" + String(form.qs || "").replace(/^\?/, "") + (form.qs ? "&" : "") + "notice=" + encodeURIComponent("视图已保存"));
+    } catch (e) {
+      return redirect(res, "/articles?error=" + encodeURIComponent(e.message));
+    }
+  }
+  if (p === "/views/delete" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    await collab.deleteView(sess.user.user_id, parseInt(form.id, 10));
+    await auth.audit(sess.user, "view.delete", form.id, null, c.ip);
+    return redirect(res, "/articles?notice=" + encodeURIComponent("视图已删除"));
+  }
+
+  // ---- 修订历史 ----
+  const mRev = p.match(/^\/articles\/([a-z0-9-]+)\/revisions$/);
+  if (mRev) {
+    const slug = mRev[1];
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能查看文章历史。", pageOpts));
+    const revs = await collab.listRevisions(slug);
+    // 与当前版本的 diff
+    let art = null;
+    try { art = articles.read(slug); } catch (e) { /* 已删除的文章 */ }
+    return html(res, 200, views.revisionsPage(Object.assign({
+      slug: slug, revisions: revs, current: art ? art.raw : null
+    }, pageOpts)));
+  }
+
+  // ---- 单篇修订对比 ----
+  const mRevDiff = p.match(/^\/articles\/([a-z0-9-]+)\/revisions\/(\d+)$/);
+  if (mRevDiff) {
+    const slug = mRevDiff[1], no = parseInt(mRevDiff[2], 10);
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能查看修订。", pageOpts));
+    const rev = await collab.getRevision(slug, no);
+    if (!rev) return html(res, 404, views.simplePage("修订不存在", "找不到该版本。", pageOpts));
+    let cur = null;
+    try { cur = articles.read(slug); } catch (e) {}
+    const rows = collab.diffLines(rev.content, cur ? cur.raw : "");
+    return html(res, 200, views.revisionDiffPage(Object.assign({
+      slug: slug, rev: rev, rows: rows, hasCurrent: !!cur
+    }, pageOpts)));
+  }
+
+  // ---- 审核评论 ----
+  const mComment = p.match(/^\/articles\/([a-z0-9-]+)\/comments$/);
+  if (mComment && method === "POST") {
+    const slug = mComment[1];
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能评论。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 16 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    try {
+      await collab.addComment(slug, sess.user.user_id, form.body, form.anchor || null);
+      await auth.audit(sess.user, "comment.add", slug, null, c.ip);
+    } catch (e) {
+      return redirect(res, "/articles/" + slug + "?error=" + encodeURIComponent(e.message));
+    }
+    return redirect(res, "/articles/" + slug + "#comments");
+  }
+
+  // ---- 解决 / 重新打开评论 ----
+  const mResolve = p.match(/^\/comments\/(\d+)\/(resolve|reopen)$/);
+  if (mResolve && method === "POST") {
+    const id = parseInt(mResolve[1], 10);
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能处理评论。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    if (mResolve[2] === "resolve") await collab.resolveComment(id, sess.user.user_id);
+    else await collab.reopenComment(id);
+    await auth.audit(sess.user, "comment." + mResolve[2], String(id), null, c.ip);
+    return redirect(res, "/articles/" + (form.slug || "") + "#comments");
+  }
   // ---- 发布队列 ----
   if (p === "/publish") {
     if (method === "POST") {

@@ -20,7 +20,7 @@ const config = {
   // ---- 服务 ----
   port: parseInt(optional("ADMIN_PORT", "3020"), 10),
   host: optional("ADMIN_HOST", "0.0.0.0"),
-  publicUrl: optional("ADMIN_PUBLIC_URL", "https://admin.pc-fixboxs.yuanabd.cn"),
+  publicUrl: optional("ADMIN_PUBLIC_URL", "https://dashboard.pc-fixboxs.yuanabd.cn"),
 
   // ---- 数据库（独立库，最小权限角色） ----
   db: {

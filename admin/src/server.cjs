@@ -15,9 +15,12 @@ const invites = require("./invites.cjs");
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
 
-/* 静态资源（仅 /static/*，只服务 public/ 下的白名单文件） */
+/* 静态资源（仅 /static/*，只服务 public/ 下的白名单文件）
+   白名单而非目录映射：避免路径穿越，也让「可对外文件」一目了然。 */
+const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const STATIC = {
-  "/static/editor.js": { file: path.join(__dirname, "..", "public", "editor.js"), type: "application/javascript; charset=utf-8" }
+  "/static/editor.js": { file: path.join(PUBLIC_DIR, "editor.js"), type: "application/javascript; charset=utf-8" },
+  "/static/app.js": { file: path.join(PUBLIC_DIR, "app.js"), type: "application/javascript; charset=utf-8" }
 };
 
 function html(res, status, body) {
@@ -36,6 +39,18 @@ async function currentUser(req) {
   if (!s) return null;
   const roles = await auth.getRoles(s.user_id);
   return { user: s, roles: roles, token: token };
+}
+
+/* 读取全部文章并与 DB 状态合并（DB 是派生视图，文件为准） */
+async function loadArticlesWithStatus() {
+  const items = articles.listAll();
+  const metaRows = await db.query("SELECT slug, status FROM articles_meta");
+  const statusBySlug = {};
+  metaRows.rows.forEach(function (r) { statusBySlug[r.slug] = r.status; });
+  items.forEach(function (a) {
+    a.status = statusBySlug[a.slug] || (a.where === "draft" ? "draft" : (a.where === "archive" ? "archived" : "published"));
+  });
+  return items;
 }
 
 /* 统一的路由上下文 */
@@ -189,19 +204,107 @@ async function handle(req, res) {
     }));
   }
 
-  // ---- 文章列表 ----
+  // ---- 工作台（行动仪表盘） ----
+  // 只统计能触发动作的信息（研究结论：不要虚荣指标）
+  if (p === "/dashboard") {
+    const all = await loadArticlesWithStatus();
+    const today = Date.now();
+    const daysSince = function (d) {
+      if (!d) return null;
+      const t = new Date(String(d) + "T00:00:00Z").getTime();
+      if (isNaN(t)) return null;
+      return Math.floor((today - t) / 86400000);
+    };
+    const stats = {
+      inReview: all.filter(function (a) { return a.status === "in_review"; }).length,
+      drafts: all.filter(function (a) { return a.status === "draft"; }).length,
+      changesRequested: all.filter(function (a) { return a.status === "changes_requested"; }).length,
+      published: all.filter(function (a) { return a.status === "published"; }).length,
+      stale: all.filter(function (a) {
+        if (a.status !== "published") return false;
+        const d = daysSince(a.reviewed_at);
+        return d === null || d > 180;
+      }, ).length,
+      missingSources: all.filter(function (a) { return (a.sourcesCount || 0) < 1; }).length
+    };
+    const recent = all.slice().sort(function (a, b) {
+      return String(b.updated || "").localeCompare(String(a.updated || ""));
+    }).slice(0, 8);
+    const stale = all.filter(function (a) {
+      if (a.status !== "published") return false;
+      const d = daysSince(a.reviewed_at);
+      return d === null || d > 180;
+    }).map(function (a) {
+      return Object.assign({}, a, { days: daysSince(a.reviewed_at) });
+    }).sort(function (a, b) {
+      return (b.days === null ? 99999 : b.days) - (a.days === null ? 99999 : a.days);
+    });
+    return html(res, 200, views.dashboardPage(Object.assign({
+      stats: stats, recent: recent, stale: stale
+    }, pageOpts)));
+  }
+
+  // ---- 文章列表（筛选 / 排序 / 分页全部走 URL 查询参数） ----
+  // 为什么用 URL 而非 JS 状态：可刷新、可分享、可收藏、可后退（WordPress/Directus 的标准做法）
   if (p === "/" || p === "/articles") {
     const canCreate = await auth.can(sess.user, "article:create");
-    const items = articles.listAll();
-    // 与 DB 的状态合并（DB 是派生视图，文件为准）
-    const metaRows = await db.query("SELECT slug, status FROM articles_meta");
-    const statusBySlug = {};
-    metaRows.rows.forEach(function (r) { statusBySlug[r.slug] = r.status; });
-    items.forEach(function (a) {
-      a.status = statusBySlug[a.slug] || (a.where === "draft" ? "draft" : (a.where === "archive" ? "archived" : "published"));
+    let items = await loadArticlesWithStatus();
+
+    // 筛选
+    const qStatus = url.searchParams.get("status") || "";
+    const qDomain = url.searchParams.get("domain") || "";
+    const qRisk = url.searchParams.get("risk") || "";
+    const qSearch = (url.searchParams.get("q") || "").trim();
+    const qStale = url.searchParams.get("stale") === "1";
+    const qMissing = url.searchParams.get("missing") || "";
+    const qSort = url.searchParams.get("sort") || "-updated";
+
+    const total = items.length;
+    const daysSince2 = function (d) {
+      if (!d) return null;
+      const t = new Date(String(d) + "T00:00:00Z").getTime();
+      return isNaN(t) ? null : Math.floor((Date.now() - t) / 86400000);
+    };
+    if (qStatus) items = items.filter(function (a) { return a.status === qStatus; });
+    if (qDomain) items = items.filter(function (a) { return a.domain === qDomain; });
+    if (qRisk) items = items.filter(function (a) { return a.risk === qRisk; });
+    if (qStale) items = items.filter(function (a) { const d = daysSince2(a.reviewed_at); return a.status === "published" && (d === null || d > 180); });
+    if (qMissing === "sources") items = items.filter(function (a) { return (a.sourcesCount || 0) < 1; });
+    if (qSearch) {
+      const needle = qSearch.toLowerCase();
+      items = items.filter(function (a) {
+        return (a.title || "").toLowerCase().indexOf(needle) >= 0 ||
+               (a.slug || "").toLowerCase().indexOf(needle) >= 0;
+      });
+    }
+
+    // 排序
+    const desc = qSort.charAt(0) === "-";
+    const key = desc ? qSort.slice(1) : qSort;
+    items.sort(function (a, b) {
+      let x = a[key], y = b[key];
+      if (key === "sourcesCount") { x = a.sourcesCount; y = b.sourcesCount; }
+      if (typeof x === "number" && typeof y === "number") return desc ? y - x : x - y;
+      const r = String(x || "").localeCompare(String(y || ""));
+      return desc ? -r : r;
     });
-    return html(res, 200, views.articlesPage(Object.assign({ items: items, canCreate: canCreate, notice: url.searchParams.get("notice") }, pageOpts)));
+
+    // 分页（非技术用户场景一律分页，不用无限滚动）
+    const perPage = 20;
+    const pageNo = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10) || 1);
+    const filtered = items.length;
+    const pages = Math.max(1, Math.ceil(filtered / perPage));
+    const pageItems = items.slice((pageNo - 1) * perPage, pageNo * perPage);
+
+    return html(res, 200, views.articlesPage(Object.assign({
+      items: pageItems, canCreate: canCreate,
+      total: total, filtered: filtered, page: pageNo, pages: pages, perPage: perPage,
+      filters: { status: qStatus, domain: qDomain, risk: qRisk, q: qSearch, stale: qStale, missing: qMissing, sort: qSort },
+      domains: taxonomy().domains, risks: taxonomy().enums.risk,
+      notice: url.searchParams.get("notice")
+    }, pageOpts)));
   }
+
 
   // ---- 新建 ----
   if (p === "/articles/new") {

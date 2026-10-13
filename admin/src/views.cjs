@@ -49,9 +49,9 @@ const BASE_CSS = `
   --info:#2F4BD0;
 
   /* ---- 文字 ---- */
-  --ink:#23201D;
-  --ink-2:#6E655E;             /* 次文字不浅于此 */
-  --ink-3:#9A9089;
+  --ink:#1A1714;
+  --ink-2:#4A443D;             /* 次文字不浅于此 */
+  --ink-3:#5A5249;
 
   /* ---- 圆角 ---- */
   --r-card:24px; --r-btn:16px; --r-chip:14px; --r-full:999px;
@@ -399,6 +399,167 @@ main > h1 + p,main > .spread + p{margin-top:0}
 
 /* ---- 修正：spread 头部与说明的节奏 ---- */
 .spread{align-items:flex-start}
+
+/* ============================================================
+   撞色 / 数据看板（参考图 2、图 3）
+   ------------------------------------------------------------
+   图 2 提供「结构」：问候语 + 统计卡带环比徽章 + 热力网格 + 柱状图 + 通知流
+   图 3 提供「色彩」：每张卡一个彩色底，深色文字压在亮色上，饱和度高
+   本文档落地两者，并保持拟态的光影语言。
+
+   文字对比度实测（底色 #F2E8E0）：
+     主文字 #1A1714 14.8:1 AAA ｜ 次 #3D3833 9.6:1 AAA
+     辅助   #4A443D  8.0:1 AAA ｜ 占位 #5A5249 6.4:1 AA
+   六个撞色底上的文字对比度均在 8.7–11:1，全部达标。
+   ============================================================ */
+
+:root{
+  /* 撞色磁贴：tint 为卡底，deep 为强调/指示，ink 为卡上文字 */
+  --t-indigo:#E4E7FF; --d-indigo:#3B4BC8; --i-indigo:#26296E;
+  --t-mint:#DDF5EC;   --d-mint:#1F9E76;   --i-mint:#0D4A36;
+  --t-amber:#FDEFD3;  --d-amber:#C78510;  --i-amber:#5C3D05;
+  --t-coral:#FFE4DC;  --d-coral:#DB5A38;  --i-coral:#6B2614;
+  --t-sky:#DCEFFF;    --d-sky:#1F7FC4;    --i-sky:#0F3E63;
+  --t-violet:#EEE0FF; --d-violet:#7B45C9; --i-violet:#3A1A66;
+
+  --up:#1F9E76; --down:#DB5A38;   /* 环比涨跌 */
+}
+
+/* ---------------- 问候语头部（图2 顶部） ---------------- */
+.dash-hello{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;margin-bottom:22px}
+.dash-hello h1{font-size:27px;margin-bottom:4px}
+.dash-hello__date{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.dash-hello__acts{display:flex;gap:10px;align-items:center}
+
+/* ---------------- 彩色统计磁贴（图2 统计卡 + 图3 撞色） ---------------- */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:26px}
+@media(max-width:1040px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.tiles{grid-template-columns:1fr}}
+.tile{
+  position:relative;border-radius:22px;padding:20px 22px;display:block;
+  color:inherit;text-decoration:none;overflow:hidden;
+  box-shadow:var(--raise-sm);
+  transition:box-shadow .22s var(--neu-ease), transform .22s var(--neu-ease);
+}
+.tile:hover{text-decoration:none;transform:translateY(-3px);box-shadow:var(--raise)}
+.tile:active{transform:translateY(0)}
+.tile__hd{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;
+  letter-spacing:.01em;opacity:.95}
+.tile__ico{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;
+  font-size:13px;background:rgba(255,255,255,.72);flex:none}
+.tile__v{font-size:36px;font-weight:800;line-height:1.1;margin-top:10px;
+  letter-spacing:-.035em;font-family:var(--mono)}
+.tile__h{font-size:11.5px;margin-top:5px;opacity:.8;font-weight:600}
+.tile__spark{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:12px}
+.tile__spark i{flex:1;border-radius:2px;background:currentColor;opacity:.32}
+.tile__spark i.on{opacity:.85}
+/* 环比徽章 */
+.tile__delta{position:absolute;right:18px;top:18px;font-size:11px;font-weight:800;
+  padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.78);
+  display:inline-flex;align-items:center;gap:3px}
+
+/* 六色分布 */
+.tile--indigo{background:linear-gradient(140deg,#EDEFFF,var(--t-indigo));color:var(--i-indigo)}
+.tile--indigo .tile__ico{color:var(--d-indigo)}
+.tile--mint{background:linear-gradient(140deg,#E9FAF3,var(--t-mint));color:var(--i-mint)}
+.tile--mint .tile__ico{color:var(--d-mint)}
+.tile--amber{background:linear-gradient(140deg,#FFF7E6,var(--t-amber));color:var(--i-amber)}
+.tile--amber .tile__ico{color:var(--d-amber)}
+.tile--coral{background:linear-gradient(140deg,#FFEFEA,var(--t-coral));color:var(--i-coral)}
+.tile--coral .tile__ico{color:var(--d-coral)}
+.tile--sky{background:linear-gradient(140deg,#EAF5FF,var(--t-sky));color:var(--i-sky)}
+.tile--sky .tile__ico{color:var(--d-sky)}
+.tile--violet{background:linear-gradient(140deg,#F5ECFF,var(--t-violet));color:var(--i-violet)}
+.tile--violet .tile__ico{color:var(--d-violet)}
+
+/* ---------------- 图表卡（纯 CSS 柱状图 / 环形图，不引图表库） ---------------- */
+.chart{display:flex;align-items:flex-end;gap:7px;height:130px;padding:8px 0}
+.chart__col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;
+  align-items:center;gap:6px;height:100%}
+.chart__bar{
+  width:100%;border-radius:7px 7px 4px 4px;
+  background:linear-gradient(180deg,var(--d-indigo),color-mix(in srgb,var(--d-indigo) 62%,#fff));
+  transition:filter .18s;
+}
+.chart__bar--muted{background:linear-gradient(180deg,#CFC6BB,#E2DAD0)}
+.chart__bar--hot{background:linear-gradient(180deg,var(--d-amber),#E8B84E)}
+.chart__bar--good{background:linear-gradient(180deg,var(--d-mint),#5FCBA6)}
+.chart__col:hover .chart__bar{filter:brightness(1.08)}
+.chart__lab{font-size:10.5px;color:var(--ink-2);font-weight:600}
+.chart__val{font-size:10.5px;font-weight:700;color:var(--ink);font-family:var(--mono)}
+
+/* 环形图（用 conic-gradient，零依赖） */
+.donut{width:128px;height:128px;border-radius:50%;position:relative;flex:none;
+  box-shadow:var(--raise-sm)}
+.donut::after{content:"";position:absolute;inset:26px;border-radius:50%;
+  background:var(--base);box-shadow:var(--inset-sm)}
+.donut__c{position:absolute;inset:0;display:grid;place-items:center;z-index:2;text-align:center}
+.donut__n{font-size:21px;font-weight:800;font-family:var(--mono);letter-spacing:-.03em}
+.donut__l{font-size:10px;color:var(--ink-2);font-weight:600}
+.legend{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;min-width:0;flex:1}
+.legend li{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-1);
+  font-weight:600}
+.legend__dot{width:10px;height:10px;border-radius:3px;flex:none}
+.legend__n{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--ink)}
+
+/* 热力网格（图2 出勤率） */
+.heat{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.heat i{aspect-ratio:1;border-radius:6px;background:#E6DCD1;box-shadow:var(--inset-sm)}
+.heat i[data-l="1"]{background:#CFE3FB}
+.heat i[data-l="2"]{background:#A6CCF7}
+.heat i[data-l="3"]{background:#6FA9EE}
+.heat i[data-l="4"]{background:#3B7FD4}
+
+/* 进度条 */
+.bar{height:9px;border-radius:999px;background:#E6DCD1;box-shadow:var(--inset-sm);overflow:hidden}
+.bar > i{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--d-indigo),#6C7BE8)}
+
+/* 通知流（图2 右侧） */
+.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.feed li{display:flex;gap:11px;align-items:flex-start;font-size:12.5px}
+.feed__av{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-size:11px;font-weight:800;box-shadow:var(--raise-sm)}
+.feed__t{color:var(--ink);font-weight:600;line-height:1.5}
+.feed__m{color:var(--ink-2);font-size:11.5px}
+
+/* ---- 图表卡等高与热力图铺满（避免一侧留大片空白）---- */
+.chart--tall{height:196px}
+.heat--wide{grid-template-columns:repeat(40,1fr);gap:5px}
+@media(max-width:1100px){.heat--wide{grid-template-columns:repeat(20,1fr)}}
+@media(max-width:900px){.heat--wide{grid-template-columns:repeat(10,1fr)}}
+/* 热力格不强制正方，避免 80 个格子撑出大片空白 */
+.heat--wide i{aspect-ratio:auto;height:26px}
+.heat--wide i{border-radius:7px}
+
+/* 图表标签：最多一行，超出用省略号（避免撑破柱宽） */
+.chart__lab{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* ---- 主视觉横幅（参考图3 的大面积渐变卡）----
+   用高饱和渐变提供"色彩震撼"，但文字压在最亮的区域，
+   对比度实测 > 7:1，不会牺牲可读性。 */
+.hero{
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  border-radius:26px;padding:26px 30px;margin-bottom:22px;
+  background:linear-gradient(120deg,#A9F0D1 0%,#8FD9F5 46%,#A9B8FF 100%);
+  color:#0C2B26;box-shadow:var(--raise);
+  position:relative;overflow:hidden;
+}
+.hero::after{  /* 一层柔光，避免大面积纯色显得平 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 140% at 88% 10%,rgba(255,255,255,.55),transparent 58%);
+}
+.hero__main{position:relative;z-index:1;min-width:0}
+.hero__k{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.78}
+.hero__n{font-size:54px;font-weight:800;line-height:1;letter-spacing:-.045em;
+  font-family:var(--mono);margin:8px 0 6px}
+.hero__sub{font-size:12.5px;font-weight:600;opacity:.8}
+.hero__side{position:relative;z-index:1;margin-left:auto;display:flex;gap:26px;flex-wrap:wrap}
+.hero__m{min-width:104px}
+.hero__m b{display:block;font-size:23px;font-weight:800;font-family:var(--mono);letter-spacing:-.03em}
+.hero__m span{font-size:11.5px;font-weight:600;opacity:.78}
+@media(max-width:700px){ .hero__n{font-size:42px} .hero__side{margin-left:0} }
 `;
 
 function layout(title, bodyHtml, opts) {
@@ -1004,74 +1165,183 @@ function viewsBar(opts) {
 
 function dashboardPage(opts) {
   const s = opts.stats || {};
-  // 统计卡：数值用等宽字体；底部加迷你柱状图。
-  // 参考图 03 的语义 —— 值为 0 时柱子是灰的（"断电"），>0 时转钴蓝（"通电"）。
-  // 这样扫一眼就知道哪块有事，而不是只看数字。
-  function spark(on) {
-    // 用固定形状的 12 根柱子表达"趋势感"，高度由值派生（0 时压平）
-    const bars = [0.42, 0.6, 0.35, 0.72, 0.5, 0.85, 0.62, 0.44, 0.78, 0.55, 0.9, 0.66];
-    return "<div class=\"spark\">" + bars.map(function (b) {
-      const h = on ? Math.round(b * 100) : Math.round(b * 34);
-      return "<i style=\"height:" + h + "%\"></i>";
-    }).join("") + "</div>";
+  const TILE_COLORS = ["indigo", "mint", "amber", "coral", "sky", "violet"];
+
+  // ---- 问候语（参考图2 顶部）----
+  function greeting() {
+    const h = new Date().getHours();
+    const word = h < 6 ? "夜深了" : (h < 12 ? "早上好" : (h < 18 ? "下午好" : "晚上好"));
+    return word;
   }
-  function stat(key, label, hint, kind, href) {
+  const now = new Date();
+  const dateStr = now.getFullYear() + " 年 " + (now.getMonth() + 1) + " 月 " + now.getDate() + " 日";
+  const who = (opts.user && (opts.user.name || opts.user.email)) || "";
+
+  // ---- 彩色统计磁贴（图2 结构 + 图3 撞色）----
+  // 每个磁贴一个色系，颜色**承载语义**而不是随机装饰：
+  //   靛蓝=待我处理  薄荷=健康  琥珀=需关注  珊瑚=有问题  天蓝=已上线  紫=其他
+  function tile(key, label, hint, ico, color, href) {
     const v = s[key] === undefined ? 0 : s[key];
-    const cls = (v > 0 && kind) ? (" stat--on stat--" + kind) : "";
     const tag = href ? "a" : "div";
-    return "<" + tag + " class=\"stat" + cls + "\"" + (href ? " href=\"" + href + "\"" : "") + ">" +
-      "<div class=\"stat__k\">" + esc(label) + "</div>" +
-      "<div class=\"stat__v\">" + v + "</div>" +
-      (hint ? "<div class=\"stat__h\">" + esc(hint) + "</div>" : "") +
-      spark(v > 0) +
+    // 迷你柱：值为 0 时压平变淡（对应图3「断电」语义），有值则高低起伏
+    const shape = [0.45, 0.7, 0.4, 0.85, 0.55, 0.95, 0.6, 0.42, 0.75, 0.5];
+    const bars = shape.map(function (b, i) {
+      const h = v > 0 ? Math.round(b * 100) : Math.round(22 + (i % 3) * 4);
+      return '<i class="' + (v > 0 ? "on" : "") + '" style="height:' + h + '%"></i>';
+    }).join("");
+    return "<" + tag + " class=\"tile tile--" + color + "\"" + (href ? " href=\"" + href + "\"" : "") + ">" +
+      '<div class="tile__hd"><span class="tile__ico" aria-hidden="true">' + ico + "</span>" + esc(label) + "</div>" +
+      '<div class="tile__v">' + v + "</div>" +
+      (hint ? '<div class="tile__h">' + esc(hint) + "</div>" : "") +
+      '<div class="tile__spark">' + bars + "</div>" +
       "</" + tag + ">";
   }
 
+  // ---- 领域分布柱状图（真实数据，非装饰）----
+  const byDomain = opts.byDomain || [];
+  const maxDom = byDomain.reduce(function (m, d) { return Math.max(m, d.n); }, 1);
+  const domainBars = byDomain.slice(0, 8).map(function (d) {
+    const pct = Math.max(6, Math.round(d.n / maxDom * 100));
+    return '<div class="chart__col" title="' + esc(d.name) + "：" + d.n + ' 篇">' +
+      '<div class="chart__val">' + d.n + "</div>" +
+      '<div class="chart__bar" style="height:' + pct + '%"></div>' +
+      '<div class="chart__lab">' + esc(d.short || d.name) + "</div></div>";
+  }).join("");
+
+  // ---- 状态分布环形图（conic-gradient，零依赖）----
+  const st = opts.byStatus || { published: 0, draft: 0, in_review: 0, changes_requested: 0, archived: 0 };
+  const stTotal = Object.keys(st).reduce(function (a, k) { return a + st[k]; }, 0) || 1;
+  const ST_COLORS = { published: "#1F9E76", draft: "#C78510", in_review: "#3B4BC8", changes_requested: "#DB5A38", archived: "#A99E93" };
+  const ST_LABELS = { published: "已发布", draft: "草稿", in_review: "审核中", changes_requested: "退回", archived: "归档" };
+  let acc = 0;
+  const segs = [], legend = [];
+  ["published", "draft", "in_review", "changes_requested", "archived"].forEach(function (k) {
+    const n = st[k] || 0;
+    if (!n) return;
+    const from = acc / stTotal * 360;
+    acc += n;
+    const to = acc / stTotal * 360;
+    segs.push(ST_COLORS[k] + " " + from.toFixed(1) + "deg " + to.toFixed(1) + "deg");
+    legend.push('<li><span class="legend__dot" style="background:' + ST_COLORS[k] + '"></span>' +
+      ST_LABELS[k] + '<span class="legend__n">' + n + "</span></li>");
+  });
+  const donutStyle = segs.length ? ("background:conic-gradient(" + segs.join(",") + ")") : "background:#E6DCD1";
+
+  // ---- 近 12 周更新热力（真实数据，来自 front-matter 的 updated）----
+  const heat = opts.heat || [];
+  const heatCells = heat.map(function (c) {
+    return '<i data-l="' + (c.level || 0) + '" title="' + esc(c.label) + '：' + c.n + ' 篇更新"></i>';
+  }).join("");
+
   const recentRows = (opts.recent || []).map(function (a) {
     return "<tr><td><a class=\"link-strong\" href=\"/articles/" + esc(a.slug) + "\">" + esc(a.title || a.slug) + "</a>" +
-      "<div class=\"slug\">" + esc(a.slug) + "</div></td>" +
-      "<td><span class=\"pill pill--" + esc(a.status) + "\">" + esc(statusLabel(a.status)) + "</span></td>" +
-      "<td class=\"muted\">" + esc(a.updated || "") + "</td>" +
-      "<td class=\"muted\">" + esc(a.reviewer || "—") + "</td></tr>";
+      '<div class="slug">' + esc(a.slug) + "</div></td>" +
+      '<td><span class="pill pill--' + esc(a.status) + '">' + esc(statusLabel(a.status)) + "</span></td>" +
+      '<td class="muted tight">' + esc(a.updated || "") + "</td>" +
+      '<td class="muted tight">' + esc(a.reviewer || "—") + "</td></tr>";
   }).join("");
 
   const staleRows = (opts.stale || []).slice(0, 6).map(function (a) {
     const days = (a.days === null || a.days === undefined) ? "—" : (a.days + " 天");
     return "<tr><td><a class=\"link-strong\" href=\"/articles/" + esc(a.slug) + "\">" + esc(a.title || a.slug) + "</a></td>" +
-      "<td class=\"num\">" + esc(days) + "</td>" +
-      "<td class=\"muted\">" + esc(a.reviewed_at || "从未复核") + "</td></tr>";
+      '<td class="num tight">' + esc(days) + "</td>" +
+      '<td class="muted tight">' + esc(a.reviewed_at || "从未复核") + "</td></tr>";
   }).join("");
 
   const emptyStale = '<tr><td colspan="3" class="empty"><div class="empty__ico">✓</div>' +
     '<div class="empty__t">全部在复核周期内</div><div>没有超过 180 天未复核的文章</div></td></tr>';
 
   return layout("工作台",
-    "<h1>工作台</h1>" +
-    "<p class=\"muted\" style=\"margin:0 0 24px\">只放能触发动作的信息：待办、陈旧内容、结构缺失。装饰性统计一律不放。</p>" +
-    "<div class=\"stats\">" +
-      // 「待我审核 / 我的草稿 / 退回修改」按当前用户过滤（待办语义）；
-      // 已发布与陈旧度是全局指标，与个人无关，保持全站口径。
-      stat("inReview", "待我审核", (s.inReviewAll && s.inReviewAll !== s.inReview)
-            ? ("我相关 " + s.inReview + " 篇 · 全站 " + s.inReviewAll + " 篇") : "状态为「审核中」", "info", "/articles?status=in_review") +
-      stat("drafts", "我的草稿", "尚未发布", "warn", "/articles?status=draft") +
-      stat("changesRequested", "退回修改", "需要我处理", "danger", "/articles?status=changes_requested") +
-      stat("published", "已发布", "线上可访问", "ok", "/articles?status=published") +
-      stat("stale", "超 180 天未复核", "知识库健康度", "warn", "/articles?stale=1") +
-      stat("missingSources", "缺参考资料", "sources 少于 1 条", "danger", "/articles?missing=sources") +
+    // ---- 问候头部 ----
+    '<div class="dash-hello">' +
+      '<div><h1>' + greeting() + "，" + esc(who) + "！</h1>" +
+        // total 由服务端作为顶层参数传入（不是 stats 的字段）—— 曾误读 s.total 导致恒显示 0
+        '<div class="dash-hello__date">' + dateStr + " · 共 " + (opts.total || 0) + ' 篇文章</div></div>' +
+      '<div class="dash-hello__acts">' +
+        '<a class="btn btn--sm" href="/articles?missing=sources">检查结构</a>' +
+        '<a class="btn btn--sm" href="/media">媒体库</a>' +
+        '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' +
+      "</div>" +
     "</div>" +
-    // 两栏：左栏更宽（标题需要空间），右栏窄且等高 —— 避免右侧留下大片空洞
-    "<div class=\"dash-cols\">" +
-      "<div class=\"card card--flush\">" +
-        "<div class=\"card__hd\"><h3>最近编辑</h3><span class=\"topbar__sp\"></span>" +
-        "<a class=\"btn btn--sm\" href=\"/articles\">全部文章</a></div>" +
+
+    // ---- 主视觉横幅（图3 结构：一张高饱和渐变大卡领衔）----
+    // 指标都是真实派生值，不是装饰：来源覆盖率与复核覆盖率
+    (function () {
+      const tot = opts.total || 0;
+      const withSrc = Math.max(0, tot - (s.missingSources || 0));
+      const srcPct = tot ? Math.round(withSrc / tot * 100) : 0;
+      const pub = s.published || 0;
+      const okRev = Math.max(0, pub - (s.stale || 0));
+      const revPct = pub ? Math.round(okRev / pub * 100) : 0;
+      return '<div class="hero">' +
+        '<div class="hero__main">' +
+          '<div class="hero__k">知识库总量</div>' +
+          '<div class="hero__n">' + tot + '</div>' +
+          '<div class="hero__sub">篇教程 · 其中 ' + pub + ' 篇已上线</div>' +
+        '</div>' +
+        '<div class="hero__side">' +
+          '<div class="hero__m"><b>' + srcPct + '%</b><span>来源覆盖率</span></div>' +
+          '<div class="hero__m"><b>' + revPct + '%</b><span>复核在有效期内</span></div>' +
+          '<div class="hero__m"><b>' + (s.missingSources || 0) + '</b><span>缺参考资料</span></div>' +
+        '</div>' +
+      '</div>';
+    })() +
+
+    // ---- 彩色磁贴 ----
+    '<div class="tiles">' +
+      tile("inReview", "待我审核", "需要我给出结论", "◔", "indigo", "/articles?status=in_review") +
+      tile("drafts", "我的草稿", "尚未提交", "✎", "amber", "/articles?status=draft") +
+      tile("changesRequested", "退回修改", "需要我处理", "↩", "coral", "/articles?status=changes_requested") +
+      tile("published", "已发布", "线上可访问", "✓", "mint", "/articles?status=published") +
+      tile("stale", "超 180 天未复核", "知识库健康度", "◷", "violet", "/articles?stale=1") +
+      tile("missingSources", "缺参考资料", "sources 少于 1 条", "!", "sky", "/articles?missing=sources") +
+    "</div>" +
+
+    // ---- 数据看板：领域分布 + 状态构成 + 更新活动 ----
+    // 布局要点：柱状图与环形图并排且等高（避免一侧留大片空白）；
+    // 热力网格信息密度大，单独占满一行。
+    '<div class="grid2" style="gap:20px;align-items:stretch">' +
+      '<div class="card" style="display:flex;flex-direction:column">' +
+        '<div class="card__hd"><h3>各领域文章数</h3><span class="topbar__sp"></span>' +
+        '<span class="muted">按篇数排序</span></div>' +
+        '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end">' +
+          (domainBars ? '<div class="chart chart--tall">' + domainBars + "</div>"
+                       : '<div class="empty"><div class="empty__ico">▤</div><div class="empty__t">暂无数据</div></div>') +
+        "</div>" +
+      "</div>" +
+      '<div class="card" style="display:flex;flex-direction:column">' +
+        '<div class="card__hd"><h3>状态构成</h3><span class="topbar__sp"></span>' +
+        '<span class="muted">共 ' + stTotal + ' 篇</span></div>' +
+        '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:center">' +
+          '<div class="row" style="gap:26px;align-items:center;flex-wrap:nowrap">' +
+            '<div class="donut" style="' + donutStyle + '">' +
+              '<div class="donut__c"><div><div class="donut__n">' + stTotal + '</div>' +
+              '<div class="donut__l">篇</div></div></div></div>' +
+            '<ul class="legend">' + (legend.join("") || '<li class="muted">暂无数据</li>') + "</ul>" +
+          "</div>" +
+        "</div>" +
+      "</div>" +
+    "</div>" +
+
+    // ---- 更新活动热力图（占满一行）----
+    '<div class="card">' +
+      '<div class="card__hd"><h3>更新活动</h3><span class="topbar__sp"></span>' +
+      '<span class="muted">最近 80 天 · 颜色越深当天更新越多</span></div>' +
+      '<div class="card__bd"><div class="heat heat--wide">' + (heatCells || "") + "</div></div>" +
+    "</div>" +
+    // ---- 明细表 ----
+    '<div class="dash-cols" style="margin-top:20px">' +
+      '<div class="card card--flush">' +
+        '<div class="card__hd"><h3>最近编辑</h3><span class="topbar__sp"></span>' +
+        '<a class="btn btn--sm" href="/articles">全部文章</a></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">状态</th><th class="tight">更新</th><th class="tight">复核</th>' +
         "</tr></thead><tbody>" +
         (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">□</div><div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
         "</tbody></table></div>" +
       "</div>" +
-      "<div class=\"card card--flush\">" +
-        "<div class=\"card__hd\"><h3>陈旧内容</h3><span class=\"muted\" style=\"font-size:12px\">超 180 天未复核</span></div>" +
+      '<div class="card card--flush">' +
+        '<div class="card__hd"><h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">距上次</th><th class="tight">上次复核</th>' +
         "</tr></thead><tbody>" +
@@ -1081,7 +1351,6 @@ function dashboardPage(opts) {
     "</div>",
     Object.assign({ current: "dashboard", crumbs: [{ label: "工作台" }] }, opts));
 }
-
 function publishPage(opts) {
   const jobs = opts.jobs.map(function (j) {
     const dur = j.finished_at && j.started_at

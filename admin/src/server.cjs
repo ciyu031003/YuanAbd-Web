@@ -313,6 +313,18 @@ async function handle(req, res) {
   // 只统计能触发动作的信息（研究结论：不要虚荣指标）
   if (p === "/dashboard") {
     const all = await loadArticlesWithStatus();
+    // 每篇的负责人（author_id / reviewer_id）——「待我审核」必须按当前用户过滤，
+    // 否则给的是全站总数，等于没有待办。
+    // 注意：me / isMine 曾在一次重构中丢失定义，导致本路由运行时报
+    // ReferenceError（模块能加载不代表路由能跑）。这里补回并加兜底。
+    const ownerRows = await db.query("SELECT slug, author_id, reviewer_id FROM articles_meta");
+    const owners = {};
+    ownerRows.rows.forEach(function (r) { owners[r.slug] = r; });
+    const me = sess.user.user_id;
+    const isMine = function (a) {
+      const o = owners[a.slug];
+      return !!o && (o.author_id === me || o.reviewer_id === me);
+    };
     const today = Date.now();
     const daysSince = function (d) {
       if (!d) return null;
@@ -346,8 +358,68 @@ async function handle(req, res) {
     }).sort(function (a, b) {
       return (b.days === null ? 99999 : b.days) - (a.days === null ? 99999 : a.days);
     });
+    // ---- 数据看板所需聚合（全部来自真实数据，不做假图表）----
+    const tax = taxonomy();
+    const domName = {}, domShort = {};
+    (tax.domains || []).forEach(function (d) {
+      domName[d.id] = d.name;
+      // 图上标签位置有限，取前 4 个字符
+      // 图上标签位置有限（约 6 个中文字宽）。规则：
+      //   · 含空格：首词 + 次词前 2 字 —— 例如 "Windows 系统与开机" -> "Windows 系统"
+      //     只用首词会撞车（两个域名都叫 "Windows"），必须保留区分度
+      //   · 纯中文：取前 6 字，避免 "路由器与家" 这类断在半截的读法
+      const nm = String(d.name).trim();
+      const parts = nm.split(/\s+/);
+      if (parts.length > 1) {
+        // 次词 ≤3 字符（如 VPN、DNS）时保留整词，避免切成 "VP"
+        const w = parts[1];
+        const second = w.length <= 3 ? w : w.slice(0, 2);
+        domShort[d.id] = second ? (parts[0] + " " + second) : parts[0];
+      } else {
+        domShort[d.id] = nm.length > 6 ? nm.slice(0, 6) : nm;
+      }
+    });
+    const domCount = {};
+    all.forEach(function (a) {
+      const k = a.domain || "未分类";
+      domCount[k] = (domCount[k] || 0) + 1;
+    });
+    const byDomain = Object.keys(domCount).map(function (k) {
+      return { id: k, name: domName[k] || k, short: domShort[k] || k, n: domCount[k] };
+    }).sort(function (a, b) { return b.n - a.n; });
+
+    const byStatus = { published: 0, draft: 0, in_review: 0, changes_requested: 0, archived: 0 };
+    all.forEach(function (a) {
+      const k = a.status || "draft";
+      if (byStatus[k] === undefined) byStatus[k] = 0;
+      byStatus[k]++;
+    });
+
+    // 近 80 天更新活动：按 front-matter 的 updated 逐日统计
+    // 说明：这是「内容被更新的密度」，不是访问量 —— 后台没有埋点，不编造流量数据
+    const dayMs = 86400000;
+    const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+    const perDay = {};
+    all.forEach(function (a) {
+      if (!a.updated) return;
+      const t = new Date(String(a.updated) + "T00:00:00").getTime();
+      if (isNaN(t)) return;
+      const key = Math.floor((t - todayStart.getTime()) / dayMs);
+      perDay[key] = (perDay[key] || 0) + 1;
+    });
+    const maxDay = Object.keys(perDay).reduce(function (m, k) { return Math.max(m, perDay[k]); }, 1);
+    const heat = [];
+    for (let i = 79; i >= 0; i--) {
+      const n = perDay[-i] || 0;
+      const level = n === 0 ? 0 : Math.min(4, Math.max(1, Math.ceil(n / maxDay * 4)));
+      const d = new Date(todayStart.getTime() - i * dayMs);
+      heat.push({ n: n, level: level, label: (d.getMonth() + 1) + "月" + d.getDate() + "日" });
+    }
+
     return html(res, 200, views.dashboardPage(Object.assign({
-      stats: stats, recent: recent, stale: stale
+      stats: stats, recent: recent, stale: stale,
+      byDomain: byDomain, byStatus: byStatus, heat: heat,
+      total: all.length
     }, pageOpts)));
   }
 

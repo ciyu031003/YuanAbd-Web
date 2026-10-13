@@ -37,6 +37,11 @@ function loadTaxonomy() {
 /* ---------- 常量：正文段落与同义标题 ---------- */
 // 注意：这是「一个标题」——「适用 / 不适用」中间是斜杠，斜杠两侧有空格。
 // 历史坑：V1.0 方案把它当成两个标题，导致 validator 按 11 段实现而判死全部文章。
+/* 必写段落（硬约束）：正文可以自由组织，但这两段是「能被读懂 + 能被照着做」的底线 */
+const REQUIRED_SECTIONS = ["一句话结论", "分步骤"];
+/* 建议段落（仅提示）：保持站内一致性，不阻塞发布 */
+const SUGGESTED_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"];
+/* 完整骨架（编辑器预置、新建时使用） */
 const SECTION_TITLES = [
   "一句话结论", "30 秒快速排查", "适用 / 不适用", "开始前确认", "分步骤",
   "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"
@@ -142,15 +147,31 @@ function lintFile(fileName, opts) {
     add("V5", "warn", "difficulty 取值不在建议集合：" + meta.difficulty);
   }
 
-  // V6: 正文段落齐全（带同义标题白名单）
+  // V6: 正文段落（2026-10-13 调整：正文改为自由写作）
+  //
+  // 背景：原先强制 10 段结构。但项目负责人明确「正文自由写作，后续会引入
+  // 思维导图、图片等」，因此把硬约束收缩到最小可用集合：
+  //   · V6a 必写段落（error）—— 少了会让文章无法被理解和检索，必须拦
+  //   · V6b 建议段落（warn）—— 只提示，不阻塞发布
+  // 注意：结构化字段（19 个 front-matter）依旧强校验，不受此调整影响。
   const h2 = [];
   String(parsed.body).split(/\r?\n/).forEach(function (l) {
     const m = l.match(/^##\s+(.+?)\s*$/);
     if (m) h2.push(m[1]);
   });
-  SECTION_TITLES.forEach(function (canon) {
-    if (!h2.some(function (a) { return isSectionMatch(a, canon); })) {
-      add("V6", "error", "正文缺少段落：## " + canon);
+  const hasSection = function (canon) {
+    return h2.some(function (a) { return isSectionMatch(a, canon); });
+  };
+  // 必写：至少要有一个「结论/概述」段和一个「怎么做」段
+  REQUIRED_SECTIONS.forEach(function (canon) {
+    if (!hasSection(canon)) {
+      add("V6a", "error", "正文缺少必要段落：## " + canon + "（其余段落可自由组织）");
+    }
+  });
+  // 建议：保持知识库的一致性，但不拦
+  SUGGESTED_SECTIONS.forEach(function (canon) {
+    if (!hasSection(canon)) {
+      add("V6b", "warn", "建议补充段落：## " + canon);
     }
   });
 
@@ -307,4 +328,11 @@ if (require.main === module) {
   }
 }
 
-module.exports = { lintAll: lintAll, lintFile: lintFile, loadTaxonomy: loadTaxonomy, SRC: SRC };
+module.exports = {
+  lintAll: lintAll, lintFile: lintFile, loadTaxonomy: loadTaxonomy, SRC: SRC,
+  // 供后台复用：避免「后台校验」与「构建校验」两套规则各写一份而漂移
+  REQUIRED_SECTIONS: REQUIRED_SECTIONS,
+  SUGGESTED_SECTIONS: SUGGESTED_SECTIONS,
+  SECTION_TITLES: SECTION_TITLES,
+  SECTION_ALIASES: SECTION_ALIASES
+};

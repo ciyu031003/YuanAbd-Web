@@ -12,9 +12,21 @@ const articles = require("./articles.cjs");
 const publisher = require("./publish.cjs");
 const invites = require("./invites.cjs");
 const collab = require("./collab.cjs");
+const media = require("./media.cjs");
+const totp = require("./totp.cjs");
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
+
+/* 正文段落规则：从 content-lint.cjs 读取，保证后台与构建同一套规则 */
+function sectionRules() {
+  try {
+    const lint = require(path.join(config.repo.root, "content-lint.cjs"));
+    return { required: lint.REQUIRED_SECTIONS, suggested: lint.SUGGESTED_SECTIONS, aliases: lint.SECTION_ALIASES };
+  } catch (e) {
+    return { required: ["一句话结论", "分步骤"], suggested: [], aliases: {} };
+  }
+}
 
 /* 静态资源（仅 /static/*，只服务 public/ 下的白名单文件）
    白名单而非目录映射：避免路径穿越，也让「可对外文件」一目了然。 */
@@ -120,6 +132,21 @@ async function handle(req, res) {
       await db.query("UPDATE users SET failed_logins = $2, locked_until = $3 WHERE id = $1", [u.id, n, lock]);
       return fail("bad-password");
     }
+    // 密码正确。若该用户开启了 2FA，先不建完整会话，进入第二步验证。
+    //
+    // 关键安全点：会话在这里**尚未创建**，只是记一个短时效的「待验证」标记。
+    // 因此即使有人拿到密码，也无法绕过第二步取到有效会话。
+    const tr = await db.query("SELECT totp_enabled FROM users WHERE id = $1", [u.id]);
+    if (tr.rows[0] && tr.rows[0].totp_enabled) {
+      auth.clearAttempts(c.ip);
+      await db.query("UPDATE users SET failed_logins = 0, locked_until = NULL WHERE id = $1", [u.id]);
+      const pending = await auth.createPendingTotp(u.id, c.ip, c.ua);
+      await auth.audit({ user_id: u.id, email: u.email }, "login.totp_required", null, null, c.ip);
+      const pc = h.cookieHeader("fx_totp_pending", pending, {
+        secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax"
+      });
+      return h.send(res, 302, "", h.securityHeaders({ Location: "/login/totp", "Set-Cookie": pc }));
+    }
     // 成功
     auth.clearAttempts(c.ip);
     await db.query("UPDATE users SET failed_logins = 0, locked_until = NULL, last_login_at = now() WHERE id = $1", [u.id]);
@@ -134,6 +161,64 @@ async function handle(req, res) {
     }));
   }
 
+  // ---- 登录第二步：2FA 验证 ----
+  if (p === "/login/totp") {
+    const cookies2 = h.parseCookies(req.headers.cookie);
+    const pendTok = cookies2["fx_totp_pending"];
+    const pend = auth.peekPendingTotp(pendTok);
+    if (!pend) {
+      return redirect(res, "/login");
+    }
+    if (method === "GET") {
+      return html(res, 200, views.totpChallengePage({ csrf: "" }));
+    }
+    const form = h.parseForm(await h.readBody(req, 8192));
+    // 限流同样适用，防止暴力猜 6 位码
+    if (auth.isRateLimited(c.ip)) {
+      await auth.audit(null, "totp.ratelimited", null, { ip: c.ip }, c.ip);
+      return html(res, 429, views.totpChallengePage({ error: "尝试次数过多，请稍后再试。" }));
+    }
+    const used = auth.takePendingTotp(pendTok);
+    if (!used) return redirect(res, "/login");
+    const ur = await db.query("SELECT id, email, name, is_root, status, must_change_password, totp_secret, totp_enabled FROM users WHERE id = $1", [used.userId]);
+    const u2 = ur.rows[0];
+    if (!u2 || u2.status !== "active" || !u2.totp_enabled) return redirect(res, "/login");
+    const code = String(form.code || "").trim();
+    let okCode = totp.verify(u2.totp_secret, code);
+    // 恢复码：一次性，用后作废
+    if (!okCode && code.length >= 8) {
+      const hh = totp.hashCode(code);
+      const rr = await db.query("SELECT id FROM recovery_codes WHERE user_id = $1 AND code_hash = $2 AND used_at IS NULL", [u2.id, hh]);
+      if (rr.rows.length) {
+        await db.query("UPDATE recovery_codes SET used_at = now() WHERE id = $1", [rr.rows[0].id]);
+        okCode = true;
+        await auth.audit({ user_id: u2.id, email: u2.email }, "totp.recovery_used", null, null, c.ip);
+      }
+    }
+    if (!okCode) {
+      auth.recordAttempt(c.ip);
+      await auth.audit({ user_id: u2.id, email: u2.email }, "totp.failed", null, null, c.ip);
+      // 校验失败要重新走第一步（pending 已作废），避免无限重试
+      const np = await auth.createPendingTotp(u2.id, c.ip, c.ua);
+      const pc2 = h.cookieHeader("fx_totp_pending", np, { secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax" });
+      return h.send(res, 401, views.totpChallengePage({ error: "验证码不正确，请重试（确认手机时间准确）" }), h.securityHeaders({
+        "Content-Type": "text/html; charset=utf-8", "Set-Cookie": pc2
+      }));
+    }
+    // 通过：建立正式会话
+    auth.clearAttempts(c.ip);
+    await db.query("UPDATE users SET last_login_at = now(), failed_logins = 0, locked_until = NULL WHERE id = $1", [u2.id]);
+    const s2 = await auth.createSession(u2.id, c.ip, c.ua);
+    await auth.audit({ user_id: u2.id, email: u2.email }, "login.success", null, { via: "totp" }, c.ip);
+    const ck = h.cookieHeader(config.session.cookieName, s2.token, {
+      secure: config.session.secure, maxAge: config.session.absoluteMs, httpOnly: true, sameSite: "Lax"
+    });
+    const clr = "fx_totp_pending=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax";
+    return h.send(res, 302, "", h.securityHeaders({
+      Location: u2.must_change_password ? "/change-password" : "/articles",
+      "Set-Cookie": [ck, clr]
+    }));
+  }
   // ---- 登出 ----
   if (p === "/logout" && method === "POST") {
     if (sess) {
@@ -166,6 +251,23 @@ async function handle(req, res) {
     await auth.audit(null, "user.activated", created.email, { role: created.role }, c.ip);
     return html(res, 200, views.simplePage("账号已激活", "密码设置成功，请返回登录页登录。", {}));
   }
+
+  // ---- 媒体文件：公开可读（文章正文里的图片，读者也要能看到） ----
+  // 必须在鉴权门槛之前处理；文件名用严格正则白名单，路径穿越一律 404。
+    // 直接服务媒体文件（绕过 nginx 的静态规则，便于本地/容器内一致；线上由 nginx 直接命中）
+  if (p.indexOf("/media/") === 0 && method === "GET") {
+    const name = p.slice("/media/".length);
+    // 只允许「日期-随机hex.扩展名」这一种形态，杜绝路径穿越
+    if (!/^[0-9]{8}-[0-9a-f]{12}\.(png|jpg|webp|gif|avif)$/.test(name)) {
+      return h.send(res, 404, "not found", h.securityHeaders());
+    }
+    const full = path.join(media.MEDIA_DIR, name);
+    if (!fs.existsSync(full)) return h.send(res, 404, "not found", h.securityHeaders());
+    const ext = name.split(".").pop();
+    const type = { png: "image/png", jpg: "image/jpeg", webp: "image/webp", gif: "image/gif", avif: "image/avif" }[ext] || "application/octet-stream";
+    return h.send(res, 200, fs.readFileSync(full), h.securityHeaders({ "Content-Type": type, "Cache-Control": "public, max-age=2592000, immutable" }));
+  }
+
 
   // ---- 以下全部需要登录 ----
   if (!sess) return redirect(res, "/login");
@@ -219,15 +321,17 @@ async function handle(req, res) {
       return Math.floor((today - t) / 86400000);
     };
     const stats = {
-      inReview: all.filter(function (a) { return a.status === "in_review"; }).length,
-      drafts: all.filter(function (a) { return a.status === "draft"; }).length,
-      changesRequested: all.filter(function (a) { return a.status === "changes_requested"; }).length,
+      // 「待我审核」「我的草稿」按当前用户过滤 —— 给全站总数等于没给待办
+      inReview: all.filter(function (a) { return a.status === "in_review" && (me === null || isMine(a)); }).length,
+      inReviewAll: all.filter(function (a) { return a.status === "in_review"; }).length,
+      drafts: all.filter(function (a) { return a.status === "draft" && (me === null || isMine(a)); }).length,
+      changesRequested: all.filter(function (a) { return a.status === "changes_requested" && (me === null || isMine(a)); }).length,
       published: all.filter(function (a) { return a.status === "published"; }).length,
       stale: all.filter(function (a) {
         if (a.status !== "published") return false;
         const d = daysSince(a.reviewed_at);
         return d === null || d > 180;
-      }, ).length,
+      }).length,
       missingSources: all.filter(function (a) { return (a.sourcesCount || 0) < 1; }).length
     };
     const recent = all.slice().sort(function (a, b) {
@@ -317,7 +421,7 @@ async function handle(req, res) {
     if (method === "GET") {
       return html(res, 200, views.editorPage(Object.assign({
         isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
-        body: articles.BODY_SKELETON, taxonomy: taxonomy()
+        body: articles.BODY_SKELETON, taxonomy: taxonomy(), sections: sectionRules()
       }, pageOpts)));
     }
     // POST 新建
@@ -361,7 +465,7 @@ async function handle(req, res) {
       return html(res, 200, views.editorPage(Object.assign({
         isExisting: true, slug: slug, meta: art.meta, body: art.body,
         contentHash: art.contentHash, taxonomy: taxonomy(), canPublish: canPublish,
-        comments: cmts, revCount: revCount,
+        comments: cmts, revCount: revCount, sections: sectionRules(),
         notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
       }, pageOpts)));
     }
@@ -502,6 +606,143 @@ async function handle(req, res) {
     else await collab.reopenComment(id);
     await auth.audit(sess.user, "comment." + mResolve[2], String(id), null, c.ip);
     return redirect(res, "/articles/" + (form.slug || "") + "#comments");
+  }
+  // ---- 媒体库 ----
+  if (p === "/media") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能管理媒体。", pageOpts));
+    const items = await media.list(200);
+    return html(res, 200, views.mediaPage(Object.assign({
+      items: items,
+      notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
+    }, pageOpts)));
+  }
+  // 上传
+  if (p === "/media/upload" && method === "POST") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能上传媒体。", pageOpts));
+    const ctype = req.headers["content-type"] || "";
+    const bm = /boundary=(.+)$/.exec(ctype);
+    if (!bm) return redirect(res, "/media?error=" + encodeURIComponent("请求格式不正确（需要 multipart/form-data）"));
+    const raw = await h.readBodyRaw(req, media.MAX_BYTES + 1024 * 1024);
+    const parts = media.parseMultipart(raw, bm[1].trim());
+    const getField = function (n) { const f = parts.find(function (x) { return x.name === n && x.filename === null; }); return f ? f.data.toString("utf8").trim() : ""; };
+    const filePart = parts.find(function (x) { return x.filename !== null; });
+    // CSRF
+    if (!auth.verifyCsrf(sess.user, getField("_csrf"))) {
+      return redirect(res, "/media?error=" + encodeURIComponent("CSRF 校验失败"));
+    }
+    if (!filePart || !filePart.data || filePart.data.length === 0) {
+      return redirect(res, "/media?error=" + encodeURIComponent("请选择文件"));
+    }
+    const alt = getField("alt");
+    const desensitized = getField("desensitized");
+    if (!alt) return redirect(res, "/media?error=" + encodeURIComponent("alt 文本是必填的（无障碍要求）"));
+    if (!desensitized) return redirect(res, "/media?error=" + encodeURIComponent("请确认图片已脱敏"));
+    try {
+      const saved = media.saveBuffer(filePart.data, filePart.contentType, filePart.filename);
+      saved.alt = alt;
+      const id = await media.record(saved, sess.user.user_id);
+      await auth.audit(sess.user, "media.upload", saved.filename, { bytes: saved.bytes, alt: alt }, c.ip);
+      return redirect(res, "/media?notice=" + encodeURIComponent("已上传：" + saved.relPath));
+    } catch (e) {
+      return redirect(res, "/media?error=" + encodeURIComponent(e.message));
+    }
+  }
+
+  // 修改 alt
+  const mAlt = p.match(/^\/media\/(\d+)\/alt$/);
+  if (mAlt && method === "POST") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能修改媒体。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return redirect(res, "/media?error=" + encodeURIComponent("CSRF 校验失败"));
+    await media.updateAlt(parseInt(mAlt[1], 10), form.alt);
+    await auth.audit(sess.user, "media.alt", mAlt[1], { alt: form.alt }, c.ip);
+    return redirect(res, "/media?notice=" + encodeURIComponent("alt 已更新"));
+  }
+
+  // 删除（软删除 + 引用检查）
+  const mDel = p.match(/^\/media\/(\d+)\/delete$/);
+  if (mDel && method === "POST") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能删除媒体。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return redirect(res, "/media?error=" + encodeURIComponent("CSRF 校验失败"));
+    const m = await media.getById(parseInt(mDel[1], 10));
+    if (!m) return redirect(res, "/media?error=" + encodeURIComponent("文件不存在"));
+    const refs = await media.findReferences(m.filename);
+    if (refs.length) {
+      return redirect(res, "/media?error=" + encodeURIComponent("该图片仍被 " + refs.length + " 篇文章引用（" + refs.slice(0,3).join("、") + "…），请先在文章中移除引用"));
+    }
+    await media.softDelete(m.id, sess.user.user_id);
+    await auth.audit(sess.user, "media.delete", m.filename, null, c.ip);
+    return redirect(res, "/media?notice=" + encodeURIComponent("已删除（文件保留，可恢复）"));
+  }
+  // ---- 2FA 设置页 ----
+  if (p === "/security") {
+    const r2 = await db.query("SELECT totp_enabled FROM users WHERE id = $1", [sess.user.user_id]);
+    const enabled = !!(r2.rows[0] && r2.rows[0].totp_enabled);
+    return html(res, 200, views.securityPage(Object.assign({
+      enabled: enabled,
+      notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
+    }, pageOpts)));
+  }
+
+  // 开始绑定：生成密钥并展示（此时尚未启用）
+  if (p === "/security/totp/start" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return redirect(res, "/security?error=" + encodeURIComponent("CSRF 校验失败"));
+    const secret = totp.generateSecret();
+    await db.query("UPDATE users SET totp_secret = $2, totp_enabled = false WHERE id = $1", [sess.user.user_id, secret]);
+    await auth.audit(sess.user, "totp.start", null, null, c.ip);
+    return redirect(res, "/security/confirm");
+  }
+
+  // 确认绑定：校验一次验证码后启用，并展示恢复码（只显示一次）
+  if (p === "/security/confirm") {
+    const r2 = await db.query("SELECT totp_secret, totp_enabled FROM users WHERE id = $1", [sess.user.user_id]);
+    const row = r2.rows[0] || {};
+    if (!row.totp_secret) return redirect(res, "/security?error=" + encodeURIComponent("请先生成密钥"));
+    if (method === "GET") {
+      const uri = totp.otpauthURL(row.totp_secret, sess.user.email, "修盒子内容后台");
+      const codes = null;
+      return html(res, 200, views.securityConfirmPage(Object.assign({
+        secret: row.totp_secret, uri: uri, codes: codes
+      }, pageOpts)));
+    }
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return redirect(res, "/security?error=" + encodeURIComponent("CSRF 校验失败"));
+    if (!totp.verify(row.totp_secret, form.code)) {
+      const uri = totp.otpauthURL(row.totp_secret, sess.user.email, "修盒子内容后台");
+      return html(res, 400, views.securityConfirmPage(Object.assign({
+        secret: row.totp_secret, uri: uri, codes: null, error: "验证码不正确，请重试（确认手机时间是否准确）"
+      }, pageOpts)));
+    }
+    // 启用并生成恢复码
+    const codes = totp.generateRecoveryCodes(8);
+    await db.tx(async function (client) {
+      await client.query("UPDATE users SET totp_enabled = true WHERE id = $1", [sess.user.user_id]);
+      await client.query("DELETE FROM recovery_codes WHERE user_id = $1", [sess.user.user_id]);
+      for (const c of codes) {
+        await client.query("INSERT INTO recovery_codes (user_id, code_hash) VALUES ($1,$2)", [sess.user.user_id, totp.hashCode(c)]);
+      }
+    });
+    await auth.audit(sess.user, "totp.enabled", null, null, c.ip);
+    const uri = totp.otpauthURL(row.totp_secret, sess.user.email, "修盒子内容后台");
+    return html(res, 200, views.securityConfirmPage(Object.assign({
+      secret: row.totp_secret, uri: uri, codes: codes, done: true
+    }, pageOpts)));
+  }
+
+  // 关闭 2FA（需要验证码或密码）
+  if (p === "/security/totp/disable" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return redirect(res, "/security?error=" + encodeURIComponent("CSRF 校验失败"));
+    const r2 = await db.query("SELECT totp_enabled FROM users WHERE id = $1", [sess.user.user_id]);
+    if (r2.rows[0] && r2.rows[0].totp_enabled && !await auth.can(sess.user, "user:manage")) {
+      return redirect(res, "/security?error=" + encodeURIComponent("关闭 2FA 需要管理员权限"));
+    }
+    await db.query("UPDATE users SET totp_enabled = false, totp_secret = NULL WHERE id = $1", [sess.user.user_id]);
+    await db.query("DELETE FROM recovery_codes WHERE user_id = $1", [sess.user.user_id]);
+    await auth.audit(sess.user, "totp.disabled", null, null, c.ip);
+    return redirect(res, "/security?notice=" + encodeURIComponent("已关闭双因素认证"));
   }
   // ---- 发布队列 ----
   if (p === "/publish") {
@@ -657,14 +898,24 @@ async function lintFileCheck(meta, body, slug) {
     if (!s.url) errs.push("参考资料[" + (i + 1) + "]缺少 URL");
     else if (!/^https:\/\//.test(s.url)) errs.push("参考资料[" + (i + 1) + "]的 URL 需以 https:// 开头");
   });
-  // 正文段落
-  const need = ["一句话结论","30 秒快速排查","适用 / 不适用","开始前确认","分步骤","怎么确认修好了","还是不行？","预防","相关教程","更新日志"];
-  const alts = { "怎么确认修好了": ["怎么确认修好了","怎么确认处理好了"] };
+  // 正文段落（2026-10-13：正文改为自由写作）
+  // 只硬性要求两个底线段落，其余段落自由组织。
+  // 与 content-lint.cjs 的 V6a/V6b 保持一致 —— 两处都要改，否则会出现
+  // 「后台说能发、构建失败」或反之。这里复用 lint 模块的常量，避免再次分叉。
+  let req = ["一句话结论", "分步骤"];
+  let alts = { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
+  try {
+    const lintMod = require(path.join(config.repo.root, "content-lint.cjs"));
+    if (lintMod.REQUIRED_SECTIONS) req = lintMod.REQUIRED_SECTIONS;
+    if (lintMod.SECTION_ALIASES) alts = lintMod.SECTION_ALIASES;
+  } catch (e) { /* 用上面的默认值兜底 */ }
   const h2 = String(body || "").split(/\r?\n/).filter(function (l) { return /^##\s+/.test(l); })
     .map(function (l) { return l.replace(/^##\s+/, "").trim(); });
-  need.forEach(function (n) {
+  req.forEach(function (n) {
     const list = alts[n] || [n];
-    if (!h2.some(function (x) { return list.indexOf(x) >= 0; })) errs.push("正文缺少段落：## " + n);
+    if (!h2.some(function (x) { return list.indexOf(x) >= 0; })) {
+      errs.push("正文缺少必要段落：## " + n + "（其余段落可自由组织）");
+    }
   });
   return errs;
 }

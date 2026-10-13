@@ -68,6 +68,29 @@ function validatePasswordStrength(pw) {
   return errs;
 }
 
+/* ---------------- 2FA 待验证票（登录第二步用） ----------------
+   只存在内存里，5 分钟过期，且绑定用户 —— 重启即失效，不落盘。 */
+const pendingTotp = new Map();   // token -> { userId, expiresAt, ip, ua }
+function createPendingTotp(userId, ip, ua) {
+  const t = crypto.randomBytes(24).toString("base64url");
+  pendingTotp.set(t, { userId: userId, expiresAt: Date.now() + 5 * 60 * 1000, ip: ip, ua: ua });
+  // 顺手清理过期项，避免内存无限增长
+  const now = Date.now();
+  pendingTotp.forEach(function (v, k) { if (v.expiresAt < now) pendingTotp.delete(k); });
+  return t;
+}
+function takePendingTotp(token) {
+  if (!token) return null;
+  const v = pendingTotp.get(token);
+  pendingTotp.delete(token);            // 一次性：取出即作废
+  if (!v || v.expiresAt < Date.now()) return null;
+  return v;
+}
+function peekPendingTotp(token) {
+  const v = pendingTotp.get(token || "");
+  if (!v || v.expiresAt < Date.now()) return null;
+  return v;
+}
 /* ---------------- 会话 ---------------- */
 function sha256(s) { return crypto.createHash("sha256").update(s).digest("hex"); }
 
@@ -191,6 +214,7 @@ async function audit(user, action, target, detail, ip) {
 }
 
 module.exports = {
+  createPendingTotp: createPendingTotp, takePendingTotp: takePendingTotp, peekPendingTotp: peekPendingTotp,
   hashPassword: hashPassword, verifyPassword: verifyPassword, validatePasswordStrength: validatePasswordStrength,
   createSession: createSession, getSession: getSession, destroySession: destroySession,
   destroyAllSessionsForUser: destroyAllSessionsForUser,

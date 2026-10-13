@@ -85,7 +85,10 @@ function layout(title, bodyHtml, opts) {
     '<nav><a href="/articles">文章</a>' +
     (isReviewer ? '<a href="/audit">审计</a>' : '') +
     (isAdmin ? '<a href="/users">账号</a>' : '') +
-    '<a href="/publish">发布</a></nav>';
+    '<a href="/publish">发布</a>' +
+    // 「修改密码」必须有入口：否则非强制改密的用户没有途径主动轮换密码
+    // （/change-password 路由一直存在，只是原先导航里没有链接）
+    '<a href="/change-password">修改密码</a></nav>';
   let who = "";
   if (user) {
     const roleHtml = user.is_root ? '<span class="pill pill--admin">root</span>'

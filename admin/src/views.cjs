@@ -310,7 +310,139 @@ details>summary::-webkit-details-marker{display:none}
 .mcard__ft{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap}
 
 /* ---- 思维导图/复用：正文图片自适应 ---- */
-.fx-body img{max-width:100%;height:auto}`;
+.fx-body img{max-width:100%;height:auto}
+/* ============================================================
+   视觉优化（2026-10-13）
+   依据本地 codex UI skills 的可迁移原则：
+     · 「Space and scale create rhythm」—— 用留白与尺寸制造节奏，而非均匀网格
+     · 「Typography stays modest」—— 排版克制，层级靠间距而非堆叠字重
+     · 「Material stays subtle」—— 轻微纸感、柔和阴影、暖调底色
+   问题定位（截图审计）：统计卡换行产生孤儿卡、表格日期被挤断行、
+   空状态留下大片空洞、卡片全平无层次、图标字重不一致。
+   ============================================================ */
+
+/* ---- 1) 底色改为暖纸感，不是冷灰 ---- */
+:root{
+  --bg-0:#F6F5F2;          /* 暖白纸 */
+  --bg-1:#FFFFFF;
+  --bg-2:#F1EFEB;
+  --bg-3:#E8E5DF;
+  --border:#E7E4DE;
+  --border-strong:#D6D2C9;
+  --text-0:#1C1B19;
+  --text-1:#3D3B37;
+  --text-2:#6E6A63;
+  --text-3:#9C978E;
+  --brand:#4B47C7; --brand-hover:#403CB0; --brand-weak:#EFEEFB; --brand-border:#C9C6F0;
+  --r-lg:14px; --r-md:9px;
+  --shadow-1:0 1px 2px rgba(28,27,25,.04), 0 2px 8px rgba(28,27,25,.045);
+  --shadow-2:0 2px 6px rgba(28,27,25,.06), 0 12px 28px rgba(28,27,25,.09);
+}
+
+/* ---- 2) 统计卡：固定 3 列，6 张卡整齐两行，杜绝孤儿 ---- */
+.stats{grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.stats{grid-template-columns:1fr}}
+.stat{padding:20px 22px;position:relative;overflow:hidden}
+.stat::after{                       /* 极细的左侧强调线，用颜色区分语义且不吵 */
+  content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 3px 3px 0;
+  background:var(--border-strong);opacity:.5;
+}
+.stat--warn::after{background:var(--warn);opacity:.75}
+.stat--danger::after{background:var(--danger);opacity:.75}
+.stat--ok::after{background:var(--ok);opacity:.75}
+.stat--info::after{background:var(--info);opacity:.75}
+.stat__k{font-size:13px;letter-spacing:.01em}
+.stat__v{font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.stat__h{font-size:12px;margin-top:4px}
+
+/* ---- 3) 卡片：柔和层次 + 更克制的间距 ---- */
+.card{border-radius:var(--r-lg);border-color:var(--border);box-shadow:var(--shadow-1)}
+.card__hd{padding:16px 22px;background:transparent}
+.card__bd{padding:22px}
+.card__ft{padding:12px 22px;background:var(--bg-2);border-top-color:var(--border)}
+
+/* ---- 4) 表格：日期/短列不折行，标题列给足空间 ---- */
+table{font-size:14px}
+th,td{padding:12px 18px}
+thead th{background:var(--bg-2);color:var(--text-2);font-size:12.5px;letter-spacing:.02em}
+td.tight,td.num,th.num{white-space:nowrap}
+.tname{line-height:1.5}                    /* 标题可折行但行距舒展 */
+.slug{font-size:11.5px;letter-spacing:.01em}
+
+/* ---- 5) 空状态：撑满卡片，不留半截空洞 ---- */
+.empty{padding:56px 24px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.empty__ico{font-size:28px;opacity:.35;margin-bottom:12px}
+.empty__t{font-weight:600;color:var(--text-1);margin-bottom:4px;font-size:14px}
+.empty>div:last-child{font-size:13px}
+
+/* ---- 6) 侧栏：图标统一optically等宽，字重一致 ---- */
+.sidebar__brand{font-size:15px;letter-spacing:.01em}
+.navitem{gap:11px;padding:9px 12px;font-size:13.5px;border-radius:var(--r-md)}
+.navitem__ico{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:14px;line-height:1;opacity:.75;flex:none}
+.navitem[aria-current="page"] .navitem__ico{opacity:1}
+.sidebar__sec{font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-3);padding:18px 14px 6px;font-weight:600}
+.sidebar__brand .mark{width:30px;height:30px;border-radius:9px;font-size:14px}
+
+/* ---- 7) 页头：标题与说明的节奏 ---- */
+main>h1{font-size:24px;letter-spacing:-.01em;margin-bottom:6px}
+main>h1+ .muted{margin-bottom:22px;display:block;line-height:1.7}
+
+/* ---- 8) 顶栏面包屑更轻 ---- */
+.crumbs{font-size:13px}
+.topbar{padding:12px 26px;background:rgba(246,245,242,.88)}
+
+/* ---- 9) 登录页：去掉局促，给足呼吸 ---- */
+.login-wrap{max-width:376px;margin:12vh auto}
+.login-wrap .card{padding:34px 32px;box-shadow:var(--shadow-2)}
+.login-wrap h1{font-size:22px;margin-bottom:8px;letter-spacing:-.01em}
+
+/* ---- 10) 微妙的纸纹（极低对比，避免噪点感） ---- */
+body{
+  background-image:radial-gradient(rgba(28,27,25,.018) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+
+/* ---- 工作台两栏：左宽右窄，避免右侧空洞 ---- */
+.dash-cols{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:start}
+@media(max-width:1080px){.dash-cols{grid-template-columns:1fr}}
+.dash-table td{padding:13px 18px}
+.dash-table td:first-child{font-size:14px;line-height:1.55}
+
+/* ---- 统计卡等高：避免第二行显得更空 ---- */
+.stats{align-items:stretch}
+.stat{display:flex;flex-direction:column;justify-content:center;min-height:104px}
+.stat__k{order:1}
+.stat__v{order:2}
+.stat__h{order:3}
+
+/* ---- 工作台右栏：空状态不应留大片空洞 ---- */
+.dash-cols>.card{height:100%}
+.dash-cols .empty{min-height:150px;padding:40px 24px}
+
+/* ---- 标题与内容间距收紧，层级更清晰 ---- */
+.card__hd h3{font-size:14.5px;letter-spacing:.005em}
+.card__hd .muted{font-size:12px}
+h1{margin-bottom:4px}
+
+/* ---- 表格首列（标题）加粗但不过重 ---- */
+.dash-table td:first-child,.tablewrap td:first-child{font-weight:500}
+.link-strong{font-weight:600;letter-spacing:.005em}
+
+/* ---- 徽章：更细腻的描边与内距 ---- */
+.pill{padding:2px 10px;font-size:11.5px;letter-spacing:.01em}
+
+/* ---- 按钮：更收敛的阴影与圆角 ---- */
+.btn{font-size:13.5px;height:34px;border-radius:var(--r-md)}
+.btn--sm{height:28px;font-size:12.5px}
+.btn--primary{box-shadow:0 1px 2px rgba(75,71,199,.22)}
+
+/* ---- 筛选栏：标签与控件间距统一 ---- */
+form.card label{font-size:12.5px;margin-bottom:6px;color:var(--text-1)}
+form.card input,form.card select{height:34px;font-size:13.5px}
+`;
 
 function layout(title, bodyHtml, opts) {
   opts = opts || {};
@@ -448,6 +580,16 @@ function articlesPage(opts) {
   const items = opts.items || [];
   const canCreate = opts.canCreate;
 
+  // 领域/分类的中文名映射。原先列表直接显示 slug（data-backup / db-delete），
+  // 既不美观也不易懂 —— 这里按 taxonomy 翻译。
+  const domById = {}, catById = {};
+  (opts.domains || []).forEach(function (d) {
+    domById[d.id] = d.name;
+    (d.cats || []).forEach(function (c) { catById[c.id] = c.name; });
+  });
+  function domName(id) { return domById[id] || id || ""; }
+  function catName(id) { return catById[id] || id || ""; }
+
   // 保留当前筛选条件、只覆盖指定字段 —— 用于分页/排序链接
   function qs(over) {
     const base = {
@@ -481,7 +623,7 @@ function articlesPage(opts) {
         ((a.sourcesCount || 0) < 1 ? '<span class="pill pill--changes_requested" title="缺少参考资料">缺来源</span>' : "") +
       "</td>" +
       "<td><span class=\"pill pill--" + esc(a.status) + "\">" + esc(statusLabel(a.status)) + "</span></td>" +
-      "<td>" + esc(a.domainName || a.domain || "") + '<div class=\"muted\">' + esc(a.category || "") + "</div></td>" +
+      "<td>" + esc(domName(a.domain)) + '<div class="muted">' + esc(catName(a.category)) + "</div></td>" +
       "<td>" + esc(a.risk || "") + '<div class=\"muted\">' + esc(a.difficulty || "") + "</div></td>" +
       "<td class=\"num\">" + (a.sourcesCount || 0) + "</td>" +
       "<td class=\"muted num\">" + esc(a.updated || "") + "</td>" +
@@ -948,17 +1090,22 @@ function dashboardPage(opts) {
       stat("stale", "超 180 天未复核", "知识库健康度", "warn", "/articles?stale=1") +
       stat("missingSources", "缺参考资料", "sources 少于 1 条", "danger", "/articles?missing=sources") +
     "</div>" +
-    "<div class=\"grid2\" style=\"align-items:start\">" +
+    // 两栏：左栏更宽（标题需要空间），右栏窄且等高 —— 避免右侧留下大片空洞
+    "<div class=\"dash-cols\">" +
       "<div class=\"card card--flush\">" +
         "<div class=\"card__hd\"><h3>最近编辑</h3><span class=\"topbar__sp\"></span>" +
         "<a class=\"btn btn--sm\" href=\"/articles\">全部文章</a></div>" +
-        '<div class="tablewrap"><table><thead><tr><th>标题</th><th>状态</th><th>更新</th><th>复核</th></tr></thead><tbody>' +
-        (recentRows || '<tr><td colspan="4" class="empty">暂无内容</td></tr>') +
+        '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
+        '<th style="width:auto">标题</th><th class="tight">状态</th><th class="tight">更新</th><th class="tight">复核</th>' +
+        "</tr></thead><tbody>" +
+        (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">□</div><div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
         "</tbody></table></div>" +
       "</div>" +
       "<div class=\"card card--flush\">" +
-        "<div class=\"card__hd\"><h3>陈旧内容（建议复核）</h3></div>" +
-        '<div class="tablewrap"><table><thead><tr><th>标题</th><th>距上次复核</th><th>上次复核</th></tr></thead><tbody>' +
+        "<div class=\"card__hd\"><h3>陈旧内容</h3><span class=\"muted\" style=\"font-size:12px\">超 180 天未复核</span></div>" +
+        '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
+        '<th style="width:auto">标题</th><th class="tight">距上次</th><th class="tight">上次复核</th>' +
+        "</tr></thead><tbody>" +
         (staleRows || emptyStale) +
         "</tbody></table></div>" +
       "</div>" +

@@ -85,7 +85,9 @@ async function handle(req, res) {
   const sess = await currentUser(req);
 
   // ---- 登录 ----
-  if (p === "/login" && method === "GET") {
+  // HEAD 与 GET 同等处理：否则 HEAD /login 会落入「未登录 -> 跳 /login」形成重定向环，
+  // 导致健康检查/监控/抓取工具（含 curl -I）报 "too many redirects"。
+  if (p === "/login" && (method === "GET" || method === "HEAD")) {
     if (sess) return redirect(res, "/articles");
     return html(res, 200, views.loginPage({}));
   }

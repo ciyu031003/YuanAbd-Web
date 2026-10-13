@@ -6,6 +6,14 @@
 const h = require("./http.cjs");
 const esc = h.esc;
 
+/* 正文段落规则的兜底值。
+   真实值由服务端从 content-lint.cjs 注入（opts.sections），
+   以保证「后台校验」与「构建校验」永远同一套规则；
+   这里的默认值只在极端情况下生效（例如单独渲染某个页面做测试）。 */
+const REQUIRED_SECTIONS = ["一句话结论", "分步骤"];
+const SUGGESTED_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"];
+const SECTION_ALIASES = { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
+
 const BASE_CSS = `
 :root{
   /* ---- 语义色（借 Semi Design 的分层命名思路：用变量而非硬编码） ---- */
@@ -290,7 +298,19 @@ tr.dif-add td{background:var(--ok-weak);color:var(--ok)}
 .cmt__ft{margin-top:8px;display:flex;justify-content:flex-end}
 
 /* ---- 保存视图下拉 ---- */
-details>summary::-webkit-details-marker{display:none}`;
+details>summary::-webkit-details-marker{display:none}
+/* ---- 媒体库 ---- */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.mcard{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-1)}
+.mcard__img{height:140px;background:var(--bg-2);display:grid;place-items:center;overflow:hidden}
+.mcard__img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.mcard__bd{padding:10px 12px}
+.mcard__alt{font-size:var(--fs-sm);color:var(--text-1);margin-bottom:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mcard__alt--missing{color:var(--danger);font-weight:600}
+.mcard__ft{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap}
+
+/* ---- 思维导图/复用：正文图片自适应 ---- */
+.fx-body img{max-width:100%;height:auto}`;
 
 function layout(title, bodyHtml, opts) {
   opts = opts || {};
@@ -314,6 +334,7 @@ function layout(title, bodyHtml, opts) {
       navItem("/dashboard", "◧", "工作台", "dashboard") +
       navItem("/articles", "☰", "文章", "articles", opts.counts && opts.counts.articles) +
       navItem("/articles/new", "＋", "新建文章", "new") +
+      navItem("/media", "▢", "媒体库", "media") +
       '</nav>' +
       (isReviewer ? '<div class="sidebar__sec">协作</div><nav class="sidebar__nav">' +
         navItem("/audit", "◷", "审计日志", "audit") +
@@ -321,7 +342,8 @@ function layout(title, bodyHtml, opts) {
         '<div class="sidebar__sec">协作</div><nav class="sidebar__nav">' +
         navItem("/publish", "⇪", "发布", "publish") + '</nav>') +
       (isAdmin ? '<div class="sidebar__sec">管理</div><nav class="sidebar__nav">' +
-        navItem("/users", "☺", "账号", "users") + '</nav>' : "");
+        navItem("/users", "☺", "账号", "users") +
+        navItem("/security", "⚿", "账号安全", "security") + '</nav>' : "");
   }
 
   let sidebar = "";
@@ -372,8 +394,10 @@ function layout(title, bodyHtml, opts) {
     '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
     '<meta name="robots" content="noindex,nofollow">\n' +
     '<title>' + esc(title) + ' · 修盒子内容后台</title>\n' +
-    '<style>' + BASE_CSS + '</style>\n</head>\n<body>\n' +
-    '<div id="live" aria-live="polite" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></div>' +
+    '<style>' + BASE_CSS + '</style>\n</head>\n' +
+    // data-* 供 editor.js 读取（上传接口与 CSRF），避免把令牌写进内联脚本（CSP 更严）
+    '<body data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
+    '<div id="live" aria-live="polite" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip(0 0 0 0)"></div>' +
     inner +
     '\n<script src="/static/app.js" defer></script>\n</body>\n</html>';
 }
@@ -612,6 +636,10 @@ function editorPage(opts) {
   }
 
   // ---- 发布前检查清单（研究结论：把 19 字段的复杂度从「写作时」挪到「发布前」）----
+  // 段落规则由服务端注入，避免与 content-lint.cjs 分叉
+  const REQ_SEC = (opts.sections && opts.sections.required) || REQUIRED_SECTIONS;
+  const SUG_SEC = (opts.sections && opts.sections.suggested) || SUGGESTED_SECTIONS;
+  const ALIASES = (opts.sections && opts.sections.aliases) || SECTION_ALIASES;
   function checklist() {
     const chk = [];
     const add = function (ok, label, target, level) { chk.push({ ok: ok, label: label, target: target, level: level || (ok ? "ok" : "bad") }); };
@@ -630,15 +658,21 @@ function editorPage(opts) {
     const rel = F.related ? F.related.split(",").filter(function (x) { return x.trim(); }).length : 0;
     add(rel >= 2, "相关教程 ≥ 2（当前 " + rel + "）", "related", rel >= 2 ? "ok" : "warn");
     add(sources.length >= 1, "至少 1 条参考资料（当前 " + sources.length + "）", "src-list", sources.length >= 1 ? "ok" : "bad");
-    // 正文 10 段（带同义标题白名单）
-    const need = ["一句话结论", "30 秒快速排查", "适用 / 不适用", "开始前确认", "分步骤", "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"];
-    const alts = { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
+    // 正文段落（2026-10-13：正文改为自由写作）
+    // 只硬性要求两个底线段落；其余段落仅提示，不阻塞发布。
     const bt = String(opts.body || "");
-    const miss = need.filter(function (n) {
-      const list = alts[n] || [n];
-      return !list.some(function (x) { return bt.indexOf("## " + x) >= 0; });
-    });
-    add(miss.length === 0, miss.length ? "正文缺 " + miss.length + " 个段落：" + miss.join("、") : "正文 10 段齐全", "body", miss.length ? "bad" : "ok");
+    const hasSec = function (n) {
+      const list = ALIASES[n] || [n];
+      return list.some(function (x) { return bt.indexOf("## " + x) >= 0; });
+    };
+    const missReq = REQ_SEC.filter(function (n) { return !hasSec(n); });
+    add(missReq.length === 0,
+        missReq.length ? "正文缺少必要段落：" + missReq.join("、") : "必要段落齐全（其余可自由组织）",
+        "body", missReq.length ? "bad" : "ok");
+    const missSug = SUG_SEC.filter(function (n) { return !hasSec(n); });
+    if (missSug.length) {
+      add(false, "建议补充段落：" + missSug.join("、"), "body", "warn");
+    }
     const bad = chk.filter(function (c) { return c.level === "bad"; }).length;
     const warn = chk.filter(function (c) { return c.level === "warn"; }).length;
     const head = bad
@@ -688,11 +722,21 @@ function editorPage(opts) {
         field("适用系统", "os", inp("os", "os", F.os, 'placeholder="Windows 10, Windows 11"'), "逗号分隔。") +
       '</div></details>' +
 
-      // 组 2：正文
-      '<details class="grp" open><summary>正文（Markdown · 10 段结构）<span class="grp__hint">右侧为段落导航</span></summary><div class="grp__bd">' +
-        '<p class="muted" style="margin-top:0">固定段落：一句话结论 / 30 秒快速排查 / 适用 / 不适用 / 开始前确认 / 分步骤 / 怎么确认修好了 / 还是不行？ / 预防 / 相关教程 / 更新日志</p>' +
+      // 组 2：正文（自由写作）
+      // 2026-10-13 调整：正文从「强制 10 段结构」改为自由写作，
+      // 以便后续引入思维导图、图片等非段落化内容。
+      // 结构化能力（检索与关联等 front-matter 字段）保持不变。
+      '<details class="grp" open><summary>正文（Markdown · 自由写作）<span class="grp__hint">右侧为段落导航</span></summary><div class="grp__bd">' +
+        '<p class="muted" style="margin-top:0">正文可自由组织，支持任意 Markdown、图片与思维导图。' +
+          '只需包含 <strong>' + REQ_SEC.map(function (s) { return "「" + esc(s) + "」"; }).join(" 与 ") + "</strong> 两个必要段落即可发布。" +
+          '建议保留：' + SUG_SEC.map(function (s) { return esc(s); }).join(" / ") + "（仅提示，不阻塞）。</p>" +
+        '<div class="row" style="margin-bottom:8px;gap:6px">' +
+          '<button class="btn btn--sm" type="button" data-insert-skeleton>插入完整骨架</button>' +
+          '<button class="btn btn--sm" type="button" data-insert-image>插入图片</button>' +
+          '<span class="muted" style="font-size:12px">或在编辑器内直接粘贴/拖入图片</span>' +
+        '</div>' +
         '<textarea id="body" name="body" spellcheck="false" data-toc-source>' + esc(opts.body || "") + '</textarea>' +
-        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span>中文按字符计</span></div>' +
+        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span>中文按字符计 · Ctrl/Cmd+S 保存</span></div>' +
       '</div></details>' +
 
       // 组 3：检索（默认展开——知识库站点的核心）
@@ -894,9 +938,12 @@ function dashboardPage(opts) {
     "<h1>工作台</h1>" +
     "<p class=\"muted\" style=\"margin-top:-8px\">只放能触发动作的信息：待办、陈旧内容、结构缺失。装饰性统计一律不放。</p>" +
     "<div class=\"stats\">" +
-      stat("inReview", "待我审核", "状态为「审核中」", "info", "/articles?status=in_review") +
-      stat("drafts", "草稿", "尚未发布", "warn", "/articles?status=draft") +
-      stat("changesRequested", "退回修改", "需要作者处理", "danger", "/articles?status=changes_requested") +
+      // 「待我审核 / 我的草稿 / 退回修改」按当前用户过滤（待办语义）；
+      // 已发布与陈旧度是全局指标，与个人无关，保持全站口径。
+      stat("inReview", "待我审核", (s.inReviewAll && s.inReviewAll !== s.inReview)
+            ? ("我相关 " + s.inReview + " 篇 · 全站 " + s.inReviewAll + " 篇") : "状态为「审核中」", "info", "/articles?status=in_review") +
+      stat("drafts", "我的草稿", "尚未发布", "warn", "/articles?status=draft") +
+      stat("changesRequested", "退回修改", "需要我处理", "danger", "/articles?status=changes_requested") +
       stat("published", "已发布", "线上可访问", "ok", "/articles?status=published") +
       stat("stale", "超 180 天未复核", "知识库健康度", "warn", "/articles?stale=1") +
       stat("missingSources", "缺参考资料", "sources 少于 1 条", "danger", "/articles?missing=sources") +
@@ -1015,6 +1062,133 @@ function auditPage(opts) {
     Object.assign({ current: "audit", crumbs: [{ label: "审计日志" }] }, opts));
 }
 
+/* ---------------- 媒体库页 ---------------- */
+/* ---------------- 2FA 设置页 ---------------- */
+function securityPage(opts) {
+  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  const ok = opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "";
+  const body = opts.enabled
+    ? '<div class="alert alert--ok">双因素认证已开启。登录时需要输入手机 App 上的 6 位验证码。</div>' +
+      '<form method="post" action="/security/totp/disable">' +
+        '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+        '<button class="btn" type="submit" data-confirm="关闭后，仅凭密码即可登录，安全性会下降。" data-confirm-ok="关闭">关闭双因素认证</button>' +
+      "</form>"
+    : '<p class="muted">开启后，登录需要「密码 + 手机 App 上的 6 位验证码」。' +
+      '即使密码泄露，攻击者也无法登录。root 与 admin 账号建议开启。</p>' +
+      '<form method="post" action="/security/totp/start">' +
+        '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+        '<button class="btn btn--primary" type="submit">开始设置</button>' +
+      "</form>";
+  return layout("账号安全",
+    "<h1>账号安全</h1>" + err + ok +
+    '<div class="card"><h3 style="margin-top:0">双因素认证（TOTP）</h3>' + body + "</div>" +
+    '<div class="card"><h3 style="margin-top:0">修改密码</h3>' +
+      '<p class="muted">定期更换密码，或怀疑泄露时立即更换。</p>' +
+      '<a class="btn" href="/change-password">修改密码</a></div>',
+    Object.assign({ current: "security", crumbs: [{ label: "账号安全" }] }, opts));
+}
+
+/* ---------------- 2FA 绑定确认页 ---------------- */
+function securityConfirmPage(opts) {
+  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  if (opts.done) {
+    const codes = (opts.codes || []).map(function (c) { return '<span class="kbd">' + esc(c) + "</span>"; }).join(" ");
+    return layout("2FA 已开启",
+      '<div class="card"><h1>双因素认证已开启</h1>' +
+      '<div class="alert alert--warn">下面这些<strong>恢复码只显示这一次</strong>。手机丢失时用它登录。请立即保存到密码管理器或打印出来。</div>' +
+      '<div style="font-size:16px;line-height:2.2">' + codes + "</div>" +
+      '<p class="muted">每个恢复码只能使用一次。用完可在本页重新生成。</p>' +
+      '<a class="btn btn--primary" href="/security">完成</a></div>',
+      Object.assign({ current: "security", crumbs: [{ label: "账号安全", href: "/security" }, { label: "已开启" }] }, opts));
+  }
+  // 表单里的文本二维码：不引外部二维码库，直接把 otpauth URI 与密钥展示出来，
+  // 用户可以手动输入密钥（所有标准 App 都支持），或把 URI 复制到二维码生成器。
+  return layout("绑定 2FA",
+    '<div class="card"><h1>绑定验证器</h1>' + err +
+    '<ol style="line-height:2">' +
+      "<li>在手机上安装任意 TOTP 应用（Google Authenticator / Microsoft Authenticator / 1Password 等）</li>" +
+      "<li>选择「手动输入密钥」，粘贴下面的密钥</li>" +
+      "<li>把 App 显示的 6 位验证码填到下面</li>" +
+    "</ol>" +
+    '<label>密钥（手动输入用）</label>' +
+    '<div class="row"><input type="text" readonly value="' + esc(opts.secret) + '" style="font-family:var(--mono)" id="secret">' +
+    '<button class="btn" type="button" onclick="navigator.clipboard.writeText(document.getElementById(\'secret\').value)">复制</button></div>' +
+    '<label style="margin-top:14px">otpauth 链接（可贴到二维码生成器）</label>' +
+    '<input type="text" readonly value="' + esc(opts.uri) + '" style="font-family:var(--mono);font-size:12px">' +
+    '<form method="post" action="/security/confirm" style="margin-top:20px">' +
+      '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+      '<label for="code">验证码（6 位数字）</label>' +
+      '<input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required style="max-width:200px;font-family:var(--mono);font-size:18px;letter-spacing:4px">' +
+      '<div style="margin-top:16px"><button class="btn btn--primary" type="submit">确认并开启</button></div>' +
+    "</form></div>",
+    Object.assign({ current: "security", crumbs: [{ label: "账号安全", href: "/security" }, { label: "绑定" }] }, opts));
+}
+
+/* ---------------- 2FA 验证页（登录第二步） ---------------- */
+function totpChallengePage(opts) {
+  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  return layout("双因素验证",
+    '<div class="login-wrap"><div class="card">' +
+    "<h1>双因素验证</h1>" +
+    '<p class="muted" style="margin-top:-8px">请输入手机 App 上的 6 位验证码；也可使用一枚恢复码。</p>' + err +
+    '<form method="post" action="/login/totp">' +
+      '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+      '<label for="code">验证码 / 恢复码</label>' +
+      '<input id="code" name="code" type="text" required autofocus autocomplete="one-time-code" style="font-family:var(--mono);font-size:18px;letter-spacing:3px">' +
+      '<div style="margin-top:16px"><button class="btn btn--primary" type="submit" style="width:100%">验证</button></div>' +
+    "</form></div></div>",
+    { nav: false, user: null });
+}
+
+function mediaPage(opts) {
+  const items = opts.items || [];
+  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  const ok = opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "";
+  const cards = items.map(function (m) {
+    const hasAlt = !!(m.alt && String(m.alt).trim());
+    return '<div class="mcard">' +
+      '<div class="mcard__img"><img src="/media/' + esc(m.filename) + '" alt="' + esc(m.alt || "") + '" loading="lazy"></div>' +
+      '<div class="mcard__bd">' +
+        (hasAlt
+          ? '<div class="mcard__alt">' + esc(m.alt) + "</div>"
+          : '<div class="mcard__alt mcard__alt--missing">缺 alt 文本</div>') +
+        '<div class="muted" style="font-size:12px">' + esc(m.filename) + "</div>" +
+        '<div class="muted" style="font-size:12px">' + Math.round((m.bytes || 0) / 1024) + " KB · " + esc(String(m.created_at || "").slice(0, 10)) + " · " + esc(m.uploader_email || "—") + "</div>" +
+      "</div>" +
+      '<div class="mcard__ft">' +
+        '<button class="btn btn--sm" type="button" data-copy="' + esc(m.rel_path) + '">复制路径</button>' +
+        '<button class="btn btn--sm" type="button" data-setalt="' + m.id + '" data-cur="' + esc(m.alt || "") + '">改 alt</button>' +
+        '<form method="post" action="/media/' + m.id + '/delete" style="display:inline">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+          '<button class="btn btn--sm btn--ghost" type="submit" data-confirm="删除后文章里的引用会裂图。文件本体保留，可恢复。" data-confirm-danger data-confirm-ok="删除">删除</button>' +
+        "</form>" +
+      "</div></div>";
+  }).join("");
+  return layout("媒体库",
+    '<div class="spread" style="margin-bottom:16px"><h1 style="margin:0">媒体库</h1>' +
+      '<span class="muted">' + items.length + ' 个文件</span></div>' +
+    err + ok +
+    '<div class="card">' +
+      "<h3 style=\"margin-top:0\">上传图片</h3>" +
+      '<form method="post" action="/media/upload" enctype="multipart/form-data">' +
+        '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+        '<div class="grid2">' +
+          '<div><label for="file">选择图片<span class="req">*</span></label>' +
+            '<input id="file" type="file" name="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" required>' +
+            '<div class="field__help">支持 PNG / JPEG / WebP / GIF / AVIF，单个不超过 5 MB。<strong>不接受 SVG</strong>（可内嵌脚本）。</div></div>' +
+          '<div><label for="alt">替代文本 alt<span class="req">*</span></label>' +
+            '<input id="alt" name="alt" type="text" required maxlength="120" placeholder="例如：Windows 网络设置里 DNS 服务器分配的位置">' +
+            '<div class="field__help">描述<strong>这张图要说明什么</strong>，不是「截图」。读屏用户与图片加载失败时靠它理解内容。</div></div>' +
+        '</div>' +
+        '<div style="margin-top:12px"><label style="font-weight:400"><input type="checkbox" name="desensitized" value="1" required> 我已确认图中已脱敏（MAC 地址、序列号、Wi-Fi 名称、公网 IP、真实用户名、邮箱、二维码）</label></div>' +
+        '<div class="row row--end" style="margin-top:14px"><button class="btn btn--primary" type="submit">上传</button></div>' +
+      "</form>" +
+    "</div>" +
+    (cards ? '<div class="mgrid">' + cards + "</div>"
+           : '<div class="card"><div class="empty"><div class="empty__ico">▢</div><div class="empty__t">还没有图片</div><div>上传后可在编辑器里用「插入图片」引用</div></div></div>'),
+    Object.assign({ current: "media", crumbs: [{ label: "媒体库" }] }, opts));
+}
+
 function simplePage(title, msg, opts) {
   return layout(title, '<div class="card"><h1>' + esc(title) + "</h1><p>" + esc(msg) + '</p><a class="btn" href="/articles">返回文章列表</a></div>', opts);
 }
@@ -1024,5 +1198,7 @@ module.exports = {
   articlesPage: articlesPage, editorPage: editorPage, publishPage: publishPage,
   usersPage: usersPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
   revisionsPage: revisionsPage, revisionDiffPage: revisionDiffPage, commentsBlock: commentsBlock, viewsBar: viewsBar,
+  mediaPage: mediaPage,
+  securityPage: securityPage, securityConfirmPage: securityConfirmPage, totpChallengePage: totpChallengePage,
   statusLabel: statusLabel
 };

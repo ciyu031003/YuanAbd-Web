@@ -47,6 +47,20 @@ async function readBody(req, limitBytes) {
   });
 }
 
+/* 读取原始请求体（二进制）：媒体上传用。与 readBody 的区别是不做 utf8 解码。 */
+async function readBodyRaw(req, limitBytes) {
+  const max = limitBytes || 8 * 1024 * 1024;
+  return new Promise(function (resolve, reject) {
+    let size = 0; const chunks = [];
+    req.on("data", function (c) {
+      size += c.length;
+      if (size > max) { reject(Object.assign(new Error("请求体过大"), { status: 413 })); req.destroy(); return; }
+      chunks.push(c);
+    });
+    req.on("end", function () { resolve(Buffer.concat(chunks)); });
+    req.on("error", reject);
+  });
+}
 function parseForm(body) {
   const out = {};
   String(body || "").split("&").forEach(function (kv) {
@@ -117,7 +131,7 @@ function randomToken(bytes) { return crypto.randomBytes(bytes || 32).toString("b
 
 module.exports = {
   parseCookies: parseCookies, cookieHeader: cookieHeader, clearCookieHeader: clearCookieHeader,
-  readBody: readBody, parseForm: parseForm,
+  readBody: readBody, readBodyRaw: readBodyRaw, parseForm: parseForm,
   send: send, sendJson: sendJson, esc: esc, escAttr: escAttr,
   securityHeaders: securityHeaders, clientIp: clientIp, randomToken: randomToken
 };

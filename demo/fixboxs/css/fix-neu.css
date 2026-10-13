@@ -1,0 +1,116 @@
+/* ============================================================
+   fix-neu.css —— 修盒子前台「新拟物（Soft UI）」皮肤层
+   ------------------------------------------------------------
+   为什么要单独一层：tokens.css 是「底座」，站点主题（theme-fix.css）
+   与站点样式（fix.css）在其上覆盖。本文件加在最后，只做视觉增强，
+   不改结构、不改交互逻辑，去掉它即可回到原样式 —— 可随时回退。
+
+   原则（与后台一致，且更克制，因为读者是普通用户）：
+     · 拟物感只给**可交互元素**（卡片 / 按钮 / 输入 / 筛选片）
+     · 正文、标题、代码块保持平整 —— 否则文字会糊、可读性下降
+     · 底色的暖白与品牌色保持不变，只把「光影关系」换成拟态
+   ============================================================ */
+
+.theme-fix,body.fx{
+  --neu-hi:#FFFFFF;
+  --neu-lo:#E2D8CC;
+  --neu-lo-soft:#EBE2D8;
+  --neu-raise:-6px -6px 14px var(--neu-hi), 6px 6px 16px var(--neu-lo);
+  --neu-raise-sm:-3px -3px 8px var(--neu-hi), 3px 3px 9px var(--neu-lo);
+  --neu-inset:inset 4px 4px 10px var(--neu-lo), inset -4px -4px 10px var(--neu-hi);
+  --neu-inset-sm:inset 2px 2px 6px var(--neu-lo), inset -2px -2px 6px var(--neu-hi);
+  --neu-ease:cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ---------- 卡片：与底色同色，靠阴影浮起 ---------- */
+.fx-card{
+  background:var(--bg, #FFFDF7);
+  border:0 !important;
+  border-radius:20px !important;
+  box-shadow:var(--neu-raise);
+  transition:box-shadow .22s var(--neu-ease), transform .22s var(--neu-ease);
+}
+.fx-card::before{opacity:0 !important;}          /* 关掉原有的描边高光层 */
+.fx-card:hover{
+  box-shadow:-8px -8px 20px var(--neu-hi), 8px 8px 22px var(--neu-lo);
+  transform:translateY(-3px);
+}
+.fx-card:active{box-shadow:var(--neu-inset);transform:translateY(0)}
+
+/* ---------- 按钮：键帽 ---------- */
+.fx-btn{
+  border:0 !important;
+  border-radius:14px !important;
+  background:var(--bg, #FFFDF7) !important;
+  color:var(--ink, #18202A) !important;
+  box-shadow:var(--neu-raise-sm);
+  transition:box-shadow .18s var(--neu-ease), transform .18s var(--neu-ease), color .18s;
+}
+.fx-btn:hover{box-shadow:var(--neu-raise);transform:translateY(-2px)}
+.fx-btn:active{box-shadow:var(--neu-inset-sm) !important;transform:translateY(0)}
+.fx-btn:focus-visible{outline:2px solid var(--accent, #79CFFF);outline-offset:3px}
+/* 主按钮保留品牌色，但同样给拟态光影 */
+.fx-btn--primary{
+  background:linear-gradient(180deg, var(--accent, #79CFFF), color-mix(in srgb, var(--accent, #79CFFF) 82%, #1F6FA8)) !important;
+  color:#0C2233 !important;
+  box-shadow:var(--neu-raise-sm), 0 0 0 1px rgba(31,111,168,.18);
+}
+.fx-btn--primary:hover{box-shadow:var(--neu-raise), 0 0 0 1px rgba(31,111,168,.22)}
+.fx-btn--primary:active{box-shadow:var(--neu-inset-sm) !important}
+.fx-btn--ghost{
+  background:transparent !important;box-shadow:none;
+  color:var(--ink-2, #3A4350) !important;
+}
+.fx-btn--ghost:hover{box-shadow:var(--neu-raise-sm);background:var(--bg, #FFFDF7) !important}
+
+/* ---------- 筛选片 / 标签：小键帽 ---------- */
+.fx-chip{
+  border:0 !important;border-radius:12px !important;background:var(--bg, #FFFDF7) !important;
+  box-shadow:var(--neu-raise-sm);
+  transition:box-shadow .18s var(--neu-ease), transform .18s var(--neu-ease), color .18s;
+}
+.fx-chip:hover{box-shadow:var(--neu-raise);transform:translateY(-1px);color:var(--ink, #18202A)}
+.fx-chip[aria-pressed="true"],.fx-chip.is-active{
+  box-shadow:var(--neu-inset-sm) !important;color:var(--accent-ink, #1F6FA8) !important;font-weight:600;
+}
+
+/* ---------- 搜索框：凹陷槽 ---------- */
+.fx-search input[type="search"],.fx-search input[type="text"],
+input.fx-input,textarea.fx-input,.fx-select{
+  border:0 !important;border-radius:14px !important;
+  background:var(--bg, #FFFDF7) !important;
+  box-shadow:var(--neu-inset-sm);
+  transition:box-shadow .18s;
+}
+.fx-search input:focus,input.fx-input:focus,textarea.fx-input:focus,.fx-select:focus{
+  outline:none !important;
+  box-shadow:var(--neu-inset-sm), 0 0 0 3px color-mix(in srgb, var(--accent, #79CFFF) 42%, transparent) !important;
+}
+
+/* ---------- 领域/工具入口磁贴 ---------- */
+.fx-tile,.fx-domain,.fx-tool{
+  border:0 !important;border-radius:18px !important;background:var(--bg, #FFFDF7) !important;
+  box-shadow:var(--neu-raise-sm);
+  transition:box-shadow .2s var(--neu-ease), transform .2s var(--neu-ease);
+}
+.fx-tile:hover,.fx-domain:hover,.fx-tool:hover{
+  box-shadow:var(--neu-raise);transform:translateY(-3px);
+}
+
+/* ---------- 步骤勾选：凹陷圆钮 ---------- */
+.fx-step__box,.fx-checkbox{
+  border:0 !important;border-radius:50% !important;background:var(--bg, #FFFDF7) !important;
+  box-shadow:var(--neu-inset-sm);
+}
+.fx-step.is-done .fx-step__box,.fx-checkbox[aria-checked="true"]{
+  color:var(--accent-ink, #1F6FA8) !important;
+  box-shadow:var(--neu-inset-sm), 0 0 0 2px color-mix(in srgb, var(--accent, #79CFFF) 50%, transparent);
+}
+
+/* ---------- 顶部导航 / 页脚：不加拟物，只做轻微分层 ---------- */
+.fx-header,.fx-footer{background:var(--bg, #FFFDF7);}
+
+/* ---------- 尊重「减少动态效果」偏好 ---------- */
+@media (prefers-reduced-motion:reduce){
+  .fx-card,.fx-btn,.fx-chip,.fx-tile,.fx-domain,.fx-tool{transition:none !important;transform:none !important}
+}

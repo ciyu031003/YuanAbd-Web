@@ -56,7 +56,7 @@ for (const f of walk(OUT).filter(function (p) { return p.endsWith(".html"); })) 
 // 3) 资源版本号：按内容哈希给 css/js/数据文件打 ?v=，使长缓存可安全开启
 //    （与仓库既有的 bump-asset-versions 思路一致，但这里按内容自动计算）
 const crypto = require("crypto");
-const ASSETS = ["css/tokens.css", "css/theme-fix.css", "css/fix.css", "css/fix-neu.css", "js/fix.js", "data/articles.js"];
+const ASSETS = ["css/tokens.css", "css/theme-fix.css", "css/fix.css", "css/fix-neu.css", "css/fix-atmosphere.css", "js/fix.js", "data/articles.js"];
 const versions = {};
 for (const rel of ASSETS) {
   const p = path.join(OUT, rel);

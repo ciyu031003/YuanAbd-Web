@@ -772,6 +772,116 @@ details.grp:not([open])>summary::before{background:#CFC3B7}
   .sidebar__sec{display:none}
   .sidebar__brand{white-space:nowrap;flex:none;padding:0 8px 0 0}
 }
+
+/* ============================================================
+   2026-10 refresh: pure-white neumorphism + stronger navigation
+   ============================================================ */
+:root{
+  --base:#FFFFFF;
+  --base-2:#F4F6F9;
+  --hi:#FFFFFF;
+  --lo:#D7DDE6;
+  --ink:#121821;
+  --ink-2:#3E4958;
+  --ink-3:#657181;
+  --raise:-5px -5px 12px rgba(255,255,255,.98), 5px 6px 15px rgba(126,139,158,.24);
+  --raise-sm:-2px -2px 6px rgba(255,255,255,.98), 3px 3px 9px rgba(126,139,158,.22);
+  --raise-lg:-8px -8px 20px rgba(255,255,255,.98), 9px 10px 24px rgba(126,139,158,.26);
+  --inset:inset 4px 4px 10px rgba(126,139,158,.22), inset -4px -4px 10px rgba(255,255,255,.98);
+  --inset-sm:inset 2px 2px 6px rgba(126,139,158,.2), inset -2px -2px 6px rgba(255,255,255,.98);
+  --inset-deep:inset 6px 6px 14px rgba(126,139,158,.24), inset -6px -6px 14px rgba(255,255,255,.98);
+}
+body{background:#fff}
+.sidebar{background:#fff;border-right:1px solid #E8ECF2}
+.sidebar__brand{font-weight:800;color:#0B1220}
+.sidebar__sec{font-weight:800;color:#344054;letter-spacing:.12em}
+.navitem{color:#1E293B;font-weight:700;background:#fff}
+.navitem:hover{color:#0B1220}
+.navitem[aria-current="page"]{font-weight:800}
+.navitem__ico{color:#475467;font-weight:800}
+.navitem__badge{color:#344054;font-weight:800}
+.me strong{font-weight:800}
+.topbar{background:#fff}
+.card,.page-head,.editor-actions,details.grp{background:#fff}
+tbody tr{background:#fff}
+tbody tr:hover td{background:#F5F7FA}
+.mcard,.cmt{background:#fff}
+
+/* Login: full-screen stage with restrained motion and geometric background. */
+.login-body{background:#fff}
+.login-page{
+  min-height:100dvh;display:grid;place-items:center;position:relative;overflow:hidden;
+  padding:32px 20px;
+  background:
+    linear-gradient(135deg,rgba(228,231,255,.92) 0%,rgba(255,255,255,.97) 36%,rgba(221,245,236,.78) 68%,rgba(253,239,211,.78) 100%);
+}
+.login-page::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(38,41,110,.13) 1px,transparent 1.2px);
+  background-size:12px 12px;
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.28) 64%,transparent 100%);
+}
+.login-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.login-bg i{position:absolute;display:block;border-radius:18px;border:1px solid rgba(38,41,110,.12);
+  box-shadow:0 22px 55px -42px rgba(18,24,33,.6)}
+.login-bg i:nth-child(1){width:180px;height:180px;left:6%;top:12%;transform:rotate(18deg);
+  background:linear-gradient(135deg,rgba(169,149,255,.28),rgba(228,231,255,.76));
+  animation:fxLoginDriftA 13s ease-in-out infinite}
+.login-bg i:nth-child(2){width:112px;height:112px;right:9%;top:16%;transform:rotate(-12deg);
+  background:linear-gradient(135deg,rgba(31,158,118,.2),rgba(221,245,236,.9));
+  animation:fxLoginDriftB 11s ease-in-out infinite}
+.login-bg i:nth-child(3){width:240px;height:56px;left:12%;bottom:11%;transform:rotate(-8deg);
+  background:linear-gradient(90deg,rgba(253,239,211,.9),rgba(199,133,16,.18));
+  animation:fxLoginDriftA 15s ease-in-out infinite reverse}
+.login-bg i:nth-child(4){width:120px;height:120px;right:14%;bottom:8%;transform:rotate(22deg);
+  background:linear-gradient(135deg,rgba(31,127,196,.18),rgba(220,239,255,.9));
+  animation:fxLoginDriftB 14s ease-in-out infinite}
+.login-page .login-wrap{width:min(100%,430px);margin:0;padding:0;position:relative;z-index:2}
+.login-page .login-wrap .card{padding:38px 34px;border-radius:28px;box-shadow:0 30px 80px -48px rgba(26,41,74,.65),var(--raise);
+  animation:fxLoginPanel .68s cubic-bezier(.16,1,.3,1) both}
+.login-page .login-wrap .card::before{height:8px}
+.login-page .login-brand .mark{animation:fxLoginMark 3.8s ease-in-out infinite}
+.login-page .login-wrap .btn--primary{position:relative;overflow:hidden}
+.login-page .login-wrap .btn--primary::after{
+  content:"";position:absolute;inset:0;transform:translateX(-120%);
+  background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.44) 50%,transparent 80%);
+  animation:fxLoginShine 3.8s ease-in-out infinite;
+}
+.login-foot{text-align:center;color:var(--ink-2);font-size:11.5px;margin-top:18px;line-height:1.7}
+@keyframes fxLoginPanel{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fxLoginMark{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-3deg)}}
+@keyframes fxLoginShine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(130%)}}
+@keyframes fxLoginDriftA{0%,100%{translate:0 0}50%{translate:10px -14px}}
+@keyframes fxLoginDriftB{0%,100%{translate:0 0}50%{translate:-12px 12px}}
+
+/* Taxonomy management page. */
+.tax-intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:20px;align-items:start}
+.tax-create{display:grid;grid-template-columns:1fr 1.2fr auto;gap:14px;align-items:end}
+.tax-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tax-card{background:#fff;border-radius:var(--r-card);box-shadow:var(--raise);padding:20px;min-width:0}
+.tax-card__hd{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.tax-card__dot{width:10px;height:10px;border-radius:4px;background:var(--tax-c,var(--pg));flex:none}
+.tax-card__id{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-left:auto}
+.tax-domain-form{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:14px}
+.tax-cats{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.tax-cat{display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  padding:9px;border-radius:14px;background:#F8FAFC;box-shadow:var(--inset-sm)}
+.tax-cat__edit{display:flex;align-items:center;gap:8px;flex:1;min-width:220px}
+.tax-cat__edit input{min-height:34px;padding:6px 10px;font-size:12.5px}
+.tax-cat__id{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:2px;width:100%}
+.tax-add{border-top:1px solid #E8ECF2;padding-top:14px}
+.tax-add summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--pg-i)}
+.tax-add__grid{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-top:12px}
+.tax-stat{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ink-2)}
+@media(max-width:1040px){.tax-intro,.tax-grid{grid-template-columns:1fr}}
+@media(max-width:620px){
+  .tax-create,.tax-domain-form,.tax-cat,.tax-add__grid{grid-template-columns:1fr}
+  .login-page{padding:20px 14px}
+  .login-page .login-wrap .card{padding:30px 22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .login-bg i,.login-page .login-wrap .card,.login-page .login-brand .mark,.login-page .login-wrap .btn--primary::after{animation:none!important}
+}
 `;
 
 function layout(title, bodyHtml, opts) {
@@ -805,6 +915,7 @@ function layout(title, bodyHtml, opts) {
         navItem("/publish", "⇪", "发布", "publish", null, "collab") + '</nav>') +
       (isAdmin ? '<div class="sidebar__sec sidebar__sec--admin">管理</div><nav class="sidebar__nav">' +
         navItem("/users", "☺", "账号", "users", null, "admin") +
+        navItem("/taxonomy", "⌘", "领域与分类", "taxonomy", null, "admin") +
         navItem("/security", "⚿", "账号安全", "security", null, "admin") + '</nav>' : "");
   }
 
@@ -858,7 +969,7 @@ function layout(title, bodyHtml, opts) {
     '<title>' + esc(title) + ' · 修盒子内容后台</title>\n' +
     '<style>' + BASE_CSS + '</style>\n</head>\n' +
     // data-* 供 editor.js 读取（上传接口与 CSRF），避免把令牌写进内联脚本（CSP 更严）
-    '<body data-accent="' + esc(opts.accent || "indigo") + '" data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
+    '<body class="' + esc(opts.bodyClass || "") + '" data-accent="' + esc(opts.accent || "indigo") + '" data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
     '<div id="live" aria-live="polite" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip(0 0 0 0)"></div>' +
     inner +
     '\n<script src="/static/app.js" defer></script>\n' +
@@ -895,6 +1006,8 @@ function loginPage(opts) {
   const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
   const info = opts.info ? '<div class="alert alert--info">' + esc(opts.info) + "</div>" : "";
   return layout("登录",
+    '<div class="login-page">' +
+    '<div class="login-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>' +
     '<div class="login-wrap"><div class="card">' +
     '<div class="login-brand"><span class="mark" aria-hidden="true">修</span>' +
       '<span><b>修盒子 · 内容后台</b><span>FIXBOX 内容协作与发布</span></span></div>' +
@@ -907,7 +1020,7 @@ function loginPage(opts) {
     '<div style="margin-top:20px"><button class="btn btn--primary" type="submit" style="width:100%">登录</button></div>' +
     "</form></div>" +
     '<p class="muted" style="text-align:center">账号信息仅用于内容协作。请勿分享登录凭据。</p></div>',
-    { nav: false, accent: "indigo" });
+    { nav: false, accent: "indigo", bodyClass: "login-body" });
 }
 
 function changePasswordPage(opts) {
@@ -1228,6 +1341,7 @@ function editorPage(opts) {
     // 常驻操作条：长表单滚到一半也能直接保存/发布（原先只能滚回页首）
     '<div class="editor-actions">' +
       '<a class="btn btn--sm" href="/articles">返回</a>' +
+      (opts.canManageTaxonomy ? '<a class="btn btn--sm" href="/taxonomy">领域与分类</a>' : "") +
       (isNew ? "" : '<a class="btn btn--sm" href="/articles/' + esc(opts.slug) + '/revisions">修订历史' + (opts.revCount ? " (" + opts.revCount + ")" : "") + "</a>") +
       '<span class="sp"></span>' +
       '<button class="btn" type="submit" name="action" value="save">保存草稿</button>' + buttons +
@@ -1244,7 +1358,8 @@ function editorPage(opts) {
           isNew ? "仅小写字母、数字、连字符。<strong>发布后不应再改</strong>（URL 稳定性）。" : "已发布文章的 slug 不建议修改。", true) +
         '<div class="grid2">' +
           field("领域", "domain", '<select id="domain" name="domain" required><option value="">请选择</option>' + domOpts + '</select>', null, true) +
-          field("分类", "category", '<select id="category" name="category" required><option value="">请选择</option>' + catOpts + '</select>', "分类需属于所选领域。", true) +
+          field("分类", "category", '<select id="category" name="category" required><option value="">请选择</option>' + catOpts + '</select>',
+            "分类需属于所选领域。" + (opts.canManageTaxonomy ? ' <a class="link-strong" href="/taxonomy">新增或修改</a>' : ""), true) +
         '</div>' +
         '<div class="grid3">' +
           field("难度", "difficulty", '<select id="difficulty" name="difficulty">' + diffOpts + '</select>') +
@@ -1734,6 +1849,102 @@ function usersPage(opts) {
     Object.assign({ current: "users", accent: "coral", crumbs: [{ label: "账号" }] }, opts));
 }
 
+function taxonomyPage(opts) {
+  const tax = opts.taxonomy || { domains: [], enums: {} };
+  const usage = opts.usage || { domains: {}, cats: {} };
+  const tints = ["sky", "mint", "violet", "amber", "coral", "indigo"];
+  const domains = (tax.domains || []).map(function (d, i) {
+    const tint = tints[i % tints.length];
+    const domCount = usage.domains[d.id] || 0;
+    const cats = (d.cats || []).map(function (cat) {
+      return '<div class="tax-cat">' +
+        '<form class="tax-cat__edit" method="post" action="/taxonomy/category">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="action" value="save">' +
+          '<input type="hidden" name="domain_id" value="' + esc(d.id) + '">' +
+          '<input type="hidden" name="id" value="' + esc(cat.id) + '">' +
+          '<input type="text" name="name" value="' + esc(cat.name) + '" maxlength="40" required>' +
+          '<button class="btn btn--sm" type="submit">保存</button>' +
+        '</form>' +
+        '<form method="post" action="/taxonomy/category">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="action" value="delete">' +
+          '<input type="hidden" name="domain_id" value="' + esc(d.id) + '">' +
+          '<input type="hidden" name="id" value="' + esc(cat.id) + '">' +
+          '<button class="btn btn--sm btn--danger" type="submit" data-confirm="删除分类「' + esc(cat.name) + '」？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除</button>' +
+        '</form>' +
+        '<div class="tax-cat__id">' + esc(cat.id) + ' · ' + (usage.cats[cat.id] || 0) + ' 篇</div>' +
+      '</div>';
+    }).join("");
+
+    return '<section class="tax-card" style="--tax-c:var(--c-' + tint + ')">' +
+      '<div class="tax-card__hd">' +
+        '<span class="tax-card__dot"></span>' +
+        '<strong>' + esc(d.name) + '</strong>' +
+        '<span class="tax-stat">' + domCount + ' 篇文章</span>' +
+        '<span class="tax-card__id">' + esc(d.id) + '</span>' +
+      '</div>' +
+      '<form class="tax-domain-form" method="post" action="/taxonomy/domain">' +
+        '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+        '<input type="hidden" name="action" value="save">' +
+        '<input type="hidden" name="id" value="' + esc(d.id) + '">' +
+        '<div><label for="dn-' + esc(d.id) + '">领域名称</label><input id="dn-' + esc(d.id) + '" type="text" name="name" value="' + esc(d.name) + '" maxlength="40" required></div>' +
+        '<button class="btn" type="submit">保存名称</button>' +
+      '</form>' +
+      '<div class="row" style="justify-content:space-between;margin-bottom:14px">' +
+        '<span class="muted">ID 用于文章数据和 URL 关联，创建后不可修改。</span>' +
+        '<form method="post" action="/taxonomy/domain">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="action" value="delete">' +
+          '<input type="hidden" name="id" value="' + esc(d.id) + '">' +
+          '<button class="btn btn--sm btn--danger" type="submit" data-confirm="删除领域「' + esc(d.name) + '」及其下分类？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除领域</button>' +
+        '</form>' +
+      '</div>' +
+      '<div class="tax-cats">' + (cats || '<div class="muted">该领域还没有分类，可在下方添加。</div>') + '</div>' +
+      '<details class="tax-add">' +
+        '<summary>＋ 添加分类</summary>' +
+        '<form class="tax-add__grid" method="post" action="/taxonomy/category">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="action" value="create">' +
+          '<input type="hidden" name="domain_id" value="' + esc(d.id) + '">' +
+          '<div><label for="ci-' + esc(d.id) + '">分类 ID</label><input id="ci-' + esc(d.id) + '" type="text" name="id" pattern="[a-z0-9][a-z0-9-]{1,63}" placeholder="例如 win-driver" required></div>' +
+          '<div><label for="cn-' + esc(d.id) + '">分类名称</label><input id="cn-' + esc(d.id) + '" type="text" name="name" maxlength="40" placeholder="例如 驱动与设备" required></div>' +
+          '<button class="btn btn--primary" type="submit">添加</button>' +
+        '</form>' +
+      '</details>' +
+    '</section>';
+  }).join("");
+
+  return layout("领域与分类",
+    pageHead({
+      ico: "⌘", title: "领域与分类",
+      sub: "这里维护的是文章编辑器下拉框和站点构建共用的 taxonomy.json。文章已经使用的分类不会被误删。",
+      acts: '<a class="btn btn--sm" href="/articles/new">去新建文章</a>'
+    }) +
+    (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
+    (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
+    '<div class="tax-intro">' +
+      '<div class="card card--accent">' +
+        '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>新增领域</h3></div>' +
+        '<form class="tax-create" method="post" action="/taxonomy/domain">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="action" value="create">' +
+          '<div><label for="new-domain-id">领域 ID</label><input id="new-domain-id" name="id" type="text" pattern="[a-z0-9][a-z0-9-]{1,63}" placeholder="例如 cloud-service" required></div>' +
+          '<div><label for="new-domain-name">显示名称</label><input id="new-domain-name" name="name" type="text" maxlength="40" placeholder="例如 云服务与账号" required></div>' +
+          '<button class="btn btn--primary" type="submit">创建领域</button>' +
+        '</form>' +
+      '</div>' +
+      '<div class="card">' +
+        '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">i</span><h3>维护规则</h3></div>' +
+        '<p class="muted" style="margin:0 0 8px">ID 创建后不可修改；显示名称可以随时调整。</p>' +
+        '<p class="muted" style="margin:0 0 8px">删除前会检查文章引用，避免生成断链或编辑器无法读取。</p>' +
+        '<p class="muted" style="margin:0">保存后，新建/编辑文章页面会立即读取最新分类。</p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="tax-grid">' + (domains || '<div class="card empty"><div class="empty__t">还没有领域</div></div>') + '</div>',
+    Object.assign({ current: "taxonomy", accent: "violet", crumbs: [{ label: "管理" }, { label: "领域与分类" }] }, opts));
+}
+
 function auditPage(opts) {
   // 动作 → 语义色：登录=琥珀、内容=靛蓝、账号=珊瑚、评论=天蓝、发布=薄荷
   const rows = opts.logs.map(function (l) {
@@ -1903,7 +2114,7 @@ function simplePage(title, msg, opts) {
 module.exports = {
   layout: layout, loginPage: loginPage, changePasswordPage: changePasswordPage,
   articlesPage: articlesPage, editorPage: editorPage, publishPage: publishPage,
-  usersPage: usersPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
+  usersPage: usersPage, taxonomyPage: taxonomyPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
   revisionsPage: revisionsPage, revisionDiffPage: revisionDiffPage, commentsBlock: commentsBlock, viewsBar: viewsBar,
   mediaPage: mediaPage,
   securityPage: securityPage, securityConfirmPage: securityConfirmPage, totpChallengePage: totpChallengePage,

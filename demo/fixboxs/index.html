@@ -25,6 +25,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 <link rel="stylesheet" href="./css/theme-fix.css">
 <link rel="stylesheet" href="./css/fix.css">
   <link rel="stylesheet" href="./css/fix-neu.css">
+  <link rel="stylesheet" href="./css/fix-atmosphere.css">
 </head>
 <body>
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
@@ -58,18 +59,26 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
     <a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
   </div>
 </header>
+<div class="fx-page-progress" data-fx-scroll-progress aria-hidden="true"><i></i></div>
 <main id="main">
-  <section class="fx-hero">
-    <div class="fx-hero__shapes" aria-hidden="true">
-      <span class="fx-hero__shape fx-hero__shape--1"></span>
-      <span class="fx-hero__shape fx-hero__shape--2"></span>
-      <span class="fx-hero__shape fx-hero__shape--3"></span>
-      <span class="fx-hero__shape fx-hero__shape--4"></span>
+  <section class="fx-hero fx-hero--atmosphere" data-fx-atmosphere>
+    <div class="fx-atmos" aria-hidden="true">
+      <span class="fx-atmos__halftone"></span>
+      <span class="fx-atmos__beam fx-atmos__beam--a"></span>
+      <span class="fx-atmos__beam fx-atmos__beam--b"></span>
+      <span class="fx-atmos__tile fx-atmos__tile--a"></span>
+      <span class="fx-atmos__tile fx-atmos__tile--b"></span>
+      <span class="fx-atmos__tile fx-atmos__tile--c"></span>
+      <span class="fx-atmos__line fx-atmos__line--a"></span>
+      <span class="fx-atmos__line fx-atmos__line--b"></span>
     </div>
     <div class="fx-wrap fx-hero__inner" data-reveal>
-      <p class="fx-hero__eyebrow">电脑与网络故障 · 自助排障手册</p>
-      <h1>电脑 / 网络出问题了？<br>搜一下现象，<em>跟着步骤修</em>。</h1>
-      <p class="fx-hero__sub">Windows、Mac、路由器、网络与代理故障，都有分步骤教程。每一步都告诉你：做什么、会看到什么、失败了怎么办。</p>
+      <p class="fx-hero__eyebrow" data-fx-parallax="0.12">电脑与网络故障 · 自助排障手册</p>
+      <h1 class="fx-hero__title">
+        <span class="fx-hero__line">电脑 / 网络出问题了？</span>
+        <span class="fx-hero__line">搜一下现象，<em>跟着步骤修</em>。</span>
+      </h1>
+      <p class="fx-hero__sub" data-fx-parallax="0.18">Windows、Mac、路由器、网络与代理故障，都有分步骤教程。每一步都告诉你：做什么、会看到什么、失败了怎么办。</p>
 <div class="fx-searchwrap" data-fx-search>
   <form class="fx-search" role="search" autocomplete="off">
     <svg viewBox="0 0 24 24" width="22" height="22" class="fx-search__icon" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -81,6 +90,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
   <div class="fx-suggest" data-fx-suggest role="listbox" aria-label="搜索建议"></div>
 </div>
       <div class="fx-hotwords"><span class="fx-hotwords__label">不会描述？试试：</span><a class="fx-chip" href="./search.html?q=%E8%BF%9E%E4%B8%8D%E4%B8%8A%E7%BD%91">连不上网</a><a class="fx-chip" href="./search.html?q=%E5%BC%80%E4%B8%8D%E4%BA%86%E6%9C%BA">开不了机</a><a class="fx-chip" href="./search.html?q=%E8%93%9D%E5%B1%8F">蓝屏</a><a class="fx-chip" href="./search.html?q=%E9%A3%8E%E6%89%87%E5%BE%88%E5%93%8D">风扇很响</a><a class="fx-chip" href="./search.html?q=Wi-Fi%20%E6%9C%89%E4%BF%A1%E5%8F%B7%E6%B2%A1%E7%BD%91">Wi-Fi 有信号没网</a><a class="fx-chip" href="./search.html?q=IP%20%E5%9C%B0%E5%9D%80%E5%86%B2%E7%AA%81">IP 地址冲突</a><a class="fx-chip" href="./search.html?q=%E6%89%93%E5%8D%B0%E6%9C%BA%E4%B8%8D%E5%93%8D%E5%BA%94">打印机不响应</a><a class="fx-chip" href="./search.html?q=%E7%94%B5%E8%84%91%E5%BE%88%E5%8D%A1">电脑很卡</a></div>
+      <div class="fx-hero__cue" aria-hidden="true"><span>SCROLL</span><i></i></div>
     </div>
   </section>
 

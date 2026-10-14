@@ -560,6 +560,218 @@ main > h1 + p,main > .spread + p{margin-top:0}
 .hero__m b{display:block;font-size:23px;font-weight:800;font-family:var(--mono);letter-spacing:-.03em}
 .hero__m span{font-size:11.5px;font-weight:600;opacity:.78}
 @media(max-width:700px){ .hero__n{font-size:42px} .hero__side{margin-left:0} }
+
+/* ============================================================
+   撞色扩展层（2026-10-14）
+   ------------------------------------------------------------
+   背景：拟态皮肤上线后，只有工作台是彩色的，文章 / 编辑器 / 媒体库 /
+   账号 / 审计 / 发布 / 登录全部是同一片暖米白，读起来单调、也分不清
+   「我现在在哪一屏」。这一层在**不改动拟态光影语言**的前提下补三件事：
+     1) 每个页面一个语义主色（--pg / --pg-s / --pg-i），贯穿页头、表头、
+        主按钮、链接与选中态；
+     2) 每个内容区块一个色系（编辑器分组、状态徽章、角色徽章）；
+     3) 补齐此前只有标记、没有样式的组件：媒体网格、评论线程、差异对比。
+
+   颜色全部沿用工作台已实测的六色（文字对比度 8.7–11:1）：
+     靛蓝=结构/主操作   薄荷=已完成   琥珀=待办   珊瑚=风险   天蓝=信息   紫=创作
+   ============================================================ */
+:root{
+  --c-indigo:#3B4BC8; --s-indigo:#E4E7FF; --i-indigo:#26296E;
+  --c-mint:#1F9E76;   --s-mint:#DDF5EC;   --i-mint:#0D4A36;
+  --c-amber:#C78510;  --s-amber:#FDEFD3;  --i-amber:#5C3D05;
+  --c-coral:#DB5A38;  --s-coral:#FFE4DC;  --i-coral:#6B2614;
+  --c-sky:#1F7FC4;    --s-sky:#DCEFFF;    --i-sky:#0F3E63;
+  --c-violet:#7B45C9; --s-violet:#EEE0FF; --i-violet:#3A1A66;
+  /* 页面主色（默认靛蓝；由 <body data-accent> 覆盖） */
+  --pg:var(--c-indigo); --pg-s:var(--s-indigo); --pg-i:var(--i-indigo);
+}
+body[data-accent="indigo"]{--pg:var(--c-indigo);--pg-s:var(--s-indigo);--pg-i:var(--i-indigo)}
+body[data-accent="mint"]  {--pg:var(--c-mint);  --pg-s:var(--s-mint);  --pg-i:var(--i-mint)}
+body[data-accent="amber"] {--pg:var(--c-amber); --pg-s:var(--s-amber); --pg-i:var(--i-amber)}
+body[data-accent="coral"] {--pg:var(--c-coral); --pg-s:var(--s-coral); --pg-i:var(--i-coral)}
+body[data-accent="sky"]   {--pg:var(--c-sky);   --pg-s:var(--s-sky);   --pg-i:var(--i-sky)}
+body[data-accent="violet"]{--pg:var(--c-violet);--pg-s:var(--s-violet);--pg-i:var(--i-violet)}
+
+/* ---------------- 页头：每屏一块带主色的题头 ---------------- */
+.page-head{
+  display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;
+  padding:18px 22px;margin:0 0 20px;border-radius:var(--r-card);
+  background:var(--base);box-shadow:var(--raise);
+  position:relative;overflow:hidden;
+}
+.page-head::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:var(--pg)}
+.page-head__ico{
+  width:48px;height:48px;border-radius:15px;flex:none;
+  display:grid;place-items:center;font-size:21px;font-weight:800;
+  background:var(--pg-s);color:var(--pg-i);box-shadow:var(--raise-sm);
+}
+.page-head__main{min-width:0;flex:1}
+.page-head h1{font-size:23px;line-height:1.25;margin:0 0 4px}
+.page-head__sub{font-size:12.5px;color:var(--ink-2);font-weight:600;line-height:1.6}
+.page-head__acts{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.page-head__chip{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:var(--r-full);
+  font-size:11.5px;font-weight:700;background:var(--pg-s);color:var(--pg-i);
+}
+@media(max-width:620px){
+  .page-head{padding:16px}
+  .page-head__ico{width:40px;height:40px;border-radius:13px;font-size:18px}
+  .page-head h1{font-size:20px}
+  .page-head__acts{margin-left:0;width:100%}
+}
+
+/* ---------------- 卡片：题头图标 + 主色轨 ---------------- */
+.card__hd .card__ico{
+  width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;
+  font-size:14px;background:var(--pg-s);color:var(--pg-i);box-shadow:var(--raise-sm);
+}
+.card--accent{box-shadow:var(--raise),inset 4px 0 0 var(--pg)}
+
+/* ---------------- 主按钮与链接跟随页面主色 ---------------- */
+.btn--primary{background:var(--pg);box-shadow:var(--raise-sm),0 0 0 1px rgba(0,0,0,.06)}
+.btn--primary:hover{background:var(--pg);filter:brightness(.93);box-shadow:var(--raise)}
+.btn--primary:active{filter:brightness(.88)}
+.btn--tint{background:var(--pg-s);color:var(--pg-i);box-shadow:var(--inset-sm)}
+.btn--tint:hover{color:var(--pg-i);box-shadow:var(--raise-sm)}
+a.link-strong{font-weight:600;color:var(--pg-i)}
+a.link-strong:hover{color:var(--pg);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------------- 表格：表头带主色，行悬停带色 ---------------- */
+thead th{background:var(--pg-s);color:var(--pg-i)}
+tbody tr:hover td{background:var(--pg-s)}
+tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 var(--pg),inset 0 -1px 0 rgba(214,200,189,.45)}
+.tablewrap table.dif{font-family:var(--mono);font-size:12.5px}
+
+/* ---------------- 状态 / 角色徽章：实心撞色 ---------------- */
+.pill{padding:4px 11px}
+.pill--published{background:var(--s-mint);color:var(--i-mint)}
+.pill--draft{background:var(--s-amber);color:var(--i-amber)}
+.pill--in_review{background:var(--s-indigo);color:var(--i-indigo)}
+.pill--changes_requested{background:var(--s-coral);color:var(--i-coral)}
+.pill--archived{background:#E6DCD1;color:#4A443D}
+.pill--admin,.pill--root{background:var(--s-violet);color:var(--i-violet)}
+.pill--reviewer{background:var(--s-sky);color:var(--i-sky)}
+.pill--editor{background:var(--s-mint);color:var(--i-mint)}
+.pill--viewer{background:#E6DCD1;color:#4A443D}
+
+/* ---------------- 侧栏：分组配色 + 选中态着色 ---------------- */
+.sidebar__sec{white-space:nowrap}
+.sidebar__sec::before{content:"";width:7px;height:7px;border-radius:3px;background:var(--c-indigo);
+  display:inline-block;vertical-align:middle;margin-right:7px}
+.sidebar__sec--collab::before{background:var(--c-amber)}
+.sidebar__sec--admin::before{background:var(--c-violet)}
+.navitem--content .navitem__ico{color:var(--c-indigo)}
+.navitem--collab .navitem__ico{color:var(--c-amber)}
+.navitem--admin .navitem__ico{color:var(--c-violet)}
+.navitem--content[aria-current="page"]{background:var(--s-indigo);color:var(--i-indigo)}
+.navitem--content[aria-current="page"] .navitem__ico,
+.navitem--content[aria-current="page"] .navitem__badge{color:var(--i-indigo)}
+.navitem--content[aria-current="page"]::after{background:var(--c-indigo);box-shadow:0 0 6px var(--c-indigo)}
+.navitem--collab[aria-current="page"]{background:var(--s-amber);color:var(--i-amber)}
+.navitem--collab[aria-current="page"] .navitem__ico,
+.navitem--collab[aria-current="page"] .navitem__badge{color:var(--i-amber)}
+.navitem--collab[aria-current="page"]::after{background:var(--c-amber);box-shadow:0 0 6px var(--c-amber)}
+.navitem--admin[aria-current="page"]{background:var(--s-violet);color:var(--i-violet)}
+.navitem--admin[aria-current="page"] .navitem__ico,
+.navitem--admin[aria-current="page"] .navitem__badge{color:var(--i-violet)}
+.navitem--admin[aria-current="page"]::after{background:var(--c-violet);box-shadow:0 0 6px var(--c-violet)}
+.sidebar__brand .mark{background:linear-gradient(135deg,var(--c-indigo),var(--c-violet));color:#fff;
+  box-shadow:var(--raise-sm)}
+
+/* ---------------- 编辑器：分组色轨 + 常驻操作条 ---------------- */
+details.grp{--gc:var(--pg);--gs:var(--pg-s);--gi:var(--pg-i)}
+details.grp.grp--core{--gc:var(--c-indigo);--gs:var(--s-indigo);--gi:var(--i-indigo)}
+details.grp.grp--body{--gc:var(--c-violet);--gs:var(--s-violet);--gi:var(--i-violet)}
+details.grp.grp--search{--gc:var(--c-sky);--gs:var(--s-sky);--gi:var(--i-sky)}
+details.grp.grp--src{--gc:var(--c-mint);--gs:var(--s-mint);--gi:var(--i-mint)}
+details.grp.grp--maint{--gc:var(--c-amber);--gs:var(--s-amber);--gi:var(--i-amber)}
+details.grp.grp--prep{--gc:var(--c-coral);--gs:var(--s-coral);--gi:var(--i-coral)}
+details.grp.grp--comments{--gc:var(--c-violet);--gs:var(--s-violet);--gi:var(--i-violet)}
+details.grp[open]{box-shadow:var(--raise),inset 5px 0 0 var(--gc)}
+details.grp[open]>summary{color:var(--gi)}
+details.grp[open]>summary::before{background:var(--gc);box-shadow:0 0 7px var(--gc)}
+details.grp:not([open])>summary::before{background:#CFC3B7}
+.editor-actions{
+  position:sticky;top:58px;z-index:18;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  padding:10px 14px;margin:0 0 20px;border-radius:var(--r-btn);
+  background:var(--base);box-shadow:var(--raise);
+}
+.editor-actions .sp{flex:1}
+@media(max-width:860px){.editor-actions{position:static}}
+
+/* ---------------- 媒体库网格（此前只有标记、没有样式）---------------- */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px}
+.mcard{
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--base);border-radius:var(--r-card);box-shadow:var(--raise);
+}
+.mcard__img{
+  aspect-ratio:16/10;display:grid;place-items:center;overflow:hidden;
+  background:var(--base-2);box-shadow:var(--inset-sm);
+}
+.mcard__img img{width:100%;height:100%;object-fit:cover;display:block}
+.mcard__bd{padding:14px 16px 4px}
+.mcard__alt{
+  font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.mcard__alt--missing{color:var(--c-coral)}
+.mcard__ft{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  padding:12px 16px 16px;margin-top:auto;box-shadow:inset 0 1px 0 rgba(214,200,189,.5);
+}
+@media(max-width:620px){.mgrid{grid-template-columns:1fr}}
+
+/* ---------------- 审核评论线程（此前只有标记、没有样式）---------------- */
+.cmt{background:var(--base);border-radius:var(--r-btn);box-shadow:var(--raise-sm);
+  padding:14px 16px;margin-bottom:12px}
+.cmt--done{box-shadow:var(--inset-sm);background:var(--s-mint)}
+.cmt__hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;margin-bottom:6px}
+.cmt__bd{font-size:13.5px;color:var(--ink);line-height:1.7}
+.cmt__ft{display:flex;justify-content:flex-end;margin-top:10px}
+
+/* ---------------- 修订差异（此前只有标记、没有样式）---------------- */
+.dif-same td{color:var(--ink-2)}
+.dif-del td{background:var(--s-coral);color:var(--i-coral)}
+.dif-add td{background:var(--s-mint);color:var(--i-mint)}
+.dif-n{width:34px;text-align:center;font-weight:800;color:var(--ink-3)}
+
+/* ---------------- 工作台明细两列 ---------------- */
+.dash-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+@media(max-width:1100px){.dash-cols{grid-template-columns:1fr}}
+
+/* ---------------- 筛选状态条 ---------------- */
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters__chip{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:var(--r-full);
+  font-size:12px;font-weight:700;background:var(--pg-s);color:var(--pg-i);box-shadow:var(--inset-sm);
+}
+.filters__chip a{color:var(--pg-i);opacity:.7;font-weight:800}
+.filters__chip a:hover{opacity:1}
+.dot{width:8px;height:8px;border-radius:3px;flex:none;display:inline-block;margin-right:7px;vertical-align:middle}
+
+/* ---------------- 无障碍工具类 ---------------- */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------------- 登录页：撞色边与品牌键帽 ---------------- */
+.login-wrap .card{position:relative;overflow:hidden}
+.login-wrap .card::before{content:"";position:absolute;left:0;right:0;top:0;height:7px;
+  background:linear-gradient(90deg,var(--c-mint),var(--c-sky),var(--c-violet),var(--c-amber))}
+.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.login-brand .mark{width:44px;height:44px;border-radius:14px;flex:none;display:grid;place-items:center;
+  font-size:18px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--c-indigo),var(--c-violet));
+  box-shadow:var(--raise-sm)}
+.login-brand b{display:block;font-size:16px}
+.login-brand span{font-size:11.5px;color:var(--ink-2);font-weight:600}
+
+/* 移动端：品牌名不换行、分组标签隐藏（拟态层新增的规则在媒体查询之后，
+   必须在末尾再声明一次，否则 860px 断点会被覆盖） */
+@media(max-width:860px){
+  .sidebar__sec{display:none}
+  .sidebar__brand{white-space:nowrap;flex:none;padding:0 8px 0 0}
+}
 `;
 
 function layout(title, bodyHtml, opts) {
@@ -571,8 +783,8 @@ function layout(title, bodyHtml, opts) {
   const cur = opts.current || "";
 
   // ---- 侧栏导航（借 AntD「左右布局」：固定导航 + 自适应工作区）----
-  function navItem(href, ico, label, key, badge) {
-    return '<a class="navitem" href="' + href + '"' + (cur === key ? ' aria-current="page"' : '') + '>' +
+  function navItem(href, ico, label, key, badge, sec) {
+    return '<a class="navitem navitem--' + (sec || "content") + '" href="' + href + '"' + (cur === key ? ' aria-current="page"' : '') + '>' +
       '<span class="navitem__ico" aria-hidden="true">' + ico + '</span>' +
       '<span>' + esc(label) + '</span>' +
       (badge ? '<span class="navitem__badge">' + badge + '</span>' : '') +
@@ -581,19 +793,19 @@ function layout(title, bodyHtml, opts) {
   let nav = "";
   if (user) {
     nav = '<div class="sidebar__sec">内容</div><nav class="sidebar__nav">' +
-      navItem("/dashboard", "◧", "工作台", "dashboard") +
-      navItem("/articles", "☰", "文章", "articles", opts.counts && opts.counts.articles) +
-      navItem("/articles/new", "＋", "新建文章", "new") +
-      navItem("/media", "▢", "媒体库", "media") +
+      navItem("/dashboard", "◧", "工作台", "dashboard", null, "content") +
+      navItem("/articles", "☰", "文章", "articles", opts.counts && opts.counts.articles, "content") +
+      navItem("/articles/new", "＋", "新建文章", "new", null, "content") +
+      navItem("/media", "▢", "媒体库", "media", null, "content") +
       '</nav>' +
-      (isReviewer ? '<div class="sidebar__sec">协作</div><nav class="sidebar__nav">' +
-        navItem("/audit", "◷", "审计日志", "audit") +
-        navItem("/publish", "⇪", "发布", "publish") + '</nav>' :
-        '<div class="sidebar__sec">协作</div><nav class="sidebar__nav">' +
-        navItem("/publish", "⇪", "发布", "publish") + '</nav>') +
-      (isAdmin ? '<div class="sidebar__sec">管理</div><nav class="sidebar__nav">' +
-        navItem("/users", "☺", "账号", "users") +
-        navItem("/security", "⚿", "账号安全", "security") + '</nav>' : "");
+      (isReviewer ? '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
+        navItem("/audit", "◷", "审计日志", "audit", null, "collab") +
+        navItem("/publish", "⇪", "发布", "publish", null, "collab") + '</nav>' :
+        '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
+        navItem("/publish", "⇪", "发布", "publish", null, "collab") + '</nav>') +
+      (isAdmin ? '<div class="sidebar__sec sidebar__sec--admin">管理</div><nav class="sidebar__nav">' +
+        navItem("/users", "☺", "账号", "users", null, "admin") +
+        navItem("/security", "⚿", "账号安全", "security", null, "admin") + '</nav>' : "");
   }
 
   let sidebar = "";
@@ -646,14 +858,36 @@ function layout(title, bodyHtml, opts) {
     '<title>' + esc(title) + ' · 修盒子内容后台</title>\n' +
     '<style>' + BASE_CSS + '</style>\n</head>\n' +
     // data-* 供 editor.js 读取（上传接口与 CSRF），避免把令牌写进内联脚本（CSP 更严）
-    '<body data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
+    '<body data-accent="' + esc(opts.accent || "indigo") + '" data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
     '<div id="live" aria-live="polite" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip(0 0 0 0)"></div>' +
     inner +
-    '\n<script src="/static/app.js" defer></script>\n</body>\n</html>';
+    '\n<script src="/static/app.js" defer></script>\n' +
+    // 页面级脚本：editor.js 只在编辑器页引入（元素缺失即跳过，见 public/editor.js）。
+    // 修复：该文件此前在 server.cjs 有路由、却没有任何页面引用，
+    //       导致正文导航、骨架插入、图片上传、领域联动、快捷键、字数统计全部失效。
+    (opts.scripts || []).map(function (src) {
+      return '<script src="' + esc(src) + '" defer></script>\n';
+    }).join("") +
+    '</body>\n</html>';
 }
 function statusLabel(s) {
   return ({ published: "已发布", draft: "草稿", in_review: "审核中",
             changes_requested: "退回修改", archived: "归档" })[s] || s || "未知";
+}
+
+/* ---------------- 统一页头 ----------------
+   拟态皮肤上线后各页标题都是一行裸 <h1>，既没有层次也没有颜色。
+   这里统一成「色块图标 + 标题 + 说明 + 操作区」的题头，颜色跟随 body[data-accent]。 */
+function pageHead(opts) {
+  opts = opts || {};
+  return '<div class="page-head">' +
+    (opts.ico ? '<div class="page-head__ico" aria-hidden="true">' + opts.ico + "</div>" : "") +
+    '<div class="page-head__main">' +
+      "<h1>" + esc(opts.title || "") + "</h1>" +
+      (opts.sub ? '<div class="page-head__sub">' + opts.sub + "</div>" : "") +
+    "</div>" +
+    (opts.acts ? '<div class="page-head__acts">' + opts.acts + "</div>" : "") +
+    "</div>";
 }
 
 function loginPage(opts) {
@@ -662,6 +896,8 @@ function loginPage(opts) {
   const info = opts.info ? '<div class="alert alert--info">' + esc(opts.info) + "</div>" : "";
   return layout("登录",
     '<div class="login-wrap"><div class="card">' +
+    '<div class="login-brand"><span class="mark" aria-hidden="true">修</span>' +
+      '<span><b>修盒子 · 内容后台</b><span>FIXBOX 内容协作与发布</span></span></div>' +
     "<h1>登录内容后台</h1>" +
     '<p class="muted" style="margin:0 0 22px">仅限内部编辑人员使用。账号由管理员分发。</p>' +
     err + info +
@@ -671,7 +907,7 @@ function loginPage(opts) {
     '<div style="margin-top:20px"><button class="btn btn--primary" type="submit" style="width:100%">登录</button></div>' +
     "</form></div>" +
     '<p class="muted" style="text-align:center">账号信息仅用于内容协作。请勿分享登录凭据。</p></div>',
-    { nav: false });
+    { nav: false, accent: "indigo" });
 }
 
 function changePasswordPage(opts) {
@@ -707,6 +943,13 @@ function articlesPage(opts) {
   });
   function domName(id) { return domById[id] || id || ""; }
   function catName(id) { return catById[id] || id || ""; }
+  // 领域 → 色系：给列表加一个可扫读的色点（沿用工作台六色）
+  const DOM_COLOR = {
+    "net-basic": "sky", "win-system": "indigo", "router": "mint", "ip-dns": "violet",
+    "win-app": "amber", "mac-system": "coral", "mac-app": "coral", "hardware": "indigo",
+    "peripheral": "mint", "proxy-vpn": "amber", "account-sec": "coral", "data-backup": "sky"
+  };
+  function domColor(id) { return DOM_COLOR[id] || "indigo"; }
 
   // 保留当前筛选条件、只覆盖指定字段 —— 用于分页/排序链接
   function qs(over) {
@@ -741,7 +984,8 @@ function articlesPage(opts) {
         ((a.sourcesCount || 0) < 1 ? '<span class="pill pill--changes_requested" title="缺少参考资料">缺来源</span>' : "") +
       "</td>" +
       "<td><span class=\"pill pill--" + esc(a.status) + "\">" + esc(statusLabel(a.status)) + "</span></td>" +
-      "<td>" + esc(domName(a.domain)) + '<div class="muted">' + esc(catName(a.category)) + "</div></td>" +
+      '<td><span class="dot" style="background:var(--c-' + domColor(a.domain) + ')"></span>' +
+        esc(domName(a.domain)) + '<div class="muted">' + esc(catName(a.category)) + "</div></td>" +
       "<td>" + esc(a.risk || "") + '<div class=\"muted\">' + esc(a.difficulty || "") + "</div></td>" +
       "<td class=\"num\">" + (a.sourcesCount || 0) + "</td>" +
       "<td class=\"muted num\">" + esc(a.updated || "") + "</td>" +
@@ -791,15 +1035,36 @@ function articlesPage(opts) {
   const statusOpts = [["", "全部状态"], ["published", "已发布"], ["draft", "草稿"], ["in_review", "审核中"], ["changes_requested", "退回修改"], ["archived", "归档"]]
     .map(function (p) { return '<option value="' + p[0] + '"' + (f.status === p[0] ? " selected" : "") + ">" + p[1] + "</option>"; }).join("");
 
+  // 生效中的筛选用彩色胶囊回显——原先只能靠「清除」按钮猜测当前过滤了什么
+  function chip(label, href) {
+    return '<span class="filters__chip">' + esc(label) +
+      '<a href="' + href + '" aria-label="移除筛选：' + esc(label) + '" title="移除该筛选">✕</a></span>';
+  }
+  const chips = [];
+  if (f.q) chips.push(chip("搜索：" + f.q, qs({ q: "", page: "" })));
+  if (f.status) chips.push(chip("状态：" + statusLabel(f.status), qs({ status: "", page: "" })));
+  if (f.domain) chips.push(chip("领域：" + domName(f.domain), qs({ domain: "", page: "" })));
+  if (f.risk) chips.push(chip("风险：" + f.risk, qs({ risk: "", page: "" })));
+  if (f.stale) chips.push(chip("超 180 天未复核", qs({ stale: "", page: "" })));
+  if (f.missing) chips.push(chip("缺参考资料", qs({ missing: "", page: "" })));
+  const activeFilters = chips.length
+    ? '<div class="filters">' + chips.join("") +
+      '<a class="btn btn--sm btn--ghost" href="/articles">全部清除</a></div>'
+    : "";
+
   return layout("文章",
-    '<div class="spread" style="margin-bottom:16px">' +
-      "<div><h1 style=\"margin:0\">文章" +
-        (opts.filtered !== opts.total ? "<span class=\"muted\" style=\"font-weight:400;font-size:14px\"> 筛选出 " + opts.filtered + " / 共 " + opts.total + "</span>" : "<span class=\"muted\" style=\"font-weight:400;font-size:14px\"> 共 " + (opts.total || 0) + " 篇</span>") +
-      "</h1></div>" +
-      (canCreate ? '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' : "") +
-    "</div>" +
+    pageHead({
+      ico: "☰",
+      title: "文章",
+      sub: (opts.filtered !== opts.total
+              ? "筛选出 <strong>" + (opts.filtered || 0) + "</strong> / 共 " + (opts.total || 0) + " 篇"
+              : "共 <strong>" + (opts.total || 0) + "</strong> 篇")
+            + " · 内容真源为 content/fixboxs/*.md，发布即提交并构建",
+      acts: (canCreate ? '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' : "")
+    }) +
     (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
 
+    activeFilters +
     viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf }) +
     '<form class="card" method="get" action="/articles" style="padding:14px 20px">' +
       '<div class="row" style="gap:12px;align-items:flex-end">' +
@@ -825,7 +1090,7 @@ function articlesPage(opts) {
       "</tr></thead><tbody>" + (rows || emptyRow) + "</tbody></table></div>" +
       (pager ? '<div class="card__ft">' + pager + "</div>" : "") +
     "</div>",
-    Object.assign({ current: "articles", crumbs: [{ label: "文章" }] }, opts));
+    Object.assign({ current: "articles", accent: "indigo", crumbs: [{ label: "文章" }] }, opts));
 }
 function editorPage(opts) {
   const m = opts.meta || {};
@@ -952,13 +1217,20 @@ function editorPage(opts) {
   const body = '<form method="post" action="' + (isNew ? "/articles/new" : "/articles/" + esc(opts.slug)) + '" id="editor" data-dirty-guard>' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     '<input type="hidden" name="baseHash" value="' + esc(opts.contentHash || "") + '">' +
-    '<div class="spread" style="margin-bottom:16px">' +
-      '<div><h1 style="margin:0">' + (isNew ? "新建文章" : esc(m.title || opts.slug)) + "</h1>" +
-        (opts.contentHash ? '<div class="muted">版本 <span class="kbd">' + esc(opts.contentHash.slice(0, 12)) + "</span> · 他人已修改时保存会提示冲突</div>" : "") +
-      "</div>" +
-      '<div class="row"><a class="btn" href="/articles">返回</a>' +
-        (isNew ? "" : '<a class="btn" href="/articles/' + esc(opts.slug) + '/revisions">修订历史' + (opts.revCount ? " (" + opts.revCount + ")" : "") + "</a>") +
-        '<button class="btn" type="submit" name="action" value="save">保存草稿</button>' + buttons + "</div>" +
+    pageHead({
+      ico: isNew ? "＋" : "✎",
+      title: isNew ? "新建文章" : (m.title || opts.slug),
+      sub: isNew
+        ? "保存后写入 content/fixboxs/_drafts/，不会影响线上；发布才进入构建"
+        : '<span class="pill pill--' + esc(F.status) + '">' + esc(statusLabel(F.status)) + "</span>"
+          + (opts.contentHash ? ' <span class="kbd">' + esc(opts.contentHash.slice(0, 12)) + "</span> · 他人已修改时保存会提示冲突" : "")
+    }) +
+    // 常驻操作条：长表单滚到一半也能直接保存/发布（原先只能滚回页首）
+    '<div class="editor-actions">' +
+      '<a class="btn btn--sm" href="/articles">返回</a>' +
+      (isNew ? "" : '<a class="btn btn--sm" href="/articles/' + esc(opts.slug) + '/revisions">修订历史' + (opts.revCount ? " (" + opts.revCount + ")" : "") + "</a>") +
+      '<span class="sp"></span>' +
+      '<button class="btn" type="submit" name="action" value="save">保存草稿</button>' + buttons +
     "</div>" +
 
     '<div class="editor-grid">' +
@@ -966,7 +1238,7 @@ function editorPage(opts) {
       '<div>' +
 
       // 组 1：核心（默认展开）
-      '<details class="grp" open><summary>核心信息（必填）<span class="grp__hint">标题 / slug / 分类 / 风险</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--core" open><summary>核心信息（必填）<span class="grp__hint">标题 / slug / 分类 / 风险</span></summary><div class="grp__bd">' +
         field("标题", "title", '<input id="title" name="title" type="text" value="' + esc(F.title) + '" required maxlength="60">', "用户在搜索结果里看到的就是这句，尽量含症状词。", true) +
         field("slug（URL 标识）", "slug", '<input id="slug" name="slug" type="text" value="' + esc(F.slug) + '" ' + (isNew ? "required" : "readonly") + ' pattern="[a-z0-9-]+">',
           isNew ? "仅小写字母、数字、连字符。<strong>发布后不应再改</strong>（URL 稳定性）。" : "已发布文章的 slug 不建议修改。", true) +
@@ -986,7 +1258,7 @@ function editorPage(opts) {
       // 2026-10-13 调整：正文从「强制 10 段结构」改为自由写作，
       // 以便后续引入思维导图、图片等非段落化内容。
       // 结构化能力（检索与关联等 front-matter 字段）保持不变。
-      '<details class="grp" open><summary>正文（Markdown · 自由写作）<span class="grp__hint">右侧为段落导航</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--body" open><summary>正文（Markdown · 自由写作）<span class="grp__hint">右侧为段落导航</span></summary><div class="grp__bd">' +
         '<p class="muted" style="margin-top:0">正文可自由组织，支持任意 Markdown、图片与思维导图。' +
           '只需包含 <strong>' + REQ_SEC.map(function (s) { return "「" + esc(s) + "」"; }).join(" 与 ") + "</strong> 两个必要段落即可发布。" +
           '建议保留：' + SUG_SEC.map(function (s) { return esc(s); }).join(" / ") + "（仅提示，不阻塞）。</p>" +
@@ -1000,7 +1272,7 @@ function editorPage(opts) {
       '</div></details>' +
 
       // 组 3：检索（默认展开——知识库站点的核心）
-      '<details class="grp" open><summary>检索与关联<span class="grp__hint">决定用户能不能搜到</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--search" open><summary>检索与关联<span class="grp__hint">决定用户能不能搜到</span></summary><div class="grp__bd">' +
         field("症状词", "symptoms", inp("symptoms", "symptoms", F.symptoms), "用户会怎么描述这个问题？<strong>≥3 条</strong>，逗号分隔。", true) +
         field("关键词", "keywords", inp("keywords", "keywords", F.keywords), "<strong>≥5 条</strong>，含口语词与常见错别字。", true) +
         field("别名 / 口语说法", "aliases", inp("aliases", "aliases", F.aliases), "<strong>≥2 条</strong>，影响口语召回。", true) +
@@ -1008,14 +1280,14 @@ function editorPage(opts) {
       '</div></details>' +
 
       // 组 4：参考资料
-      '<details class="grp" open><summary>参考资料（sources）<span class="grp__hint">当前 ' + sources.length + ' 条</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--src" open><summary>参考资料（sources）<span class="grp__hint">当前 ' + sources.length + ' 条</span></summary><div class="grp__bd">' +
         '<p class="muted" style="margin-top:0">每条含标题与 URL（均必填），类型可选。<strong>保存时不会丢失</strong>；若条数减少，系统会拦下并回滚。</p>' +
         '<div id="src-list">' + sourceRows + '</div>' +
         '<button class="btn btn--sm" type="button" id="src-add">＋ 添加一条</button>' +
       '</div></details>' +
 
       // 组 5：维护信息（默认折叠）
-      '<details class="grp"><summary>维护与复核<span class="grp__hint">复核周期 / 版本</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--maint"><summary>维护与复核<span class="grp__hint">复核周期 / 版本</span></summary><div class="grp__bd">' +
         '<div class="grid2">' +
           field("复核人", "reviewer", inp("reviewer", "reviewer", F.reviewer)) +
           field("复核日期", "reviewed_at", '<input id="reviewed_at" name="reviewed_at" type="date" value="' + esc(F.reviewed_at) + '">', "超过 12 个月会提示复核。") +
@@ -1031,7 +1303,7 @@ function editorPage(opts) {
       '</div></details>' +
 
       // 组 6：前置条件与工具（默认折叠）
-      '<details class="grp"><summary>前置条件与工具<span class="grp__hint">低频字段</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--prep"><summary>前置条件与工具<span class="grp__hint">低频字段</span></summary><div class="grp__bd">' +
         field("前置条件", "prerequisites", inp("prerequisites", "prerequisites", F.prerequisites), "逗号分隔，会渲染进「开始前确认」区块。") +
         field("所需工具", "tools", inp("tools", "tools", F.tools), "逗号分隔。") +
       '</div></details>' +
@@ -1043,8 +1315,12 @@ function editorPage(opts) {
 
       // ============ 右：检查清单 + 段落导航 ============
       '<div class="editor-side">' +
-        '<div class="card" style="padding:16px"><h3 style="margin-top:0">发布前检查</h3>' + checklist() + '</div>' +
-        '<div class="card" style="padding:16px"><h3 style="margin-top:0">段落导航</h3>' + tocHost + '</div>' +
+        '<div class="card card--accent" style="padding:16px">' +
+          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">✓</span><h3>发布前检查</h3></div>' +
+          checklist() + '</div>' +
+        '<div class="card" style="padding:16px">' +
+          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">¶</span><h3>段落导航</h3></div>' +
+          tocHost + '</div>' +
       "</div>" +
     "</div>" +
     commentsBlock({ slug: opts.slug, comments: opts.comments || [], csrf: opts.csrf }) +
@@ -1054,6 +1330,8 @@ function editorPage(opts) {
   return layout((isNew ? "新建文章" : "编辑：" + (m.title || opts.slug)), err + ok + body,
     Object.assign({
       current: "articles",
+      accent: "violet",
+      scripts: ["/static/editor.js"],
       crumbs: isNew ? [{ label: "文章", href: "/articles" }, { label: "新建" }]
                      : [{ label: "文章", href: "/articles" }, { label: m.title || opts.slug }]
     }, opts));
@@ -1071,14 +1349,16 @@ function revisionsPage(opts) {
       "<td class=\"tight\"><a class=\"btn btn--sm\" href=\"/articles/" + esc(opts.slug) + "/revisions/" + r.revision_no + "\">与当前对比</a></td></tr>";
   }).join("");
   return layout("修订历史",
-    "<div class=\"spread\" style=\"margin-bottom:16px\"><h1 style=\"margin:0\">修订历史</h1>" +
-      '<a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '\">返回文章</a></div>' +
-    '<p class=\"muted\">每次保存都会留一份完整快照（含 front-matter），最多保留最近 30 版。</p>' +
+    pageHead({
+      ico: "◷", title: "修订历史",
+      sub: "每次保存都会留一份完整快照（含 front-matter），最多保留最近 30 版。",
+      acts: '<a class="btn" href="/articles/' + esc(opts.slug) + '">返回文章</a>'
+    }) +
     '<div class=\"card card--flush\"><div class=\"tablewrap\"><table>' +
     "<thead><tr><th>版本</th><th>时间</th><th>作者</th><th>说明</th><th>体积</th><th></th></tr></thead><tbody>" +
     (rows || '<tr><td colspan=\"6\" class=\"empty\"><div class=\"empty__ico\">◷</div><div class=\"empty__t\">还没有修订记录</div><div>从本功能上线后开始的每次保存都会被记录</div></td></tr>') +
     "</tbody></table></div></div>",
-    Object.assign({ current: "articles", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订历史" }] }, opts));
+    Object.assign({ current: "articles", accent: "violet", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订历史" }] }, opts));
 }
 
 /* ---------------- 修订对比页（行级 diff） ---------------- */
@@ -1091,10 +1371,12 @@ function revisionDiffPage(opts) {
   const nAdd = (opts.rows || []).filter(function (r) { return r.t === "add"; }).length;
   const nDel = (opts.rows || []).filter(function (r) { return r.t === "del"; }).length;
   return layout("修订对比",
-    "<div class=\"spread\" style=\"margin-bottom:16px\"><div><h1 style=\"margin:0\">v" + esc(opts.rev.revision_no) + " → 当前</h1>" +
-      '<div class=\"muted\">作者 ' + esc(opts.rev.author_email || "—") + " · " + esc(String(opts.rev.created_at || "").slice(0, 19).replace("T", " ")) + "</div></div>" +
-      '<div class=\"row\"><a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '/revisions\">返回历史</a>' +
-      '<a class=\"btn\" href=\"/articles/' + esc(opts.slug) + '\">打开文章</a></div></div>' +
+    pageHead({
+      ico: "⇄", title: "v" + esc(opts.rev.revision_no) + " → 当前",
+      sub: "作者 " + esc(opts.rev.author_email || "—") + " · " + esc(String(opts.rev.created_at || "").slice(0, 19).replace("T", " ")),
+      acts: '<a class="btn" href="/articles/' + esc(opts.slug) + '/revisions">返回历史</a>' +
+            '<a class="btn" href="/articles/' + esc(opts.slug) + '">打开文章</a>'
+    }) +
     '<div class=\"row\" style=\"gap:12px;margin-bottom:12px\">' +
       '<span class=\"pill pill--published\">+' + nAdd + ' 行</span>' +
       '<span class=\"pill pill--changes_requested\">−' + nDel + ' 行</span>' +
@@ -1102,7 +1384,7 @@ function revisionDiffPage(opts) {
     "</div>" +
     '<div class=\"card card--flush\"><div class=\"tablewrap\"><table class=\"dif\">' +
     "<tbody>" + (rows || '<tr><td class=\"empty\">无差异</td></tr>') + "</tbody></table></div></div>",
-    Object.assign({ current: "articles", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订对比" }] }, opts));
+    Object.assign({ current: "articles", accent: "violet", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订对比" }] }, opts));
 }
 
 /* ---------------- 审核评论区块（嵌入编辑器页） ---------------- */
@@ -1123,7 +1405,7 @@ function commentsBlock(opts) {
         '<button class=\"btn btn--sm btn--ghost\" type=\"submit\">' + (resolved ? "重新打开" : "标记已解决") + "</button>" +
       "</form></div></div>";
   }).join("");
-  return '<details class=\"grp\"' + (list.length ? " open" : "") + '><summary>审核评论' +
+  return '<details class=\"grp grp--comments\"' + (list.length ? " open" : "") + '><summary>审核评论' +
       '<span class=\"grp__hint\">' + list.length + ' 条' + (list.filter(function (c) { return !c.resolved_at; }).length ? "（" + list.filter(function (c) { return !c.resolved_at; }).length + " 条未解决）" : "") + "</span></summary>" +
     '<div class=\"grp__bd\" id=\"comments\">' +
       (items || '<p class=\"muted\" style=\"margin-top:0\">还没有评论。审核意见写在这里，比在聊天工具里说更不容易丢。</p>') +
@@ -1302,7 +1584,7 @@ function dashboardPage(opts) {
     // 热力网格信息密度大，单独占满一行。
     '<div class="grid2" style="gap:20px;align-items:stretch">' +
       '<div class="card" style="display:flex;flex-direction:column">' +
-        '<div class="card__hd"><h3>各领域文章数</h3><span class="topbar__sp"></span>' +
+        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-sky);color:var(--i-sky)">▤</span><h3>各领域文章数</h3><span class="topbar__sp"></span>' +
         '<span class="muted">按篇数排序</span></div>' +
         '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end">' +
           (domainBars ? '<div class="chart chart--tall">' + domainBars + "</div>"
@@ -1310,7 +1592,7 @@ function dashboardPage(opts) {
         "</div>" +
       "</div>" +
       '<div class="card" style="display:flex;flex-direction:column">' +
-        '<div class="card__hd"><h3>状态构成</h3><span class="topbar__sp"></span>' +
+        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-mint);color:var(--i-mint)">◕</span><h3>状态构成</h3><span class="topbar__sp"></span>' +
         '<span class="muted">共 ' + stTotal + ' 篇</span></div>' +
         '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:center">' +
           '<div class="row" style="gap:26px;align-items:center;flex-wrap:nowrap">' +
@@ -1325,14 +1607,14 @@ function dashboardPage(opts) {
 
     // ---- 更新活动热力图（占满一行）----
     '<div class="card">' +
-      '<div class="card__hd"><h3>更新活动</h3><span class="topbar__sp"></span>' +
+      '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-indigo);color:var(--i-indigo)">▦</span><h3>更新活动</h3><span class="topbar__sp"></span>' +
       '<span class="muted">最近 80 天 · 颜色越深当天更新越多</span></div>' +
       '<div class="card__bd"><div class="heat heat--wide">' + (heatCells || "") + "</div></div>" +
     "</div>" +
     // ---- 明细表 ----
     '<div class="dash-cols" style="margin-top:20px">' +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><h3>最近编辑</h3><span class="topbar__sp"></span>' +
+        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-violet);color:var(--i-violet)">✎</span><h3>最近编辑</h3><span class="topbar__sp"></span>' +
         '<a class="btn btn--sm" href="/articles">全部文章</a></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">状态</th><th class="tight">更新</th><th class="tight">复核</th>' +
@@ -1341,7 +1623,7 @@ function dashboardPage(opts) {
         "</tbody></table></div>" +
       "</div>" +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
+        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-amber);color:var(--i-amber)">◷</span><h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">距上次</th><th class="tight">上次复核</th>' +
         "</tr></thead><tbody>" +
@@ -1349,41 +1631,56 @@ function dashboardPage(opts) {
         "</tbody></table></div>" +
       "</div>" +
     "</div>",
-    Object.assign({ current: "dashboard", crumbs: [{ label: "工作台" }] }, opts));
+    Object.assign({ current: "dashboard", accent: "indigo", crumbs: [{ label: "工作台" }] }, opts));
 }
 function publishPage(opts) {
+  // 状态与动作原先直接显示英文枚举（succeeded / publish / archive）
+  const JOB_STATUS = { succeeded: "成功", failed: "失败", running: "进行中", queued: "排队中" };
+  const JOB_ACTION = { publish: "发布", archive: "归档", revert: "回滚" };
   const jobs = opts.jobs.map(function (j) {
     const dur = j.finished_at && j.started_at
       ? Math.round((new Date(j.finished_at) - new Date(j.started_at)) / 1000) + "s" : "—";
     const cls = j.status === "succeeded" ? "pill--published" : (j.status === "failed" ? "pill--changes_requested" : "pill--draft");
     return "<tr><td>#" + j.id + "</td>" +
-      "<td>" + esc(j.action) + ' <span class="muted">' + esc(j.slug || "") + "</span></td>" +
-      '<td><span class="pill ' + cls + '">' + esc(j.status) + "</span></td>" +
+      "<td>" + esc(JOB_ACTION[j.action] || j.action) + ' <span class="muted">' + esc(j.slug || "") + "</span></td>" +
+      '<td><span class="pill ' + cls + '">' + esc(JOB_STATUS[j.status] || j.status) + "</span></td>" +
       "<td>" + esc(String(j.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
       "<td>" + dur + "</td>" +
       "<td>" + (j.error ? '<span style="color:#DC2626">' + esc(String(j.error).slice(0,140)) + "</span>" : "") + "</td></tr>";
   }).join("");
   return layout("发布",
-    "<h1>发布队列</h1>" +
-    '<p class="muted">发布是串行的：同一时刻只允许一个任务运行（构建目录共享、部署是整目录切换）。</p>' +
+    pageHead({
+      ico: "⇪", title: "发布队列",
+      sub: "发布是串行的：同一时刻只允许一个任务运行（构建目录共享、部署是整目录切换）。",
+      acts: '<span class="page-head__chip">手动发布通道</span>'
+    }) +
     (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
     (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
-    '<div class="card"><form method="post" action="/publish">' +
+    '<div class="card card--accent">' +
+    '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">⇪</span><h3>手动触发一次完整发布</h3></div>' +
+    '<form method="post" action="/publish">' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
-    "<p>手动触发一次完整发布（构建 → 产物化 → 原子切换 → 线上全量校验）。</p>" +
+    "<p>走完整链路：构建 → 产物化 → 原子切换 → 线上全量校验。</p>" +
     '<button class="btn btn--primary" type="submit">立即发布</button>' +
     '<span class="muted" style="margin-left:10px">发布不会修改内容本身。</span></form></div>' +
     '<div class="card card--flush"><div class="tablewrap"><table>' +
     "<thead><tr><th>#</th><th>动作</th><th>状态</th><th>创建时间</th><th>耗时</th><th>错误</th></tr></thead><tbody>" +
     (jobs || '<tr><td colspan="6" class="empty"><div class="empty__ico">⇪</div><div class="empty__t">还没有发布记录</div><div>点击上方「立即发布」会在此显示每一步的进度</div></td></tr>') +
     "</tbody></table></div></div>",
-    Object.assign({ current: "publish", crumbs: [{ label: "发布" }] }, opts));
+    Object.assign({ current: "publish", accent: "mint", crumbs: [{ label: "发布" }] }, opts));
 }
 
 function usersPage(opts) {
+  // 角色与限定领域原先直接显示英文 slug（admin / editor / net-basic），
+  // 对非技术管理员不友好 —— 统一翻成中文再展示。
+  const ROLE_LABEL = { admin: "管理员", editor: "编辑", reviewer: "审核", viewer: "只读" };
+  const domNameById = {};
+  ((opts.taxonomy && opts.taxonomy.domains) || []).forEach(function (d) { domNameById[d.id] = d.name; });
+  function roleLabel(r) { return ROLE_LABEL[r] || r || ""; }
   const rows = opts.users.map(function (u) {
-    const rl = u.roles || "";
-    const scoped = u.scope_domain ? ' <span class="muted">(限定 ' + esc(u.scope_domain) + ")</span>" : "";
+    const rl = roleLabel(u.roles || "");
+    const scoped = u.scope_domain
+      ? ' <span class="muted">（限定 ' + esc(domNameById[u.scope_domain] || u.scope_domain) + "）</span>" : "";
     const action = u.is_root ? '<span class="muted">不可操作</span>' :
       '<form method="post" action="/users/' + u.id + '/toggle" style="display:inline">' +
       '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
@@ -1397,19 +1694,24 @@ function usersPage(opts) {
   }).join("");
   const invites = opts.invites.map(function (v) {
     const st = v.used_at ? "已使用" : (v.revoked_at ? "已撤销" : (new Date(v.expires_at) < new Date() ? "已过期" : "待使用"));
-    return "<tr><td>" + esc(v.email) + "</td><td>" + esc(v.role) + "</td><td>" + st + "</td>" +
+    return "<tr><td>" + esc(v.email) + "</td><td>" + esc(roleLabel(v.role)) + "</td><td>" + st + "</td>" +
       "<td>" + esc(String(v.created_at || "").slice(0,19).replace("T"," ")) + "</td></tr>";
   }).join("");
   const domOpts = opts.taxonomy.domains.map(function (d) {
     return '<option value="' + esc(d.id) + '">' + esc(d.name) + "</option>";
   }).join("");
   return layout("账号",
-    "<h1>账号与角色</h1>" +
-    '<p class="muted">账号只能由管理员创建（无自助注册）。新建后生成一次性激活链接，被邀请人首次登录必须改密。</p>' +
+    pageHead({
+      ico: "☺", title: "账号与角色",
+      sub: "账号只能由管理员创建（无自助注册）。新建后生成一次性激活链接，被邀请人首次登录必须改密。",
+      acts: '<span class="page-head__chip">当前 ' + (opts.users || []).length + ' 个账号</span>'
+    }) +
     (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
     (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
     (opts.inviteLink ? '<div class="alert alert--info"><strong>一次性激活链接（只显示这一次，请立即复制）：</strong><br><code style="word-break:break-all">' + esc(opts.inviteLink) + '</code><br><span class="muted">有效期 ' + opts.inviteHours + ' 小时；一次性；可由管理员撤销。</span></div>' : "") +
-    '<div class="card"><h2 style="margin-top:0">创建账号（分发邀请）</h2><form method="post" action="/users/invite">' +
+    '<div class="card card--accent">' +
+    '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>创建账号（分发邀请）</h3></div>' +
+    '<form method="post" action="/users/invite">' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     '<div class="grid3"><div><label for="ie">邮箱</label><input id="ie" name="email" type="email" required></div>' +
     '<div><label for="ir">角色</label><select id="ir" name="role">' +
@@ -1417,34 +1719,45 @@ function usersPage(opts) {
     '<option value="admin">admin（管理员）</option><option value="viewer">viewer（只读）</option></select></div>' +
     '<div><label for="isd">限定领域（可选）</label><select id="isd" name="scope_domain"><option value="">不限制</option>' + domOpts + '</select></div></div>' +
     '<div style="margin-top:14px"><button class="btn btn--primary" type="submit">创建并生成激活链接</button></div></form></div>' +
-    '<div class="card" style="padding:0;overflow:auto"><h2 style="margin:16px 16px 10px">现有账号</h2><table>' +
+    '<div class="card card--flush">' +
+    '<div class="card__hd"><span class="card__ico" aria-hidden="true">☰</span><h3>现有账号</h3><span class="topbar__sp"></span><span class="muted">' + (opts.users || []).length + ' 人</span></div>' +
+    '<div class="tablewrap"><table>' +
     "<thead><tr><th>邮箱</th><th>姓名</th><th>角色</th><th>状态</th><th>最近登录</th><th>操作</th></tr></thead><tbody>" +
-    (rows || '<tr><td colspan="6" class="empty">暂无账号</td></tr>') +
-    "</tbody></table></div>" +
-    '<div class="card" style="padding:0;overflow:auto"><h2 style="margin:16px 16px 10px">邀请记录</h2><table>' +
+    (rows || '<tr><td colspan="6" class="empty"><div class="empty__ico">☺</div><div class="empty__t">暂无账号</div><div>用上方表单邀请第一位编辑</div></td></tr>') +
+    "</tbody></table></div></div>" +
+    '<div class="card card--flush">' +
+    '<div class="card__hd"><span class="card__ico" aria-hidden="true">↪</span><h3>邀请记录</h3></div>' +
+    '<div class="tablewrap"><table>' +
     "<thead><tr><th>邮箱</th><th>角色</th><th>状态</th><th>创建</th></tr></thead><tbody>" +
-    (invites || '<tr><td colspan="4" class="empty">暂无邀请</td></tr>') +
-    "</tbody></table></div>",
-    Object.assign({ current: "users", crumbs: [{ label: "账号" }] }, opts));
+    (invites || '<tr><td colspan="4" class="empty"><div class="empty__ico">↪</div><div class="empty__t">暂无邀请</div></td></tr>') +
+    "</tbody></table></div></div>",
+    Object.assign({ current: "users", accent: "coral", crumbs: [{ label: "账号" }] }, opts));
 }
 
 function auditPage(opts) {
+  // 动作 → 语义色：登录=琥珀、内容=靛蓝、账号=珊瑚、评论=天蓝、发布=薄荷
   const rows = opts.logs.map(function (l) {
+    const a = String(l.action || "");
+    const tint = a.indexOf("auth") === 0 ? "amber" : (a.indexOf("user") === 0 ? "coral"
+      : (a.indexOf("comment") === 0 ? "sky" : (a.indexOf("publish") === 0 ? "mint" : "indigo")));
     return "<tr><td>" + esc(String(l.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
       "<td>" + esc(l.user_email || "—") + "</td>" +
-      '<td><span class="kbd">' + esc(l.action) + "</span></td>" +
+      '<td><span class="pill" style="background:var(--s-' + tint + ');color:var(--i-' + tint + ')">' + esc(l.action) + "</span></td>" +
       "<td>" + esc(l.target || "") + "</td>" +
       "<td>" + esc(l.ip || "") + "</td>" +
       '<td class="muted">' + esc(l.detail ? JSON.stringify(l.detail).slice(0,160) : "") + "</td></tr>";
   }).join("");
   return layout("审计日志",
-    "<h1>审计日志</h1>" +
-    '<p class="muted">登录、增删改、发布、改权限等关键动作全部记录（append-only）。</p>' +
-    '<div class="card" style="padding:0;overflow:auto"><table>' +
+    pageHead({
+      ico: "◷", title: "审计日志",
+      sub: "登录、增删改、发布、改权限等关键动作全部记录（append-only，不可篡改）。",
+      acts: '<span class="page-head__chip">最近 ' + (opts.logs || []).length + ' 条</span>'
+    }) +
+    '<div class="card card--flush"><div class="tablewrap"><table>' +
     "<thead><tr><th>时间</th><th>操作者</th><th>动作</th><th>对象</th><th>IP</th><th>详情</th></tr></thead><tbody>" +
     (rows || '<tr><td colspan="6" class="empty"><div class="empty__ico">◷</div><div class="empty__t">暂无审计记录</div><div>登录、发布等操作会记录在此</div></td></tr>') +
-    "</tbody></table></div>",
-    Object.assign({ current: "audit", crumbs: [{ label: "审计日志" }] }, opts));
+    "</tbody></table></div></div>",
+    Object.assign({ current: "audit", accent: "amber", crumbs: [{ label: "审计日志" }] }, opts));
 }
 
 /* ---------------- 媒体库页 ---------------- */
@@ -1465,12 +1778,18 @@ function securityPage(opts) {
         '<button class="btn btn--primary" type="submit">开始设置</button>' +
       "</form>";
   return layout("账号安全",
-    "<h1>账号安全</h1>" + err + ok +
-    '<div class="card"><h3 style="margin-top:0">双因素认证（TOTP）</h3>' + body + "</div>" +
-    '<div class="card"><h3 style="margin-top:0">修改密码</h3>' +
+    pageHead({
+      ico: "⚿", title: "账号安全",
+      sub: "为管理员账号开启双因素认证，降低密码泄露后的风险。",
+      acts: '<span class="page-head__chip">' + (opts.enabled ? "2FA 已开启" : "2FA 未开启") + "</span>"
+    }) + err + ok +
+    '<div class="card card--accent">' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">⚿</span><h3>双因素认证（TOTP）</h3></div>' + body + "</div>" +
+    '<div class="card">' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">✎</span><h3>修改密码</h3></div>' +
       '<p class="muted">定期更换密码，或怀疑泄露时立即更换。</p>' +
       '<a class="btn" href="/change-password">修改密码</a></div>',
-    Object.assign({ current: "security", crumbs: [{ label: "账号安全" }] }, opts));
+    Object.assign({ current: "security", accent: "violet", crumbs: [{ label: "账号安全" }] }, opts));
 }
 
 /* ---------------- 2FA 绑定确认页 ---------------- */
@@ -1550,11 +1869,14 @@ function mediaPage(opts) {
       "</div></div>";
   }).join("");
   return layout("媒体库",
-    '<div class="spread" style="margin-bottom:16px"><h1 style="margin:0">媒体库</h1>' +
-      '<span class="muted">' + items.length + ' 个文件</span></div>' +
+    pageHead({
+      ico: "▢", title: "媒体库",
+      sub: "图片随内容一起版本化；上传必须填写 alt，并确认已脱敏。",
+      acts: '<span class="page-head__chip">' + items.length + " 个文件</span>"
+    }) +
     err + ok +
-    '<div class="card">' +
-      "<h3 style=\"margin-top:0\">上传图片</h3>" +
+    '<div class="card card--accent">' +
+      '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>上传图片</h3></div>' +
       '<form method="post" action="/media/upload" enctype="multipart/form-data">' +
         '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
         '<div class="grid2">' +
@@ -1571,7 +1893,7 @@ function mediaPage(opts) {
     "</div>" +
     (cards ? '<div class="mgrid">' + cards + "</div>"
            : '<div class="card"><div class="empty"><div class="empty__ico">▢</div><div class="empty__t">还没有图片</div><div>上传后可在编辑器里用「插入图片」引用</div></div></div>'),
-    Object.assign({ current: "media", crumbs: [{ label: "媒体库" }] }, opts));
+    Object.assign({ current: "media", accent: "sky", crumbs: [{ label: "媒体库" }] }, opts));
 }
 
 function simplePage(title, msg, opts) {

@@ -119,7 +119,10 @@
     if (el.focus) { try { el.focus({ preventScroll: true }); } catch (err) { el.focus(); } }
     var box = el.closest(".field") || el;
     box.style.transition = "background .2s";
-    box.style.background = "var(--brand-weak)";
+    /* 原先是 var(--brand-weak)，但这个变量在样式表里从未定义，
+       导致「点检查项跳转并高亮字段」静默失效（背景被置为无效值）。
+       改用页面主色浅底 --pg-s，高亮同时跟随当前页面的撞色。 */
+    box.style.background = "var(--pg-s)";
     setTimeout(function () { box.style.background = ""; }, 900);
   });
 

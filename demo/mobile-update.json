@@ -1,15 +1,16 @@
 {
-  "versionName": "1.45.2",
-  "versionCode": 78,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.45.2.apk",
-  "sizeBytes": 76507803,
-  "sha256": "dfaed626df4d5123fa7a8772994d2b72d42f127f9ee381e4611d9ec1c160e27a",
+  "versionName": "1.46.0",
+  "versionCode": 79,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.46.0.apk",
+  "sizeBytes": 76835867,
+  "sha256": "1a92774524df02bd9d214fe01331669a1ec36b0684dd4f304433c971cf40b85c",
   "releaseNotes": [
-    "学习与复习底层升级，修复一批稳定性问题",
-    "· 间隔复习新增 FSRS 影子双跑评估：服务端会持续对比两套调度结果，",
-    "当前到期时间仍由原有 SM-2 规则决定，不会突然改变你的复习计划",
-    "· 学习作答、复习队列和 408 题库相关接口做了稳定性加固",
-    "· 仓库文档策略调整：GitHub 只保留 README，其余设计与改动记录继续保留在本地"
+    "技术题库大扩容：新增 478 道精编题（16 门课，含详细解析），题库总量 1935 → 2413 道",
+    "题库新增「分级」筛选：入门级 / 进阶级 / 综合级，可按学习阶段挑题",
+    "学习内容改为服务端读取：课程、知识点、题目更新后无需更新 App 即可看到",
+    "知识点与题目支持后台直接编辑，改完即时生效",
+    "修复：题库中已下线的题目不再出现在前台",
+    "优化：算法演示动图与内容同步下发"
   ],
-  "publishedAt": "2026-10-13T14:26:05.099Z"
+  "publishedAt": "2026-10-14T13:54:12.610Z"
 }

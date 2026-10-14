@@ -606,11 +606,76 @@
     render();
   }
 
+  /* ============ 14. 首页氛围与指针交互 ============ */
+  function initAtmosphere() {
+    var host = $("[data-fx-atmosphere]");
+    var progress = $("[data-fx-scroll-progress] i");
+    var actors = $$("[data-fx-parallax]");
+    var cards = $$(".fx-domains .fx-domain");
+    if (!host && !progress && !actors.length && !cards.length) return;
+
+    if (!reduce && host) {
+      host.addEventListener("pointermove", function (e) {
+        var r = host.getBoundingClientRect();
+        var x = Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100));
+        var y = Math.max(0, Math.min(100, ((e.clientY - r.top) / r.height) * 100));
+        host.style.setProperty("--mx", x + "%");
+        host.style.setProperty("--my", y + "%");
+      }, { passive: true });
+    }
+
+    if (!reduce) {
+      cards.forEach(function (card) {
+        card.setAttribute("data-fx-tilt", "");
+        card.addEventListener("pointermove", function (e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          card.style.setProperty("--ry", ((px - .5) * 7).toFixed(2) + "deg");
+          card.style.setProperty("--rx", ((py - .5) * -7).toFixed(2) + "deg");
+          card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+          card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+        }, { passive: true });
+        card.addEventListener("pointerleave", function () {
+          card.style.setProperty("--ry", "0deg");
+          card.style.setProperty("--rx", "0deg");
+          card.style.setProperty("--mx", "50%");
+          card.style.setProperty("--my", "0%");
+        });
+      });
+    }
+
+    var ticking = false;
+    function paintScroll() {
+      ticking = false;
+      var y = window.scrollY || 0;
+      root.classList.toggle("fx-scrolled", y > 80);
+      if (progress) {
+        var max = Math.max(1, doc.documentElement.scrollHeight - window.innerHeight);
+        progress.style.width = Math.min(100, (y / max) * 100) + "%";
+      }
+      if (!reduce) {
+        actors.forEach(function (el) {
+          var speed = parseFloat(el.getAttribute("data-fx-parallax")) || .1;
+          el.style.transform = "translate3d(0," + Math.min(34, y * speed * .18).toFixed(2) + "px,0)";
+        });
+      }
+    }
+    function requestScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(paintScroll);
+    }
+    window.addEventListener("scroll", requestScroll, { passive: true });
+    paintScroll();
+  }
+
   /* ============ 启动 ============ */
   function boot() {
     initPreloader();
     initTransition();
     initTopbar();
+    initAtmosphere();
     initSearch();
     initSearchPage();
     initLists();

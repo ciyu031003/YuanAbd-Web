@@ -17,6 +17,37 @@ const totp = require("./totp.cjs");
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
+function writeTaxonomy(tax) {
+  tax.updated = new Date().toISOString().slice(0, 10);
+  const tmp = taxPath + ".tmp-" + process.pid;
+  try { fs.copyFileSync(taxPath, taxPath + ".bak"); } catch (_) {}
+  fs.writeFileSync(tmp, JSON.stringify(tax, null, 2) + "\n", "utf8");
+  fs.renameSync(tmp, taxPath);
+}
+function taxonomyId(value) {
+  const id = String(value || "").trim().toLowerCase();
+  if (!/^[a-z0-9][a-z0-9-]{1,63}$/.test(id)) {
+    throw new Error("ID 只能使用小写字母、数字和连字符，长度 2-64 位");
+  }
+  return id;
+}
+function taxonomyName(value) {
+  const name = String(value || "").trim();
+  if (!name || name.length > 40) throw new Error("名称不能为空，且不能超过 40 个字");
+  return name;
+}
+function taxonomyUsage() {
+  const domains = {}, cats = {};
+  articles.listAll().forEach(function (article) {
+    if (article.domain) domains[article.domain] = (domains[article.domain] || 0) + 1;
+    if (article.category) cats[article.category] = (cats[article.category] || 0) + 1;
+  });
+  return { domains: domains, cats: cats };
+}
+function taxonomyRedirect(res, notice, error) {
+  const qs = error ? "error=" + encodeURIComponent(error) : "notice=" + encodeURIComponent(notice || "已保存");
+  return redirect(res, "/taxonomy?" + qs);
+}
 
 /* 正文段落规则：从 content-lint.cjs 读取，保证后台与构建同一套规则 */
 function sectionRules() {
@@ -423,6 +454,108 @@ async function handle(req, res) {
     }, pageOpts)));
   }
 
+  // ---- Taxonomy management ----
+  if (p === "/taxonomy") {
+    if (!await auth.can(sess.user, "settings:write")) {
+      return html(res, 403, views.simplePage("没有权限", "只有管理员可以维护领域与分类。", pageOpts));
+    }
+    const usage = await taxonomyUsage();
+    return html(res, 200, views.taxonomyPage(Object.assign({
+      taxonomy: taxonomy(), usage: usage,
+      notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
+    }, pageOpts)));
+  }
+
+  if (p === "/taxonomy/domain" && method === "POST") {
+    if (!await auth.can(sess.user, "settings:write")) {
+      return html(res, 403, views.simplePage("没有权限", "只有管理员可以维护领域与分类。", pageOpts));
+    }
+    const form = h.parseForm(await h.readBody(req, 32 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return taxonomyRedirect(res, null, "CSRF 校验失败");
+    try {
+      const tax = taxonomy();
+      const action = String(form.action || "save");
+      if (action === "create") {
+        const id = taxonomyId(form.id);
+        const name = taxonomyName(form.name);
+        if (tax.domains.some(function (d) { return d.id === id; })) throw new Error("该领域 ID 已存在");
+        tax.domains.push({ id: id, name: name, cats: [] });
+        writeTaxonomy(tax);
+        await auth.audit(sess.user, "taxonomy.domain.create", id, { name: name }, c.ip);
+        return taxonomyRedirect(res, "领域已创建");
+      }
+
+      const id = String(form.id || "");
+      const domain = tax.domains.filter(function (d) { return d.id === id; })[0];
+      if (!domain) throw new Error("领域不存在");
+
+      if (action === "delete") {
+        const usage = await taxonomyUsage();
+        const catIds = (domain.cats || []).map(function (cat) { return cat.id; });
+        const used = (usage.domains[id] || 0) + catIds.reduce(function (n, catId) { return n + (usage.cats[catId] || 0); }, 0);
+        if (used > 0) throw new Error("该领域下仍有 " + used + " 篇文章，不能删除");
+        tax.domains = tax.domains.filter(function (d) { return d.id !== id; });
+        writeTaxonomy(tax);
+        await auth.audit(sess.user, "taxonomy.domain.delete", id, { name: domain.name }, c.ip);
+        return taxonomyRedirect(res, "领域已删除");
+      }
+
+      domain.name = taxonomyName(form.name);
+      writeTaxonomy(tax);
+      await auth.audit(sess.user, "taxonomy.domain.update", id, { name: domain.name }, c.ip);
+      return taxonomyRedirect(res, "领域名称已更新");
+    } catch (e) {
+      return taxonomyRedirect(res, null, e.message);
+    }
+  }
+
+  if (p === "/taxonomy/category" && method === "POST") {
+    if (!await auth.can(sess.user, "settings:write")) {
+      return html(res, 403, views.simplePage("没有权限", "只有管理员可以维护领域与分类。", pageOpts));
+    }
+    const form = h.parseForm(await h.readBody(req, 32 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return taxonomyRedirect(res, null, "CSRF 校验失败");
+    try {
+      const tax = taxonomy();
+      const action = String(form.action || "save");
+      const domain = tax.domains.filter(function (d) { return d.id === String(form.domain_id || ""); })[0];
+      if (!domain) throw new Error("所属领域不存在");
+      if (!Array.isArray(domain.cats)) domain.cats = [];
+
+      if (action === "create") {
+        const id = taxonomyId(form.id);
+        const name = taxonomyName(form.name);
+        if (tax.domains.some(function (d) {
+          return (d.cats || []).some(function (cat) { return cat.id === id; });
+        })) throw new Error("该分类 ID 已存在");
+        domain.cats.push({ id: id, name: name });
+        writeTaxonomy(tax);
+        await auth.audit(sess.user, "taxonomy.category.create", id, { domain: domain.id, name: name }, c.ip);
+        return taxonomyRedirect(res, "分类已创建");
+      }
+
+      const id = String(form.id || "");
+      const cat = domain.cats.filter(function (item) { return item.id === id; })[0];
+      if (!cat) throw new Error("分类不存在");
+
+      if (action === "delete") {
+        const usage = await taxonomyUsage();
+        if ((usage.cats[id] || 0) > 0) throw new Error("该分类下仍有 " + usage.cats[id] + " 篇文章，不能删除");
+        domain.cats = domain.cats.filter(function (item) { return item.id !== id; });
+        writeTaxonomy(tax);
+        await auth.audit(sess.user, "taxonomy.category.delete", id, { domain: domain.id, name: cat.name }, c.ip);
+        return taxonomyRedirect(res, "分类已删除");
+      }
+
+      cat.name = taxonomyName(form.name);
+      writeTaxonomy(tax);
+      await auth.audit(sess.user, "taxonomy.category.update", id, { domain: domain.id, name: cat.name }, c.ip);
+      return taxonomyRedirect(res, "分类名称已更新");
+    } catch (e) {
+      return taxonomyRedirect(res, null, e.message);
+    }
+  }
+
   // ---- 文章列表（筛选 / 排序 / 分页全部走 URL 查询参数） ----
   // 为什么用 URL 而非 JS 状态：可刷新、可分享、可收藏、可后退（WordPress/Directus 的标准做法）
   if (p === "/" || p === "/articles") {
@@ -493,7 +626,8 @@ async function handle(req, res) {
     if (method === "GET") {
       return html(res, 200, views.editorPage(Object.assign({
         isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
-        body: articles.BODY_SKELETON, taxonomy: taxonomy(), sections: sectionRules()
+        body: articles.BODY_SKELETON, taxonomy: taxonomy(), sections: sectionRules(),
+        canManageTaxonomy: await auth.can(sess.user, "settings:write")
       }, pageOpts)));
     }
     // POST 新建
@@ -538,6 +672,7 @@ async function handle(req, res) {
         isExisting: true, slug: slug, meta: art.meta, body: art.body,
         contentHash: art.contentHash, taxonomy: taxonomy(), canPublish: canPublish,
         comments: cmts, revCount: revCount, sections: sectionRules(),
+        canManageTaxonomy: await auth.can(sess.user, "settings:write"),
         notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
       }, pageOpts)));
     }

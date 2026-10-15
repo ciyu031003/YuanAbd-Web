@@ -14,6 +14,50 @@ const REQUIRED_SECTIONS = ["一句话结论", "分步骤"];
 const SUGGESTED_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"];
 const SECTION_ALIASES = { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
 
+
+/* ---------------- 图标集（内联 SVG） ----------------
+   为什么改掉原来的 emoji/字形图标（◔ ✎ ↩ ✓ ◷ ! ▢ ☰ ＋ ☺ ⚿）：
+     · UI 规范把 "Emoji as icons" 明确列为反模式：跨平台字形不一致、
+       无法跟随 currentColor、无法精确控制笔画粗细、读屏行为不可控
+     · 内联 SVG 零额外请求、任意 DPI 清晰、currentColor 自动继承文字色
+   统一 24×24 viewBox + stroke 1.8 + round 端点，视觉重量一致。 */
+const ICONS = {
+  dashboard: "M3 12h7V3H3v9Zm11 9h7v-9h-7v9ZM3 21h7v-6H3v6Zm11-12h7V3h-7v6Z",
+  articles:  "M4 5h16M4 12h16M4 19h10",
+  plus:      "M12 5v14M5 12h14",
+  media:     "M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6",
+  audit:     "M12 7v5l3 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
+  publish:   "M12 19V5M5 12l7-7 7 7",
+  users:     "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 20c0-3.3 3.6-6 8-6s8 2.7 8 6",
+  taxonomy:  "M3 6h6l2 3h10M4 19h7l2-3h7",
+  security:  "M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3ZM9.5 12l2 2 3.5-3.5",
+  review:    "M12 3a9 9 0 1 0 9 9M12 7v5l3 2",
+  draft:     "M4 20h4l10-10-4-4L4 16v4ZM14 6l4 4",
+  rejected:  "M9 14l6-6M9 8l6 6M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
+  check:     "M4 12.5l5 5L20 6.5",
+  warning:   "M12 8v5M12 17h.01M10.3 3.9L2.4 17a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z",
+  empty:     "M3 7h18v13H3zM3 7l2-4h14l2 4M9 12h6",
+  logout:    "M15 12H4M8 8l-4 4 4 4M14 4h5v16h-5",
+  key:       "M15 8a4 4 0 1 0-3.5 4L10 13.5V16H7.5l-1 1v2.5H4V17l7-7A4 4 0 0 1 15 8Z",
+  external:  "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5",
+  search:    "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM21 21l-4.3-4.3",
+  chart:     "M4 20V10M10 20V4M16 20v-7M22 20H2",
+  clock:     "M12 7v5l3 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
+  inbox:     "M3 12h5l1.5 3h5L16 12h5M3 12l2.5-7h13L21 12v7H3v-7Z"
+};
+
+/* 渲染一个图标。name 不存在时返回空串（不抛错，避免一个笔误炸整页）。
+   默认 aria-hidden：本站所有图标的含义都有可见文字标签，图标属于装饰。 */
+function icon(name, size, cls) {
+  const d = ICONS[name];
+  if (!d) return "";
+  const s = size || 20;
+  return '<svg class="fx-icon' + (cls ? " " + cls : "") + '" width="' + s + '" height="' + s + '" ' +
+    'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="' + d + '"/></svg>';
+}
+
 const BASE_CSS = `
 /* ============================================================
    新拟物（Neumorphism / Soft UI）后台设计系统
@@ -882,6 +926,88 @@ tbody tr:hover td{background:#F5F7FA}
 @media(prefers-reduced-motion:reduce){
   .login-bg i,.login-page .login-wrap .card,.login-page .login-brand .mark,.login-page .login-wrap .btn--primary::after{animation:none!important}
 }
+
+/* ============================================================
+   依据 UI/UX 规范落地的可达性与交互修正
+   （来源：ui-ux-pro-max skill 的 ux / icons / chart 域）
+   ============================================================ */
+
+/* ---- 图标：内联 SVG 基础样式 ---- */
+.fx-icon{display:inline-block;vertical-align:-0.18em;flex:none;
+  /* 描边图标在小尺寸下用非缩放笔画更清晰 */
+  shape-rendering:geometricPrecision}
+.navitem .fx-icon{color:inherit}
+.page-head__ico .fx-icon,.card__ico .fx-icon,.empty__ico .fx-icon{color:inherit}
+
+/* ---- 规范 P1：所有可交互元素必须有可见焦点环 ----
+   原先只有 .btn 有 focus-visible，链接/导航/卡片/分页都缺。
+   这是规范里标为 CRITICAL 的项：键盘用户必须能看见焦点在哪。 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:2px;
+  border-radius:10px;
+}
+/* 卡片/磁贴这类整块可点区域，焦点环画在内侧避免被裁切 */
+.tile:focus-visible,.stat:focus-visible{outline-offset:-3px}
+
+/* ---- 规范 P2：可点击元素一律 cursor:pointer ---- */
+.btn,button,.navitem,.tile,.stat,a,.pager__btn,.fx-chip,summary,
+input[type=checkbox],input[type=radio],select,label[for]{cursor:pointer}
+.btn[disabled],button[disabled]{cursor:not-allowed}
+
+/* ---- 规范 P1：触控目标不小于 44×44（移动端）----
+   桌面端保持紧凑，触屏设备上放大命中区。 */
+@media (pointer:coarse){
+  .btn{min-height:44px}
+  .btn--sm{min-height:40px}
+  .navitem{min-height:48px}
+  .pager__btn{min-width:44px;height:44px}
+  input,select{min-height:44px}
+  /* 小图标按钮的命中区外扩，但不改变视觉尺寸 */
+  .check a,.toc a{padding-top:10px;padding-bottom:10px}
+}
+
+/* ---- 规范 P2：正文行高 1.5–1.75；正文不小于 12px ---- */
+body{line-height:1.6}
+.field__help,.muted{line-height:1.6;font-size:12px}
+.cmt__bd{line-height:1.7}
+.check li{line-height:1.55}
+td,th{line-height:1.5}
+
+/* ---- 规范 P2：过渡 150–300ms，且不针对 width/height（会触发布局抖动）---- */
+.btn,.navitem,.tile,.stat,.fx-chip,.pager__btn{
+  transition-property:box-shadow,transform,color,background-color,border-color;
+  transition-duration:200ms;
+  transition-timing-function:cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ---- 规范 P2：加载反馈（骨架屏 + aria-busy），避免界面"冻住" ---- */
+.skeleton{
+  background:linear-gradient(90deg,var(--bg-2) 25%,var(--bg-3) 37%,var(--bg-2) 63%);
+  background-size:400% 100%;
+  animation:sk 1.4s ease infinite;
+  border-radius:8px;color:transparent!important;user-select:none;
+}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+[aria-busy="true"]{position:relative}
+/* 表格加载时给整块加轻微降透明，明确"正在刷新" */
+[aria-busy="true"] .tablewrap{opacity:.55;transition:opacity .2s}
+
+/* ---- 规范 P2：错误必须对读屏可见（role=alert / aria-live）---- */
+.alert--err{font-weight:600}
+.field__err{display:flex;align-items:center;gap:6px}
+
+/* ---- 规范：尊重 reduced-motion（动画全部关闭，但保留最终态）---- */
+@media (prefers-reduced-motion:reduce){
+  .skeleton{animation:none;background:var(--bg-2)}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
 `;
 
 function layout(title, bodyHtml, opts) {
@@ -903,20 +1029,20 @@ function layout(title, bodyHtml, opts) {
   let nav = "";
   if (user) {
     nav = '<div class="sidebar__sec">内容</div><nav class="sidebar__nav">' +
-      navItem("/dashboard", "◧", "工作台", "dashboard", null, "content") +
-      navItem("/articles", "☰", "文章", "articles", opts.counts && opts.counts.articles, "content") +
-      navItem("/articles/new", "＋", "新建文章", "new", null, "content") +
-      navItem("/media", "▢", "媒体库", "media", null, "content") +
+      navItem("/dashboard", icon("dashboard"), "工作台", "dashboard", null, "content") +
+      navItem("/articles", icon("articles"), "文章", "articles", opts.counts && opts.counts.articles, "content") +
+      navItem("/articles/new", icon("plus"), "新建文章", "new", null, "content") +
+      navItem("/media", icon("media"), "媒体库", "media", null, "content") +
       '</nav>' +
       (isReviewer ? '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
-        navItem("/audit", "◷", "审计日志", "audit", null, "collab") +
-        navItem("/publish", "⇪", "发布", "publish", null, "collab") + '</nav>' :
+        navItem("/audit", icon("audit"), "审计日志", "audit", null, "collab") +
+        navItem("/publish", icon("publish"), "发布", "publish", null, "collab") + '</nav>' :
         '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
-        navItem("/publish", "⇪", "发布", "publish", null, "collab") + '</nav>') +
+        navItem("/publish", icon("publish"), "发布", "publish", null, "collab") + '</nav>') +
       (isAdmin ? '<div class="sidebar__sec sidebar__sec--admin">管理</div><nav class="sidebar__nav">' +
-        navItem("/users", "☺", "账号", "users", null, "admin") +
-        navItem("/taxonomy", "⌘", "领域与分类", "taxonomy", null, "admin") +
-        navItem("/security", "⚿", "账号安全", "security", null, "admin") + '</nav>' : "");
+        navItem("/users", icon("users"), "账号", "users", null, "admin") +
+        navItem("/taxonomy", icon("taxonomy"), "领域与分类", "taxonomy", null, "admin") +
+        navItem("/security", icon("security"), "账号安全", "security", null, "admin") + '</nav>' : "");
   }
 
   let sidebar = "";
@@ -992,7 +1118,7 @@ function statusLabel(s) {
 function pageHead(opts) {
   opts = opts || {};
   return '<div class="page-head">' +
-    (opts.ico ? '<div class="page-head__ico" aria-hidden="true">' + opts.ico + "</div>" : "") +
+    (opts.ico ? '<div class="page-head__ico">' + icon(opts.ico, 22) + "</div>" : "") +
     '<div class="page-head__main">' +
       "<h1>" + esc(opts.title || "") + "</h1>" +
       (opts.sub ? '<div class="page-head__sub">' + opts.sub + "</div>" : "") +
@@ -1003,8 +1129,8 @@ function pageHead(opts) {
 
 function loginPage(opts) {
   opts = opts || {};
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
-  const info = opts.info ? '<div class="alert alert--info">' + esc(opts.info) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  const info = opts.info ? '<div class="alert alert--info" role="status">' + esc(opts.info) + "</div>" : "";
   return layout("登录",
     '<div class="login-page">' +
     '<div class="login-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>' +
@@ -1025,8 +1151,8 @@ function loginPage(opts) {
 
 function changePasswordPage(opts) {
   opts = opts || {};
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
-  const forced = opts.forced ? '<div class="alert alert--info">这是首次登录（或密码已被重置），必须先设置新密码才能继续。</div>' : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  const forced = opts.forced ? '<div class="alert alert--info" role="status">这是首次登录（或密码已被重置），必须先设置新密码才能继续。</div>' : "";
   const curField = opts.forced ? "" :
     '<label for="current">当前密码</label><input id="current" name="current" type="password" required autocomplete="current-password">';
   return layout("修改密码",
@@ -1113,7 +1239,7 @@ function articlesPage(opts) {
       '<div class="empty__t">没有符合条件的文章</div>' +
       '<div>试试放宽筛选条件</div>' +
       '<div style="margin-top:12px"><a class="btn" href="/articles">清除全部筛选</a></div></td></tr>'
-    : '<tr><td colspan="7" class="empty"><div class="empty__ico">□</div>' +
+    : '<tr><td colspan="7" class="empty"><div class="empty__ico">' + icon("empty", 24) + "</div>" +
       '<div class="empty__t">还没有文章</div>' +
       (canCreate ? '<div style="margin-top:12px"><a class="btn btn--primary" href="/articles/new">新建第一篇</a></div>' : "") +
       "</td></tr>";
@@ -1167,7 +1293,7 @@ function articlesPage(opts) {
 
   return layout("文章",
     pageHead({
-      ico: "☰",
+      ico: "articles",
       title: "文章",
       sub: (opts.filtered !== opts.total
               ? "筛选出 <strong>" + (opts.filtered || 0) + "</strong> / 共 " + (opts.total || 0) + " 篇"
@@ -1175,7 +1301,7 @@ function articlesPage(opts) {
             + " · 内容真源为 content/fixboxs/*.md，发布即提交并构建",
       acts: (canCreate ? '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' : "")
     }) +
-    (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
+    (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
 
     activeFilters +
     viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf }) +
@@ -1209,8 +1335,8 @@ function editorPage(opts) {
   const m = opts.meta || {};
   const isNew = !opts.isExisting;
   const tax = opts.taxonomy;
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
-  const ok = opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  const ok = opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "";
 
   const domOpts = tax.domains.map(function (d) {
     return '<option value="' + esc(d.id) + '"' + (m.domain === d.id ? " selected" : "") + ">" + esc(d.name) + "</option>";
@@ -1318,8 +1444,9 @@ function editorPage(opts) {
       : (warn ? '<div class="alert alert--warn" style="margin-bottom:12px">有 ' + warn + " 项建议完善（不阻塞发布）</div>"
               : '<div class="alert alert--ok" style="margin-bottom:12px">全部检查通过</div>');
     return head + '<ul class="check">' + chk.map(function (c) {
-      const ico = c.level === "ok" ? "✓" : (c.level === "warn" ? "!" : "✗");
-      return '<li class="check--' + c.level + '"><span class="check__ic">' + ico + "</span>" +
+      // 用 SVG 替代 ✓ / ! / ✗ 字形：字形在不同平台字重不一致，SVG 笔画统一
+      const icoName = c.level === "ok" ? "check" : (c.level === "warn" ? "warning" : "rejected");
+      return '<li class="check--' + c.level + '"><span class="check__ic">' + icon(icoName, 14) + "</span>" +
         '<a href="#f-' + c.target + '" data-jump="' + c.target + '">' + esc(c.label) + "</a></li>";
     }).join("") + "</ul>";
   }
@@ -1331,7 +1458,7 @@ function editorPage(opts) {
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     '<input type="hidden" name="baseHash" value="' + esc(opts.contentHash || "") + '">' +
     pageHead({
-      ico: isNew ? "＋" : "✎",
+      ico: isNew ? "plus" : "draft",
       title: isNew ? "新建文章" : (m.title || opts.slug),
       sub: isNew
         ? "保存后写入 content/fixboxs/_drafts/，不会影响线上；发布才进入构建"
@@ -1431,7 +1558,7 @@ function editorPage(opts) {
       // ============ 右：检查清单 + 段落导航 ============
       '<div class="editor-side">' +
         '<div class="card card--accent" style="padding:16px">' +
-          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">✓</span><h3>发布前检查</h3></div>' +
+          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("check") + '</span><h3>发布前检查</h3></div>' +
           checklist() + '</div>' +
         '<div class="card" style="padding:16px">' +
           '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">¶</span><h3>段落导航</h3></div>' +
@@ -1465,13 +1592,13 @@ function revisionsPage(opts) {
   }).join("");
   return layout("修订历史",
     pageHead({
-      ico: "◷", title: "修订历史",
+      ico: "clock", title: "修订历史",
       sub: "每次保存都会留一份完整快照（含 front-matter），最多保留最近 30 版。",
       acts: '<a class="btn" href="/articles/' + esc(opts.slug) + '">返回文章</a>'
     }) +
     '<div class=\"card card--flush\"><div class=\"tablewrap\"><table>' +
     "<thead><tr><th>版本</th><th>时间</th><th>作者</th><th>说明</th><th>体积</th><th></th></tr></thead><tbody>" +
-    (rows || '<tr><td colspan=\"6\" class=\"empty\"><div class=\"empty__ico\">◷</div><div class=\"empty__t\">还没有修订记录</div><div>从本功能上线后开始的每次保存都会被记录</div></td></tr>') +
+    (rows || '<tr><td colspan=\"6\" class=\"empty\"><div class=\"empty__ico\">' + icon("clock", 24) + '</div><div class=\"empty__t\">还没有修订记录</div><div>从本功能上线后开始的每次保存都会被记录</div></td></tr>') +
     "</tbody></table></div></div>",
     Object.assign({ current: "articles", accent: "violet", crumbs: [{ label: "文章", href: "/articles" }, { label: opts.slug, href: "/articles/" + opts.slug }, { label: "修订历史" }] }, opts));
 }
@@ -1645,7 +1772,7 @@ function dashboardPage(opts) {
       '<td class="muted tight">' + esc(a.reviewed_at || "从未复核") + "</td></tr>";
   }).join("");
 
-  const emptyStale = '<tr><td colspan="3" class="empty"><div class="empty__ico">✓</div>' +
+  const emptyStale = '<tr><td colspan="3" class="empty">' + '<div class="empty__ico">' + icon("check", 24) + '</div>' + '' +
     '<div class="empty__t">全部在复核周期内</div><div>没有超过 180 天未复核的文章</div></td></tr>';
 
   return layout("工作台",
@@ -1686,12 +1813,12 @@ function dashboardPage(opts) {
 
     // ---- 彩色磁贴 ----
     '<div class="tiles">' +
-      tile("inReview", "待我审核", "需要我给出结论", "◔", "indigo", "/articles?status=in_review") +
-      tile("drafts", "我的草稿", "尚未提交", "✎", "amber", "/articles?status=draft") +
-      tile("changesRequested", "退回修改", "需要我处理", "↩", "coral", "/articles?status=changes_requested") +
-      tile("published", "已发布", "线上可访问", "✓", "mint", "/articles?status=published") +
-      tile("stale", "超 180 天未复核", "知识库健康度", "◷", "violet", "/articles?stale=1") +
-      tile("missingSources", "缺参考资料", "sources 少于 1 条", "!", "sky", "/articles?missing=sources") +
+      tile("inReview", "待我审核", "需要我给出结论", icon("review"), "indigo", "/articles?status=in_review") +
+      tile("drafts", "我的草稿", "尚未提交", icon("draft"), "amber", "/articles?status=draft") +
+      tile("changesRequested", "退回修改", "需要我处理", icon("rejected"), "coral", "/articles?status=changes_requested") +
+      tile("published", "已发布", "线上可访问", icon("check"), "mint", "/articles?status=published") +
+      tile("stale", "超 180 天未复核", "知识库健康度", icon("clock"), "violet", "/articles?stale=1") +
+      tile("missingSources", "缺参考资料", "sources 少于 1 条", icon("warning"), "sky", "/articles?missing=sources") +
     "</div>" +
 
     // ---- 数据看板：领域分布 + 状态构成 + 更新活动 ----
@@ -1729,16 +1856,16 @@ function dashboardPage(opts) {
     // ---- 明细表 ----
     '<div class="dash-cols" style="margin-top:20px">' +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-violet);color:var(--i-violet)">✎</span><h3>最近编辑</h3><span class="topbar__sp"></span>' +
+        '<div class="card__hd"><span class="card__ico" style="background:var(--s-violet);color:var(--i-violet)">' + icon("draft", 16) + '</span>' + '<h3>最近编辑</h3><span class="topbar__sp"></span>' +
         '<a class="btn btn--sm" href="/articles">全部文章</a></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">状态</th><th class="tight">更新</th><th class="tight">复核</th>' +
         "</tr></thead><tbody>" +
-        (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">□</div><div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
+        (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">' + icon("empty", 24) + '</div>' + '<div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
         "</tbody></table></div>" +
       "</div>" +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-amber);color:var(--i-amber)">◷</span><h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
+        '<div class="card__hd"><span class="card__ico" style="background:var(--s-amber);color:var(--i-amber)">' + icon("clock", 16) + '</span>' + '<h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">距上次</th><th class="tight">上次复核</th>' +
         "</tr></thead><tbody>" +
@@ -1765,14 +1892,14 @@ function publishPage(opts) {
   }).join("");
   return layout("发布",
     pageHead({
-      ico: "⇪", title: "发布队列",
+      ico: "publish", title: "发布队列",
       sub: "发布是串行的：同一时刻只允许一个任务运行（构建目录共享、部署是整目录切换）。",
       acts: '<span class="page-head__chip">手动发布通道</span>'
     }) +
-    (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
-    (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
+    (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
+    (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
     '<div class="card card--accent">' +
-    '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">⇪</span><h3>手动触发一次完整发布</h3></div>' +
+    '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("publish") + '</span><h3>手动触发一次完整发布</h3></div>' +
     '<form method="post" action="/publish">' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     "<p>走完整链路：构建 → 产物化 → 原子切换 → 线上全量校验。</p>" +
@@ -1780,7 +1907,7 @@ function publishPage(opts) {
     '<span class="muted" style="margin-left:10px">发布不会修改内容本身。</span></form></div>' +
     '<div class="card card--flush"><div class="tablewrap"><table>' +
     "<thead><tr><th>#</th><th>动作</th><th>状态</th><th>创建时间</th><th>耗时</th><th>错误</th></tr></thead><tbody>" +
-    (jobs || '<tr><td colspan="6" class="empty"><div class="empty__ico">⇪</div><div class="empty__t">还没有发布记录</div><div>点击上方「立即发布」会在此显示每一步的进度</div></td></tr>') +
+    (jobs || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("publish", 24) + '</div>' + '<div class="empty__t">还没有发布记录</div><div>点击上方「立即发布」会在此显示每一步的进度</div></td></tr>') +
     "</tbody></table></div></div>",
     Object.assign({ current: "publish", accent: "mint", crumbs: [{ label: "发布" }] }, opts));
 }
@@ -1817,15 +1944,15 @@ function usersPage(opts) {
   }).join("");
   return layout("账号",
     pageHead({
-      ico: "☺", title: "账号与角色",
+      ico: "users", title: "账号与角色",
       sub: "账号只能由管理员创建（无自助注册）。新建后生成一次性激活链接，被邀请人首次登录必须改密。",
       acts: '<span class="page-head__chip">当前 ' + (opts.users || []).length + ' 个账号</span>'
     }) +
-    (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
-    (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
-    (opts.inviteLink ? '<div class="alert alert--info"><strong>一次性激活链接（只显示这一次，请立即复制）：</strong><br><code style="word-break:break-all">' + esc(opts.inviteLink) + '</code><br><span class="muted">有效期 ' + opts.inviteHours + ' 小时；一次性；可由管理员撤销。</span></div>' : "") +
+    (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
+    (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
+    (opts.inviteLink ? '<div class="alert alert--info" role="status"><strong>一次性激活链接（只显示这一次，请立即复制）：</strong><br><code style="word-break:break-all">' + esc(opts.inviteLink) + '</code><br><span class="muted">有效期 ' + opts.inviteHours + ' 小时；一次性；可由管理员撤销。</span></div>' : "") +
     '<div class="card card--accent">' +
-    '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>创建账号（分发邀请）</h3></div>' +
+    '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico">' + icon("plus") + '</span><h3>创建账号（分发邀请）</h3></div>' +
     '<form method="post" action="/users/invite">' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     '<div class="grid3"><div><label for="ie">邮箱</label><input id="ie" name="email" type="email" required></div>' +
@@ -1835,10 +1962,10 @@ function usersPage(opts) {
     '<div><label for="isd">限定领域（可选）</label><select id="isd" name="scope_domain"><option value="">不限制</option>' + domOpts + '</select></div></div>' +
     '<div style="margin-top:14px"><button class="btn btn--primary" type="submit">创建并生成激活链接</button></div></form></div>' +
     '<div class="card card--flush">' +
-    '<div class="card__hd"><span class="card__ico" aria-hidden="true">☰</span><h3>现有账号</h3><span class="topbar__sp"></span><span class="muted">' + (opts.users || []).length + ' 人</span></div>' +
+    '<div class="card__hd"><span class="card__ico">' + icon("articles") + '</span><h3>现有账号</h3><span class="topbar__sp"></span><span class="muted">' + (opts.users || []).length + ' 人</span></div>' +
     '<div class="tablewrap"><table>' +
     "<thead><tr><th>邮箱</th><th>姓名</th><th>角色</th><th>状态</th><th>最近登录</th><th>操作</th></tr></thead><tbody>" +
-    (rows || '<tr><td colspan="6" class="empty"><div class="empty__ico">☺</div><div class="empty__t">暂无账号</div><div>用上方表单邀请第一位编辑</div></td></tr>') +
+    (rows || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("users", 24) + '</div>' + '<div class="empty__t">暂无账号</div><div>用上方表单邀请第一位编辑</div></td></tr>') +
     "</tbody></table></div></div>" +
     '<div class="card card--flush">' +
     '<div class="card__hd"><span class="card__ico" aria-hidden="true">↪</span><h3>邀请记录</h3></div>' +
@@ -1917,15 +2044,15 @@ function taxonomyPage(opts) {
 
   return layout("领域与分类",
     pageHead({
-      ico: "⌘", title: "领域与分类",
+      ico: "taxonomy", title: "领域与分类",
       sub: "这里维护的是文章编辑器下拉框和站点构建共用的 taxonomy.json。文章已经使用的分类不会被误删。",
       acts: '<a class="btn btn--sm" href="/articles/new">去新建文章</a>'
     }) +
-    (opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "") +
-    (opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "") +
+    (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
+    (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
     '<div class="tax-intro">' +
       '<div class="card card--accent">' +
-        '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>新增领域</h3></div>' +
+        '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico">' + icon("plus") + '</span><h3>新增领域</h3></div>' +
         '<form class="tax-create" method="post" action="/taxonomy/domain">' +
           '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
           '<input type="hidden" name="action" value="create">' +
@@ -1960,13 +2087,13 @@ function auditPage(opts) {
   }).join("");
   return layout("审计日志",
     pageHead({
-      ico: "◷", title: "审计日志",
+      ico: "clock", title: "审计日志",
       sub: "登录、增删改、发布、改权限等关键动作全部记录（append-only，不可篡改）。",
       acts: '<span class="page-head__chip">最近 ' + (opts.logs || []).length + ' 条</span>'
     }) +
     '<div class="card card--flush"><div class="tablewrap"><table>' +
     "<thead><tr><th>时间</th><th>操作者</th><th>动作</th><th>对象</th><th>IP</th><th>详情</th></tr></thead><tbody>" +
-    (rows || '<tr><td colspan="6" class="empty"><div class="empty__ico">◷</div><div class="empty__t">暂无审计记录</div><div>登录、发布等操作会记录在此</div></td></tr>') +
+    (rows || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("clock", 24) + '</div>' + '<div class="empty__t">暂无审计记录</div><div>登录、发布等操作会记录在此</div></td></tr>') +
     "</tbody></table></div></div>",
     Object.assign({ current: "audit", accent: "amber", crumbs: [{ label: "审计日志" }] }, opts));
 }
@@ -1974,10 +2101,10 @@ function auditPage(opts) {
 /* ---------------- 媒体库页 ---------------- */
 /* ---------------- 2FA 设置页 ---------------- */
 function securityPage(opts) {
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
-  const ok = opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  const ok = opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "";
   const body = opts.enabled
-    ? '<div class="alert alert--ok">双因素认证已开启。登录时需要输入手机 App 上的 6 位验证码。</div>' +
+    ? '<div class="alert alert--ok" role="status">双因素认证已开启。登录时需要输入手机 App 上的 6 位验证码。</div>' +
       '<form method="post" action="/security/totp/disable">' +
         '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
         '<button class="btn" type="submit" data-confirm="关闭后，仅凭密码即可登录，安全性会下降。" data-confirm-ok="关闭">关闭双因素认证</button>' +
@@ -1990,14 +2117,14 @@ function securityPage(opts) {
       "</form>";
   return layout("账号安全",
     pageHead({
-      ico: "⚿", title: "账号安全",
+      ico: "security", title: "账号安全",
       sub: "为管理员账号开启双因素认证，降低密码泄露后的风险。",
       acts: '<span class="page-head__chip">' + (opts.enabled ? "2FA 已开启" : "2FA 未开启") + "</span>"
     }) + err + ok +
     '<div class="card card--accent">' +
-      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">⚿</span><h3>双因素认证（TOTP）</h3></div>' + body + "</div>" +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("security") + '</span><h3>双因素认证（TOTP）</h3></div>' + body + "</div>" +
     '<div class="card">' +
-      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">✎</span><h3>修改密码</h3></div>' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("draft") + '</span><h3>修改密码</h3></div>' +
       '<p class="muted">定期更换密码，或怀疑泄露时立即更换。</p>' +
       '<a class="btn" href="/change-password">修改密码</a></div>',
     Object.assign({ current: "security", accent: "violet", crumbs: [{ label: "账号安全" }] }, opts));
@@ -2005,12 +2132,12 @@ function securityPage(opts) {
 
 /* ---------------- 2FA 绑定确认页 ---------------- */
 function securityConfirmPage(opts) {
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
   if (opts.done) {
     const codes = (opts.codes || []).map(function (c) { return '<span class="kbd">' + esc(c) + "</span>"; }).join(" ");
     return layout("2FA 已开启",
       '<div class="card"><h1>双因素认证已开启</h1>' +
-      '<div class="alert alert--warn">下面这些<strong>恢复码只显示这一次</strong>。手机丢失时用它登录。请立即保存到密码管理器或打印出来。</div>' +
+      '<div class="alert alert--warn" role="status">下面这些<strong>恢复码只显示这一次</strong>。手机丢失时用它登录。请立即保存到密码管理器或打印出来。</div>' +
       '<div style="font-size:16px;line-height:2.2">' + codes + "</div>" +
       '<p class="muted">每个恢复码只能使用一次。用完可在本页重新生成。</p>' +
       '<a class="btn btn--primary" href="/security">完成</a></div>',
@@ -2041,7 +2168,7 @@ function securityConfirmPage(opts) {
 
 /* ---------------- 2FA 验证页（登录第二步） ---------------- */
 function totpChallengePage(opts) {
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
   return layout("双因素验证",
     '<div class="login-wrap"><div class="card">' +
     "<h1>双因素验证</h1>" +
@@ -2057,8 +2184,8 @@ function totpChallengePage(opts) {
 
 function mediaPage(opts) {
   const items = opts.items || [];
-  const err = opts.error ? '<div class="alert alert--err">' + esc(opts.error) + "</div>" : "";
-  const ok = opts.notice ? '<div class="alert alert--ok">' + esc(opts.notice) + "</div>" : "";
+  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  const ok = opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "";
   const cards = items.map(function (m) {
     const hasAlt = !!(m.alt && String(m.alt).trim());
     return '<div class="mcard">' +
@@ -2081,13 +2208,13 @@ function mediaPage(opts) {
   }).join("");
   return layout("媒体库",
     pageHead({
-      ico: "▢", title: "媒体库",
+      ico: "media", title: "媒体库",
       sub: "图片随内容一起版本化；上传必须填写 alt，并确认已脱敏。",
       acts: '<span class="page-head__chip">' + items.length + " 个文件</span>"
     }) +
     err + ok +
     '<div class="card card--accent">' +
-      '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico" aria-hidden="true">＋</span><h3>上传图片</h3></div>' +
+      '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico">' + icon("plus") + '</span><h3>上传图片</h3></div>' +
       '<form method="post" action="/media/upload" enctype="multipart/form-data">' +
         '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
         '<div class="grid2">' +
@@ -2103,7 +2230,7 @@ function mediaPage(opts) {
       "</form>" +
     "</div>" +
     (cards ? '<div class="mgrid">' + cards + "</div>"
-           : '<div class="card"><div class="empty"><div class="empty__ico">▢</div><div class="empty__t">还没有图片</div><div>上传后可在编辑器里用「插入图片」引用</div></div></div>'),
+           : '<div class="card"><div class="empty">' + '<div class="empty__ico">' + icon("media", 24) + '</div>' + '<div class="empty__t">还没有图片</div><div>上传后可在编辑器里用「插入图片」引用</div></div></div>'),
     Object.assign({ current: "media", accent: "sky", crumbs: [{ label: "媒体库" }] }, opts));
 }
 

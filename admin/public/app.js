@@ -69,12 +69,35 @@
     });
   }
 
-  /* ---------------- 表单提交 pending 态 ---------------- */
+  /* ---------------- 表单提交 pending 态 ----------------
+     UI 规范要求：提交后必须立刻有反馈，不能"点完没反应"。
+     除了按钮转圈，还给表单加 aria-busy，让读屏用户也知道正在处理。 */
   document.addEventListener("submit", function (e) {
     var f = e.target;
     if (f.hasAttribute("data-no-pending")) return;
     var btn = f.querySelector('button[type="submit"]:not([value])') || f.querySelector('button[type="submit"]');
-    if (btn) { setTimeout(function () { btn.classList.add("btn--loading"); btn.disabled = true; }, 0); }
+    setTimeout(function () {
+      if (btn) {
+        btn.classList.add("btn--loading");
+        btn.disabled = true;
+        // 保留可访问名称，同时告知状态
+        if (!btn.getAttribute("aria-label")) {
+          btn.setAttribute("aria-label", (btn.textContent || "提交").trim() + "，处理中");
+        }
+      }
+      f.setAttribute("aria-busy", "true");
+      announce("正在提交，请稍候");
+    }, 0);
+  }, true);
+
+  /* ---------------- 表格筛选/排序时的忙碌提示 ----------------
+     这些是 GET 导航，浏览器会重载页面；给点击目标一个即时视觉反馈，
+     避免"点了没反应"的错觉（尤其慢网络下）。 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href*="?"], a.pager__btn, a.sortlink');
+    if (!a || a.target === "_blank") return;
+    a.setAttribute("aria-busy", "true");
+    a.style.opacity = ".6";
   }, true);
 
   /* ---------------- 破坏性按钮确认 ---------------- */

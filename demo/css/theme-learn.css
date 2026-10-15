@@ -82,15 +82,35 @@ body.learn{
    + color:#fff，头像底被 18% 透明稀释后趋近页面底色，白字实测仅 1.02–3.5:1。
    这里把 --c 映射到同色相深阶，并让底色不再被稀释。
    ============================================================ */
-.learn-jobs .jcard__ava,
-.learn-jobs .jcard__ava[style*="#a96346"] { --c: #8A4F32; }
-.learn-jobs .jcard__ava[style*="#5f684f"] { --c: #414A32; }
-.learn-jobs .jcard__ava[style*="#b7976c"] { --c: #7A6244; }
-.learn-jobs .jcard__ava[style*="#566044"] { --c: #3F4830; }
-.learn-jobs .jcard__ava[style*="#8a4a33"] { --c: #7A3F28; }
-.learn-jobs .jcard__ava[style*="#453f33"] { --c: #383226; }
+/* 2026-10-15 修正：上面那版「把 --c 重映射成深阶」的做法**不生效** ——
+   --c 是写在行内 style 上的自定义属性，行内优先级高于任何样式表规则，
+   所以 .learn-jobs .jcard__ava[style*="#b7976c"]{--c:#7A6244} 永远被行内值压住。
+   实测（Playwright 读 computedStyle）头像仍是原色 #b7976c + 白字 = 2.79:1。
+   现在改成**不动 --c**，直接把背景和黑色做 color-mix 压暗到可承载白字：
+   最浅的 #b7976c 压暗后约 5.4:1，其余更深色只会更高。品牌色相仍然保留。 */
 .jcard__ava{
-  background:var(--c);
+  background:#6b5738;
+  background:color-mix(in srgb, var(--c) 65%, #0B0A08 35%);
   color:#fff;
   text-shadow:0 1px 1px rgba(0,0,0,.18);
+}
+
+/* 2026-10-15：learn.css 里 .icon-button/.ticket-button/.book-card 统一写了 outline:0，
+   去掉默认轮廓后没有补替代焦点样式 —— 键盘用户看不到焦点在哪（WCAG 2.4.7）。
+   这里补可见焦点环；用 :focus-visible 保证鼠标点击不出现难看的框。 */
+.book-card:focus-visible,
+.icon-button:focus-visible,
+.ticket-button:focus-visible,
+.close-button:focus-visible,
+.pill:focus-visible{
+  outline:3px solid #2f2a24;
+  outline-offset:3px;
+  border-radius:inherit;
+}
+html.dark .book-card:focus-visible,
+html.dark .icon-button:focus-visible,
+html.dark .ticket-button:focus-visible,
+html.dark .close-button:focus-visible,
+html.dark .pill:focus-visible{
+  outline-color:#FFD84D;
 }

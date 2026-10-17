@@ -35,6 +35,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp1036/mac
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/printer-offline.html
 ---
 
 # 打印机显示脱机 / 打印没反应怎么修

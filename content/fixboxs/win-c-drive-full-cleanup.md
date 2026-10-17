@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-c-drive-full-cleanup.html
 ---
 
 # C 盘爆红快满了，怎么安全清理出空间

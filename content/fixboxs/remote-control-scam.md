@@ -35,6 +35,7 @@ sources:
     url: https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/remote-control-scam.html
 ---
 
 # 有人让我下载软件并远程控制电脑，是诈骗吗

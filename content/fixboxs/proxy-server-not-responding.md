@@ -34,6 +34,7 @@ sources:
     url: https://support.apple.com/en-us/guide/mac-help/mchlp2591/mac
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/proxy-server-not-responding.html
 ---
 
 # 浏览器提示「代理服务器无响应」怎么修

@@ -26,6 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-wlan
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/wifi-ssid-not-found.html
 ---
 
 # Wi-Fi 列表里找不到自家网络怎么办

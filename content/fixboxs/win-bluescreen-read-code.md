@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-bluescreen-read-code.html
 ---
 
 # 电脑蓝屏了怎么办：先学会读蓝屏代码

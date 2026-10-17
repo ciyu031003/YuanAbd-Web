@@ -35,6 +35,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/chkdsk
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/disk-clicking-failure.html
 ---
 
 # 硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了

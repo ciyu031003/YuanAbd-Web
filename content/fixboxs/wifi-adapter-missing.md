@@ -30,6 +30,7 @@ sources:
     url: https://support.apple.com/zh-cn/102550
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/wifi-adapter-missing.html
 ---
 
 # 电脑没有 WLAN 选项 / 网络适配器不见了

@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-slow-diagnose.html
 ---
 
 # 电脑越来越卡怎么办：一张表定位是哪里卡

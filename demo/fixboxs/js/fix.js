@@ -287,12 +287,13 @@
       });
     }
     function card(r) {
-      var a = r.a;
-      return '<article class="fx-card" data-reveal style="--accent:var(--fx-mint)">' +
-        '<div class="fx-card__top"><h3 class="fx-card__t"><a href="./fix/' + a.slug + '.html">' + highlight(a.title, state.q) + '</a></h3>' +
+      var a = r.a, href = detailHref(a);
+      return '<article class="fx-card fx-card--link" data-reveal style="--accent:' + accentOf(a) + '">' +
+        '<div class="fx-card__top"><h3 class="fx-card__t"><a class="fx-card__link" href="' + href + '">' + highlight(a.title, state.q) + '</a></h3>' +
         '<div class="fx-card__badges">' + badges(a) + '</div></div>' +
         '<p class="fx-card__path">' + (a.path || "") + '</p>' +
-        '<p class="fx-card__snippet">' + (a.summary || "") + '</p></article>';
+        '<p class="fx-card__snippet">' + (a.summary || "") + '</p>' +
+        '<a class="fx-card__cover" href="' + href + '" tabindex="-1" aria-hidden="true"></a></article>';
     }
     function render() {
       var rows = applyFilters(search(state.q, 100));
@@ -350,12 +351,23 @@
     var m = map[risk] || map["需谨慎"];
     return '<span class="fx-badge fx-badge--' + m[0] + '">' + m[1] + '</span>';
   }
+  /* 教程卡片的跳转地址。
+     历史问题：整张卡片在悬停时会上浮、边框变色，看起来「整块可点」，
+     但真正能点的只有标题那一行字，点卡片空白处没有任何反应（用户实测踩到）。
+     现在同一地址写两处：
+       · 标题链接正常可点 / 可键盘聚焦 / 右键「在新标签页打开」
+       · 卡片 ::after 铺满整块，让点击、悬停都落在链接上
+     地址随数据下发（detail_href），因为首页是 ./fix/…、领域页与搜索页也是 ./fix/…，
+     但万一将来有人把页面挪到子目录，构建期改一处即可，不用改 JS。 */
+  function detailHref(a) { return a.detail_href || ("./fix/" + a.slug + ".html"); }
   function cardHtml(a) {
-    return '<article class="fx-card" data-reveal style="--accent:' + accentOf(a) + '">' +
-      '<div class="fx-card__top"><h3 class="fx-card__t"><a href="./fix/' + a.slug + '.html">' + a.title + '</a></h3>' +
+    var href = detailHref(a);
+    return '<article class="fx-card fx-card--link" data-reveal style="--accent:' + accentOf(a) + '">' +
+      '<div class="fx-card__top"><h3 class="fx-card__t"><a class="fx-card__link" href="' + href + '">' + a.title + '</a></h3>' +
       '<div class="fx-card__badges">' + badges(a) + '</div></div>' +
       '<p class="fx-card__path">' + (a.path || "") + '</p>' +
-      '<p class="fx-card__snippet">' + (a.summary || "") + '</p></article>';
+      '<p class="fx-card__snippet">' + (a.summary || "") + '</p>' +
+      '<a class="fx-card__cover" href="' + href + '" tabindex="-1" aria-hidden="true"></a></article>';
   }
 
   /* ============ 8. 首页 / 领域页列表 ============ */

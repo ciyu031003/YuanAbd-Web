@@ -30,6 +30,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-update-stuck.html
 ---
 
 # Windows 更新卡在 0% / 一直失败，怎么强制修好

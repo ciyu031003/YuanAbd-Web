@@ -30,6 +30,7 @@ sources:
     type: opensource
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-app-crash-missing-dll.html
 ---
 
 # 软件打不开、闪退，提示缺少 dll 或 0xc000007b

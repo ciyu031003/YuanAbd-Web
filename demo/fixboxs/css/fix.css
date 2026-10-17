@@ -360,6 +360,16 @@ mark{background:var(--fx-sun);color:var(--fx-ink);border-radius:4px;padding:0 3p
 }
 .fx-card:hover{transform:translate(-3px,-3px);border-color:var(--fx-ink);box-shadow:5px 5px 0 var(--fx-ink)}
 .fx-card:hover::before{transform:scaleX(1)}
+/* 整卡可点（2026-10-17）：悬停上浮 + 光标手型会让用户以为整块能点，
+   实际之前只有标题那行字是链接，点空白处毫无反应。
+   做法：标题仍是真链接（可聚焦、可右键新标签），再用 __cover 铺满整卡接收点击。
+   键盘与屏幕阅读器只看标题链接，不会重复读出两条。 */
+.fx-card--link{cursor:pointer}
+.fx-card__link{color:inherit;text-decoration:none}
+.fx-card__link:hover{text-decoration:none}
+.fx-card__cover{position:absolute;inset:0;border-radius:inherit;z-index:0}
+.fx-card__cover:focus{outline:none}
+.fx-card--link:focus-within{transform:translate(-3px,-3px);border-color:var(--fx-ink);box-shadow:5px 5px 0 var(--fx-ink)}
 .fx-card__top{display:flex;flex-direction:column;gap:10px}
 .fx-card__t{font-size:17.5px;font-weight:800;line-height:1.42;letter-spacing:-.015em;min-width:0}
 .fx-card:hover .fx-card__t{color:var(--fx-ink)}

@@ -54,6 +54,7 @@ window.FX_ARTICLES = [
    "netsh winsock reset"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/wifi-connected-but-no-internet.html",
   "kind": "guide",
   "hot": 31
  },
@@ -102,6 +103,7 @@ window.FX_ARTICLES = [
    "桌面不显示"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-blackscreen-cursor.html",
   "kind": "guide",
   "hot": 30
  },
@@ -158,6 +160,7 @@ window.FX_ARTICLES = [
    "DHCP 客户端列表"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/ip-conflict-locate-device.html",
   "kind": "guide",
   "hot": 29
  },
@@ -205,6 +208,7 @@ window.FX_ARTICLES = [
    "路由器标签"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/router-admin-page-unreachable.html",
   "kind": "guide",
   "hot": 28
  },
@@ -253,6 +257,7 @@ window.FX_ARTICLES = [
    "驱动导致蓝屏"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-bluescreen-read-code.html",
   "kind": "guide",
   "hot": 27
  },
@@ -300,6 +305,7 @@ window.FX_ARTICLES = [
    "路由器指示灯"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/home-network-all-offline.html",
   "kind": "guide",
   "hot": 26
  },
@@ -357,6 +363,7 @@ window.FX_ARTICLES = [
    "223.5.5.5"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/dns-broken-but-app-works.html",
   "kind": "guide",
   "hot": 25
  },
@@ -405,6 +412,7 @@ window.FX_ARTICLES = [
    "net user 改密码"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-forgot-password.html",
   "kind": "guide",
   "hot": 24
  },
@@ -453,6 +461,7 @@ window.FX_ARTICLES = [
    "可靠性监视器"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-slow-diagnose.html",
   "kind": "guide",
   "hot": 23
  },
@@ -502,6 +511,7 @@ window.FX_ARTICLES = [
    "Windows.old"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-c-drive-full-cleanup.html",
   "kind": "guide",
   "hot": 22
  },
@@ -559,6 +569,7 @@ window.FX_ARTICLES = [
    "网络重置"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/wifi-adapter-missing.html",
   "kind": "guide",
   "hot": 21
  },
@@ -611,6 +622,7 @@ window.FX_ARTICLES = [
    "proxy server"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/proxy-server-not-responding.html",
   "kind": "guide",
   "hot": 20
  },
@@ -659,6 +671,7 @@ window.FX_ARTICLES = [
    "Process Explorer 定位弹窗"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-popup-ads-hijack.html",
   "kind": "guide",
   "hot": 19
  },
@@ -706,6 +719,7 @@ window.FX_ARTICLES = [
    "pmset"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/mac-fan-noise-overheat.html",
   "kind": "guide",
   "hot": 18
  },
@@ -761,6 +775,7 @@ window.FX_ARTICLES = [
    "时间机器"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/deleted-file-recovery.html",
   "kind": "guide",
   "hot": 17
  },
@@ -809,6 +824,7 @@ window.FX_ARTICLES = [
    "开机卡死"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-stuck-on-boot-logo.html",
   "kind": "guide",
   "hot": 16
  },
@@ -866,6 +882,7 @@ window.FX_ARTICLES = [
    "RFC 3927"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/dhcp-no-ip-169-254.html",
   "kind": "guide",
   "hot": 15
  },
@@ -919,6 +936,7 @@ window.FX_ARTICLES = [
    "打印机驱动"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/printer-offline.html",
   "kind": "guide",
   "hot": 14
  },
@@ -973,6 +991,7 @@ window.FX_ARTICLES = [
    "数据恢复"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/usb-drive-not-recognized.html",
   "kind": "guide",
   "hot": 13
  },
@@ -1021,6 +1040,7 @@ window.FX_ARTICLES = [
    "闪退"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-app-crash-missing-dll.html",
   "kind": "guide",
   "hot": 12
  },
@@ -1078,6 +1098,7 @@ window.FX_ARTICLES = [
    "无线诊断"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/wifi-ssid-not-found.html",
   "kind": "guide",
   "hot": 11
  },
@@ -1133,6 +1154,7 @@ window.FX_ARTICLES = [
    "安全模式"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/malware-first-response.html",
   "kind": "guide",
   "hot": 10
  },
@@ -1178,6 +1200,7 @@ window.FX_ARTICLES = [
    "router-qos"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/router-wifi-leech-check.html",
   "kind": "guide",
   "hot": 9
  },
@@ -1226,6 +1249,7 @@ window.FX_ARTICLES = [
    "更新疑难解答"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-update-stuck.html",
   "kind": "guide",
   "hot": 8
  },
@@ -1273,6 +1297,7 @@ window.FX_ARTICLES = [
    "tmutil"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/mac-storage-system-data.html",
   "kind": "guide",
   "hot": 7
  },
@@ -1328,6 +1353,7 @@ window.FX_ARTICLES = [
    "固态掉盘"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/disk-clicking-failure.html",
   "kind": "guide",
   "hot": 6
  },
@@ -1383,6 +1409,7 @@ window.FX_ARTICLES = [
    "多显示器"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/monitor-no-signal.html",
   "kind": "guide",
   "hot": 5
  },
@@ -1431,6 +1458,7 @@ window.FX_ARTICLES = [
    "计划任务开机启动"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/win-startup-apps-disable.html",
   "kind": "guide",
   "hot": 4
  },
@@ -1475,6 +1503,7 @@ window.FX_ARTICLES = [
    "报警"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/remote-control-scam.html",
   "kind": "guide",
   "hot": 3
  },
@@ -1529,6 +1558,7 @@ window.FX_ARTICLES = [
    "网络重置"
   ],
   "updated": "2026-10-11",
+  "detail_href": "./fix/proxy-tool-broke-network.html",
   "kind": "guide",
   "hot": 2
  },
@@ -1573,6 +1603,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-billable-repair.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1612,6 +1643,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-bios-post-errors.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1656,6 +1688,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-data-backup-migrate.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1696,6 +1729,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-diagnose-tools.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1740,6 +1774,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-driver-image-misc.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1781,6 +1816,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-hardware-peripheral.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1819,6 +1855,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-macos-maintain.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1857,6 +1894,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-new-device-onboarding.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1895,6 +1933,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-onsite-service.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1938,6 +1977,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-pe-usb-install.html",
   "kind": "reference",
   "hot": 1
  },
@@ -1981,6 +2021,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-printer-connected-fix.html",
   "kind": "reference",
   "hot": 1
  },
@@ -2016,6 +2057,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-testing-practice.html",
   "kind": "reference",
   "hot": 1
  },
@@ -2055,6 +2097,7 @@ window.FX_ARTICLES = [
    "作业指导"
   ],
   "updated": "2026-10-17",
+  "detail_href": "./fix/sop-ticket-workflow.html",
   "kind": "reference",
   "hot": 1
  }

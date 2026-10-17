@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-forgot-password.html
 ---
 
 # 电脑开机密码忘了 / PIN 突然用不了

@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-stuck-on-boot-logo.html
 ---
 
 # 电脑开机一直转圈 / 卡在品牌 Logo 进不去系统

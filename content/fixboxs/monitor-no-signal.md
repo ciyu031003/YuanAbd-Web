@@ -35,6 +35,7 @@ sources:
     url: https://support.microsoft.com/en-us/windows/hardware/display-graphics/change-your-screen-resolution-and-layout-in-windows
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/monitor-no-signal.html
 ---
 
 # 显示器无信号 / 分辨率不对 / 外接屏不亮

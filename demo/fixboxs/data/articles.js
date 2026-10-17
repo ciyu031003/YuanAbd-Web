@@ -54,6 +54,7 @@ window.FX_ARTICLES = [
    "netsh winsock reset"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 31
  },
  {
@@ -101,6 +102,7 @@ window.FX_ARTICLES = [
    "桌面不显示"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 30
  },
  {
@@ -156,6 +158,7 @@ window.FX_ARTICLES = [
    "DHCP 客户端列表"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 29
  },
  {
@@ -202,6 +205,7 @@ window.FX_ARTICLES = [
    "路由器标签"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 28
  },
  {
@@ -249,6 +253,7 @@ window.FX_ARTICLES = [
    "驱动导致蓝屏"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 27
  },
  {
@@ -295,6 +300,7 @@ window.FX_ARTICLES = [
    "路由器指示灯"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 26
  },
  {
@@ -351,6 +357,7 @@ window.FX_ARTICLES = [
    "223.5.5.5"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 25
  },
  {
@@ -398,6 +405,7 @@ window.FX_ARTICLES = [
    "net user 改密码"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 24
  },
  {
@@ -445,6 +453,7 @@ window.FX_ARTICLES = [
    "可靠性监视器"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 23
  },
  {
@@ -493,6 +502,7 @@ window.FX_ARTICLES = [
    "Windows.old"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 22
  },
  {
@@ -549,6 +559,7 @@ window.FX_ARTICLES = [
    "网络重置"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 21
  },
  {
@@ -600,6 +611,7 @@ window.FX_ARTICLES = [
    "proxy server"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 20
  },
  {
@@ -647,6 +659,7 @@ window.FX_ARTICLES = [
    "Process Explorer 定位弹窗"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 19
  },
  {
@@ -693,6 +706,7 @@ window.FX_ARTICLES = [
    "pmset"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 18
  },
  {
@@ -747,6 +761,7 @@ window.FX_ARTICLES = [
    "时间机器"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 17
  },
  {
@@ -794,6 +809,7 @@ window.FX_ARTICLES = [
    "开机卡死"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 16
  },
  {
@@ -850,6 +866,7 @@ window.FX_ARTICLES = [
    "RFC 3927"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 15
  },
  {
@@ -902,6 +919,7 @@ window.FX_ARTICLES = [
    "打印机驱动"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 14
  },
  {
@@ -955,6 +973,7 @@ window.FX_ARTICLES = [
    "数据恢复"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 13
  },
  {
@@ -1002,6 +1021,7 @@ window.FX_ARTICLES = [
    "闪退"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 12
  },
  {
@@ -1058,6 +1078,7 @@ window.FX_ARTICLES = [
    "无线诊断"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 11
  },
  {
@@ -1112,6 +1133,7 @@ window.FX_ARTICLES = [
    "安全模式"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 10
  },
  {
@@ -1156,6 +1178,7 @@ window.FX_ARTICLES = [
    "router-qos"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 9
  },
  {
@@ -1203,6 +1226,7 @@ window.FX_ARTICLES = [
    "更新疑难解答"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 8
  },
  {
@@ -1249,6 +1273,7 @@ window.FX_ARTICLES = [
    "tmutil"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 7
  },
  {
@@ -1303,6 +1328,7 @@ window.FX_ARTICLES = [
    "固态掉盘"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 6
  },
  {
@@ -1357,6 +1383,7 @@ window.FX_ARTICLES = [
    "多显示器"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 5
  },
  {
@@ -1404,6 +1431,7 @@ window.FX_ARTICLES = [
    "计划任务开机启动"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 4
  },
  {
@@ -1447,6 +1475,7 @@ window.FX_ARTICLES = [
    "报警"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 3
  },
  {
@@ -1500,6 +1529,533 @@ window.FX_ARTICLES = [
    "网络重置"
   ],
   "updated": "2026-10-11",
+  "kind": "guide",
   "hot": 2
+ },
+ {
+  "slug": "sop-billable-repair",
+  "title": "有偿维修与延保速查：摔碎、进水、屏轴、外壳与付费检测",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-paid-maint",
+  "categoryName": "有偿维修与延保",
+  "path": "装机与运维手册 › 有偿维修与延保",
+  "summary": "有一部分故障不在标准保修范围内：摔、砸、进水、人为损坏，以及过了保修期的机器。",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   },
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "有偿维修与延保速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "有偿维修与延保速查 SOP",
+   "摔碎",
+   "进水",
+   "屏轴",
+   "外壳与付费检测",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-bios-post-errors",
+  "title": "开机报错与 BIOS 速查：不加电、报警、电池/时间错、密码与启动项",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-bios-secure",
+  "categoryName": "BIOS 与加密锁定",
+  "path": "装机与运维手册 › BIOS 与加密锁定",
+  "summary": "「开机开不了」在 SOP 里被拆成了十几条具体现象：不加电、加电无显、滴滴报警、fan error、",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "开机报错与 BIOS 速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "开机报错与 BIOS 速查 SOP",
+   "不加电",
+   "报警",
+   "电池/时间错",
+   "密码与启动项",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-data-backup-migrate",
+  "title": "换机与重装前的数据备份速查：桌面、文档、浏览器、微信与企业微信",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-data-migrate",
+  "categoryName": "数据迁移与备份还原",
+  "path": "装机与运维手册 › 数据迁移与备份还原",
+  "summary": "换机、重装、返修之前，数据是唯一不能重来的东西。",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   },
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "换机与重装前的数据备份速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "换机与重装前的数据备份速查 SOP",
+   "桌面",
+   "文档",
+   "浏览器",
+   "微信与企业微信",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-diagnose-tools",
+  "title": "故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-tools-diag",
+  "categoryName": "检测工具与日志",
+  "path": "装机与运维手册 › 检测工具与日志",
+  "summary": "「查不出原因」通常不是技术难度问题，而是没有证据。",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "故障检测工具速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "故障检测工具速查 SOP",
+   "蓝屏",
+   "DMP",
+   "硬盘",
+   "内存",
+   "温度与日志",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-driver-image-misc",
+  "title": "驱动、镜像与软件环境杂项：Ubuntu 驱动、WPS VBA、CAD 与网页视频",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-driver",
+  "categoryName": "驱动与镜像",
+  "path": "装机与运维手册 › 驱动与镜像",
+  "summary": "SOP 里还有一批「装完系统/装完软件之后的杂项」：Ubuntu 显卡驱动与 CUDA、",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   },
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "驱动、镜像与软件环境杂项 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "驱动",
+   "镜像与软件环境杂项 SOP",
+   "Ubuntu 驱动",
+   "WPS VBA",
+   "CAD 与网页视频",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-hardware-peripheral",
+  "title": "外设与显示速查：屏幕、键鼠、触摸板、音频、蓝牙、指纹与摄像头",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-hardware",
+  "categoryName": "硬件检测与拆装",
+  "path": "装机与运维手册 › 硬件检测与拆装",
+  "summary": "屏幕、键盘、鼠标、音频、蓝牙、指纹、摄像头这些「小问题」的处理套路高度一致：",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "外设与显示速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "外设与显示速查 SOP",
+   "屏幕",
+   "键鼠",
+   "触摸板",
+   "音频",
+   "蓝牙",
+   "指纹与摄像头",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-macos-maintain",
+  "title": "Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-macos",
+  "categoryName": "macOS 维护",
+  "path": "装机与运维手册 › macOS 维护",
+  "summary": "Mac 的问题和 Windows 是两套解法：没有 BIOS、没有 PE，靠的是恢复模式（Recovery）、",
+  "os": [
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac 维护速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "Mac 维护速查 SOP",
+   "装系统",
+   "恢复模式",
+   "SMC/NVRAM 与资料迁移",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-new-device-onboarding",
+  "title": "新机交付与日常使用规范：开箱检测、跳过联网、防卡顿与一键还原",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-os",
+  "categoryName": "装系统与 PE",
+  "path": "装机与运维手册 › 装系统与 PE",
+  "summary": "SOP 的「客户类」把新员工领电脑这件事拆成了几步：开箱检测 → 跳过联网激活 → 性能优化 → 使用规范。",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "新机交付与日常使用规范 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "新机交付与日常使用规范 SOP",
+   "开箱检测",
+   "跳过联网",
+   "防卡顿与一键还原",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-onsite-service",
+  "title": "现场服务与检测标准：到场、沟通、检测、报价与离场",
+  "domain": "ref-field",
+  "domainName": "现场作业与工单",
+  "category": "field-service",
+  "categoryName": "现场服务与检测",
+  "path": "现场作业与工单 › 现场服务与检测",
+  "summary": "同一台机器，换个工程师去，客户的评价可能完全不同——差别往往不在技术，而在现场动作是否标准。",
+  "os": [
+   {
+    "t": "通用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "现场服务与检测标准 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "现场服务与检测标准 SOP",
+   "到场",
+   "沟通",
+   "检测",
+   "报价与离场",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-pe-usb-install",
+  "title": "PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-os",
+  "categoryName": "装系统与 PE",
+  "path": "装机与运维手册 › 装系统与 PE",
+  "summary": "装系统是桌面运维最高频的动作，也最容易翻车：PE 不认硬盘、引导不对、装完没有驱动。",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   },
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "PE 制作与系统安装速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "PE 制作与系统安装速查 SOP",
+   "PE 盘",
+   "多合一",
+   "U 盘与在线安装",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-printer-connected-fix",
+  "title": "打印机连接与故障速查：USB / 共享 / 网络、卡纸、缺墨与扫描",
+  "domain": "ref-manual",
+  "domainName": "装机与运维手册",
+  "category": "ref-peripheral-setup",
+  "categoryName": "打印机与外设配置",
+  "path": "装机与运维手册 › 打印机与外设配置",
+  "summary": "打印机是工单里最高频的外设，也是「到现场十分钟解决」的典型场景：",
+  "os": [
+   {
+    "t": "Windows",
+    "k": "windows"
+   },
+   {
+    "t": "macOS",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "打印机连接与故障速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "打印机连接与故障速查 SOP",
+   "USB / 共享 / 网络",
+   "卡纸",
+   "缺墨与扫描",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-testing-practice",
+  "title": "故障复现与测试规范：避免「测错方向」把故障数量做大",
+  "domain": "ref-field",
+  "domainName": "现场作业与工单",
+  "category": "field-good-practice",
+  "categoryName": "检测与测试规范",
+  "path": "现场作业与工单 › 检测与测试规范",
+  "summary": "SOP 的 BadCase 里有一条很典型的教训：过多不必要的交叉测试。",
+  "os": [
+   {
+    "t": "通用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "故障复现与测试规范 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "故障复现与测试规范 SOP",
+   "避免「测错方向」把故障数量做大",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "sop-ticket-workflow",
+  "title": "工单全流程速查：接单、改派、挂起、升级、换机与寄回",
+  "domain": "ref-field",
+  "domainName": "现场作业与工单",
+  "category": "field-ticket",
+  "categoryName": "工单与服务流程",
+  "path": "现场作业与工单 › 工单与服务流程",
+  "summary": "工单流程比技术细节更容易扣分：该打卡没打、该申请跳字没申请、改派没走流程，评价直接掉。",
+  "os": [
+   {
+    "t": "通用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "reference"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "工单全流程速查 处理方法",
+   "SOP 参考"
+  ],
+  "keywords": [
+   "工单全流程速查 SOP",
+   "接单",
+   "改派",
+   "挂起",
+   "升级",
+   "换机与寄回",
+   "参考手册",
+   "作业指导"
+  ],
+  "updated": "2026-10-17",
+  "kind": "reference",
+  "hot": 1
  }
 ];

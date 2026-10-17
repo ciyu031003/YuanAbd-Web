@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>开机报错与 BIOS 速查：不加电、报警、电池/时间错、密码与启动项 · 修盒子 FIXBOX</title>
+<meta name="description" content="「开机开不了」在 SOP 里被拆成了十几条具体现象：不加电、加电无显、滴滴报警、fan error、 时间/电池报错、进 BIOS、AC power、脚本错误、登录报错……先对上现象，再动手，比盲目拆机快得多。 这一页按">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="sop-bios-post-errors" data-kind="reference">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual" aria-current="page">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ref-manual">装机与运维手册</a><span class="fx-crumb__sep">›</span><span>BIOS 与加密锁定</span></nav>
+<h1 class="fx-title">开机报错与 BIOS 速查：不加电、报警、电池/时间错、密码与启动项</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows</span><span class="fx-badge fx-badge--ref">参考 SOP</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>
+<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2><p class="fx-p">「开机开不了」在 SOP 里被拆成了十几条具体现象：不加电、加电无显、滴滴报警、fan error、</p>
+<p class="fx-p">时间/电池报错、进 BIOS、AC power、脚本错误、登录报错……<strong>先对上现象，再动手</strong>，比盲目拆机快得多。</p>
+<p class="fx-p">这一页按「上电 → 自检报错 → 进系统前 → 登录」的顺序排好这些条目。</p>
+<p class="fx-p">本页共整理 <strong>57</strong> 条 SOP 条目，全部保留原始链接；处理细节以原文为准。</p></div>
+<section data-reveal><h2 class="fx-h2" id="适用对象">适用对象</h2><p class="fx-p">处理开机类工单的现场工程师；遇到开不了机需要先给出判断的同事。</p></section>
+<section data-reveal><h2 class="fx-h2" id="风险提示">风险提示</h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 动手前请逐条核对；涉及数据、证件、客户设备安全的操作，先取得授权再执行。</div></div>
+<ol class="fx-ol"><li>拆机、拔 BIOS 电池会<strong>清除 BIOS 设置并可能导致固件锁/资产信息异常</strong>，非必要不做。</li><li>BIOS 密码属于资产安全范畴，清除前必须确认资产归属与授权。</li><li>报警声与报错代码要<strong>先记录再处理</strong>，否则后面无法复现、无法报单。</li></ol></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">能不能上电</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>不加电是最常见的一类</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>先换电源线与适配器，再释放静电（长按电源键 15 秒）。</li><li>仍不加电 → 按「Windows电脑不加电」走，台式机按「台式电源故障判断方法」判断电源。</li><li>加上电但无显示 → 「加电无显」，用外接显示器交叉验证。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 1 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">自检阶段的报错</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>报警声、fan error、时间/电池错、AC power</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>滴滴报警：记报警节奏，按「开机滴滴报警」对照。</li><li>fan error：风扇被灰尘卡住或排线松动，先清灰。</li><li>开机时间/电池报错：多为 CMOS 电池没电。</li><li>AC power 报错：适配器功率或非原装。</li><li>反复重启/自动关机：按「自动开关机」与「系统更新反复重启」排查。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 2 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">进系统前卡住</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>进恢复界面、进 BIOS、启动项错</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>开机直接进恢复界面 → 系统损坏或更新失败。</li><li>开机进 BIOS/启动选项 → 启动项丢失或硬盘识别异常。</li><li>「修改 BIOS 无效，启动项设置错误」要结合 UEFI/GPT 对应关系检查。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 3 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">能进系统但登录/应用报错</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>登录报错与开机弹窗</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>PIN 不可用、无法登录到你的账户 → 账户或网络问题。</li><li>开机弹出脚本错误 / MigHost.exe 报错 → 启动项残留。</li><li>开机慢、桌面卡半分钟 → 「Windows开机慢」。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 4 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="处理明细">处理明细</h2><p class="fx-p">上表是把条目「按顺序摊开」；这一节给每一条一条带编号的明细，写入工单时可以直接引用编号，例如「按 SOP 第 12 条的步骤处理」。</p>
+<h3 class="fx-h3" style="font-size:16.5px">01｜Windows电脑不加电</h3>
+<p class="fx-p"><strong>是什么</strong>：按电源没反应。</p>
+<ul class="fx-ul"><li>提醒：先换线与适配器</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3120">Windows电脑不加电</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">02｜Windows电脑加电无显</h3>
+<p class="fx-p"><strong>是什么</strong>：有风扇声没画面。</p>
+<ul class="fx-ul"><li>提醒：外接屏判断是否屏幕问题</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3121">Windows电脑加电无显</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">03｜戴尔3490拔过BIOS电池后加电无显</h3>
+<p class="fx-p"><strong>是什么</strong>：特定机型加电无显。</p>
+<ul class="fx-ul"><li>提醒：按原文恢复 BIOS 设置</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3281">戴尔3490拔过BIOS电池后加电无显</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">04｜开机蓝屏</h3>
+<p class="fx-p"><strong>是什么</strong>：一开机就蓝屏。</p>
+<ul class="fx-ul"><li>提醒：先记代码</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3123">开机蓝屏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">05｜使用中蓝屏</h3>
+<p class="fx-p"><strong>是什么</strong>：用着用着蓝屏。</p>
+<ul class="fx-ul"><li>提醒：看最近安装的驱动/更新</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3127">使用中蓝屏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">06｜因社保费管理客户端导致蓝屏黑屏</h3>
+<p class="fx-p"><strong>是什么</strong>：特定软件冲突导致蓝屏。</p>
+<ul class="fx-ul"><li>提醒：卸载或升级该客户端</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3159">因社保费管理客户端导致蓝屏黑屏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">07｜蓝屏-8852BE网卡驱动处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：网卡驱动导致的蓝屏。</p>
+<ul class="fx-ul"><li>提醒：回滚/更新网卡驱动</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2851">蓝屏-8852BE网卡驱动处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">08｜使用中黑屏</h3>
+<p class="fx-p"><strong>是什么</strong>：用着用着黑屏。</p>
+<ul class="fx-ul"><li>提醒：区分是显示问题还是主机死机</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3126">使用中黑屏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">09｜开机滴滴报警</h3>
+<p class="fx-p"><strong>是什么</strong>：POST 报警声。</p>
+<ul class="fx-ul"><li>提醒：记录报警节奏</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3138">开机滴滴报警</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">10｜开机进入恢复界面</h3>
+<p class="fx-p"><strong>是什么</strong>：自动进恢复环境。</p>
+<ul class="fx-ul"><li>提醒：多为系统损坏或更新中断</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3041">开机进入恢复界面</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">11｜开机fan error</h3>
+<p class="fx-p"><strong>是什么</strong>：风扇报错。</p>
+<ul class="fx-ul"><li>提醒：先清灰再看排线</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3042">开机fan error</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">12｜开机时间报错</h3>
+<p class="fx-p"><strong>是什么</strong>：时间/CMOS 错。</p>
+<ul class="fx-ul"><li>提醒：换 CMOS 电池</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3043">开机时间报错</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">13｜开机电池报错</h3>
+<p class="fx-p"><strong>是什么</strong>：电池报警。</p>
+<ul class="fx-ul"><li>提醒：确认是否原装</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3044">开机电池报错</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">14｜开机报错进BIOS界面或启动选项</h3>
+<p class="fx-p"><strong>是什么</strong>：自动进 BIOS/启动菜单。</p>
+<ul class="fx-ul"><li>提醒：检查启动顺序与硬盘识别</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3151">开机报错进BIOS界面或启动选项</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">15｜惠普TP01 2022开机报警</h3>
+<p class="fx-p"><strong>是什么</strong>：惠普 TP01 报警。</p>
+<ul class="fx-ul"><li>提醒：对照原文代码</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3389">惠普TP01 2022开机报警</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">16｜S01电脑清除BIOS方法BIOS有密码</h3>
+<p class="fx-p"><strong>是什么</strong>：S01 BIOS 密码清除。</p>
+<ul class="fx-ul"><li>提醒：确认授权后操作</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3305">S01电脑清除BIOS方法BIOS有密码</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">17｜笔记本BIOS密码破解方法</h3>
+<p class="fx-p"><strong>是什么</strong>：笔记本 BIOS 密码。</p>
+<ul class="fx-ul"><li>提醒：合规前提下操作</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3320">笔记本BIOS密码破解方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">18｜开机报非原装HP电池</h3>
+<p class="fx-p"><strong>是什么</strong>：非原装电池报警。</p>
+<ul class="fx-ul"><li>提醒：换回原装电池</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3287">开机报非原装HP电池</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">19｜无法登录账户报错PIN不可用</h3>
+<p class="fx-p"><strong>是什么</strong>：PIN 不可用。</p>
+<ul class="fx-ul"><li>提醒：联网后重新验证 PIN</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3045">无法登录账户报错PIN不可用</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">20｜开机提示无法登陆到你的账户</h3>
+<p class="fx-p"><strong>是什么</strong>：登录失败。</p>
+<ul class="fx-ul"><li>提醒：检查账户状态与网络</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3241">开机提示无法登陆到你的账户</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">21｜开机报错AC power</h3>
+<p class="fx-p"><strong>是什么</strong>：适配器功率报错。</p>
+<ul class="fx-ul"><li>提醒：用原装适配器</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3046">开机报错AC power</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">22｜系统开机报MigHost.exe</h3>
+<p class="fx-p"><strong>是什么</strong>：MigHost 报错。</p>
+<ul class="fx-ul"><li>提醒：清理启动项/修复组件</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3298">系统开机报MigHost.exe</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">23｜win开机其他报错</h3>
+<p class="fx-p"><strong>是什么</strong>：其他开机报错汇总。</p>
+<ul class="fx-ul"><li>提醒：截图后对照原文</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3047">win开机其他报错</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">24｜修改BIOS无效，启动项设置错误</h3>
+<p class="fx-p"><strong>是什么</strong>：启动项设置错误。</p>
+<ul class="fx-ul"><li>提醒：结合 UEFI/GPT 关系检查</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3304">修改BIOS无效，启动项设置错误</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">25｜win10开机弹出脚本错误</h3>
+<p class="fx-p"><strong>是什么</strong>：开机脚本报错。</p>
+<ul class="fx-ul"><li>提醒：查启动文件夹与任务计划</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3158">win10开机弹出脚本错误</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">26｜系统更新反复重启解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：更新后反复重启。</p>
+<ul class="fx-ul"><li>提醒：进安全模式停止更新服务</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3282">系统更新反复重启解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">27｜Windows系统运行卡慢</h3>
+<p class="fx-p"><strong>是什么</strong>：系统整体卡慢。</p>
+<ul class="fx-ul"><li>提醒：先看资源占用</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3116">Windows系统运行卡慢</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">28｜内存可用只有2G的处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：可用内存异常少。</p>
+<ul class="fx-ul"><li>提醒：检查系统位宽与内存识别</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3303">内存可用只有2G的处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">29｜昭阳X3降频导致卡慢</h3>
+<p class="fx-p"><strong>是什么</strong>：机型性降频。</p>
+<ul class="fx-ul"><li>提醒：按原文调整策略</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3137">昭阳X3降频导致卡慢</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">30｜Windows开机慢</h3>
+<p class="fx-p"><strong>是什么</strong>：开机耗时过长。</p>
+<ul class="fx-ul"><li>提醒：关启动项、换 SSD</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2948">Windows开机慢</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">31｜Windows办公软件慢</h3>
+<p class="fx-p"><strong>是什么</strong>：Office/WPS 慢。</p>
+<ul class="fx-ul"><li>提醒：看插件与加载项</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3117">Windows办公软件慢</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">32｜Windows自动开关机</h3>
+<p class="fx-p"><strong>是什么</strong>：自动重启/关机。</p>
+<ul class="fx-ul"><li>提醒：查电源设置与事件日志</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3128">Windows自动开关机</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">33｜Windows死机</h3>
+<p class="fx-p"><strong>是什么</strong>：系统卡死。</p>
+<ul class="fx-ul"><li>提醒：先看是否有 DMP</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3125">Windows死机</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">34｜直播慢处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：直播卡顿。</p>
+<ul class="fx-ul"><li>提醒：带宽与推流设置</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2965">直播慢处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">35｜剪辑/图像处理慢</h3>
+<p class="fx-p"><strong>是什么</strong>：剪辑渲染慢。</p>
+<ul class="fx-ul"><li>提醒：看显卡驱动与硬件加速</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3118">剪辑/图像处理慢</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">36｜开机滴滴报警</h3>
+<p class="fx-p"><strong>是什么</strong>：报警声的另一处索引。</p>
+<ul class="fx-ul"><li>提醒：记录报警节奏再对照</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3138">开机滴滴报警</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">37｜开机fan error</h3>
+<p class="fx-p"><strong>是什么</strong>：培训用版本的风扇报错条目。</p>
+<ul class="fx-ul"><li>提醒：与 3042 同一主题</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3164">开机fan error</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">38｜开机时间报错</h3>
+<p class="fx-p"><strong>是什么</strong>：培训用版本的时间报错条目。</p>
+<ul class="fx-ul"><li>提醒：CMOS 电池</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3165">开机时间报错</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">39｜开机报错进BIOS界面或启动选项</h3>
+<p class="fx-p"><strong>是什么</strong>：培训用版本的启动项条目。</p>
+<ul class="fx-ul"><li>提醒：检查启动顺序</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3163">开机报错进BIOS界面或启动选项</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">40｜开机进入恢复界面</h3>
+<p class="fx-p"><strong>是什么</strong>：培训用版本的恢复界面条目。</p>
+<ul class="fx-ul"><li>提醒：系统损坏</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3162">开机进入恢复界面</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">41｜苹果开机问号</h3>
+<p class="fx-p"><strong>是什么</strong>：Mac 开机问号（跨平台对照）。</p>
+<ul class="fx-ul"><li>提醒：见 Mac 页</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3048">苹果开机问号</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">42｜电脑中病毒的现象和处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：中毒现象判断。</p>
+<ul class="fx-ul"><li>提醒：先断网</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3230">电脑中病毒的现象和处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">43｜电脑中勒索病毒</h3>
+<p class="fx-p"><strong>是什么</strong>：勒索病毒处置。</p>
+<ul class="fx-ul"><li>提醒：断网断电，别重装</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3300">电脑中勒索病毒</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">44｜CAD打开卡死无响应处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：CAD 打开卡死。</p>
+<ul class="fx-ul"><li>提醒：清缓存、换显卡驱动模式</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3292">CAD打开卡死无响应处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">45｜WPS无法运行VBA支持库</h3>
+<p class="fx-p"><strong>是什么</strong>：WPS VBA 缺失。</p>
+<ul class="fx-ul"><li>提醒：安装对应组件包</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3295">WPS无法运行VBA支持库</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">46｜Eagle安装后报错无法打开</h3>
+<p class="fx-p"><strong>是什么</strong>：特定软件安装报错。</p>
+<ul class="fx-ul"><li>提醒：按原文排查环境依赖</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3337">Eagle安装后报错无法打开</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">47｜H610主板无法开启bitlocker加密解决方法：</h3>
+<p class="fx-p"><strong>是什么</strong>：主板层面的 BitLocker 问题。</p>
+<ul class="fx-ul"><li>提醒：先确认 TPM 与安全启动</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3278">H610主板无法开启bitlocker加密解决方法：</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">48｜其他无法开启bitlocker的解决方法：</h3>
+<p class="fx-p"><strong>是什么</strong>：通用 BitLocker 启用失败。</p>
+<ul class="fx-ul"><li>提醒：检查磁盘分区与账户类型</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3242">其他无法开启bitlocker的解决方法：</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">49｜AP22安装Ubuntu22.04显卡驱动+cuda教程</h3>
+<p class="fx-p"><strong>是什么</strong>：Ubuntu 驱动与 CUDA。</p>
+<ul class="fx-ul"><li>提醒：注意驱动与内核版本对应</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3288">AP22安装Ubuntu22.04显卡驱动+cuda教程</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">50｜惠普S01主板差别和USB设置</h3>
+<p class="fx-p"><strong>是什么</strong>：S01 主板 USB 设置。</p>
+<ul class="fx-ul"><li>提醒：USB 异常先查这里</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3327">惠普S01主板差别和USB设置</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">51｜常见SN序列号样式</h3>
+<p class="fx-p"><strong>是什么</strong>：序列号核对。</p>
+<ul class="fx-ul"><li>提醒：报单前确认 SN</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3301">常见SN序列号样式</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">52｜显示颜色有色差</h3>
+<p class="fx-p"><strong>是什么</strong>：色差问题。</p>
+<ul class="fx-ul"><li>提醒：先校色再判断是否硬件</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3296">显示颜色有色差</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">53｜惠普640G10冷暖屏调整方法</h3>
+<p class="fx-p"><strong>是什么</strong>：机型性色温差异。</p>
+<ul class="fx-ul"><li>提醒：按原文调色温</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3291">惠普640G10冷暖屏调整方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">54｜苹果m芯片连接戴尔显示器闪烁</h3>
+<p class="fx-p"><strong>是什么</strong>：M 芯片外接闪烁。</p>
+<ul class="fx-ul"><li>提醒：换线/调刷新率</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3357">苹果m芯片连接戴尔显示器闪烁</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">55｜浏览器打开网页的视频有声音无画面处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：网页视频有声音无画面。</p>
+<ul class="fx-ul"><li>提醒：关闭硬件加速试试</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3390">浏览器打开网页的视频有声音无画面处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">56｜BOSS直聘预览简历字体模糊/展示不全</h3>
+<p class="fx-p"><strong>是什么</strong>：特定网页显示异常。</p>
+<ul class="fx-ul"><li>提醒：多为字体渲染与缩放问题</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3284">BOSS直聘预览简历字体模糊/展示不全</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">57｜企微聊天记录损坏无法识别修复方法</h3>
+<p class="fx-p"><strong>是什么</strong>：企业微信数据损坏。</p>
+<ul class="fx-ul"><li>提醒：先备份数据目录再修复</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3240">企微聊天记录损坏无法识别修复方法</a></p></section>
+<section data-reveal><h2 class="fx-h2" id="仍需帮助">仍需帮助</h2><ul class="fx-ul"><li>原文能对上但做不下去：按「工单升级方法」带上截图与现象升级，不要在客户现场硬试。</li><li>本文与原文不一致：以原文为准，并在「纠错与反馈」告诉我们，我们会回来更新这份索引。</li><li>需要看具体的排障思路，而不是 SOP 索引：去「领域」页找对应的故障教程。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="原始-sop">原始 SOP（原文链接）</h2><p class="fx-p">下表的「原文」全部指向公司 SOP 知识库（需要内部账号登录）。点击即可核对处理步骤、截图与注意事项。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>条目</th><th>是什么 / 什么时候用</th><th>一句话提醒</th><th>原文</th></tr></thead><tbody><tr><td>Windows电脑不加电</td><td>按电源没反应。</td><td>先换线与适配器</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3120">原文</a></td></tr><tr><td>Windows电脑加电无显</td><td>有风扇声没画面。</td><td>外接屏判断是否屏幕问题</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3121">原文</a></td></tr><tr><td>戴尔3490拔过BIOS电池后加电无显</td><td>特定机型加电无显。</td><td>按原文恢复 BIOS 设置</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3281">原文</a></td></tr><tr><td>开机蓝屏</td><td>一开机就蓝屏。</td><td>先记代码</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3123">原文</a></td></tr><tr><td>使用中蓝屏</td><td>用着用着蓝屏。</td><td>看最近安装的驱动/更新</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3127">原文</a></td></tr><tr><td>因社保费管理客户端导致蓝屏黑屏</td><td>特定软件冲突导致蓝屏。</td><td>卸载或升级该客户端</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3159">原文</a></td></tr><tr><td>蓝屏-8852BE网卡驱动处理方法</td><td>网卡驱动导致的蓝屏。</td><td>回滚/更新网卡驱动</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2851">原文</a></td></tr><tr><td>使用中黑屏</td><td>用着用着黑屏。</td><td>区分是显示问题还是主机死机</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3126">原文</a></td></tr><tr><td>开机滴滴报警</td><td>POST 报警声。</td><td>记录报警节奏</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3138">原文</a></td></tr><tr><td>开机进入恢复界面</td><td>自动进恢复环境。</td><td>多为系统损坏或更新中断</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3041">原文</a></td></tr><tr><td>开机fan error</td><td>风扇报错。</td><td>先清灰再看排线</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3042">原文</a></td></tr><tr><td>开机时间报错</td><td>时间/CMOS 错。</td><td>换 CMOS 电池</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3043">原文</a></td></tr><tr><td>开机电池报错</td><td>电池报警。</td><td>确认是否原装</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3044">原文</a></td></tr><tr><td>开机报错进BIOS界面或启动选项</td><td>自动进 BIOS/启动菜单。</td><td>检查启动顺序与硬盘识别</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3151">原文</a></td></tr><tr><td>惠普TP01 2022开机报警</td><td>惠普 TP01 报警。</td><td>对照原文代码</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3389">原文</a></td></tr><tr><td>S01电脑清除BIOS方法BIOS有密码</td><td>S01 BIOS 密码清除。</td><td>确认授权后操作</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3305">原文</a></td></tr><tr><td>笔记本BIOS密码破解方法</td><td>笔记本 BIOS 密码。</td><td>合规前提下操作</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3320">原文</a></td></tr><tr><td>开机报非原装HP电池</td><td>非原装电池报警。</td><td>换回原装电池</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3287">原文</a></td></tr><tr><td>无法登录账户报错PIN不可用</td><td>PIN 不可用。</td><td>联网后重新验证 PIN</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3045">原文</a></td></tr><tr><td>开机提示无法登陆到你的账户</td><td>登录失败。</td><td>检查账户状态与网络</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3241">原文</a></td></tr><tr><td>开机报错AC power</td><td>适配器功率报错。</td><td>用原装适配器</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3046">原文</a></td></tr><tr><td>系统开机报MigHost.exe</td><td>MigHost 报错。</td><td>清理启动项/修复组件</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3298">原文</a></td></tr><tr><td>win开机其他报错</td><td>其他开机报错汇总。</td><td>截图后对照原文</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3047">原文</a></td></tr><tr><td>修改BIOS无效，启动项设置错误</td><td>启动项设置错误。</td><td>结合 UEFI/GPT 关系检查</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3304">原文</a></td></tr><tr><td>win10开机弹出脚本错误</td><td>开机脚本报错。</td><td>查启动文件夹与任务计划</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3158">原文</a></td></tr><tr><td>系统更新反复重启解决方法</td><td>更新后反复重启。</td><td>进安全模式停止更新服务</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3282">原文</a></td></tr><tr><td>Windows系统运行卡慢</td><td>系统整体卡慢。</td><td>先看资源占用</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3116">原文</a></td></tr><tr><td>内存可用只有2G的处理方法</td><td>可用内存异常少。</td><td>检查系统位宽与内存识别</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3303">原文</a></td></tr><tr><td>昭阳X3降频导致卡慢</td><td>机型性降频。</td><td>按原文调整策略</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3137">原文</a></td></tr><tr><td>Windows开机慢</td><td>开机耗时过长。</td><td>关启动项、换 SSD</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2948">原文</a></td></tr><tr><td>Windows办公软件慢</td><td>Office/WPS 慢。</td><td>看插件与加载项</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3117">原文</a></td></tr><tr><td>Windows自动开关机</td><td>自动重启/关机。</td><td>查电源设置与事件日志</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3128">原文</a></td></tr><tr><td>Windows死机</td><td>系统卡死。</td><td>先看是否有 DMP</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3125">原文</a></td></tr><tr><td>直播慢处理方法</td><td>直播卡顿。</td><td>带宽与推流设置</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2965">原文</a></td></tr><tr><td>剪辑/图像处理慢</td><td>剪辑渲染慢。</td><td>看显卡驱动与硬件加速</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3118">原文</a></td></tr><tr><td>开机滴滴报警</td><td>报警声的另一处索引。</td><td>记录报警节奏再对照</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3138">原文</a></td></tr><tr><td>开机fan error</td><td>培训用版本的风扇报错条目。</td><td>与 3042 同一主题</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3164">原文</a></td></tr><tr><td>开机时间报错</td><td>培训用版本的时间报错条目。</td><td>CMOS 电池</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3165">原文</a></td></tr><tr><td>开机报错进BIOS界面或启动选项</td><td>培训用版本的启动项条目。</td><td>检查启动顺序</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3163">原文</a></td></tr><tr><td>开机进入恢复界面</td><td>培训用版本的恢复界面条目。</td><td>系统损坏</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3162">原文</a></td></tr><tr><td>苹果开机问号</td><td>Mac 开机问号（跨平台对照）。</td><td>见 Mac 页</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3048">原文</a></td></tr><tr><td>电脑中病毒的现象和处理方法</td><td>中毒现象判断。</td><td>先断网</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3230">原文</a></td></tr><tr><td>电脑中勒索病毒</td><td>勒索病毒处置。</td><td>断网断电，别重装</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3300">原文</a></td></tr><tr><td>CAD打开卡死无响应处理方法</td><td>CAD 打开卡死。</td><td>清缓存、换显卡驱动模式</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3292">原文</a></td></tr><tr><td>WPS无法运行VBA支持库</td><td>WPS VBA 缺失。</td><td>安装对应组件包</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3295">原文</a></td></tr><tr><td>Eagle安装后报错无法打开</td><td>特定软件安装报错。</td><td>按原文排查环境依赖</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3337">原文</a></td></tr><tr><td>H610主板无法开启bitlocker加密解决方法：</td><td>主板层面的 BitLocker 问题。</td><td>先确认 TPM 与安全启动</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3278">原文</a></td></tr><tr><td>其他无法开启bitlocker的解决方法：</td><td>通用 BitLocker 启用失败。</td><td>检查磁盘分区与账户类型</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3242">原文</a></td></tr><tr><td>AP22安装Ubuntu22.04显卡驱动+cuda教程</td><td>Ubuntu 驱动与 CUDA。</td><td>注意驱动与内核版本对应</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3288">原文</a></td></tr><tr><td>惠普S01主板差别和USB设置</td><td>S01 主板 USB 设置。</td><td>USB 异常先查这里</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3327">原文</a></td></tr><tr><td>常见SN序列号样式</td><td>序列号核对。</td><td>报单前确认 SN</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3301">原文</a></td></tr><tr><td>显示颜色有色差</td><td>色差问题。</td><td>先校色再判断是否硬件</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3296">原文</a></td></tr><tr><td>惠普640G10冷暖屏调整方法</td><td>机型性色温差异。</td><td>按原文调色温</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3291">原文</a></td></tr><tr><td>苹果m芯片连接戴尔显示器闪烁</td><td>M 芯片外接闪烁。</td><td>换线/调刷新率</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3357">原文</a></td></tr><tr><td>浏览器打开网页的视频有声音无画面处理方法</td><td>网页视频有声音无画面。</td><td>关闭硬件加速试试</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3390">原文</a></td></tr><tr><td>BOSS直聘预览简历字体模糊/展示不全</td><td>特定网页显示异常。</td><td>多为字体渲染与缩放问题</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3284">原文</a></td></tr><tr><td>企微聊天记录损坏无法识别修复方法</td><td>企业微信数据损坏。</td><td>先备份数据目录再修复</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3240">原文</a></td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="来源">来源</h2><ul class="fx-refs"><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3120" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — Windows电脑不加电</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3041" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 开机进入恢复界面</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3045" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 无法登录账户报错PIN不可用</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3303" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 内存可用只有2G的处理方法</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3164" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 开机fan error</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3337" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — Eagle安装后报错无法打开</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/windows-commands" target="_blank" rel="noopener nofollow">Microsoft Learn — Windows 命令参考</a><span class="fx-refs__meta">OFFICIAL</span></li><li><a class="fx-link" href="https://support.microsoft.com/zh-cn/windows" target="_blank" rel="noopener nofollow">Microsoft Support — Windows 帮助中心</a><span class="fx-refs__meta">OFFICIAL</span></li></ul></section>
+<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>
+<h2 class="fx-h2">相关资料</h2><div class="fx-related"><a href="../fix/sop-pe-usb-install.html">PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装</a><a href="../fix/sop-macos-maintain.html">Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移</a><a href="../fix/sop-diagnose-tools.html">故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-17 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">📄 快速概览</a></li><li><a href="#适用对象">适用对象</a></li><li><a href="#风险提示">风险提示</a></li><li><a href="#分步骤">分步骤</a></li><li><a href="#处理明细">处理明细</a></li><li><a href="#仍需帮助">仍需帮助</a></li><li><a href="#原始-sop">原始 SOP</a></li><li><a href="#来源">来源</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-17</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

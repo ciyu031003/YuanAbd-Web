@@ -332,11 +332,14 @@
   /* ============ 7. 徽章 ============ */
   var ACCENTS = { "net-basic": "--fx-sky", "win-system": "--fx-sky", "router": "--fx-lav", "ip-dns": "--fx-lav",
     "win-app": "--fx-mint", "mac-system": "--fx-coral", "mac-app": "--fx-coral", "hardware": "--fx-sun",
-    "peripheral": "--fx-mint", "proxy-vpn": "--fx-lav", "account-sec": "--fx-coral", "data-backup": "--fx-sun" };
+    "peripheral": "--fx-mint", "proxy-vpn": "--fx-lav", "account-sec": "--fx-coral", "data-backup": "--fx-sun",
+    "ref-manual": "--fx-sky", "ref-field": "--fx-lav" };
   function accentOf(a) { return "var(" + (ACCENTS[a.domain] || "--fx-mint") + ")"; }
   function badges(a) {
     var h = "";
     (a.os || []).slice(0, 2).forEach(function (o) { h += '<span class="fx-badge fx-badge--os" data-os="' + (o.k || "windows") + '">' + o.t + '</span>'; });
+    /* 参考资料（第三方 SOP / 官方手册）与本站原创教程区分开，避免读者误以为是本站排障结论 */
+    if (a.kind === "reference") h += '<span class="fx-badge fx-badge--ref">参考 SOP</span>';
     if (a.level) h += '<span class="fx-badge fx-badge--level">' + a.level + '</span>';
     if (a.time) h += '<span class="fx-badge fx-badge--time">' + a.time + '</span>';
     h += riskBadge(a.risk);

@@ -58,7 +58,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 <main id="main" class="fx-wrap">
   <nav class="fx-crumb" aria-label="面包屑"><a href="./index.html">首页</a><span class="fx-crumb__sep">›</span><span aria-current="page">全部领域</span></nav>
   <h1 class="fx-title">全部领域</h1>
-  <p class="fx-p" style="max-width:64ch">12 个领域 · <strong data-fx-count-all>0</strong> 篇教程。领域按常见程度排序——最上面的是最常被搜到的。</p>
+  <p class="fx-p" style="max-width:64ch">12 个故障领域 + 2 个参考领域 · <strong data-fx-count-all>0</strong> 篇 · 领域按常见程度排序——最上面的是最常被搜到的。</p>
   <section class="fx-section" data-reveal id="net-basic">
     <div class="fx-head">
       <div style="display:flex;gap:12px;align-items:center">
@@ -167,12 +167,33 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
     </div>
     <div class="fx-cards" data-fx-list="domain" data-domain="data-backup"></div>
   </section>
+
+  <h2 class="fx-h2" id="reference" style="margin-top:44px">参考资料</h2>
+  <p class="fx-p" style="max-width:64ch">团队 SOP 里「会做但不必背」的部分：装系统、分区、换件、现场工单流程。标着「参考 SOP」的都是别人整理好的手册，我们只做索引、分类和一句话提醒，处理细节请以原文为准。</p>
+  <section class="fx-section" data-reveal id="ref-manual">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M8 8h7M8 11.5h7"/></svg></span>
+        <div><h2>装机与运维手册</h2><p>装系统、PE、分区引导、驱动镜像、拆装换件、数据迁移、BIOS 与加密、打印外设</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="ref-manual"></div>
+  </section>
+  <section class="fx-section" data-reveal id="ref-field">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M4 10h16M9 14h2M9 17.5h6"/></svg></span>
+        <div><h2>现场作业与工单</h2><p>接单到场离场、换机换件标准、打包寄回、风控、上门收费、现场检测</p></div>
+      </div>
+    </div>
+    <div class="fx-cards" data-fx-list="domain" data-domain="ref-field"></div>
+  </section>
 </main>
 <footer class="fx-foot"><div class="fx-wrap">
   <div class="fx-foot__inner">
     <div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
     <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 12 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li></ul></div>
+    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 14 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li><li><a href="./browse.html#ref-manual">装机与运维手册</a></li><li><a href="./browse.html#ref-field">现场作业与工单</a></li></ul></div>
     <div><h3>常用</h3><ul><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
     <div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
   </div>

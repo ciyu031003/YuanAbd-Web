@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#FFFDF7" />
 <title>YUAN.ABD · 把好奇心，做成能用的作品</title>
-  <meta name="description" content="YUAN.ABD 独立开发者：苦旅把求职与学习装订成五本手册，甜途把走过的路转身成一座城市画廊。两件作品，持续构建。" />
+  <meta name="description" content="YUAN.ABD 独立开发者：苦旅把求职与学习装订成五本手册，甜途把走过的路转身成一座城市画廊，修盒子把「电脑坏了」翻译成照着做就能修好的步骤。三件作品，持续构建。" />
 <link rel="canonical" href="https://www.yuanabd.cn/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="YUAN.ABD" />
 <meta property="og:title" content="YUAN.ABD · 把好奇心，做成能用的作品" />
-<meta property="og:description" content="苦旅 × 甜途 —— 两件正在生长的独立作品。" />
+<meta property="og:description" content="苦旅 × 甜途 × 修盒子 —— 三件正在生长的独立作品。" />
 <meta property="og:url" content="https://www.yuanabd.cn/" />
 <meta property="og:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
 <meta name="twitter:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
+<link rel="alternate" href="https://pc-fixboxs.yuanabd.cn/" hreflang="zh-CN" title="修盒子 FIXBOX" />
 <link rel="icon" type="image/png" sizes="64x64" href="./img/app-icon-64.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="./img/app-icon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -181,7 +182,13 @@
   --c-travel-600:#E05E40;
   --c-travel-500:#E8784A;
   --c-travel-400:#F28B55;
-  --c-travel-700:#C4633A;
+  /* 文本级深阶：经 .tmp-shots/contrast-pick.cjs 计算，在暖白纸底(#FAF6EF)达
+     5.14:1、暖黄底(#F1E9D7)达 4.58:1，均满足 WCAG AA 正文标准。
+     用于 section 标签、页脚回链、图注等小字号橙色文字。 */
+  --c-travel-700:#A84E2C;
+  --c-sun-700:#8E7200;                  /* 文本级深金：暖白底 4.53:1 */
+  --c-ink-mute-aa:#6E767E;              /* 文本级弱文字：米白 #FFFDF7 上 4.53:1；
+                                            在暖白 #FFF6E2 上仅 4.29:1，暖底请改用 --c-ink-500 */
   --c-sun-600:#E5B800;
   --c-mint-600:#1FA97C;
   --c-lavender-600:#7C63E8;
@@ -493,7 +500,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .footer::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(50rem 26rem at 50% 118%,rgba(255,216,77,.35),transparent 65%)}
 .footer__title{font:900 clamp(2.2rem,5vw,4.2rem)/1.25 var(--font-serif);text-align:center;max-width:18em;margin:0 auto;position:relative}
 .footer__title em{font-style:normal;white-space:nowrap;background:linear-gradient(92deg,var(--sun),var(--travel));-webkit-background-clip:text;background-clip:text;color:transparent}
-.footer__cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:70px;position:relative}
+.footer__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:70px;position:relative}
 .fcard{border-radius:24px;padding:36px 34px 30px;border:1px solid var(--line);background:rgba(255,255,255,.62);display:flex;flex-direction:column;gap:8px;transition:transform .45s var(--ease-out),border-color .35s,background .35s;position:relative;overflow:hidden}
 .fcard::after{content:"↗";position:absolute;right:30px;top:32px;font:500 1.2rem/1 var(--font-disp);color:var(--ink-mute);transition:transform .4s var(--ease-out),color .3s}
 .fcard:hover{transform:translateY(-6px);background:rgba(255,255,255,.95)}
@@ -531,6 +538,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 /* 响应式 */
 @media (max-width:1024px){
+  .footer__cards{grid-template-columns:repeat(2,1fr)}
+  .fx{grid-template-columns:1fr;gap:56px}
+  .fx__float{right:24px;bottom:-16px}
   .duo{grid-template-columns:1fr;gap:56px}
   .tvisual__card{left:12px}
   .credo__grid{grid-template-columns:1fr;gap:14px}
@@ -558,6 +568,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .build{padding:0 0 90px}.build__grid{grid-template-columns:1fr}
   .now{padding:0 0 90px}.now__inner{padding:40px 22px}.now__cards{grid-template-columns:1fr}
   .footer__cards{grid-template-columns:1fr}
+  .fx{gap:40px}
+  .fx__float{right:10px;bottom:-14px}
+  .fx__float b{font-size:1.6rem}
+  .fx-term__bar span{display:none}
+  .fx-term__body{padding:20px 18px}
+  .fx__domains{grid-template-columns:repeat(2,1fr)}
+  .fx__title{margin:16px 0 18px}
+  .fx__desc{font-size:.95rem}
   .footer__brand{gap:14px;flex-direction:column}
   .footer__base{justify-content:center;text-align:center}
 }
@@ -683,6 +701,132 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
     background:transparent;
     pointer-events:auto;
 }
+</style>
+<style data-portal="portal">
+/* @inline:portal */
+/* ==== 由 build-portal.cjs 内联自 demo/index-portal.css（请勿手改；改源文件后重新构建）==== */
+/* ============================================================
+   03 修盒子 FIXBOX（外部子站入口）
+   ------------------------------------------------------------
+   · 章节色：薄荷 --mint #91E6C1 只作装饰（圆点 / 实心 CTA 底）；
+     文字级一律用本块的 --fx-mint-ink（见下条对比度说明）。
+   · 结构沿用 .duo / .chip / .btn / .feat 的节奏与圆角，
+     复用 .travel-sec / .learn-sec 的章节光斑写法。
+   · 设计令牌只引用、不新增全局变量：--fx-mint-ink 仅作用于 .fx-sec 子树。
+   ============================================================ */
+/* 文本级薄荷：--c-mint-600(#1FA97C) 在暖白底仅 2.94:1，达不到 AA。
+   改用既有教学站 sage 深阶 #0F7A57（暖白底 5.24:1 / 薄荷淡底 5.19:1），
+   色相不变、观感仍是薄荷，只是压暗到可读。装饰圆点仍用亮色 --mint。 */
+.fx-sec{--fx-mint-ink:#0F7A57;overflow:hidden}
+.fx-sec::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(46rem 34rem at 12% 28%,rgba(145,230,193,.24),transparent 62%)}
+.fx{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;position:relative;z-index:1}
+.fx__intro{min-width:0}
+/* 章节 chip：与 .learn-sec .acc 同构，换薄荷色 */
+.fx__chip{color:var(--fx-mint-ink)}
+.fx__chip i{background:var(--mint)}
+.fx__title{font:900 clamp(2.1rem,4.4vw,3.6rem)/1.22 var(--font-serif);margin:20px 0 24px}
+.fx__title .thin{display:block;font:500 clamp(.95rem,1.4vw,1.15rem)/1.7 var(--font-sans);color:var(--ink-dim);margin-top:16px;letter-spacing:.01em}
+.fx__desc{color:var(--ink-dim);max-width:34em;line-height:1.95}
+.fx__desc b{color:var(--ink);font-weight:500}
+/* 小节标题：等宽小字 + 细线，延续 .section__label 的语法 */
+.fx__sub{display:flex;align-items:center;gap:12px;margin:34px 0 14px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:500}
+.fx__sub::after{content:"";flex:1;height:1px;background:var(--line)}
+/* 12 个领域：紧凑两列/三列标签，不抢叙事 */
+.fx__domains{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:34em}
+.fx__domains li{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.55);font-size:.83rem;line-height:1.35;color:var(--ink-dim);transition:border-color .3s,background .3s,color .3s,transform .35s var(--ease-out)}
+.fx__domains li:hover{border-color:rgba(31,169,124,.42);background:rgba(255,255,255,.92);color:var(--ink);transform:translateY(-2px)}
+/* 三步：编号 + 说明，用左侧细线串起来 */
+.fx__steps{list-style:none;display:grid;gap:12px;max-width:34em;counter-reset:fxs}
+.fx__steps li{position:relative;padding-left:46px;color:var(--ink-dim);font-size:.9rem;line-height:1.75}
+.fx__steps li::before{counter-increment:fxs;content:counter(fxs,decimal-leading-zero);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font:500 .68rem/1 var(--font-mono);letter-spacing:.04em;color:#0B3B2E;background:rgba(145,230,193,.55);border:1px solid rgba(31,169,124,.28)}
+.fx__steps b{display:block;color:var(--ink);font-weight:500;margin-bottom:2px}
+.fx__steps span{display:block}
+.fx__tags{margin-top:30px}
+.fx__tags .chip{background:rgba(255,255,255,.55)}
+.fx__intro .duo__actions{margin-top:30px}
+/* 主 CTA：薄荷实心（深墨字保证对比度），hover 参照 .btn--learn 的色块阴影 */
+.btn--fix{background:var(--mint);color:#0B3B2E}
+.btn--fix:hover{transform:translateY(-2px);box-shadow:0 12px 34px -10px rgba(31,169,124,.55)}
+.btn--fix i,.btn--ghost i{transition:transform .35s var(--ease-out)}
+.btn--fix:hover i,.btn--ghost:hover i{transform:translate(2px,-2px)}
+/* ---------- 右侧：排障终端演示 ---------- */
+.fx__visual{position:relative;min-width:0}
+.fx-term{position:relative;border-radius:26px;border:1px solid var(--line);background:linear-gradient(155deg,#FFFFFF 0%,#F2FCF8 62%);box-shadow:var(--shadow-soft);overflow:hidden}
+.fx-term__bar{display:flex;align-items:center;gap:7px;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.7)}
+.fx-term__bar i{width:9px;height:9px;border-radius:50%;display:block;background:var(--line-strong)}
+.fx-term__bar i:nth-child(1){background:#FFB3A3}
+.fx-term__bar i:nth-child(2){background:var(--sun)}
+.fx-term__bar i:nth-child(3){background:var(--mint)}
+.fx-term__bar span{margin-left:auto;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;color:var(--ink-mute)}
+.fx-term__body{padding:26px 26px 24px}
+.fx-term__q{margin:0;font-family:var(--font-mono);font-size:.9rem;line-height:1.5;color:var(--ink);letter-spacing:.02em;word-break:break-word}
+.fx-term__q span{color:var(--fx-mint-ink);font-weight:500;margin-right:8px}
+.fx-term__meta{display:flex;align-items:center;gap:8px;margin:10px 0 20px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;color:var(--ink-mute);text-transform:uppercase}
+.fx-term__dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px rgba(145,230,193,.9);display:block;flex:none}
+.fx-term__step{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.fx-term__step:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.fx-term__step b{display:block;font:500 .64rem/1 var(--font-mono);letter-spacing:.18em;color:var(--fx-mint-ink)}
+.fx-term__step h4{margin:8px 0 6px;font:600 .95rem/1.5 var(--font-sans);color:var(--ink)}
+.fx-term__step p{margin:0;font-size:.84rem;line-height:1.75;color:var(--ink-dim)}
+.fx-term__step code{font-family:var(--font-mono);font-size:.78rem;padding:1px 6px;border-radius:6px;background:rgba(24,32,42,.06);color:var(--ink)}
+.fx-term__step--next{opacity:.72}
+.fx-term__check{list-style:none;display:grid;gap:8px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line-strong)}
+.fx-term__check li{display:flex;align-items:flex-start;gap:10px;font-size:.83rem;line-height:1.6;color:var(--ink-dim)}
+.fx-term__check i{flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.66rem;font-weight:700;line-height:1;color:#0B3B2E;background:rgba(145,230,193,.85)}
+/* 浮动徽章：呼应 .mock__float，表达「12 个领域」 */
+.fx__float{position:absolute;right:-14px;bottom:-22px;width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px 12px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:0 24px 50px -24px rgba(24,32,42,.55);transform:rotate(-3deg)}
+.fx__float b{font:700 1.9rem/1 var(--font-disp);letter-spacing:-.01em}
+.fx__float span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;color:rgba(255,253,247,.72)}
+/* 页脚修盒子卡：品牌字标（无位图 logo 时用同一套圆角方标） */
+.fcard__mark{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font:700 1.05rem/1 var(--font-sans);color:#0B3B2E;background:linear-gradient(140deg,#C6F5DF,var(--mint));box-shadow:0 10px 24px -10px rgba(31,169,124,.5);transition:transform .45s var(--ease-out),box-shadow .45s}
+.fcard:hover .fcard__mark{transform:scale(1.08) rotate(-4deg);box-shadow:0 16px 30px -10px rgba(31,169,124,.6)}
+.fcard:hover.fcard--fix{border-color:rgba(31,169,124,.45)}
+.fcard--fix .fcard__bar i{background:var(--c-mint-600)}
+@supports not (color:color-mix(in srgb,red 50%,transparent)){
+  .fx__steps li::before{border-color:rgba(31,169,124,.3)}
+}
+/* ---------- 响应式 ----------
+   就近原则：本门户样式块（data-portal）排在站点样式之后，因此修盒子
+   的断点规则也写在这里，保证同一层叠上下文内后者生效（站点层的
+   @media (max-width:1024px) 里的 .fx 规则会被本块基础规则覆盖）。 */
+@media (max-width:1240px){
+  .fx{gap:56px}
+}
+@media (max-width:1024px){
+  .fx{grid-template-columns:1fr;gap:56px}
+  /* 单列时叙事区不再受 em 宽度限制，避免右侧留出大片空白 */
+  .fx__intro{max-width:none}
+  .fx__desc,.fx__steps,.fx__domains{max-width:44em}
+  .fx__domains{max-width:none;grid-template-columns:repeat(4,1fr)}
+  .fx__float{right:24px;bottom:-16px}
+  .footer__cards{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:720px){
+  .fx{gap:44px}
+  .fx__title{margin:16px 0 18px}
+  .fx__title .thin{margin-top:12px}
+  .fx__desc{font-size:.95rem;line-height:1.85}
+  .fx__sub{margin:28px 0 12px}
+  .fx__domains{grid-template-columns:repeat(2,1fr);max-width:none}
+  .fx__domains li{padding:8px 10px;font-size:.8rem}
+  .fx__steps li{padding-left:40px;font-size:.88rem}
+  .fx__steps li::before{width:28px;height:28px}
+  .fx-term{border-radius:20px}
+  .fx-term__body{padding:20px 18px}
+  .fx-term__bar span{display:none}
+  .fx__float{right:8px;bottom:-14px;padding:11px 16px 10px}
+  .fx__float b{font-size:1.6rem}
+  .fx__tags{gap:8px}
+  .fx__tags .chip{font-size:.66rem;padding:6px 12px}
+  .fx__intro .duo__actions{gap:10px}
+  .footer__cards{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx__domains li:hover,.btn--fix:hover{transform:none}
+}
+/* @endinline:portal */
+</style>
+<style>
 /* @inline:components */
 /* ==== 由 build-portal.cjs 内联自 demo/css/components.css（请勿手改；改源文件后重新构建）==== */
 /* ============================================================
@@ -1124,8 +1268,9 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-  {"@type":"Organization","@id":"https://www.yuanabd.cn/#org","name":"YUAN.ABD","url":"https://www.yuanabd.cn/","description":"YUAN.ABD 独立开发者：苦旅（求职与学习手册）与甜途（旅行记忆空间）两件在营产品。","founder":{"@type":"Person","name":"YUAN.ABD"}},
-  {"@type":"WebSite","@id":"https://www.yuanabd.cn/#site","url":"https://www.yuanabd.cn/","name":"YUAN.ABD","publisher":{"@id":"https://www.yuanabd.cn/#org"},"inLanguage":"zh-CN"}
+  {"@type":"Organization","@id":"https://www.yuanabd.cn/#org","name":"YUAN.ABD","url":"https://www.yuanabd.cn/","description":"YUAN.ABD 独立开发者：苦旅（求职与学习手册）、甜途（旅行记忆空间）与修盒子（电脑排障手册）三件在营产品。","founder":{"@type":"Person","name":"YUAN.ABD"}},
+  {"@type":"WebSite","@id":"https://www.yuanabd.cn/#site","url":"https://www.yuanabd.cn/","name":"YUAN.ABD","publisher":{"@id":"https://www.yuanabd.cn/#org"},"inLanguage":"zh-CN"},
+  {"@type":"WebApplication","@id":"https://pc-fixboxs.yuanabd.cn/#app","name":"修盒子 FIXBOX","alternateName":"FIXBOX","url":"https://pc-fixboxs.yuanabd.cn/","description":"电脑与网络故障的自助排障手册：Windows、Mac、路由器、网络与 DNS、硬件外设等 12 类故障，提供分步骤排查教程。","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"zh-CN","isAccessibleForFree":true,"publisher":{"@id":"https://www.yuanabd.cn/#org"}}
 ]}
 </script>
 </head>
@@ -1140,8 +1285,9 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       <a href="#travel">TRAVEL</a>
       <a href="#studio">STUDIO</a>
       <a href="#now">NOW</a>
+      <a href="#fixbox">FIXBOX</a>
     </nav>
-    <a class="nav__cta" href="#go"><span class="nav__dot" aria-hidden="true"></span>两件作品在线</a>
+    <a class="nav__cta" href="#go"><span class="nav__dot" aria-hidden="true"></span>三件作品在线</a>
     <button class="nav__burger" id="navBurger" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开菜单">
       <i aria-hidden="true"></i><i aria-hidden="true"></i>
     </button>
@@ -1160,14 +1306,15 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
     <div class="float-shape float-shape--d" aria-hidden="true"></div>
     <div class="hero__word" aria-hidden="true">YUAN.ABD</div>
     <div class="hero__inner">
-      <p class="hero__badge" data-reveal><i aria-hidden="true"></i>独立开发 · 两件作品在线 · EST. 2026</p>
+      <p class="hero__badge" data-reveal><i aria-hidden="true"></i>独立开发 · 三件作品在线 · EST. 2026</p>
       <h1 data-reveal data-reveal-delay="1">
         <span class="brandline">YUAN.ABD <em>Personal Digital Studio</em></span>
         把好奇心，<br />做成<em>能用</em>的作品。
       </h1>
       <p class="hero__sub" data-reveal data-reveal-delay="2">
-        这里有两件正在生长的产品——
-        一本把求职与学习<b>装订成手册</b>的工作台，和一座把走过的路<b>转身成画廊</b>的旅行空间。
+        这里有三件正在生长的作品——
+        一本把求职与学习<b>装订成手册</b>的工作台，一座把走过的路<b>转身成画廊</b>的旅行空间，
+        还有一本把「我电脑坏了」<b>翻译成步骤</b>的排障手册。
       </p>
       <div class="hero__roles" data-reveal data-reveal-delay="2">
         <span>Independent Developer</span>
@@ -1177,6 +1324,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       <p class="hero__typer" aria-hidden="true"><span class="typer__prompt">&gt;</span> <span id="typerText"></span><i class="typer__caret"></i></p>
       <div class="hero__actions" data-reveal data-reveal-delay="3">
         <a class="btn btn--primary" data-ripple href="#learn">探索作品 <i aria-hidden="true">↓</i></a>
+        <a class="btn btn--ghost" data-ripple href="https://pc-fixboxs.yuanabd.cn/" target="_blank" rel="noopener noreferrer" aria-label="打开修盒子（新标签页）">打开修盒子 <i class="ico-ext" aria-hidden="true">↗</i></a>
       </div>
     </div>
     <div class="hero__meta">
@@ -1240,8 +1388,8 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
             <span class="chip">WEB + ANDROID</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
-            <a class="btn btn--learn" data-ripple href="https://learn.yuanabd.cn" target="_blank" rel="noopener">进入工作台 <i aria-hidden="true">→</i></a>
-            <a class="btn btn--ghost" data-ripple href="https://learn.yuanabd.cn/download.html" target="_blank" rel="noopener">下载 App</a>
+            <a class="btn btn--learn" data-ripple href="https://learn.yuanabd.cn" target="_blank" rel="noopener noreferrer">进入工作台 <i aria-hidden="true">→</i></a>
+            <a class="btn btn--ghost" data-ripple href="https://learn.yuanabd.cn/download.html" target="_blank" rel="noopener noreferrer">下载 App</a>
           </div>
         </div>
         <div class="mock ui-lift" data-spotlight data-reveal data-reveal-delay="2" role="img" aria-label="苦旅界面示意：五本手册与学习进度">
@@ -1304,8 +1452,8 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
             <span class="chip">ANDROID / WEB</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
-            <a class="btn btn--travel" data-ripple href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">走进甜途 <i aria-hidden="true">→</i></a>
-            <a class="btn btn--ghost" data-ripple href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener">下载甜途 App</a>
+            <a class="btn btn--travel" data-ripple href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener noreferrer">走进甜途 <i aria-hidden="true">→</i></a>
+            <a class="btn btn--ghost" data-ripple href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener noreferrer">下载甜途 App</a>
           </div>
         </div>
       </div>
@@ -1348,6 +1496,88 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
     </div>
   </section>
 
+  <!-- ================= 03 修盒子（外部子站 pc-fixboxs.yuanabd.cn） ================= -->
+  <section class="section fx-sec" id="fixbox" aria-labelledby="fixboxTitle">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <span class="section__index">03</span>
+        <span class="section__label">Product · FIXBOX · PC-FIXBOXS</span>
+      </div>
+      <div class="fx">
+        <!-- 左：产品叙事 -->
+        <div class="fx__intro">
+          <span class="chip fx__chip" data-reveal><i aria-hidden="true"></i>电脑排障手册</span>
+          <h2 class="fx__title" id="fixboxTitle" data-reveal data-reveal-delay="1">修盒子 FIXBOX
+            <span class="thin">把「电脑坏了」，翻译成照着做就能修好的步骤。</span>
+          </h2>
+          <p class="fx__desc" data-reveal data-reveal-delay="2">
+            蓝屏、连不上网、Wi-Fi 有信号却没网、路由器后台打不开、打印机没反应——<b>先别急着重装系统</b>。修盒子把 Windows、Mac、路由器、网络与 DNS、硬件外设等常见故障整理成 12 个领域，每一篇都按「先做什么 → 会看到什么 → 失败了怎么办」分步给出。
+          </p>
+
+          <h3 class="fx__sub" data-reveal data-reveal-delay="2">12 个领域，按常见程度排序</h3>
+          <ul class="fx__domains" data-reveal data-reveal-delay="3">
+            <li>网络基础</li>
+            <li>Windows 系统</li>
+            <li>路由器</li>
+            <li>IP 与 DNS</li>
+            <li>Windows 性能</li>
+            <li>macOS 系统</li>
+            <li>macOS 性能</li>
+            <li>硬件与主机</li>
+            <li>外设</li>
+            <li>代理与 VPN</li>
+            <li>账号与安全</li>
+            <li>数据与备份</li>
+          </ul>
+
+          <h3 class="fx__sub" data-reveal data-reveal-delay="3">三步，走到能用的答案</h3>
+          <ol class="fx__steps" data-reveal data-reveal-delay="3">
+            <li><b>描述现象</b><span>现象词、报错码、机型都可以；搜不到就换一种说法再搜。</span></li>
+            <li><b>跟着步骤做</b><span>每一步都写明做什么、会看到什么；有风险的操作会先标「可能丢数据」。</span></li>
+            <li><b>确认修好</b><span>每篇末尾都给出验收方法与没修好时的退路。</span></li>
+          </ol>
+
+          <div class="duo__stats fx__tags" data-reveal data-reveal-delay="4">
+            <span class="chip">12 类故障</span>
+            <span class="chip">分步骤教程</span>
+            <span class="chip">Windows / Mac / 路由器</span>
+            <span class="chip">免费 · 无需注册</span>
+          </div>
+          <div class="duo__actions" data-reveal data-reveal-delay="4">
+            <a class="btn btn--fix" data-ripple href="https://pc-fixboxs.yuanabd.cn/" target="_blank" rel="noopener noreferrer" aria-label="前往使用修盒子（新标签页）">前往使用 <i class="ico-ext" aria-hidden="true">↗</i></a>
+            <a class="btn btn--ghost" data-ripple href="https://pc-fixboxs.yuanabd.cn/search.html" target="_blank" rel="noopener noreferrer" aria-label="搜索故障现象（新标签页）">搜索故障现象</a>
+          </div>
+        </div>
+
+        <!-- 右：排障步骤演示（纯 CSS/HTML，不依赖图片与子站资源） -->
+        <div class="fx__visual" data-reveal data-reveal-delay="2">
+          <div class="fx-term ui-lift" data-spotlight role="img" aria-label="修盒子教程页示意：搜索「Wi-Fi 有信号没网」，得到分步骤排查步骤">
+            <div class="fx-term__bar" aria-hidden="true"><i></i><i></i><i></i><span>pc-fixboxs.yuanabd.cn</span></div>
+            <div class="fx-term__body">
+              <p class="fx-term__q"><span aria-hidden="true">&gt;</span> Wi-Fi 有信号没网</p>
+              <p class="fx-term__meta"><span class="fx-term__dot" aria-hidden="true"></span>命中 1 篇 · 约 6 分钟 · 低风险</p>
+              <div class="fx-term__step">
+                <b>STEP 01</b>
+                <h4>先分清：断网的是这一台，还是全部</h4>
+                <p>打开路由器后台看 WAN 状态；WAN 正常的话，问题多半出在这台电脑的 DNS 或代理设置。</p>
+              </div>
+              <div class="fx-term__step fx-term__step--next">
+                <b>STEP 02</b>
+                <h4>关掉残留的系统代理，再刷新 DNS 缓存</h4>
+                <p>逐一关闭系统代理、PAC 与浏览器扩展代理，然后执行 <code>ipconfig /flushdns</code>。</p>
+              </div>
+              <ul class="fx-term__check">
+                <li><i aria-hidden="true">✓</i>网页能打开，但客户端仍不通</li>
+                <li><i aria-hidden="true">✓</i>代理设置为空，DNS 能正常解析</li>
+              </ul>
+            </div>
+          </div>
+          <div class="fx__float ui-lift" data-spotlight aria-hidden="true"><b>12</b><span>DOMAINS · 领域</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= Studio ================= -->
   <section class="credo" id="studio" aria-label="Studio">
     <div class="wrap">
@@ -1357,7 +1587,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
           小而完整，胜过大而空洞。<em>每一件产品都从第一行代码走到线上运行——设计、工程、部署，由同一双手完成。</em>
         </p>
         <div class="credo__grid">
-          <div class="credo__card ui-lift" data-spotlight data-reveal><b class="u1">02</b><p>在营产品。苦旅与甜途，均已上线运行并持续迭代。</p></div>
+          <div class="credo__card ui-lift" data-spotlight data-reveal><b class="u1" data-count="3">3</b><p>在营产品。苦旅、甜途与修盒子，均已上线运行并持续迭代。</p></div>
           <div class="credo__card ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b class="u2">100%</b><p>独立完成。从界面设计、前后端工程到服务器部署与运维。</p></div>
           <div class="credo__card ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b class="u3">24×7</b><p>持续构建。产品在真实使用中生长，每一次迭代都公开进行。</p></div>
         </div>
@@ -1404,19 +1634,20 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         <div class="now__inner">
           <div>
             <span class="now__kicker"><i aria-hidden="true"></i>Now · 2026</span>
-            <h2 class="now__title">正在发生：<br /><em>两件作品，<br />一条成长曲线。</em></h2>
+            <h2 class="now__title">正在发生：<br /><em>三件作品，<br />一条成长曲线。</em></h2>
             <p class="now__desc">
-              苦旅正在用真实招聘数据打磨「职业准备度」闭环；甜途正在把城市画廊扩展成完整的旅行记忆空间。
-              下一步：让 Learn 的路线图更聪明，让 Travel 的故事更完整。
+              苦旅正在用真实招聘数据打磨「职业准备度」闭环；甜途正在把城市画廊扩展成完整的旅行记忆空间；修盒子正在把排障教程一篇篇补齐。
+              下一步：让 Learn 的路线图更聪明，让 Travel 的故事更完整，让 FIXBOX 覆盖更多机型。
             </p>
             <ul class="now__list">
               <li>苦旅：招聘数据每日更新，职业准备度曲线持续内测</li>
               <li>Travel-Notes：城市画廊已收录 7 座城市，足迹地图与相册同步推进</li>
               <li>Mobile：双端 App 已在线上运行，Web + Android 同步迭代</li>
+              <li>FIXBOX：修盒子已上线 12 类故障领域，按「现象 → 步骤 → 验收」持续补教程</li>
             </ul>
           </div>
           <div class="now__cards">
-            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b data-count="2">2</b><span>在营产品 · 均已在线上运行</span></div>
+            <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b data-count="3">3</b><span>在营产品 · 均已在线上运行</span></div>
             <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="1"><b data-count="7">7</b><span>行程城市 · 已收录进旅行画廊</span></div>
             <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b data-count="19">19</b><span>数据源平台 · 每日自动抓取</span></div>
             <div class="ncard ui-lift" data-spotlight data-reveal data-reveal-delay="2"><b data-count="100" data-count-suffix="%">100%</b><span>独立完成 · 设计与工程一体</span></div>
@@ -1429,30 +1660,39 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   <!-- ================= Footer ================= -->
   <footer class="footer" id="go" aria-label="开始使用">
     <div class="wrap">
-      <h2 class="footer__title" data-reveal>两件作品，都在等你。<br /><em>从这一页出发。</em></h2>
+      <h2 class="footer__title" data-reveal>三件作品，都在等你。<br /><em>从这一页出发。</em></h2>
       <div class="footer__cards">
-        <a class="fcard fcard--learn ui-lift" data-spotlight href="https://learn.yuanabd.cn" target="_blank" rel="noopener" data-reveal>
+        <a class="fcard fcard--learn ui-lift" data-spotlight href="https://learn.yuanabd.cn" target="_blank" rel="noopener noreferrer" data-reveal>
           <span class="fcard__logo"><img src="./img/kulv-logo.png" alt="苦旅 App 图标" width="44" height="44" loading="lazy" /></span>
           <span class="fcard__mono">01 · LEARN-WORKBENCH · KU LV</span>
           <h3>苦旅</h3>
           <p>把求职与学习装订成五本手册：市场雷达、题库、路线图、看板、就绪度评估。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
-        <a class="fcard fcard--travel ui-lift" data-spotlight href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener" data-reveal data-reveal-delay="1">
+        <a class="fcard fcard--travel ui-lift" data-spotlight href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener noreferrer" data-reveal data-reveal-delay="1">
           <span class="fcard__logo"><img src="./img/tiantu-logo.png" alt="甜途 App 图标" width="44" height="44" loading="lazy" /></span>
           <span class="fcard__mono">02 · TRAVEL-NOTES · TIAN TU</span>
           <h3>甜途</h3>
           <p>一座安静的旅行记忆空间：足迹地图、城市画册、相册同步与旅行圈。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
+        <a class="fcard fcard--fix ui-lift" data-spotlight href="https://pc-fixboxs.yuanabd.cn/" target="_blank" rel="noopener noreferrer" data-reveal data-reveal-delay="2">
+          <span class="fcard__logo"><span class="fcard__mark" aria-hidden="true">修</span></span>
+          <span class="fcard__mono">03 · FIXBOX · PC-FIXBOXS</span>
+          <h3>修盒子</h3>
+          <p>电脑与网络故障的自助排障手册：12 类常见问题，每一篇都是分步骤教程。</p>
+          <span class="fcard__bar" aria-hidden="true"><i></i></span>
+        </a>
       </div>
       <div class="footer__brand">
         <b>YUAN.ABD</b>
-        <a href="https://learn.yuanabd.cn" target="_blank" rel="noopener">苦旅 KuLv</a>
+        <a href="https://learn.yuanabd.cn" target="_blank" rel="noopener noreferrer">苦旅 KuLv</a>
         <span class="footer__sep" aria-hidden="true">·</span>
-        <a href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener">Travel-Notes</a>
+        <a href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener noreferrer">Travel-Notes</a>
         <span class="footer__sep" aria-hidden="true">·</span>
-        <a href="https://github.com/yuanabd" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://pc-fixboxs.yuanabd.cn/" target="_blank" rel="noopener noreferrer">修盒子 - 电脑排障手册</a>
+        <span class="footer__sep" aria-hidden="true">·</span>
+        <a href="https://github.com/yuanabd" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="footer__sep" aria-hidden="true">·</span>
         <a href="mailto:hi@yuanabd.cn" title="邮件联系：hi@yuanabd.cn">Email</a>
       </div>
@@ -1460,9 +1700,9 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         <p class="mono">© 2026 YUAN.ABD · Built with curiosity</p>
         <p class="mono">Guangzhou · 23.1°N 113.2°E</p>
         <p class="mono">
-          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a>
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">赣ICP备2024031528号-2</a>
           <span aria-hidden="true">·</span>
-          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010602017246" target="_blank" rel="noopener">粤公网安备44010602017246号</a>
+          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010602017246" target="_blank" rel="noopener noreferrer">粤公网安备44010602017246号</a>
         </p>
       </div>
     </div>

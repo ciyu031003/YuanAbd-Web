@@ -1,0 +1,119 @@
+/* ============================================================
+   03 修盒子 FIXBOX（外部子站入口）
+   ------------------------------------------------------------
+   · 章节色：薄荷 --mint #91E6C1 只作装饰（圆点 / 实心 CTA 底）；
+     文字级一律用本块的 --fx-mint-ink（见下条对比度说明）。
+   · 结构沿用 .duo / .chip / .btn / .feat 的节奏与圆角，
+     复用 .travel-sec / .learn-sec 的章节光斑写法。
+   · 设计令牌只引用、不新增全局变量：--fx-mint-ink 仅作用于 .fx-sec 子树。
+   ============================================================ */
+/* 文本级薄荷：--c-mint-600(#1FA97C) 在暖白底仅 2.94:1，达不到 AA。
+   改用既有教学站 sage 深阶 #0F7A57（暖白底 5.24:1 / 薄荷淡底 5.19:1），
+   色相不变、观感仍是薄荷，只是压暗到可读。装饰圆点仍用亮色 --mint。 */
+.fx-sec{--fx-mint-ink:#0F7A57;overflow:hidden}
+.fx-sec::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(46rem 34rem at 12% 28%,rgba(145,230,193,.24),transparent 62%)}
+.fx{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;position:relative;z-index:1}
+.fx__intro{min-width:0}
+/* 章节 chip：与 .learn-sec .acc 同构，换薄荷色 */
+.fx__chip{color:var(--fx-mint-ink)}
+.fx__chip i{background:var(--mint)}
+.fx__title{font:900 clamp(2.1rem,4.4vw,3.6rem)/1.22 var(--font-serif);margin:20px 0 24px}
+.fx__title .thin{display:block;font:500 clamp(.95rem,1.4vw,1.15rem)/1.7 var(--font-sans);color:var(--ink-dim);margin-top:16px;letter-spacing:.01em}
+.fx__desc{color:var(--ink-dim);max-width:34em;line-height:1.95}
+.fx__desc b{color:var(--ink);font-weight:500}
+/* 小节标题：等宽小字 + 细线，延续 .section__label 的语法 */
+.fx__sub{display:flex;align-items:center;gap:12px;margin:34px 0 14px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:500}
+.fx__sub::after{content:"";flex:1;height:1px;background:var(--line)}
+/* 12 个领域：紧凑两列/三列标签，不抢叙事 */
+.fx__domains{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:34em}
+.fx__domains li{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.55);font-size:.83rem;line-height:1.35;color:var(--ink-dim);transition:border-color .3s,background .3s,color .3s,transform .35s var(--ease-out)}
+.fx__domains li:hover{border-color:rgba(31,169,124,.42);background:rgba(255,255,255,.92);color:var(--ink);transform:translateY(-2px)}
+/* 三步：编号 + 说明，用左侧细线串起来 */
+.fx__steps{list-style:none;display:grid;gap:12px;max-width:34em;counter-reset:fxs}
+.fx__steps li{position:relative;padding-left:46px;color:var(--ink-dim);font-size:.9rem;line-height:1.75}
+.fx__steps li::before{counter-increment:fxs;content:counter(fxs,decimal-leading-zero);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font:500 .68rem/1 var(--font-mono);letter-spacing:.04em;color:#0B3B2E;background:rgba(145,230,193,.55);border:1px solid rgba(31,169,124,.28)}
+.fx__steps b{display:block;color:var(--ink);font-weight:500;margin-bottom:2px}
+.fx__steps span{display:block}
+.fx__tags{margin-top:30px}
+.fx__tags .chip{background:rgba(255,255,255,.55)}
+.fx__intro .duo__actions{margin-top:30px}
+/* 主 CTA：薄荷实心（深墨字保证对比度），hover 参照 .btn--learn 的色块阴影 */
+.btn--fix{background:var(--mint);color:#0B3B2E}
+.btn--fix:hover{transform:translateY(-2px);box-shadow:0 12px 34px -10px rgba(31,169,124,.55)}
+.btn--fix i,.btn--ghost i{transition:transform .35s var(--ease-out)}
+.btn--fix:hover i,.btn--ghost:hover i{transform:translate(2px,-2px)}
+/* ---------- 右侧：排障终端演示 ---------- */
+.fx__visual{position:relative;min-width:0}
+.fx-term{position:relative;border-radius:26px;border:1px solid var(--line);background:linear-gradient(155deg,#FFFFFF 0%,#F2FCF8 62%);box-shadow:var(--shadow-soft);overflow:hidden}
+.fx-term__bar{display:flex;align-items:center;gap:7px;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.7)}
+.fx-term__bar i{width:9px;height:9px;border-radius:50%;display:block;background:var(--line-strong)}
+.fx-term__bar i:nth-child(1){background:#FFB3A3}
+.fx-term__bar i:nth-child(2){background:var(--sun)}
+.fx-term__bar i:nth-child(3){background:var(--mint)}
+.fx-term__bar span{margin-left:auto;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;color:var(--ink-mute)}
+.fx-term__body{padding:26px 26px 24px}
+.fx-term__q{margin:0;font-family:var(--font-mono);font-size:.9rem;line-height:1.5;color:var(--ink);letter-spacing:.02em;word-break:break-word}
+.fx-term__q span{color:var(--fx-mint-ink);font-weight:500;margin-right:8px}
+.fx-term__meta{display:flex;align-items:center;gap:8px;margin:10px 0 20px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;color:var(--ink-mute);text-transform:uppercase}
+.fx-term__dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px rgba(145,230,193,.9);display:block;flex:none}
+.fx-term__step{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.fx-term__step:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.fx-term__step b{display:block;font:500 .64rem/1 var(--font-mono);letter-spacing:.18em;color:var(--fx-mint-ink)}
+.fx-term__step h4{margin:8px 0 6px;font:600 .95rem/1.5 var(--font-sans);color:var(--ink)}
+.fx-term__step p{margin:0;font-size:.84rem;line-height:1.75;color:var(--ink-dim)}
+.fx-term__step code{font-family:var(--font-mono);font-size:.78rem;padding:1px 6px;border-radius:6px;background:rgba(24,32,42,.06);color:var(--ink)}
+.fx-term__step--next{opacity:.72}
+.fx-term__check{list-style:none;display:grid;gap:8px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line-strong)}
+.fx-term__check li{display:flex;align-items:flex-start;gap:10px;font-size:.83rem;line-height:1.6;color:var(--ink-dim)}
+.fx-term__check i{flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.66rem;font-weight:700;line-height:1;color:#0B3B2E;background:rgba(145,230,193,.85)}
+/* 浮动徽章：呼应 .mock__float，表达「12 个领域」 */
+.fx__float{position:absolute;right:-14px;bottom:-22px;width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px 12px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:0 24px 50px -24px rgba(24,32,42,.55);transform:rotate(-3deg)}
+.fx__float b{font:700 1.9rem/1 var(--font-disp);letter-spacing:-.01em}
+.fx__float span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;color:rgba(255,253,247,.72)}
+/* 页脚修盒子卡：品牌字标（无位图 logo 时用同一套圆角方标） */
+.fcard__mark{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font:700 1.05rem/1 var(--font-sans);color:#0B3B2E;background:linear-gradient(140deg,#C6F5DF,var(--mint));box-shadow:0 10px 24px -10px rgba(31,169,124,.5);transition:transform .45s var(--ease-out),box-shadow .45s}
+.fcard:hover .fcard__mark{transform:scale(1.08) rotate(-4deg);box-shadow:0 16px 30px -10px rgba(31,169,124,.6)}
+.fcard:hover.fcard--fix{border-color:rgba(31,169,124,.45)}
+.fcard--fix .fcard__bar i{background:var(--c-mint-600)}
+@supports not (color:color-mix(in srgb,red 50%,transparent)){
+  .fx__steps li::before{border-color:rgba(31,169,124,.3)}
+}
+/* ---------- 响应式 ----------
+   就近原则：本门户样式块（data-portal）排在站点样式之后，因此修盒子
+   的断点规则也写在这里，保证同一层叠上下文内后者生效（站点层的
+   @media (max-width:1024px) 里的 .fx 规则会被本块基础规则覆盖）。 */
+@media (max-width:1240px){
+  .fx{gap:56px}
+}
+@media (max-width:1024px){
+  .fx{grid-template-columns:1fr;gap:56px}
+  /* 单列时叙事区不再受 em 宽度限制，避免右侧留出大片空白 */
+  .fx__intro{max-width:none}
+  .fx__desc,.fx__steps,.fx__domains{max-width:44em}
+  .fx__domains{max-width:none;grid-template-columns:repeat(4,1fr)}
+  .fx__float{right:24px;bottom:-16px}
+  .footer__cards{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:720px){
+  .fx{gap:44px}
+  .fx__title{margin:16px 0 18px}
+  .fx__title .thin{margin-top:12px}
+  .fx__desc{font-size:.95rem;line-height:1.85}
+  .fx__sub{margin:28px 0 12px}
+  .fx__domains{grid-template-columns:repeat(2,1fr);max-width:none}
+  .fx__domains li{padding:8px 10px;font-size:.8rem}
+  .fx__steps li{padding-left:40px;font-size:.88rem}
+  .fx__steps li::before{width:28px;height:28px}
+  .fx-term{border-radius:20px}
+  .fx-term__body{padding:20px 18px}
+  .fx-term__bar span{display:none}
+  .fx__float{right:8px;bottom:-14px;padding:11px 16px 10px}
+  .fx__float b{font-size:1.6rem}
+  .fx__tags{gap:8px}
+  .fx__tags .chip{font-size:.66rem;padding:6px 12px}
+  .fx__intro .duo__actions{gap:10px}
+  .footer__cards{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx__domains li:hover,.btn--fix:hover{transform:none}
+}

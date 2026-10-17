@@ -9,6 +9,7 @@ YUAN.ABD 门户与项目落地页（纯静态，无构建步骤）。
 | `index.html` | https://www.yuanabd.cn/ | `/var/www/yuanabd/` |
 | `learn.html` + `download.html` + `privacy.html` + `css/` + `js/` | https://learn.yuanabd.cn/ | `/data/learn-workbench/landing/` |
 | `travel.html` + `css/` + `js/` 等 | https://travel-notes.yuanabd.cn**/portal/** | `/var/www/travel-landing/` |
+| （子站，独立部署） | https://pc-fixboxs.yuanabd.cn/ | 不在本仓库部署链路内；门户仅做入口跳转 |
 
 > **甜途门户已迁到 `/portal/` 子路径**（2026-09 起）：`travel-notes.yuanabd.cn/`
 > 根路径由 Next.js 应用（Docker :3000）接管，门户通过 nginx 的
@@ -27,13 +28,14 @@ demo/css/components.css    精美组件层（按钮/卡片/控件/容器/降级�
 demo/css/theme-*.css       站点主题映射（portal / learn / travel）
 demo/<site>.css            站点样式
 demo/<site>-sunny.css      站点历史覆盖层
+demo/index-portal.css      门户自有样式（修盒子章节 .fx-* / .btn--fix / .fcard--fix）
 demo/js/ui.js              组件层交互（零依赖、渐进增强）
 ```
 
 `<link>` 顺序固定为 **tokens → base → components → 站点 → 覆盖层 → 主题**。
 
-门户 `index.html` 保持**单文件内联**形态：`tokens.css` / `components.css` /
-`ui.js` 由构建脚本内联进 HTML，改完源文件必须重新构建：
+门户 `index.html` 保持**单文件内联**形态：`tokens.css` / `index-portal.css` /
+`components.css` / `ui.js` 由构建脚本内联进 HTML，改完源文件必须重新构建：
 
 ```bash
 node build-portal.cjs         # 重新内联

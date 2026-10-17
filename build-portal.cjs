@@ -26,6 +26,9 @@ const TARGET = path.join(ROOT, "demo", "index.html");
    构建时把两者之间的内容替换为对应源文件全文。 */
 const BLOCKS = [
   { kind: "css", file: "css/tokens.css", marker: "tokens" },
+  /* 门户自有样式：修盒子章节（.fx-* / .btn--fix / .fcard--fix）。
+     刻意不放样式层：它只服务门户首页，不属于三站共享层。 */
+  { kind: "css", file: "index-portal.css", marker: "portal", wrap: "style" },
   { kind: "css", file: "css/components.css", marker: "components" },
   { kind: "js", file: "js/ui.js", marker: "ui" },
 ];
@@ -38,19 +41,34 @@ function readSource(rel) {
   return fs.readFileSync(p, "utf8").replace(/\r\n/g, "\n").replace(/\s+$/, "");
 }
 
-/* 统一渲染：块注释（CSS）与行注释（JS）共用同一套 begin/end 逻辑 */
+/* 统一渲染：块注释（CSS）与行注释（JS）共用同一套 begin/end 逻辑。
+   wrap:"style" 的块整段自建 <style> 元素（自带 @inline 标记），用于门户自有样式表；
+   这类块会先被移除再由源文件重建，因此重复构建是幂等的。
+
+   历史坑：原实现用 indexOf 找标记，而 html.slice(j) 保留了配对的起始标记，
+   于是第二个 @inline:tokens 会被当成目标，导致 tokens 块被内联两遍。 */
 function renderBlock(html, block) {
   const start = block.kind === "css" ? `/* @inline:${block.marker} */` : `// @inline:${block.marker} */`;
   const end = block.kind === "css" ? `/* @endinline:${block.marker} */` : `// @endinline:${block.marker} */`;
-  const i = html.indexOf(start);
-  const j = html.indexOf(end);
+  const body = readSource(block.file);
+  const header = `/* ${HEADER.replace("%s", block.file)} */`;
+
+  if (block.wrap === "style") {
+    const tag = `<style data-portal="${block.marker}">`;
+    const close = "</style>";
+    const a = html.indexOf(tag);
+    const b = a < 0 ? -1 : html.indexOf(close, a);
+    if (a < 0 || b < 0) {
+      throw new Error(`缺少门户样式容器 ${tag} … ${close}（文件：demo/index.html）`);
+    }
+    return html.slice(0, a) + tag + "\n" + start + "\n" + header + "\n" + body + "\n" + end + "\n" + html.slice(b);
+  }
+
+  const i = html.lastIndexOf(start);
+  const j = html.indexOf(end, i);
   if (i < 0 || j < 0 || j < i) {
     throw new Error(`缺少标记 ${start} / ${end}（文件：demo/index.html）`);
   }
-  const body = readSource(block.file);
-  const header = block.kind === "css"
-    ? `/* ${HEADER.replace("%s", block.file)} */`
-    : `/* ${HEADER.replace("%s", block.file)} */`;
   return html.slice(0, i + start.length) + "\n" + header + "\n" + body + "\n" + html.slice(j);
 }
 
@@ -66,7 +84,7 @@ if (process.argv.includes("--check")) {
     console.error("门户产物与源文件不一致：请运行 `node build-portal.cjs` 重新生成 demo/index.html");
     process.exit(1);
   }
-  console.log("门户产物与源文件一致（tokens.css / components.css / ui.js 均已内联到最新）");
+  console.log("门户产物与源文件一致（tokens.css / index-portal.css / components.css / ui.js 均已内联到最新）");
   process.exit(0);
 }
 

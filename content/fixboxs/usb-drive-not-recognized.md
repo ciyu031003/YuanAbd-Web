@@ -35,6 +35,7 @@ sources:
     url: https://support.apple.com/zh-cn/102611
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/usb-drive-not-recognized.html
 ---
 
 # U 盘 / 移动硬盘不识别、提示格式化怎么办

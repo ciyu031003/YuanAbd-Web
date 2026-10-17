@@ -28,6 +28,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlf4de377f/mac
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/wifi-connected-but-no-internet.html
 ---
 
 # Wi-Fi 显示已连接但无法上网（打不开网页）

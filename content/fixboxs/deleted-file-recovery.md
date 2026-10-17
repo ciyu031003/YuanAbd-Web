@@ -35,6 +35,7 @@ sources:
     url: https://support.apple.com/zh-cn/104984
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/deleted-file-recovery.html
 ---
 
 # 文件误删了怎么恢复（先做这一步，别写磁盘）

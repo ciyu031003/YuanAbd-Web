@@ -26,6 +26,7 @@ sources:
     url: https://datatracker.ietf.org/doc/html/rfc1034
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/dns-broken-but-app-works.html
 ---
 
 # 网页打不开但 QQ / 微信能用：DNS 问题怎么修

@@ -36,6 +36,7 @@ sources:
     url: https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/proxy-tool-broke-network.html
 ---
 
 # 装了抓包/加速工具后全网断网怎么恢复

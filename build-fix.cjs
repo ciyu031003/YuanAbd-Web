@@ -560,6 +560,9 @@ function main() {
       symptoms: Array.isArray(meta.symptoms) ? meta.symptoms : [],
       keywords: Array.isArray(meta.keywords) ? meta.keywords : [],
       updated: meta.updated || "",
+      /* 卡片跳转地址：列表页统一用 ./fix/<slug>.html。
+         下发到数据里而不是写死在 JS，是为了将来页面挪位置只改构建、不改前端。 */
+      detail_href: "./fix/" + meta.slug + ".html",
       kind: isReference(meta) ? "reference" : "guide",
       hot: pr >= 0 ? 31 - pr : 1
     });

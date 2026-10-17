@@ -26,6 +26,7 @@ sources:
     url: https://support.apple.com/zh-cn/101588
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/dhcp-no-ip-169-254.html
 ---
 
 # 电脑获取不到 IP 地址 / IP 是 169.254 开头

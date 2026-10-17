@@ -28,6 +28,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/ipconfig
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/router-admin-page-unreachable.html
 ---
 
 # 路由器后台 192.168.1.1 打不开怎么办

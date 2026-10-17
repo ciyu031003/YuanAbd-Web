@@ -26,6 +26,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/system-information/syspf9b375b9/mac
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/mac-storage-system-data.html
 ---
 
 # Mac 储存空间不足 /「系统数据」占了上百 G

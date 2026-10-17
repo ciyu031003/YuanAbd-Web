@@ -26,6 +26,7 @@ sources:
     url: https://www.10010.com/
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/home-network-all-offline.html
 ---
 
 # 家里所有设备都上不了网：先分清是谁的问题

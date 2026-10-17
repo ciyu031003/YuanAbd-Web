@@ -27,6 +27,7 @@ sources:
     type: official
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/win-popup-ads-hijack.html
 ---
 
 # 电脑老是弹广告、浏览器主页被劫持改不回来

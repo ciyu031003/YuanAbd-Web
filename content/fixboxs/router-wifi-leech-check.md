@@ -35,6 +35,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig
 reviewer: 内容组
 reviewed_at: 2026-10-11
+detail_href: ./fix/router-wifi-leech-check.html
 ---
 
 # 怎么查谁在蹭网 / 给设备限速与拉黑

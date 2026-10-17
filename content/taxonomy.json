@@ -1,7 +1,7 @@
 {
-  "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。",
-  "version": "1.0",
-  "updated": "2026-10-12",
+  "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。（2026-10-17 起新增「参考资料」用的 domain：ref-manual 装机运维手册 / ref-field 现场作业与工单，见 build-fix.cjs 的 REFERENCE_DOMAINS）",
+  "version": "1.1",
+  "updated": "2026-10-17",
   "domains": [
     {
       "id": "net-basic",
@@ -185,6 +185,70 @@
           "name": "误删与恢复"
         }
       ]
+    },
+    {
+      "id": "ref-manual",
+      "name": "装机与运维手册",
+      "cats": [
+        {
+          "id": "ref-os",
+          "name": "装系统与 PE"
+        },
+        {
+          "id": "ref-partition",
+          "name": "分区与引导"
+        },
+        {
+          "id": "ref-driver",
+          "name": "驱动与镜像"
+        },
+        {
+          "id": "ref-hardware",
+          "name": "硬件检测与拆装"
+        },
+        {
+          "id": "ref-data-migrate",
+          "name": "数据迁移与备份还原"
+        },
+        {
+          "id": "ref-bios-secure",
+          "name": "BIOS 与加密锁定"
+        },
+        {
+          "id": "ref-tools-diag",
+          "name": "检测工具与日志"
+        },
+        {
+          "id": "ref-peripheral-setup",
+          "name": "打印机与外设配置"
+        },
+        {
+          "id": "ref-macos",
+          "name": "macOS 维护"
+        },
+        {
+          "id": "ref-paid-maint",
+          "name": "有偿维修与延保"
+        }
+      ]
+    },
+    {
+      "id": "ref-field",
+      "name": "现场作业与工单",
+      "cats": [
+        {
+          "id": "field-service",
+          "name": "现场服务与检测"
+        },
+        {
+          "id": "field-ticket",
+          "name": "工单与服务流程"
+        },
+        {
+          "id": "field-good-practice",
+          "name": "检测与测试规范"
+        }
+      ]
     }
   ],
   "enums": {
@@ -210,6 +274,8 @@
     "domains 的 id/name 与顺序沿用原有 DOMAINS 常量，保证站点展示顺序不变。",
     "cats 为该领域下「当前实际在用」的分类。mac-system 当前为空（尚无文章），保留以便后台建稿。",
     "enums.risk / enums.difficulty 供后台表单下拉与 content-lint 校验共用。",
-    "difficulty 的「专家」参照《故障分类与内容体系》§4 的难度定义；现有 30 篇未使用，不强制。"
+    "difficulty 的「专家」参照《故障分类与内容体系》§4 的难度定义；现有 30 篇未使用，不强制。",
+    "ref-manual / ref-field 下的文章是「参考资料」：来源为第三方 SOP 与官方文档，正文按「概览 / 处理步骤 / 风险提示 / 原始 SOP」组织，不套用故障教程的 10 段结构。",
+    "参考资料同样进入站点列表与搜索（分类为「参考」），保证学员能在同一个站内查到；筛选条件是 meta.kind === 'reference' 或 domain 属于 REFERENCE_DOMAINS。"
   ]
 }

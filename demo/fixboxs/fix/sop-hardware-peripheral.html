@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>外设与显示速查：屏幕、键鼠、触摸板、音频、蓝牙、指纹与摄像头 · 修盒子 FIXBOX</title>
+<meta name="description" content="屏幕、键盘、鼠标、音频、蓝牙、指纹、摄像头这些「小问题」的处理套路高度一致： 换设备交叉验证 → 查驱动 → 查系统设置 → 判断是否硬件。这一页把 SOP 里对应的条目按设备类型排好。 其中显示类（黑屏/花屏/屏线/亮">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="sop-hardware-peripheral" data-kind="reference">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual" aria-current="page">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ref-manual">装机与运维手册</a><span class="fx-crumb__sep">›</span><span>硬件检测与拆装</span></nav>
+<h1 class="fx-title">外设与显示速查：屏幕、键鼠、触摸板、音频、蓝牙、指纹与摄像头</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows</span><span class="fx-badge fx-badge--ref">参考 SOP</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>
+<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2><p class="fx-p">屏幕、键盘、鼠标、音频、蓝牙、指纹、摄像头这些「小问题」的处理套路高度一致：</p>
+<p class="fx-p"><strong>换设备交叉验证 → 查驱动 → 查系统设置 → 判断是否硬件</strong>。这一页把 SOP 里对应的条目按设备类型排好。</p>
+<p class="fx-p">其中显示类（黑屏/花屏/屏线/亮度/色差）与硬件类（风扇/发烫/电池/接口）分开列，方便快速定位。</p>
+<p class="fx-p">本页共整理 <strong>35</strong> 条 SOP 条目，全部保留原始链接；处理细节以原文为准。</p></div>
+<section data-reveal><h2 class="fx-h2" id="适用对象">适用对象</h2><p class="fx-p">处理外设与显示类工单的工程师；需要快速判断「是换机还是修」的同事。</p></section>
+<section data-reveal><h2 class="fx-h2" id="风险提示">风险提示</h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 动手前请逐条核对；涉及数据、证件、客户设备安全的操作，先取得授权再执行。</div></div>
+<ol class="fx-ol"><li>屏线、花屏类问题<strong>拆机有风险</strong>，未确认是否在保修内前不要自行拆解。</li><li>进液、摔落后的显示异常不要反复开机验证，可能扩大损坏。</li><li>更换键帽、拆电池等操作会留下痕迹，影响保修判定。</li></ol></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先交叉验证是不是硬件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>换个设备/换个接口，结论立刻出来一半</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>键鼠：换 USB 口、换一台电脑试，排除设备本身的问题。</li><li>显示器：换线、换接口、换屏幕，区分是屏、线还是显卡。</li><li>音频：换耳机、换声道，区分是驱动还是扬声器。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 1 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">再看驱动与系统设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>软件层能解决一大半</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>设备管理器里看有没有黄色感叹号。</li><li>Windows 更新与厂商官网驱动优先，第三方驱动工具慎用。</li><li>音频、蓝牙、摄像头还受应用权限影响。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 2 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">最后判断是否硬件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>到这一步就该定性了</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>显示类：屏线、屏裂、花屏、亮度异常 → 按原文判断是否属于保修。</li><li>硬件类：风扇、发烫、电池、接口 → 按原文走维修/换机流程。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 3 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="处理明细">处理明细</h2><p class="fx-p">上表是把条目「按顺序摊开」；这一节给每一条一条带编号的明细，写入工单时可以直接引用编号，例如「按 SOP 第 12 条的步骤处理」。</p>
+<h3 class="fx-h3" style="font-size:16.5px">01｜屏幕黑屏白屏有黑点有白点解决方案</h3>
+<p class="fx-p"><strong>是什么</strong>：显示异常与坏点。</p>
+<ul class="fx-ul"><li>提醒：坏点数量决定定性</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993">屏幕黑屏白屏有黑点有白点解决方案</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">02｜屏幕闪屏、花屏解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：闪屏与花屏。</p>
+<ul class="fx-ul"><li>提醒：先换线与刷新率</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2994">屏幕闪屏、花屏解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">03｜屏幕模糊、拖影、显示不完整的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：清晰度与完整性问题。</p>
+<ul class="fx-ul"><li>提醒：先查分辨率与缩放</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2995">屏幕模糊、拖影、显示不完整的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">04｜屏幕有屏线的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：横向/纵向屏线。</p>
+<ul class="fx-ul"><li>提醒：屏线故障需拆机</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2996">屏幕有屏线的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">05｜屏幕亮度有问题的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：亮度无法调节。</p>
+<ul class="fx-ul"><li>提醒：查显卡驱动与电源设置</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2997">屏幕亮度有问题的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">06｜显示颜色有色差</h3>
+<p class="fx-p"><strong>是什么</strong>：色差问题。</p>
+<ul class="fx-ul"><li>提醒：先校色</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3296">显示颜色有色差</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">07｜惠普640G10冷暖屏调整方法</h3>
+<p class="fx-p"><strong>是什么</strong>：机型性色温差异。</p>
+<ul class="fx-ul"><li>提醒：按原文调整</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3291">惠普640G10冷暖屏调整方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">08｜苹果m芯片连接戴尔显示器闪烁</h3>
+<p class="fx-p"><strong>是什么</strong>：外接闪烁。</p>
+<ul class="fx-ul"><li>提醒：换线/刷新率</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3357">苹果m芯片连接戴尔显示器闪烁</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">09｜笔记本键盘使用异常解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：笔记本键盘异常。</p>
+<ul class="fx-ul"><li>提醒：外接键盘交叉验证</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3217">笔记本键盘使用异常解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">10｜台式机键盘使用异常解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：台式机键盘异常。</p>
+<ul class="fx-ul"><li>提醒：换口换键盘验证</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3218">台式机键盘使用异常解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">11｜鼠标使用异常的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：鼠标失灵/飘移。</p>
+<ul class="fx-ul"><li>提醒：换垫子换接口</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3219">鼠标使用异常的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">12｜触摸板使用异常的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：触摸板失灵。</p>
+<ul class="fx-ul"><li>提醒：检查是否被 Fn 键禁用</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3009">触摸板使用异常的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">13｜键盘帽脱落or磨损的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：键帽问题。</p>
+<ul class="fx-ul"><li>提醒：键帽属于易损件</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3220">键盘帽脱落or磨损的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">14｜无声音的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：没有声音。</p>
+<ul class="fx-ul"><li>提醒：先看输出设备选择</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3011">无声音的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">15｜麦克风or录音问题的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：麦克风无声。</p>
+<ul class="fx-ul"><li>提醒：检查隐私权限</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3012">麦克风or录音问题的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">16｜昭阳X3无法识别麦克风</h3>
+<p class="fx-p"><strong>是什么</strong>：机型性麦克风问题。</p>
+<ul class="fx-ul"><li>提醒：按原文检查</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3157">昭阳X3无法识别麦克风</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">17｜杂音or噪音的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：音频杂音。</p>
+<ul class="fx-ul"><li>提醒：先换耳机排除</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3013">杂音or噪音的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">18｜无法调整音量的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：音量不可调。</p>
+<ul class="fx-ul"><li>提醒：音频服务是否正常</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3014">无法调整音量的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">19｜蓝牙使用异常的处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：蓝牙异常。</p>
+<ul class="fx-ul"><li>提醒：删设备重配对</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3070">蓝牙使用异常的处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">20｜指纹使用异常的处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：指纹识别失败。</p>
+<ul class="fx-ul"><li>提醒：重录指纹与驱动</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3071">指纹使用异常的处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">21｜接口使用异常</h3>
+<p class="fx-p"><strong>是什么</strong>：接口异常。</p>
+<ul class="fx-ul"><li>提醒：交叉验证接口/外设</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3210">接口使用异常</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">22｜摄像头使用异常的处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：摄像头黑屏/无法打开。</p>
+<ul class="fx-ul"><li>提醒：检查隐私权限与占用</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3073">摄像头使用异常的处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">23｜风扇异响风扇不转的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：风扇问题。</p>
+<ul class="fx-ul"><li>提醒：先清灰</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3224">风扇异响风扇不转的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">24｜电脑发烫的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：发热问题。</p>
+<ul class="fx-ul"><li>提醒：清灰换硅脂</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3002">电脑发烫的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">25｜笔记本不充电解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：不充电。</p>
+<ul class="fx-ul"><li>提醒：先换适配器</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3208">笔记本不充电解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">26｜电池续航短</h3>
+<p class="fx-p"><strong>是什么</strong>：续航衰减。</p>
+<ul class="fx-ul"><li>提醒：看电池健康度</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286">电池续航短</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">27｜盘符不识别的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：盘符异常。</p>
+<ul class="fx-ul"><li>提醒：分配盘符/检查分区表</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3015">盘符不识别的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">28｜数据文件丢失的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：文件丢失。</p>
+<ul class="fx-ul"><li>提醒：立刻停写磁盘</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3016">数据文件丢失的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">29｜数据文件无法读取的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：文件损坏无法打开。</p>
+<ul class="fx-ul"><li>提醒：先复制副本再修复</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3017">数据文件无法读取的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">30｜外壳损坏or开裂</h3>
+<p class="fx-p"><strong>是什么</strong>：外壳破损。</p>
+<ul class="fx-ul"><li>提醒：拍照留证</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3231">外壳损坏or开裂</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">31｜屏裂or屏碎or屏轴损坏</h3>
+<p class="fx-p"><strong>是什么</strong>：屏幕物理损坏。</p>
+<ul class="fx-ul"><li>提醒：先拍照再定性</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3228">屏裂or屏碎or屏轴损坏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">32｜禁用USB方法</h3>
+<p class="fx-p"><strong>是什么</strong>：禁用 USB 存储。</p>
+<ul class="fx-ul"><li>提醒：需客户确认</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3234">禁用USB方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">33｜抢单接单操作方法</h3>
+<p class="fx-p"><strong>是什么</strong>：接单操作（流程类）。</p>
+<ul class="fx-ul"><li>提醒：见工单页</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3251">抢单接单操作方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">34｜苹果远程工具使用方法</h3>
+<p class="fx-p"><strong>是什么</strong>：Mac 远程（跨平台）。</p>
+<ul class="fx-ul"><li>提醒：需授权</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3097">苹果远程工具使用方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">35｜Windows远程工具使用方法</h3>
+<p class="fx-p"><strong>是什么</strong>：Windows 远程。</p>
+<ul class="fx-ul"><li>提醒：需授权</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3096">Windows远程工具使用方法</a></p></section>
+<section data-reveal><h2 class="fx-h2" id="仍需帮助">仍需帮助</h2><ul class="fx-ul"><li>原文能对上但做不下去：按「工单升级方法」带上截图与现象升级，不要在客户现场硬试。</li><li>本文与原文不一致：以原文为准，并在「纠错与反馈」告诉我们，我们会回来更新这份索引。</li><li>需要看具体的排障思路，而不是 SOP 索引：去「领域」页找对应的故障教程。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="原始-sop">原始 SOP（原文链接）</h2><p class="fx-p">下表的「原文」全部指向公司 SOP 知识库（需要内部账号登录）。点击即可核对处理步骤、截图与注意事项。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>条目</th><th>是什么 / 什么时候用</th><th>一句话提醒</th><th>原文</th></tr></thead><tbody><tr><td>屏幕黑屏白屏有黑点有白点解决方案</td><td>显示异常与坏点。</td><td>坏点数量决定定性</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993">原文</a></td></tr><tr><td>屏幕闪屏、花屏解决方法</td><td>闪屏与花屏。</td><td>先换线与刷新率</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2994">原文</a></td></tr><tr><td>屏幕模糊、拖影、显示不完整的解决方法</td><td>清晰度与完整性问题。</td><td>先查分辨率与缩放</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2995">原文</a></td></tr><tr><td>屏幕有屏线的解决方法</td><td>横向/纵向屏线。</td><td>屏线故障需拆机</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2996">原文</a></td></tr><tr><td>屏幕亮度有问题的解决方法</td><td>亮度无法调节。</td><td>查显卡驱动与电源设置</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2997">原文</a></td></tr><tr><td>显示颜色有色差</td><td>色差问题。</td><td>先校色</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3296">原文</a></td></tr><tr><td>惠普640G10冷暖屏调整方法</td><td>机型性色温差异。</td><td>按原文调整</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3291">原文</a></td></tr><tr><td>苹果m芯片连接戴尔显示器闪烁</td><td>外接闪烁。</td><td>换线/刷新率</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3357">原文</a></td></tr><tr><td>笔记本键盘使用异常解决方法</td><td>笔记本键盘异常。</td><td>外接键盘交叉验证</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3217">原文</a></td></tr><tr><td>台式机键盘使用异常解决方法</td><td>台式机键盘异常。</td><td>换口换键盘验证</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3218">原文</a></td></tr><tr><td>鼠标使用异常的解决方法</td><td>鼠标失灵/飘移。</td><td>换垫子换接口</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3219">原文</a></td></tr><tr><td>触摸板使用异常的解决方法</td><td>触摸板失灵。</td><td>检查是否被 Fn 键禁用</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3009">原文</a></td></tr><tr><td>键盘帽脱落or磨损的解决方法</td><td>键帽问题。</td><td>键帽属于易损件</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3220">原文</a></td></tr><tr><td>无声音的解决方法</td><td>没有声音。</td><td>先看输出设备选择</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3011">原文</a></td></tr><tr><td>麦克风or录音问题的解决方法</td><td>麦克风无声。</td><td>检查隐私权限</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3012">原文</a></td></tr><tr><td>昭阳X3无法识别麦克风</td><td>机型性麦克风问题。</td><td>按原文检查</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3157">原文</a></td></tr><tr><td>杂音or噪音的解决方法</td><td>音频杂音。</td><td>先换耳机排除</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3013">原文</a></td></tr><tr><td>无法调整音量的解决方法</td><td>音量不可调。</td><td>音频服务是否正常</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3014">原文</a></td></tr><tr><td>蓝牙使用异常的处理方法</td><td>蓝牙异常。</td><td>删设备重配对</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3070">原文</a></td></tr><tr><td>指纹使用异常的处理方法</td><td>指纹识别失败。</td><td>重录指纹与驱动</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3071">原文</a></td></tr><tr><td>接口使用异常</td><td>接口异常。</td><td>交叉验证接口/外设</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3210">原文</a></td></tr><tr><td>摄像头使用异常的处理方法</td><td>摄像头黑屏/无法打开。</td><td>检查隐私权限与占用</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3073">原文</a></td></tr><tr><td>风扇异响风扇不转的解决方法</td><td>风扇问题。</td><td>先清灰</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3224">原文</a></td></tr><tr><td>电脑发烫的解决方法</td><td>发热问题。</td><td>清灰换硅脂</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3002">原文</a></td></tr><tr><td>笔记本不充电解决方法</td><td>不充电。</td><td>先换适配器</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3208">原文</a></td></tr><tr><td>电池续航短</td><td>续航衰减。</td><td>看电池健康度</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286">原文</a></td></tr><tr><td>盘符不识别的解决方法</td><td>盘符异常。</td><td>分配盘符/检查分区表</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3015">原文</a></td></tr><tr><td>数据文件丢失的解决方法</td><td>文件丢失。</td><td>立刻停写磁盘</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3016">原文</a></td></tr><tr><td>数据文件无法读取的解决方法</td><td>文件损坏无法打开。</td><td>先复制副本再修复</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3017">原文</a></td></tr><tr><td>外壳损坏or开裂</td><td>外壳破损。</td><td>拍照留证</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3231">原文</a></td></tr><tr><td>屏裂or屏碎or屏轴损坏</td><td>屏幕物理损坏。</td><td>先拍照再定性</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3228">原文</a></td></tr><tr><td>禁用USB方法</td><td>禁用 USB 存储。</td><td>需客户确认</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3234">原文</a></td></tr><tr><td>抢单接单操作方法</td><td>接单操作（流程类）。</td><td>见工单页</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3251">原文</a></td></tr><tr><td>苹果远程工具使用方法</td><td>Mac 远程（跨平台）。</td><td>需授权</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3097">原文</a></td></tr><tr><td>Windows远程工具使用方法</td><td>Windows 远程。</td><td>需授权</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3096">原文</a></td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="来源">来源</h2><ul class="fx-refs"><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 屏幕黑屏白屏有黑点有白点解决方案</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3296" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 显示颜色有色差</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3219" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 鼠标使用异常的解决方法</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3157" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 昭阳X3无法识别麦克风</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3210" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 接口使用异常</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 电池续航短</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/windows-commands" target="_blank" rel="noopener nofollow">Microsoft Learn — Windows 命令参考</a><span class="fx-refs__meta">OFFICIAL</span></li><li><a class="fx-link" href="https://support.microsoft.com/zh-cn/windows" target="_blank" rel="noopener nofollow">Microsoft Support — Windows 帮助中心</a><span class="fx-refs__meta">OFFICIAL</span></li></ul></section>
+<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>
+<h2 class="fx-h2">相关资料</h2><div class="fx-related"><a href="../fix/sop-pe-usb-install.html">PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装</a><a href="../fix/sop-macos-maintain.html">Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移</a><a href="../fix/sop-diagnose-tools.html">故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-17 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">📄 快速概览</a></li><li><a href="#适用对象">适用对象</a></li><li><a href="#风险提示">风险提示</a></li><li><a href="#分步骤">分步骤</a></li><li><a href="#处理明细">处理明细</a></li><li><a href="#仍需帮助">仍需帮助</a></li><li><a href="#原始-sop">原始 SOP</a></li><li><a href="#来源">来源</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-17</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>有偿维修与延保速查：摔碎、进水、屏轴、外壳与付费检测 · 修盒子 FIXBOX</title>
+<meta name="description" content="有一部分故障不在标准保修范围内：摔、砸、进水、人为损坏，以及过了保修期的机器。 这类工单的关键不是怎么修，而是先定性、再报价、后动手——定错性既赔钱又会被客户投诉。 这一页按 SOP 里的定性条目整理：哪些属于人为、哪些">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="sop-billable-repair" data-kind="reference">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual" aria-current="page">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ref-manual">装机与运维手册</a><span class="fx-crumb__sep">›</span><span>有偿维修与延保</span></nav>
+<h1 class="fx-title">有偿维修与延保速查：摔碎、进水、屏轴、外壳与付费检测</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows</span><span class="fx-badge fx-badge--os" data-os="macos">macOS</span><span class="fx-badge fx-badge--ref">参考 SOP</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>
+<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2><p class="fx-p">有一部分故障<strong>不在标准保修范围内</strong>：摔、砸、进水、人为损坏，以及过了保修期的机器。</p>
+<p class="fx-p">这类工单的关键不是怎么修，而是<strong>先定性、再报价、后动手</strong>——定错性既赔钱又会被客户投诉。</p>
+<p class="fx-p">这一页按 SOP 里的定性条目整理：哪些属于人为、哪些必须报有偿、现场检测到什么程度就该停手。</p>
+<p class="fx-p">本页共整理 <strong>15</strong> 条 SOP 条目，全部保留原始链接；处理细节以原文为准。</p></div>
+<section data-reveal><h2 class="fx-h2" id="适用对象">适用对象</h2><p class="fx-p">负责现场定性与报价的工程师；处理客户投诉的同事。</p></section>
+<section data-reveal><h2 class="fx-h2" id="风险提示">风险提示</h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 动手前请逐条核对；涉及数据、证件、客户设备安全的操作，先取得授权再执行。</div></div>
+<ol class="fx-ol"><li><strong>不要在现场承诺维修价格与是否收费</strong>：定性结论要经后方确认后再对客户说明。</li><li>人为损坏的机器继续通电、继续试用可能扩大损坏范围（进水尤其如此），发现即断电隔离。</li><li>拆机检查前确认保修封条完整性，避免「拆了才发现不属于保修」的争议。</li></ol></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先定性：保修内还是人为</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>定性决定后续所有流程</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>外观类：屏裂、屏碎、屏轴损坏、外壳开裂，拍照留证后按「屏裂or屏碎or屏轴损坏」「外壳损坏or开裂」处理。</li><li>进水/摔落类：先断电、拍照、记录客户描述，不要试图开机验证。</li><li>人为故障：按「人为故障」「人为损坏」条目走有偿流程。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 1 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">现场检测到什么程度</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>够定性就停手，别越做越多</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>能复现症状 + 有外观证据 + 有客户描述 → 可以定性。</li><li>不能定性时，按「现场工程师日常」记录并升级，不要在客户现场反复拆装。</li><li>液体损坏、主板层面的怀疑不要现场拆解。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 2 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">走有偿/延保流程</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>流程错一步，费用和评价都会出问题</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>确认是否属于延保范围内设备，确认客户对收费标准已知情。</li><li>按「易点云修机贴士」里的上门单/在租换件单对应流程填单。</li><li>维修完成后做整机压力测试并让客户签字确认。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 3 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="处理明细">处理明细</h2><p class="fx-p">上表是把条目「按顺序摊开」；这一节给每一条一条带编号的明细，写入工单时可以直接引用编号，例如「按 SOP 第 12 条的步骤处理」。</p>
+<h3 class="fx-h3" style="font-size:16.5px">01｜屏裂or屏碎or屏轴损坏</h3>
+<p class="fx-p"><strong>是什么</strong>：屏幕与屏轴的物理损坏处理。</p>
+<ul class="fx-ul"><li>提醒：先拍照，再定性</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3228">屏裂or屏碎or屏轴损坏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">02｜外壳损坏or开裂</h3>
+<p class="fx-p"><strong>是什么</strong>：外壳破损处理。</p>
+<ul class="fx-ul"><li>提醒：不影响功能的破损也要留证</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3231">外壳损坏or开裂</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">03｜人为故障</h3>
+<p class="fx-p"><strong>是什么</strong>：人为造成故障的判定与处理。</p>
+<ul class="fx-ul"><li>提醒：口径以公司规则为准</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3143">人为故障</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">04｜人为损坏</h3>
+<p class="fx-p"><strong>是什么</strong>：人为损坏条目的另一处索引。</p>
+<ul class="fx-ul"><li>提醒：与「人为故障」同一份原文</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3143">人为损坏</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">05｜屏幕黑屏白屏有黑点有白点解决方案</h3>
+<p class="fx-p"><strong>是什么</strong>：屏幕显示异常（含物理坏点）。</p>
+<ul class="fx-ul"><li>提醒：坏点数量决定是否属于质量问题</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993">屏幕黑屏白屏有黑点有白点解决方案</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">06｜风扇异响风扇不转的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：风扇异响与停转。</p>
+<ul class="fx-ul"><li>提醒：灰尘与轴承磨损最常见</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3224">风扇异响风扇不转的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">07｜电脑发烫的解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：整机发热问题。</p>
+<ul class="fx-ul"><li>提醒：先清灰再判断是否硬件故障</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3002">电脑发烫的解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">08｜笔记本不充电解决方法</h3>
+<p class="fx-p"><strong>是什么</strong>：不充电/不识别适配器。</p>
+<ul class="fx-ul"><li>提醒：先换适配器排除</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3208">笔记本不充电解决方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">09｜电池续航短</h3>
+<p class="fx-p"><strong>是什么</strong>：续航缩水。</p>
+<ul class="fx-ul"><li>提醒：看电池健康度与损耗</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286">电池续航短</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">10｜接口使用异常</h3>
+<p class="fx-p"><strong>是什么</strong>：USB/HDMI/网口等接口异常。</p>
+<ul class="fx-ul"><li>提醒：交叉验证是接口还是外设</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3210">接口使用异常</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">11｜戴尔3490拔过BIOS电池后加电无显</h3>
+<p class="fx-p"><strong>是什么</strong>：特定机型的典型故障。</p>
+<ul class="fx-ul"><li>提醒：按原文步骤恢复 BIOS 设置</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3281">戴尔3490拔过BIOS电池后加电无显</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">12｜S01电脑清除BIOS方法BIOS有密码</h3>
+<p class="fx-p"><strong>是什么</strong>：BIOS 密码清除（S01）。</p>
+<ul class="fx-ul"><li>提醒：需确认资产归属后操作</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3305">S01电脑清除BIOS方法BIOS有密码</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">13｜笔记本BIOS密码破解方法</h3>
+<p class="fx-p"><strong>是什么</strong>：笔记本 BIOS 密码处理。</p>
+<ul class="fx-ul"><li>提醒：合规前提下操作，留记录</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3320">笔记本BIOS密码破解方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">14｜亮机卡显卡驱动安装方法</h3>
+<p class="fx-p"><strong>是什么</strong>：装完系统后显示异常。</p>
+<ul class="fx-ul"><li>提醒：先装基础显示驱动</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3391">亮机卡显卡驱动安装方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">15｜各设备电源适配器出厂标配</h3>
+<p class="fx-p"><strong>是什么</strong>：核对适配器规格。</p>
+<ul class="fx-ul"><li>提醒：功率不足会导致不充电</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3329">各设备电源适配器出厂标配</a></p></section>
+<section data-reveal><h2 class="fx-h2" id="仍需帮助">仍需帮助</h2><ul class="fx-ul"><li>原文能对上但做不下去：按「工单升级方法」带上截图与现象升级，不要在客户现场硬试。</li><li>本文与原文不一致：以原文为准，并在「纠错与反馈」告诉我们，我们会回来更新这份索引。</li><li>需要看具体的排障思路，而不是 SOP 索引：去「领域」页找对应的故障教程。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="原始-sop">原始 SOP（原文链接）</h2><p class="fx-p">下表的「原文」全部指向公司 SOP 知识库（需要内部账号登录）。点击即可核对处理步骤、截图与注意事项。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>条目</th><th>是什么 / 什么时候用</th><th>一句话提醒</th><th>原文</th></tr></thead><tbody><tr><td>屏裂or屏碎or屏轴损坏</td><td>屏幕与屏轴的物理损坏处理。</td><td>先拍照，再定性</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3228">原文</a></td></tr><tr><td>外壳损坏or开裂</td><td>外壳破损处理。</td><td>不影响功能的破损也要留证</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3231">原文</a></td></tr><tr><td>人为故障</td><td>人为造成故障的判定与处理。</td><td>口径以公司规则为准</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3143">原文</a></td></tr><tr><td>人为损坏</td><td>人为损坏条目的另一处索引。</td><td>与「人为故障」同一份原文</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3143">原文</a></td></tr><tr><td>屏幕黑屏白屏有黑点有白点解决方案</td><td>屏幕显示异常（含物理坏点）。</td><td>坏点数量决定是否属于质量问题</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993">原文</a></td></tr><tr><td>风扇异响风扇不转的解决方法</td><td>风扇异响与停转。</td><td>灰尘与轴承磨损最常见</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3224">原文</a></td></tr><tr><td>电脑发烫的解决方法</td><td>整机发热问题。</td><td>先清灰再判断是否硬件故障</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3002">原文</a></td></tr><tr><td>笔记本不充电解决方法</td><td>不充电/不识别适配器。</td><td>先换适配器排除</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3208">原文</a></td></tr><tr><td>电池续航短</td><td>续航缩水。</td><td>看电池健康度与损耗</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286">原文</a></td></tr><tr><td>接口使用异常</td><td>USB/HDMI/网口等接口异常。</td><td>交叉验证是接口还是外设</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3210">原文</a></td></tr><tr><td>戴尔3490拔过BIOS电池后加电无显</td><td>特定机型的典型故障。</td><td>按原文步骤恢复 BIOS 设置</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3281">原文</a></td></tr><tr><td>S01电脑清除BIOS方法BIOS有密码</td><td>BIOS 密码清除（S01）。</td><td>需确认资产归属后操作</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3305">原文</a></td></tr><tr><td>笔记本BIOS密码破解方法</td><td>笔记本 BIOS 密码处理。</td><td>合规前提下操作，留记录</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3320">原文</a></td></tr><tr><td>亮机卡显卡驱动安装方法</td><td>装完系统后显示异常。</td><td>先装基础显示驱动</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3391">原文</a></td></tr><tr><td>各设备电源适配器出厂标配</td><td>核对适配器规格。</td><td>功率不足会导致不充电</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3329">原文</a></td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="来源">来源</h2><ul class="fx-refs"><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3228" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 屏裂or屏碎or屏轴损坏</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3143" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 人为故障</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=2993" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 屏幕黑屏白屏有黑点有白点解决方案</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3002" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 电脑发烫的解决方法</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3286" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 电池续航短</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3281" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 戴尔3490拔过BIOS电池后加电无显</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://support.apple.com/zh-cn/guide/mac-help/welcome/mac" target="_blank" rel="noopener nofollow">Apple 支持 — Mac 使用手册</a><span class="fx-refs__meta">OFFICIAL</span></li><li><a class="fx-link" href="https://support.apple.com/zh-cn/guide/disk-utility/welcome/mac" target="_blank" rel="noopener nofollow">Apple 支持 — 在 Mac 上使用「磁盘工具」</a><span class="fx-refs__meta">OFFICIAL</span></li></ul></section>
+<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>
+<h2 class="fx-h2">相关资料</h2><div class="fx-related"><a href="../fix/sop-pe-usb-install.html">PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装</a><a href="../fix/sop-macos-maintain.html">Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移</a><a href="../fix/sop-diagnose-tools.html">故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-17 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">📄 快速概览</a></li><li><a href="#适用对象">适用对象</a></li><li><a href="#风险提示">风险提示</a></li><li><a href="#分步骤">分步骤</a></li><li><a href="#处理明细">处理明细</a></li><li><a href="#仍需帮助">仍需帮助</a></li><li><a href="#原始-sop">原始 SOP</a></li><li><a href="#来源">来源</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-17</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

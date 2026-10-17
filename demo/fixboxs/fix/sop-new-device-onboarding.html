@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>新机交付与日常使用规范：开箱检测、跳过联网、防卡顿与一键还原 · 修盒子 FIXBOX</title>
+<meta name="description" content="SOP 的「客户类」把新员工领电脑这件事拆成了几步：开箱检测 → 跳过联网激活 → 性能优化 → 使用规范。 这几条不属于「坏了才看」，而是交付时就该做完，能省掉后面大量「电脑很卡」「系统被改坏」的工单。 本页共整理 5">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="sop-new-device-onboarding" data-kind="reference">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual" aria-current="page">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ref-manual">装机与运维手册</a><span class="fx-crumb__sep">›</span><span>装系统与 PE</span></nav>
+<h1 class="fx-title">新机交付与日常使用规范：开箱检测、跳过联网、防卡顿与一键还原</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows</span><span class="fx-badge fx-badge--ref">参考 SOP</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>
+<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2><p class="fx-p">SOP 的「客户类」把<strong>新员工领电脑</strong>这件事拆成了几步：开箱检测 → 跳过联网激活 → 性能优化 → 使用规范。</p>
+<p class="fx-p">这几条不属于「坏了才看」，而是<strong>交付时就该做完</strong>，能省掉后面大量「电脑很卡」「系统被改坏」的工单。</p>
+<p class="fx-p">本页共整理 <strong>5</strong> 条 SOP 条目，全部保留原始链接；处理细节以原文为准。</p></div>
+<section data-reveal><h2 class="fx-h2" id="适用对象">适用对象</h2><p class="fx-p">负责新机交付的工程师；要给客户讲使用规范的同事。</p></section>
+<section data-reveal><h2 class="fx-h2" id="风险提示">风险提示</h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 动手前请逐条核对；涉及数据、证件、客户设备安全的操作，先取得授权再执行。</div></div>
+<ol class="fx-ol"><li>新机开箱检测要在<strong>客户面前完成</strong>并留记录，避免后期外观争议。</li><li>跳过联网激活后仍需完成系统更新与驱动，否则首次使用体验很差。</li><li>首次使用若用第三方「激活/优化工具」，后续会引发大量系统问题，明确禁止。</li></ol></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">开箱与检测</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>外观 + 通电 + 基础功能一次过</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>外观、屏幕、接口、硬盘/内存配置与工单一致。</li><li>按「新机检测以及跳过联网激活以及优化性能」走完整流程。</li><li>记录 SN 与外观照片。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 1 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">系统初始化</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>跳过联网、完成更新</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按原文跳过 OOBE 联网，使用本地账户（也可以走「Windows11 跳过联网使用本地账户方法」）。</li><li>完成系统更新与驱动安装，再交付客户。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 2 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">性能与规范设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把「以后会卡」的因素提前消掉</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>关闭不必要的开机自启与启动项（「电脑使用防止卡顿操作手册」）。</li><li>开启存储感知与高性能电源模式（视场景）。</li><li>告知客户：不要装系统加速类、清理类、多合一安全卫士。</li><li>教会客户使用「易点云设备一键还原」做自助恢复。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 3 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">交付与说明</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>教会客户怎么用，比帮他修更重要</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>交接登录方式、常用软件、数据盘位置。</li><li>说明中病毒/可疑操作的处置方式（「电脑疑似中病毒处理方法」）。</li><li>留下售后与报障入口。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>第 4 步的操作都完成后，问题现象能被复现或排除，并能对应到下面「原始 SOP」里的具体条目。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>对不上具体条目 → 回到「快速概览」确认现象描述，或按「仍需帮助」一节的说明升级。</div></details></div></li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="处理明细">处理明细</h2><p class="fx-p">上表是把条目「按顺序摊开」；这一节给每一条一条带编号的明细，写入工单时可以直接引用编号，例如「按 SOP 第 12 条的步骤处理」。</p>
+<h3 class="fx-h3" style="font-size:16.5px">01｜新机检测以及跳过联网激活以及优化性能</h3>
+<p class="fx-p"><strong>是什么</strong>：新机交付的标准流程。</p>
+<ul class="fx-ul"><li>提醒：检测在客户面前完成</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3175">新机检测以及跳过联网激活以及优化性能</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">02｜新员工领用电脑与使用SOP</h3>
+<p class="fx-p"><strong>是什么</strong>：新员工领用与使用规范。</p>
+<ul class="fx-ul"><li>提醒：讲解完再签字</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3176">新员工领用电脑与使用SOP</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">03｜电脑使用防止卡顿操作手册</h3>
+<p class="fx-p"><strong>是什么</strong>：预防卡顿的日常操作规范。</p>
+<ul class="fx-ul"><li>提醒：自启越少越好</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3177">电脑使用防止卡顿操作手册</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">04｜电脑疑似中病毒处理方法</h3>
+<p class="fx-p"><strong>是什么</strong>：疑似中毒的自查与上报。</p>
+<ul class="fx-ul"><li>提醒：先断网，别自己乱删</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3178">电脑疑似中病毒处理方法</a></p>
+<h3 class="fx-h3" style="font-size:16.5px">05｜易点云设备一键还原恢复出厂系统</h3>
+<p class="fx-p"><strong>是什么</strong>：一键还原的使用。</p>
+<ul class="fx-ul"><li>提醒：还原前先备份</li></ul>
+<p class="fx-p"><strong>原文</strong>：<a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3283">易点云设备一键还原恢复出厂系统</a></p></section>
+<section data-reveal><h2 class="fx-h2" id="仍需帮助">仍需帮助</h2><ul class="fx-ul"><li>原文能对上但做不下去：按「工单升级方法」带上截图与现象升级，不要在客户现场硬试。</li><li>本文与原文不一致：以原文为准，并在「纠错与反馈」告诉我们，我们会回来更新这份索引。</li><li>需要看具体的排障思路，而不是 SOP 索引：去「领域」页找对应的故障教程。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="原始-sop">原始 SOP（原文链接）</h2><p class="fx-p">下表的「原文」全部指向公司 SOP 知识库（需要内部账号登录）。点击即可核对处理步骤、截图与注意事项。</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>条目</th><th>是什么 / 什么时候用</th><th>一句话提醒</th><th>原文</th></tr></thead><tbody><tr><td>新机检测以及跳过联网激活以及优化性能</td><td>新机交付的标准流程。</td><td>检测在客户面前完成</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3175">原文</a></td></tr><tr><td>新员工领用电脑与使用SOP</td><td>新员工领用与使用规范。</td><td>讲解完再签字</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3176">原文</a></td></tr><tr><td>电脑使用防止卡顿操作手册</td><td>预防卡顿的日常操作规范。</td><td>自启越少越好</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3177">原文</a></td></tr><tr><td>电脑疑似中病毒处理方法</td><td>疑似中毒的自查与上报。</td><td>先断网，别自己乱删</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3178">原文</a></td></tr><tr><td>易点云设备一键还原恢复出厂系统</td><td>一键还原的使用。</td><td>还原前先备份</td><td><a class="fx-link" target="_blank" rel="noopener" href="https://mvs-h5.edianzu.cn/tips-detail?id=3283">原文</a></td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="来源">来源</h2><ul class="fx-refs"><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3175" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 新机检测以及跳过联网激活以及优化性能</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3176" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 新员工领用电脑与使用SOP</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3177" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 电脑使用防止卡顿操作手册</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3178" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 电脑疑似中病毒处理方法</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://mvs-h5.edianzu.cn/tips-detail?id=3283" target="_blank" rel="noopener nofollow">公司 SOP 知识库 — 易点云设备一键还原恢复出厂系统</a><span class="fx-refs__meta">INTERNAL</span></li><li><a class="fx-link" href="https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/windows-commands" target="_blank" rel="noopener nofollow">Microsoft Learn — Windows 命令参考</a><span class="fx-refs__meta">OFFICIAL</span></li><li><a class="fx-link" href="https://support.microsoft.com/zh-cn/windows" target="_blank" rel="noopener nofollow">Microsoft Support — Windows 帮助中心</a><span class="fx-refs__meta">OFFICIAL</span></li></ul></section>
+<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>
+<h2 class="fx-h2">相关资料</h2><div class="fx-related"><a href="../fix/sop-pe-usb-install.html">PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装</a><a href="../fix/sop-macos-maintain.html">Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移</a><a href="../fix/sop-diagnose-tools.html">故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-17 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">📄 快速概览</a></li><li><a href="#适用对象">适用对象</a></li><li><a href="#风险提示">风险提示</a></li><li><a href="#分步骤">分步骤</a></li><li><a href="#处理明细">处理明细</a></li><li><a href="#仍需帮助">仍需帮助</a></li><li><a href="#原始-sop">原始 SOP</a></li><li><a href="#来源">来源</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-17</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

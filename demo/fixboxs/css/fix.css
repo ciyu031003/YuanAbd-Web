@@ -202,6 +202,22 @@ html.fx-entering.fx-ready body{opacity:1;transform:none;transition:opacity .5s v
 .fx-badge--safe{background:var(--risk-safe-bg);color:var(--risk-safe)}
 .fx-badge--caution{background:var(--risk-caution-bg);color:var(--risk-caution)}
 .fx-badge--danger{background:var(--risk-danger-bg);color:var(--risk-danger)}
+/* 参考资料（第三方 SOP / 官方手册）标识：与故障教程的「入门/进阶」等级徽章区分开 */
+.fx-badge--ref{background:var(--fx-lav-soft);color:var(--fx-lav-ink);border-color:color-mix(in srgb,var(--fx-lav-ink) 32%,transparent)}
+
+/* ---------- 5b. 参考资料页 ---------- */
+.fx-refbox{
+  margin:18px 0 8px;padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.7;
+  background:var(--fx-lav-soft);color:var(--fx-lav-ink);
+  border:1.5px dashed color-mix(in srgb,var(--fx-lav-ink) 38%,transparent)
+}
+.fx-refs{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.fx-refs li{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding:10px 14px;border-radius:12px;background:var(--fx-card);border:1.5px solid var(--fx-line-strong)
+}
+.fx-refs li a{word-break:break-all}
+.fx-refs__meta{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--fx-ink-3);font-family:var(--mono,ui-monospace,monospace)}
 
 /* ---------- 6. 蓝图虚线连线（StrategyBreakdowns 标志性元素） ---------- */
 .fx-connector{position:relative;height:64px;margin:6px auto;max-width:760px;pointer-events:none}

@@ -42,6 +42,23 @@ node build-portal.cjs         # 重新内联
 node build-portal.cjs --check # 校验产物与源文件是否同步
 ```
 
+## 修盒子（pc-fixboxs）内容
+
+| 内容 | 源 | 产出 |
+|---|---|---|
+| 故障教程 30 篇 | `content/fixboxs/*.md` | `demo/fixboxs/fix/*.html` + `data/articles.js` |
+| **参考资料 13 篇（SOP）** | `content/fixboxs/sop-*.md`，由 `content/sop-source/` 生成 | 同上，带「参考 SOP」标识 |
+| 分类字典 | `content/taxonomy.json`（故障 12 领域 + 参考 2 领域） | 后台下拉框与构建共用 |
+
+```bash
+node content-lint.cjs        # 内容校验（V1–V15，失败非零退出）
+node build-fix.cjs           # 构建站点产物
+node content/sop-source/import-xlsx.cjs <SOP.xlsx>   # 校验 SOP 表格与 catalog 一一对应
+node content/sop-source/gen.cjs                      # 由 catalog 重新生成 13 篇 SOP 参考资料
+```
+
+SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.md](content/sop-source/README.md)。
+
 ## 本地预览
 
 ```bash

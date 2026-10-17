@@ -29,6 +29,24 @@ TAXONOMY.domains.forEach(function (d) {
   DOMAINS[d.id] = d.name;
   d.cats.forEach(function (c) { CATS[c.id] = c.name; });
 });
+/* ---------- 参考资料（第三方 SOP / 官方手册） ----------
+   与「故障教程」同一个内容目录、同一条构建链，但渲染形态不同：
+     · 目录里是参考手册而不是排障步骤，10 段骨架套不上；
+     · 正文按「快速概览 / 分步骤 / 风险提示 / 原始 SOP」组织，原文链接原样保留；
+     · 列表里标成「参考」并单独成组，避免读者误以为是本站原创排障结论。
+   判定用两个信号：front-matter 的 kind: reference，或 domain 属于下面两个领域。
+   两个信号都要认，是因为后台编辑器不一定总带上 kind 字段。 */
+const REFERENCE_DOMAINS = ["ref-manual", "ref-field"];
+const isReference = (meta) => meta.kind === "reference" || REFERENCE_DOMAINS.indexOf(meta.domain) >= 0;
+/* 参考资料专属段落：单独渲染，不进目录的普通 h2 流程之外的「分步骤」步骤卡 */
+const REFERENCE_SECTIONS = {
+  overview: ["快速概览", "一句话结论"],
+  steps: ["分步骤", "处理步骤"],
+  risks: ["风险提示", "注意事项"],
+  origin: ["原始 SOP", "原文链接"],
+  who: ["适用对象", "适用 / 不适用"]
+};
+
 /* slug → 标题 映射，由主流程预扫描后填充，供「相关教程」生成可点击链接 */
 const TITLES = {};
 const PRIORITY = ["wifi-connected-but-no-internet","win-blackscreen-cursor","ip-conflict-locate-device",
@@ -205,7 +223,147 @@ function renderSteps(md) {
   }).join("\n");
 }
 
+/* ---------- 参考资料页：与故障教程同一套 shell，但正文按手册形态渲染 ----------
+   blockName(name) 容忍同义标题（例如「一句话结论」与「快速概览」并存）。 */
+function refSection(body, names) {
+  const sections = String(body).split(/^##\s+/m);
+  for (const sec of sections) {
+    const nl = sec.indexOf("\n");
+    const name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
+    if (names.indexOf(name) >= 0) return nl >= 0 ? sec.slice(nl + 1) : "";
+  }
+  return "";
+}
+
+/* 参考资料的分步骤：用 ## 分步骤 下的 ### 步骤 N，渲染成与教程同款步骤卡（无「失败怎么办」折叠时自动省略） */
+function renderReference(meta, body) {
+  const slug = meta.slug || slugify(meta.title);
+  const dom = DOMAINS[meta.domain] || meta.domain || "";
+  const cat = CATS[meta.category] || meta.category || "";
+  body = String(body).replace(/^\s*#\s+[^\n]*\n/, "");
+
+  // 把正文按 ## 拆块，再按「哪些块已被专用区块吃掉」决定剩余块的输出顺序
+  const sections = body.split(/^##\s+/m).filter(function (x) { return x.trim(); });
+  const blocks = {}, order = [];
+  sections.forEach(function (sec) {
+    const nl = sec.indexOf("\n");
+    const name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
+    blocks[name] = nl >= 0 ? sec.slice(nl + 1) : "";
+    order.push(name);
+  });
+  const taken = function (names) {
+    return order.filter(function (n) { return names.indexOf(n) >= 0; });
+  };
+  const overviewNames = taken(REFERENCE_SECTIONS.overview);
+  const whoNames = taken(REFERENCE_SECTIONS.who);
+  const riskNames = taken(REFERENCE_SECTIONS.risks);
+  const stepNames = taken(REFERENCE_SECTIONS.steps);
+  const originNames = taken(REFERENCE_SECTIONS.origin);
+  const consumed = overviewNames.concat(whoNames, riskNames, stepNames, originNames);
+
+  const overview = overviewNames.map(function (n) { return blocks[n]; }).join("\n");
+  const who = whoNames.map(function (n) { return blocks[n]; }).join("\n");
+  const risks = riskNames.map(function (n) { return blocks[n]; }).join("\n");
+  const stepMd = stepNames.map(function (n) { return blocks[n]; }).join("\n");
+  const originMd = originNames.map(function (n) { return blocks[n]; }).join("\n");
+
+  const riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
+  const rk = riskMap[meta.risk] || riskMap["需谨慎"];
+  const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
+  const osKey = /mac/i.test(osList.join(" ")) ? "macos" : "windows";
+  const srcArr = Array.isArray(meta.sources) ? meta.sources : [];
+  const badges = osList.slice(0, 2).map(function (o) { return '<span class="fx-badge fx-badge--os" data-os="' + osKey + '">' + esc(o) + "</span>"; }).join("") +
+    '<span class="fx-badge fx-badge--ref">参考 SOP</span>' +
+    (meta.time ? '<span class="fx-badge fx-badge--time">' + esc(meta.time) + "</span>" : "") +
+    '<span class="fx-badge fx-badge--' + rk[0] + '">' + rk[1] + "</span>";
+
+  // 原始 SOP 区块：front-matter 的 sources 由模板统一渲染，正文里若重复则不再输出
+  const sourcesHtml = srcArr.length ? '<ul class="fx-refs">' + srcArr.map(function (s) {
+    if (!s || !s.url) return "";
+    return '<li><a class="fx-link" href="' + escAttr(s.url) + '" target="_blank" rel="noopener nofollow">' +
+      esc(s.title || s.url) + '</a><span class="fx-refs__meta">' + esc(String(s.type || "").toUpperCase()) + "</span></li>";
+  }).join("") + "</ul>" : "";
+
+  const relRaw = (Array.isArray(meta.related) ? meta.related : [meta.related]).filter(Boolean).slice(0, 4);
+  const related = relRaw.map(function (r) {
+    const key = String(r).trim();
+    if (TITLES[key]) return { href: "../fix/" + key + ".html", label: TITLES[key] };
+    return { href: "../search.html?q=" + encodeURIComponent(key.replace(/-/g, " ")), label: key };
+  });
+  const concludeTxt = String(overview).replace(/[#*>`]/g, "").replace(/\s+/g, " ").trim();
+  const desc = concludeTxt.slice(0, 110);
+
+  const rest = order.filter(function (n) { return consumed.indexOf(n) < 0; });
+
+  return [
+    '<!DOCTYPE html>', '<html lang="zh-CN">', "<head>", '<meta charset="UTF-8">',
+    '<meta name="viewport" content="width=device-width,initial-scale=1">',
+    "<title>" + esc(meta.title) + " · 修盒子 FIXBOX</title>",
+    '<meta name="description" content="' + escAttr(desc) + '">',
+    '<meta name="robots" content="' + (meta.index === "no" ? "noindex" : "index,follow") + '">',
+    "<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E\">",
+    CRITICAL, BOOT,
+    '<link rel="stylesheet" href="../../css/tokens.css">',
+    '<link rel="stylesheet" href="../css/theme-fix.css">',
+    '<link rel="stylesheet" href="../css/fix.css">',
+    '<link rel="stylesheet" href="../css/fix-neu.css">',
+    "</head>", '<body data-slug="' + escAttr(slug) + '" data-kind="reference">',
+    PRELOADER,
+    '<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>',
+    '<a class="fx-skip" href="#main">跳到主要内容</a>',
+    '<header class="fx-top"><div class="fx-top__inner">',
+    '<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>',
+    '<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>',
+    '<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>',
+    "</div></header>",
+    '<main id="main" class="fx-wrap">', '<div class="fx-doc">',
+    '<aside class="fx-doc__nav"><h3>当前领域</h3><ul>' +
+      Object.keys(DOMAINS).map(function (k) { return '<li><a href="../browse.html#' + k + '"' + (k === meta.domain ? ' aria-current="page"' : "") + ">" + DOMAINS[k] + "</a></li>"; }).join("") +
+      "</ul></aside>",
+    "<article>",
+    '<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#' + escAttr(meta.domain || "") + '">' + esc(dom) + "</a>" +
+      (cat ? '<span class="fx-crumb__sep">›</span><span>' + esc(cat) + "</span>" : "") + "</nav>",
+    '<h1 class="fx-title">' + esc(meta.title) + "</h1>",
+    '<div class="fx-meta">' + badges +
+      '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
+    '<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
+    (overview ? '<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : ""),
+    (who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : ""),
+    (risks ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("风险提示") + '">风险提示</h2>' + mdToHtml(risks) + "</section>" : ""),
+    (stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : ""),
+    rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>"; }).join("\n"),
+    (originMd ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("原始 SOP") + '">原始 SOP（原文链接）</h2>' + mdToHtml(originMd) + "</section>" : ""),
+    (sourcesHtml ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("来源") + '">来源</h2>' + sourcesHtml + "</section>" : ""),
+    '<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>',
+    '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>',
+    (related.length ? '<h2 class="fx-h2">相关资料</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),
+    '<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：' + esc(meta.updated || "") + " · 复核：" + esc(meta.reviewer || "") + "</p>",
+    "</article>",
+    '<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' +
+      (overview ? '<li><a href="#' + slugify("一句话结论") + '">📄 快速概览</a></li>' : "") +
+      (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
+      (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
+      (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
+      rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
+      (originMd ? '<li><a href="#' + slugify("原始 SOP") + '">原始 SOP</a></li>' : "") +
+      (sourcesHtml ? '<li><a href="#' + slugify("来源") + '">来源</a></li>' : "") +
+      "</ul></aside>",
+    "</div>", '<div style="height:60px"></div>', "</main>",
+    '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
+    '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
+    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>',
+    '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
+    '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
+    "</div>",
+    '<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：' + esc(meta.updated || "") + "</span></div>",
+    "</div></footer>",
+    '<script src="../data/articles.js"></script>', '<script src="../js/fix.js"></script>',
+    "</body>", "</html>",
+  ].join("\n");
+}
+
 function renderArticle(meta, body) {
+  if (isReference(meta)) return renderReference(meta, body);
   const slug = meta.slug || slugify(meta.title);
   const dom = DOMAINS[meta.domain] || meta.domain || "";
   const cat = CATS[meta.category] || meta.category || "";
@@ -379,13 +537,16 @@ function main() {
     }
     const html = renderArticle(meta, parsed.body);
     fs.writeFileSync(path.join(OUT_FIX, meta.slug + ".html"), html, "utf8");
-    const conclusion = (parsed.body.match(/^##\s*一句话结论\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1];
+    const conclusion = isReference(meta)
+      ? (parsed.body.match(/^##\s*(?:一句话结论|快速概览)\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1]
+      : (parsed.body.match(/^##\s*一句话结论\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1];
     const summary = conclusion.replace(/[#*>\x60]/g, "").replace(/\s+/g, " ").trim().slice(0, 96);
     const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
     const osGroup = [];
     if (/mac/i.test(osList.join(" "))) osGroup.push("macos");
     if (/windows|win/i.test(osList.join(" "))) osGroup.push("windows");
     if (["router", "net-basic", "ip-dns"].indexOf(meta.domain) >= 0) osGroup.push("network");
+    if (isReference(meta)) osGroup.push("reference");
     const pr = PRIORITY.indexOf(meta.slug);
     articles.push({
       slug: meta.slug, title: meta.title,
@@ -399,6 +560,7 @@ function main() {
       symptoms: Array.isArray(meta.symptoms) ? meta.symptoms : [],
       keywords: Array.isArray(meta.keywords) ? meta.keywords : [],
       updated: meta.updated || "",
+      kind: isReference(meta) ? "reference" : "guide",
       hot: pr >= 0 ? 31 - pr : 1
     });
   });

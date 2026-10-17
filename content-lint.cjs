@@ -39,6 +39,14 @@ function loadTaxonomy() {
 // 历史坑：V1.0 方案把它当成两个标题，导致 validator 按 11 段实现而判死全部文章。
 /* 必写段落（硬约束）：正文可以自由组织，但这两段是「能被读懂 + 能被照着做」的底线 */
 const REQUIRED_SECTIONS = ["一句话结论", "分步骤"];
+/* 参考资料（kind: reference / ref-* 领域）另有一套骨架：
+   它们索引的是别人的 SOP 手册，用「快速概览」而不是「一句话结论」。
+   两套骨架共用 V7（分步骤下必须有 ### 步骤 N）。 */
+const REFERENCE_DOMAINS = ["ref-manual", "ref-field"];
+const REFERENCE_SECTIONS = ["快速概览", "分步骤"];
+const isReferenceMeta = function (meta) {
+  return meta && (meta.kind === "reference" || REFERENCE_DOMAINS.indexOf(meta.domain) >= 0);
+};
 /* 建议段落（仅提示）：保持站内一致性，不阻塞发布 */
 const SUGGESTED_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "还是不行？", "预防", "相关教程", "更新日志"];
 /* 完整骨架（编辑器预置、新建时使用） */
@@ -163,13 +171,14 @@ function lintFile(fileName, opts) {
     return h2.some(function (a) { return isSectionMatch(a, canon); });
   };
   // 必写：至少要有一个「结论/概述」段和一个「怎么做」段
-  REQUIRED_SECTIONS.forEach(function (canon) {
+  const required = isReferenceMeta(meta) ? REFERENCE_SECTIONS : REQUIRED_SECTIONS;
+  required.forEach(function (canon) {
     if (!hasSection(canon)) {
       add("V6a", "error", "正文缺少必要段落：## " + canon + "（其余段落可自由组织）");
     }
   });
-  // 建议：保持知识库的一致性，但不拦
-  SUGGESTED_SECTIONS.forEach(function (canon) {
+  // 建议：保持知识库的一致性，但不拦（参考资料是索引手册，不套教程骨架，跳过）
+  if (!isReferenceMeta(meta)) SUGGESTED_SECTIONS.forEach(function (canon) {
     if (!hasSection(canon)) {
       add("V6b", "warn", "建议补充段落：## " + canon);
     }
@@ -194,7 +203,7 @@ function lintFile(fileName, opts) {
   }
 
   // V11: 非「安全」时应有风险提示块
-  if (meta.risk && meta.risk !== "安全") {
+  if (meta.risk && meta.risk !== "安全" && !isReferenceMeta(meta)) {
     const head = String(parsed.body).slice(0, 1200);
     if (!/^>\s*.*(风险|谨慎|备份|⛔|⚠)/m.test(head)) {
       add("V11", "warn", "risk 为「" + meta.risk + "」但正文开头未见风险提示块");

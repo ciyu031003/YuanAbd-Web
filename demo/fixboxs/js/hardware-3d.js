@@ -432,6 +432,118 @@
   /* 风扇（用于圆柱面，简化为环形扇叶图案） */
   function drawFanShort(g, w, h) { drawFan(g, w, h, "#3A4350", "#A995FF"); }
 
+  /* 方形冲孔网（联想前脸 / 侧板） */
+  function drawPerf(g, w, h, base, dense) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    var step = dense ? 16 : 24;
+    for (var y = step / 2; y < h; y += step) {
+      for (var x = step / 2; x < w; x += step) {
+        g.fillStyle = "rgba(0,0,0,.72)";
+        roundRect(g, x - 5, y - 5, 10, 10, 2.5); g.fill();
+        g.fillStyle = "rgba(255,255,255,.06)";
+        roundRect(g, x - 5, y - 3, 10, 3, 1.5); g.fill();
+      }
+    }
+  }
+
+  /* 六边形蜂巢网（惠普后置风扇 / 惠普前脸） */
+  function drawHoneycomb(g, w, h, base, radius) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    var r = radius || 15, dx = r * 1.74, dy = r * 1.5;
+    for (var row = 0, y = r; y < h + r; row++, y += dy) {
+      for (var x = (row % 2 ? dx / 2 : 0) + r; x < w + dx; x += dx) {
+        g.beginPath();
+        for (var i = 0; i < 6; i++) {
+          var a = Math.PI / 180 * (60 * i - 30);
+          var px = x + r * Math.cos(a), py = y + r * Math.sin(a);
+          i ? g.lineTo(px, py) : g.moveTo(px, py);
+        }
+        g.closePath();
+        g.fillStyle = "rgba(0,0,0,.78)"; g.fill();
+        g.strokeStyle = "rgba(255,255,255,.07)"; g.lineWidth = 1.5; g.stroke();
+      }
+    }
+  }
+
+  /* 横向格栅（戴尔前脸 / 顶部散热） */
+  function drawSlots(g, w, h, base, gap) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    var step = gap || 22;
+    for (var y = step / 2; y < h; y += step) {
+      g.fillStyle = "rgba(0,0,0,.72)";
+      roundRect(g, 8, y - 3.5, w - 16, 7, 3.5); g.fill();
+      g.fillStyle = "rgba(255,255,255,.06)";
+      roundRect(g, 8, y - 3.5, w - 16, 2, 1); g.fill();
+    }
+  }
+
+  /* 深色 PCB（联想 T560 这类黑板） */
+  function drawPCBDark(g, w, h) {
+    g.fillStyle = "#141A20"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 800, .08, true);
+    for (var i = 0; i < 60; i++) {
+      var x = Math.random() * w, y = Math.random() * h;
+      g.strokeStyle = "rgba(150,170,190," + (0.06 + Math.random() * 0.12).toFixed(2) + ")";
+      g.lineWidth = 1 + Math.random();
+      g.beginPath(); g.moveTo(x, y);
+      for (var s2 = 0; s2 < 4; s2++) {
+        if (Math.random() > 0.5) x += (Math.random() - 0.5) * 140; else y += (Math.random() - 0.5) * 140;
+        g.lineTo(x, y);
+      }
+      g.stroke();
+    }
+    for (var p = 0; p < 110; p++) {
+      g.fillStyle = Math.random() > 0.5 ? "#C9A227" : "#9AA4AE";
+      g.beginPath(); g.arc(Math.random() * w, Math.random() * h, 1.2 + Math.random() * 2, 0, Math.PI * 2); g.fill();
+    }
+    for (var ch = 0; ch < 20; ch++) {
+      var cw = 14 + Math.random() * 52, chh = 10 + Math.random() * 30;
+      var cx = Math.random() * (w - cw), cy = Math.random() * (h - chh);
+      g.fillStyle = "#0A0E12"; g.fillRect(cx, cy, cw, chh);
+      g.strokeStyle = "rgba(255,255,255,.10)"; g.lineWidth = 1; g.strokeRect(cx + .5, cy + .5, cw - 1, chh - 1);
+    }
+    g.fillStyle = "rgba(220,230,240,.42)";
+    g.font = "bold 12px ui-monospace,monospace";
+    ["DIMM_A1", "DIMM_B1", "PCIE_X16", "M.2_1", "SATA0", "CPU_FAN", "ATX_PWR", "T560 MB"].forEach(function (t, i) {
+      g.fillText(t, 22 + (i % 4) * 240, 40 + Math.floor(i / 4) * 900);
+    });
+  }
+
+  /* 内存马甲：黑色金属 + 蓝色电路纹 + 品牌条 + 标签 */
+  function drawRamHeatsink(g, w, h) {
+    var grd = g.createLinearGradient(0, 0, w, 0);
+    grd.addColorStop(0, "#2A3038"); grd.addColorStop(.45, "#3A424D"); grd.addColorStop(1, "#232830");
+    g.fillStyle = grd; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 400, .05, true);
+    // 蓝色电路纹
+    g.strokeStyle = "rgba(60,140,220,.55)"; g.lineWidth = 2;
+    for (var i = 0; i < 6; i++) {
+      g.beginPath();
+      var y = 60 + i * 18;
+      g.moveTo(40, y); g.lineTo(150 + i * 12, y); g.lineTo(190 + i * 12, y - 14); g.lineTo(300, y - 14);
+      g.stroke();
+      g.fillStyle = "rgba(80,170,255,.75)";
+      g.beginPath(); g.arc(300, y - 14, 3, 0, Math.PI * 2); g.fill();
+    }
+    // 竖排品牌条
+    g.fillStyle = "#C8D0DA";
+    for (var k = 0; k < 4; k++) g.fillRect(60, 150 + k * 26, 120, 7);
+    // 标签
+    g.save();
+    g.translate(w * .62, h * .42); g.rotate(Math.PI / 2);
+    g.fillStyle = "#F2F5F8"; g.fillRect(0, 0, 220, 90);
+    g.fillStyle = "#1A1F2B"; g.font = "bold 20px ui-monospace,monospace";
+    g.fillText("Lenovo", 16, 32);
+    g.font = "13px ui-monospace,monospace"; g.fillStyle = "#4A5361";
+    g.fillText("8GB 1Rx8 PC4-3200AA", 16, 56);
+    g.fillText("FRU PN:5M30V06967", 16, 76);
+    g.restore();
+    // 金手指
+    g.fillStyle = "#C9A227"; g.fillRect(0, h - 30, w, 30);
+    g.strokeStyle = "rgba(0,0,0,.35)"; g.lineWidth = 2;
+    for (var p2 = 0; p2 < 26; p2++) { g.beginPath(); g.moveTo(p2 * (w / 26), h - 30); g.lineTo(p2 * (w / 26), h); g.stroke(); }
+  }
+
   /* 电池：外壳 + 警示标签 */
   function drawBattery(g, w, h) {
     g.fillStyle = "#0F766E"; g.fillRect(0, 0, w, h);
@@ -632,159 +744,257 @@
     hp:     { badge: "#0096D6", bezel: "#39424F", chassis: "#4A5260", accent: "#0096D6", psuTop: true,  face: "hp" }
   };
 
+  var BRAND = {
+    lenovo: { badge: "#E2231A", bezel: "#1B1F25", chassis: "#1A1E24", accent: "#E2231A", face: "lenovo", glass: true,  psuTop: true  },
+    dell:   { badge: "#0672CB", bezel: "#1E232A", chassis: "#232830", accent: "#0672CB", face: "dell",   glass: false, psuTop: false },
+    hp:     { badge: "#0096D6", bezel: "#2A3038", chassis: "#3C434D", accent: "#0096D6", face: "hp",     glass: false, psuTop: true  }
+  };
+
+  /* 机箱前脸：三个品牌各是一种「一眼能认出」的开孔方式
+     · 联想 刃7000K：大面积方形冲孔网 + 左侧竖向 I/O 条
+     · 戴尔 OptiPlex：横向格栅 + 中部银色腰带 + 圆形徽标
+     · 惠普 Pavilion：蜂巢/六边形孔 + 左侧银色竖条 + 顶部光驱挡板 */
+  function frontFaceTexture(brand) {
+    if (brand.face === "lenovo") return { key: "face-lenovo", draw: function (g, w, h) { drawPerf(g, w, h, "#1A1E24", false); } };
+    if (brand.face === "hp")     return { key: "face-hp",     draw: function (g, w, h) { drawHoneycomb(g, w, h, "#2A3038", 8); } };
+    return { key: "face-dell", draw: function (g, w, h) { drawSlots(g, w, h, "#1E232A"); } };
+  }
+
   function buildTower(brandId) {
     var B = BRAND[brandId] || BRAND.lenovo;
     var root = new THREE.Group();
     var wall = flatMat(B.chassis);
-    /* 机箱骨架在分解时淡出：深色板子会把里面的零件全挡住，
-       这是「分解图看不清」最直接的原因。淡出后零件立刻可读。 */
     state.fadeMats = [wall];
     state.fadeSoft = [];
 
-    /* ---- 机箱骨架：五块薄板围出框架，右侧敞开（侧板可拆） ---- */
+    /* ---------- 机箱骨架：五块薄板围出框架，右侧敞开 ---------- */
     addMesh(root, new THREE.BoxGeometry(0.7, T.H, T.D), wall, [-T.W / 2 + 0.35, T.H / 2, 0]);
     addMesh(root, new THREE.BoxGeometry(T.W, 0.7, T.D), wall, [0, T.H - 0.35, 0]);
     addMesh(root, new THREE.BoxGeometry(T.W, 0.7, T.D), wall, [0, 0.35, 0]);
     addMesh(root, new THREE.BoxGeometry(T.W, T.H, 0.7), wall, [0, T.H / 2, -T.D / 2 + 0.35]);
 
-    /* ---- 侧板（可拆） ---- */
+    /* ---------- 顶部散热孔 ---------- */
+    addMesh(root, new THREE.BoxGeometry(T.W - 2.2, 0.05, 16),
+      texMat("topVent", 512, 512, function (g, w, h) { drawSlots(g, w, h, B.chassis, 14); }, {}),
+      [0.4, T.H - 0.02, -6], { edges: false });
+
+    /* ---------- 后部：I/O 挡板 + 扩展槽挡片 + 六边形风扇网 ---------- */
+    var rearG = new THREE.Group();
+    var zr = -T.D / 2 + 0.72;
+    addMesh(rearG, new THREE.BoxGeometry(6.6, 4.6, 0.12), flatMat("#8E959E"), [-4.4, 31, zr], { edges: false });
+    // 主板后置接口（色块表达：USB 蓝/黑、网口、音频）
+    [[-6.6, 32.4, "#1B4F9C"], [-6.6, 31.4, "#1B4F9C"], [-5.4, 32.4, "#2A3038"], [-5.4, 31.4, "#2A3038"],
+     [-4.2, 32.4, "#2B6B2F"], [-4.2, 31.4, "#8E959E"]].forEach(function (p) {
+      addMesh(rearG, new THREE.BoxGeometry(0.85, 0.62, 0.16), flatMat(p[2]), [p[0], p[1], zr + 0.06], { edges: false });
+    });
+    // 扩展槽挡片
+    for (var sl = 0; sl < 6; sl++) {
+      addMesh(rearG, new THREE.BoxGeometry(11.6, 1.65, 0.14), flatMat("#7A828C"),
+        [3.4, 12 + sl * 1.75, zr], { edges: true });
+    }
+    // 后置风扇六边形网
+    addMesh(rearG, new THREE.CylinderGeometry(5.0, 5.0, 0.1, 26),
+      texMat("hexRear", 512, 512, function (g, w, h) { drawHoneycomb(g, w, h, "#151A20", 14); }, {}),
+      [-4.5, 30, T.D / -2 + 0.76], { rot: [Math.PI / 2, 0, 0], edges: false });
+    root.add(rearG);
+
+    /* ---------- 侧板：联想是玻璃（能直接看到内部），戴尔/惠普是冲孔钢板 ---------- */
     var sideG = new THREE.Group();
-    addMesh(sideG, new THREE.BoxGeometry(0.7, T.H - 0.8, T.D - 0.8),
-      texMat("sideMetal", 512, 512, function (g, w, h) { drawBrushed(g, w, h, "#8A939E", false); }, {}),
-      [T.W / 2 - 0.35, T.H / 2, 0], { partId: "side-panel" });
-    // 侧板背面加一块冲孔网板：比原来 20 个小方块更真实、mesh 更少
-    addMesh(sideG, new THREE.BoxGeometry(0.05, 12, 12),
-      texMat("vent", 512, 512, function (g, w, h) { drawVent(g, w, h, "#6E7784"); }, {}),
-      [T.W / 2 - 0.72, 30, -2], { partId: "side-panel", edges: false });
+    if (B.glass) {
+      var glassMat = new THREE.MeshLambertMaterial({
+        color: new THREE.Color("#243040"), transparent: true, opacity: 0.34, depthWrite: false
+      });
+      glassMat.userData.baseOpacity = 0.34;
+      addMesh(sideG, new THREE.BoxGeometry(0.28, T.H - 1.0, T.D - 1.0), glassMat,
+        [T.W / 2 - 0.2, T.H / 2, 0], { partId: "side-panel" });
+      // 玻璃边缘的金属包边
+      var rim = flatMat("#151A20");
+      addMesh(sideG, new THREE.BoxGeometry(0.34, 1.2, T.D - 1.0), rim, [T.W / 2 - 0.18, 2.2, 0], { partId: "side-panel", edges: false });
+      addMesh(sideG, new THREE.BoxGeometry(0.34, 1.2, T.D - 1.0), rim, [T.W / 2 - 0.18, T.H - 2.2, 0], { partId: "side-panel", edges: false });
+    } else {
+      addMesh(sideG, new THREE.BoxGeometry(0.7, T.H - 0.8, T.D - 0.8),
+        texMat("sideSteel", 512, 512, function (g, w, h) { drawPerf(g, w, h, "#3A414B", true); }, {}),
+        [T.W / 2 - 0.35, T.H / 2, 0], { partId: "side-panel" });
+      // 免工具拉手
+      addMesh(sideG, new THREE.BoxGeometry(0.9, 3.2, 5.2), flatMat("#2A3038"),
+        [T.W / 2 - 0.1, T.H - 5, -14], { partId: "side-panel" });
+    }
     root.add(sideG);
     registerPart("side-panel", sideG);
-    // 侧板面积大，分解时会挡住整个内部：单独走一档更明显的淡出
-    parts["side-panel"].mats.forEach(function (m) { state.fadeSoft.push(m); });
+    parts["side-panel"].mats.forEach(function (m) {
+      if (m.userData.baseOpacity) state.fadeSoft.push(m);
+    });
 
-    /* ---- 前面板 + 品牌标识 ---- */
+    /* ---------- 前面板 ---------- */
     var bezG = new THREE.Group();
+    var zf = T.D / 2 - 0.6;
     addMesh(bezG, new THREE.BoxGeometry(T.W - 0.4, T.H - 0.8, 1.2),
       texMat("bezelMetal", 512, 512, function (g, w, h) { drawBrushed(g, w, h, B.bezel, true); }, {}),
-      [0, T.H / 2, T.D / 2 - 0.6], { partId: "front-bezel" });
-    // 电源键
-    addMesh(bezG, new THREE.CylinderGeometry(0.85, 0.85, 0.4, 18), flatMat("#C8CDD6"),
-      [4.9, T.H - 5.0, T.D / 2 + 0.1], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
-    // 品牌图标（简易：色块 + 两条杠，避免伪造真实 logo 的商标细节）
-    addMesh(bezG, new THREE.BoxGeometry(2.6, 2.6, 0.26), flatMat(B.badge),
-      [-6.2, T.H - 5.4, T.D / 2 + 0.1], { partId: "front-bezel", edges: false });
+      [0, T.H / 2, zf], { partId: "front-bezel" });
+
+    var ff = frontFaceTexture(B);
+    // 前脸开孔面板（贴在前面板正面）
+    addMesh(bezG, new THREE.BoxGeometry(T.W - 2.6, B.face === "hp" ? 20 : 24, 0.14),
+      texMat(ff.key, 512, 512, ff.draw, {}),
+      [B.face === "lenovo" ? 0.9 : 0, B.face === "hp" ? 19 : 22, zf + 0.62], { partId: "front-bezel", edges: false });
+
+    if (B.face === "lenovo") {
+      // 左侧竖向 I/O 条 + 底部电源键
+      addMesh(bezG, new THREE.BoxGeometry(1.9, 12, 0.2), flatMat("#101418"), [-7.2, 26, zf + 0.64], { partId: "front-bezel", edges: false });
+      [[-7.2, 30.5], [-7.2, 28.9]].forEach(function (p) {
+        addMesh(bezG, new THREE.BoxGeometry(1.0, 0.55, 0.24), flatMat("#2B3038"), [p[0], p[1], zf + 0.72], { partId: "front-bezel", edges: false });
+      });
+      addMesh(bezG, new THREE.BoxGeometry(0.9, 0.5, 0.24), flatMat("#2B3038"), [-7.2, 26.4, zf + 0.72], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.CylinderGeometry(0.85, 0.85, 0.32, 20), flatMat("#C8CDD6"),
+        [-7.2, 5.6, zf + 0.66], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
+      // 左上红色徽标带
+      addMesh(bezG, new THREE.BoxGeometry(0.9, 6.4, 0.16), flatMat(B.accent), [-7.2, 18, zf + 0.66], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(4.2, 1.0, 0.16), flatMat("#E7E9EC"), [-4.6, 34.4, zf + 0.64], { partId: "front-bezel", edges: false });
+    } else if (B.face === "hp") {
+      // 左侧银色竖条 + 顶部光驱挡板 + 上部 I/O
+      addMesh(bezG, new THREE.BoxGeometry(3.0, 34, 0.2), flatMat("#9AA2AC"), [-6.9, 20, zf + 0.64], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(14.6, 4.0, 0.24), flatMat("#22282F"), [1.0, 33.6, zf + 0.66], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(14.6, 4.0, 0.24), flatMat("#22282F"), [1.0, 28.4, zf + 0.66], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(2.6, 1.0, 0.22), flatMat("#2B3038"), [-5.4, 35.6, zf + 0.74], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.CylinderGeometry(0.8, 0.8, 0.3, 18), flatMat("#C8CDD6"),
+        [-2.4, 35.6, zf + 0.7], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(2.2, 1.6, 0.16), flatMat(B.badge), [4.6, 35.4, zf + 0.7], { partId: "front-bezel", edges: false });
+    } else {
+      // 戴尔：中部银色腰带 + 圆形徽标 + 顶部 I/O
+      addMesh(bezG, new THREE.BoxGeometry(16.4, 3.2, 0.2), flatMat("#9AA2AC"), [0, 24.6, zf + 0.64], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.CylinderGeometry(1.8, 1.8, 0.24, 22), flatMat(B.badge),
+        [0, 24.6, zf + 0.76], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.BoxGeometry(3.4, 0.9, 0.2), flatMat("#2B3038"), [-5.6, 35.2, zf + 0.7], { partId: "front-bezel", edges: false });
+      addMesh(bezG, new THREE.CylinderGeometry(0.8, 0.8, 0.3, 18), flatMat("#C8CDD6"),
+        [-2.6, 35.2, zf + 0.72], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
+    }
     root.add(bezG);
-    // 前面板细节（挂在 bezG 下，跟着前面板一起分解）
-    (function () {
-      var sub = new THREE.Group(); sub.userData.partId = "front-bezel";
-      bezG.add(sub);
-      var holder = sub;
-      var zf = T.D / 2 + 0.14;
-      var dark = flatMat("#1A1F2B");
-      if (B.face === "lenovo") {
-        addMesh(holder, new THREE.BoxGeometry(1.2, 9.5, 0.3), flatMat(B.accent), [-7.6, T.H - 8.5, zf], { partId: "front-bezel", edges: false });
-        addMesh(holder, new THREE.BoxGeometry(13.5, 2.8, 0.28), flatMat("#222936"), [-1.2, T.H - 3.4, zf], { partId: "front-bezel", edges: false });
-        for (var i = 0; i < 4; i++) addMesh(holder, new THREE.BoxGeometry(13.5, 0.5, 0.22), flatMat("#20262F"), [0.4, 9 - i * 1.2, zf], { partId: "front-bezel", edges: false });
-      } else if (B.face === "dell") {
-        for (var j = 0; j < 7; j++) addMesh(holder, new THREE.BoxGeometry(14.5, 0.62, 0.24), flatMat("#171C25"), [0, 5.4 + j * 1.25, zf], { partId: "front-bezel", edges: false });
-        addMesh(holder, new THREE.CylinderGeometry(1.9, 1.9, 0.3, 22), flatMat(B.badge), [0, T.H - 5.2, zf], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
-        addMesh(holder, new THREE.BoxGeometry(13, 1.1, 0.22), flatMat("#171C25"), [0, T.H - 3.2, zf], { partId: "front-bezel", edges: false });
-      } else {
-        addMesh(holder, new THREE.BoxGeometry(16.2, 15.5, 0.34), flatMat("#8C949F"), [0, 9.4, zf], { partId: "front-bezel" });
-        addMesh(holder, new THREE.BoxGeometry(4.0, 2.0, 0.22), flatMat(B.badge), [-5.4, T.H - 6.6, zf + 0.1], { partId: "front-bezel", edges: false });
-        addMesh(holder, new THREE.BoxGeometry(13.5, 2.8, 0.28), flatMat("#303844"), [-1.2, T.H - 3.4, zf], { partId: "front-bezel", edges: false });
-        for (var k = 0; k < 3; k++) addMesh(holder, new THREE.BoxGeometry(12, 0.45, 0.2), flatMat("#6E7784"), [0, 15 - k * 1.0, zf], { partId: "front-bezel", edges: false });
-      }
-      addMesh(holder, new THREE.BoxGeometry(3.2, 0.8, 0.3), dark, [B.face === "dell" ? 0 : 3.4, T.H - 9.4, zf], { partId: "front-bezel", edges: false });
-      addMesh(holder, new THREE.CylinderGeometry(0.3, 0.3, 0.28, 12), flatMat("#C8CDD6"),
-        [B.face === "dell" ? 5.6 : 6.2, T.H - 9.4, zf], { rot: [Math.PI / 2, 0, 0], partId: "front-bezel", edges: false });
-    })();
     registerPart("front-bezel", bezG);
 
-    /* ---- 主板（竖装，贴在左内壁） ---- */
+    /* ---------- 主板（深色 PCB，带插槽、电容、芯片组散热片、M.2 散热片） ---------- */
     var mbG = new THREE.Group();
-    addMesh(mbG, new THREE.BoxGeometry(0.6, 26, 22), texMat("pcbTower", 1024, 1024, drawPCB), [-T.W / 2 + 1.1, 24, -3], { partId: "mainboard" });
-    [[-8.0, 32, 4], [-8.0, 20, 6], [-8.0, 14, -10], [-8.0, 30, -12]].forEach(function (p, i) {
-      addMesh(mbG, new THREE.BoxGeometry(1.1, 1.6 + (i % 2), 2.2), flatMat("#0B5F58"), [p[0], p[1], p[2]], { partId: "mainboard", edges: false });
-    });
+    var mbx = -T.W / 2 + 1.1;
+    addMesh(mbG, new THREE.BoxGeometry(0.55, 27, 23),
+      texMat("pcbDark", 1024, 1024, drawPCBDark), [mbx, 23.5, -2.5], { partId: "mainboard" });
+    // PCIe x16 槽
+    addMesh(mbG, new THREE.BoxGeometry(1.0, 1.1, 12), flatMat("#1A1F27"), [mbx + 0.6, 15.2, 1.5], { partId: "mainboard", edges: false });
+    // DIMM 插槽 ×4
+    for (var d = 0; d < 4; d++) {
+      addMesh(mbG, new THREE.BoxGeometry(1.1, 0.5, 13), flatMat("#20262E"),
+        [mbx + 0.55, 13.6 + d * 0.0, 2.5 + d * 0.0], { partId: "mainboard", edges: false });
+    }
+    // 芯片组散热片 + M.2 散热片（黑，带 Legion 字样感的浅色条）
+    addMesh(mbG, new THREE.BoxGeometry(0.8, 6, 6), flatMat("#161A20"), [mbx + 0.9, 18.5, 6.5], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.7, 3.0, 9), flatMat("#161A20"), [mbx + 0.9, 25.5, 5.5], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.05, 0.8, 5.5), flatMat("#C8CDD6"), [mbx + 1.28, 25.5, 5.5], { partId: "mainboard", edges: false });
+    // 电容
+    for (var cp = 0; cp < 10; cp++) {
+      addMesh(mbG, new THREE.CylinderGeometry(0.62, 0.62, 1.7, 12), flatMat("#2C333C"),
+        [mbx + 1.0, 11 + (cp % 5) * 1.2, -10 + Math.floor(cp / 5) * 3.4],
+        { rot: [0, 0, Math.PI / 2], partId: "mainboard", edges: false });
+    }
+    // 24pin 供电口
+    addMesh(mbG, new THREE.BoxGeometry(1.2, 4.2, 1.6), flatMat("#D8DEE6"), [mbx + 1.0, 10.5, 8.5], { partId: "mainboard", edges: false });
     root.add(mbG);
     registerPart("mainboard", mbG);
 
-    /* ---- CPU + 下压式散热器 ---- */
+    /* ---------- CPU + 塔式散热器 ---------- */
     var cpuG = new THREE.Group();
-    addMesh(cpuG, new THREE.BoxGeometry(0.5, 4.4, 4.4), flatMat("#FF8A6B"), [-7.9, 28, -8], { partId: "cpu" });
-    addMesh(cpuG, new THREE.BoxGeometry(7.2, 7.2, 7.2),
-      texMat("alu", 512, 512, function (g, w, h) { drawBrushed(g, w, h, "#C9CFD6", false); }, {}),
-      [-4.0, 28, -8], { partId: "cpu" });
-    for (var f = 0; f < 4; f++) {
-      addMesh(cpuG, new THREE.BoxGeometry(7.6, 0.5, 6.4), flatMat("#C0B9AA"), [-4.0, 25.4 + f * 1.5, -8], { partId: "cpu", edges: false });
+    addMesh(cpuG, new THREE.BoxGeometry(0.5, 5.4, 5.4), flatMat("#3A4048"), [mbx + 0.9, 27, -6.5], { partId: "cpu" });
+    // 散热器底座 + 鳍片堆
+    addMesh(cpuG, new THREE.BoxGeometry(7.4, 1.0, 7.4), flatMat("#B9BFC7"), [mbx + 4.6, 25.2, -6.5], { partId: "cpu" });
+    for (var fin = 0; fin < 22; fin++) {
+      addMesh(cpuG, new THREE.BoxGeometry(6.6, 0.16, 7.0), flatMat(fin % 2 ? "#AEB4BC" : "#C4CAD2"),
+        [mbx + 4.6, 26.4 + fin * 0.46, -6.5], { partId: "cpu", edges: false });
     }
-    addMesh(cpuG, new THREE.BoxGeometry(0.8, 6.4, 6.4), flatMat("#A995FF"), [-0.2, 28, -8], { partId: "cpu", edges: false });
+    // 热管端头（4 根）
+    for (var hp = 0; hp < 4; hp++) {
+      addMesh(cpuG, new THREE.CylinderGeometry(0.32, 0.32, 8.2, 10), flatMat("#C98B5E"),
+        [mbx + 4.6, 25.9, -9.2 + hp * 1.75], { rot: [Math.PI / 2, 0, 0], partId: "cpu", edges: false });
+    }
+    // 侧挂风扇
+    addMesh(cpuG, new THREE.BoxGeometry(1.0, 7.0, 7.0),
+      texMat("cpuFan", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#3E4753"); }, {}),
+      [mbx + 8.6, 30.5, -6.5], { partId: "cpu" });
     root.add(cpuG);
     registerPart("cpu", cpuG);
 
-    /* ---- 内存（两条，竖直插在主板槽上） ---- */
+    /* ---------- 内存（带黑色马甲 + 蓝色丝印） ---------- */
     var ramG = new THREE.Group();
-    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), texMat("ram", 1024, 256, drawRAM), [-6.6, 27, 2], { partId: "ram" });
-    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), texMat("ram", 1024, 256, drawRAM), [-6.6, 27, 4.2], { partId: "ram" });
+    [-1.0, 1.4].forEach(function (zz) {
+      addMesh(ramG, new THREE.BoxGeometry(3.4, 13.2, 1.0),
+        texMat("ramHS", 512, 1024, drawRamHeatsink), [mbx + 2.4, 27, 1.6 + zz * 1.1], { partId: "ram" });
+    });
     root.add(ramG);
     registerPart("ram", ramG);
 
-    /* ---- 独立显卡（水平插在 PCIe 槽，向 +x 伸出） ---- */
+    /* ---------- 独立显卡（双风扇 + 导风罩 + 热管） ---------- */
     var gpuG = new THREE.Group();
-    addMesh(gpuG, new THREE.BoxGeometry(11, 1.0, 24), texMat("gpu", 1024, 512, drawGPUShroud), [-2.6, 15.6, 0], { partId: "gpu" });
-    addMesh(gpuG, new THREE.BoxGeometry(10.4, 3.4, 12), flatMat("#FF9278"), [-2.6, 14.2, 2], { partId: "gpu" });
-    addMesh(gpuG, new THREE.CylinderGeometry(3.2, 3.2, 0.6, 22), flatMat("#3A4350"),
-      [-2.0, 11.9, -3], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
-    addMesh(gpuG, new THREE.CylinderGeometry(3.2, 3.2, 0.6, 22), flatMat("#3A4350"),
-      [-2.0, 11.9, 5], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
+    var gx = -2.4, gy = 15.2, gz = 1.5;
+    addMesh(gpuG, new THREE.BoxGeometry(11.4, 0.8, 24), flatMat("#161A20"), [gx, gy, gz], { partId: "gpu" });
+    addMesh(gpuG, new THREE.BoxGeometry(11.0, 3.6, 23.4),
+      texMat("gpuShroud2", 1024, 512, drawGPUShroud), [gx, gy - 2.0, gz], { partId: "gpu" });
+    [-7.0, 7.0].forEach(function (zz) {
+      addMesh(gpuG, new THREE.CylinderGeometry(4.6, 4.6, 0.5, 24),
+        texMat("gpuFan", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#2E3540"); }, {}),
+        [gx + 2.0, gy - 3.9, gz + zz], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
+    });
+    // 尾部挡板 + 热管
+    addMesh(gpuG, new THREE.BoxGeometry(0.3, 5.2, 12), flatMat("#8E959E"), [gx - 5.7, gy - 1.4, gz], { partId: "gpu" });
+    for (var gh = 0; gh < 3; gh++) {
+      addMesh(gpuG, new THREE.CylinderGeometry(0.28, 0.28, 22, 8), flatMat("#C98B5E"),
+        [gx + 4.6, gy - 1.0, gz], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
+    }
     root.add(gpuG);
     registerPart("gpu", gpuG);
 
-    /* ---- 机械硬盘（3.5 寸，前下方硬盘笼） ---- */
+    /* ---------- 机械硬盘 + 硬盘笼 + 免工具卡扣 ---------- */
     var hddG = new THREE.Group();
-    addMesh(hddG, new THREE.BoxGeometry(10, 2.6, 14.7), texMat("hdd", 1024, 512, drawHDD), [0.5, 5.2, 13], { partId: "hdd" });
-    addMesh(hddG, new THREE.BoxGeometry(10.4, 0.5, 15.2), flatMat("#C9AD3C"), [0.5, 3.7, 13], { partId: "hdd", edges: false });
+    addMesh(hddG, new THREE.BoxGeometry(10, 2.6, 14.7),
+      texMat("hdd", 1024, 512, drawHDD), [0.6, 5.0, 12.5], { partId: "hdd" });
+    // 免工具卡扣（惠普是绿色，其余是蓝色，符合实拍）
+    var clipColor = B.face === "hp" ? "#3DBE54" : "#2F7BD8";
+    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(clipColor), [-4.4, 5.4, 6.2], { partId: "hdd", edges: false });
+    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(clipColor), [5.6, 5.4, 6.2], { partId: "hdd", edges: false });
+    // 硬盘笼边框
+    addMesh(hddG, new THREE.BoxGeometry(11.6, 0.5, 16), flatMat("#2A3038"), [0.6, 3.4, 12.5], { partId: "hdd", edges: false });
     root.add(hddG);
     registerPart("hdd", hddG);
 
-    /* ---- 固态硬盘（2.5 寸，硬盘笼上层） ---- */
+    /* ---------- 固态硬盘（M.2 条） ---------- */
     var ssdG = new THREE.Group();
-    addMesh(ssdG, new THREE.BoxGeometry(7, 0.8, 10), texMat("m2ssd", 1024, 320, drawM2), [0.5, 9.4, 13], { partId: "ssd" });
+    addMesh(ssdG, new THREE.BoxGeometry(8.0, 0.8, 2.2),
+      texMat("m2ssd2", 1024, 320, drawM2), [0.6, 9.4, 12.5], { partId: "ssd" });
     root.add(ssdG);
     registerPart("ssd", ssdG);
 
-    /* ---- 电源（联想/惠普在上后方，戴尔在下方） ---- */
+    /* ---------- 电源 + 线束 ---------- */
     var psuG = new THREE.Group();
-    var psuY = B.psuTop ? 34 : 6;
-    addMesh(psuG, new THREE.BoxGeometry(15, 8.6, 14), texMat("psu", 1024, 512, drawPSU), [0, psuY, -13], { partId: "psu" });
-    addMesh(psuG, new THREE.CylinderGeometry(2.4, 2.4, 0.4, 20), flatMat("#8A7FD6"),
-      [0, psuY, -6.1], { rot: [Math.PI / 2, 0, 0], partId: "psu", edges: false });
-    // 出线束
-    addMesh(psuG, new THREE.BoxGeometry(1.6, 1.6, 10), flatMat("#C8BCFF"), [5.5, psuY - 1, -8], { partId: "psu", edges: false });
+    var psuY = B.psuTop ? 33.5 : 6.6;
+    addMesh(psuG, new THREE.BoxGeometry(15, 8.6, 14),
+      texMat("psuCase", 1024, 512, drawPSU), [0, psuY, -13], { partId: "psu" });
+    addMesh(psuG, new THREE.CylinderGeometry(3.6, 3.6, 0.3, 22),
+      texMat("psuGrille", 256, 256, function (g, w, h) { drawHoneycomb(g, w, h, "#22282F", 10); }, {}),
+      [0, psuY, -5.9], { rot: [Math.PI / 2, 0, 0], partId: "psu", edges: false });
+    // 线束：24pin + 显卡供电
+    addMesh(psuG, new THREE.BoxGeometry(1.6, 1.6, 14), flatMat("#1A1F27"), [5.6, psuY - 1, -8], { partId: "psu", edges: false });
+    addMesh(psuG, new THREE.BoxGeometry(1.2, 1.2, 18), flatMat("#1A1F27"), [4.2, psuY - 3, -6], { partId: "psu", edges: false });
     root.add(psuG);
     registerPart("psu", psuG);
 
-    /* ---- 机箱风扇（后置排气） ---- */
+    /* ---------- 机箱风扇 ---------- */
     var fanG = new THREE.Group();
     var fanY = B.psuTop ? 17 : 30;
     addMesh(fanG, new THREE.CylinderGeometry(5.2, 5.2, 1.4, 26),
-      texMat("caseFan", 512, 512, function (g, w, h) { drawFan(g, w, h, "#E4DED0", "#79CFFF"); }, {}),
+      texMat("caseFan2", 512, 512, function (g, w, h) { drawFan(g, w, h, "#1E242B", "#39414C"); }, {}),
       [-4.5, fanY, -20], { rot: [Math.PI / 2, 0, 0], partId: "case-fan" });
-    addMesh(fanG, new THREE.CylinderGeometry(4.6, 4.6, 0.4, 24), flatMat("#79CFFF"),
-      [-4.5, fanY, -19.4], { rot: [Math.PI / 2, 0, 0], partId: "case-fan", edges: false });
-    for (var bl = 0; bl < 7; bl++) {
-      var a2 = (bl / 7) * Math.PI * 2;
-      addMesh(fanG, new THREE.BoxGeometry(3.6, 0.12, 1.2), flatMat("#E1F2FF"),
-        [-4.5 + Math.cos(a2) * 2.2, fanY + Math.sin(a2) * 2.2, -19.3],
-        { rot: [0, 0, a2], partId: "case-fan", edges: false });
-    }
     root.add(fanG);
     registerPart("case-fan", fanG);
 
-    /* ---- 光驱位 / 扩展位 ---- */
+    /* ---------- 光驱位 ---------- */
     var oddG = new THREE.Group();
-    addMesh(oddG, new THREE.BoxGeometry(14.6, 4.2, 17), flatMat("#FFC7D9"), [-1, 35, 7], { partId: "odd" });
-    addMesh(oddG, new THREE.BoxGeometry(12.0, 0.4, 15), flatMat("#FFDCE8"), [-1, 37.2, 7], { partId: "odd", edges: false });
+    addMesh(oddG, new THREE.BoxGeometry(14.6, 4.2, 17), flatMat("#252B33"), [-1, 35, 6.5], { partId: "odd" });
+    addMesh(oddG, new THREE.BoxGeometry(13.2, 0.5, 15.6), flatMat("#313842"), [-1, 37.2, 6.5], { partId: "odd", edges: false });
     root.add(oddG);
     registerPart("odd", oddG);
 
@@ -1115,7 +1325,7 @@
     // 机箱骨架与侧板随分解淡出（否则深色大板会把内部零件全挡住）
     (state.fadeMats || []).forEach(function (m) {
       m.transparent = true;
-      m.opacity = 1 - 0.82 * state.explodeT;
+      m.opacity = 1 - 0.93 * state.explodeT;
       m.depthWrite = state.explodeT < 0.3;
     });
     (state.fadeSoft || []).forEach(function (m) {

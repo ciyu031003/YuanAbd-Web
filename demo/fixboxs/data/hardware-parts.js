@@ -212,7 +212,7 @@ function towerParts(brand) {
         { href: "./browse.html#ref-manual", label: "装机与运维手册（拆装）" },
         { href: "./search.html?q=风扇", label: "搜索：风扇 / 散热" }
       ],
-      explode: [31, 0, 0]
+      explode: [28, 0, 0]
     },
     {
       id: "front-bezel", name: "前面板", en: "Front Bezel", color: "#55606E",
@@ -234,7 +234,7 @@ function towerParts(brand) {
         { href: "./fix/sop-bios-post-errors.html", label: "开机报错与 BIOS 速查" },
         { href: "./search.html?q=不加电", label: "搜索：不加电" }
       ],
-      explode: [16, 0, 0]
+      explode: [11, 1, 0]
     },
     {
       id: "cpu", name: "CPU 与散热器", en: "CPU & Cooler", color: "#FF8A6B",
@@ -245,7 +245,7 @@ function towerParts(brand) {
         { href: "./search.html?q=发烫", label: "搜索：发烫 / 降频" },
         { href: "./fix/win-bluescreen-read-code.html", label: "电脑蓝屏了怎么办" }
       ],
-      explode: [25, 6, -3]
+      explode: [20, 11, -4]
     },
     {
       id: "ram", name: "内存条", en: "Memory (RAM)", color: "#A995FF",
@@ -256,7 +256,7 @@ function towerParts(brand) {
         { href: "./fix/win-bluescreen-read-code.html", label: "电脑蓝屏了怎么办" },
         { href: "./fix/win-slow-diagnose.html", label: "电脑越来越卡怎么办" }
       ],
-      explode: [23, 3, 5]
+      explode: [18, 3, 6]
     },
     {
       id: "gpu", name: "独立显卡", en: "Graphics Card", color: "#FF9278",
@@ -267,7 +267,7 @@ function towerParts(brand) {
         { href: "./fix/monitor-no-signal.html", label: "显示器无信号" },
         { href: "./search.html?q=花屏", label: "搜索：花屏 / 闪屏" }
       ],
-      explode: [27, -5, 1]
+      explode: [24, -9, 2]
     },
     {
       id: "hdd", name: "机械硬盘", en: "3.5\" HDD", color: "#FFD84D",
@@ -278,7 +278,7 @@ function towerParts(brand) {
         { href: "./fix/disk-clicking-failure.html", label: "硬盘咔咔响 / 识别不到" },
         { href: "./fix/win-c-drive-full-cleanup.html", label: "C 盘爆红怎么清理" }
       ],
-      explode: [21, -4, 11]
+      explode: [14, -16, 10]
     },
     {
       id: "ssd", name: "固态硬盘 / M.2", en: "SSD / M.2", color: "#7FE3C0",
@@ -289,7 +289,7 @@ function towerParts(brand) {
         { href: "./fix/disk-clicking-failure.html", label: "硬盘识别不到" },
         { href: "./fix/win-update-stuck.html", label: "Windows 更新卡住" }
       ],
-      explode: [21, 2, 16]
+      explode: [18, -10, 16]
     },
     {
       id: "psu", name: "电源", en: "Power Supply", color: "#A995FF",
@@ -300,7 +300,7 @@ function towerParts(brand) {
         { href: "./fix/sop-bios-post-errors.html", label: "不加电与开机报错" },
         { href: "./search.html?q=不加电", label: "搜索：不加电" }
       ],
-      explode: [0, 0, -27]
+      explode: [0, 0, -26]
     },
     {
       id: "case-fan", name: "机箱风扇", en: "Case Fan", color: "#79CFFF",
@@ -311,7 +311,7 @@ function towerParts(brand) {
         { href: "./search.html?q=风扇", label: "搜索：风扇异响" },
         { href: "./search.html?q=发烫", label: "搜索：电脑发烫" }
       ],
-      explode: [0, 0, -17]
+      explode: [0, 0, -18]
     },
     {
       id: "odd", name: "光驱位 / 扩展位", en: "Drive Bay", color: "#FFC7D9",
@@ -322,7 +322,7 @@ function towerParts(brand) {
         { href: "./browse.html#ref-manual", label: "装机与运维手册" },
         { href: "./fix/disk-clicking-failure.html", label: "硬盘识别不到" }
       ],
-      explode: [10, 8, 15]
+      explode: [0, 10, 20]
     }
   ];
 }

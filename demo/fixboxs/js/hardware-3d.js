@@ -177,6 +177,276 @@
     return canvasTexture(c);
   }
 
+
+  /* ============================================================
+     一·B、程序化贴图库
+     ------------------------------------------------------------
+     全部用 Canvas 现画，不引入任何图片资源：
+       PCB 走线与焊盘 / CPU 顶盖刻字 / 内存颗粒与金手指 / 硬盘标签 /
+       电源外壳与风扇网 / 显卡导风罩 / 拉丝金属 / 冲孔网板 / 风扇叶片
+     尺寸统一 512 或 1024，按 key 缓存，避免每个 mesh 重复生成。
+     ============================================================ */
+  var TEX = {};
+
+  function makeTex(key, w, h, draw) {
+    if (TEX[key]) return TEX[key];
+    var c = makeCanvas(w, h);
+    draw(c.getContext("2d"), w, h);
+    TEX[key] = canvasTexture(c);
+    return TEX[key];
+  }
+
+  function texMat(key, w, h, draw, opts) {
+    var o = opts || {};
+    return new THREE.MeshLambertMaterial(Object.assign({ map: makeTex(key, w, h, draw) }, o));
+  }
+
+  function noise(g, w, h, n, alpha, light) {
+    for (var i = 0; i < n; i++) {
+      g.fillStyle = "rgba(" + (light ? "255,255,255," : "0,0,0,") + (Math.random() * alpha).toFixed(3) + ")";
+      g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 2);
+    }
+  }
+
+  /* 主板：深绿阻焊 + 走线 + 焊盘 + 元件 + 丝印 */
+  function drawPCB(g, w, h) {
+    g.fillStyle = "#0A4F49"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 900, 0.06, false);
+    // 走线（曼哈顿布线，像真的 PCB）
+    for (var i = 0; i < 46; i++) {
+      var x = Math.random() * w, y = Math.random() * h;
+      g.strokeStyle = "rgba(120,210,180," + (0.12 + Math.random() * 0.2).toFixed(2) + ")";
+      g.lineWidth = 1 + Math.random() * 1.6;
+      g.beginPath(); g.moveTo(x, y);
+      for (var s = 0; s < 4; s++) {
+        if (Math.random() > 0.5) x += (Math.random() - 0.5) * 120; else y += (Math.random() - 0.5) * 120;
+        g.lineTo(x, y);
+      }
+      g.stroke();
+    }
+    // 焊盘
+    for (var p = 0; p < 90; p++) {
+      g.fillStyle = Math.random() > 0.45 ? "#C9A227" : "#B8C4C0";
+      var r = 1.4 + Math.random() * 2.2;
+      g.beginPath(); g.arc(Math.random() * w, Math.random() * h, r, 0, Math.PI * 2); g.fill();
+    }
+    // 芯片与电容
+    for (var ch = 0; ch < 16; ch++) {
+      var cw = 16 + Math.random() * 60, chh = 12 + Math.random() * 34;
+      var cx = Math.random() * (w - cw), cy = Math.random() * (h - chh);
+      g.fillStyle = "#121D1A"; g.fillRect(cx, cy, cw, chh);
+      g.strokeStyle = "rgba(255,255,255,.18)"; g.lineWidth = 1; g.strokeRect(cx + .5, cy + .5, cw - 1, chh - 1);
+      // 引脚
+      g.fillStyle = "#8E9A96";
+      for (var pin = 0; pin < Math.floor(cw / 6); pin++) {
+        g.fillRect(cx + 3 + pin * 6, cy - 2, 2, 3);
+        g.fillRect(cx + 3 + pin * 6, cy + chh - 1, 2, 3);
+      }
+    }
+    // 丝印
+    g.fillStyle = "rgba(235,245,240,.5)";
+    g.font = "bold 11px ui-monospace,monospace";
+    ["CPU_FAN", "SATA0", "PCIE1", "DIMM_A1", "ATX_PWR", "M.2_1", "PCH", "USB3_1"].forEach(function (t, i) {
+      g.fillText(t, 20 + (i % 4) * 120, 26 + Math.floor(i / 4) * 460);
+    });
+    // 螺丝孔
+    for (var k = 0; k < 4; k++) {
+      g.fillStyle = "#0A4F49"; g.beginPath(); g.arc(30 + k * (w - 60) / 3, h - 24, 13, 0, Math.PI * 2); g.fill();
+      g.strokeStyle = "#C9A227"; g.lineWidth = 3; g.stroke();
+    }
+  }
+
+  /* CPU 顶盖：拉丝金属 + 刻字 + 角标 */
+  function drawChip(g, w, h) {
+    var grd = g.createLinearGradient(0, 0, w, h);
+    grd.addColorStop(0, "#D8DDE3"); grd.addColorStop(.5, "#AEB6BE"); grd.addColorStop(1, "#C6CDD4");
+    g.fillStyle = grd; g.fillRect(0, 0, w, h);
+    for (var i = 0; i < 260; i++) {
+      g.strokeStyle = "rgba(255,255,255," + (Math.random() * .16).toFixed(2) + ")";
+      g.lineWidth = 1; g.beginPath();
+      var y = Math.random() * h; g.moveTo(0, y); g.lineTo(w, y + (Math.random() - .5) * 3); g.stroke();
+    }
+    g.fillStyle = "rgba(30,36,44,.62)";
+    g.font = "bold 22px ui-monospace,monospace"; g.textAlign = "center";
+    g.fillText("CPU", w / 2, h * 0.36);
+    g.font = "13px ui-monospace,monospace";
+    g.fillText("SOCKET LGA1700", w / 2, h * 0.52);
+    g.fillText("SR 2.5GHz · 65W", w / 2, h * 0.62);
+    g.font = "10px ui-monospace,monospace";
+    g.fillText("MADE IN CHINA", w / 2, h * 0.76);
+    // 左下角定位三角
+    g.fillStyle = "rgba(30,36,44,.5)";
+    g.beginPath(); g.moveTo(18, h - 18); g.lineTo(18, h - 52); g.lineTo(52, h - 18); g.closePath(); g.fill();
+  }
+
+  /* 内存条：绿PCB + 黑颗粒 + 金手指 */
+  function drawRAM(g, w, h) {
+    g.fillStyle = "#14532D"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 400, .07, false);
+    var chips = 8, cw = w / chips;
+    for (var i = 0; i < chips; i++) {
+      g.fillStyle = "#1A1F2B";
+      g.fillRect(i * cw + cw * .12, h * .2, cw * .76, h * .5);
+      g.strokeStyle = "rgba(255,255,255,.12)"; g.lineWidth = 1;
+      g.strokeRect(i * cw + cw * .12 + .5, h * .2 + .5, cw * .76 - 1, h * .5 - 1);
+    }
+    // 金手指
+    g.fillStyle = "#C9A227"; g.fillRect(0, h - 26, w, 26);
+    g.strokeStyle = "rgba(0,0,0,.32)"; g.lineWidth = 2;
+    for (var p = 0; p < 40; p++) { g.beginPath(); g.moveTo(p * (w / 40), h - 26); g.lineTo(p * (w / 40), h); g.stroke(); }
+    // 标签
+    g.fillStyle = "#EDE9FF"; g.fillRect(w * .05, h * .06, w * .9, h * .1);
+    g.fillStyle = "#5B4BC4"; g.font = "bold 16px ui-monospace,monospace";
+    g.fillText("DDR4 3200  8GB", w * .07, h * .145);
+  }
+
+  /* 硬盘：金属上盖 + 标签 + 螺丝 */
+  function drawHDD(g, w, h) {
+    var grd = g.createLinearGradient(0, 0, 0, h);
+    grd.addColorStop(0, "#CFD6DD"); grd.addColorStop(1, "#AAB2BA");
+    g.fillStyle = grd; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 700, .05, true);
+    // 中间标签
+    g.fillStyle = "#F2F5F8"; g.fillRect(24, 40, w - 48, h - 96);
+    g.strokeStyle = "rgba(26,31,43,.3)"; g.lineWidth = 2; g.strokeRect(24, 40, w - 48, h - 96);
+    g.fillStyle = "#1A1F2B"; g.font = "bold 24px ui-monospace,monospace";
+    g.fillText("3.5 inch HDD  7200RPM", 44, 88);
+    g.font = "14px ui-monospace,monospace"; g.fillStyle = "#4A5361";
+    g.fillText("SATA 6Gb/s · 1TB", 44, 116);
+    // 条码
+    for (var i = 0; i < 46; i++) {
+      g.fillStyle = "#1A1F2B";
+      g.fillRect(44 + i * 8, 140, 2 + (i % 3) * 2, 54);
+    }
+    g.font = "12px ui-monospace,monospace"; g.fillStyle = "#5A636F";
+    g.fillText("SN 8XK2-4471-QP", 44, 216);
+    // 螺丝孔
+    [[16, 16], [w - 16, 16], [16, h - 16], [w - 16, h - 16]].forEach(function (p) {
+      g.fillStyle = "#8E9AA6"; g.beginPath(); g.arc(p[0], p[1], 10, 0, Math.PI * 2); g.fill();
+      g.strokeStyle = "#5A636F"; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(p[0] - 5, p[1]); g.lineTo(p[0] + 5, p[1]); g.stroke();
+    });
+  }
+
+  /* 电源：深灰钢壳 + 风扇网 + 铭牌 */
+  function drawPSU(g, w, h) {
+    g.fillStyle = "#3A4350"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 800, .06, true);
+    // 风扇网
+    var cx = w * .5, cy = h * .42, R = Math.min(w, h) * .3;
+    g.fillStyle = "#2A313D"; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = "rgba(180,190,200,.35)"; g.lineWidth = 2;
+    for (var i = 0; i < 9; i++) {
+      g.beginPath(); g.arc(cx, cy, R * (0.2 + i * 0.09), 0, Math.PI * 2); g.stroke();
+    }
+    for (var a = 0; a < 12; a++) {
+      g.beginPath(); g.moveTo(cx, cy);
+      g.lineTo(cx + Math.cos(a / 12 * Math.PI * 2) * R, cy + Math.sin(a / 12 * Math.PI * 2) * R);
+      g.stroke();
+    }
+    // 铭牌
+    g.fillStyle = "#E8EAED"; g.fillRect(16, h - 78, w - 32, 60);
+    g.fillStyle = "#1A1F2B"; g.font = "bold 15px ui-monospace,monospace";
+    g.fillText("500W  80PLUS", 28, h - 52);
+    g.font = "11px ui-monospace,monospace"; g.fillStyle = "#4A5361";
+    g.fillText("+12V 38A   +5V 18A", 28, h - 32);
+  }
+
+  /* 显卡导风罩：黑壳 + 通风槽 + 品牌条 */
+  function drawGPUShroud(g, w, h) {
+    g.fillStyle = "#232A36"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 600, .05, true);
+    for (var i = 0; i < 14; i++) {
+      g.fillStyle = "rgba(0,0,0,.45)";
+      g.fillRect(20 + i * 34, 20, 18, h - 40);
+    }
+    g.fillStyle = "#FF9278"; g.fillRect(0, h * .42, w, 10);
+    g.fillStyle = "rgba(255,255,255,.14)"; g.font = "bold 18px ui-monospace,monospace";
+    g.fillText("GRAPHICS", 24, h - 26);
+  }
+
+  /* 拉丝金属（可带色） */
+  function drawBrushed(g, w, h, base, dark) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    for (var i = 0; i < 700; i++) {
+      g.strokeStyle = "rgba(" + (dark ? "0,0,0," : "255,255,255,") + (Math.random() * .1).toFixed(3) + ")";
+      g.lineWidth = 1;
+      var y = Math.random() * h;
+      g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke();
+    }
+  }
+
+  /* 冲孔网板（机箱前面板 / 侧板散热孔） */
+  function drawVent(g, w, h, base) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    var step = 26;
+    for (var y = step / 2; y < h; y += step) {
+      for (var x = step / 2; x < w; x += step) {
+        g.fillStyle = "rgba(0,0,0,.55)";
+        g.beginPath(); g.arc(x, y, 7, 0, Math.PI * 2); g.fill();
+        g.fillStyle = "rgba(255,255,255,.10)";
+        g.beginPath(); g.arc(x, y + 2, 5, 0, Math.PI * 2); g.fill();
+      }
+    }
+  }
+
+  /* 风扇正面：外框 + 扇叶 + 轴心 */
+  function drawFan(g, w, h, ring, blade) {
+    g.fillStyle = ring; g.fillRect(0, 0, w, h);
+    var cx = w / 2, cy = h / 2, R = w * .46;
+    g.fillStyle = "rgba(0,0,0,.35)"; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+    for (var i = 0; i < 9; i++) {
+      var a0 = i / 9 * Math.PI * 2, a1 = a0 + 0.46;
+      g.fillStyle = blade;
+      g.beginPath();
+      g.moveTo(cx, cy);
+      g.arc(cx, cy, R * .95, a0, a1);
+      g.closePath(); g.fill();
+      g.strokeStyle = "rgba(0,0,0,.18)"; g.lineWidth = 2; g.stroke();
+    }
+    g.fillStyle = "#2A313D"; g.beginPath(); g.arc(cx, cy, R * .26, 0, Math.PI * 2); g.fill();
+    g.fillStyle = "rgba(255,255,255,.18)"; g.beginPath(); g.arc(cx, cy, R * .12, 0, Math.PI * 2); g.fill();
+    // 四角螺丝位
+    [[8, 8], [w - 8, 8], [8, h - 8], [w - 8, h - 8]].forEach(function (p) {
+      g.fillStyle = "rgba(0,0,0,.4)"; g.beginPath(); g.arc(p[0], p[1], 9, 0, Math.PI * 2); g.fill();
+    });
+  }
+
+  /* M.2 固态：绿色窄板 + 主控 + 闪存颗粒 + 金手指 */
+  function drawM2(g, w, h) {
+    g.fillStyle = "#14653C"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 300, .07, false);
+    g.fillStyle = "#1A1F2B"; g.fillRect(w * .06, h * .18, w * .16, h * .64);   // 主控
+    g.fillStyle = "#131A24"; g.fillRect(w * .28, h * .14, w * .2, h * .72);    // 闪存
+    g.fillStyle = "#131A24"; g.fillRect(w * .54, h * .14, w * .2, h * .72);
+    g.fillStyle = "#0B3B24"; g.fillRect(w * .78, h * .2, w * .16, h * .6);
+    g.fillStyle = "#C9A227"; g.fillRect(w * .955, h * .3, w * .045, h * .4);
+    g.strokeStyle = "rgba(0,0,0,.35)"; g.lineWidth = 2;
+    for (var i = 0; i < 10; i++) {
+      g.beginPath(); g.moveTo(w * .955, h * .3 + i * h * .04); g.lineTo(w, h * .3 + i * h * .04); g.stroke();
+    }
+    g.fillStyle = "#EDE9FF"; g.font = "bold 18px ui-monospace,monospace";
+    g.fillText("M.2 NVMe  1TB", w * .07, h * .12);
+  }
+
+  /* 风扇（用于圆柱面，简化为环形扇叶图案） */
+  function drawFanShort(g, w, h) { drawFan(g, w, h, "#3A4350", "#A995FF"); }
+
+  /* 电池：外壳 + 警示标签 */
+  function drawBattery(g, w, h) {
+    g.fillStyle = "#0F766E"; g.fillRect(0, 0, w, h);
+    noise(g, w, h, 300, .05, true);
+    g.strokeStyle = "rgba(255,255,255,.16)"; g.lineWidth = 2;
+    for (var i = 1; i < 5; i++) { g.beginPath(); g.moveTo(0, h * i / 5); g.lineTo(w, h * i / 5); g.stroke(); }
+    g.fillStyle = "#F2F7F5"; g.fillRect(w * .12, h * .28, w * .76, h * .44);
+    g.fillStyle = "#0F766E"; g.font = "bold 20px ui-monospace,monospace";
+    g.fillText("Li-ion  BATTERY", w * .15, h * .42);
+    g.font = "13px ui-monospace,monospace"; g.fillStyle = "#2F6B64";
+    g.fillText("51Wh  11.4V", w * .15, h * .52);
+    g.fillStyle = "#B23E1C"; g.font = "bold 12px ui-monospace,monospace";
+    g.fillText("DO NOT PUNCTURE", w * .15, h * .62);
+  }
+
   function shadowTexture() {
     var c = makeCanvas(256, 256), g = c.getContext("2d");
     var grd = g.createRadialGradient(128, 128, 10, 128, 128, 128);
@@ -248,6 +518,7 @@
   function buildLaptop() {
     var root = new THREE.Group();
     state.fadeMats = [];
+    state.fadeSoft = [];
 
     var shell = flatMat("#CFC8B8");
     addMesh(root, new THREE.BoxGeometry(M.W, M.H, M.D), shell, [0, M.H / 2, 0]);
@@ -264,14 +535,14 @@
     registerPart("keyboard", deckG);
 
     var batG = new THREE.Group();
-    addMesh(batG, new THREE.BoxGeometry(19.6, 0.74, 8.8), flatMat("#7FE3C0"), [0, 0.8, 3.4], { partId: "battery" });
+    addMesh(batG, new THREE.BoxGeometry(19.6, 0.74, 8.8), texMat("battery", 1024, 460, drawBattery), [0, 0.8, 3.4], { partId: "battery" });
     addMesh(batG, new THREE.BoxGeometry(6.0, 0.34, 7.4), flatMat("#B9EEDC"), [-5.6, 1.34, 3.4], { partId: "battery" });
     addMesh(batG, new THREE.BoxGeometry(6.0, 0.34, 7.4), flatMat("#B9EEDC"), [5.6, 1.34, 3.4], { partId: "battery" });
     root.add(batG);
     registerPart("battery", batG);
 
     var mbG = new THREE.Group();
-    addMesh(mbG, new THREE.BoxGeometry(20.6, 0.24, 7.8), flatMat("#0F766E"), [0, 0.62, -6.4], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(20.6, 0.24, 7.8), texMat("pcb", 1024, 512, drawPCB), [0, 0.62, -6.4], { partId: "mainboard" });
     [[-8.4, -7.6], [-5.6, -4.2], [2.2, -4.0], [9.0, -7.8], [9.6, -4.4]].forEach(function (p, i) {
       addMesh(mbG, new THREE.BoxGeometry(1.1 + (i % 2) * 0.7, 0.34, 1.0), flatMat("#0B5F58"), [p[0], 0.9, p[1]], { partId: "mainboard", edges: false });
     });
@@ -279,7 +550,7 @@
     registerPart("mainboard", mbG);
 
     var cpuG = new THREE.Group();
-    addMesh(cpuG, new THREE.BoxGeometry(3.4, 0.26, 3.4), flatMat("#FF8A6B"), [5.6, 0.86, -7.4], { partId: "cpu" });
+    addMesh(cpuG, new THREE.BoxGeometry(3.4, 0.26, 3.4), texMat("chip", 512, 512, drawChip), [5.6, 0.86, -7.4], { partId: "cpu" });
     addMesh(cpuG, new THREE.BoxGeometry(4.8, 0.48, 4.8), flatMat("#D6D0C2"), [5.6, 1.24, -7.4], { partId: "cpu" });
     addMesh(cpuG, new THREE.BoxGeometry(7.6, 0.26, 0.92), flatMat("#C98B5E"), [1.4, 1.32, -7.4], { partId: "cpu", edges: false });
     addMesh(cpuG, new THREE.BoxGeometry(7.6, 0.26, 0.92), flatMat("#C98B5E"), [1.4, 1.32, -5.4], { partId: "cpu", edges: false });
@@ -287,7 +558,7 @@
     registerPart("cpu", cpuG);
 
     var fanG = new THREE.Group();
-    addMesh(fanG, new THREE.CylinderGeometry(2.95, 2.95, 0.44, 30), flatMat("#E4DED0"), [-6.4, 0.94, -7.4], { partId: "fan" });
+    addMesh(fanG, new THREE.CylinderGeometry(2.95, 2.95, 0.44, 30), texMat("fan", 512, 512, drawFanShort), [-6.4, 0.94, -7.4], { partId: "fan" });
     addMesh(fanG, new THREE.CylinderGeometry(2.6, 2.6, 0.16, 26), flatMat("#A995FF"), [-6.4, 1.17, -7.4], { partId: "fan", edges: false });
     for (var b = 0; b < 7; b++) {
       var ang = (b / 7) * Math.PI * 2;
@@ -298,13 +569,13 @@
     registerPart("fan", fanG);
 
     var ramG = new THREE.Group();
-    addMesh(ramG, new THREE.BoxGeometry(7.6, 0.34, 1.5), flatMat("#A995FF"), [6.4, 0.88, -2.9], { partId: "ram" });
-    addMesh(ramG, new THREE.BoxGeometry(7.6, 0.34, 1.5), flatMat("#C8BCFF"), [6.4, 0.88, -1.0], { partId: "ram" });
+    addMesh(ramG, new THREE.BoxGeometry(7.6, 0.34, 1.5), texMat("ram", 1024, 256, drawRAM), [6.4, 0.88, -2.9], { partId: "ram" });
+    addMesh(ramG, new THREE.BoxGeometry(7.6, 0.34, 1.5), texMat("ram", 1024, 256, drawRAM), [6.4, 0.88, -1.0], { partId: "ram" });
     root.add(ramG);
     registerPart("ram", ramG);
 
     var ssdG = new THREE.Group();
-    addMesh(ssdG, new THREE.BoxGeometry(8.2, 0.34, 2.6), flatMat("#FFD84D"), [6.2, 0.88, 2.0], { partId: "ssd" });
+    addMesh(ssdG, new THREE.BoxGeometry(8.2, 0.34, 2.6), texMat("m2ssd", 1024, 320, drawM2), [6.2, 0.88, 2.0], { partId: "ssd" });
     addMesh(ssdG, new THREE.BoxGeometry(3.4, 0.06, 1.2), flatMat("#FFF0CE"), [6.2, 1.07, 2.0], { partId: "ssd", edges: false });
     root.add(ssdG);
     registerPart("ssd", ssdG);
@@ -368,6 +639,7 @@
     /* 机箱骨架在分解时淡出：深色板子会把里面的零件全挡住，
        这是「分解图看不清」最直接的原因。淡出后零件立刻可读。 */
     state.fadeMats = [wall];
+    state.fadeSoft = [];
 
     /* ---- 机箱骨架：五块薄板围出框架，右侧敞开（侧板可拆） ---- */
     addMesh(root, new THREE.BoxGeometry(0.7, T.H, T.D), wall, [-T.W / 2 + 0.35, T.H / 2, 0]);
@@ -377,21 +649,22 @@
 
     /* ---- 侧板（可拆） ---- */
     var sideG = new THREE.Group();
-    addMesh(sideG, new THREE.BoxGeometry(0.7, T.H - 0.8, T.D - 0.8), flatMat("#8A939E"),
+    addMesh(sideG, new THREE.BoxGeometry(0.7, T.H - 0.8, T.D - 0.8),
+      texMat("sideMetal", 512, 512, function (g, w, h) { drawBrushed(g, w, h, "#8A939E", false); }, {}),
       [T.W / 2 - 0.35, T.H / 2, 0], { partId: "side-panel" });
-    // 侧板上的散热孔阵列（用小方块表达，避免纹理）
-    for (var r = 0; r < 5; r++) {
-      for (var c = 0; c < 4; c++) {
-        addMesh(sideG, new THREE.BoxGeometry(0.12, 0.9, 0.9), flatMat("#6E7784"),
-          [T.W / 2 - 0.02, 30 + r * 1.3, -6 + c * 1.3], { partId: "side-panel", edges: false });
-      }
-    }
+    // 侧板背面加一块冲孔网板：比原来 20 个小方块更真实、mesh 更少
+    addMesh(sideG, new THREE.BoxGeometry(0.05, 12, 12),
+      texMat("vent", 512, 512, function (g, w, h) { drawVent(g, w, h, "#6E7784"); }, {}),
+      [T.W / 2 - 0.72, 30, -2], { partId: "side-panel", edges: false });
     root.add(sideG);
     registerPart("side-panel", sideG);
+    // 侧板面积大，分解时会挡住整个内部：单独走一档更明显的淡出
+    parts["side-panel"].mats.forEach(function (m) { state.fadeSoft.push(m); });
 
     /* ---- 前面板 + 品牌标识 ---- */
     var bezG = new THREE.Group();
-    addMesh(bezG, new THREE.BoxGeometry(T.W - 0.4, T.H - 0.8, 1.2), flatMat(B.bezel),
+    addMesh(bezG, new THREE.BoxGeometry(T.W - 0.4, T.H - 0.8, 1.2),
+      texMat("bezelMetal", 512, 512, function (g, w, h) { drawBrushed(g, w, h, B.bezel, true); }, {}),
       [0, T.H / 2, T.D / 2 - 0.6], { partId: "front-bezel" });
     // 电源键
     addMesh(bezG, new THREE.CylinderGeometry(0.85, 0.85, 0.4, 18), flatMat("#C8CDD6"),
@@ -429,7 +702,7 @@
 
     /* ---- 主板（竖装，贴在左内壁） ---- */
     var mbG = new THREE.Group();
-    addMesh(mbG, new THREE.BoxGeometry(0.6, 26, 22), flatMat("#0F766E"), [-T.W / 2 + 1.1, 24, -3], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.6, 26, 22), texMat("pcbTower", 1024, 1024, drawPCB), [-T.W / 2 + 1.1, 24, -3], { partId: "mainboard" });
     [[-8.0, 32, 4], [-8.0, 20, 6], [-8.0, 14, -10], [-8.0, 30, -12]].forEach(function (p, i) {
       addMesh(mbG, new THREE.BoxGeometry(1.1, 1.6 + (i % 2), 2.2), flatMat("#0B5F58"), [p[0], p[1], p[2]], { partId: "mainboard", edges: false });
     });
@@ -439,7 +712,9 @@
     /* ---- CPU + 下压式散热器 ---- */
     var cpuG = new THREE.Group();
     addMesh(cpuG, new THREE.BoxGeometry(0.5, 4.4, 4.4), flatMat("#FF8A6B"), [-7.9, 28, -8], { partId: "cpu" });
-    addMesh(cpuG, new THREE.BoxGeometry(7.2, 7.2, 7.2), flatMat("#D6D0C2"), [-4.0, 28, -8], { partId: "cpu" });
+    addMesh(cpuG, new THREE.BoxGeometry(7.2, 7.2, 7.2),
+      texMat("alu", 512, 512, function (g, w, h) { drawBrushed(g, w, h, "#C9CFD6", false); }, {}),
+      [-4.0, 28, -8], { partId: "cpu" });
     for (var f = 0; f < 4; f++) {
       addMesh(cpuG, new THREE.BoxGeometry(7.6, 0.5, 6.4), flatMat("#C0B9AA"), [-4.0, 25.4 + f * 1.5, -8], { partId: "cpu", edges: false });
     }
@@ -449,14 +724,14 @@
 
     /* ---- 内存（两条，竖直插在主板槽上） ---- */
     var ramG = new THREE.Group();
-    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), flatMat("#A995FF"), [-6.6, 27, 2], { partId: "ram" });
-    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), flatMat("#C8BCFF"), [-6.6, 27, 4.2], { partId: "ram" });
+    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), texMat("ram", 1024, 256, drawRAM), [-6.6, 27, 2], { partId: "ram" });
+    addMesh(ramG, new THREE.BoxGeometry(3.0, 13, 0.8), texMat("ram", 1024, 256, drawRAM), [-6.6, 27, 4.2], { partId: "ram" });
     root.add(ramG);
     registerPart("ram", ramG);
 
     /* ---- 独立显卡（水平插在 PCIe 槽，向 +x 伸出） ---- */
     var gpuG = new THREE.Group();
-    addMesh(gpuG, new THREE.BoxGeometry(11, 1.0, 24), flatMat("#2A3040"), [-2.6, 15.6, 0], { partId: "gpu" });
+    addMesh(gpuG, new THREE.BoxGeometry(11, 1.0, 24), texMat("gpu", 1024, 512, drawGPUShroud), [-2.6, 15.6, 0], { partId: "gpu" });
     addMesh(gpuG, new THREE.BoxGeometry(10.4, 3.4, 12), flatMat("#FF9278"), [-2.6, 14.2, 2], { partId: "gpu" });
     addMesh(gpuG, new THREE.CylinderGeometry(3.2, 3.2, 0.6, 22), flatMat("#3A4350"),
       [-2.0, 11.9, -3], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
@@ -467,21 +742,21 @@
 
     /* ---- 机械硬盘（3.5 寸，前下方硬盘笼） ---- */
     var hddG = new THREE.Group();
-    addMesh(hddG, new THREE.BoxGeometry(10, 2.6, 14.7), flatMat("#FFD84D"), [0.5, 5.2, 13], { partId: "hdd" });
+    addMesh(hddG, new THREE.BoxGeometry(10, 2.6, 14.7), texMat("hdd", 1024, 512, drawHDD), [0.5, 5.2, 13], { partId: "hdd" });
     addMesh(hddG, new THREE.BoxGeometry(10.4, 0.5, 15.2), flatMat("#C9AD3C"), [0.5, 3.7, 13], { partId: "hdd", edges: false });
     root.add(hddG);
     registerPart("hdd", hddG);
 
     /* ---- 固态硬盘（2.5 寸，硬盘笼上层） ---- */
     var ssdG = new THREE.Group();
-    addMesh(ssdG, new THREE.BoxGeometry(7, 0.8, 10), flatMat("#7FE3C0"), [0.5, 9.4, 13], { partId: "ssd" });
+    addMesh(ssdG, new THREE.BoxGeometry(7, 0.8, 10), texMat("m2ssd", 1024, 320, drawM2), [0.5, 9.4, 13], { partId: "ssd" });
     root.add(ssdG);
     registerPart("ssd", ssdG);
 
     /* ---- 电源（联想/惠普在上后方，戴尔在下方） ---- */
     var psuG = new THREE.Group();
     var psuY = B.psuTop ? 34 : 6;
-    addMesh(psuG, new THREE.BoxGeometry(15, 8.6, 14), flatMat("#A995FF"), [0, psuY, -13], { partId: "psu" });
+    addMesh(psuG, new THREE.BoxGeometry(15, 8.6, 14), texMat("psu", 1024, 512, drawPSU), [0, psuY, -13], { partId: "psu" });
     addMesh(psuG, new THREE.CylinderGeometry(2.4, 2.4, 0.4, 20), flatMat("#8A7FD6"),
       [0, psuY, -6.1], { rot: [Math.PI / 2, 0, 0], partId: "psu", edges: false });
     // 出线束
@@ -492,7 +767,8 @@
     /* ---- 机箱风扇（后置排气） ---- */
     var fanG = new THREE.Group();
     var fanY = B.psuTop ? 17 : 30;
-    addMesh(fanG, new THREE.CylinderGeometry(5.2, 5.2, 1.4, 26), flatMat("#E4DED0"),
+    addMesh(fanG, new THREE.CylinderGeometry(5.2, 5.2, 1.4, 26),
+      texMat("caseFan", 512, 512, function (g, w, h) { drawFan(g, w, h, "#E4DED0", "#79CFFF"); }, {}),
       [-4.5, fanY, -20], { rot: [Math.PI / 2, 0, 0], partId: "case-fan" });
     addMesh(fanG, new THREE.CylinderGeometry(4.6, 4.6, 0.4, 24), flatMat("#79CFFF"),
       [-4.5, fanY, -19.4], { rot: [Math.PI / 2, 0, 0], partId: "case-fan", edges: false });
@@ -705,10 +981,33 @@
       (cfg.kb ? '<p class="hw-panel__kb"><b>一眼记住</b>' + esc(cfg.kb) + '</p>' : "") +
       (cfg.faults && cfg.faults.length ? '<div class="hw-panel__block"><h4>常见故障</h4><ul>' +
         cfg.faults.map(function (f) { return "<li>" + esc(f) + "</li>"; }).join("") + "</ul></div>" : "") +
-      (cfg.links && cfg.links.length ? '<div class="hw-panel__block"><h4>相关教程</h4><div class="hw-panel__links">' +
+      (cfg.links && cfg.links.length ? '<div class="hw-panel__block"><h4>相关排障教程</h4><div class="hw-panel__links">' +
         cfg.links.map(function (l) {
           return '<a class="hw-link" href="' + l.href + '">' + esc(l.label) + '<span aria-hidden="true">→</span></a>';
-        }).join("") + "</div></div>" : "");
+        }).join("") + "</div></div>" : "") +
+      sopBlock(cfg.id);
+  }
+
+  /* 按当前机型给出拆装 SOP 直达：零件级 + 机型总览两条 */
+  function sopBlock(partId) {
+    var dev = device();
+    var S = window.FX_SOP || {};
+    var part = (S.map && S.map[partId]) || null;
+    var over = (S.overview && S.overview[dev.id]) || S.default;
+    var rows = [];
+    if (part) rows.push({ href: part.href, label: part.label, kind: "part" });
+    // 同一篇文章不重复出现：零件级链接已经更具体，就不再叠一条总览
+    if (over && (!part || over.href !== part.href)) {
+      rows.push({ href: over.href, label: over.label, kind: "overview" });
+    }
+    if (!rows.length) return "";
+    return '<div class="hw-sop">' +
+      '<p class="hw-sop__label">按机型 · 拆装 SOP <span class="hw-sop__model">' + esc(dev.name) + (dev.sub ? " " + esc(dev.sub.split(" · ")[0]) : "") + '</span></p>' +
+      rows.map(function (r) {
+        return '<a class="hw-sop__link" href="' + r.href + '">' + esc(r.label) + '<span aria-hidden="true">→</span></a>';
+      }).join("") +
+      '<p class="hw-sop__hint">换件前先核对本机型的非标件说明（电源针脚、前置排线），再动手。</p>' +
+      '</div>';
   }
 
   function buildPartList() {
@@ -813,15 +1112,37 @@
       p.group.position.set(p.base.x + v.x, p.base.y + v.y, p.base.z + v.z);
     });
 
-    // 机箱骨架随分解淡出
+    // 机箱骨架与侧板随分解淡出（否则深色大板会把内部零件全挡住）
     (state.fadeMats || []).forEach(function (m) {
       m.transparent = true;
-      m.opacity = 1 - 0.8 * state.explodeT;
-      m.depthWrite = state.explodeT < 0.35;
+      m.opacity = 1 - 0.82 * state.explodeT;
+      m.depthWrite = state.explodeT < 0.3;
+    });
+    (state.fadeSoft || []).forEach(function (m) {
+      m.transparent = true;
+      m.opacity = 1 - 0.62 * state.explodeT;
+      m.depthWrite = state.explodeT < 0.3;
     });
 
     applyCamera();
     renderer.render(scene, camera);
+  }
+
+  /* 全屏舞台时，右侧悬浮窗会盖住画面一部分。
+     用相机视口偏移把模型整体往左推半个面板宽，模型就不会躲在面板后面，
+     比「缩小模型」更划算——画面利用率更高。 */
+  function applyViewOffset() {
+    if (!camera || !renderer) return;
+    var el2 = renderer.domElement;
+    var w = el2.clientWidth, h = el2.clientHeight;
+    var panelW = 0;
+    if (window.innerWidth > 1120 && state.windowOpen !== false) panelW = 372;
+    if (panelW && w > 760) {
+      camera.setViewOffset(w, h, panelW / 2, 0, w, h);
+    } else {
+      camera.clearViewOffset();
+    }
+    camera.updateProjectionMatrix();
   }
 
   function resize() {
@@ -831,6 +1152,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+    applyViewOffset();
     // 窄屏拉远，保证整机不出画（塔式本来就高，需要退更多）
     var minR = device().kind === "tower" ? 120 : 96;
     if (w / h < 1.05) orbit.radius = Math.max(orbit.radius, minR);
@@ -856,6 +1178,9 @@
     el.poster = document.getElementById("hw-poster");
     el.intro = document.getElementById("hw-intro");
     el.devices = document.getElementById("hw-devices");
+    el.window = document.getElementById("hw-window");
+    el.windowClose = document.getElementById("hw-window-close");
+    el.windowOpen = document.getElementById("hw-window-open");
 
     THREE = await import("../vendor/three/three.custom.min.js");
 
@@ -900,6 +1225,18 @@
       e.preventDefault();
       btns[e.key === "ArrowDown" ? Math.min(btns.length - 1, i + 1) : Math.max(0, i - 1)].focus();
     });
+
+    // 悬浮详情窗：收起 / 展开
+    function setWindowOpen(open) {
+      if (!el.window) return;
+      el.window.classList.toggle("is-hidden", !open);
+      if (el.windowOpen) el.windowOpen.hidden = !!open;
+      state.windowOpen = !!open;
+      // 收起后把画面重新居中
+      requestAnimationFrame(applyViewOffset);
+    }
+    if (el.windowClose) el.windowClose.addEventListener("click", function () { setWindowOpen(false); if (el.windowOpen) el.windowOpen.focus(); });
+    if (el.windowOpen) el.windowOpen.addEventListener("click", function () { setWindowOpen(true); });
 
     el.explodeBtn.addEventListener("click", function () { setExploded(!state.exploded); });
     el.rotateBtn.addEventListener("click", function () { state.autoRotate = !state.autoRotate; syncAutoBtn(); });

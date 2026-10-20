@@ -278,7 +278,7 @@ function towerParts(brand) {
         { href: "./fix/disk-clicking-failure.html", label: "硬盘咔咔响 / 识别不到" },
         { href: "./fix/win-c-drive-full-cleanup.html", label: "C 盘爆红怎么清理" }
       ],
-      explode: [21, -8, 11]
+      explode: [21, -4, 11]
     },
     {
       id: "ssd", name: "固态硬盘 / M.2", en: "SSD / M.2", color: "#7FE3C0",
@@ -289,7 +289,7 @@ function towerParts(brand) {
         { href: "./fix/disk-clicking-failure.html", label: "硬盘识别不到" },
         { href: "./fix/win-update-stuck.html", label: "Windows 更新卡住" }
       ],
-      explode: [21, -3, 16]
+      explode: [21, 2, 16]
     },
     {
       id: "psu", name: "电源", en: "Power Supply", color: "#A995FF",
@@ -345,6 +345,51 @@ window.FX_DEVICES.push({
   intro: "前面板自下而上卡扣、后部螺丝固定侧板。惠普的电源与前置面板同样是非标件，跨代际也不通用。",
   parts: towerParts("hp")
 });
+
+/* ============================================================
+   三、零件 → 拆装 SOP 直达表
+   ------------------------------------------------------------
+   为什么要单独一张表：同一个零件在「笔记本」和「塔式主机」上的拆法完全不同，
+   但落到的站点文章是同一批。这里只解决「点零件 → 去哪一篇」的映射，
+   文章本身的机型差异写在各篇 SOP 里。
+   · default：找不到专用条目时的兜底（装机与运维手册总览）
+   · map：按零件 id 映射到最相关的那一篇 + 锚点说明
+   ============================================================ */
+window.FX_SOP = {
+  default: { href: "./fix/sop-pe-usb-install.html", label: "装机与运维手册：拆装与换件总览" },
+  map: {
+    /* ---- 笔记本 ---- */
+    lid:       { href: "./fix/sop-hardware-peripheral.html", label: "屏幕与显示：拆装、屏线、花屏" },
+    hinge:     { href: "./fix/sop-hardware-peripheral.html", label: "屏轴与屏线：开合异响 / 闪屏" },
+    keyboard:  { href: "./fix/sop-hardware-peripheral.html", label: "键盘与触控板：失灵与更换" },
+    battery:   { href: "./fix/sop-billable-repair.html",     label: "电池与续航：不充电 / 鼓包处理" },
+    mainboard: { href: "./fix/sop-pe-usb-install.html",      label: "主板与 BIOS：加电无显排查" },
+    cpu:       { href: "./fix/sop-pe-usb-install.html",      label: "CPU 与散热：硅脂、散热器拆装" },
+    ram:       { href: "./fix/sop-pe-usb-install.html",      label: "内存：检测、插拔与升级" },
+    ssd:       { href: "./fix/sop-pe-usb-install.html",      label: "硬盘：检测、换盘与数据迁移" },
+    fan:       { href: "./fix/sop-hardware-peripheral.html", label: "散热风扇：清灰与更换" },
+    wifi:      { href: "./fix/sop-driver-image-misc.html",   label: "无线网卡：驱动、天线与换卡" },
+    speaker:   { href: "./fix/sop-hardware-peripheral.html", label: "扬声器：单边无声与杂音" },
+    ports:     { href: "./fix/sop-hardware-peripheral.html", label: "接口与排线：USB / 显示输出" },
+    /* ---- 塔式主机 ---- */
+    "side-panel":  { href: "./fix/sop-pe-usb-install.html",      label: "开箱与拆机：侧板、免工具结构" },
+    "front-bezel": { href: "./fix/sop-pe-usb-install.html",      label: "前面板：卡扣、电源键与前置接口" },
+    gpu:           { href: "./fix/sop-driver-image-misc.html",   label: "独立显卡：安装、供电与驱动" },
+    hdd:           { href: "./fix/sop-pe-usb-install.html",      label: "机械硬盘：硬盘笼、换盘与迁移" },
+    psu:           { href: "./fix/sop-pe-usb-install.html",      label: "电源：功率、针脚与更换" },
+    "case-fan":    { href: "./fix/sop-hardware-peripheral.html", label: "机箱风扇：清灰、异响与风道" },
+    odd:           { href: "./fix/sop-pe-usb-install.html",      label: "光驱位 / 扩展位：改装硬盘托架" }
+  },
+  /* 每台机型指向的「该机型拆装总览」入口。
+     直接锚到 SOP 页的「处理明细」段——那里逐条列了该机型相关的全部拆装条目，
+     和上面「零件级」链接区分开：一个是这块零件怎么拆，一个是整机全部条目。 */
+  overview: {
+    laptop: { href: "./fix/sop-pe-usb-install.html#处理明细", label: "笔记本装系统与拆装全部条目" },
+    lenovo: { href: "./fix/sop-pe-usb-install.html#处理明细", label: "联想 ThinkCentre 拆装全部条目" },
+    dell:   { href: "./fix/sop-pe-usb-install.html#处理明细", label: "戴尔 OptiPlex 拆装全部条目" },
+    hp:     { href: "./fix/sop-pe-usb-install.html#处理明细", label: "惠普 ProDesk 拆装全部条目" }
+  }
+};
 
 /* 兼容旧代码/调试：默认机型的零件 */
 window.FX_PARTS = window.FX_DEVICES[0].parts;

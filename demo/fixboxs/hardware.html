@@ -28,7 +28,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 <link rel="stylesheet" href="./css/fix-neu.css">
 <link rel="stylesheet" href="./css/hardware.css">
 </head>
-<body>
+<body class="hw-page-full">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
   <div class="fx-preloader__inner">
     <div class="fx-preloader__mark">
@@ -59,112 +59,111 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 </div></header>
 
 <main id="main">
-<div class="hw-page">
 
-  <div class="hw-hero">
-    <p class="hw-hero__eyebrow">Hardware Exploded View</p>
-    <h1 class="hw-title">一台电脑里，<em>到底有什么</em>？</h1>
-    <p class="hw-sub">拖动可以转动、滚轮可以缩放，点任意零件把它从机身里分出来——看到的不是模型演示，而是这个零件坏了会有什么症状、该去看哪篇教程。</p>
-    <p class="hw-sub hw-intro" id="hw-intro">上盖、键盘面、电池、主板、CPU、内存、硬盘、风扇、网卡——一台轻薄本里的全部主要零件。</p>
+<!-- ============================================================
+     全屏 3D 舞台：不再套一个带边框的框，模型直接铺满视口
+     ============================================================ -->
+<section class="hw-view" id="hw-stage" aria-label="硬件 3D 拆解视图">
+  <canvas id="hw-canvas" aria-hidden="true"></canvas>
+
+  <!-- 静态海报：引擎加载前占位，同时也是 WebGL 不可用时的降级图 -->
+  <img class="hw-poster" id="hw-poster" src="./img/hardware-poster.webp"
+       alt="硬件拆解示意图：各零件的相对位置" width="1280" height="880" decoding="async" fetchpriority="high">
+
+  <div class="hw-loader" id="hw-loader" hidden>
+    <span class="hw-loader__spinner" aria-hidden="true"></span>
+    <span>正在准备 3D 引擎…</span>
   </div>
 
-  <!-- 机型切换 -->
-  <div class="hw-devices" id="hw-devices" role="tablist" aria-label="选择机型">
-    <button type="button" class="hw-device is-on" role="tab" data-device="laptop" aria-selected="true" tabindex="0">
-      <span class="hw-device__name">笔记本</span><span class="hw-device__sub">14 寸参考机型</span>
-    </button>
-    <button type="button" class="hw-device" role="tab" data-device="lenovo" aria-selected="false" tabindex="-1">
-      <span class="hw-device__name">联想</span><span class="hw-device__sub">ThinkCentre</span>
-    </button>
-    <button type="button" class="hw-device" role="tab" data-device="dell" aria-selected="false" tabindex="-1">
-      <span class="hw-device__name">戴尔</span><span class="hw-device__sub">OptiPlex</span>
-    </button>
-    <button type="button" class="hw-device" role="tab" data-device="hp" aria-selected="false" tabindex="-1">
-      <span class="hw-device__name">惠普</span><span class="hw-device__sub">ProDesk</span>
-    </button>
+  <div class="hw-fallback" id="hw-fallback" hidden>
+    <span id="hw-fallback-note">当前浏览器不支持 WebGL，已切换为静态示意图。</span>
+    零件清单与教程链接仍然可用。
   </div>
 
-  <div class="hw-layout">
-    <!-- ============ 3D 舞台 ============ -->
-    <section class="hw-stage" id="hw-stage" aria-label="笔记本 3D 拆解视图">
-      <canvas id="hw-canvas" aria-hidden="true"></canvas>
+  <!-- 左上：标题（轻量浮层，不挡模型） -->
+  <div class="hw-hud hw-hud--title">
+    <p class="hw-eyebrow">Hardware Exploded View</p>
+    <h1 class="hw-h1">一台电脑里，<em>到底有什么</em>？</h1>
+    <p class="hw-lead" id="hw-intro">上盖、键盘面、电池、主板、CPU、内存、硬盘、风扇、网卡——一台轻薄本里的全部主要零件。</p>
+  </div>
 
-      <!-- 静态海报：3D 引擎加载前先顶上，同时也是 WebGL 不可用时的降级图 -->
-      <img class="hw-poster" id="hw-poster" src="./img/hardware-poster.webp" alt="笔记本拆解示意图：屏幕、键盘、电池、主板、CPU、内存、硬盘、风扇、网卡等零件的相对位置" width="1280" height="880" decoding="async" fetchpriority="high">
+  <!-- 顶部居中：机型切换 -->
+  <div class="hw-hud hw-hud--devices">
+    <div class="hw-devices" id="hw-devices" role="tablist" aria-label="选择机型">
+      <button type="button" class="hw-device is-on" role="tab" data-device="laptop" aria-selected="true" tabindex="0">
+        <span class="hw-device__name">笔记本</span><span class="hw-device__sub">14 寸</span>
+      </button>
+      <button type="button" class="hw-device" role="tab" data-device="lenovo" aria-selected="false" tabindex="-1">
+        <span class="hw-device__name">联想</span><span class="hw-device__sub">ThinkCentre</span>
+      </button>
+      <button type="button" class="hw-device" role="tab" data-device="dell" aria-selected="false" tabindex="-1">
+        <span class="hw-device__name">戴尔</span><span class="hw-device__sub">OptiPlex</span>
+      </button>
+      <button type="button" class="hw-device" role="tab" data-device="hp" aria-selected="false" tabindex="-1">
+        <span class="hw-device__name">惠普</span><span class="hw-device__sub">ProDesk</span>
+      </button>
+    </div>
+  </div>
 
-      <div class="hw-loader" id="hw-loader" hidden>
-        <span class="hw-loader__spinner" aria-hidden="true"></span>
-        <span>正在准备 3D 引擎…</span>
+  <!-- 右下：视图工具 -->
+  <div class="hw-hud hw-hud--tools">
+    <button type="button" class="hw-tool" id="hw-explode" aria-pressed="false"><span data-label>分解零件</span></button>
+    <button type="button" class="hw-tool is-on" id="hw-rotate" aria-pressed="true">自动旋转</button>
+    <button type="button" class="hw-tool" id="hw-reset">重置视角</button>
+  </div>
+
+  <!-- 左下：操作提示 -->
+  <p class="hw-hint" aria-hidden="true">拖动旋转 · 滚轮缩放 · 点击零件</p>
+
+  <!-- 右侧：悬浮详情窗（可收起） -->
+  <aside class="hw-window" id="hw-window" aria-label="零件详情">
+    <header class="hw-window__bar">
+      <span class="hw-window__dot" aria-hidden="true"></span>
+      <h2 class="hw-window__title">零件详情</h2>
+      <button type="button" class="hw-window__btn" id="hw-window-close" aria-label="收起详情窗">—</button>
+    </header>
+    <div class="hw-window__body">
+      <div class="hw-listwrap">
+        <p class="hw-listwrap__label">零件清单（可键盘操作）</p>
+        <div class="hw-list" id="hw-list" role="group" aria-label="零件清单"></div>
       </div>
-
-      <div class="hw-fallback" id="hw-fallback" hidden>
-        <span id="hw-fallback-note">当前浏览器不支持 WebGL，已切换为静态示意图。</span>
-        右侧零件清单仍然可用，点开一样能看到故障说明和教程链接。
-      </div>
-
-      <div class="hw-tools">
-        <button type="button" class="hw-tool" id="hw-explode" aria-pressed="false"><span data-label>分解零件</span></button>
-        <button type="button" class="hw-tool is-on" id="hw-rotate" aria-pressed="true">自动旋转</button>
-        <button type="button" class="hw-tool" id="hw-reset">重置视角</button>
-      </div>
-
-      <p class="hw-hint" aria-hidden="true">拖动旋转 · 滚轮缩放 · 点击零件查看</p>
-      <p class="hw-live" id="hw-live" role="status" aria-live="polite"></p>
-    </section>
-
-    <!-- ============ 右侧面板 ============ -->
-    <aside class="hw-side">
-      <div class="hw-card">
-        <h2 class="hw-card__title">零件清单（可键盘操作）</h2>
-        <div class="hw-list" id="hw-list" role="group" aria-label="笔记本零件清单"></div>
-      </div>
-
-      <div class="hw-card">
-        <h2 class="hw-card__title">零件详情</h2>
-        <div id="hw-panel">
-          <div class="hw-panel__empty">
-            <p class="hw-panel__hint">click to inspect</p>
-            <h3>点一下任意零件</h3>
-            <p>零件会从机身里分出来，这里显示它的作用、常见故障，以及对应的排障教程。</p>
-            <p class="hw-panel__kb"><b>也可以</b>直接点上面的零件清单——键盘和读屏器都能用。</p>
-          </div>
+      <div class="hw-window__divider" aria-hidden="true"></div>
+      <div id="hw-panel">
+        <div class="hw-panel__empty">
+          <p class="hw-panel__hint">click to inspect</p>
+          <h3>点一下任意零件</h3>
+          <p>零件会从机身里分出来，这里显示它的作用、常见故障，以及按当前机型给出的拆装 SOP。</p>
+          <p class="hw-panel__kb"><b>也可以</b>直接点上面的零件清单——键盘和读屏器都能用。</p>
         </div>
       </div>
-    </aside>
-  </div>
+    </div>
+  </aside>
 
-  <!-- ============ 说明 ============ -->
-  <section class="hw-notes">
+  <!-- 详情窗收起后的重新打开按钮 -->
+  <button type="button" class="hw-window-open" id="hw-window-open" hidden>零件详情</button>
+
+  <p class="hw-live" id="hw-live" role="status" aria-live="polite"></p>
+</section>
+
+<!-- ============ 说明 ============ -->
+<section class="hw-notes">
+  <div class="hw-notes__inner">
     <h2>这张拆解图怎么用</h2>
     <ul>
       <li><b>工程师拆机前</b>：先点开要动的那块（比如「电池」），确认它在机身里的位置和相邻排线，再下螺丝。</li>
+      <li><b>零件页直接给 SOP</b>：每台机型的每个零件下方都有「拆装 SOP」入口，跳到对应手册，不用再去翻目录。</li>
       <li><b>判断故障归属</b>：同一类现象往往指向不同零件。黑屏先分清是屏、屏线还是显卡；卡顿先分清是硬盘、内存还是散热。</li>
       <li><b>给客户解释</b>：不用拆机也能说清「换的是哪一块、要多少钱」，比口头描述准确得多。</li>
-      <li><b>换件前先看「非标」提示</b>：联想 / 戴尔 / 惠普 的电源接口、前置面板针脚都不通用，各机型面板里已经标注了对应坑点。</li>
+      <li><b>换件前先看「非标」提示</b>：联想 / 戴尔 / 惠普 的电源接口、前置面板针脚都不通用，各机型面板里已标注对应坑点。</li>
     </ul>
-
     <div class="hw-notes__grid">
-      <div class="hw-note">
-        <b>模型是示意，不是精确图纸</b>
-        零件比例与真实机型有差异，仅供理解结构与相对位置。具体拆装步骤以对应机型的作业指导书为准。
-      </div>
-      <div class="hw-note">
-        <b>拆机第一步永远是断电</b>
-        先关机、拔电源、断电池排线。带电插拔主板最容易烧元件，且属于人为损坏。
-      </div>
-      <div class="hw-note">
-        <b>涉及数据的操作先备份</b>
-        换硬盘、重装系统、分区之前，必须先完成数据备份并让客户确认。
-      </div>
-      <div class="hw-note">
-        <b>找不到对应零件？</b>
-        去 <a href="./browse.html#ref-manual">装机与运维手册</a> 看按机型整理的拆装与换件流程。
-      </div>
+      <div class="hw-note"><b>模型是示意，不是精确图纸</b>零件比例与真实机型有差异，仅供理解结构与相对位置。具体拆装步骤以对应机型的作业指导书为准。</div>
+      <div class="hw-note"><b>拆机第一步永远是断电</b>先关机、拔电源、断电池排线。带电插拔主板最容易烧元件，且属于人为损坏。</div>
+      <div class="hw-note"><b>涉及数据的操作先备份</b>换硬盘、重装系统、分区之前，必须先完成数据备份并让客户确认。</div>
+      <div class="hw-note"><b>找不到对应零件？</b>去 <a href="./browse.html#ref-manual">装机与运维手册</a> 看按机型整理的拆装与换件流程。</div>
     </div>
-  </section>
-
-</div>
-<div style="height:56px"></div>
+  </div>
+</section>
 </main>
 
 <footer class="fx-foot"><div class="fx-wrap">

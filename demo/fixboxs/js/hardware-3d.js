@@ -750,6 +750,37 @@
     hp:     { badge: "#0096D6", bezel: "#2A3038", chassis: "#3C434D", accent: "#0096D6", face: "hp",     glass: false, psuTop: true  }
   };
 
+  /* 三家的内部布局差异——这是「爆炸图不能长得一样」的关键：
+     · 联想 刃7000K：标准 ATX 思路，塔式侧吹散热，前后直通风道，电源上置，底部硬盘笼
+     · 戴尔 OptiPlex：定制主板更靠前，下压式散热 + 塑料导风罩，硬盘笼可上翻，电源下置，无光驱位
+     · 惠普 ProDesk：主板靠后，下压式散热 + 前置进风道，前置抽拉硬盘（绿卡扣），电源上置，保留光驱位 */
+  var LAYOUT = {
+    lenovo: {
+      boardY: 23.5, boardZ: -2.5, boardH: 27,
+      cpuY: 27.0, cpuZ: -6.5, cooler: "tower",
+      gpuY: 15.2, gpuZ: 1.5,
+      hddY: 5.0, hddZ: 12.5, hddTilt: 0, hddRail: "#2F7BD8",
+      oddY: 35.0, oddZ: 6.5, hasOdd: true,
+      duct: false, frontDuct: false
+    },
+    dell: {
+      boardY: 22.0, boardZ: -3.6, boardH: 25,
+      cpuY: 25.4, cpuZ: -7.6, cooler: "down",
+      gpuY: 13.4, gpuZ: 2.4,
+      hddY: 8.2, hddZ: 8.4, hddTilt: -0.32, hddRail: "#2F7BD8",
+      oddY: 32.6, oddZ: 3.0, hasOdd: false,
+      duct: true, frontDuct: false
+    },
+    hp: {
+      boardY: 24.4, boardZ: -1.0, boardH: 26,
+      cpuY: 27.8, cpuZ: -4.4, cooler: "down",
+      gpuY: 16.0, gpuZ: 0.6,
+      hddY: 5.2, hddZ: 13.4, hddTilt: 0, hddRail: "#3DBE54",
+      oddY: 35.0, oddZ: 7.0, hasOdd: true,
+      duct: false, frontDuct: true
+    }
+  };
+
   /* 机箱前脸：三个品牌各是一种「一眼能认出」的开孔方式
      · 联想 刃7000K：大面积方形冲孔网 + 左侧竖向 I/O 条
      · 戴尔 OptiPlex：横向格栅 + 中部银色腰带 + 圆形徽标
@@ -871,66 +902,106 @@
     root.add(bezG);
     registerPart("front-bezel", bezG);
 
+    /* ---------- 内部布局：三家不一样，按 LAYOUT 取参数 ---------- */
+    var L = LAYOUT[brandId] || LAYOUT.lenovo;
+    var mbx = -T.W / 2 + 1.1;
+    var dY = L.boardY - 23.5, dZ = L.boardZ + 2.5;
+
     /* ---------- 主板（深色 PCB，带插槽、电容、芯片组散热片、M.2 散热片） ---------- */
     var mbG = new THREE.Group();
-    var mbx = -T.W / 2 + 1.1;
-    addMesh(mbG, new THREE.BoxGeometry(0.55, 27, 23),
-      texMat("pcbDark", 1024, 1024, drawPCBDark), [mbx, 23.5, -2.5], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.55, L.boardH, 23),
+      texMat("pcbDark", 1024, 1024, drawPCBDark), [mbx, L.boardY, L.boardZ], { partId: "mainboard" });
     // PCIe x16 槽
-    addMesh(mbG, new THREE.BoxGeometry(1.0, 1.1, 12), flatMat("#1A1F27"), [mbx + 0.6, 15.2, 1.5], { partId: "mainboard", edges: false });
+    addMesh(mbG, new THREE.BoxGeometry(1.0, 1.1, 12), flatMat("#1A1F27"), [mbx + 0.6, 15.2 + dY, 1.5 + dZ], { partId: "mainboard", edges: false });
     // DIMM 插槽 ×4
     for (var d = 0; d < 4; d++) {
       addMesh(mbG, new THREE.BoxGeometry(1.1, 0.5, 13), flatMat("#20262E"),
-        [mbx + 0.55, 13.6 + d * 0.0, 2.5 + d * 0.0], { partId: "mainboard", edges: false });
+        [mbx + 0.55, 13.6 + dY, 2.5 + dZ], { partId: "mainboard", edges: false });
     }
-    // 芯片组散热片 + M.2 散热片（黑，带 Legion 字样感的浅色条）
-    addMesh(mbG, new THREE.BoxGeometry(0.8, 6, 6), flatMat("#161A20"), [mbx + 0.9, 18.5, 6.5], { partId: "mainboard" });
-    addMesh(mbG, new THREE.BoxGeometry(0.7, 3.0, 9), flatMat("#161A20"), [mbx + 0.9, 25.5, 5.5], { partId: "mainboard" });
-    addMesh(mbG, new THREE.BoxGeometry(0.05, 0.8, 5.5), flatMat("#C8CDD6"), [mbx + 1.28, 25.5, 5.5], { partId: "mainboard", edges: false });
+    // 芯片组散热片 + M.2 散热片
+    addMesh(mbG, new THREE.BoxGeometry(0.8, 6, 6), flatMat("#161A20"), [mbx + 0.9, 18.5 + dY, 6.5 + dZ], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.7, 3.0, 9), flatMat("#161A20"), [mbx + 0.9, 25.5 + dY, 5.5 + dZ], { partId: "mainboard" });
+    addMesh(mbG, new THREE.BoxGeometry(0.05, 0.8, 5.5), flatMat("#C8CDD6"), [mbx + 1.28, 25.5 + dY, 5.5 + dZ], { partId: "mainboard", edges: false });
     // 电容
     for (var cp = 0; cp < 10; cp++) {
       addMesh(mbG, new THREE.CylinderGeometry(0.62, 0.62, 1.7, 12), flatMat("#2C333C"),
-        [mbx + 1.0, 11 + (cp % 5) * 1.2, -10 + Math.floor(cp / 5) * 3.4],
+        [mbx + 1.0, 11 + (cp % 5) * 1.2 + dY, -10 + Math.floor(cp / 5) * 3.4 + dZ],
         { rot: [0, 0, Math.PI / 2], partId: "mainboard", edges: false });
     }
     // 24pin 供电口
-    addMesh(mbG, new THREE.BoxGeometry(1.2, 4.2, 1.6), flatMat("#D8DEE6"), [mbx + 1.0, 10.5, 8.5], { partId: "mainboard", edges: false });
+    addMesh(mbG, new THREE.BoxGeometry(1.2, 4.2, 1.6), flatMat("#D8DEE6"), [mbx + 1.0, 10.5 + dY, 8.5 + dZ], { partId: "mainboard", edges: false });
     root.add(mbG);
     registerPart("mainboard", mbG);
 
-    /* ---------- CPU + 塔式散热器 ---------- */
+    /* ---------- CPU + 散热器：联想塔式侧吹，戴尔/惠普下压式 ---------- */
     var cpuG = new THREE.Group();
-    addMesh(cpuG, new THREE.BoxGeometry(0.5, 5.4, 5.4), flatMat("#3A4048"), [mbx + 0.9, 27, -6.5], { partId: "cpu" });
-    // 散热器底座 + 鳍片堆
-    addMesh(cpuG, new THREE.BoxGeometry(7.4, 1.0, 7.4), flatMat("#B9BFC7"), [mbx + 4.6, 25.2, -6.5], { partId: "cpu" });
-    for (var fin = 0; fin < 22; fin++) {
-      addMesh(cpuG, new THREE.BoxGeometry(6.6, 0.16, 7.0), flatMat(fin % 2 ? "#AEB4BC" : "#C4CAD2"),
-        [mbx + 4.6, 26.4 + fin * 0.46, -6.5], { partId: "cpu", edges: false });
+    var cx = mbx + 0.9, cy = L.cpuY, cz = L.cpuZ;
+    addMesh(cpuG, new THREE.BoxGeometry(0.5, 5.4, 5.4), flatMat("#3A4048"), [cx, cy, cz], { partId: "cpu" });
+
+    if (L.cooler === "tower") {
+      // 塔式：底座 + 22 片鳍片 + 4 热管端头 + 侧挂风扇
+      addMesh(cpuG, new THREE.BoxGeometry(7.4, 1.0, 7.4), flatMat("#B9BFC7"), [cx + 3.7, cy - 1.8, cz], { partId: "cpu" });
+      for (var fin = 0; fin < 22; fin++) {
+        addMesh(cpuG, new THREE.BoxGeometry(6.6, 0.16, 7.0), flatMat(fin % 2 ? "#AEB4BC" : "#C4CAD2"),
+          [cx + 3.7, cy - 0.6 + fin * 0.46, cz], { partId: "cpu", edges: false });
+      }
+      for (var hpp = 0; hpp < 4; hpp++) {
+        addMesh(cpuG, new THREE.CylinderGeometry(0.32, 0.32, 8.2, 10), flatMat("#C98B5E"),
+          [cx + 3.7, cy - 1.1, cz - 2.7 + hpp * 1.75], { rot: [Math.PI / 2, 0, 0], partId: "cpu", edges: false });
+      }
+      addMesh(cpuG, new THREE.BoxGeometry(1.0, 7.0, 7.0),
+        texMat("cpuFan", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#3E4753"); }, {}),
+        [cx + 7.7, cy + 3.5, cz], { partId: "cpu" });
+    } else {
+      // 下压式（品牌机常见）：矮散热块 + 放射状鳍片 + 顶置风扇
+      addMesh(cpuG, new THREE.BoxGeometry(9.6, 0.5, 9.6), flatMat("#C4CAD2"), [cx + 4.4, cy - 1.7, cz], { partId: "cpu" });
+      for (var rf = 0; rf < 15; rf++) {
+        addMesh(cpuG, new THREE.BoxGeometry(0.3, 3.0, 9.0), flatMat(rf % 2 ? "#AEB4BC" : "#C9CFD6"),
+          [cx + 0.3 + rf * 0.62, cy - 0.1, cz], { partId: "cpu", edges: false });
+      }
+      addMesh(cpuG, new THREE.BoxGeometry(9.6, 1.3, 9.6),
+        texMat("cpuFanDown", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#39414C"); }, {}),
+        [cx + 4.4, cy + 1.9, cz], { partId: "cpu" });
+      // 四角固定柱
+      [[-4.2, -4.2], [4.2, -4.2], [-4.2, 4.2], [4.2, 4.2]].forEach(function (o) {
+        addMesh(cpuG, new THREE.CylinderGeometry(0.28, 0.28, 3.4, 8), flatMat("#8E959E"),
+          [cx + 4.4 + o[0], cy + 0.1, cz + o[1]], { partId: "cpu", edges: false });
+      });
     }
-    // 热管端头（4 根）
-    for (var hp = 0; hp < 4; hp++) {
-      addMesh(cpuG, new THREE.CylinderGeometry(0.32, 0.32, 8.2, 10), flatMat("#C98B5E"),
-        [mbx + 4.6, 25.9, -9.2 + hp * 1.75], { rot: [Math.PI / 2, 0, 0], partId: "cpu", edges: false });
+
+    // 戴尔：后置风扇 → CPU 的塑料导风罩（这是戴尔塔式最标志性的一件东西）
+    if (L.duct) {
+      var ductMat = new THREE.MeshLambertMaterial({
+        color: new THREE.Color("#232A33"), transparent: true, opacity: 0.52, side: THREE.DoubleSide
+      });
+      ductMat.userData.baseOpacity = 0.52;
+      addMesh(cpuG, new THREE.BoxGeometry(12.0, 9.2, 12.4), ductMat,
+        [cx + 3.6, cy + 1.2, cz - 6.4], { partId: "cpu" });
+      state.fadeSoft.push(ductMat);
     }
-    // 侧挂风扇
-    addMesh(cpuG, new THREE.BoxGeometry(1.0, 7.0, 7.0),
-      texMat("cpuFan", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#3E4753"); }, {}),
-      [mbx + 8.6, 30.5, -6.5], { partId: "cpu" });
+    // 惠普：前部进风道（把冷风从前面板引到 CPU）
+    if (L.frontDuct) {
+      addMesh(cpuG, new THREE.BoxGeometry(13.0, 1.2, 16.0), flatMat("#2A3038"),
+        [cx + 5.0, cy + 5.2, cz + 9.0], { partId: "cpu", edges: true });
+      addMesh(cpuG, new THREE.BoxGeometry(13.0, 6.0, 0.8), flatMat("#2A3038"),
+        [cx + 5.0, cy + 2.4, cz + 16.6], { partId: "cpu", edges: true });
+    }
     root.add(cpuG);
     registerPart("cpu", cpuG);
+    parts["cpu"].mats.forEach(function (m) { if (m.userData.baseOpacity) state.fadeSoft.push(m); });
 
-    /* ---------- 内存（带黑色马甲 + 蓝色丝印） ---------- */
+    /* ---------- 内存（黑色马甲 + 蓝色丝印） ---------- */
     var ramG = new THREE.Group();
     [-1.0, 1.4].forEach(function (zz) {
       addMesh(ramG, new THREE.BoxGeometry(3.4, 13.2, 1.0),
-        texMat("ramHS", 512, 1024, drawRamHeatsink), [mbx + 2.4, 27, 1.6 + zz * 1.1], { partId: "ram" });
+        texMat("ramHS", 512, 1024, drawRamHeatsink), [mbx + 2.4, L.boardY + 3.5, 1.6 + dZ + zz * 1.1], { partId: "ram" });
     });
     root.add(ramG);
     registerPart("ram", ramG);
 
     /* ---------- 独立显卡（双风扇 + 导风罩 + 热管） ---------- */
     var gpuG = new THREE.Group();
-    var gx = -2.4, gy = 15.2, gz = 1.5;
+    var gx = -2.4, gy = L.gpuY, gz = L.gpuZ;
     addMesh(gpuG, new THREE.BoxGeometry(11.4, 0.8, 24), flatMat("#161A20"), [gx, gy, gz], { partId: "gpu" });
     addMesh(gpuG, new THREE.BoxGeometry(11.0, 3.6, 23.4),
       texMat("gpuShroud2", 1024, 512, drawGPUShroud), [gx, gy - 2.0, gz], { partId: "gpu" });
@@ -939,7 +1010,6 @@
         texMat("gpuFan", 256, 256, function (g, w, h) { drawFan(g, w, h, "#20262E", "#2E3540"); }, {}),
         [gx + 2.0, gy - 3.9, gz + zz], { rot: [Math.PI / 2, 0, 0], partId: "gpu", edges: false });
     });
-    // 尾部挡板 + 热管
     addMesh(gpuG, new THREE.BoxGeometry(0.3, 5.2, 12), flatMat("#8E959E"), [gx - 5.7, gy - 1.4, gz], { partId: "gpu" });
     for (var gh = 0; gh < 3; gh++) {
       addMesh(gpuG, new THREE.CylinderGeometry(0.28, 0.28, 22, 8), flatMat("#C98B5E"),
@@ -948,23 +1018,32 @@
     root.add(gpuG);
     registerPart("gpu", gpuG);
 
-    /* ---------- 机械硬盘 + 硬盘笼 + 免工具卡扣 ---------- */
+    /* ---------- 机械硬盘：联想底部笼 / 戴尔可上翻笼 / 惠普前置抽拉（绿卡扣） ---------- */
     var hddG = new THREE.Group();
+    var hx = brandId === "hp" ? 0.6 : (brandId === "dell" ? 1.6 : 0.6);
     addMesh(hddG, new THREE.BoxGeometry(10, 2.6, 14.7),
-      texMat("hdd", 1024, 512, drawHDD), [0.6, 5.0, 12.5], { partId: "hdd" });
-    // 免工具卡扣（惠普是绿色，其余是蓝色，符合实拍）
-    var clipColor = B.face === "hp" ? "#3DBE54" : "#2F7BD8";
-    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(clipColor), [-4.4, 5.4, 6.2], { partId: "hdd", edges: false });
-    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(clipColor), [5.6, 5.4, 6.2], { partId: "hdd", edges: false });
-    // 硬盘笼边框
-    addMesh(hddG, new THREE.BoxGeometry(11.6, 0.5, 16), flatMat("#2A3038"), [0.6, 3.4, 12.5], { partId: "hdd", edges: false });
+      texMat("hdd", 1024, 512, drawHDD), [hx, L.hddY, L.hddZ], { partId: "hdd" });
+    // 免工具卡扣（戴尔是蓝色快拆，惠普是绿色）
+    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(L.hddRail), [hx - 5.0, L.hddY + 0.4, L.hddZ - 6.3], { partId: "hdd", edges: false });
+    addMesh(hddG, new THREE.BoxGeometry(1.2, 1.6, 3.0), flatMat(L.hddRail), [hx + 5.0, L.hddY + 0.4, L.hddZ - 6.3], { partId: "hdd", edges: false });
+    // 笼/托架
+    addMesh(hddG, new THREE.BoxGeometry(11.6, 0.5, 16), flatMat("#2A3038"), [hx, L.hddY - 1.6, L.hddZ], { partId: "hdd", edges: false });
+    if (brandId === "dell") {
+      // 上翻式：笼体带转轴，整体略微倾斜，和联想/惠普的固定笼区分开
+      addMesh(hddG, new THREE.BoxGeometry(11.6, 6.4, 0.5), flatMat("#333A44"), [hx, L.hddY + 1.6, L.hddZ + 7.4], { partId: "hdd", edges: false });
+      hddG.rotation.x = L.hddTilt;
+    } else if (brandId === "hp") {
+      // 抽拉式：前方两个绿色导轨卡子
+      addMesh(hddG, new THREE.BoxGeometry(1.4, 3.2, 12), flatMat(L.hddRail), [hx - 5.6, L.hddY + 0.2, L.hddZ], { partId: "hdd", edges: false });
+      addMesh(hddG, new THREE.BoxGeometry(11.8, 1.2, 1.0), flatMat("#2A3038"), [hx, L.hddY + 1.4, L.hddZ + 7.6], { partId: "hdd", edges: false });
+    }
     root.add(hddG);
     registerPart("hdd", hddG);
 
     /* ---------- 固态硬盘（M.2 条） ---------- */
     var ssdG = new THREE.Group();
     addMesh(ssdG, new THREE.BoxGeometry(8.0, 0.8, 2.2),
-      texMat("m2ssd2", 1024, 320, drawM2), [0.6, 9.4, 12.5], { partId: "ssd" });
+      texMat("m2ssd2", 1024, 320, drawM2), [0.6, L.hddY + 4.4, L.hddZ], { partId: "ssd" });
     root.add(ssdG);
     registerPart("ssd", ssdG);
 
@@ -991,10 +1070,17 @@
     root.add(fanG);
     registerPart("case-fan", fanG);
 
-    /* ---------- 光驱位 ---------- */
+    /* ---------- 光驱位 / 扩展位：联想与惠普保留 5.25 位，戴尔已取消，改成第二硬盘托架 ---------- */
     var oddG = new THREE.Group();
-    addMesh(oddG, new THREE.BoxGeometry(14.6, 4.2, 17), flatMat("#252B33"), [-1, 35, 6.5], { partId: "odd" });
-    addMesh(oddG, new THREE.BoxGeometry(13.2, 0.5, 15.6), flatMat("#313842"), [-1, 37.2, 6.5], { partId: "odd", edges: false });
+    if (L.hasOdd) {
+      addMesh(oddG, new THREE.BoxGeometry(14.6, 4.2, 17), flatMat("#252B33"), [-1, L.oddY, L.oddZ], { partId: "odd" });
+      addMesh(oddG, new THREE.BoxGeometry(13.2, 0.5, 15.6), flatMat("#313842"), [-1, L.oddY + 2.2, L.oddZ], { partId: "odd", edges: false });
+      addMesh(oddG, new THREE.BoxGeometry(13.0, 3.4, 0.4), flatMat("#2A3038"), [1.0, L.oddY, L.oddZ + 8.4], { partId: "odd", edges: false });
+    } else {
+      addMesh(oddG, new THREE.BoxGeometry(13.2, 0.6, 15.0), flatMat("#333A44"), [0, L.oddY, L.oddZ], { partId: "odd" });
+      addMesh(oddG, new THREE.BoxGeometry(10.0, 2.6, 14.0), texMat("hdd", 1024, 512, drawHDD), [0, L.oddY + 2.0, L.oddZ], { partId: "odd" });
+      addMesh(oddG, new THREE.BoxGeometry(11.0, 0.6, 1.2), flatMat("#333A44"), [0, L.oddY + 3.6, L.oddZ - 7.0], { partId: "odd", edges: false });
+    }
     root.add(oddG);
     registerPart("odd", oddG);
 

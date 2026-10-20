@@ -48,6 +48,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
     <a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
     <nav class="fx-nav" aria-label="主导航">
       <a href="./browse.html" aria-current="page">领域</a>
+<a href="./hardware.html">拆机图</a>
       <a href="./wizard.html">症状向导</a>
       <a href="./tools.html">工具</a>
       <a href="./about.html">关于</a>
@@ -166,6 +167,21 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
       </div>
     </div>
     <div class="fx-cards" data-fx-list="domain" data-domain="data-backup"></div>
+  </section>
+
+  <section class="fx-section" data-reveal id="hardware-3d" style="margin-top:40px">
+    <div class="fx-head">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/><path d="M7 10l3 2-3 2"/></svg></span>
+        <div><h2>硬件拆解图（3D）</h2><p>一台笔记本里有什么：点开每个零件，看位置、看症状、跳对应教程</p></div>
+      </div>
+    </div>
+    <a class="fx-card" href="./hardware.html" style="--accent:var(--fx-lav);display:block;text-decoration:none;color:inherit">
+      <div class="fx-card__top"><h3 class="fx-card__t">笔记本 3D 拆解图</h3></div>
+      <div class="fx-card__badges" style="margin:8px 0 10px"><span class="fx-badge fx-badge--ref">可交互 3D</span><span class="fx-badge fx-badge--level">12 个零件</span></div>
+      <p class="fx-card__path">装机与运维手册 › 零件位置</p>
+      <p class="fx-card__snippet">拖动旋转、滚轮缩放、点零件分解。屏幕、键盘、电池、主板、CPU、内存、硬盘、风扇、网卡——每个零件都连着对应的排障教程。工程师拆机查位置、给客户讲结构都用得上。</p>
+    </a>
   </section>
 
   <h2 class="fx-h2" id="reference" style="margin-top:44px">参考资料</h2>

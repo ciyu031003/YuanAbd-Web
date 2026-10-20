@@ -53,10 +53,31 @@ for (const f of walk(OUT).filter(function (p) { return p.endsWith(".html"); })) 
   if (html !== before) { fs.writeFileSync(f, html, "utf8"); patched++; }
 }
 
-// 3) 资源版本号：按内容哈希给 css/js/数据文件打 ?v=，使长缓存可安全开启
-//    （与仓库既有的 bump-asset-versions 思路一致，但这里按内容自动计算）
+// 3) vendor 引擎也按内容哈希打版本。
+//    为什么单独处理：three.custom.min.js 不是从 HTML 引用，而是 hardware-3d.js 里的动态 import。
+//    不给它打版本，nginx 的 30 天 immutable 缓存会让「换引擎」对老用户永远不生效。
+//    ⚠️ 必须在下面计算 ASSETS 版本号之前改写，否则 hardware-3d.js 的 ?v= 会与真实内容不一致。
 const crypto = require("crypto");
-const ASSETS = ["css/tokens.css", "css/theme-fix.css", "css/fix.css", "css/fix-neu.css", "css/fix-atmosphere.css", "js/fix.js", "data/articles.js"];
+const VENDOR = path.join(OUT, "vendor", "three", "three.custom.min.js");
+if (fs.existsSync(VENDOR)) {
+  const vhash = crypto.createHash("md5").update(fs.readFileSync(VENDOR)).digest("hex").slice(0, 8);
+  const target = path.join(OUT, "js", "hardware-3d.js");
+  if (fs.existsSync(target)) {
+    let js = fs.readFileSync(target, "utf8");
+    const before = js;
+    js = js.replace(/"\.\.\/vendor\/three\/three\.custom\.min\.js(?:\?v=[a-f0-9]+)?"/,
+      '"../vendor/three/three.custom.min.js?v=' + vhash + '"');
+    if (js !== before) {
+      fs.writeFileSync(target, js, "utf8");
+      console.log("  引擎版本号：three.custom.min.js@" + vhash);
+    }
+  }
+}
+
+// 4) 资源版本号：按内容哈希给 css/js/数据文件打 ?v=，使长缓存可安全开启
+//    （与仓库既有的 bump-asset-versions 思路一致，但这里按内容自动计算）
+const ASSETS = ["css/tokens.css", "css/theme-fix.css", "css/fix.css", "css/fix-neu.css", "css/fix-atmosphere.css",
+  "css/hardware.css", "js/fix.js", "js/hardware-3d.js", "data/articles.js", "data/hardware-parts.js"];
 const versions = {};
 for (const rel of ASSETS) {
   const p = path.join(OUT, rel);
@@ -79,7 +100,7 @@ for (const f of walk(OUT).filter(function (p) { return p.endsWith(".html"); })) 
   }
   if (html !== before) { fs.writeFileSync(f, html, "utf8"); stamped++; }
 }
-// 4) 自检：所有本地资源引用都能解析到真实文件
+// 5) 自检：所有本地资源引用都能解析到真实文件
 const problems = [];
 for (const f of walk(OUT).filter(function (p) { return p.endsWith(".html"); })) {
   const html = fs.readFileSync(f, "utf8");

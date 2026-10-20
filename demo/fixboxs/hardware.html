@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>硬件拆解图 · 修盒子 FIXBOX</title>
+<meta name="description" content="一台笔记本的 3D 拆解图：点开每个零件，看它在机器里的位置、坏了的典型症状，以及对应的排障教程。工程师拆机查零件、客户了解结构都用得上。">
+<meta name="theme-color" content="#FBF6EC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">
+/* 临界样式内联：避免首帧闪烁（外链 CSS 到达前就要生效） */
+html.fx-entering body{opacity:0}
+html.fx-first:not(.fx-leaving) .fx-curtain{display:none}
+.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}
+html.fx-entering .fx-curtain{transform:translateY(0)}
+html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}
+html.fx-leaving .fx-curtain{transform:translateY(0)}
+.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}
+.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}
+</style>
+<script id="fx-boot">/* 在首帧前决定：首次访问→显示加载动画；二次进入→幕布先盖住再做转场 */
+try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="./css/theme-fix.css">
+<link rel="stylesheet" href="./css/fix.css">
+<link rel="stylesheet" href="./css/fix-neu.css">
+<link rel="stylesheet" href="./css/hardware.css">
+</head>
+<body>
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
+  <div class="fx-preloader__inner">
+    <div class="fx-preloader__mark">
+      <span class="fx-preloader__ring" aria-hidden="true"></span>
+      <span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span>
+      <span class="fx-preloader__core" aria-hidden="true">修</span>
+      <span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span>
+      <span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span>
+    </div>
+    <p class="fx-preloader__text">正在打开修盒子…</p>
+    <div class="fx-preloader__bar" aria-hidden="true"><i></i></div>
+  </div>
+</div>
+<div class="fx-curtain" aria-hidden="true"></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航">
+<a href="./browse.html">领域</a>
+<a href="./hardware.html" aria-current="page">拆机图</a>
+<a href="./wizard.html">症状向导</a>
+<a href="./tools.html">工具</a>
+<a href="./about.html">关于</a>
+</nav>
+<a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+</div></header>
+
+<main id="main">
+<div class="hw-page">
+
+  <div class="hw-hero">
+    <p class="hw-hero__eyebrow">Hardware Exploded View</p>
+    <h1 class="hw-title">一台笔记本里，<em>到底有什么</em>？</h1>
+    <p class="hw-sub">拖动可以转动、滚轮可以缩放，点任意零件把它从机身里分出来——看到的不是模型演示，而是这个零件坏了会有什么症状、该去看哪篇教程。</p>
+  </div>
+
+  <div class="hw-layout">
+    <!-- ============ 3D 舞台 ============ -->
+    <section class="hw-stage" id="hw-stage" aria-label="笔记本 3D 拆解视图">
+      <canvas id="hw-canvas" aria-hidden="true"></canvas>
+
+      <!-- 静态海报：3D 引擎加载前先顶上，同时也是 WebGL 不可用时的降级图 -->
+      <img class="hw-poster" id="hw-poster" src="./img/hardware-poster.webp" alt="笔记本拆解示意图：屏幕、键盘、电池、主板、CPU、内存、硬盘、风扇、网卡等零件的相对位置" width="1280" height="880" decoding="async" fetchpriority="high">
+
+      <div class="hw-loader" id="hw-loader" hidden>
+        <span class="hw-loader__spinner" aria-hidden="true"></span>
+        <span>正在准备 3D 引擎…</span>
+      </div>
+
+      <div class="hw-fallback" id="hw-fallback" hidden>
+        <span id="hw-fallback-note">当前浏览器不支持 WebGL，已切换为静态示意图。</span>
+        右侧零件清单仍然可用，点开一样能看到故障说明和教程链接。
+      </div>
+
+      <div class="hw-tools">
+        <button type="button" class="hw-tool" id="hw-explode" aria-pressed="false"><span data-label>分解零件</span></button>
+        <button type="button" class="hw-tool is-on" id="hw-rotate" aria-pressed="true">自动旋转</button>
+        <button type="button" class="hw-tool" id="hw-reset">重置视角</button>
+      </div>
+
+      <p class="hw-hint" aria-hidden="true">拖动旋转 · 滚轮缩放 · 点击零件查看</p>
+      <p class="hw-live" id="hw-live" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- ============ 右侧面板 ============ -->
+    <aside class="hw-side">
+      <div class="hw-card">
+        <h2 class="hw-card__title">零件清单（可键盘操作）</h2>
+        <div class="hw-list" id="hw-list" role="group" aria-label="笔记本零件清单"></div>
+      </div>
+
+      <div class="hw-card">
+        <h2 class="hw-card__title">零件详情</h2>
+        <div id="hw-panel">
+          <div class="hw-panel__empty">
+            <p class="hw-panel__hint">click to inspect</p>
+            <h3>点一下任意零件</h3>
+            <p>零件会从机身里分出来，这里显示它的作用、常见故障，以及对应的排障教程。</p>
+            <p class="hw-panel__kb"><b>也可以</b>直接点上面的零件清单——键盘和读屏器都能用。</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============ 说明 ============ -->
+  <section class="hw-notes">
+    <h2>这张拆解图怎么用</h2>
+    <ul>
+      <li><b>工程师拆机前</b>：先点开要动的那块（比如「电池」），确认它在机身里的位置和相邻排线，再下螺丝。</li>
+      <li><b>判断故障归属</b>：同一类现象往往指向不同零件。黑屏先分清是屏、屏线还是显卡；卡顿先分清是硬盘、内存还是散热。</li>
+      <li><b>给客户解释</b>：不用拆机也能说清「换的是哪一块、要多少钱」，比口头描述准确得多。</li>
+    </ul>
+
+    <div class="hw-notes__grid">
+      <div class="hw-note">
+        <b>模型是示意，不是精确图纸</b>
+        零件比例与真实机型有差异，仅供理解结构与相对位置。具体拆装步骤以对应机型的作业指导书为准。
+      </div>
+      <div class="hw-note">
+        <b>拆机第一步永远是断电</b>
+        先关机、拔电源、断电池排线。带电插拔主板最容易烧元件，且属于人为损坏。
+      </div>
+      <div class="hw-note">
+        <b>涉及数据的操作先备份</b>
+        换硬盘、重装系统、分区之前，必须先完成数据备份并让客户确认。
+      </div>
+      <div class="hw-note">
+        <b>找不到对应零件？</b>
+        去 <a href="./browse.html#ref-manual">装机与运维手册</a> 看按机型整理的拆装与换件流程。
+      </div>
+    </div>
+  </section>
+
+</div>
+<div style="height:56px"></div>
+</main>
+
+<footer class="fx-foot"><div class="fx-wrap">
+  <div class="fx-foot__inner">
+    <div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 14 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li><li><a href="./browse.html#ref-manual">装机与运维手册</a></li><li><a href="./browse.html#ref-field">现场作业与工单</a></li></ul></div>
+    <div><h3>常用</h3><ul><li><a href="./hardware.html">硬件拆解图</a></li><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
+    <div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
+  </div>
+  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-20</span></div>
+</div></footer>
+
+<script src="./js/fix.js"></script>
+<script src="./data/hardware-parts.js"></script>
+<script src="./js/hardware-3d.js"></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>硬件拆解图 · 修盒子 FIXBOX</title>
-<meta name="description" content="一台笔记本的 3D 拆解图：点开每个零件，看它在机器里的位置、坏了的典型症状，以及对应的排障教程。工程师拆机查零件、客户了解结构都用得上。">
+<title>硬件拆解图（笔记本 / 联想 / 戴尔 / 惠普）· 修盒子 FIXBOX</title>
+<meta name="description" content="笔记本与联想 / 戴尔 / 惠普台式主机的 3D 拆解图：点开每个零件，看它在机器里的位置、坏了的典型症状，以及对应的排障教程。工程师拆机查零件、客户了解结构都用得上。">
 <meta name="theme-color" content="#FBF6EC">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
 <style id="fx-critical">
@@ -63,8 +63,25 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 
   <div class="hw-hero">
     <p class="hw-hero__eyebrow">Hardware Exploded View</p>
-    <h1 class="hw-title">一台笔记本里，<em>到底有什么</em>？</h1>
+    <h1 class="hw-title">一台电脑里，<em>到底有什么</em>？</h1>
     <p class="hw-sub">拖动可以转动、滚轮可以缩放，点任意零件把它从机身里分出来——看到的不是模型演示，而是这个零件坏了会有什么症状、该去看哪篇教程。</p>
+    <p class="hw-sub hw-intro" id="hw-intro">上盖、键盘面、电池、主板、CPU、内存、硬盘、风扇、网卡——一台轻薄本里的全部主要零件。</p>
+  </div>
+
+  <!-- 机型切换 -->
+  <div class="hw-devices" id="hw-devices" role="tablist" aria-label="选择机型">
+    <button type="button" class="hw-device is-on" role="tab" data-device="laptop" aria-selected="true" tabindex="0">
+      <span class="hw-device__name">笔记本</span><span class="hw-device__sub">14 寸参考机型</span>
+    </button>
+    <button type="button" class="hw-device" role="tab" data-device="lenovo" aria-selected="false" tabindex="-1">
+      <span class="hw-device__name">联想</span><span class="hw-device__sub">ThinkCentre</span>
+    </button>
+    <button type="button" class="hw-device" role="tab" data-device="dell" aria-selected="false" tabindex="-1">
+      <span class="hw-device__name">戴尔</span><span class="hw-device__sub">OptiPlex</span>
+    </button>
+    <button type="button" class="hw-device" role="tab" data-device="hp" aria-selected="false" tabindex="-1">
+      <span class="hw-device__name">惠普</span><span class="hw-device__sub">ProDesk</span>
+    </button>
   </div>
 
   <div class="hw-layout">
@@ -123,6 +140,7 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
       <li><b>工程师拆机前</b>：先点开要动的那块（比如「电池」），确认它在机身里的位置和相邻排线，再下螺丝。</li>
       <li><b>判断故障归属</b>：同一类现象往往指向不同零件。黑屏先分清是屏、屏线还是显卡；卡顿先分清是硬盘、内存还是散热。</li>
       <li><b>给客户解释</b>：不用拆机也能说清「换的是哪一块、要多少钱」，比口头描述准确得多。</li>
+      <li><b>换件前先看「非标」提示</b>：联想 / 戴尔 / 惠普 的电源接口、前置面板针脚都不通用，各机型面板里已经标注了对应坑点。</li>
     </ul>
 
     <div class="hw-notes__grid">

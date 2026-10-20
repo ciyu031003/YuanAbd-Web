@@ -20,6 +20,29 @@
 .hw-title { font-size: clamp(26px, 3.6vw, 38px); line-height: 1.24; margin: 0 0 10px; letter-spacing: -.02em; }
 .hw-sub { max-width: 62ch; margin: 0; color: var(--fx-ink-2); font-size: 15.5px; line-height: 1.75; }
 
+/* ---------- 机型切换 ---------- */
+.hw-intro { margin-top: 10px !important; font-size: 14px !important; color: var(--fx-ink-3) !important; }
+.hw-devices {
+  display: flex; flex-wrap: wrap; gap: 9px; margin: 18px 0 4px;
+}
+.hw-device {
+  appearance: none; font: inherit; cursor: pointer; text-align: left;
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 9px 15px; border-radius: 14px;
+  border: 1.5px solid var(--fx-line-strong); background: var(--fx-card);
+  transition: transform .18s var(--fx-ease-spring, ease), box-shadow .18s, border-color .18s, background-color .18s;
+}
+.hw-device:hover { transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--fx-ink); border-color: var(--fx-ink); }
+.hw-device:focus-visible { outline: 2.5px solid var(--fx-lav-ink); outline-offset: 2px; }
+.hw-device__name { font-size: 14.5px; font-weight: 800; color: var(--fx-ink); line-height: 1.3; }
+.hw-device__sub { font-family: var(--fx-mono); font-size: 10.5px; letter-spacing: .06em; color: var(--fx-ink-3); text-transform: uppercase; }
+.hw-device.is-on {
+  background: var(--fx-ink); border-color: var(--fx-ink);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--fx-lav) 70%, transparent);
+}
+.hw-device.is-on .hw-device__name { color: #fff; }
+.hw-device.is-on .hw-device__sub { color: color-mix(in srgb, #fff 62%, transparent); }
+
 /* ---------- 主布局 ---------- */
 .hw-layout {
   display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: 22px;

@@ -134,7 +134,14 @@
   });
 
   /* ---------------- 暴露给内联使用 ---------------- */
-  window.FXAdmin = { toast: toast, confirm: confirmAction };
+  /* markClean：自动保存成功后由 editor.js 调用，避免离开页面时误报「未保存」 */
+  window.FXAdmin = { toast: toast, confirm: confirmAction, markClean: function () { dirty = false; } };
+
+  /* ---------------- 服务端提示转 toast ---------------- */
+  document.addEventListener("DOMContentLoaded", function () {
+    var n = document.querySelector("[data-toast]");
+    if (n) toast(n.getAttribute("data-toast"), n.getAttribute("data-toast-kind") || "ok");
+  });
 
   /* ---------------- 移动端：让当前页的导航项滚进可视区 ---------------- */
   /* 顶栏导航条在窄屏是横向滚动条，当前页的按钮可能滑出视野之外 */
@@ -145,9 +152,53 @@
     }
   });
 
-  /* ---------------- 服务端提示转 toast ---------------- */
-  document.addEventListener("DOMContentLoaded", function () {
-    var n = document.querySelector("[data-toast]");
-    if (n) toast(n.getAttribute("data-toast"), n.getAttribute("data-toast-kind") || "ok");
-  });
+  /* ---------------- 列表页批量操作条（勾选亮起 / 全选 / 模态确认） ---------------- */
+  (function () {
+    var bar = document.querySelector("[data-batchbar]");
+    if (!bar) return;
+    var count = bar.querySelector("[data-batch-count]");
+    var apply = bar.querySelector("[data-batch-apply]");
+    var clear = bar.querySelector("[data-batch-clear]");
+    var all = document.getElementById("batch-all");
+    function checked() {
+      return Array.prototype.slice.call(document.querySelectorAll('input[name="slugs"]:checked'));
+    }
+    function paint() {
+      var n = checked().length;
+      if (count) count.textContent = n ? "已选 " + n + " 篇" : "未勾选";
+      if (apply) apply.disabled = n === 0;
+      if (clear) clear.disabled = n === 0;
+      if (all) {
+        var total = document.querySelectorAll('input[name="slugs"]').length;
+        all.checked = n > 0 && n === total;
+        all.indeterminate = n > 0 && n < total;
+      }
+    }
+    document.addEventListener("change", function (e) {
+      if (e.target && e.target.name === "slugs") paint();
+    });
+    if (all) all.addEventListener("change", function () {
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="slugs"]'), function (b) { b.checked = all.checked; });
+      paint();
+    });
+    if (clear) clear.addEventListener("click", function () {
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="slugs"]'), function (b) { b.checked = false; });
+      paint();
+    });
+    bar.addEventListener("submit", function (e) {
+      var n = checked().length;
+      if (!n) { e.preventDefault(); return; }
+      var target = bar.querySelector('select[name="to"]');
+      var label = target && target.selectedOptions[0] ? target.selectedOptions[0].textContent : "该操作";
+      e.preventDefault();
+      confirmAction({
+        title: "批量" + label,
+        body: "将对已选 " + n + " 篇执行「" + label + "」。" + (target && target.value === "published" ? "发布操作会逐篇进入发布队列并触发站点构建。" : "状态变化会写入审计日志。"),
+        okText: label
+      }).then(function (ok) {
+        if (ok) bar.submit();
+      });
+    });
+    paint();
+  })();
 })();

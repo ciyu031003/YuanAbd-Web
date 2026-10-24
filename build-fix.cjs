@@ -657,4 +657,7 @@ function main() {
   console.log((process.argv.includes("--check") ? "校验" : "构建") + "完成：文章 " + articles.length + " 篇");
   if (articles.length) console.log("  示例：" + articles.slice(0, 3).map(function (a) { return a.slug; }).join(", "));
 }
-main();
+/* 供管理后台的预览接口复用同一套渲染器（admin server require 本模块时不会触发构建）。
+   预览保真：后台「实时预览」看到的 HTML 与线上构建产物完全一致。 */
+if (require.main === module) main();
+module.exports = { mdToHtml: mdToHtml, slugify: slugify };

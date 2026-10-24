@@ -1043,6 +1043,138 @@ td,th{line-height:1.5}
 @media (max-width:640px){
   input,select,textarea{font-size:16px}
 }
+
+/* ============================================================
+   UI 优化（2026-10-24 第二批）：状态 tab / 批量条 / 行内操作 / 预览分栏
+   ============================================================ */
+/* ---- 状态筛选 tab（替代下拉，带计数、可扫读） ---- */
+.statustabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.statustab{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--r-full);
+  font-size:13px;font-weight:600;color:var(--ink-2);background:var(--base);
+  box-shadow:var(--raise-sm);text-decoration:none;
+  transition:box-shadow .18s cubic-bezier(.34,1.56,.64,1),color .18s,transform .18s;
+}
+.statustab:hover{box-shadow:var(--raise);color:var(--ink);transform:translateY(-1px)}
+.statustab b{font-family:var(--mono);font-size:12px;font-weight:800;color:var(--ink-3)}
+.statustab::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lo);flex:none}
+.statustab--mint::before{background:var(--c-mint)}
+.statustab--amber::before{background:var(--c-amber)}
+.statustab--indigo::before{background:var(--c-indigo)}
+.statustab--coral::before{background:var(--c-coral)}
+.statustab--gray::before{background:var(--ink-3)}
+.statustab.is-on{box-shadow:var(--inset-sm);color:var(--ink);font-weight:700}
+.statustab.is-on b{color:var(--pg)}
+/* ---- 批量操作条（勾选后亮起） ---- */
+.batchbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:10px 14px;border-radius:var(--r-btn);background:var(--base);
+  box-shadow:var(--inset-sm);margin-bottom:14px;font-size:13px;
+}
+.batchbar__count{font-weight:700;color:var(--ink-3);min-width:64px}
+.batchbar select{min-height:36px;max-width:180px}
+/* ---- 行内快捷操作 ---- */
+.rowacts{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;white-space:nowrap}
+.inlineact{display:inline-flex;margin:0}
+.inlineact .btn{min-height:32px;padding:0 11px;font-size:12.5px}
+@media (max-width:860px){
+  /* 窄屏：快捷操作收进下一行，避免横向挤压标题列 */
+  .rowacts{flex-direction:column;align-items:stretch;white-space:normal;max-width:150px}
+  .batchbar select{flex:1}
+}
+/* ---- 编辑器：分栏预览 ---- */
+.md-preview{
+  border-radius:var(--r-btn);padding:14px 16px;background:var(--base-2);
+  box-shadow:var(--inset-sm);font-size:14px;line-height:1.75;color:var(--ink);
+  overflow:auto;max-height:70vh;
+}
+.md-preview h2{font-size:17px;margin:14px 0 8px}
+.md-preview h3{font-size:15px;margin:12px 0 6px}
+.md-preview p{margin:8px 0}
+.md-preview ul,.md-preview ol{margin:8px 0;padding-left:20px}
+.md-preview li{margin:4px 0}
+.md-preview code{font-family:var(--mono);font-size:12.5px;background:var(--base);border-radius:6px;padding:1px 6px}
+.md-preview pre{background:var(--base);border-radius:10px;padding:12px 14px;overflow:auto;margin:10px 0}
+.md-preview pre code{background:none;padding:0}
+.md-preview blockquote{margin:10px 0;padding:10px 14px;border-left:4px solid var(--pg);border-radius:10px;background:var(--base)}
+.md-preview table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+.md-preview th,.md-preview td{border:1px solid var(--lo);padding:6px 10px;text-align:left}
+.md-preview img{max-width:100%;border-radius:10px}
+/* 分栏：textarea 与预览并排（窄屏自动退化为上下） */
+.grp__bd.previewing{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.grp__bd.previewing #body{min-height:420px}
+.grp__bd.previewing .meter{grid-column:1 / -1}
+@media (max-width:1100px){
+  .grp__bd.previewing{grid-template-columns:1fr}
+  .grp__bd.previewing #body{min-height:280px}
+}
+#body{transition:none}
+.grp__bd.previewing .md-preview{position:sticky;top:76px}
+/* ---- 发布节奏趋势图（复用图表柱，弱化空柱） ---- */
+.chart--trend{height:110px;gap:4px}
+.chart--trend .chart__bar{opacity:.4}
+.chart--trend .chart__bar--on{opacity:1}
+.chart--trend .chart__lab{font-size:9.5px}
+
+/* ============================================================
+   深色模式（跟随系统 prefers-color-scheme）
+   ------------------------------------------------------------
+   只覆盖令牌与少量硬编码底色；组件全部引用变量，自动适配。
+   拟态阴影方向不变：暗色下高光压暗、投影加深。
+   ============================================================ */
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --base:#161B22; --base-2:#10151C;
+    --hi:#232C37; --lo:#0B0F14;
+    --raise:-5px -5px 12px rgba(255,255,255,.035), 5px 6px 15px rgba(0,0,0,.55);
+    --raise-sm:-2px -2px 6px rgba(255,255,255,.03), 3px 3px 9px rgba(0,0,0,.5);
+    --raise-lg:-8px -8px 20px rgba(255,255,255,.04), 9px 10px 24px rgba(0,0,0,.6);
+    --inset:inset 4px 4px 10px rgba(0,0,0,.5), inset -4px -4px 10px rgba(255,255,255,.03);
+    --inset-sm:inset 2px 2px 6px rgba(0,0,0,.45), inset -2px -2px 6px rgba(255,255,255,.03);
+    --inset-deep:inset 6px 6px 14px rgba(0,0,0,.55), inset -6px -6px 14px rgba(255,255,255,.03);
+    --ink:#E7ECF3; --ink-2:#AEB8C4; --ink-3:#7E8996;
+    --accent:#8A9BFF; --accent-deep:#A6B3FF;
+    --warn:#FF7A54;
+    --c-indigo:#8FA0FF; --s-indigo:#232946; --i-indigo:#C3CBFF; --t-indigo:#232946; --d-indigo:#8FA0FF;
+    --c-mint:#3DD598;   --s-mint:#12332B;   --i-mint:#9FE8CD;   --t-mint:#12332B;   --d-mint:#3DD598;
+    --c-amber:#F2B94B;  --s-amber:#3A2E14;  --i-amber:#FFD98A;  --t-amber:#3A2E14;  --d-amber:#F2B94B;
+    --c-coral:#FF8A6B;  --s-coral:#3D211B;  --i-coral:#FFC0AE;  --t-coral:#3D211B;  --d-coral:#FF8A6B;
+    --c-sky:#5FB7FF;    --s-sky:#12293D;    --i-sky:#A8D8FF;    --t-sky:#12293D;    --d-sky:#5FB7FF;
+    --c-violet:#B98AFF; --s-violet:#2B2140; --i-violet:#D9C2FF; --t-violet:#2B2140; --d-violet:#B98AFF;
+  }
+  body{background:var(--base)}
+  .sidebar{background:var(--base);border-right:1px solid rgba(255,255,255,.07)}
+  .sidebar__brand{color:var(--ink)}
+  .sidebar__sec{color:var(--ink-3)}
+  .navitem{background:var(--base);color:var(--ink-2)}
+  .navitem:hover{color:var(--ink)}
+  .navitem__ico{color:var(--ink-3)}
+  .navitem__badge{color:var(--ink-2)}
+  .topbar{background:var(--base)}
+  .card,.page-head,.editor-actions,details.grp,.mcard,.cmt,.tax-card{background:var(--base)}
+  tbody tr{background:var(--base)}
+  tbody tr:hover td{background:var(--base-2)}
+  .login-body{background:var(--base)}
+  .tax-list{background:var(--base-2)}
+  .tax-add{border-top-color:rgba(255,255,255,.08)}
+  .pill--archived,.pill--viewer{background:#2A3039;color:#AAB4C0}
+  .alert--err{color:#FFB4A0}
+  .alert--warn{color:#EFC98A}
+  .check--warn .check__ic{color:#E8C077}
+  .hero{filter:saturate(.82) brightness(.94)}
+  .donut{box-shadow:var(--raise)}
+  /* 热力格：暗色下的蓝色梯度（0 级用凹槽底色） */
+  .heat i[data-l="0"]{background:var(--base-2)}
+  .heat i[data-l="1"]{background:#1E3350}
+  .heat i[data-l="2"]{background:#274568}
+  .heat i[data-l="3"]{background:#33598A}
+  .heat i[data-l="4"]{background:#4E7FC0}
+  /* 表格斑马/边框微调 */
+  table td,table th{border-bottom-color:rgba(255,255,255,.06)}
+  .card__ft{box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .me,.pill{box-shadow:none}
+}
 `;
 
 function layout(title, bodyHtml, opts) {
@@ -1126,6 +1258,7 @@ function layout(title, bodyHtml, opts) {
   // 无障碍：toast 与提示用 aria-live 播报（Popover API 不会自动向读屏宣告）
   return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+    '<meta name="color-scheme" content="light dark">\n' +
     '<meta name="robots" content="noindex,nofollow">\n' +
     '<title>' + esc(title) + ' · 修盒子内容后台</title>\n' +
     '<style>' + BASE_CSS + '</style>\n</head>\n' +
@@ -1251,10 +1384,33 @@ function articlesPage(opts) {
     return "<th><a class=\"sortlink\" href=\"" + qs({ sort: next, page: "" }) + "\">" + esc(label) + arrow + "</a></th>";
   }
 
+  /* 行内快捷操作 + 批量能力的公共前置（rows / 批量条 / 状态 tab 都要用，必须先于 rows 定义） */
+  const rc = opts.rowCaps || {};
+  const csrf = opts.csrf || "";
+  function quickActs(a) {
+    const st = a.status || "draft";
+    const acts = [];
+    if (st === "draft" && rc.submit) acts.push(["in_review", "提交审核", "btn--ghost"]);
+    if (st === "in_review" && rc.publish) acts.push(["published", "发布", "btn--primary"]);
+    if (st === "in_review" && rc.review) acts.push(["changes_requested", "退回", "btn--ghost"]);
+    if (st === "changes_requested" && rc.edit) acts.push(["draft", "重新打开", "btn--ghost"]);
+    if (!acts.length) return "";
+    return acts.map(function (x) {
+      return '<form class="inlineact" method="post" action="/articles/' + esc(a.slug) + '/status">' +
+        '<input type="hidden" name="_csrf" value="' + esc(csrf) + '">' +
+        '<input type="hidden" name="to" value="' + x[0] + '">' +
+        '<button class="btn btn--sm ' + x[2] + '" type="submit">' + x[1] + "</button></form>";
+    }).join("");
+  }
+  const canBatch = !!(rc.submit || rc.publish || rc.review || rc.edit || rc.archive);
+  const colN = canBatch ? 8 : 7;
+
   const rows = items.map(function (a) {
+    const acts = quickActs(a);
     return "<tr>" +
+      (canBatch ? '<td class="tight batch-cell"><input type="checkbox" name="slugs" value="' + esc(a.slug) + '" form="fx-batch" aria-label="选择：' + esc(a.title || a.slug) + '"></td>' : "") +
       "<td><a class=\"link-strong\" href=\"/articles/" + esc(a.slug) + "\">" + esc(a.title || a.slug) + "</a>" +
-        "<div class=\"slug\">" + esc(a.slug) + "</div>" +
+        '<div class="slug">' + esc(a.slug) + "</div>" +
         ((a.sourcesCount || 0) < 1 ? '<span class="pill pill--changes_requested" title="缺少参考资料">缺来源</span>' : "") +
       "</td>" +
       "<td><span class=\"pill pill--" + esc(a.status) + "\">" + esc(statusLabel(a.status)) + "</span></td>" +
@@ -1263,18 +1419,19 @@ function articlesPage(opts) {
       "<td>" + esc(a.risk || "") + '<div class=\"muted\">' + esc(a.difficulty || "") + "</div></td>" +
       "<td class=\"num\">" + (a.sourcesCount || 0) + "</td>" +
       "<td class=\"muted num\">" + esc(a.updated || "") + "</td>" +
-      "<td class=\"tight\"><a class=\"btn btn--sm\" href=\"/articles/" + esc(a.slug) + "\">编辑</a></td>" +
+      '<td class="tight rowacts">' + (acts || "") +
+        '<a class="btn btn--sm" href="/articles/' + esc(a.slug) + '">编辑</a></td>' +
       "</tr>";
   }).join("");
 
   // 空状态必须区分成因（Carbon 的空状态指南）：筛选后为空 vs 首次为空
   const hasFilter = !!(f.status || f.domain || f.risk || f.q || f.stale || f.missing);
   const emptyRow = hasFilter
-    ? '<tr><td colspan="7" class="empty"><div class="empty__ico">⌕</div>' +
+    ? '<tr><td colspan="' + (canBatch ? 8 : 7) + '" class="empty"><div class="empty__ico">⌕</div>' +
       '<div class="empty__t">没有符合条件的文章</div>' +
       '<div>试试放宽筛选条件</div>' +
       '<div style="margin-top:12px"><a class="btn" href="/articles">清除全部筛选</a></div></td></tr>'
-    : '<tr><td colspan="7" class="empty"><div class="empty__ico">' + icon("empty", 24) + "</div>" +
+    : '<tr><td colspan="' + (canBatch ? 8 : 7) + '" class="empty"><div class="empty__ico">' + icon("empty", 24) + "</div>" +
       '<div class="empty__t">还没有文章</div>' +
       (canCreate ? '<div style="margin-top:12px"><a class="btn btn--primary" href="/articles/new">新建第一篇</a></div>' : "") +
       "</td></tr>";
@@ -1306,8 +1463,35 @@ function articlesPage(opts) {
   const riskOpts = '<option value="">全部风险</option>' + (opts.risks || []).map(function (r) {
     return '<option value="' + esc(r) + '"' + (f.risk === r ? " selected" : "") + ">" + esc(r) + "</option>";
   }).join("");
-  const statusOpts = [["", "全部状态"], ["published", "已发布"], ["draft", "草稿"], ["in_review", "审核中"], ["changes_requested", "退回修改"], ["archived", "归档"]]
-    .map(function (p) { return '<option value="' + p[0] + '"' + (f.status === p[0] ? " selected" : "") + ">" + p[1] + "</option>"; }).join("");
+  /* 状态筛选从下拉改为可扫读的彩色 tab（2026-10-24 UI 优化）：
+     带计数、当前项高亮，比「点开下拉才知道有什么状态」直观得多。 */
+  const sc = opts.statusCounts || {};
+  const STATUS_TABS = [["", "全部", null], ["published", "已发布", "mint"], ["draft", "草稿", "amber"],
+    ["in_review", "审核中", "indigo"], ["changes_requested", "退回修改", "coral"], ["archived", "归档", "gray"]];
+  const statusTabs = '<nav class="statustabs" aria-label="按状态筛选">' +
+    STATUS_TABS.map(function (t) {
+      const n = t[0] === "" ? (opts.total || 0) : (sc[t[0]] || 0);
+      const on = (f.status || "") === t[0];
+      return '<a class="statustab' + (t[2] ? " statustab--" + t[2] : "") + (on ? " is-on" : "") + '" href="' + qs({ status: t[0], page: "" }) + '"' +
+        (on ? ' aria-current="page"' : "") + ">" + t[1] + "<b>" + n + "</b></a>";
+    }).join("") + "</nav>";
+
+  /* 行内快捷操作：按「当前状态 → 允许的下一步」渲染一个小按钮；
+     权限由服务端路由再次校验，这里只做展示过滤（不给没权限的人看按钮）。 */
+  /* 批量操作：勾选后工具条亮起；目标动作只列出当前用户有权执行的流转 */
+  const BATCH_ACTS = [["in_review", "提交审核", "article:submit"], ["published", "发布", "article:publish"],
+    ["changes_requested", "退回修改", "article:review"], ["draft", "转回草稿", "article:edit"], ["archived", "归档", "article:archive"]];
+  const batchOpts = BATCH_ACTS.filter(function (x) { return rc[{ "article:submit": "submit", "article:publish": "publish", "article:review": "review", "article:edit": "edit", "article:archive": "archive" }[x[2]]]; })
+    .map(function (x) { return '<option value="' + x[0] + '">' + x[1] + "</option>"; }).join("");
+  const batchBar = canBatch
+    ? '<form id="fx-batch" class="batchbar" method="post" action="/articles/batch-status" data-batchbar>' +
+      '<input type="hidden" name="_csrf" value="' + esc(csrf) + '">' +
+      '<span class="batchbar__count" data-batch-count>未勾选</span>' +
+      '<select name="to" aria-label="批量目标状态">' + batchOpts + "</select>" +
+      '<button class="btn btn--sm btn--primary" type="submit" disabled data-batch-apply>应用到所选</button>' +
+      '<button class="btn btn--sm" type="button" data-batch-clear disabled>取消选择</button>' +
+      "</form>"
+    : "";
 
   // 生效中的筛选用彩色胶囊回显——原先只能靠「清除」按钮猜测当前过滤了什么
   function chip(label, href) {
@@ -1340,13 +1524,15 @@ function articlesPage(opts) {
 
     activeFilters +
     viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf }) +
+    statusTabs +
+    batchBar +
     '<form class="card" method="get" action="/articles" style="padding:14px 20px">' +
       '<div class="row" style="gap:12px;align-items:flex-end">' +
         '<div style="flex:2;min-width:180px"><label for="q">搜索</label>' +
           '<input id="q" name="q" type="search" value="' + esc(f.q || "") + '" placeholder="标题或 slug"></div>' +
-        '<div style="flex:1;min-width:130px"><label for="status">状态</label><select id="status" name="status">' + statusOpts + "</select></div>" +
         '<div style="flex:1;min-width:130px"><label for="domain">领域</label><select id="domain" name="domain">' + domainOpts + "</select></div>" +
         '<div style="flex:1;min-width:110px"><label for="risk">风险</label><select id="risk" name="risk">' + riskOpts + "</select></div>" +
+        '<input type="hidden" name="status" value="' + esc(f.status || "") + '">' +
         '<input type="hidden" name="sort" value="' + esc(f.sort || "-updated") + '">' +
         '<button class="btn" type="submit">筛选</button>' +
         (hasFilter ? '<a class="btn btn--ghost" href="/articles">清除</a>' : "") +
@@ -1359,6 +1545,7 @@ function articlesPage(opts) {
 
     '<div class="card card--flush">' +
       '<div class="tablewrap"><table><thead><tr>' +
+        (canBatch ? '<th class="tight batch-cell"><input type="checkbox" id="batch-all" form="fx-batch" aria-label="全选本页"></th>' : "") +
         "<th>标题</th>" + th("status", "状态") + th("domain", "领域 / 分类") + th("risk", "风险 / 难度") +
         th("sourcesCount", "来源") + th("updated", "更新") + "<th></th>" +
       "</tr></thead><tbody>" + (rows || emptyRow) + "</tbody></table></div>" +
@@ -1542,10 +1729,14 @@ function editorPage(opts) {
         '<div class="row" style="margin-bottom:8px;gap:6px">' +
           '<button class="btn btn--sm" type="button" data-insert-skeleton>插入完整骨架</button>' +
           '<button class="btn btn--sm" type="button" data-insert-image>插入图片</button>' +
+          '<button class="btn btn--sm" type="button" id="preview-toggle" aria-pressed="false" title="与线上渲染同一套引擎，所见即所得">分栏预览</button>' +
           '<span class="muted" style="font-size:12px">或在编辑器内直接粘贴/拖入图片</span>' +
         '</div>' +
         '<textarea id="body" name="body" spellcheck="false" data-toc-source>' + esc(opts.body || "") + '</textarea>' +
-        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span>中文按字符计 · Ctrl/Cmd+S 保存</span></div>' +
+        '<div id="md-preview" class="md-preview" hidden aria-live="polite"></div>' +
+        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span id="rt"></span><span>中文按字符计 · Ctrl/Cmd+S 保存</span>' +
+          (isNew ? "" : '<button class="btn btn--sm" type="button" id="autosave-toggle" aria-pressed="true" style="min-height:26px;padding:0 10px;font-size:12px;margin-left:8px">自动保存：开</button>') +
+        "</div>" +
       '</div></details>' +
 
       // 组 3：检索（默认展开——知识库站点的核心）
@@ -1888,6 +2079,26 @@ function dashboardPage(opts) {
       '<span class="muted">最近 80 天 · 颜色越深当天更新越多</span></div>' +
       '<div class="card__bd"><div class="heat heat--wide">' + (heatCells || "") + "</div></div>" +
     "</div>" +
+
+    // ---- 发布节奏（近 30 天成功发布，来自 publish_jobs 真实记录）----
+    (function () {
+      const trend = opts.pubTrend || [];
+      const totalPub = trend.reduce(function (a, d) { return a + d.n; }, 0);
+      const maxPub = trend.reduce(function (m, d) { return Math.max(m, d.n); }, 1);
+      const bars = trend.map(function (d) {
+        const pct = d.n === 0 ? 4 : Math.max(10, Math.round(d.n / maxPub * 100));
+        return '<div class="chart__col" title="' + d.label + '：发布 ' + d.n + ' 次">' +
+          '<div class="chart__val">' + (d.n || "") + "</div>" +
+          '<div class="chart__bar' + (d.n ? " chart__bar--on" : "") + '" style="height:' + pct + '%"></div>' +
+          '<div class="chart__lab">' + d.label + "</div></div>";
+      }).join("");
+      return '<div class="card">' +
+        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-mint);color:var(--i-mint)">▲</span><h3>发布节奏</h3><span class="topbar__sp"></span>' +
+          '<span class="muted">近 30 天成功发布 ' + totalPub + ' 次</span>' +
+          '<a class="btn btn--sm" href="/publish" style="margin-left:12px">发布页</a></div>' +
+        '<div class="card__bd"><div class="chart chart--trend">' + (bars || '<div class="muted">暂无发布记录</div>') + "</div></div>" +
+      "</div>";
+    })() +
     // ---- 明细表 ----
     '<div class="dash-cols" style="margin-top:20px">' +
       '<div class="card card--flush">' +

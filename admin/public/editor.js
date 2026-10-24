@@ -72,6 +72,9 @@
     if (wc) {
       var text = ta.value.replace(/\s/g, "");
       wc.textContent = "正文 " + text.length + " 字 / " + ta.value.split(/\r?\n/).length + " 行";
+      /* 预计阅读时长：中文按 400 字/分钟（与站内文章的口吻一致） */
+      var rt = document.getElementById("rt");
+      if (rt) rt.textContent = text.length ? "约 " + Math.max(1, Math.round(text.length / 400)) + " 分钟读完" : "";
     }
     if (!toc) return;
     if (!items.length) { toc.innerHTML = '<li class="muted">正文里还没有「## 段落」</li>'; return; }
@@ -236,5 +239,123 @@
         uploadFile(files[0]);
       }
     });
+  }
+  /* ---------------- 分栏预览：与线上构建共用同一套渲染引擎 ---------------- */
+  var previewBtn = document.getElementById("preview-toggle");
+  var previewBox = document.getElementById("md-preview");
+  var previewOn = false, previewTimer = null, previewSeq = 0;
+
+  function renderPreviewNow() {
+    if (!previewOn || !ta || !previewBox) return;
+    var seq = ++previewSeq;
+    var f = document.getElementById("editor");
+    var csrfEl = f && f.querySelector('[name="_csrf"]');
+    if (!csrfEl) return;
+    var fd = new FormData();
+    fd.append("_csrf", csrfEl.value);
+    fd.append("md", ta.value);
+    previewBox.innerHTML = '<p class="muted">渲染中…</p>';
+    fetch("/articles/preview", { method: "POST", body: fd, credentials: "same-origin" })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (seq !== previewSeq) return;   // 只采纳最新一次输入的渲染结果
+        previewBox.innerHTML = j.error ? '<p class="muted">预览失败：' + j.error + "</p>" : (j.html || "");
+      })
+      .catch(function () {
+        if (seq !== previewSeq) return;
+        previewBox.innerHTML = '<p class="muted">预览请求失败（网络）</p>';
+      });
+  }
+  function setPreview(on) {
+    previewOn = !!on;
+    if (!previewBtn || !previewBox || !ta) return;
+    previewBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    previewBtn.classList.toggle("btn--primary", on);
+    var bd = ta.closest(".grp__bd");
+    if (bd) bd.classList.toggle("previewing", on);
+    previewBox.hidden = !on;
+    if (on) renderPreviewNow();
+  }
+  if (previewBtn && previewBox && ta) {
+    previewBtn.addEventListener("click", function () { setPreview(!previewOn); });
+    ta.addEventListener("input", function () {
+      if (!previewOn) return;
+      if (previewTimer) clearTimeout(previewTimer);
+      previewTimer = setTimeout(renderPreviewNow, 600);
+    });
+  }
+
+  /* ---------------- 自动存草稿（仅已有文章；30s 心跳，脏了才发） ----------------
+     与手动保存的差异：跳过 lint 闸门（草稿允许写到一半）与修订快照（避免噪音）；
+     成功后把服务端返回的新 contentHash 写回 baseHash，防止手动保存误报 409。 */
+  var form = document.getElementById("editor");
+  if (form && ta && !/\/articles\/new$/.test(form.getAttribute("action") || "")) {
+    var baseInput = form.querySelector('[name="baseHash"]');
+    var autosaveBtn = document.getElementById("autosave-toggle");
+    var autosavePaused = false;
+    var autosaveOn = true;
+    try { autosaveOn = localStorage.getItem("fx.autosave") !== "0"; } catch (e) {}
+    var dirty = false;
+
+    document.addEventListener("input", function () { dirty = true; }, true);
+    form.addEventListener("submit", function () { dirty = false; });
+
+    function paintAutosaveBtn() {
+      if (!autosaveBtn) return;
+      autosaveBtn.setAttribute("aria-pressed", autosaveOn ? "true" : "false");
+      autosaveBtn.textContent = autosavePaused ? "自动保存：已停（版本冲突）" : (autosaveOn ? "自动保存：开" : "自动保存：关");
+      autosaveBtn.classList.toggle("btn--primary", autosaveOn && !autosavePaused);
+    }
+    if (autosaveBtn) {
+      autosaveBtn.addEventListener("click", function () {
+        autosaveOn = !autosaveOn; autosavePaused = false;
+        try { localStorage.setItem("fx.autosave", autosaveOn ? "1" : "0"); } catch (e) {}
+        paintAutosaveBtn();
+      });
+      paintAutosaveBtn();
+    }
+
+    function autosaveFlash(msg, ok) {
+      var el = document.getElementById("autosave-note");
+      if (!el) {
+        el = document.createElement("div");
+        el.id = "autosave-note";
+        el.style.cssText = "position:fixed;right:18px;bottom:18px;z-index:99;padding:9px 14px;border-radius:12px;" +
+          "font-size:12.5px;font-weight:600;box-shadow:0 10px 30px -12px rgba(0,0,0,.45);transition:opacity .4s";
+        document.body.appendChild(el);
+      }
+      el.textContent = msg;
+      el.style.background = ok ? "var(--s-mint)" : "var(--s-coral)";
+      el.style.color = ok ? "var(--i-mint)" : "var(--i-coral)";
+      el.style.opacity = "1";
+      clearTimeout(autosaveFlash._t);
+      autosaveFlash._t = setTimeout(function () { el.style.opacity = "0"; }, 2200);
+    }
+
+    function doAutosave() {
+      if (!autosaveOn || autosavePaused || document.hidden) { autosaveTick(); return; }
+      if (!dirty) { autosaveTick(); return; }
+      var fd = new FormData(form);
+      fetch(form.getAttribute("action") + "/autosave", { method: "POST", body: fd, credentials: "same-origin" })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j.ok) {
+            dirty = false;
+            if (baseInput && j.hash) baseInput.value = j.hash;
+            autosaveFlash("已自动保存 " + new Date().toLocaleTimeString("zh-CN", { hour12: false }), true);
+          } else if (j.error && /被他人修改/.test(j.error)) {
+            /* 409：说明别人在编辑同一篇，停掉自动保存避免互相覆盖 */
+            autosavePaused = true;
+            paintAutosaveBtn();
+            autosaveFlash("他人已修改本文，自动保存已暂停", false);
+          } else {
+            autosaveFlash("自动保存失败：" + (j.error || "未知错误"), false);
+          }
+        })
+        .catch(function () { autosaveFlash("自动保存失败（网络）", false); });
+      autosaveTick();
+    }
+    function autosaveTick() { setTimeout(doAutosave, 30000); }
+    autosaveTick();
   }
 })();

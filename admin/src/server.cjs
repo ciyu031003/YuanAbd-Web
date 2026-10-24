@@ -310,6 +310,39 @@ async function handle(req, res) {
 
   const pageOpts = { user: sess.user, roles: sess.roles, csrf: sess.user.csrf_token };
 
+  /* ---------------- 文章状态流转（行内快捷操作 / 批量操作共用） ----------------
+     统一在这里定义「哪些流转合法、需要什么能力」，列表页与路由都引用同一份，
+     避免「界面上给了按钮、路由却拒绝」的两套规则漂移。 */
+  const STATUS_TRANSITIONS = {
+    in_review:         { from: ["draft"], cap: "article:submit",  label: "提交审核" },
+    published:         { from: ["draft", "in_review"], cap: "article:publish", label: "发布" },
+    changes_requested: { from: ["in_review"], cap: "article:review", label: "退回修改" },
+    draft:             { from: ["changes_requested", "in_review", "archived"], cap: "article:edit", label: "转回草稿" },
+    archived:          { from: ["published", "draft"], cap: "article:archive", label: "归档" }
+  };
+  /* 对单篇执行状态流转：校验合法性 + 权限 + 领域范围，返回 {ok, reason}。
+     发布走完整链路（更新 reviewer、入发布队列），其余只改状态。 */
+  async function applyStatusTransition(slug, to, user, ip) {
+    const rule = STATUS_TRANSITIONS[to];
+    if (!rule) return { ok: false, reason: "未知的目标状态：" + to };
+    let art;
+    try { art = articles.read(slug); } catch (e) { return { ok: false, reason: "文章不存在" }; }
+    if (rule.from.indexOf(art.meta.status || "draft") < 0) {
+      return { ok: false, reason: "当前状态（" + (views.statusLabel ? views.statusLabel(art.meta.status) : art.meta.status) + "）不允许" + rule.label };
+    }
+    if (!await auth.can(user, rule.cap)) return { ok: false, reason: "没有「" + rule.label + "」权限" };
+    if (!await auth.canEditDomain(user, art.meta.domain)) return { ok: false, reason: "超出可编辑领域" };
+    if (to === "published") {
+      await db.query("UPDATE articles_meta SET status='published', reviewer_id=$2, updated_at=now() WHERE slug=$1", [slug, user.user_id]);
+      await publisher.enqueue(slug, "publish", user.user_id);
+    } else {
+      await db.query("UPDATE articles_meta SET status=$2, updated_at=now() WHERE slug=$1", [slug, to]);
+    }
+    await auth.audit(user, "article.status." + to, slug, { from: art.meta.status || "draft" }, ip);
+    return { ok: true };
+  }
+
+
   // ---- 改密 ----
   if (p === "/change-password") {
     if (method === "GET") {
@@ -447,9 +480,28 @@ async function handle(req, res) {
       heat.push({ n: n, level: level, label: (d.getMonth() + 1) + "月" + d.getDate() + "日" });
     }
 
+    // ---- 发布节奏（近 30 天成功发布次数，来自 publish_jobs 真实记录）----
+    const pubTrend = [];
+    try {
+      const tr = await db.query(
+        "SELECT to_char(date_trunc('day', finished_at), 'YYYY-MM-DD') AS d, count(*)::int AS n " +
+        "FROM publish_jobs WHERE status='succeeded' AND finished_at > now() - interval '30 days' " +
+        "GROUP BY 1");
+      const byDay = {};
+      tr.rows.forEach(function (r) { byDay[r.d] = r.n; });
+      const dayMs = 86400000;
+      const start = new Date(); start.setHours(0, 0, 0, 0);
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(start.getTime() - i * dayMs);
+        const key = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+        pubTrend.push({ label: (d.getMonth() + 1) + "/" + d.getDate(), n: byDay[key] || 0 });
+      }
+    } catch (e) { /* publish_jobs 表不可用时降级为空图，不阻塞工作台 */ }
+
     return html(res, 200, views.dashboardPage(Object.assign({
       stats: stats, recent: recent, stale: stale,
       byDomain: byDomain, byStatus: byStatus, heat: heat,
+      pubTrend: pubTrend,
       total: all.length
     }, pageOpts)));
   }
@@ -572,6 +624,13 @@ async function handle(req, res) {
     const qSort = url.searchParams.get("sort") || "-updated";
 
     const total = items.length;
+    /* 状态 tab 的计数：必须在筛选前算好（下面 items 会被逐个 filter 覆盖） */
+    const statusCounts = { published: 0, draft: 0, in_review: 0, changes_requested: 0, archived: 0 };
+    items.forEach(function (a) {
+      const k = a.status || "draft";
+      if (statusCounts[k] === undefined) statusCounts[k] = 0;
+      statusCounts[k]++;
+    });
     const daysSince2 = function (d) {
       if (!d) return null;
       const t = new Date(String(d) + "T00:00:00Z").getTime();
@@ -610,9 +669,18 @@ async function handle(req, res) {
 
     const savedViews = await collab.listViews(sess.user.user_id);
     const currentQs = url.searchParams.toString().replace(/(^|&)notice=[^&]*/g, "").replace(/^&/, "");
+    /* 行内快捷操作/批量条的按钮可见性：按当前用户的真实能力渲染（路由层仍会逐条校验） */
+    const rowCaps = {
+      submit: await auth.can(sess.user, "article:submit"),
+      review: await auth.can(sess.user, "article:review"),
+      publish: await auth.can(sess.user, "article:publish"),
+      edit: await auth.can(sess.user, "article:edit"),
+      archive: await auth.can(sess.user, "article:archive")
+    };
     return html(res, 200, views.articlesPage(Object.assign({
       items: pageItems, canCreate: canCreate, views: savedViews, currentQs: currentQs,
       total: total, filtered: filtered, page: pageNo, pages: pages, perPage: perPage,
+      statusCounts: statusCounts, rowCaps: rowCaps,
       filters: { status: qStatus, domain: qDomain, risk: qRisk, q: qSearch, stale: qStale, missing: qMissing, sort: qSort },
       domains: taxonomy().domains, risks: taxonomy().enums.risk,
       notice: url.searchParams.get("notice")
@@ -648,6 +716,75 @@ async function handle(req, res) {
         taxonomy: taxonomy(), error: e.message
       }, pageOpts)));
     }
+  }
+
+  /* ---------------- 预览（编辑器实时分栏） ----------------
+     复用站点构建的同一套 mdToHtml，保证「预览所见 = 线上所见」。
+     只做渲染不做写盘，CSRF 走表单字段；输出为站点同款 HTML 片段。 */
+  if (p === "/articles/preview" && method === "POST") {
+    if (!await auth.can(sess.user, "article:edit")) return h.sendJson(res, 403, { error: "没有权限" }, h.securityHeaders());
+    const form = h.parseForm(await h.readBody(req, 512 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
+    try {
+      const siteBuild = require(path.join(config.repo.root, "build-fix.cjs"));
+      const html = siteBuild.mdToHtml(String(form.md || ""));
+      return h.sendJson(res, 200, { html: html }, h.securityHeaders());
+    } catch (e) {
+      return h.sendJson(res, 500, { error: "渲染失败：" + e.message }, h.securityHeaders());
+    }
+  }
+
+  /* ---------------- 自动存草稿（编辑器每 30s 调一次） ----------------
+     与手动保存的差异：跳过 lint 闸门（草稿允许写到一半）与修订快照（避免噪音），
+     保存成功后把新的 contentHash 返还给页面，防止下一次手动保存误报 409 冲突。 */
+  const mAutosave = p.match(/^\/articles\/([a-z0-9-]+)\/autosave$/);
+  if (mAutosave && method === "POST") {
+    const slug = mAutosave[1];
+    let art;
+    try { art = articles.read(slug); } catch (e) { return h.sendJson(res, 404, { error: "文章不存在" }, h.securityHeaders()); }
+    if (!await auth.can(sess.user, "article:edit")) return h.sendJson(res, 403, { error: "没有权限" }, h.securityHeaders());
+    if (!await auth.canEditDomain(sess.user, art.meta.domain)) return h.sendJson(res, 403, { error: "超出可编辑领域" }, h.securityHeaders());
+    const form = h.parseForm(await h.readBody(req, 3 * 1024 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
+    try {
+      const meta = formToMeta(form, art.meta);
+      const saved = articles.save(slug, meta, form.body, { baseHash: form.baseHash || null });
+      await db.query("UPDATE articles_meta SET title=$2, domain=$3, category=$4, content_hash=$5, updated_at=now() WHERE slug=$1",
+        [slug, meta.title, meta.domain, meta.category, saved.contentHash]);
+      await auth.audit(sess.user, "article.autosave", slug, null, c.ip);
+      return h.sendJson(res, 200, { ok: true, hash: saved.contentHash, at: new Date().toISOString() }, h.securityHeaders());
+    } catch (e) {
+      return h.sendJson(res, e.status || 500, { error: e.message }, h.securityHeaders());
+    }
+  }
+
+  /* ---------------- 行内快捷状态流转（列表页单篇按钮） ---------------- */
+  const mRowStatus = p.match(/^\/articles\/([a-z0-9-]+)\/status$/);
+  if (mRowStatus && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    const r = await applyStatusTransition(mRowStatus[1], String(form.to || ""), sess.user, c.ip);
+    if (!r.ok) return redirect(res, "/articles?error=" + encodeURIComponent(mRowStatus[1] + "：" + r.reason));
+    return redirect(res, "/articles?notice=" + encodeURIComponent("已" + (STATUS_TRANSITIONS[String(form.to || "")] || { label: "更新" }).label + "：" + mRowStatus[1]));
+  }
+
+  /* ---------------- 批量状态流转（列表页多选） ----------------
+     逐篇校验：合法且有权力的执行，其余跳过并计数 —— 一条不合法不至于整批失败。 */
+  if (p === "/articles/batch-status" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 256 * 1024));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    const to = String(form.to || "");
+    const slugs = Array.isArray(form.slugs) ? form.slugs : (form.slugs ? [form.slugs] : []);
+    if (!slugs.length) return redirect(res, "/articles?error=" + encodeURIComponent("没有勾选任何文章"));
+    let done = 0;
+    const skipped = [];
+    for (const slug of slugs.slice(0, 100)) {
+      const r = await applyStatusTransition(String(slug), to, sess.user, c.ip);
+      if (r.ok) done++; else skipped.push(slug + "（" + r.reason + "）");
+    }
+    const msg = "批量" + (STATUS_TRANSITIONS[to] ? STATUS_TRANSITIONS[to].label : "更新") + "：成功 " + done + " 篇" +
+      (skipped.length ? "，跳过 " + skipped.length + " 篇：" + skipped.slice(0, 3).join("；") + (skipped.length > 3 ? " 等" : "") : "");
+    return redirect(res, "/articles?" + (done ? "notice=" : "error=") + encodeURIComponent(msg));
   }
 
   // ---- 单篇：编辑 / 保存 / 发布 ----

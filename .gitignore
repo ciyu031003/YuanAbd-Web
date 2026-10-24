@@ -30,3 +30,12 @@ admin/node_modules/
 admin/admin.env
 *.env
 !admin/admin.env.example
+
+# 媒体库上传（2026-10-24 起不入库）
+# 后台上传的图片落在 demo/fixboxs/media/，属于「运行时数据」而非源码：
+#   · 上线路径是发布产物（deploy-fixboxs.cjs 整体复制 demo/fixboxs → dist/fixboxs → tar → 原子切换），
+#     不依赖 git 传输；
+#   · 入库曾导致服务器仓库每次上传后与 GitHub 分叉（fixboxs-content-commit.sh 只 add content/，
+#     媒体文件游离在工作区，一旦有人 git add -A / reset 就出问题）；
+#   · 元数据（alt/上传者/哈希）在 DB media 表，文件丢失可在媒体库里被发现。
+demo/fixboxs/media/

@@ -43,3 +43,14 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] committed: $MESSAGE"
 git log --oneline -1
 } >> "$LOG"
 echo "committed: $MESSAGE"
+# ---- 提交后回推 GitHub（防分叉；失败只告警，不影响已完成的提交）----
+# 背景：本脚本在服务器仓库做本地提交，若从不回推，GitHub 与服务器会渐行渐远，
+#   下一次「服务器 git pull」就会 ff 失败（2026-10-24 实际发生过一次，靠 reset 解决）。
+# 凭证：使用专用写权限 deploy key（见《内容后台-部署与运维手册》§内容同步）。
+#   未配置凭证时 push 会失败并留下 WARN 日志——此时请尽快手工同步。
+PUSH_URL="${FIXBOXS_PUSH_URL:-github-fixboxs:ciyu031003/YuanAbd-Web.git}"
+if ! git push "$PUSH_URL" HEAD:main >>"$LOG" 2>&1; then
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARN: git push 失败（deploy key 未配置或网络异常）——服务器与 GitHub 已分叉，请尽快处理" | tee -a "$LOG"
+else
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] pushed: $PUSH_URL (main)" >> "$LOG"
+fi

@@ -2,6 +2,8 @@
    存储位置：demo/fixboxs/media/<随机名>.<ext>
      选这里的理由：demo/fixboxs 是站点源码目录，deploy-fixboxs.cjs 会整体复制到产物，
      nginx 也已对图片扩展名配了长缓存 —— 放这里不新增任何部署环节。
+     注意（2026-10-24）：该目录已加入 .gitignore（运行时数据不入库，走发布产物上线）。
+     不要 git add -A 把它带进提交，否则服务器仓库会与 GitHub 分叉。
    元数据存 DB（media 表）：alt 文本、上传者、体积、哈希、尺寸。
 
    安全要点（逐条对应 V2 §6.4）：

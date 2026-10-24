@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>换硬盘 / 重装系统前，怎么把数据备份全 · 修盒子 FIXBOX</title>
+<meta name="description" content="备份的本质是复制 + 验证：把「文档、桌面、图片、下载、浏览器书签、微信聊天记录、软件配置」这七类东西拷到外置盘，再随机打开 5 个文件确认能读。别指望「我记得都存网盘了」——验证过才算备份。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="backup-before-repair">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup" aria-current="page">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#data-backup">数据与备份</a><span class="fx-crumb__sep">›</span><span>备份与迁移</span></nav>
+<h1 class="fx-title">换硬盘 / 重装系统前，怎么把数据备份全</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">30-120 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">备份的本质是<strong>复制 + 验证</strong>：把「文档、桌面、图片、下载、浏览器书签、微信聊天记录、软件配置」这七类东西拷到外置盘，再<strong>随机打开 5 个文件确认能读</strong>。别指望「我记得都存网盘了」——验证过才算备份。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>插上移动硬盘，确认剩余空间大于 C 盘已用数据量。<strong>期望结果</strong>：空间够，不会被中途打断。</li><li>新建一个以日期命名的文件夹（如 <code>backup-20261024</code>），把要备份的目录整个拖进去复制。<strong>期望结果</strong>：复制开始，进度条走完无报错。</li><li><strong>随机打开 5 个复制过去的文件</strong>（一个文档、一张图、一段视频、一个 Excel、一个 PDF）。<strong>期望结果</strong>：全部正常打开，备份才算成立。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程全部是只读性质的备份操作，不会改动、删除你的任何文件。唯一要提醒的是：<strong>备份没做完之前，不要开始重装、分区或换盘</strong>——&quot;我先格式化了再想想备份&quot;是数据事故的第一大来源。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>明天要换硬盘、重装系统、送修机器，今天做备份。</li><li>硬盘开始报警（咔咔响、SMART 警告），抢数据。</li><li>定期备份习惯养成，防勒索、防误删。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>电脑已经开不了机：看<a class="fx-link" href="./disk-clicking-failure.html">「硬盘咔咔响 / 识别不到硬盘怎么办」</a>的抢救部分，或<a class="fx-link" href="./deleted-file-recovery.html">「文件误删了怎么恢复」</a>。</li><li>手机备份：本教程针对电脑；手机走各自官方的云备份。</li><li>公司域控环境：可能有统一备份策略，先问 IT，别双份备份把配额挤爆。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>移动硬盘剩余空间 ≥ 需要备份的数据总量（先算一下「文档/桌面/下载/图片」四个目录的属性大小）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道自己的账号密码（备份完要重装，得能重新登录微软/Apple 账户）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>微信/QQ 的聊天记录决定要保留——它们<strong>不在系统备份里</strong>，要单独导。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本插着电源，防止备份到一半没电。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>关掉正在跑的杀毒全盘扫描之类的大 IO 任务，备份更快也更稳。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>备份盘拔下来插到另一台电脑上，能读到所有目录。</li><li>清单七项逐项打钩，无「以后再补」项。</li><li>重装/换盘完成后，数据如数归位，聊天记录也能导回。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>备份中硬盘突然掉线、异响 → 立刻停止对该盘的一切写入，看<a class="fx-link" href="./disk-clicking-failure.html">「硬盘咔咔响 / 识别不到硬盘怎么办」</a>；重要数据交专业恢复机构，不要反复通电。</li><li>备份完了才发现漏了某个软件的数据 → 大多数软件支持重启后再导出，重装前窗口还在。</li><li>不确定「隐藏目录」还有没有漏 → 重装后缺什么再从旧盘挂载找，换盘时<strong>保留旧盘两周</strong>再处理。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>养成 3-2-1：3 份数据、2 种介质、1 份异地。每月月底花 20 分钟增量备份一次。</li><li>大文件（视频素材）单独一块盘，不要和系统备份混在一起。</li><li>网盘当「第二份」而不是「唯一一份」，账号异常时你还有底。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖七类清单、Windows/macOS 双路线、验证与异地副本。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清点「七类必备」清单</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li><strong>文档/桌面/下载/图片/视频</strong> 五个用户目录。</li><li><strong>浏览器书签与密码</strong>：Chrome/Edge 登录账号开启同步即可；不放心就再导出一份 HTML 书签文件。</li><li><strong>聊天记录</strong>：微信「设置 → 通用 → 聊天记录备份与迁移 → 备份到电脑」；QQ 用自带的「消息管理器 → 导出」。</li><li><strong>软件清单</strong>：拍一张「已安装应用列表」的截图（Windows：设置 → 应用；macOS：应用程序文件夹），重装后照单重装。</li><li><strong>工作配置</strong>：代码目录、SSH 密钥（<code>.ssh</code>）、输入法词库、hosts 文件等隐藏目录，用「显示隐藏文件」翻一遍。</li><li><strong>邮箱本地数据</strong>（Outlook 的 .pst 之类，若有）。</li><li><strong>驱动与安装包</strong>：品牌机去官网对应型号页下载好驱动包放进备份盘。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：清单七项都有明确的「已备份 / 本来没有」。<strong>失败了怎么办</strong>：某项找不到位置 → 搜索该软件的帮助文档，不要跳过它赌运气。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">Windows 用「文件历史记录」或直接复制</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>直接复制法（最直观）：把步骤 1 清单里的目录全部拖到移动硬盘的日期文件夹里。</li><li>进阶：控制面板 → 文件历史记录 → 启用，选移动硬盘为备份盘，点「立即运行」。它做增量且保留历史版本。</li><li>要连系统一起备份（连软件带配置，重装后直接还原）：「控制面板 → 备份和还原 → 创建系统映像」。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：复制完成无报错，抽 5 个文件能打开。<strong>失败了怎么办</strong>：某个文件复制报错跳不过去 → 记下文件名，多为损坏文件，单独处理，别让一个坏文件中断整场备份。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">macOS 用「时间机器」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>插上移动硬盘 → 系统设置 → 通用 → 时间机器 → 添加备份硬盘。</li><li>点「立即备份」，等第一次全量完成（可能 1-2 小时）。</li><li>备份是整盘性的：新 Mac/新硬盘上用「迁移助理」可以直接把账号、应用、设置原样搬回来。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：时间机器显示最近备份时间，随机抽查文件可打开。<strong>失败了怎么办</strong>：备份报「空间不足」→ 换更大硬盘，或先排除视频素材等特大目录单独手动备份。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">验证 + 异地副本（3-2-1 的最后一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>随机打开备份盘里 5 个文件，确认内容完整、能打开。</li><li>把<strong>最要命的那一小部分</strong>（工作文档、证件扫描件、财务表格）再传一份到网盘或另一块盘——这就是 3-2-1 原则的「异地/介质 2」。</li><li>给备份文件夹写一个 <code>README.txt</code>，注明备份日期和包含内容，未来的你会感谢现在的你。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：本地 + 异地两份都验证过。<strong>失败了怎么办</strong>：网盘传不上 → 至少确认本地备份完整，并把移动硬盘放在远离电脑的位置。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

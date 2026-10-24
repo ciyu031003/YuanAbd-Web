@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>公司电脑上不了网 / 提示证书不受信任？企业代理环境排查 · 修盒子 FIXBOX</title>
+<meta name="description" content="公司电脑「上不了网」的四大来源：上网认证掉线、代理/PAC 配置错误、自装工具抢了代理、证书不被信任。判断口诀：内网网站能开 = 网络是通的，问题在代理/认证层；这时先还原自己装过的工具改过的设置，再找 IT——而不是反">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="enterprise-proxy">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn" aria-current="page">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#proxy-vpn">代理与 VPN</a><span class="fx-crumb__sep">›</span><span>系统代理</span></nav>
+<h1 class="fx-title">公司电脑上不了网 / 提示证书不受信任？企业代理环境排查</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#合规提示">合规提示</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">公司电脑「上不了网」的四大来源：<strong>上网认证掉线、代理/PAC 配置错误、自装工具抢了代理、证书不被信任</strong>。判断口诀：<strong>内网网站能开 = 网络是通的，问题在代理/认证层</strong>；这时先还原自己装过的工具改过的设置，再找 IT——而不是反复重启。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开公司内网门户/OA（如 <code>oa.company.com</code>）。<strong>期望结果</strong>：能打开 → 物理网络和准入都正常，问题在代理/证书层，走本文；打不开 → 看是不是全员断网（问同事），或先重新连 Wi-Fi / 插紧网线。</li><li>回忆最近装过什么：抓包工具、加速器、新浏览器插件？全都关掉/退出再试。<strong>期望结果</strong>：不少「公司断网」是自装工具改了系统代理，退出即恢复。</li><li>看 IT 之前发的配置文档/邮件（PAC 地址、代理 IP:端口、认证客户端），核对系统设置是否一致。<strong>期望结果</strong>：配置一致仍不通 → 直接提 IT 工单，别再自己折腾。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：公司网络是有审计和准入策略的<strong>生产环境</strong>。本文只做「按 IT 要求正确配置」与「定位是自己电脑还是网络的问题」；任何装翻墙/改 MAC/克隆证书来「绕过限制」的行为都可能违反公司安全制度甚至法律——本文不涉及，也不要尝试。动网络设置前，先截图留底，方便改回去。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="合规提示">合规提示</h2><p class="fx-p">企业代理是公司为<strong>安全审计、数据防泄漏与合规要求</strong>部署的基础设施，不是故障。本文的立场是：配合 IT、正确配置、保留证据。测试用的抓包工具（Charles/Fiddler）在公司电脑上安装前先确认制度允许——很多公司的终端规范明确禁止。</p></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>连上公司 Wi-Fi/网线后，内网通、外网不通，或干脆全不通。</li><li>浏览器报「证书不受信任 / NET::ERR_CERT_AUTHORITY_INVALID」。</li><li>装过抓包/加速工具后公司网络就异常。</li><li>IT 要求配置 PAC/代理，配置完反而不通。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>家里电脑的网络问题：看<a class="fx-link" href="./wifi-connected-but-no-internet.html">「Wi-Fi 有信号但上不了网」</a>，家宽没有企业代理那套。</li><li>个人 VPS/自建代理出问题：看<a class="fx-link" href="./proxy-server-not-responding.html">「代理服务器没有响应怎么修」</a>。</li><li>VPN 客户端（如公司远程办公 VPN）连不上：以 IT 文档为准，本文只覆盖办公内网场景。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认同座位同事的电脑正常（排除整层断电/交换机故障）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机连公司 Wi-Fi 测试：手机也不通 → 网络侧问题，提工单即可。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>截图当前的网络设置（代理页、证书报错页），改动前留底。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>找到 IT 的配置文档或上次的工单记录。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住自己装过哪些网络相关工具（抓包/加速/杀毒）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>内网、外网都正常，浏览器无证书告警。</li><li>系统代理/PAC 设置与 IT 文档一致，重启电脑后依然正常。</li><li>没有残留的抓包工具代理（重启后设置不再被改）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>全部门/全公司都不通 → 不是你的问题，等 IT 广播即可，别自己重装系统。</li><li>只有你的电脑不通且 IT 也定位不了 → 备份数据后请 IT 重装准入客户端或重新注册终端。</li><li>反复被某个自装工具改代理 → 卸载它；工作必需的抓包需求，向 IT 申请白名单版本。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>公司电脑不装来路不明的网络工具；必须装的，记下它改了什么。</li><li>IT 的网络配置文档存到收藏夹，换工位/重装后照着配一遍最快。</li><li>改任何网络设置前先截图——这是网络排障的「后悔药」。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖认证、代理还原、证书、PAC 与工单五层排查。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">区分「认证问题」还是「代理问题」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>浏览器访问一个明确的 HTTP 站点（如 <code>http://neverssl.com</code>）。企业网关常会把未认证流量重定向到认证页——若弹出登录/认证页，完成认证即可。</li><li>认证页弹不出来 → 手动访问 IT 文档里的认证地址（通常是 <code>http://1.1.1.1</code> 或公司指定的内网地址）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：认证通过后外网恢复。<strong>失败了怎么办</strong>：始终无认证页 → 代理层问题，进步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">核对并还原系统代理设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>Windows：设置 → 网络和 Internet → 代理。看「使用设置脚本（PAC）」和「手动代理」两项是否与 IT 文档一致。</li><li>macOS：系统设置 → 网络 → 详细信息 → 代理。同样逐项核对。</li><li>发现不一致（尤其是自己装的抓包工具留下的 <code>127.0.0.1:8888</code>）→ 关掉手动代理/PAC，重启浏览器再测；确认是哪个工具改的，退干净。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：还原成 IT 要求的配置后网络恢复。<strong>失败了怎么办</strong>：仍不通 → 证书问题，进步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">证书不受信任的处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>报错截图里看证书签发者：公司名称 = IT 部署的审计证书，说明你的电脑<strong>没装公司的根证书</strong>，去 IT 门户下载安装（Windows 双击 .crt → 安装到「受信任的根证书颁发机构」；macOS 导入钥匙串并手动设为「始终信任」）。</li><li>签发者是 Charles/Fiddler 之类 → 你的抓包工具证书还挂在系统里，删掉对应根证书或完整退出工具。</li><li>签发者都不认识且非公司名 → 警惕中间人攻击，先断网并找 IT 核实。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：安装/移除证书后浏览器报错消失。<strong>失败了怎么办</strong>：装了公司证书仍报错 → 清浏览器 HSTS/缓存或换浏览器验证，仍报错提工单。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">PAC 脚本异常</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>把 IT 给的 PAC 地址在浏览器里直接打开，确认能访问到（404/超时 = PAC 服务器问题，提工单）。</li><li>PAC 能访问但部分网站不通 → 把 PAC 地址暂时填到「手动代理」同款配置里对比测试（Windows 需要临时勾选手动代理填 IT 的固定代理地址）。</li><li>测完改回原配置。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：定位到是 PAC 分流规则还是代理服务器本身的问题。<strong>失败了怎么办</strong>：分不清 → 直接把现象（哪通哪不通、截图）提交 IT，这已经到企业策略层面了。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">提交高质量工单</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>工单里写清：工位/内网 IP（<code>ipconfig</code> 或 <code>ifconfig</code> 可查）、现象开始时间、内网/外网分别通不通、最近装过什么、已试过什么、附截图。</li><li>一条好工单能把 2 小时的扯皮缩成 10 分钟定位。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：IT 快速响应。<strong>失败了怎么办</strong>：等着期间需要上网 → 手机热点应急（注意公司制度是否允许办公电脑连热点，多数禁止）。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/proxy-server-not-responding.html">浏览器提示「代理服务器无响应」怎么修</a><a href="../fix/proxy-tool-broke-network.html">装了抓包/加速工具后全网断网怎么恢复</a><a href="../fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#合规提示">合规提示</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

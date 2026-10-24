@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>电脑反复重启 / 开机报警一长两短？先重插内存条 · 修盒子 FIXBOX</title>
+<meta name="description" content="「风扇转一下就停、反复重启循环、主板 Debug 灯停在 DRAM、报警一长两短」——这些十有八九是内存条接触不良，尤其发生在搬动过机箱、加过新内存、很久没清灰之后。断电 → 拔条 → 橡皮擦金手指 → 插回听见咔哒，五">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="ram-reseat-no-boot">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware" aria-current="page">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>内存</span></nav>
+<h1 class="fx-title">电脑反复重启 / 开机报警一长两短？先重插内存条</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「风扇转一下就停、反复重启循环、主板 Debug 灯停在 DRAM、报警一长两短」——这些十有八九是<strong>内存条接触不良</strong>，尤其发生在搬动过机箱、加过新内存、很久没清灰之后。<strong>断电 → 拔条 → 橡皮擦金手指 → 插回听见咔哒</strong>，五分钟解决一大半此类开机故障。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>关机、拔电源线，按住电源键 5 秒放电。<strong>期望结果</strong>：安全前提就位。</li><li>打开侧板，找到长条状的内存条，掰开两端卡扣，垂直拔出。<strong>期望结果</strong>：条子顺利取下，两端卡扣完全张开。</li><li>用橡皮沿<strong>金手指</strong>（金色的那排触点）擦拭两面到发亮，对准防呆缺口垂直按回，听到两端「咔哒」。<strong>期望结果</strong>：开机一次点亮。</li><li>若有两根内存，先<strong>只插一根</strong>试（换槽位再试另一根），定位是哪根/哪个槽的问题。<strong>期望结果</strong>：单根能点亮，再逐根加回。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：动手前必须<strong>关机并拔掉电源线</strong>，按一下电源键放掉残余电。台式机内存带电插拔会烧槽甚至烧条；秋冬干燥季先摸一下金属暖气片放掉身体静电再碰零件。全程不需要用力砸、撬——插不进去一定是方向不对。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>搬动/清灰/加装内存后开不了机或反复重启。</li><li>主板 Debug 灯停在 DRAM（有的板显示数字代码 55、C5 等）。</li><li>有报警声（一长两短最常见，部分小板只有蜂鸣一声）。</li><li>能点亮但「可用内存比实际少」（比如 16G 只认 8G）：一根没被识别，重插一遍。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>能进系统只是使用中蓝屏、死机：先按<a class="fx-link" href="./win-bluescreen-read-code.html">「蓝屏代码怎么看」</a>走软件排查，蓝屏不一定是内存。</li><li>开机有画面只是卡 Logo 进不了系统：看<a class="fx-link" href="./win-stuck-on-boot-logo.html">「开机卡在主板 Logo」</a>。</li><li>笔记本且内存是板载（焊死）的：重插这条路不存在，直接送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电源线已拔、已按电源键放电。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>侧板打开后能看到竖插的内存条（笔记本是平躺的小条，在底盖下）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>橡皮是干净的白色橡皮，不要用带磨砂颗粒的。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机拍下拆之前的插槽占用和线缆走向，方便复原。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果刚装过新内存：先全拔掉，只留<strong>原来那根</strong>确认机器本身正常。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>冷开机一次点亮，连续开关机 3 次都正常。</li><li>「任务管理器 → 性能 → 内存」显示的容量与实际安装一致。</li><li>若开了 XMP/EXPO 高频档，跑一局游戏或用「Windows 内存诊断」（<code>mdsched</code>）跑一轮无报错。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>单根能亮、两根同插就重启 → 双通道兼容问题：更新主板 BIOS 到最新，或两条对调槽位。</li><li>重插后能点亮但用着蓝屏 → 内存颗粒边缘性问题，用 MemTest86 整夜测试确认，坏则换。</li><li>报警依旧、橡皮擦无效 → 换一根已知正常的内存交叉验证，定位条或板。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>每次清灰时顺手把内存拔插一遍，氧化层最爱在这种时候捣乱。</li><li>机箱搬动后开机异常，第一反应就是重插内存和显卡。</li><li>买内存优先同品牌同型号套装，双通道兼容性远好于两条散凑。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖断电放电、拔条、擦金手指、单根定位四步。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">断电放电，开侧板</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>关机，拔掉电源线（笔记本同时断开充电器）。</li><li>按住电源键 5 秒放残余电。</li><li>拧下侧板螺丝，打开侧板；冬季先摸金属物体放静电。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：主板、内存清晰可见。<strong>失败了怎么办</strong>：侧板是免工具卡扣的，按说明书方向掰，不要硬撬。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">拔出内存条</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>双手拇指同时向外掰内存槽两端的卡扣，条子会自己弹起。</li><li>拿住条子两端，垂直向上拔出。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：条子取下，金手指露出。<strong>失败了怎么办</strong>：卡扣掰不开——确认掰的方向（都是向外），不要用螺丝刀硬别。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">橡皮擦金手指</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>用橡皮沿金手指两面各擦 5-10 个来回，直到触点发亮、没有暗色氧化层。</li><li>用干纸巾把残留橡皮屑清干净，<strong>不要用手指直接摸金手指</strong>。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：触点两面均匀发亮。<strong>失败了怎么办</strong>：触点有发黑烧灼痕迹 → 这根条可能已损坏，直接换条测试。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">插回并一次点亮</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>对准插槽的防呆缺口（错位是插不进去的），垂直向下按压条子两端，听到「咔哒」且卡扣自动立起夹紧。</li><li>接回电源线开机。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：一次点亮进系统。<strong>失败了怎么办</strong>：仍报警 → 只插一根换槽位试，见步骤 5。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">多根内存时逐根定位</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>只插一根，优先插说明书推荐的槽位（常见是第 2、4 槽，即 A2/B2）。</li><li>依次换条、换槽测试：A 条 + 槽 2 点亮 → 换 B 条进槽 2 → B 条正常则把 A 条插回槽 4。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：定位出「坏条」或「坏槽」。<strong>失败了怎么办</strong>：任何单根单槽都点不亮 → 可能是槽内异物或主板问题，用气吹清槽后再试；仍不行送修主板。哪根条单独都不亮 → 两根条同时坏的概率低，考虑是主板或 CPU 内存控制器问题，送修。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

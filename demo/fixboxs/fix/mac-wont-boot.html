@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Mac 开不了机 / 卡在苹果标志怎么办 · 修盒子 FIXBOX</title>
+<meta name="description" content="Mac 开不了机，九成是「没电 / 外接设备捣乱 / 系统卷挂载异常」三类，真正的主板故障很少。先强制重启一次，再进安全模式排软件，最后才用恢复模式修复磁盘或重装系统——顺序不要反。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-wont-boot">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system" aria-current="page">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-system">macOS 系统与开机</a><span class="fx-crumb__sep">›</span><span>开机与恢复模式</span></nav>
+<h1 class="fx-title">Mac 开不了机 / 卡在苹果标志怎么办</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">Mac 开不了机，<strong>九成是「没电 / 外接设备捣乱 / 系统卷挂载异常」三类</strong>，真正的主板故障很少。先强制重启一次，再进安全模式排软件，最后才用恢复模式修复磁盘或重装系统——顺序不要反。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>长按电源键 <strong>10 秒</strong>强制关机，再正常按一次开机。<strong>期望结果</strong>：相当一部分「卡苹果标志」是单次启动异常，强制重启一次就进去。</li><li>拔掉所有外接设备（U 盘、移动硬盘、扩展坞、打印机），只留电源，再开机。<strong>期望结果</strong>：有问题的外置盘会让启动流程卡住，拔掉后正常进入桌面。</li><li>笔记本插上原装充电器，充电 <strong>10 分钟</strong>再开机。<strong>期望结果</strong>：电量耗尽后电池进入深度休眠，短按没反应，充一会儿才有救。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文的「重新安装 macOS」步骤<strong>不会删除个人文件</strong>，但后续若走到「抹掉磁盘重装」就有数据丢失风险。走到那一步之前，先读<a class="fx-link" href="./backup-before-repair.html">「换硬盘/重装前怎么把数据备份全」</a>；盘里有未备份的重要文件且怀疑硬盘故障时，直接送修，不要反复开机尝试。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>按电源键完全没反应，或屏幕亮了但一直卡在苹果标志 / 进度条。</li><li>开机转一圈又自动重启，反复循环。</li><li>昨天还好好的，某次更新或搬动之后开不了。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>开机能进桌面，只是很卡、很烫：看<a class="fx-link" href="./mac-fan-noise-overheat.html">「Mac 风扇狂转、机身发烫怎么排查」</a>。</li><li>屏幕完全没有背光但能听到开机声：先外接显示器确认是屏还是主机，参考<a class="fx-link" href="./monitor-no-signal.html">「显示器不亮 / 提示无信号怎么修」</a>的思路。</li><li>进水、摔过、机身变形：<strong>不要再开机</strong>，立刻送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电源线插紧，充电器指示灯亮（若有）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>所有外接设备已拔掉，包括扩展坞和 SD 卡。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道这台 Mac 是 <strong>Apple Silicon（M1/M2/M3/M4）</strong> 还是 <strong>Intel</strong>——后面进恢复模式的按键完全不同。点不亮没关系，看机身年份对照 Apple 官网机型页即可；2020 年末之后的 Mac 基本都是 Apple Silicon。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记得开机登录密码（进安全模式可能要输入）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>盘里的重要数据有没有备份，心里先有数。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>不插任何外接设备冷开机，能稳定进桌面，连续重启 2-3 次都正常。</li><li>进系统后打开「磁盘工具」看「Macintosh HD」的 S.M.A.R.T. 状态为「已验证」。</li><li>若数据还没备份，这一刻就该做了：看<a class="fx-link" href="./backup-before-repair.html">「换硬盘/重装前怎么把数据备份全」</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>诊断给出硬件参考码 → 带码送修（保内免费，保外先要报价）。</li><li>恢复模式都进不去、屏幕始终无反应 → 大概率主板或电源问题，送修，不要拆机。</li><li>每次都卡在进度条同一个位置 → 系统卷坏区，按步骤 4 重装；仍不行且硬盘有异响，看<a class="fx-link" href="./disk-clicking-failure.html">「硬盘咔咔响 / 识别不到硬盘怎么办」</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>系统更新时插着电源、不要合盖走人；更新失败多数发生在中途断电。</li><li>重要文件放 iCloud / 网盘或定期用「时间机器」备份，硬盘坏了也不慌。</li><li>每季度重启一次（不是合盖睡眠），让系统完成积压的维护任务。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖强制重启、安全模式、恢复模式急救、重装与硬件诊断五层排查。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">强制重启 + 只留电源再试</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>长按电源键 10 秒直到屏幕熄灭，松开 3 秒后再按一次开机。</li><li>笔记本接着充电器；台式 iMac / Mac mini 确认电源线两端都插紧，换一个插座试。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：正常进入桌面。<strong>失败了怎么办</strong>：依旧卡苹果标志，继续步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">进安全模式，排掉「第三方驱动 / 启动项」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ul class="fx-ul"><li><strong>Apple Silicon</strong>：关机后<strong>长按电源键</strong>不放，直到出现「载入启动选项」，选启动盘并<strong>按住 Shift</strong> 点「以安全模式继续」。</li><li><strong>Intel</strong>：开机瞬间立刻<strong>按住 Shift</strong>，直到出现苹果标志和进度条。</li><li>安全模式会自动修复一部分目录问题、禁用第三方内核扩展。进得去的话，先重启一次看能不能正常进。</li></ul>
+<p class="fx-p"><strong>期望结果</strong>：能进安全模式或重启后恢复正常。<strong>失败了怎么办</strong>：进不了安全模式，进步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">进恢复模式，用「磁盘工具」修复系统卷</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ul class="fx-ul"><li><strong>Apple Silicon</strong>：关机后<strong>长按电源键</strong>，出现「载入启动选项」→ 点「选项」→「继续」，输入密码进入 macOS 恢复。</li><li><strong>Intel</strong>：开机瞬间<strong>按住 Command + R</strong>，直到苹果标志出现。</li></ul>
+<ol class="fx-ol"><li>进入「macOS 实用工具」窗口后，先选<strong>磁盘工具</strong>。</li><li>左侧选中「Macintosh HD」（数据卷的父卷），点工具栏的「急救（First Aid）」→「运行」。</li><li>跑完后点左上角苹果菜单 → 重新启动。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：急救报告「操作成功」，重启后能进系统。<strong>失败了怎么办</strong>：急救报「卷已损坏，无法修复」，别反复跑，直接看步骤 4；怀疑物理故障就送修。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重装 macOS（保留文件）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>还是在恢复模式里，这次选<strong>「重新安装 macOS」</strong>，按提示走完。</li><li>重装只替换系统文件，个人文件保留；全程需要联网（Wi-Fi 菜单在屏幕右上角）。</li><li>装完自动重启，正常进桌面即可。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：系统装好，文件还在。<strong>失败了怎么办</strong>：重装过程中报错找不到磁盘，说明系统卷损坏级别更重，此时<strong>不要</strong>点「抹掉」，带着「数据优先」的原则找维修方；确认不要数据了再考虑抹掉重装。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">Apple 诊断，判断是不是硬件问题</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ul class="fx-ul"><li><strong>Apple Silicon</strong>：开机<strong>长按电源键</strong> → 「选项」→ 按 <strong>Command + D</strong>。</li><li><strong>Intel</strong>：开机瞬间按住 <strong>D</strong> 键。</li></ul>
+<ol class="fx-ol"><li>等诊断跑完（几分钟），屏幕会给出参考码（如 PPF001）。</li><li>记下参考码，到 Apple 官方支持页查询含义；带参考码送修能省大量检测时间。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：出现「未发现问题」或具体参考码。<strong>失败了怎么办</strong>：参考码指向散热/主板时，不要再折腾软件层，直接预约维修。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

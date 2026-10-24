@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>电脑按开机键没反应？电源故障自查清单（含短接启动法） · 修盒子 FIXBOX</title>
+<meta name="description" content="「按了没反应」要按 插座 → 电源线 → 开关 → 电源本身 → 主板开机电路 的顺序查，其中「回形针短接 24pin」是判断电源死活的金标准：短接后电源风扇转、各路电压正常，电源就是好的，锅在主板或机箱开关；不转，电源">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="psu-no-power-check">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware" aria-current="page">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>电源与供电</span></nav>
+<h1 class="fx-title">电脑按开机键没反应？电源故障自查清单（含短接启动法）</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「按了没反应」要按 <strong>插座 → 电源线 → 开关 → 电源本身 → 主板开机电路</strong> 的顺序查，其中「回形针短接 24pin」是判断电源死活的金标准：短接后电源风扇转、各路电压正常，电源就是好的，锅在主板或机箱开关；不转，电源报废，换新即可。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>换一个确定正常的墙插，跳过插线板直接插墙。<strong>期望结果</strong>：不少「电源坏了」其实是插线板开关被碰掉了。</li><li>确认电源背后的<strong>机械开关</strong>在「—」位（I 是开），且电源线两端插紧。<strong>期望结果</strong>：排除最蠢也最常见的原因。</li><li>观察主机：按开机键时<strong>任何反应都没有</strong>（灯不闪、风扇不动）→ 按本教程走短接测试；<strong>风扇转一下就停</strong> → 更多是短路保护或内存/主板问题，看<a class="fx-link" href="./ram-reseat-no-boot.html">「电脑反复重启？先重插内存条」</a>。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本教程<strong>严禁拆开电源外壳</strong>——内部大电容在断电后仍可能带数百伏高压，非专业人员拆解有生命危险。所有操作都在关机断电后进行；有烧焦味、异响或电源曾冒烟的，直接换新，不要再通电测试。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>按开机键整机无任何反应，电源灯不亮。</li><li>使用中突然断电关机、再开没反应，过一会儿又能开（电源过热保护或老化）。</li><li>新装机或换件后点不亮，怀疑电源或安装问题。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>能点亮、能进系统，只是用着重启：先查系统和温度，看<a class="fx-link" href="./win-slow-diagnose.html">「电脑很卡 / 频繁死机怎么排查」</a>。</li><li>雷雨天之后坏的：电源可能和主板一起伤，逐件送检，别只换电源。</li><li>品牌机（联想/戴尔/惠普）在保修内：<strong>不要短接测试</strong>，直接报修，拆封条会失保。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>房间插座确认有电（插个手机充电器试试）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电源线没有发黑、变硬、有糊味（有线损的直接换线）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有回形针，能掰直。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住机箱内部大致走线，方便复原。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>嗅觉确认无烧焦味（有 → 跳过一切测试，直接换电源）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>冷启动 3 次都正常，满负载（跑游戏/压视频）半小时不自动断电。</li><li>无焦味、无异响（电源里「哒哒」继电器声高频出现也是老化征兆）。</li><li>万用表三路电压全部在 ±5% 内。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>短接 PWR_SW 能开、机箱按钮不能开 → 换机箱开关线，或把 PWR_SW 接到 RESET 针上临时顶替。</li><li>短接测试正常但装回主板无反应 → 主板开机电路问题，送修主板；顺带检查主板上的电源开关跳线是否插错到 LED 针上。</li><li>用着突然断电且电源烫手 → 清灰换风扇或直接换电源，过热保护不是玩笑。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>电源别买「够用就好」的杂牌：它带不动时最先死的是硬盘数据。</li><li>每年清一次电源进风口的灰，散热差直接缩短寿命。</li><li>大雷雨天气拔掉电源线，浪涌是电源和主板的双料杀手。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖供电排查、机箱开关旁路、回形针短接、电压复核与换件检查。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除外部供电</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>直插墙插；换电源线（显示器、其他电器同规格的「品字口」线通用）。</li><li>检查电压选择开关（部分老电源背面 115/230V）在 230V。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：开机有反应。<strong>失败了怎么办</strong>：依旧没反应，进步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除机箱开机键</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>打开侧板，找到主板上标着 <strong>PWR_SW</strong> 的两根针，机箱开关线就插在上面。</li><li>用螺丝刀金属头<strong>轻碰短接</strong>这两根针一瞬（等同于按开机键）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：机器启动 → 锅在机箱开机键或那条线，几块钱换个开关线即可。<strong>失败了怎么办</strong>：短接 PWR_SW 仍无反应 → 进步骤 3 判电源。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">回形针短接测试（电源死活金标准）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>关机拔电，把 24pin 主供电插头从主板上拔下。</li><li>把回形针掰成 U 形，插进插头一侧<strong>绿色线（PS_ON）</strong>和<strong>任意一根黑色线（COM/GND）</strong>对应的孔位（绿线通常只有一根，很好找）。</li><li>插回市电，观察电源风扇。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：风扇转起来（多数电源空载风扇不转或慢转属正常，看电源指示/风扇即可）→ 电源基本活着，恢复接线后故障在主板开机电路，送修主板。<strong>失败了怎么办</strong>：完全不转 → 换电源；短接后转但一装回主板就断电 → 主板或某部件短路，逐件排查（先拔显卡只留 CPU+内存再试）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用万用表复核电压（可选，进阶）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>短接启动状态下，黑表笔接黑线，红表笔分别测：黄色（+12V，应在 ±5% 即 11.4-12.6V）、红色（+5V，4.75-5.25V）、橙色（+3.3V）。</li><li>电压飘出范围 → 电源老化，即使「能转」也应换，它正在慢性伤害硬盘。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：三路电压都在范围内。<strong>失败了怎么办</strong>：+12V 偏低明显 → 换电源，优先 80PLUS 铜牌以上、功率留 30% 余量。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">换新电源后的接线检查</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>24pin、CPU 8pin（4+4）、显卡供电全部插到底——「转一下就停」很多是 CPU 8pin 忘插。</li><li>品牌机换非原装电源前，先核对接口形态（看<a class="fx-link" href="../hardware.html">「硬件拆解图」</a>里的主机型号页，联想/戴尔/惠普的电源接口互不通用）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：一次点亮稳定运行。<strong>失败了怎么办</strong>：换电源仍点不亮 → 电源以外有损伤，交叉验证主板。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/ram-reseat-no-boot.html">电脑反复重启 / 开机报警一长两短？先重插内存条</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升 · 修盒子 FIXBOX</title>
+<meta name="description" content="iCloud 空间不足只有三条路：清掉占大头的旧备份/废文件、把「优化储存」打开让大文件留在云端、或者升级/共享套餐。先打开「管理储存空间」看清楚是照片、备份还是微信数据在吃空间，再做决定——不看就清，清的多半是不该清的">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="icloud-storage-full">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>储存空间</span></nav>
+<h1 class="fx-title">iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">iCloud 空间不足只有三条路：<strong>清掉占大头的旧备份/废文件、把「优化储存」打开让大文件留在云端、或者升级/共享套餐</strong>。先打开「管理储存空间」看清楚是照片、备份还是微信数据在吃空间，再做决定——不看就清，清的多半是不该清的。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开「系统设置 → Apple 账户（头像）→ iCloud → 管理」（iPhone 在「设置 → 你的名字 → iCloud → 管理账户储存空间」）。<strong>期望结果</strong>：看到按占用排序的清单——照片、备份、各类 App 数据各占多少。</li><li>看备份清单里有没有<strong>旧设备</strong>（换机前的老 iPhone/iPad 还留在备份列表里）。<strong>期望结果</strong>：删掉旧设备的整份备份，通常一次腾出几个 GB。</li><li>回到 iCloud 主页，确认「照片」的「优化 Mac 储存空间」已勾选（iPhone 是「优化 iPhone 储存空间」）。<strong>期望结果</strong>：本机只留小图，原图存云端，本机空间立刻缓解。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程只做查看与清理决策，不删任何本机文件。唯一要提醒的是：<strong>关闭 iCloud 照片/同步时，选「从 iPhone 移除」之前务必确认照片已经有另一份备份</strong>——云端和本机二选一的删除，是「照片没了」这类事故的主要来源。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>反复弹「iCloud 储存空间不足 / 无法备份」，免费 5GB 用满。</li><li>照片库几十 G，Mac/iPhone 本机空间也被照片吃掉。</li><li>换机后旧设备备份还挂在账户里。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>是 <strong>Mac 本机硬盘</strong>满而不是 iCloud 满（看<a class="fx-link" href="./mac-storage-system-data.html">「Mac 储存空间不足 /「系统数据」占了上百 G」</a>，两者经常被混淆）。</li><li>忘记 Apple ID 密码：先走<a class="fx-link" href="./mac-forgot-password.html">「Mac 忘记开机密码怎么办」</a>里的 Apple 账户找回路径。</li><li>家庭共享里其他成员的乱账：管理员账户先看共享方案再分摊。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>本机照片能正常打开（iCloud 照片开着时，缩略图能看就说明云端还在）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道自己当前的套餐：免费 5GB / 50GB / 200GB / 2TB。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住 Apple ID 密码（清理备份时可能要求验证）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>想清楚底线：哪些数据绝对不能丢（一般是照片 + 微信聊天记录 + 备忘录）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>「管理」页顶部显示的可用空间 &gt; 1GB，且 24 小时后不再弹不足提示。</li><li>照片能正常上传（新拍一张，几分钟内 icloud.com 里能看到）。</li><li>设备夜间备份成功一次（设置里看「上次成功备份」时间）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>删了东西空间迟迟不减 → iCloud 计量延迟，等 24-48 小时；仍不减就联系 Apple 支持。</li><li>照片上传一直转圈 → 检查网络与「低数据模式」，充电 + 锁屏状态下会自动续传。</li><li>想整体换方案（如全家合租 2TB）→ 在「家人共享」里由组织者开通并邀请成员，成员各自隐私互不可见。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>每季度打开一次「管理储存空间」看趋势，别等满了才清。</li><li>换机当天就删旧设备备份，这是最大的一块「隐形占用」。</li><li>重要照片永远保持「云端 + 本地硬盘」两份，云不是备份的唯一答案。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖占用判读、旧备份清理、照片减负与套餐决策。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">看清楚谁在吃空间</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>系统设置 → Apple 账户 → iCloud → 管理。</li><li>按占用从大到小记下前三名（通常是：设备备份 / 照片 / 某个 App 如微信）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：清单在手，目标明确。<strong>失败了怎么办</strong>：清单加载不出来 → 换浏览器登录 icloud.com 看储存页，或稍后重试（服务器偶尔慢）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清掉旧设备备份和无用备份</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>在「管理」里点「备份」（iPhone 在「管理账户储存空间 → 备份」）。</li><li>留下<strong>正在用的设备</strong>，把旧设备、报废设备的备份删掉。</li><li>注意「这台设备正在备份的应用」列表：把不需要云端备份的大 App（如大型游戏）关掉，下次备份立刻瘦身。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：可用空间明显回升（旧备份动辄 10-60GB）。<strong>失败了怎么办</strong>：删除按钮灰色 → 先关该设备的「iCloud 云备份」开关再删。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">给照片减负（大头通常在这）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>确认「iCloud 照片」开着且设备上选了「优化储存空间」——这是官方的冷热分层：本机存小图，原图在云端。</li><li>清空「最近删除」相册（照片删了还会占位 30 天）。</li><li>视频是大头：把几年前的长视频导到移动硬盘后，再从相册删除并清空最近删除。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：本机与云端占用同步下降。<strong>失败了怎么办</strong>：删了照片空间没变 → 最近删除没清；清了还没变 → 等 24 小时（iCloud 计量有延迟）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理 App 数据和其他占用</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>「管理」清单里逐个看大 App：微信/QQ 的聊天记录备份、备忘录、第三方网盘缓存。</li><li>微信之类进 App 内部清理（App 内的「储存空间 → 清理缓存」），比在 iCloud 层面硬删安全。</li><li>邮件占用大 → 清理「废纸篓」「已删除」和超大附件。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：占用清单里没有明显异常项。<strong>失败了怎么办</strong>：某项数据不敢动 → 保留，用升级套餐兜底，别赌。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">决定「清」还是「升」+ 备份兜底</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>清完仍紧张（比如照片库常年 &gt;100GB）→ 升级套餐：50GB（¥6/月）起步，或开「家人共享」让 200GB/2TB 全家分摊。</li><li>无论升不升，给<strong>照片和重要文件</strong>加一层本地备份（移动硬盘 + 时间机器），看<a class="fx-link" href="./backup-before-repair.html">「换硬盘 / 重装系统前，怎么把数据备份全」</a>。</li><li>免费 5GB 用户优先保「备份」而不是照片原图：换机时备份的价值更高。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：不再弹空间不足，且有两份数据兜底。<strong>失败了怎么办</strong>：升级后仍不足 → 大概率是某台设备的备份设置没瘦身，回到步骤 2。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

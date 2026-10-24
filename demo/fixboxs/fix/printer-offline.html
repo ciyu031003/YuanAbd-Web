@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
 <title>打印机显示脱机 / 打印没反应怎么修 · 修盒子 FIXBOX</title>
 <meta name="description" content="&quot;脱机&quot;九成不是打印机坏了，而是电脑上的打印队列卡死了或者取消了&quot;脱机使用打印机&quot;的勾选；先清空队列，再取消脱机状态，最后才考虑重装驱动。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
@@ -21,7 +22,21 @@
 <a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
 <nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
 <a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
 </div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
 <main id="main" class="fx-wrap">
 <div class="fx-doc">
 <aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
@@ -29,6 +44,7 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>打印机</span></nav>
 <h1 class="fx-title">打印机显示脱机 / 打印没反应怎么修</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;脱机&quot;九成不是打印机坏了，而是<strong>电脑上的打印队列卡死了</strong>或者<strong>取消了&quot;脱机使用打印机&quot;的勾选</strong>；先清空队列，再取消脱机状态，最后才考虑重装驱动。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开&quot;设置 → 蓝牙和其他设备 → 打印机和扫描仪&quot;，点开你的打印机 → <strong>打开打印队列</strong>，把里面堆积的任务全部取消（队列 → 取消所有文档）。<strong>期望结果</strong>：队列清空，打印机可能立刻吐出之前积压的纸。</li><li>在同一页面点&quot;<strong>打印机属性</strong>&quot;，在&quot;常规&quot;或&quot;端口&quot;页里确认该打印机<strong>没有</strong>勾选&quot;脱机使用打印机（Use Printer Offline）&quot;。<strong>期望结果</strong>：取消勾选后状态从&quot;脱机&quot;变为&quot;就绪&quot;。</li><li>关掉打印机电源，等 30 秒再开；同时重启一次电脑。<strong>期望结果</strong>：设备和电脑重新握手，状态恢复正常。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
@@ -92,7 +108,7 @@ net start spooler</code></pre><button class="fx-cmd__copy" type="button" data-fx
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>疑难解答修不了就不必反复跑；回到步骤 1 重新判断是&quot;打印机侧&quot;还是&quot;电脑侧&quot;，走&quot;还是不行&quot;里的分流。</div></details></div></li></ol></section>
 <div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
 <div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
-<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../search.html?q=display%20no%20signal">display-no-signal</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../search.html?q=connected%20no%20internet">connected-no-internet</a><a href="../search.html?q=enterprise%20proxy">enterprise-proxy</a></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/enterprise-proxy.html">公司电脑上不了网 / 提示证书不受信任？企业代理环境排查</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 </article>
 <aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>

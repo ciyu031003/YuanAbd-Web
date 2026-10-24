@@ -244,6 +244,20 @@ body.hw-fallback-on .hw-hint { display: none; }
 .hw-note { background: var(--fx-card); border: 1.5px solid var(--fx-line-strong); border-radius: 14px; padding: 14px 16px; font-size: 13.5px; line-height: 1.7; color: var(--fx-ink-2); }
 .hw-note b { display: block; margin-bottom: 5px; font-size: 14px; color: var(--fx-ink); }
 
+/* 触屏设备：提示文案换成手势说法，HUD 底部避开 iPhone 手势条 */
+.hw-hint--touch { display: none; }
+@media (pointer: coarse) {
+  .hw-hint--mouse { display: none; }
+  .hw-hint--touch { display: inline; }
+  .hw-hint, .hw-hud--tools, .hw-hud--devices {
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  .hw-hud--tools { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
+  .hw-window, .hw-window-open { bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
+  .hw-tool { padding: 10px 13px; }
+  .hw-device { padding: 8px 13px; }
+}
+
 /* ---------- 响应式 ---------- */
 @media (max-width: 1120px) {
   .hw-hud--devices { left: auto; right: clamp(14px, 3vw, 24px); transform: none; }
@@ -252,16 +266,28 @@ body.hw-fallback-on .hw-hint { display: none; }
 }
 @media (max-width: 860px) {
   :root { --hw-panel-w: 320px; }
-  .hw-hud--title { max-width: 46vw; }
-  .hw-h1 { font-size: 20px; }
+  .hw-view { min-height: 480px; }
+  .hw-hud--title { left: 14px; right: 14px; top: 12px; max-width: none; }
+  .hw-eyebrow { margin-bottom: 4px; font-size: 10px; }
+  .hw-h1 { font-size: 19px; margin-bottom: 0; }
   .hw-lead { display: none; }
-  .hw-hud--devices { top: auto; bottom: 16px; right: 16px; left: 16px; }
-  .hw-devices { justify-content: space-between; }
-  .hw-hud--tools { bottom: 84px; }
+  .hw-hud--devices { top: auto; right: 12px; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .hw-devices { justify-content: space-between; gap: 4px; padding: 5px; }
+  .hw-device { padding: 7px 10px; min-width: 0; }
+  .hw-device__sub { display: none; }
+  .hw-device__name { font-size: 13px; }
+  .hw-hud--tools { right: 12px; bottom: calc(68px + env(safe-area-inset-bottom, 0px)); flex-wrap: wrap; justify-content: flex-end; }
+  .hw-tool { font-size: 12.5px; padding: 9px 11px; }
   .hw-hint { display: none; }
-  .hw-window { left: 12px; right: 12px; width: auto; top: auto; bottom: 132px; height: auto; max-height: 46vh; }
-  .hw-window-open { left: 12px; right: auto; bottom: 132px; top: auto; }
+  .hw-window { left: 12px; right: 12px; width: auto; top: auto; bottom: calc(118px + env(safe-area-inset-bottom, 0px)); height: auto; max-height: 44vh; border-radius: 18px; }
+  .hw-window-open { left: 12px; right: auto; top: auto; bottom: calc(118px + env(safe-area-inset-bottom, 0px)); }
+  .hw-window__body { padding: 12px 14px 16px; }
   .hw-notes__grid { grid-template-columns: 1fr; }
+  .hw-notes { padding-top: 34px; }
+}
+@media (max-width: 520px) {
+  /* 窄屏：详情窗改为「点开才出现」的底部面板由 JS 控制；工具按钮允许换行 */
+  .hw-tool { padding: 9px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #hw-canvas, .hw-poster, .hw-window { transition: none; }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼 · 修盒子 FIXBOX</title>
+<meta name="description" content="钓鱼信息只有一个目的：让你在慌乱中点进假网站输密码/验证码。识别只要看三点——域名对不对、是否制造紧迫感、是否索要验证码。正规机构永远不向你要短信验证码；你犹豫的每一秒，都是骗局失效的时间。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="phishing-message-check">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec" aria-current="page">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#account-sec">账号与安全</a><span class="fx-crumb__sep">›</span><span>诈骗识别</span></nav>
+<h1 class="fx-title">收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">5-15 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#已经中招了怎么办-按中招深度止损">已经中招了怎么办（按中招深度止损）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">钓鱼信息只有一个目的：<strong>让你在慌乱中点进假网站输密码/验证码</strong>。识别只要看三点——<strong>域名对不对、是否制造紧迫感、是否索要验证码</strong>。正规机构永远不向你要短信验证码；你犹豫的每一秒，都是骗局失效的时间。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>不点</strong>短信/邮件里的任何链接，也不要回拨短信里的电话。<strong>期望结果</strong>：90% 的钓鱼在这一步就已失效——没有点击就没有受害。</li><li>打开<strong>官方 App 或自己收藏的官网</strong>查同样的事（订单状态、账户余额）。<strong>期望结果</strong>：App 里查不到的事，短信里的事就是编的。</li><li>拿不准就把短信全文转发给 <strong>12321</strong>（垃圾信息举报）或在「国家反诈中心」App 里提交鉴别，一分钟出结果。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程是纯识别与防护指南，不涉及系统改动。核心动作只有三个：<strong>不点链接、官方渠道核实、举报</strong>。已经点进去输过密码的，直接跳到「已经中招了怎么办」。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>短信/邮件自称银行、快递、电商平台、社保、ETC、航空退票，附链接或电话。</li><li>「积分即将过期」「账户异常需验证」「包裹丢失赔付」——所有催你快点点的信息。</li><li>陌生人发来的「电子发票」「对账单」压缩包或 .exe「工具」。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>你确实正在等一个真实快递、且在官方 App 里核实订单真的有问题 → 走 App 内客服，仍然不要点短信链接。</li><li>朋友个人号发来的奇怪链接：先打电话向本人确认（他的号可能被盗）。</li><li>已经输过密码/验证码/转账：本文帮你止损，看文末「已经中招了怎么办」。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机/电脑没在并行操作网银、支付软件（冷静环境下识别更准）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>「国家反诈中心」App 已安装（顺手的事，识别 + 举报双功能）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住一条铁律：<strong>银行/平台客服要你的验证码 = 骗子</strong>，无一例外。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="已经中招了怎么办-按中招深度止损">已经中招了怎么办（按中招深度止损）</h2><ol class="fx-ol"><li><strong>只点开了链接，没输入任何东西</strong>：关掉网页即可；顺手确认手机没提示安装了什么「证书」「App」。</li><li><strong>输入了密码</strong>：立刻在官方 App/官网改密码，并给其他用同一密码的平台也改掉；开启双重认证。</li><li><strong>输入了短信验证码</strong>：验证码等于交易授权——立刻检查银行/支付账单，有异常马上打银行官方电话挂失止付，并拨打 <strong>110 / 96110</strong> 报警。</li><li><strong>已经转账</strong>：保存凭证，立即拨打 110 并到就近派出所报案，转账后 30 分钟内是止付黄金时间。</li><li>电脑随后变得弹窗不断/很卡：看<a class="fx-link" href="./malware-first-response.html">「疑似中毒的第一小时该做什么」</a>。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认处理好了">怎么确认处理好了</h2><ul class="fx-ul"><li>钓鱼信息已举报并删除，未发生任何点击/输入。</li><li>若改过密码：新旧密码不同，双重认证已开启，账号在所有设备的登录列表里没有陌生设备。</li><li>家里长辈的手机也做了同样的识别交代（钓鱼短信 80% 的真实受害者年龄 50+）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>已经转账/输入验证码 → 立即 110 + 96110，时间就是钱，不要先羞愧半天再报警。</li><li>怀疑个人信息大规模泄露（身份证+姓名+手机号同时被对方说中）→ 在「国家反诈中心」咨询并考虑冻结非必要账户。</li><li>邮箱收到领导/财务的「紧急转账」要求 → 打电话给本人声音确认，这是「变脸诈骗」的标准剧本。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>手机系统自带的「诈骗短信拦截」和反诈 App 都开着，双保险。</li><li>各重要账户全部开启双重认证；验证码短信谁要都不给，包括自称客服的。</li><li>定期（每季度）用密码管理器检查「同一密码复用」情况，复用是连锁被盗的根源。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖域名核对、官方核实、举报三步与分级止损。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">核对域名——钓鱼站的命门</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>长按短信链接（<strong>不要点开</strong>）看预览地址，或鼠标悬停邮件链接看左下角状态栏的真实地址。</li><li>官方域名通常是<strong>品牌名 + 主流后缀</strong>（如 icbc.com.cn、jd.com、10086.cn）；钓鱼站爱用混杂字符串（<code>icbc-securityn.com</code>、<code>jd-pay.xyz</code>、<code>1cbc.com</code>——用数字 1 冒充字母 l）。</li><li>记住核对原则：看<strong>倒数第一和倒数第二个点之间</strong>的部分，那才是真域名。<code>mail.jd.com.verify-account.xyz</code> 的真域名是 <code>verify-account.xyz</code>，假的。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：域名对不上 → 实锤钓鱼，删除+举报。<strong>失败了怎么办</strong>：域名看着一模一样仍不放心 → 走步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">官方渠道交叉核实</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>打开<strong>自己收藏</strong>的官网或官方 App（不是短信给的地址）。</li><li>查短信所说的事项：订单、积分、账户状态。</li><li>要联系客服，用 App 内客服入口或官网底部电话，<strong>不用短信里给的号码</strong>。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：官方渠道查无此事 → 钓鱼确认。<strong>失败了怎么办</strong>：官方渠道也显示同样的问题 → 按官方渠道的流程处理，仍不点短信链接。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">举报，让下一个人少踩坑</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>短信：转发到 <strong>12321</strong>；iPhone 可用「举报垃圾信息」一键上报。</li><li>「国家反诈中心」App → 我要举报 → 粘贴短信/邮件内容。</li><li>删除原短信前截图留存（万一后续涉资金纠纷有用）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：举报完成，链接进入封禁流程。<strong>失败了怎么办</strong>：没有举报入口 → 至少拉黑发件号并删除。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/remote-control-scam.html">有人让我下载软件并远程控制电脑，是诈骗吗</a><a href="../fix/malware-first-response.html">电脑中病毒了怎么办：先做这三件事再杀毒</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#已经中招了怎么办-按中招深度止损">已经中招了怎么办（按中招深度止损）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

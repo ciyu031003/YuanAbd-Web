@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>蓝牙耳机 / 键鼠连不上、一直配对失败怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="蓝牙配对失败，八成出在「设备还连着别人 / 系统蓝牙服务假死 / 驱动抽风」：先把设备从旧设备上断开（手机）并放进充电盒重置，再重启电脑的蓝牙服务，最后才动驱动。顺序对了基本都是小问题。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="bluetooth-device-not-pairing">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>蓝牙与键鼠</span></nav>
+<h1 class="fx-title">蓝牙耳机 / 键鼠连不上、一直配对失败怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">5-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">蓝牙配对失败，<strong>八成出在「设备还连着别人 / 系统蓝牙服务假死 / 驱动抽风」</strong>：先把设备从旧设备上断开（手机）并放进充电盒重置，再重启电脑的蓝牙服务，最后才动驱动。顺序对了基本都是小问题。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>把耳机放回充电盒、<strong>关盖等 10 秒再开盖</strong>，或长按功能键重置到配对模式（看说明书）。<strong>期望结果</strong>：设备进入「未连接」的干净状态，而不是「挂在手机上不肯走」。</li><li>关掉<strong>手机</strong>上与该设备的蓝牙连接（耳机通常只能同时服务一台主机）。<strong>期望结果</strong>：电脑这边马上能搜到/连上。</li><li>电脑蓝牙关开一次（设置 → 蓝牙和其他设备 → 关，再开）。<strong>期望结果</strong>：蓝牙栈小卡死就此恢复。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程只涉及系统设置、驱动与服务，不会删除你的文件。唯一注意点：删除设备重新配对后，原有的自定义设置（如耳机的降噪档位偏好）可能需要重设一遍。</div></div></section>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>以前能连，现在搜不到 / 配对转圈后报失败。</li><li>换了新耳机、新鼠标，第一次配不上。</li><li>蓝牙键鼠连上了但频繁卡顿、断连。</li><li>蓝牙开关整个不见了（更多是驱动/服务问题）。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>2.4G 接收器（USB 小狗）型无线键鼠连不上——那不是蓝牙，走 USB 排查，参考<a class="fx-link" href="./usb-drive-not-recognized.html">「U 盘 / 移动硬盘不识别怎么办」</a>的接口排查思路。</li><li>打印机走 Wi-Fi/USB 连接：看<a class="fx-link" href="./printer-offline.html">「打印机脱机 / 打印没反应」</a>。</li><li>设备说明书明确写着「不支持蓝牙，需接收器」。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>设备有电（耳机开盖有灯、鼠标底部灯亮）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>设备已从手机/平板断开，或干脆关闭手机蓝牙 2 分钟。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑蓝牙开关是开着的，且飞行模式没开。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>距离 1 米内重试——蓝牙 5 米理论距离在有墙情况下会腰斩。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>周围没有微波炉、USB3.0 集线器正对着用（2.4G 干扰源）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>连接一次成功，播放音乐 10 分钟不断连、无卡顿。</li><li>键鼠闲置 5 分钟后动一下，1 秒内恢复响应。</li><li>重启电脑后自动重连，无需重新配对。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>换一台手机/电脑测试同一设备：能连 → 锅在电脑（驱动/适配器）；不能连 → 设备本身故障，走保修。</li><li>设备连接成功但没有声音 → 输出设备选错了，右下角音量图标里手动切到该耳机；Mac 在「系统设置 → 声音」里切。</li><li>台式机距离远、隔墙多 → 加装蓝牙 5.0 带外置天线的适配器，比反复折腾驱动划算。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>适配器驱动随系统更新保持最新（厂商官网版本通常比 Windows Update 新）。</li><li>蓝牙设备和微波炉、无线路由保持 1 米以上距离。</li><li>长期不用的蓝牙设备从已配对列表里删掉，列表越长越容易出「抢连」怪事。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖设备重置、重新配对、服务重启、驱动恢复与卡顿专项。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">设备端重置到配对模式</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>耳机：放回盒中，开盖长按盒上按钮直到指示灯快闪；或按说明书执行「恢复出厂配对」。</li><li>键鼠：底部开关关开一次，长按配对键 3 秒以上。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：设备处于快闪的「配对等待」状态。<strong>失败了怎么办</strong>：灯不亮 → 充电 20 分钟再试；快闪但电脑仍搜不到 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">删除旧配对记录，重新配对</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>Windows：设置 → 蓝牙和其他设备 → 找到该设备 →「删除设备」；macOS：系统设置 → 蓝牙 → 悬停该设备 → 断开连接并移除。</li><li>让设备重新进入配对模式，点「添加设备 / 连接」重新走一遍。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：配对成功。<strong>失败了怎么办</strong>：还是失败 → 步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启蓝牙支持服务（Windows）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li><code>Win + R</code> 输入 <code>services.msc</code> 回车。</li><li>找到「蓝牙支持服务（Bluetooth Support Service）」→ 右键「重新启动」；顺便确认启动类型为「自动」。</li><li>再试一次配对。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：服务重启后配对成功。<strong>失败了怎么办</strong>：进步骤 4 检查驱动。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">驱动检查与恢复（Windows）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>设备管理器 →「蓝牙」分类，看有没有黄色感叹号。</li><li>右键蓝牙适配器（名字含 Bluetooth / Intel Wireless / Realtek）→「卸载设备」（勾选删除驱动则更彻底）→ 重启电脑，系统会自动装回通用驱动。</li><li>台式机根本没蓝牙分类 → 加一个 USB 蓝牙适配器（几十块，即插即用）是最省事的解法。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：驱动重装后蓝牙分类正常，配对成功。<strong>失败了怎么办</strong>：驱动装回后仍带感叹号 → 去笔记本/主板厂商官网下载对应型号的蓝牙驱动手动装。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卡顿 / 断连的专项处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>把 USB 3.0 设备（U 盘、移动硬盘）插到离蓝牙天线远的接口，或换 USB 2.0 口——USB 3.0 的射频噪声是蓝牙断连的惯犯。</li><li>路由器 Wi-Fi 信道与蓝牙同在 2.4G：把 Wi-Fi 切到 5GHz 频段试。</li><li>macOS 卡顿可在终端跑 <code>sudo pkill bluetoothd</code> 重启蓝牙守护进程。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：卡顿明显缓解。<strong>失败了怎么办</strong>：仍频繁断连 → 用「设备管理器 → 蓝牙适配器 → 属性 → 电源管理」取消「允许计算机关闭此设备以节约电源」。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/wifi-adapter-missing.html">电脑没有 WLAN 选项 / 网络适配器不见了</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

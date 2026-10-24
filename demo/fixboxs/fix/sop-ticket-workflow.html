@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
 <title>工单全流程速查：接单、改派、挂起、升级、换机与寄回 · 修盒子 FIXBOX</title>
 <meta name="description" content="工单流程比技术细节更容易扣分：该打卡没打、该申请跳字没申请、改派没走流程，评价直接掉。 这一页按工单生命周期排好 SOP 里的操作条目：接单前 → 接单 → 履约中 → 异常处理（挂起/改派/升级）→ 换机换件 → 打包">
 <meta name="robots" content="index,follow">
@@ -22,7 +23,21 @@
 <a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
 <nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
 <a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
 </div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
 <main id="main" class="fx-wrap">
 <div class="fx-doc">
 <aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field" aria-current="page">现场作业与工单</a></li></ul></aside>
@@ -30,6 +45,7 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ref-field">现场作业与工单</a><span class="fx-crumb__sep">›</span><span>工单与服务流程</span></nav>
 <h1 class="fx-title">工单全流程速查：接单、改派、挂起、升级、换机与寄回</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">通用</span><span class="fx-badge fx-badge--ref">参考 SOP</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">📄 快速概览</a></li><li><a href="#适用对象">适用对象</a></li><li><a href="#风险提示">风险提示</a></li><li><a href="#分步骤">分步骤</a></li><li><a href="#处理明细">处理明细</a></li><li><a href="#仍需帮助">仍需帮助</a></li><li><a href="#原始-sop">原始 SOP</a></li><li><a href="#来源">来源</a></li></ul></details>
 <div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>
 <div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2><p class="fx-p">工单流程比技术细节更容易扣分：该打卡没打、该申请跳字没申请、改派没走流程，评价直接掉。</p>
 <p class="fx-p">这一页按<strong>工单生命周期</strong>排好 SOP 里的操作条目：接单前 → 接单 → 履约中 → 异常处理（挂起/改派/升级）→ 换机换件 → 打包寄回 → 评价。</p>

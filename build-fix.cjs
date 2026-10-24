@@ -74,6 +74,23 @@ const CRITICAL = [
 const BOOT = '<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>';
 const PRELOADER = '<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>';
 const CONNECTOR = '<div class="fx-connector" aria-hidden="true"></div>';
+/* 移动端抽屉导航：生成的文章页在 /fix/ 子目录，链接统一用 ../ 前缀（2026-10-24 移动端适配） */
+const MOBILE_BURGER = '<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>';
+const MOBILE_DRAWER = [
+  '<div class="fx-drawer" id="fx-drawer" hidden>',
+  '<div class="fx-drawer__backdrop" data-fx-drawer-close></div>',
+  '<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">',
+  '<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>',
+  '<a class="fx-drawer__link" href="../index.html">首页</a>',
+  '<a class="fx-drawer__link" href="../browse.html">领域</a>',
+  '<a class="fx-drawer__link" href="../hardware.html">拆机图</a>',
+  '<a class="fx-drawer__link" href="../wizard.html">症状向导</a>',
+  '<a class="fx-drawer__link" href="../tools.html">工具</a>',
+  '<a class="fx-drawer__link" href="../search.html">搜索教程</a>',
+  '<a class="fx-drawer__link" href="../about.html">关于</a>',
+  '<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>',
+  '</nav></div>',
+].join("\n");
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const escAttr = (s) => esc(s).replace(/'/g, "&#39;");
@@ -295,9 +312,23 @@ function renderReference(meta, body) {
 
   const rest = order.filter(function (n) { return consumed.indexOf(n) < 0; });
 
+  /* 目录条目桌面/移动端共用：桌面在右侧 aside，≤1180 收进文章开头的 details 手风琴 */
+  const tocLinks =
+    (overview ? '<li><a href="#' + slugify("一句话结论") + '">📄 快速概览</a></li>' : "") +
+    (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
+    (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
+    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
+    rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
+    (originMd ? '<li><a href="#' + slugify("原始 SOP") + '">原始 SOP</a></li>' : "") +
+    (sourcesHtml ? '<li><a href="#' + slugify("来源") + '">来源</a></li>' : "");
+  const tocMobile = tocLinks
+    ? '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>"
+    : "";
+
   return [
     '<!DOCTYPE html>', '<html lang="zh-CN">', "<head>", '<meta charset="UTF-8">',
     '<meta name="viewport" content="width=device-width,initial-scale=1">',
+    '<meta name="theme-color" content="#FBF6EC">',
     "<title>" + esc(meta.title) + " · 修盒子 FIXBOX</title>",
     '<meta name="description" content="' + escAttr(desc) + '">',
     '<meta name="robots" content="' + (meta.index === "no" ? "noindex" : "index,follow") + '">',
@@ -315,7 +346,9 @@ function renderReference(meta, body) {
     '<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>',
     '<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>',
     '<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>',
+    MOBILE_BURGER,
     "</div></header>",
+    MOBILE_DRAWER,
     '<main id="main" class="fx-wrap">', '<div class="fx-doc">',
     '<aside class="fx-doc__nav"><h3>当前领域</h3><ul>' +
       Object.keys(DOMAINS).map(function (k) { return '<li><a href="../browse.html#' + k + '"' + (k === meta.domain ? ' aria-current="page"' : "") + ">" + DOMAINS[k] + "</a></li>"; }).join("") +
@@ -326,6 +359,7 @@ function renderReference(meta, body) {
     '<h1 class="fx-title">' + esc(meta.title) + "</h1>",
     '<div class="fx-meta">' + badges +
       '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
+    tocMobile,
     '<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
     (overview ? '<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : ""),
     (who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : ""),
@@ -339,15 +373,7 @@ function renderReference(meta, body) {
     (related.length ? '<h2 class="fx-h2">相关资料</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),
     '<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：' + esc(meta.updated || "") + " · 复核：" + esc(meta.reviewer || "") + "</p>",
     "</article>",
-    '<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' +
-      (overview ? '<li><a href="#' + slugify("一句话结论") + '">📄 快速概览</a></li>' : "") +
-      (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
-      (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
-      (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
-      rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
-      (originMd ? '<li><a href="#' + slugify("原始 SOP") + '">原始 SOP</a></li>' : "") +
-      (sourcesHtml ? '<li><a href="#' + slugify("来源") + '">来源</a></li>' : "") +
-      "</ul></aside>",
+    '<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' + tocLinks + "</ul></aside>",
     "</div>", '<div style="height:60px"></div>', "</main>",
     '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
     '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
@@ -405,9 +431,20 @@ function renderArticle(meta, body) {
   });
   const desc = String(conclusion).replace(/[#*>\x60]/g, "").replace(/\s+/g, " ").trim().slice(0, 110);
 
+  /* 目录条目桌面/移动端共用：桌面在右侧 aside，≤1180 收进文章开头的 details 手风琴 */
+  const tocLinks =
+    '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
+    (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
+    rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
+    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "");
+  const tocMobile = tocLinks
+    ? '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>"
+    : "";
+
   return [
 '<!DOCTYPE html>', '<html lang="zh-CN">', "<head>", '<meta charset="UTF-8">',
 '<meta name="viewport" content="width=device-width,initial-scale=1">',
+'<meta name="theme-color" content="#FBF6EC">',
 "<title>" + esc(meta.title) + " · 修盒子 FIXBOX</title>",
 '<meta name="description" content="' + escAttr(desc) + '">',
 "<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E\">",
@@ -424,7 +461,9 @@ PRELOADER,
 '<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>',
 '<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>',
 '<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>',
+MOBILE_BURGER,
 "</div></header>",
+MOBILE_DRAWER,
 '<main id="main" class="fx-wrap">', '<div class="fx-doc">',
 '<aside class="fx-doc__nav"><h3>当前领域</h3><ul>' +
   Object.keys(DOMAINS).map(function (k) { return '<li><a href="../browse.html#' + k + '"' + (k === meta.domain ? ' aria-current="page"' : "") + ">" + DOMAINS[k] + "</a></li>"; }).join("") +
@@ -436,6 +475,7 @@ PRELOADER,
 '<div class="fx-meta">' + badges +
   '<span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span>' +
   '<button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
+tocMobile,
 '<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
 (quickItems.length ? '<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : ""),
 CONNECTOR,
@@ -446,12 +486,7 @@ rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + s
 (related.length ? '<h2 class="fx-h2">相关教程</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),
 '<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：' + esc(meta.updated || "") + " · 复核：" + esc(meta.reviewer || "") + "</p>",
 "</article>",
-'<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' +
-  '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
-  (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
-  rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
-  (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
-  "</ul></aside>",
+'<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' + tocLinks + "</ul></aside>",
 "</div>", '<div style="height:60px"></div>', "</main>",
 '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
 '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',

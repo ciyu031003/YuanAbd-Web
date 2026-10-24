@@ -86,9 +86,22 @@
     pts.forEach(function (p, i) {
       far = Math.max(far, p.distanceTo(c) + (radii[i] || 6));
     });
-    // 36° 竖直视角，半角 18°，留一点余量
+    state.explodeFar = far;
+    // 36° 竖直视角，半角 18°，留一点余量（横屏基准；竖屏由 explodeFitRadius 按宽高比放大）
     var fit = far / Math.sin(23 * Math.PI / 180);
     state.explodeRadius = Math.max(CAM[device().kind].radius * 1.05, fit);
+  }
+
+  /* 分解取景要按「当前画幅」算：竖屏时水平视野比竖直窄得多，
+     仍按竖直半角算距离会让两侧零件飞出画面（手机上实测踩到）。
+     横屏时与旧公式一致，不改变桌面表现。 */
+  function explodeFitRadius() {
+    if (!state.explodeFar) return 0;
+    var vHalf = 23 * Math.PI / 180;
+    var aspect = (camera && camera.aspect) || 1;
+    var hHalf = Math.atan(Math.tan(vHalf) * aspect);
+    var half = Math.min(vHalf, hHalf);
+    return (state.explodeFar / Math.sin(half)) * 1.02;
   }
 
   function devices() { return window.FX_DEVICES || []; }
@@ -739,12 +752,6 @@
         右侧（+x）是免工具侧板；拆掉后从右侧看内部结构。
      ============================================================ */
   var BRAND = {
-    lenovo: { badge: "#E2231A", bezel: "#2E3644", chassis: "#3A4350", accent: "#E2231A", psuTop: true,  face: "lenovo" },
-    dell:   { badge: "#0672CB", bezel: "#232936", chassis: "#2A303C", accent: "#0672CB", psuTop: false, face: "dell" },
-    hp:     { badge: "#0096D6", bezel: "#39424F", chassis: "#4A5260", accent: "#0096D6", psuTop: true,  face: "hp" }
-  };
-
-  var BRAND = {
     lenovo: { badge: "#E2231A", bezel: "#1B1F25", chassis: "#1A1E24", accent: "#E2231A", face: "lenovo", glass: true,  psuTop: true  },
     dell:   { badge: "#0672CB", bezel: "#1E232A", chassis: "#232830", accent: "#0672CB", face: "dell",   glass: false, psuTop: false },
     hp:     { badge: "#0096D6", bezel: "#2A3038", chassis: "#3C434D", accent: "#0096D6", face: "hp",     glass: false, psuTop: true  }
@@ -1095,7 +1102,10 @@
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(36, 1, 0.1, 700);
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    /* 高分屏（dpr≥1.8）关掉 MSAA：像素密度本身就在做超采样，
+       手机上可省近一半 GPU，肉眼几乎无差；低分屏保留抗锯齿。 */
+    var dpr = window.devicePixelRatio || 1;
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: dpr < 1.8, alpha: true, powerPreference: "high-performance" });
     renderer.setClearAlpha(0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -1116,7 +1126,8 @@
       tx = o.target.x + (state.explodeCenter.x - o.target.x) * t;
       ty = o.target.y + (state.explodeCenter.y - o.target.y) * t;
       tz = o.target.z + (state.explodeCenter.z - o.target.z) * t;
-      radius = o.radius + (state.explodeRadius - o.radius) * t;
+      var er = explodeFitRadius() || state.explodeRadius;
+      radius = o.radius + (er - o.radius) * t;
     }
     camera.position.set(
       tx + radius * Math.sin(o.phi) * Math.sin(o.theta),
@@ -1126,9 +1137,14 @@
     camera.lookAt(tx, ty, tz);
   }
 
+  /* 竖屏整机不出画的最小距离：机型预设半径在窄屏上不够退 */
+  function portraitMinRadius() {
+    return device().kind === "tower" ? 120 : 106;
+  }
+
   function applyCamPreset() {
     var cfg = CAM[device().kind] || CAM.laptop;
-    orbit.radius = cfg.radius;
+    orbit.radius = Math.max(cfg.radius, portraitMinRadius());
     orbit.target = { x: 0, y: cfg.targetY, z: 0 };
     orbit.phi = cfg.phi;
     orbit.theta = cfg.theta;
@@ -1138,8 +1154,16 @@
   /* ============================================================
      六、交互
      ============================================================ */
+  /* 缩放界限统一走这里：滚轮与双指捏合共用一套（笔记本近景允许更近），
+     之前两处各写一份且数值不一致，手机上捏合能把笔记本拉到很远。 */
+  function zoomRange() {
+    return device().kind === "tower" ? { min: 50, max: 170 } : { min: 36, max: 110 };
+  }
+
   function bindInteractions(canvas) {
     var last = { x: 0, y: 0 }, moved = 0;
+    /* 拖拽惯性：inertia 用模块级变量（渲染循环读取衰减），这里只写入 */
+    var lastMoveT = 0;
 
     function pt(e) {
       var r = canvas.getBoundingClientRect();
@@ -1157,7 +1181,8 @@
 
     canvas.addEventListener("pointerdown", function (e) {
       state.dragging = true; moved = 0;
-      var p = pt(e); last.x = p.x; last.y = p.y;
+      inertia.vTheta = 0; inertia.vPhi = 0;
+      var p = pt(e); last.x = p.x; last.y = p.y; lastMoveT = performance.now();
       canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
     });
     canvas.addEventListener("pointermove", function (e) {
@@ -1167,15 +1192,24 @@
       moved += Math.abs(dx) + Math.abs(dy);
       orbit.theta -= dx * 0.0055;
       orbit.phi = Math.max(0.22, Math.min(1.48, orbit.phi - dy * 0.005));
+      var now = performance.now(), dtm = Math.max(8, now - lastMoveT);
+      /* 速度换算成 rad/s 并限幅，作为松手惯性 */
+      inertia.vTheta = Math.max(-3, Math.min(3, (dx * 0.0055) / (dtm / 1000)));
+      inertia.vPhi = Math.max(-3, Math.min(3, (dy * 0.005) / (dtm / 1000)));
+      lastMoveT = now;
       last.x = p.x; last.y = p.y;
       state.autoRotate = false; syncAutoBtn();
       applyCamera();
     });
     function release(e) {
+      if (!state.dragging) return;
       state.dragging = false;
       if (canvas.releasePointerCapture && e && e.pointerId != null) {
         try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
       }
+      /* 停顿超过 120ms 再松手视为「按住端详」，不给惯性 */
+      if (performance.now() - lastMoveT > 120) { inertia.vTheta = 0; inertia.vPhi = 0; }
+      wake();
     }
     canvas.addEventListener("pointerup", release);
     canvas.addEventListener("pointercancel", release);
@@ -1190,9 +1224,8 @@
 
     canvas.addEventListener("wheel", function (e) {
       e.preventDefault();
-      var min = device().kind === "tower" ? 50 : 36;
-      var max = device().kind === "tower" ? 170 : 110;
-      orbit.radius = Math.max(min, Math.min(max, orbit.radius + e.deltaY * 0.05));
+      var zr = zoomRange();
+      orbit.radius = Math.max(zr.min, Math.min(zr.max, orbit.radius + e.deltaY * 0.05));
       applyCamera();
     }, { passive: false });
 
@@ -1202,11 +1235,12 @@
       return Math.sqrt(dx * dx + dy * dy) || 1;
     }
     canvas.addEventListener("touchstart", function (e) {
-      if (e.touches.length === 2) pinch = { d: dist2(e.touches), r: orbit.radius };
+      if (e.touches.length === 2) { pinch = { d: dist2(e.touches), r: orbit.radius }; inertia.vTheta = 0; inertia.vPhi = 0; }
     }, { passive: true });
     canvas.addEventListener("touchmove", function (e) {
       if (e.touches.length === 2 && pinch) {
-        orbit.radius = Math.max(50, Math.min(170, pinch.r * (pinch.d / dist2(e.touches))));
+        var zr = zoomRange();
+        orbit.radius = Math.max(zr.min, Math.min(zr.max, pinch.r * (pinch.d / dist2(e.touches))));
         applyCamera(); e.preventDefault();
       }
     }, { passive: false });
@@ -1238,6 +1272,8 @@
     renderPanel(cfg);
     syncListButtons(id);
     if (id && prev !== id && !state.exploded && !reduceMotion) setExploded(true);
+    /* 窄屏详情窗默认收起：从 3D 画布点中零件时自动弹出，避免用户以为没反应 */
+    if (id && opts.from3d && state.windowOpen === false && el.toggleWindow) el.toggleWindow(true);
     if (opts.from3d && el.live) el.live.textContent = "已选中：" + (cfg ? cfg.name : id);
   }
 
@@ -1383,15 +1419,37 @@
 
   /* ============================================================
      九、渲染循环
+     ------------------------------------------------------------
+     省电策略：舞台滚出视口或浏览器标签页隐藏时停掉 rAF（手机上这类
+     全屏 canvas 页最耗电的就是「看不见还在渲染」）；任何交互或回到
+     可见状态时由 wake() 重启。拖拽惯性也在这一层衰减。
      ============================================================ */
+  var rafActive = false, renderVisible = true, inertia = { vTheta: 0, vPhi: 0 };
+
+  function wake() {
+    if (!state.ready || rafActive || !renderVisible || document.hidden) return;
+    rafActive = true;
+    clockLast = performance.now();
+    requestAnimationFrame(frame);
+  }
+
   function frame(now) {
-    if (!state.ready) return;
+    if (!state.ready) { rafActive = false; return; }
+    if (!renderVisible || document.hidden) { rafActive = false; return; }
     requestAnimationFrame(frame);
     var dt = Math.min(0.05, (now - clockLast) / 1000 || 0.016);
     clockLast = now;
 
     if (state.autoRotate && !reduceMotion && !state.dragging) {
       orbit.theta += dt * 0.11;
+    }
+
+    /* 拖拽惯性：松手后按指数衰减继续转一点，手感接近原生 3D 查看器 */
+    if (!state.dragging && !reduceMotion && (Math.abs(inertia.vTheta) > 0.002 || Math.abs(inertia.vPhi) > 0.002)) {
+      orbit.theta -= inertia.vTheta * dt;
+      orbit.phi = Math.max(0.22, Math.min(1.48, orbit.phi - inertia.vPhi * dt));
+      var decay = Math.exp(-dt * 3.4);
+      inertia.vTheta *= decay; inertia.vPhi *= decay;
     }
 
     var targetT = state.exploded ? 1 : 0;
@@ -1450,8 +1508,7 @@
     camera.aspect = w / h;
     applyViewOffset();
     // 窄屏拉远，保证整机不出画（塔式本来就高，需要退更多）
-    var minR = device().kind === "tower" ? 120 : 96;
-    if (w / h < 1.05) orbit.radius = Math.max(orbit.radius, minR);
+    if (w / h < 1.05) orbit.radius = Math.max(orbit.radius, portraitMinRadius());
     camera.updateProjectionMatrix();
     applyCamera();
   }
@@ -1531,8 +1588,14 @@
       // 收起后把画面重新居中
       requestAnimationFrame(applyViewOffset);
     }
+    /* select() 在窄屏从画布点中零件时用这个自动弹窗 */
+    el.toggleWindow = setWindowOpen;
     if (el.windowClose) el.windowClose.addEventListener("click", function () { setWindowOpen(false); if (el.windowOpen) el.windowOpen.focus(); });
     if (el.windowOpen) el.windowOpen.addEventListener("click", function () { setWindowOpen(true); });
+
+    /* 窄屏（≤860）详情窗默认收起：底部面板会盖住大半个模型，
+       让用户先看整体，需要时再点「零件详情」展开。 */
+    if (window.matchMedia && window.matchMedia("(max-width: 860px)").matches) setWindowOpen(false);
 
     el.explodeBtn.addEventListener("click", function () { setExploded(!state.exploded); });
     el.rotateBtn.addEventListener("click", function () { state.autoRotate = !state.autoRotate; syncAutoBtn(); });
@@ -1550,14 +1613,22 @@
     window.addEventListener("resize", resize);
     if (window.ResizeObserver) new ResizeObserver(resize).observe(el.stage);
 
+    /* 省电：标签页隐藏或舞台滚出视口时停帧，恢复可见再 wake() */
+    document.addEventListener("visibilitychange", wake);
+    if (window.IntersectionObserver && el.stage) {
+      new IntersectionObserver(function (entries) {
+        renderVisible = entries[0].isIntersecting;
+        if (renderVisible) wake();
+      }, { rootMargin: "80px" }).observe(el.stage);
+    }
+
     if (reduceMotion) state.autoRotate = false;
     syncAutoBtn();
     renderPanel(null);
 
     document.body.classList.add("hw-ready");
     if (el.loader) el.loader.hidden = true;
-    clockLast = performance.now();
-    requestAnimationFrame(frame);
+    wake();
 
     if (/[?&]demo=1/.test(location.search)) {
       setTimeout(function () { setExploded(true); select(currentParts()[3] && currentParts()[3].id); }, 700);

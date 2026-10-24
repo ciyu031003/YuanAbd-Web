@@ -1563,6 +1563,651 @@ window.FX_ARTICLES = [
   "hot": 2
  },
  {
+  "slug": "backup-before-repair",
+  "title": "换硬盘 / 重装系统前，怎么把数据备份全",
+  "domain": "data-backup",
+  "domainName": "数据与备份",
+  "category": "db-backup",
+  "categoryName": "备份与迁移",
+  "path": "数据与备份 › 备份与迁移",
+  "summary": "备份的本质是复制 + 验证：把「文档、桌面、图片、下载、浏览器书签、微信聊天记录、软件配置」这七类东西拷到外置盘，再随机打开 5 个文件确认能读。别指望「我记得都存网盘了」——验证过才算备份。",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "30-120 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "换硬盘前备份",
+   "重装系统要备份什么",
+   "电脑数据备份",
+   "迁移系统到新硬盘",
+   "送修前备份",
+   "备份清单"
+  ],
+  "keywords": [
+   "备份",
+   "时间机器",
+   "文件历史记录",
+   "系统镜像",
+   "EaseUS",
+   "增量备份",
+   "321原则",
+   "迁移"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/backup-before-repair.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "bluetooth-device-not-pairing",
+  "title": "蓝牙耳机 / 键鼠连不上、一直配对失败怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-bt",
+  "categoryName": "蓝牙与键鼠",
+  "path": "外设 › 蓝牙与键鼠",
+  "summary": "蓝牙配对失败，八成出在「设备还连着别人 / 系统蓝牙服务假死 / 驱动抽风」：先把设备从旧设备上断开（手机）并放进充电盒重置，再重启电脑的蓝牙服务，最后才动驱动。顺序对了基本都是小问题。",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "蓝牙耳机连不上",
+   "蓝牙配对失败",
+   "蓝牙搜不到设备",
+   "蓝牙鼠标卡顿",
+   "蓝牙键盘不响应",
+   "蓝牙开关不见了",
+   "已配对但连不上"
+  ],
+  "keywords": [
+   "蓝牙配对",
+   "蓝牙驱动",
+   "蓝牙服务",
+   "支持流",
+   "pairing",
+   "蓝牙适配器",
+   "2.4G 干扰"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/bluetooth-device-not-pairing.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "browser-proxy",
+  "title": "浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复",
+  "domain": "proxy-vpn",
+  "domainName": "代理与 VPN",
+  "category": "px-system",
+  "categoryName": "系统代理",
+  "path": "代理与 VPN › 系统代理",
+  "summary": "「微信能用、浏览器不能用」说明网络是通的，锅在浏览器的代理路径上：要么系统代理指向了一个已经死掉的代理端口，要么某个代理插件接管了请求。把浏览器代理改回「使用系统代理设置」或「不使用代理」，九",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-25 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "浏览器打不开网页",
+   "网页打不开但微信能用",
+   "ERR_PROXY_CONNECTION_FAILED",
+   "ERR_TUNNEL_CONNECTION_FAILED",
+   "浏览器代理设置",
+   "PAC 脚本错误",
+   "浏览器走了代理"
+  ],
+  "keywords": [
+   "浏览器代理",
+   "PAC",
+   "ERR_PROXY_CONNECTION_FAILED",
+   "SwitchyOmega",
+   "系统代理",
+   "浏览器插件代理"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/browser-proxy.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "enterprise-proxy",
+  "title": "公司电脑上不了网 / 提示证书不受信任？企业代理环境排查",
+  "domain": "proxy-vpn",
+  "domainName": "代理与 VPN",
+  "category": "px-system",
+  "categoryName": "系统代理",
+  "path": "代理与 VPN › 系统代理",
+  "summary": "公司电脑「上不了网」的四大来源：上网认证掉线、代理/PAC 配置错误、自装工具抢了代理、证书不被信任。判断口诀：内网网站能开 = 网络是通的，问题在代理/认证层；这时先还原自己装过的工具改过的",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "公司电脑上不了网",
+   "提示证书不受信任",
+   "内网打得开外网打不开",
+   "办公网断网",
+   "企业代理",
+   "上网认证页面弹不出",
+   "代理服务器拒绝连接"
+  ],
+  "keywords": [
+   "企业代理",
+   "内网上不了外网",
+   "PAC",
+   "证书不受信任",
+   "上网行为管理",
+   "Deep packet inspection",
+   "办公网络",
+   "802.1X"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/enterprise-proxy.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "icloud-storage-full",
+  "title": "iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-disk-space",
+  "categoryName": "储存空间",
+  "path": "macOS 软件与性能 › 储存空间",
+  "summary": "iCloud 空间不足只有三条路：清掉占大头的旧备份/废文件、把「优化储存」打开让大文件留在云端、或者升级/共享套餐。先打开「管理储存空间」看清楚是照片、备份还是微信数据在吃空间，再做决定——",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "iPhone / iPad",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "iCloud 空间不足",
+   "iCloud 储存空间已满",
+   "提示无法备份",
+   "照片不上传",
+   "iPhone 储存空间已满提醒",
+   "icloud full"
+  ],
+  "keywords": [
+   "iCloud 空间不足",
+   "管理储存空间",
+   "iCloud 照片",
+   "备份失败",
+   "降级方案",
+   "5GB 免费",
+   "家人共享"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/icloud-storage-full.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-forgot-password",
+  "title": "Mac 忘记开机密码怎么办（Apple Silicon / Intel 都覆盖）",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-login",
+  "categoryName": "登录与密码",
+  "path": "macOS 系统与开机 › 登录与密码",
+  "summary": "macOS 自带密码重置：在登录窗口输错三次，就会冒出「用 Apple 账户重置」的入口；Apple Silicon 机器还可以在恢复模式里跑「重置密码助理」。不需要重装系统，也不需要进任何第",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 11",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac 忘记密码",
+   "MacBook 密码不对",
+   "苹果电脑登录密码忘了",
+   "Mac 开机密码错误",
+   "FileVault 密码丢失",
+   "Mac 登录不上"
+  ],
+  "keywords": [
+   "Mac 忘记密码",
+   "重置密码",
+   "Apple 账户重置",
+   "恢复模式重置",
+   "FileVault",
+   "Reset Password Assistant",
+   "登录钥匙串"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/mac-forgot-password.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-wont-boot",
+  "title": "Mac 开不了机 / 卡在苹果标志怎么办",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-boot",
+  "categoryName": "开机与恢复模式",
+  "path": "macOS 系统与开机 › 开机与恢复模式",
+  "summary": "Mac 开不了机，九成是「没电 / 外接设备捣乱 / 系统卷挂载异常」三类，真正的主板故障很少。先强制重启一次，再进安全模式排软件，最后才用恢复模式修复磁盘或重装系统——顺序不要反。",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 11",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac 开不了机",
+   "按电源键没反应",
+   "卡在苹果标志",
+   "Mac 进度条走一半卡住",
+   "Mac 开机黑屏",
+   "电脑启动失败 macOS",
+   "Mac 反复重启",
+   "MacBook 无法开机"
+  ],
+  "keywords": [
+   "Mac 开不了机",
+   "安全模式",
+   "恢复模式",
+   "macOS 实用工具",
+   "Apple 诊断",
+   "NVRAM",
+   "SMC",
+   "苹果标志卡住"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/mac-wont-boot.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "partition-manager",
+  "title": "硬盘怎么分区 / C 盘不够想扩容怎么办",
+  "domain": "hardware",
+  "domainName": "硬件与主机",
+  "category": "hw-disk",
+  "categoryName": "硬盘与存储",
+  "path": "硬件与主机 › 硬盘与存储",
+  "summary": "C 盘扩容的本质是「把相邻右侧分区的空地挪给 C 盘」：先用压缩卷在 D 盘头部挤出一块「未分配空间」，再对 C 盘做扩展卷。系统自带的磁盘管理就能做；但相邻和未分配在右侧这两个条件缺一不可，",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "20-90 分钟",
+  "risk": "有数据风险",
+  "symptoms": [
+   "C 盘不够用想扩容",
+   "新硬盘怎么分区",
+   "磁盘管理分区",
+   "压缩卷灰色",
+   "D 盘合并到 C 盘",
+   "调整分区大小",
+   "硬盘分区"
+  ],
+  "keywords": [
+   "分区",
+   "磁盘管理",
+   "压缩卷",
+   "扩展卷",
+   "未分配空间",
+   "DiskGenius",
+   "MBR",
+   "GPT",
+   "数据备份"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/partition-manager.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "phishing-message-check",
+  "title": "收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼",
+  "domain": "account-sec",
+  "domainName": "账号与安全",
+  "category": "as-phishing",
+  "categoryName": "诈骗识别",
+  "path": "账号与安全 › 诈骗识别",
+  "summary": "钓鱼信息只有一个目的：让你在慌乱中点进假网站输密码/验证码。识别只要看三点——域名对不对、是否制造紧迫感、是否索要验证码。正规机构永远不向你要短信验证码；你犹豫的每一秒，都是骗局失效的时间。",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "手机也适用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-15 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "收到钓鱼短信",
+   "账户异常验证短信",
+   "快递赔付链接",
+   "中奖邮件",
+   "冒充客服",
+   "钓鱼网站",
+   "短信里的链接能点吗",
+   "疑似诈骗邮件"
+  ],
+  "keywords": [
+   "钓鱼识别",
+   "诈骗短信",
+   "钓鱼链接",
+   "域名核对",
+   "双重认证",
+   "官方渠道核实",
+   "反诈"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/phishing-message-check.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "psu-no-power-check",
+  "title": "电脑按开机键没反应？电源故障自查清单（含短接启动法）",
+  "domain": "hardware",
+  "domainName": "硬件与主机",
+  "category": "hw-psu",
+  "categoryName": "电源与供电",
+  "path": "硬件与主机 › 电源与供电",
+  "summary": "「按了没反应」要按 插座 → 电源线 → 开关 → 电源本身 → 主板开机电路 的顺序查，其中「回形针短接 24pin」是判断电源死活的金标准：短接后电源风扇转、各路电压正常，电源就是好的，锅",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "硬件无关",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "15-45 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "按开机键没反应",
+   "电脑完全不通电",
+   "电源灯不亮",
+   "风扇转一下就停",
+   "电脑突然断电关机",
+   "开机烧焦味",
+   "电源故障",
+   "主机不通电"
+  ],
+  "keywords": [
+   "电源自查",
+   "PSU",
+   "短接启动",
+   "回形针点火",
+   "24pin",
+   "电源烧了",
+   "自动关机",
+   "功率不足"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/psu-no-power-check.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "ram-reseat-no-boot",
+  "title": "电脑反复重启 / 开机报警一长两短？先重插内存条",
+  "domain": "hardware",
+  "domainName": "硬件与主机",
+  "category": "hw-memory",
+  "categoryName": "内存",
+  "path": "硬件与主机 › 内存",
+  "summary": "「风扇转一下就停、反复重启循环、主板 Debug 灯停在 DRAM、报警一长两短」——这些十有八九是内存条接触不良，尤其发生在搬动过机箱、加过新内存、很久没清灰之后。断电 → 拔条 → 橡皮擦",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "硬件无关",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "电脑反复重启",
+   "开机报警一长两短",
+   "内存报警",
+   "风扇转一下就停",
+   "点亮但反复重启循环",
+   "电脑开机无显示",
+   "加装内存后开不了机",
+   "内存条接触不良"
+  ],
+  "keywords": [
+   "内存条重插",
+   "报警声",
+   "一长两短",
+   "Debug 灯",
+   "DRAM",
+   "金手指",
+   "橡皮擦",
+   "双通道",
+   "XMP"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/ram-reseat-no-boot.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "slow-network",
+  "title": "网速慢怎么定位：是宽带、路由器还是电脑的问题",
+  "domain": "net-basic",
+  "domainName": "网络基础",
+  "category": "net-connected-noint",
+  "categoryName": "连上但上不了网",
+  "path": "网络基础 › 连上但上不了网",
+  "summary": "网速慢要按「设备 → Wi-Fi 链路 → 路由器 → 运营商」分段测，每一段都有明确判据：有线直连测速够签约值 = 宽带没问题；同一房间里手机也慢 = Wi-Fi 链路问题；只有一台设备慢 ",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "路由器",
+    "k": "router"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "network"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "网速慢",
+   "视频卡顿",
+   "网页加载慢",
+   "下载速度慢",
+   "网络时快时慢",
+   "WiFi 慢",
+   "网络延迟高"
+  ],
+  "keywords": [
+   "网速慢",
+   "测速",
+   "延迟",
+   "丢包",
+   "5GHz",
+   "DNS",
+   "运营商",
+   "网线",
+   "信道拥堵"
+  ],
+  "updated": "2026-10-24",
+  "detail_href": "./fix/slow-network.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "sop-billable-repair",
   "title": "有偿维修与延保速查：摔碎、进水、屏轴、外壳与付费检测",
   "domain": "ref-manual",

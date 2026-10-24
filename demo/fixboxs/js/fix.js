@@ -123,6 +123,69 @@
     onScroll();
   }
 
+  /* ============ 3b. 移动端抽屉导航 ============ */
+  function initMobileNav() {
+    var burger = $(".fx-burger"), drawer = $(".fx-drawer");
+    if (!burger || !drawer) return;
+    var panel = $(".fx-drawer__panel", drawer);
+    var open = false, closeT = 0;
+    function setOpen(v) {
+      if (v === open) return;
+      open = v;
+      clearTimeout(closeT);
+      burger.setAttribute("aria-expanded", v ? "true" : "false");
+      burger.setAttribute("aria-label", v ? "关闭菜单" : "打开菜单");
+      if (v) {
+        drawer.hidden = false;
+        /* 双 rAF 保证 transition 生效：先以 translateX(103%) 入场，再滑入 */
+        requestAnimationFrame(function () { requestAnimationFrame(function () { drawer.classList.add("is-open"); }); });
+        doc.body.style.overflow = "hidden";
+        setTimeout(function () {
+          var cur = panel && panel.querySelector('[aria-current="page"]');
+          if (cur) cur.focus({ preventScroll: true });
+        }, 360);
+      } else {
+        drawer.classList.remove("is-open");
+        doc.body.style.overflow = "";
+        closeT = setTimeout(function () { drawer.hidden = true; }, 380);
+      }
+    }
+    burger.addEventListener("click", function () { setOpen(!open); });
+    drawer.addEventListener("click", function (e) {
+      if (e.target.closest("[data-fx-drawer-close]")) { setOpen(false); return; }
+      if (e.target.closest("a")) setOpen(false);
+    });
+    doc.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && open) { setOpen(false); burger.focus(); }
+    });
+    /* bfcache 返回时若抽屉还挂着，强制复位 */
+    window.addEventListener("pageshow", function (e) { if (e.persisted) setOpen(false); });
+  }
+
+  /* ============ 3c. 回到顶部（长页面通用；JS 注入，无 JS 时不出现） ============ */
+  function initToTop() {
+    if ($(".fx-totop")) return;
+    var btn = doc.createElement("button");
+    btn.type = "button";
+    btn.className = "fx-totop";
+    btn.setAttribute("aria-label", "回到顶部");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+    doc.body.appendChild(btn);
+    var ticking = false;
+    function paint() {
+      ticking = false;
+      btn.classList.toggle("is-show", (window.scrollY || 0) > 480);
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+    btn.addEventListener("click", function () {
+      if (reduce) { window.scrollTo(0, 0); return; }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    paint();
+  }
+
   /* ============ 4. 搜索：归一化 + 检索 ============ */
   function norm(s) {
     return String(s == null ? "" : s)
@@ -690,6 +753,8 @@
     initPreloader();
     initTransition();
     initTopbar();
+    initMobileNav();
+    initToTop();
     initAtmosphere();
     initSearch();
     initSearchPage();

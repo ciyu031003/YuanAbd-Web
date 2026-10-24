@@ -1,7 +1,7 @@
 {
   "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。（2026-10-17 起新增「参考资料」用的 domain：ref-manual 装机运维手册 / ref-field 现场作业与工单，见 build-fix.cjs 的 REFERENCE_DOMAINS）",
-  "version": "1.1",
-  "updated": "2026-10-17",
+  "version": "1.2",
+  "updated": "2026-10-24",
   "domains": [
     {
       "id": "net-basic",
@@ -104,7 +104,16 @@
     {
       "id": "mac-system",
       "name": "macOS 系统与开机",
-      "cats": []
+      "cats": [
+        {
+          "id": "mac-boot",
+          "name": "开机与恢复模式"
+        },
+        {
+          "id": "mac-login",
+          "name": "登录与密码"
+        }
+      ]
     },
     {
       "id": "mac-app",
@@ -127,6 +136,14 @@
         {
           "id": "hw-disk",
           "name": "硬盘与存储"
+        },
+        {
+          "id": "hw-memory",
+          "name": "内存"
+        },
+        {
+          "id": "hw-psu",
+          "name": "电源与供电"
         }
       ]
     },
@@ -145,6 +162,10 @@
         {
           "id": "per-usb",
           "name": "U 盘与移动硬盘"
+        },
+        {
+          "id": "per-bt",
+          "name": "蓝牙与键鼠"
         }
       ]
     },
@@ -183,6 +204,10 @@
         {
           "id": "db-delete",
           "name": "误删与恢复"
+        },
+        {
+          "id": "db-backup",
+          "name": "备份与迁移"
         }
       ]
     },

@@ -25,7 +25,7 @@ prerequisites:
   - 手边有银行 App 或银行客服电话，方便查账
   - 保留聊天记录、通话号码等证据
 tools: [手机（改密码与查账）, 银行 App/客服电话, 国家反诈中心 App]
-related: [malware-first-response, deleted-file-recovery, usb-drive-not-recognized, backup-strategy, browser-proxy]
+related: [malware-first-response, deleted-file-recovery, usb-drive-not-recognized, backup-before-repair, browser-proxy]
 sources:
   - title: 中国警察网 - "五大反诈利器"有效防范电信网络诈骗（国家反诈中心 App、96110、12381 等）
     url: https://special.cpd.com.cn/2022/fjxzc/yw_30019/522/t_1029223.html

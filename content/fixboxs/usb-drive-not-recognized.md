@@ -25,7 +25,7 @@ prerequisites:
   - 另有一个可用的存储（另一块 U 盘或移动硬盘）用来保存复制出来的数据
   - 电脑上管理员权限
 tools: [磁盘管理 diskmgmt.msc, 命令提示符(管理员), diskpart, chkdsk, macOS 磁盘工具]
-related: [deleted-file-recovery, disk-clicking-failure, monitor-no-signal, connected-no-internet]
+related: [deleted-file-recovery, disk-clicking-failure, monitor-no-signal, wifi-connected-but-no-internet]
 sources:
   - title: Microsoft Learn - chkdsk 命令参考
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/chkdsk

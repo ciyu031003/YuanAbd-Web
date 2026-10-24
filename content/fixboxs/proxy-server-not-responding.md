@@ -24,7 +24,7 @@ prerequisites:
   - 知道这台电脑是不是公司/学校统一管理的设备
   - 有一台能正常上网的手机可用来对比验证
 tools: [Windows 设置应用, 命令提示符, netsh 命令, macOS 系统设置]
-related: [browser-proxy, pac-script, capture-tool-conflict, enterprise-proxy, slow-network]
+related: [browser-proxy, proxy-tool-broke-network, enterprise-proxy, slow-network]
 sources:
   - title: Microsoft Support - Windows 中的代理设置（使用代理服务器）
     url: https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows

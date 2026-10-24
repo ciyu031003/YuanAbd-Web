@@ -25,7 +25,7 @@ prerequisites:
   - 另有一个可用的盘或 U 盘用于保存恢复出来的文件
   - 知道文件大概是什么时候删的、原来在哪个文件夹
 tools: [回收站, Windows 文件历史记录/以前的版本, OneDrive 回收站, Windows File Recovery(winfr), macOS 废纸篓/时间机器]
-related: [usb-drive-not-recognized, disk-clicking-failure, backup-strategy, partition-manager, malware-first-response]
+related: [usb-drive-not-recognized, disk-clicking-failure, backup-before-repair, partition-manager, malware-first-response]
 sources:
   - title: Microsoft Support - Windows 文件恢复（Windows File Recovery）
     url: https://support.microsoft.com/en-us/help/4538642/windows-10-restore-lost-files

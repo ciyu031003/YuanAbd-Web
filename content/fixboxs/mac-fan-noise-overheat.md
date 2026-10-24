@@ -14,7 +14,7 @@ updated: 2026-10-11
 version: "1.0"
 prerequisites: [Mac 能正常开机并进入桌面, 知道开机密码和管理员密码, 已保存并退出正在编辑的文档]
 tools: [活动监视器, 终端, 系统设置, 气吹或软毛刷（可选）]
-related: [mac-storage-system-data, 电脑没有 WLAN 选项 / 网络适配器不见了, 网页打不开但 QQ / 微信能用：DNS 问题怎么修]
+related: [mac-storage-system-data, wifi-adapter-missing, dns-broken-but-app-works]
 sources:
   - title: Apple 支持 — 关于 Apple 产品中的风扇和风扇噪音
     url: https://support.apple.com/zh-cn/101576

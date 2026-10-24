@@ -25,7 +25,7 @@ prerequisites:
   - 知道打印机是 USB 直连还是网络/无线连接
   - 电脑上有管理员权限（要用到服务与命令行）
 tools: [Windows 设置应用, services.msc, 命令提示符(管理员), 打印机属性页, macOS 打印机与扫描仪]
-related: [display-no-signal, usb-drive-not-recognized, connected-no-internet, enterprise-proxy, network-adapter]
+related: [monitor-no-signal, usb-drive-not-recognized, wifi-connected-but-no-internet, enterprise-proxy, wifi-adapter-missing]
 sources:
   - title: Microsoft Support - 解决 Windows 中的打印机脱机问题
     url: https://support.microsoft.com/en-us/windows/hardware/printer/troubleshooting-offline-printer-problems-in-windows

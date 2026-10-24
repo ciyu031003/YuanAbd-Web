@@ -25,7 +25,7 @@ prerequisites:
   - 手边能换一根显示线和换一个接口测试
   - 笔记本用户需区分"外接屏不亮"与"合盖后不亮"
 tools: [显示器自带菜单按键, 系统显示设置, Win+P 投影菜单, macOS 显示器设置]
-related: [printer-offline, usb-drive-not-recognized, disk-clicking-failure, connected-no-internet]
+related: [printer-offline, usb-drive-not-recognized, disk-clicking-failure, wifi-connected-but-no-internet]
 sources:
   - title: Apple 支持 - 如果外接显示器处于黑屏状态或者分辨率较低
     url: https://support.apple.com/zh-cn/102501

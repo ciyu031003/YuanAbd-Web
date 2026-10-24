@@ -24,7 +24,7 @@ prerequisites:
   - 已准备好重新安装网卡驱动所需的联网手段（可用手机 USB 共享网络）
   - 记得断网前装过哪些网络类工具的名称
 tools: [设备管理器, 命令提示符(管理员), Windows 网络重置, 终端(scutil/networksetup)]
-related: [proxy-server-not-responding, browser-proxy, pac-script, enterprise-proxy, network-adapter]
+related: [proxy-server-not-responding, browser-proxy, browser-proxy, enterprise-proxy, wifi-adapter-missing]
 sources:
   - title: Microsoft Learn - netsh winsock 命令参考
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-winsock

@@ -14,7 +14,7 @@ updated: 2026-10-11
 version: "1.0"
 prerequisites: [Mac 能正常进入桌面, 已把重要文件备份到外置硬盘或云盘, 知道管理员密码, 预留 30 分钟以上时间]
 tools: [系统设置（储存空间）, 访达, 终端, 磁盘工具]
-related: [mac-fan-noise-overheat, Mac 无法开机 / 反复重启怎么办, iCloud 储存空间不足怎么办, Mac 重装系统前如何完整备份]
+related: [mac-fan-noise-overheat, mac-wont-boot, icloud-storage-full, backup-before-repair]
 sources:
   - title: Apple 支持 — 如何清理 Mac 上的数据并释放储存空间
     url: https://support.apple.com/zh-cn/102624

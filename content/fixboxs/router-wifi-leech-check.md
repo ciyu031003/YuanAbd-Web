@@ -25,7 +25,7 @@ prerequisites:
   - 能连上这台路由器的 Wi-Fi 或用网线直连
   - 手上有手机可以随时查看"当前连着的设备"
 tools: [路由器管理后台, 手机/电脑浏览器, Windows 命令提示符(ipconfig/arp)]
-related: [router-admin-login, wifi-coverage, slow-network, router-firmware-reset, ip-address-conflict]
+related: [router-admin-page-unreachable, slow-network, ip-conflict-locate-device]
 sources:
   - title: ASUS 官方支持 - 如何查询管理已连接到路由器的客户端设备信息
     url: https://rog.asus.com.cn/support/faq/1005513/

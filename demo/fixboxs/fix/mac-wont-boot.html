@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-system">macOS 系统与开机</a><span class="fx-crumb__sep">›</span><span>开机与恢复模式</span></nav>
 <h1 class="fx-title">Mac 开不了机 / 卡在苹果标志怎么办</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文的「重新安装 macOS」步骤<strong>不会删除个人文件</strong>，但后续若走到「抹掉磁盘重装」就有数据丢失风险。走到那一步之前，先读<a class="fx-link" href="./backup-before-repair.html">「换硬盘/重装前怎么把数据备份全」</a>；盘里有未备份的重要文件且怀疑硬盘故障时，直接送修，不要反复开机尝试。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">Mac 开不了机，<strong>九成是「没电 / 外接设备捣乱 / 系统卷挂载异常」三类</strong>，真正的主板故障很少。先强制重启一次，再进安全模式排软件，最后才用恢复模式修复磁盘或重装系统——顺序不要反。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>长按电源键 <strong>10 秒</strong>强制关机，再正常按一次开机。<strong>期望结果</strong>：相当一部分「卡苹果标志」是单次启动异常，强制重启一次就进去。</li><li>拔掉所有外接设备（U 盘、移动硬盘、扩展坞、打印机），只留电源，再开机。<strong>期望结果</strong>：有问题的外置盘会让启动流程卡住，拔掉后正常进入桌面。</li><li>笔记本插上原装充电器，充电 <strong>10 分钟</strong>再开机。<strong>期望结果</strong>：电量耗尽后电池进入深度休眠，短按没反应，充一会儿才有救。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文的「重新安装 macOS」步骤<strong>不会删除个人文件</strong>，但后续若走到「抹掉磁盘重装」就有数据丢失风险。走到那一步之前，先读<a class="fx-link" href="./backup-before-repair.html">「换硬盘/重装前怎么把数据备份全」</a>；盘里有未备份的重要文件且怀疑硬盘故障时，直接送修，不要反复开机尝试。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>按电源键完全没反应，或屏幕亮了但一直卡在苹果标志 / 进度条。</li><li>开机转一圈又自动重启，反复循环。</li><li>昨天还好好的，某次更新或搬动之后开不了。</li></ul>
 <p class="fx-p"><strong>不适用</strong></p>
@@ -75,7 +75,7 @@
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

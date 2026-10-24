@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#net-basic">网络基础</a><span class="fx-crumb__sep">›</span><span>网卡与适配器</span></nav>
 <h1 class="fx-title">电脑没有 WLAN 选项 / 网络适配器不见了</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改系统网络设置并重装驱动。操作前建议记下当前的 IP、DNS 配置和 Wi-Fi 密码，以便随时还原。公司/学校管理的电脑请先联系 IT。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;没有 WLAN 选项&quot;通常是三种情况之一：无线开关被关掉（含飞行模式）、驱动被卸载或损坏、网卡被硬件禁用/松动。先确认网卡是&quot;消失&quot;还是&quot;被禁用&quot;，再决定重装驱动还是送修。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看 Windows 快速设置面板有没有飞行模式、Wi-Fi 磁贴。</strong> 期望：飞行模式是关的；Wi-Fi 磁贴可以点亮 → 只是被关掉了，不用重装驱动。</li><li><strong>打开设备管理器 → 网络适配器</strong>，看有没有带&quot;无线/Wireless/WLAN/Wi-Fi&quot;字样的设备。期望：有但带黄色感叹号 → 驱动问题；完全没有 → 网卡未被识别。</li><li><strong>重启一次电脑并接上网线试。</strong> 期望：网线能上网 → 至少系统网络组件正常，问题集中在无线网卡上。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改系统网络设置并重装驱动。操作前建议记下当前的 IP、DNS 配置和 Wi-Fi 密码，以便随时还原。公司/学校管理的电脑请先联系 IT。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>右下角没有 Wi-Fi 图标，设置里找不到&quot;WLAN&quot;开关</li><li>设备管理器里无线网卡带黄色感叹号、或整个&quot;网络适配器&quot;里没有无线设备</li><li>换过驱动、装过系统、进过 BIOS 之后 Wi-Fi 就没了</li><li>网络适配器列表里连&quot;以太网&quot;也不见了</li></ul>
 <p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
@@ -116,7 +116,7 @@ system_profiler SPAirPortDataType | head -n 60</code></pre><button class="fx-cmd
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/wifi-ssid-not-found.html">Wi-Fi 列表里找不到自家网络怎么办</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>硬盘与存储</span></nav>
 <h1 class="fx-title">硬盘怎么分区 / C 盘不够想扩容怎么办</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">20-90 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<strong>调整分区前必须先完成完整备份</strong>。压缩卷、扩展卷、合并分区都会移动分区表与文件数据，中途断电、强制关机或工具崩溃都可能让整个磁盘「未初始化」。没有备份就不要动手——这是分区操作唯一的铁律。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">C 盘扩容的本质是「<strong>把相邻右侧分区的空地挪给 C 盘</strong>」：先用压缩卷在 D 盘头部挤出一块「未分配空间」，再对 C 盘做扩展卷。系统自带的磁盘管理就能做；但<strong>相邻</strong>和<strong>未分配在右侧</strong>这两个条件缺一不可，不满足时用 DiskGenius 这类工具无损调整。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>先确认真的需要扩容：C 盘爆红很多时候是缓存/休眠文件撑的，清理一下能再战半年，看<a class="fx-link" href="./win-c-drive-full-cleanup.html">「C 盘爆红快满了，怎么安全清理出空间」</a>。<strong>期望结果</strong>：先排除「假性不足」。</li><li><code>Win + X</code> → 磁盘管理，看磁盘布局：C 盘右边紧邻的是什么分区、有没有未分配空间。<strong>期望结果</strong>：心里有分区地图，别上来就点压缩。</li><li>插上移动硬盘做备份，再开始任何分区操作。<strong>期望结果</strong>：备份完成且抽查可读。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<strong>调整分区前必须先完成完整备份</strong>。压缩卷、扩展卷、合并分区都会移动分区表与文件数据，中途断电、强制关机或工具崩溃都可能让整个磁盘「未初始化」。没有备份就不要动手——这是分区操作唯一的铁律。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>C 盘和 D 盘在同一块物理硬盘上，想从 D 盘匀空间给 C 盘。</li><li>新装了一块硬盘，想分成 1-2 个区使用。</li><li>想把用不到的 E/F 盘合并掉、重新规划。</li></ul>
 <p class="fx-p"><strong>不适用</strong></p>
@@ -73,7 +73,7 @@
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

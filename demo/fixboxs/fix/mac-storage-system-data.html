@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>储存空间</span></nav>
 <h1 class="fx-title">Mac 储存空间不足 /「系统数据」占了上百 G</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：本文会删除缓存、日志、本地快照和备份文件。<strong>动手前请先把重要文件复制到外置硬盘或云盘</strong>，并确认你删除的每一项都不是唯一副本。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「系统数据」不是病毒也不是系统垃圾，它大多是缓存、日志、时间机器本地快照和 iPhone 备份。先删本地快照和缓存，再按体积找大文件，动手前一定先备份。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>打开系统设置 → 通用 → 储存空间</strong>，等进度条算完，看「系统数据」旁边写了多少。期望：拿到一个具体数字（例如 120 GB）。</li><li><strong>在终端执行</strong> <code>tmutil listlocalsnapshots /</code>。期望：如果出现一排 <code>com.apple.TimeMachine.2026-...</code> 记录，说明本地快照正在占空间，通常是几十 GB。</li><li><strong>打开访达，按住 Option 点菜单栏「前往」→「资源库」</strong>，进入 <code>Caches</code> 文件夹，按大小排序看前几名。期望：能看到几个明显很大的缓存文件夹。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：本文会删除缓存、日志、本地快照和备份文件。<strong>动手前请先把重要文件复制到外置硬盘或云盘</strong>，并确认你删除的每一项都不是唯一副本。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>系统设置里「系统数据」几十到几百 GB，可用空间越来越少</li><li>提示「启动磁盘几乎已满」「储存空间不足」</li><li>删了文件、清了废纸篓，可用空间却没怎么变</li><li>想找出到底是哪些文件在占空间</li></ul>
 <p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
@@ -119,7 +119,7 @@ du -sh ~/Library/* 2&gt;/dev/null | sort -h | tail -n 20</code></pre><button cla
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><a href="../fix/mac-wont-boot.html">Mac 开不了机 / 卡在苹果标志怎么办</a><a href="../fix/icloud-storage-full.html">iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

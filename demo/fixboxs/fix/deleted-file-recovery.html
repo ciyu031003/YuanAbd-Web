@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#data-backup">数据与备份</a><span class="fx-crumb__sep">›</span><span>误删与恢复</span></nav>
 <h1 class="fx-title">文件误删了怎么恢复（先做这一步，别写磁盘）</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-90 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<strong>删除文件后，最重要的一步不是找工具，而是立刻停止向这块磁盘写入任何数据。</strong><br>在 Windows/macOS 上，删除只是把文件的&quot;位置&quot;标记为可用，内容可能还在原地；一旦有新数据写进去，就可能被覆盖，<strong>再也恢复不了</strong>。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">文件刚删掉时数据大概率还在，<strong>关键动作是马上停止写入</strong>（能关机就关机，至少别下载、别装软件、别存新文件），然后按&quot;回收站 → 云盘/以前的版本 → 恢复工具&quot;的顺序找回来。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>立刻停手</strong>：不要往那块盘里存任何东西，不要再下载、不要安装恢复软件到那个盘。<strong>期望结果</strong>：数据保持原样，没被覆盖。</li><li>打开<strong>回收站</strong>（桌面图标），用右上角搜索框搜文件名或后缀。<strong>期望结果</strong>：找到就右键&quot;还原&quot;，文件回到原位置。</li><li>如果文件在 OneDrive、iCloud 云盘、企业网盘里，打开对应<strong>网盘的回收站/版本历史</strong>找一找。<strong>期望结果</strong>：云端通常保留 30 天，多数情况能直接找回。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：<strong>删除文件后，最重要的一步不是找工具，而是立刻停止向这块磁盘写入任何数据。</strong><br>在 Windows/macOS 上，删除只是把文件的&quot;位置&quot;标记为可用，内容可能还在原地；一旦有新数据写进去，就可能被覆盖，<strong>再也恢复不了</strong>。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>刚删除不久（几分钟到几天）、那张盘还在正常使用。</li><li>清空了回收站、用了 <code>Shift + Delete</code> 直删。</li><li>文件在云盘里被删除、被覆盖、被别人改动过。</li></ul>
 <p class="fx-p"><strong>不适用</strong></p>
@@ -106,7 +106,7 @@
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/partition-manager.html">硬盘怎么分区 / C 盘不够想扩容怎么办</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

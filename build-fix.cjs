@@ -111,7 +111,9 @@ const slugify = (s) => String(s).trim().toLowerCase().replace(/[^\w\u4e00-\u9fa5
 const fxFrontMatter = require("./fx-frontmatter.cjs");
 function parseFrontMatter(text) {
   const r = fxFrontMatter.parse(text);
-  return { meta: r.meta, body: r.body };
+  /* 统一换行：Windows 检出（autocrlf）会把 \r 带进正文，
+     不在这里归一的话 \r 会混进渲染出的 HTML（2026-10-24 实测 printer-offline 踩到）。 */
+  return { meta: r.meta, body: r.body.replace(/\r\n/g, "\n") };
 }
 
 function inline(s) {
@@ -259,8 +261,13 @@ function renderReference(meta, body) {
   const cat = CATS[meta.category] || meta.category || "";
   body = String(body).replace(/^\s*#\s+[^\n]*\n/, "");
 
-  // 把正文按 ## 拆块，再按「哪些块已被专用区块吃掉」决定剩余块的输出顺序
-  const sections = body.split(/^##\s+/m).filter(function (x) { return x.trim(); });
+  /* 前言（第一个 ## 之前的文字，如风险提示 blockquote）不是小节。
+     旧逻辑把它当成「name=首行」的幽灵小节，会渲染出空 <h2 id=""> 和空目录项。 */
+  const preIdx = body.search(/^##\s+/m);
+  const preamble = preIdx >= 0 ? body.slice(0, preIdx).trim() : "";
+  const preambleHtml = preamble ? '<div data-reveal>' + mdToHtml(preamble) + "</div>" : "";
+  const sections = (preIdx >= 0 ? body.slice(preIdx) : body)
+    .split(/^##\s+/m).filter(function (x) { return x.trim(); });
   const blocks = {}, order = [];
   sections.forEach(function (sec) {
     const nl = sec.indexOf("\n");
@@ -360,6 +367,7 @@ function renderReference(meta, body) {
     '<div class="fx-meta">' + badges +
       '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
     tocMobile,
+    preambleHtml,
     '<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
     (overview ? '<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : ""),
     (who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : ""),
@@ -395,7 +403,13 @@ function renderArticle(meta, body) {
   const cat = CATS[meta.category] || meta.category || "";
   // 去掉正文开头与页面标题重复的 H1
   body = body.replace(/^\s*#\s+[^\n]*\n/, "");
-  const sections = body.split(/^##\s+/m).filter(function (x) { return x.trim(); });
+  /* 前言（第一个 ## 之前的文字，如风险提示 blockquote）不是小节。
+     旧逻辑把它当成「name=首行」的幽灵小节，会渲染出空 <h2 id=""> 和空目录项。 */
+  const preIdx = body.search(/^##\s+/m);
+  const preamble = preIdx >= 0 ? body.slice(0, preIdx).trim() : "";
+  const preambleHtml = preamble ? '<div data-reveal>' + mdToHtml(preamble) + "</div>" : "";
+  const sections = (preIdx >= 0 ? body.slice(preIdx) : body)
+    .split(/^##\s+/m).filter(function (x) { return x.trim(); });
   const blocks = {};
   const order = [];
   sections.forEach(function (sec) {
@@ -476,6 +490,7 @@ MOBILE_DRAWER,
   '<span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span>' +
   '<button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
 tocMobile,
+preambleHtml,
 '<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
 (quickItems.length ? '<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : ""),
 CONNECTOR,

@@ -44,11 +44,11 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>磁盘空间</span></nav>
 <h1 class="fx-title">C 盘爆红快满了，怎么安全清理出空间</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会删除缓存、临时文件、旧系统备份和还原点。动手前请确认重要文件已有备份，并把不清楚用途的文件先挪到别处而不是直接删。<br>⛔ 有数据风险：删除「以前的 Windows 安装」（Windows.old）后无法回退旧版本；删除卷影副本/还原点后无法再用系统还原；这两项操作前请务必确认数据已备份。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">C 盘满不要瞎删：先用「设置 → 系统 → 存储」看清是哪一类文件占的空间，再用系统自带的存储感知、磁盘清理（清理系统文件）逐级处理，最后才考虑压缩休眠文件、清理组件存储这类进阶操作。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看谁占了空间</strong>：「设置 → 系统 → 存储」，等它扫描完，看是「应用和功能」「临时文件」「文档」「其他」哪一类最大。</li><li><strong>一键清临时文件</strong>：同一页面点「清理建议」或打开「存储感知」，先清临时文件和回收站，动辄能空出几个 GB。</li><li><strong>带系统文件深清</strong>：按 Win+R 输入 <code>cleanmgr</code> → 选 C 盘 → 点「清理系统文件」→ 勾选「Windows 更新清理」「传递优化文件」等。这一步通常最有效。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
-<section data-reveal><h2 class="fx-h2" id=""></h2><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⚠️ 需谨慎：本文会删除缓存、临时文件、旧系统备份和还原点。动手前请确认重要文件已有备份，并把不清楚用途的文件先挪到别处而不是直接删。<br>⛔ 有数据风险：删除「以前的 Windows 安装」（Windows.old）后无法回退旧版本；删除卷影副本/还原点后无法再用系统还原；这两项操作前请务必确认数据已备份。</div></div></section>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>C 盘图标变红，提示空间不足</li><li>Windows 更新因空间不足失败</li><li>想安全清理但怕删错系统文件</li><li>想知道到底是什么吃掉了 C 盘</li></ul>
 <p class="fx-p"><strong>不适用（请转对应文章）：</strong></p>
@@ -114,7 +114,7 @@ DISM /Online /Cleanup-Image /StartComponentCleanup</code></pre><button class="fx
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><a href="../fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a></div>
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#"></a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

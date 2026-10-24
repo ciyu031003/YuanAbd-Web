@@ -1008,6 +1008,41 @@ td,th{line-height:1.5}
   .skeleton{animation:none;background:var(--bg-2)}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* ============================================================
+   移动端增强（2026-10-24）
+   ------------------------------------------------------------
+   放在文件末尾：860px 断点在此之前的层（拟态 refresh 层）里
+   有重复声明，只有放最后才能稳定覆盖。
+   ============================================================ */
+@media (max-width:860px){
+  /* 顶栏导航条吸顶：滚到页面任何位置都能切换（原先是 static，会滚走） */
+  .sidebar{position:sticky;top:0;z-index:30;background:#fff;
+    box-shadow:0 6px 18px -12px rgba(18,24,33,.4);
+    scrollbar-width:none}
+  .sidebar::-webkit-scrollbar{display:none}
+  .navitem{padding:9px 12px;font-size:13.5px;flex:none}
+  /* 面包屑过长时省略，不把右侧操作按钮挤出屏幕 */
+  .crumbs{min-width:0;flex:1;overflow:hidden;flex-wrap:nowrap;white-space:nowrap}
+  .crumbs a,.crumbs__cur{overflow:hidden;text-overflow:ellipsis}
+  .topbar{flex-wrap:wrap;row-gap:8px}
+  /* 卡片与磁贴内边距收窄，窄屏把宽度让给内容 */
+  main{padding:0 16px 44px}
+  .topbar{padding:12px 16px}
+  .card{padding:16px;border-radius:18px}
+  .card--flush{padding:0}
+  .card__hd{padding:14px 16px 10px}
+  .card__bd{padding:0 16px 16px}
+  .card__ft{padding:12px 16px}
+  .stat,.tile{padding:16px}
+  .login-wrap h1{font-size:20px}
+  /* 表格横向滚动更顺滑 */
+  .tablewrap{-webkit-overflow-scrolling:touch}
+}
+/* iOS 聚焦自动放大：小屏上输入类字号 ≥16px */
+@media (max-width:640px){
+  input,select,textarea{font-size:16px}
+}
 `;
 
 function layout(title, bodyHtml, opts) {

@@ -136,6 +136,15 @@
   /* ---------------- 暴露给内联使用 ---------------- */
   window.FXAdmin = { toast: toast, confirm: confirmAction };
 
+  /* ---------------- 移动端：让当前页的导航项滚进可视区 ---------------- */
+  /* 顶栏导航条在窄屏是横向滚动条，当前页的按钮可能滑出视野之外 */
+  document.addEventListener("DOMContentLoaded", function () {
+    var cur = document.querySelector('.sidebar .navitem[aria-current="page"]');
+    if (cur && cur.scrollIntoView) {
+      try { cur.scrollIntoView({ block: "nearest", inline: "center" }); } catch (e) {}
+    }
+  });
+
   /* ---------------- 服务端提示转 toast ---------------- */
   document.addEventListener("DOMContentLoaded", function () {
     var n = document.querySelector("[data-toast]");

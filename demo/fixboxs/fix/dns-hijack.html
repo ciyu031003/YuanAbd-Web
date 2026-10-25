@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法 · 修盒子 FIXBOX</title>
+<meta name="description" content="DNS 劫持 = 你问路（域名解析），指路的人（DNS 服务器）被收买了——给你指到广告页、钓鱼站，或故意绕远路让你觉得慢。判断三板斧：ping 一个不存在的域名（居然能「解析成功」= 劫持实锤）、对比多个 DNS 的解">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="dns-hijack">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns" aria-current="page">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#ip-dns">IP 与 DNS</a><span class="fx-crumb__sep">›</span><span>DNS 解析</span></nav>
+<h1 class="fx-title">DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文会改路由器与系统的 DNS 设置——改之前截图记录原值，改错会导致整个家/这台电脑断网（恢复方法也给了）。判断劫持要拿证据，别凭「感觉慢」就乱改一通。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">DNS 劫持 = 你问路（域名解析），<strong>指路的人（DNS 服务器）被收买了</strong>——给你指到广告页、钓鱼站，或故意绕远路让你觉得慢。判断三板斧：<strong>ping 一个不存在的域名</strong>（居然能「解析成功」= 劫持实锤）、<strong>对比多个 DNS 的解析结果</strong>、<strong>查路由器 WAN/DHCP 下发的 DNS</strong>。根治 = 路由器与设备全改可信公共 DNS（223.5.5.5 / 119.29.29.29），中招的路由器顺手改密码升固件。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>命令行跑 <code>nslookup 不存在的域名随便起.test</code>：</li><li>正常：报「找不到 xxx，不存在」（NXDOMAIN）。</li><li><strong>劫持实锤</strong>：返回了一个 IP（劫持服务器，等着给你弹广告页）。</li><li><code>nslookup www.qq.com</code> 与 <code>nslookup www.qq.com 223.5.5.5</code> 对比：同一个域名，默认 DNS 与阿里公共 DNS 给出的 IP <strong>不一致且默认那个指向奇怪地址</strong> = 高度可疑。</li><li>登录路由器看「WAN 口状态 / DHCP 设置」里的 DNS 服务器：不是运营商常规地址（如 202.96.x.x 网通/电信段）也不是你设过的公共 DNS，而是陌生 IP → 路由器层被改。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>网页打开前「先转一下」再跳到带广告的页面、右下角弹窗。</li><li>明显输入 A 网站却被带到 B 网站/导航站。</li><li>所有网站都慢，且慢在「开始加载前」（DNS 解析阶段）。</li><li>路由器 DNS 设置里出现陌生 IP。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只是某个网站打不开：站点自身问题或被墙，不是劫持。</li><li>微信能上网页打不开但无广告跳转：普通 DNS 故障，看<a class="fx-link" href="./dns-broken-but-app-works.html">「网页打不开但 QQ / 微信能用：DNS 问题怎么修」</a>。</li><li>浏览器主页被改：那是流氓软件层，看<a class="fx-link" href="./win-popup-ads-hijack.html">「电脑老是弹广告、浏览器主页被劫持改不回来」</a>。</li><li>公司网络的 DNS 由 IT 统一指定：别自行更改，先问 IT。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已跑过 30 秒排查的 nslookup 三连，记录结果（判断在哪一层）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>路由器管理后台能登录，管理密码记得。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>截图当前路由器 WAN/DHCP 里的 DNS 原值。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道可信公共 DNS：<code>223.5.5.5</code>（阿里）、<code>119.29.29.29</code>（腾讯）、<code>114.114.114.114</code>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li><code>nslookup 随便起.test</code> 恢复「不存在」的标准回应。</li><li>打开常用网站无广告跳转、无「先转一下再进」。</li><li>路由器 DNS 设置保持手动公共 DNS，一周内没有自动变更。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>只有手机被插广告、电脑正常 → 检查手机装的山寨 Wi-Fi/清理类 App，卸载后观察。</li><li>换 DNS 后部分网站反而打不开 → 某些公共 DNS 个别域名解析异常，换另一家（114 / 119.29.29.29）交叉验证。</li><li>公司网络做不了任何改动 → 报 IT；家里做不到根治 → 保持设备级 DNS 手动设置 + 浏览器 DoH。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>路由器到手第一件事：改管理密码 + 关远程管理 + 开自动固件升级。</li><li>DNS 永远手动设公共可信 DNS，不留给「自动获取」被下发的空间（家用场景）。</li><li>浏览器开「安全 DNS（DoH）」，给解析再加一层加密保险。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。检测方法（NXDOMAIN 探测/多 DNS 对比）参照 Fortinet 与阿里云社区检测指引整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">定位劫持发生在哪一层</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-p">按顺序排除：</p>
+<ol class="fx-ol"><li><strong>本机 DNS 被改</strong>：<code>ipconfig /all</code>（macOS：网络详细信息）看「DNS 服务器」——出现陌生 IP（尤其非内网段）= 本机/木马层。</li><li><strong>路由器层</strong>：路由器 WAN 口/DHCP 下发的 DNS 异常（见 30 秒排查第 3 条）。</li><li><strong>运营商层</strong>：本机和路由器都干净、默认 DNS 仍劫持 → 运营商解析层问题。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：锁定层。<strong>失败了怎么办</strong>：三层都看不出异常但症状在 → 可能是 HTTP 层插入而非 DNS 层，直接做步骤 2 换公共 DNS + 步骤 4 杀毒双管齐下。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">设备与路由器全换可信公共 DNS</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li><strong>路由器（治全家）</strong>：后台 → WAN 口设置/DHCP 设置 → 手动 DNS 填 <code>223.5.5.5</code> + 备用 <code>119.29.29.29</code> → 保存重启路由器。</li><li><strong>Windows（单机兜底）</strong>：设置 → 网络 → 适配器属性 → IPv4 → 首选 DNS <code>223.5.5.5</code>、备用 <code>119.29.29.29</code>。</li><li><strong>macOS</strong>：网络 → 详细信息 → DNS → 添加同样两条。</li><li>改完清缓存：Windows <code>ipconfig /flushdns</code>；macOS <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：劫持症状（广告跳转/慢解析）消失。<strong>失败了怎么办</strong>：换 DNS 后仍被插广告 → 不是 DNS 层，进步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">路由器侧的根治（被改过 DNS 的机器必做）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-p">被改过 DNS 的路由器 = 管理权曾经失守，光改回 DNS 不够：</p>
+<ol class="fx-ol"><li>改路由器管理密码（强密码；默认 admin/admin 是重灾区）。</li><li>关闭「远程管理/WAN 侧管理」功能。</li><li>升级固件到最新（老固件的漏洞就是被改 DNS 的入口），流程看<a class="fx-link" href="./router-firmware-reset.html">「路由器固件升级与恢复出厂的正确姿势」</a>。</li><li>重度中招（设置怎么改都会弹回）→ 直接恢复出厂重新配置。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：路由器收复并加固。<strong>失败了怎么办</strong>：恢复出厂后 DNS 仍自动变回陌生 IP → 运营商层或光猫层问题，进步骤 4/5。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">本机侧的根治（杀毒 + 代理残留检查）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>全盘杀毒（Windows Defender 全盘扫描 + 顺手查<a class="fx-link" href="./malware-first-response.html">「电脑中病毒了怎么办：先做这三件事再杀毒」</a>的处置顺序）。</li><li>检查 hosts 文件有没有被加条目：<code>C:\Windows\System32\drivers\etc\hosts</code>（macOS：<code>/etc/hosts</code>），异常域名映射删掉。</li><li>检查系统代理残留（抓包工具/流氓软件留下的 127.0.0.1 代理），按<a class="fx-link" href="./browser-proxy.html">「浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复」</a>清理。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：本机干净，解析路径无篡改。<strong>失败了怎么办</strong>：清不掉 → 按<a class="fx-link" href="./win-safe-restore.html">「系统改坏了进不去？安全模式、系统还原与重置的正确顺序」</a>安全模式处理。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">运营商层投诉 + 终极加密（DoH）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>换公共 DNS 仍劫持（劫持发生在 53 端口透明拦截层）→ 打运营商客服投诉「DNS 劫持/网页插入广告」，报出现象与时间，工信部投诉渠道（小程序「工信部申诉」）是第二梯队，通常一投一个准。</li><li>终极方案：浏览器/系统开启 <strong>DNS over HTTPS（DoH）</strong>——加密的 DNS 查询让链路上的劫持者无从下手（浏览器设置 → 安全/隐私 → 使用安全 DNS）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：广告插入彻底消失。<strong>失败了怎么办</strong>：DoH 与公司网络/某些国内服务冲突 → 按场景开关，家庭网络保持开启。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><a href="../fix/browser-proxy.html">浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><a href="../fix/malware-first-response.html">电脑中病毒了怎么办：先做这三件事再杀毒</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -131,7 +131,7 @@ detail_href: ./fix/printer-network-ip-fixed.html
 
 - [打印机显示脱机 / 打印没反应怎么修](./printer-offline.html)
 - [共享打印机连不上 / 报错 0x0000011b 怎么修](./printer-shared-error-11b.html)
-- [路由器后台打不开 / 进不去管理页面怎么办](#)
+- [路由器后台打不开 / 进不去管理页面怎么办](./router-admin-page-unreachable.html)
 - [网速慢怎么定位：是宽带、路由器还是电脑的问题](./slow-network.html)
 
 ## 更新日志

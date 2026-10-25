@@ -1721,6 +1721,67 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "dns-hijack",
+  "title": "DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法",
+  "domain": "ip-dns",
+  "domainName": "IP 与 DNS",
+  "category": "ip-dns-fail",
+  "categoryName": "DNS 解析",
+  "path": "IP 与 DNS › DNS 解析",
+  "summary": "DNS 劫持 = 你问路（域名解析），指路的人（DNS 服务器）被收买了——给你指到广告页、钓鱼站，或故意绕远路让你觉得慢。判断三板斧：ping 一个不存在的域名（居然能「解析成功」= 劫持实",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "路由器",
+    "k": "router"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "network"
+  ],
+  "level": "进阶",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "DNS 劫持",
+   "打开网页很慢",
+   "网页被插广告",
+   "跳转到别的网站",
+   "域名解析错误",
+   "输入网址打开的是别的页",
+   "DNS 被改",
+   "解析不到正确 IP"
+  ],
+  "keywords": [
+   "DNS 劫持",
+   "DNS 污染",
+   "域名解析",
+   "公共 DNS",
+   "223.5.5.5",
+   "路由器 DNS 被改",
+   "nslookup",
+   "DoH",
+   "运营商劫持"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/dns-hijack.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "enterprise-proxy",
   "title": "公司电脑上不了网 / 提示证书不受信任？企业代理环境排查",
   "domain": "proxy-vpn",
@@ -1822,6 +1883,57 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-25",
   "detail_href": "./fix/ethernet-no-link.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "format-partition-recovery",
+  "title": "格式化后 / 分区不见了，数据还能救回来吗",
+  "domain": "data-backup",
+  "domainName": "数据与备份",
+  "category": "db-delete",
+  "categoryName": "误删与恢复",
+  "path": "数据与备份 › 误删与恢复",
+  "summary": "快速格式化只是撕掉了图书馆的目录卡，书还在书架上——只要没被新数据覆盖，专业软件（DiskGenius 等）扫一遍大多能找回。分区不见（盘符消失/变未分配）多数是分区表损坏，用「搜索已丢失分区",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "30-180 分钟",
+  "risk": "有数据风险",
+  "symptoms": [
+   "格式化后数据恢复",
+   "误格式化了",
+   "分区不见了",
+   "盘符消失",
+   "未分配空间",
+   "重装系统格式化错了盘",
+   "U 盘提示格式化点了确定",
+   "快速格式化"
+  ],
+  "keywords": [
+   "格式化恢复",
+   "误格式化",
+   "分区丢失",
+   "DiskGenius",
+   "恢复分区表",
+   "快速格式化",
+   "数据恢复",
+   "原始恢复",
+   "恢复概率"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/format-partition-recovery.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2651,6 +2763,168 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/ram-reseat-no-boot.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "ransomware-encrypted-response",
+  "title": "文件被加密 / 弹出勒索要钱怎么办：勒索软件应急指南",
+  "domain": "account-sec",
+  "domainName": "账号与安全",
+  "category": "as-malware",
+  "categoryName": "恶意软件",
+  "path": "账号与安全 › 恶意软件",
+  "summary": "勒索软件的应对就一句话：先隔离（断网），再定损（哪些被加密、备份在不在），后恢复（解密工具或备份还原）。有干净备份的人，勒索信只是一张废纸——没有备份的人，第一时间去 [NoMoreRanso",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "30-120 分钟",
+  "risk": "有数据风险",
+  "symptoms": [
+   "文件被加密了",
+   "文件后缀变奇怪了",
+   "弹出勒索信息要比特币",
+   "桌面壁纸被改成勒索信",
+   "文件打不开了",
+   "勒索病毒",
+   "ransomware",
+   "电脑中勒索"
+  ],
+  "keywords": [
+   "勒索软件",
+   "勒索病毒",
+   "文件加密",
+   "应急响应",
+   "断网隔离",
+   "解密工具",
+   "备份恢复",
+   "no_more_ransom",
+   "报警"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/ransomware-encrypted-response.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "router-firmware-reset",
+  "title": "路由器固件升级与恢复出厂的正确姿势（含变砖救援）",
+  "domain": "router",
+  "domainName": "路由器与家庭网络",
+  "category": "rt-firmware",
+  "categoryName": "固件与恢复出厂",
+  "path": "路由器与家庭网络 › 固件与恢复出厂",
+  "summary": "固件要不要升：要，而且建议开自动升级——路由器固件更新大多数是修安全漏洞，老固件挂在公网上就是别人家的后门。越用越卡/抽风：先重启，无效再恢复出厂（官方标准流程是先导出配置备份）；真刷挂了还有",
+  "os": [
+   {
+    "t": "路由器",
+    "k": "router"
+   }
+  ],
+  "osGroup": [
+   "network"
+  ],
+  "level": "入门",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "路由器固件升级",
+   "路由器恢复出厂",
+   "路由器重置",
+   "路由器越用越卡",
+   "路由器固件要不要更新",
+   "路由器 reset",
+   "刷固件变砖",
+   "路由器重置后怎么设置"
+  ],
+  "keywords": [
+   "路由器固件",
+   "恢复出厂",
+   "重置",
+   "Reset",
+   "救援模式",
+   "变砖",
+   "配置备份",
+   "自动升级",
+   "华硕",
+   "TP-Link",
+   "小米"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/router-firmware-reset.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "router-port-forward",
+  "title": "端口映射怎么做：外网访问家里的 NAS / 摄像头 / 电脑",
+  "domain": "router",
+  "domainName": "路由器与家庭网络",
+  "category": "rt-forward",
+  "categoryName": "端口映射与远程访问",
+  "path": "路由器与家庭网络 › 端口映射与远程访问",
+  "summary": "外网访问家里设备的完整链路 = 固定内网 IP（设备的门牌）→ 端口映射（把门牌挂到公网）→ DDNS（公网 IP 老变就绑个域名）。动手前先确认一件事：你家有没有公网 IP（ip.cn 查到",
+  "os": [
+   {
+    "t": "路由器",
+    "k": "router"
+   },
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "network"
+  ],
+  "level": "进阶",
+  "time": "30-90 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "端口映射",
+   "外网访问 NAS",
+   "远程访问家里电脑",
+   "摄像头远程看不了",
+   "DDNS",
+   "没有公网 IP 怎么办",
+   "虚拟服务器",
+   "远程桌面外网连不上"
+  ],
+  "keywords": [
+   "端口映射",
+   "端口转发",
+   "虚拟服务器",
+   "DDNS",
+   "公网IP",
+   "内网穿透",
+   "NAS远程",
+   "远程桌面",
+   "IPv6",
+   "安全暴露"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/router-port-forward.html",
   "kind": "guide",
   "hot": 1
  },

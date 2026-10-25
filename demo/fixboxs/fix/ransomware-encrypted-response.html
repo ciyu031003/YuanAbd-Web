@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>文件被加密 / 弹出勒索要钱怎么办：勒索软件应急指南 · 修盒子 FIXBOX</title>
+<meta name="description" content="勒索软件的应对就一句话：先隔离（断网），再定损（哪些被加密、备份在不在），后恢复（解密工具或备份还原）。有干净备份的人，勒索信只是一张废纸——没有备份的人，第一时间去 [NoMoreRansom](https://www">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="ransomware-encrypted-response">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec" aria-current="page">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#account-sec">账号与安全</a><span class="fx-crumb__sep">›</span><span>恶意软件</span></nav>
+<h1 class="fx-title">文件被加密 / 弹出勒索要钱怎么办：勒索软件应急指南</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-120 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#关于-要不要付赎金-官方立场">关于「要不要付赎金」（官方立场）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：中招后<strong>前 10 分钟的动作决定数据命运</strong>。三条铁律先记住：① <strong>立即断网断电</strong>（防继续加密/横向扩散）；② <strong>不要删除任何文件</strong>（勒索信、加密样本都是后续解密与取证的线索）；③ <strong>不要急着付赎金</strong>（付了也不一定拿到密钥，还标记你是「会付钱的目标」）。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">勒索软件的应对就一句话：<strong>先隔离（断网），再定损（哪些被加密、备份在不在），后恢复（解密工具或备份还原）</strong>。有干净备份的人，勒索信只是一张废纸——没有备份的人，第一时间去 <a class="fx-link" target="_blank" rel="noopener" href="https://www.nomoreransom.org/zh-hans">NoMoreRansom</a> 查该家族有没有公开解密工具，而不是去联系勒索者。企业/单位中招必须报警（勒索属刑事案件）。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>确认是勒索软件</strong>：大量文件后缀变成奇怪扩展名（.locked/.crime/随机字符串）、桌面出现「如何恢复文件」的 txt/壁纸、倒计时页面。<strong>期望结果</strong>：符合上述任一 → 按本文走；只是单个文件打不开 → 先看<a class="fx-link" href="./deleted-file-recovery.html">「文件误删了怎么恢复（先做这一步，别写磁盘）」</a>排除误操作。</li><li><strong>立刻拔网线 + 断电</strong>（正在加密的进程会被掐断，未加密的文件得以保全）。<strong>期望结果</strong>：损失止于此刻。</li><li><strong>拍照记录勒索信</strong>（含勒索者给的 ID、联系地址、金额），这些是报警和解密工具匹配的关键信息。<strong>期望结果</strong>：证据在手。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>文件被批量加密、后缀异常、弹出勒索信息。</li><li>疑似中招但不确定（文档突然全部打不开 + 杀毒弹窗）。</li><li>公司/店里多台电脑集体中招。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只是弹广告、浏览器主页被改：普通流氓软件，看<a class="fx-link" href="./win-popup-ads-hijack.html">「电脑老是弹广告、浏览器主页被劫持改不回来」</a>。</li><li>疑似普通病毒但文件完好：看<a class="fx-link" href="./malware-first-response.html">「电脑中病毒了怎么办：先做这三件事再杀毒」</a>。</li><li>微信/QQ 被盗号冒充你行骗：看<a class="fx-link" href="./leak-check.html">「担心密码泄露？账号泄露自查与止损清单」</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已断网断电（没断的现在立刻断）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机在身边且不连家里 Wi-Fi（防中毒设备通过内网再感染手机）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住最近一次备份的时间与位置（移动硬盘/网盘/NAS）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>不要做：删除文件、格式化、反复开机尝试。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="关于-要不要付赎金-官方立场">关于「要不要付赎金」（官方立场）</h2><p class="fx-p">不建议。理由：① 付了也可能拿到坏密钥/根本不理你；② 支付行为会把你标记为「会付钱的目标」，招来二次勒索；③ 资金流向犯罪组织。执法机构与安全厂商（CNCERT 防范指南、Europol/NoMoreRansom）口径一致：<strong>优先备份恢复 + 解密工具 + 报警</strong>。</p></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认处理好了">怎么确认处理好了</h2><ul class="fx-ul"><li>干净系统 + 全盘杀毒无告警 + 补丁齐 + 强密码。</li><li>数据从备份/解密恢复且能正常打开。</li><li>新的 3-2-1 备份已建立并验证可读。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>无备份 + 无解密器 + 报案推进中 → 原盘封存等待（警方或厂商日后放出解密器的情况真实存在，NoMoreRansom 库持续更新）。</li><li>加密盘想抢救部分文件 → 只做「扇区级镜像」后在镜像上操作，原盘永不直接写。</li><li>电脑反复重装仍中招 → 攻击者留了后门或还有一台中毒设备在内网，逐台排查，必要时请专业应急响应服务。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li><strong>3-2-1 备份是唯一真正的解药</strong>：3 份数据、2 种介质、1 份离线/异地；<strong>备份介质平时不插在电脑上</strong>。</li><li>系统与软件补丁及时装；远程桌面不暴露公网（勒索攻击最常用的入口，见<a class="fx-link" href="./router-port-forward.html">「端口映射怎么做」</a>的安全底线）。</li><li>来历不明的邮件附件、破解软件、激活工具一律不碰（CNCERT 防范指南列的前两条）。</li><li>杀毒软件保持开启；重要账号开两步验证。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。应急流程综合 CNCERT 勒索软件防范指南、NoMoreRansom 工具库与 IBM 勒索恢复指引整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">隔离与止损（前 10 分钟）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>拔网线；Wi-Fi 机型关路由器或让设备忘记网络；<strong>直接长按电源断电</strong>（别走正常关机——正常关机会给勒索软件留下「收尾执行」的机会）。</li><li>多台设备的家庭/公司：断开路由器，逐台确认，未中招的设备先拔电。</li><li>拍下勒索信全貌；记下「加密开始的大致时间」（缩小文件损失范围）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：传播停止，证据固定。<strong>失败了怎么办</strong>：多台已集体中招 → 全部断电隔离，直接跳步骤 5 报警求助。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断勒索家族（决定有没有免费解密）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>用<strong>另一台干净设备</strong>访问 <a class="fx-link" target="_blank" rel="noopener" href="https://www.nomoreransom.org/zh-hans">NoMoreRansom</a>：上传一份被加密文件 + 勒索信邮箱/网址，它的「解码器」会识别家族并告知有无解密工具。</li><li>国内的 360/腾讯哈勃也有勒索样本识别（用干净电脑访问其在线沙箱上传样本）。</li><li>记录结果：家族名 + 是否有解密器。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：拿到「能不能免费解」的判断。<strong>失败了怎么办</strong>：识别不出家族 → 新变种，解密无望，希望全在步骤 3 的备份上。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">盘点备份（真正的生命线）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>移动硬盘：<strong>确认它当时没插在电脑上</strong>（插着的备份大概率也被加密了）。</li><li>网盘/云同步：登录网页版看版本历史——OneDrive/百度网盘等有 30 天版本回滚，能把文件还原到加密前版本。</li><li>NAS：未做端口映射/密码强的 NAS 大概率幸免；确认后再连。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：找到一份干净备份。<strong>失败了怎么办</strong>：完全没有备份 → 保持磁盘原样（别重装！），把希望放在专业恢复机构（部分家族加密强度弱，扇区级恢复有部分成功率），并接受「部分数据永失」的可能。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">恢复的顺序（有备份/解密器时）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li><strong>先治机器再放数据</strong>：中招硬盘不直接用——重装系统或全盘杀毒后再挂从盘/恢复备份（IBM 应急指南强调：彻底清除感染前，不要急着恢复，否则会被二次加密）。</li><li>重装系统（最干净），装好杀毒与补丁，<strong>改掉所有曾在该机登录过的密码</strong>。</li><li>恢复备份到干净系统；核对勒索信出现时间点之前的版本。</li><li>恢复后立即做一次新备份（遵循<a class="fx-link" href="./backup-before-repair.html">「换硬盘 / 重装系统前，怎么把数据备份全」</a>的 3-2-1 原则）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：数据回到手上，机器干净。<strong>失败了怎么办</strong>：备份也被加密（盘插着）→ 连同原始盘一起送数据恢复机构评估，不要自行尝试解密工具乱试。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">报警与求助（企业/损失大必做）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>个人损失大或企业中招：<strong>立即拨打 110 / 到属地网警报案</strong>（勒索软件属刑事案件，勒索信与加密样本是关键证据）。</li><li>单位/组织可向 CNCERT（国家互联网应急中心）报送事件。</li><li>报案材料：勒索信照片、中毒时间线、损失清单、样本文件（拷贝到 U 盘，不装回电脑）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：立案并得到专业指引。<strong>失败了怎么办</strong>：个人小额损失不立案 → 自行走完步骤 2-4，并把它当一次最贵的教训。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/malware-first-response.html">电脑中病毒了怎么办：先做这三件事再杀毒</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/leak-check.html">担心密码泄露？账号泄露自查与止损清单</a><a href="../fix/phishing-message-check.html">收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#关于-要不要付赎金-官方立场">关于「要不要付赎金」（官方立场）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>路由器固件升级与恢复出厂的正确姿势（含变砖救援） · 修盒子 FIXBOX</title>
+<meta name="description" content="固件要不要升：要，而且建议开自动升级——路由器固件更新大多数是修安全漏洞，老固件挂在公网上就是别人家的后门。越用越卡/抽风：先重启，无效再恢复出厂（官方标准流程是先导出配置备份）；真刷挂了还有救援模式兜底（华硕/TP-L">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="router-firmware-reset">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router" aria-current="page">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#router">路由器与家庭网络</a><span class="fx-crumb__sep">›</span><span>固件与恢复出厂</span></nav>
+<h1 class="fx-title">路由器固件升级与恢复出厂的正确姿势（含变砖救援）</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="router">路由器</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：<strong>升级/重置期间绝对不能断电</strong>（拔电源 = 大概率变砖）；固件必须按「型号 + 硬件版本」精确匹配下载；恢复出厂会清空全部配置（宽带账号、Wi-Fi 名密码、映射规则），先备份再动手。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">固件要不要升：<strong>要，而且建议开自动升级</strong>——路由器固件更新大多数是修安全漏洞，老固件挂在公网上就是别人家的后门。越用越卡/抽风：先<strong>重启</strong>，无效再<strong>恢复出厂</strong>（官方标准流程是先导出配置备份）；真刷挂了还有<strong>救援模式</strong>兜底（华硕/TP-Link 都有），没到换新机的地步。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>先试「重启」再说：拔电源 30 秒再插回。<strong>期望结果</strong>：七成的「路由器抽风」（卡顿、掉线、后台打不开）重启即愈——重启解决不了再动固件。</li><li>看当前固件版本：后台首页/系统状态页有版本号，去官网对照有没有新版。<strong>期望结果</strong>：确认是否需要升级。</li><li>机身找 Reset 孔和完整型号（含 V2/V3 硬件版本）。<strong>期望结果</strong>：型号确认——固件下错版本 = 变砖的头号原因。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>路由器用 1 年以上，越用越慢、经常掉线、后台卡死。</li><li>官网提示有安全更新，或厂商公告涉及自己的型号。</li><li>二手路由器/前任房主留下的路由器，需要彻底重置。</li><li>升级后异常，想恢复出厂重来。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>宽带本身故障（光猫红灯）：不是路由器问题，看<a class="fx-link" href="./home-network-all-offline.html">「家里所有设备都上不了网：先分清是谁的问题」</a>。</li><li>Wi-Fi 只在个别房间差：是覆盖问题，看<a class="fx-link" href="./router-wifi-coverage.html">「某些房间 WiFi 信号差 / 一进卧室就断流怎么优化」</a>，重置帮不了你。</li><li>超过 6-8 年的老路由器：固件早停止更新，安全上已不合格，换新机比折腾值得。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>宽带账号（PPPoE 拨号的用户名密码）已记下——重置后必填，忘了要打运营商电话重置。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机开着流量（过程中家里没网）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>型号 + 硬件版本已核对（贴纸：如「AX6000 V2」）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>后台里能导出配置的先导出一份（华硕：系统管理 → 恢复/导出/上传设置 → 导出；TP-Link 同类位置）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>升级用电脑有线连路由器（Wi-Fi 中断会导致上传失败）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>后台固件版本为官网最新，运行 48 小时无重启/掉线。</li><li>全屋设备正常上网，Wi-Fi 稳定。</li><li>管理密码为自定义强密码，远程管理已关。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>重置+升级后依旧卡顿 → 路由器硬件性能跟不上家里设备数（智能设备 30+ 台的老机型常见），换机是唯一解。</li><li>升级后某功能（如 USB 打印）失效 → 固件改动导致，型号页查该版本 release note，或回退上一个稳定版本固件（官网旧版本存档可下载）。</li><li>救援模式电脑识别不到 → 网卡手动设 IP（192.168.1.10/255.255.255.0）再试；换一根短网线直连 LAN1。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>开启自动固件升级，安全补丁不过夜。</li><li>每季度一次「定时重启」（后台可设置每周自动重启），长期不重启的家用路由器必然内存耗尽变卡。</li><li>换新路由器时，旧机<strong>恢复出厂后再丢弃/送人</strong>（里面存着宽带账号和 Wi-Fi 密码）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。升级/重置/救援流程参照华硕、TP-Link 官方支持文档整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">备份配置（1 分钟，保平安）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>登录后台（不知道地址看<a class="fx-link" href="./router-admin-page-unreachable.html">「路由器后台打不开 / 进不去管理页面怎么办」</a>）。</li><li>找「系统管理 → 恢复/导出/上传设置 → 导出设置」存下 .cfg 文件。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：拿到配置备份（小提醒：恢复出厂后再导回旧配置，可能把旧问题也带回来——排查故障时建议手动重配，备份只用于「纯升级」场景）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">升级固件（标准流程）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>后台「系统管理 → 固件升级」：有「检查更新」的直接在线升；没有的去官网下载——<strong>按型号+硬件版本</strong>精确匹配的固件包。</li><li>电脑有线连接，上传固件，等待 3-5 分钟（期间灯会乱闪，<strong>不碰电源不点浏览器</strong>）。</li><li>升级完成自动重启，重新进后台确认版本号已变。</li><li>华硕官方建议：<strong>大版本跨级升级后做一次恢复出厂</strong>，避免旧配置残留引出玄学问题（见步骤 3）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：版本更新成功，功能正常。<strong>失败了怎么办</strong>：升级中断电/卡死超过 10 分钟 → 别反复重启，直接进步骤 4 救援模式。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">恢复出厂（两种方式）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li><strong>后台方式</strong>（推荐）：系统管理 → 恢复/导出/上传设置 →「恢复」按钮，等待自动重启。</li><li><strong>按键方式</strong>：通电状态下用曲别针按住 Reset 5-10 秒，直到指示灯快闪/全灭后松手（华硕官方口径：电源灯开始闪烁时松开）。</li><li>重置后路由器回到默认 Wi-Fi 名（贴纸上有）和默认管理地址，重新配置：宽带拨号账号 → Wi-Fi 名密码 → 管理密码（必须改掉默认值）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：一台「干净」的路由器，故障消失。<strong>失败了怎么办</strong>：重置后仍复现原故障 → 硬件老化实锤，考虑换机。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">变砖救援（升级失败的兜底）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li><strong>华硕救援模式</strong>：路由器断电 → 按住 Reset 不放 → 通电 → 保持按住约 10 秒至电源灯<strong>缓慢闪烁</strong> → 松手。电脑有线连 LAN 口，IP 手动设为 192.168.1.x 网段，打开华硕「固件救援（Firmware Restoration）」工具选中正确固件刷入。</li><li><strong>TP-Link</strong>：部分型号支持按住 Reset 通电进入修复模式，或官网型号页查 TFTP 恢复流程。</li><li>救援模式都救不回 → 官方售后检测（保修内免费）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：救回一台活的路由器。<strong>失败了怎么办</strong>：反复失败就别硬刷了，型号越新维修价值越低，直接换。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">升级后的收尾设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>改管理密码 + 关闭「远程管理/WAN 侧登录」（除非你明确要用）。</li><li>WPA2/WPA3 加密确认开启，Wi-Fi 密码重设。</li><li>之前做过的端口映射/ DHCP 保留等自定义项重新配置（参考<a class="fx-link" href="./router-port-forward.html">「端口映射怎么做：外网访问家里的 NAS / 摄像头 / 电脑」</a>）。</li><li>开启「自动固件升级」（华硕支持定时自动升级；小米/TP-Link 在系统设置里）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：安全设置就位，以后固件自动保持最新。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a><a href="../fix/router-port-forward.html">端口映射怎么做：外网访问家里的 NAS / 摄像头 / 电脑</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><a href="../fix/router-wifi-coverage.html">某些房间 WiFi 信号差 / 一进卧室就断流怎么优化</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

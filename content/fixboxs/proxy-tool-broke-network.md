@@ -266,7 +266,7 @@ route print -4
 
 - [浏览器提示「代理服务器无响应」怎么修](./proxy-server-not-responding.html)
 - [电脑没有 WLAN 选项 / 网络适配器不见了](./wifi-adapter-missing.html)
-- [打开网页要等很久 / DNS 被劫持怎么判断](./dns-broken-but-app-works.html)
+- [打开网页要等很久 / DNS 被劫持怎么判断](./dns-hijack.html)
 - [网线插上没反应 / 网口灯不亮怎么排查](./ethernet-no-link.html)
 - [公司电脑改不了代理/网络设置，该怎么办](./enterprise-proxy.html)
 

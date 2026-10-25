@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>格式化后 / 分区不见了，数据还能救回来吗 · 修盒子 FIXBOX</title>
+<meta name="description" content="快速格式化只是撕掉了图书馆的目录卡，书还在书架上——只要没被新数据覆盖，专业软件（DiskGenius 等）扫一遍大多能找回。分区不见（盘符消失/变未分配）多数是分区表损坏，用「搜索已丢失分区」连目录带结构一起恢复的概率">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="format-partition-recovery">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup" aria-current="page">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#data-backup">数据与备份</a><span class="fx-crumb__sep">›</span><span>误删与恢复</span></nav>
+<h1 class="fx-title">格式化后 / 分区不见了，数据还能救回来吗</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-180 分钟</span><span class="fx-badge fx-badge--danger">⛔ 有数据风险</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：恢复成功的最大敌人是「继续写入」。格式化后<strong>每写进一个新文件，就可能覆盖一批旧文件</strong>。动手前三个不要：不要装软件到这块盘、不要往里拷东西、不要反复「试格式化修复」。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p"><strong>快速格式化只是撕掉了图书馆的目录卡，书还在书架上</strong>——只要没被新数据覆盖，专业软件（DiskGenius 等）扫一遍大多能找回。分区不见（盘符消失/变未分配）多数是<strong>分区表损坏</strong>，用「搜索已丢失分区」连目录带结构一起恢复的概率更高。恢复的希望排序：<strong>刚格式化没写入 &gt; 分区表损坏 &gt; 格式化后写入过 &gt; （重装系统格了 C 盘）</strong>。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>确认属于哪种场景：</li><li><strong>A. 误点格式化</strong>（U 盘提示格式化点了确定 / 右键格错盘）→ 数据大多可救，进步骤 2。</li><li><strong>B. 分区不见了</strong>（磁盘管理里显示「未分配」/ 盘符消失）→ 分区表问题，进步骤 3。</li><li><strong>C. 重装系统时格式化了数据盘</strong> → 写入量看运气（系统文件会覆盖一部分），仍值得扫。</li><li>判断格式化类型：Windows 右键格式化<strong>默认勾选「快速格式化」</strong>——快速格式化可救率高；只有「完全格式化」（未勾快速）+ 部分老系统的完全格式化会写零。</li><li>硬盘有无异响：咔咔响先断电，看<a class="fx-link" href="./disk-clicking-failure.html">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</a>——<strong>物理故障盘继续通电 = 数据加速死亡</strong>，直接送恢复机构。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>误格式化 U 盘/移动硬盘/分区（快速格式化）。</li><li>分区表损坏：盘符消失、磁盘管理显示未分配、RAW 格式。</li><li>重装系统选错盘，格式化后又立刻发现。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只是删除了几个文件/清空回收站：看<a class="fx-link" href="./deleted-file-recovery.html">「文件误删了怎么恢复」</a>，流程更简单。</li><li>文件被勒索软件加密（后缀异常+勒索信）：加密≠丢失，解密路径完全不同，看<a class="fx-link" href="./ransomware-encrypted-response.html">「文件被加密 / 弹出勒索要钱怎么办」</a>。</li><li>SSD 且开了 TRIM：误删/格式化后系统会异步擦除区块，<strong>恢复概率显著低于机械盘</strong>，更要第一时间停写。</li><li>硬盘物理损坏（异响/不识别）：软件恢复无效且有害，直接送专业机构。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>这块盘已经停止使用（拔下来或至少不再写入）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>恢复软件装在<strong>系统盘/另一块盘</strong>，恢复出的文件也存到<strong>另一块盘</strong>。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道原来这个分区大概多大、放什么（缩小扫描与核对范围）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>心理预期管理：恢复软件救回的是「能扫到的文件」，目录结构和文件名可能部分丢失（尤其小分区多次覆写后）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认处理好了">怎么确认处理好了</h2><ul class="fx-ul"><li>重要文件恢复并双备份，随机抽 10 个能正常打开。</li><li>原盘要么恢复正常使用（无坏道+稳定），要么明确退役。</li><li>备份习惯已建立（这是本篇真正的考点）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>软件扫出的文件大量损坏打不开 → 覆写严重；换一款恢复软件交叉扫（不同引擎扫出率差异大），仍不行送专业机构。</li><li>盘越来越不识别/出现异响 → 物理故障，断电送修（数据恢复机构报价通常几百到几千，开盘另算）。</li><li>固态硬盘格式化后几乎扫不到 → TRIM 已擦除，软件层面基本无解；只剩厂商级或专业机构手段。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>移动硬盘/U 盘弹出「需要格式化」时永远先点取消，用恢复软件处理——这个提示 90% 是文件系统小损伤，格式化才是真销毁。</li><li>格式化前执行「三秒确认」：盘符对不对？容量对不对？里面还有没有没搬走的东西？</li><li>重要数据的唯一保险是 3-2-1 备份，恢复软件只是事后补救，成功率永远不是 100%。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。快速格式化原理与恢复流程参照 DiskGenius 官方指南；分区/未分配概念对照微软磁盘管理文档。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">接好盘、别再写入</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>移动硬盘/U 盘：直接插到电脑（只读对待——不双击进不去就算了，恢复软件直接扫）。</li><li>内置硬盘被格：把硬盘拆下来挂到另一台电脑做从盘，或用 PE 启动盘启动（避免原系统往盘写页面文件等）。</li><li>Windows 弹「使用驱动器中的光盘之前需要将其格式化」→ <strong>点取消</strong>，永远别点格式化。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：盘已接入且零写入。<strong>失败了怎么办</strong>：盘不识别 → 硬件层问题，转送修。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">场景 A——误格式化的扫描恢复</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>在<strong>另一块盘</strong>装 DiskGenius（免费版可扫描+按容量恢复部分文件，完整恢复需专业版；同类还有 R-Studio、Recuva）。</li><li>选中被格的分区/盘 →「恢复文件」→ 勾选「<strong>恢复已删除文件</strong>」+「<strong>彻底扫描（扫描空闲区域）</strong>」→ 开始。</li><li>扫描（几分钟到几小时，看容量）后进入结果树：按类型（文档/图片/视频）或原目录结构浏览，勾选需要的文件 →「复制到」<strong>另一块盘</strong>。</li><li>核对恢复出的文件能否打开，优先抢救最重要的。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：大部分文件完整救回。<strong>失败了怎么办</strong>：扫描结果文件名全是乱码编号 → 用「按类型」恢复（按文件头识别内容）；某类文件全损 → 该区域被覆盖，换深扫模式再试一次。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">场景 B——分区丢失（未分配/RAW）的分区恢复</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>DiskGenius 选中整块磁盘（不是分区）→「<strong>搜索已丢失分区</strong>」→ 保留默认（「整个硬盘」+「仅搜索空闲区域」不合理时选「整个硬盘」）→ 开始。</li><li>每搜到一个候选分区会暂停让你预览：里面的文件对不对？对 →「保留」；不对 →「忽略」继续。</li><li>全部保留后分区表恢复原样——<strong>连盘符、目录、文件名都在</strong>（这是比分区恢复优于逐文件恢复的地方）。</li><li>确认无误后「保存更改」写入分区表。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：分区原样回归。<strong>失败了怎么办</strong>：搜不到分区 → 分区表+引导都坏了，退回步骤 2 做整盘深度扫描逐文件恢复。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">场景 C——重装系统格错盘后的抢救</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>立刻停止继续装系统（每次写入都在覆盖）。</li><li>PE 盘启动（微 PE 等），在 PE 里对目标盘做「恢复文件」扫描——重装过程已写入的系统文件区域救不回，其余区域照常恢复。</li><li>恢复目标优先级：先文档/照片（不可再生），后可重下的软件安装包。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：未被系统文件覆盖的数据救回。<strong>失败了怎么办</strong>：覆盖严重 → 接受损失；重要到值得花钱 → 线下专业恢复（开盘/底层数据恢复，机械盘成功率可观但费用高）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">救回之后——先备份、再修盘</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>恢复出的数据<strong>先复制两份</strong>到不同介质，验证能打开。</li><li>经历过分区表损坏的盘<strong>不建议继续存放重要数据</strong>：整盘检测（DiskGenius「坏道检测」），有坏道就降级做临时盘或退役。</li><li>按<a class="fx-link" href="./backup-before-repair.html">「换硬盘 / 重装系统前，怎么把数据备份全」</a>建立 3-2-1 备份——这次是运气好，下次未必。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：数据双保险，故障盘有明确处置。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><a href="../fix/partition-manager.html">硬盘怎么分区 / C 盘不够想扩容怎么办</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

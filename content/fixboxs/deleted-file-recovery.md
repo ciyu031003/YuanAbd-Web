@@ -231,7 +231,7 @@ winfr C: E: /regular /n *.pdf /n *.docx
 
 ## 相关教程
 
-- [格式化后数据还能恢复吗 / 分区不见了怎么找回](./partition-manager.html)
+- [格式化后数据还能恢复吗 / 分区不见了怎么找回](./format-partition-recovery.html)
 - [电脑数据怎么备份最稳 / 用什么备份](./backup-before-repair.html)
 - [U 盘 / 移动硬盘不识别、提示格式化怎么办](./usb-drive-not-recognized.html)
 - [硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了](./disk-clicking-failure.html)

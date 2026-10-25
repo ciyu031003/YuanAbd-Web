@@ -226,7 +226,7 @@ arp -a
 ## 相关教程
 
 - [路由器后台 192.168.1.1 打不开怎么办](./router-admin-page-unreachable.html)
-- [路由器怎么恢复出厂 / 固件要不要升级](./router-admin-page-unreachable.html)
+- [路由器怎么恢复出厂 / 固件要不要升级](./router-firmware-reset.html)
 - [网速变慢了：测速、延迟、丢包怎么一步步查](./slow-network.html)
 - [Wi-Fi 信号差 / 房间没信号：Mesh、AP、中继怎么选](./router-wifi-coverage.html)
 - [IP 地址冲突怎么查是哪台设备](./ip-conflict-locate-device.html)

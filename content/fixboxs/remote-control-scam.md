@@ -210,7 +210,7 @@ detail_href: ./fix/remote-control-scam.html
 ## 相关教程
 
 - [电脑中病毒了怎么办：先做这三件事再杀毒](./malware-first-response.html)
-- [文件被加密了 / 弹出勒索要比特币怎么办](./malware-first-response.html)
+- [文件被加密了 / 弹出勒索要比特币怎么办](./ransomware-encrypted-response.html)
 - [文件误删了怎么恢复（先做这一步，别写磁盘）](./deleted-file-recovery.html)
 - [浏览器主页被改、弹窗广告清不掉怎么根治](./win-popup-ads-hijack.html)
 - [电脑数据怎么备份最稳 / 用什么备份](./backup-before-repair.html)

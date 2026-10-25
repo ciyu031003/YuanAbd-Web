@@ -244,7 +244,7 @@ chkdsk X: /r
 
 - [文件误删了怎么恢复（先做这一步，别写磁盘）](./deleted-file-recovery.html)
 - [硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了](./disk-clicking-failure.html)
-- [格式化后数据还能恢复吗 / 分区不见了怎么找回](./partition-manager.html)
+- [格式化后数据还能恢复吗 / 分区不见了怎么找回](./format-partition-recovery.html)
 - [电脑数据怎么备份最稳 / 用什么备份](./backup-before-repair.html)
 - [电脑没有 WLAN 选项 / 网络适配器不见了](./wifi-adapter-missing.html)
 

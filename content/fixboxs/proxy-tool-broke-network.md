@@ -169,7 +169,7 @@ sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
 **预期结果**：`ipconfig /all` 里的 DNS 服务器指向路由器或你填的公共 DNS，不再是 `127.0.0.1`。
 
-**失败怎么办**：DNS 改完还是解析失败，用 `nslookup www.baidu.com` 看具体报错；如果解析到陌生 IP，怀疑被劫持，看[「打开网页要等很久 / DNS 被劫持怎么判断」](./dns-broken-but-app-works.html)。
+**失败怎么办**：DNS 改完还是解析失败，用 `nslookup www.baidu.com` 看具体报错；如果解析到陌生 IP，怀疑被劫持，看[「打开网页要等很久 / DNS 被劫持怎么判断」](./dns-hijack.html)。
 
 ### 步骤 5：清理被劫持的路由表
 

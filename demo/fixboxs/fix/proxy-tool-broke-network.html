@@ -91,7 +91,7 @@ sudo networksetup -setsecurewebproxystate &quot;Wi-Fi&quot; off</code></pre><but
 networksetup -setdnsservers Wi-Fi Empty
 sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
 <div class="fx-step__expect"><b>预期结果：</b><code>ipconfig /all</code> 里的 DNS 服务器指向路由器或你填的公共 DNS，不再是 <code>127.0.0.1</code>。</div>
-<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DNS 改完还是解析失败，用 <code>nslookup www.baidu.com</code> 看具体报错；如果解析到陌生 IP，怀疑被劫持，看<a class="fx-link" href="./dns-broken-but-app-works.html">「打开网页要等很久 / DNS 被劫持怎么判断」</a>。</div></details></div></li>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>DNS 改完还是解析失败，用 <code>nslookup www.baidu.com</code> 看具体报错；如果解析到陌生 IP，怀疑被劫持，看<a class="fx-link" href="./dns-hijack.html">「打开网页要等很久 / DNS 被劫持怎么判断」</a>。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理被劫持的路由表</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是&quot;卸载了还断网&quot;最常见的原因——工具把默认路由（<code>0.0.0.0</code>）指向了虚拟网卡，虚拟网卡删了，默认路由却还在。</p>
 <p class="fx-p"><strong>操作</strong>：查看当前路由表：</p>
 <div class="fx-cmd"><pre><code>route print -4</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>

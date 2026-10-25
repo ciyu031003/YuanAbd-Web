@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>某些房间 WiFi 信号差 / 一进卧室就断流怎么优化 · 修盒子 FIXBOX</title>
+<meta name="description" content="WiFi 信号差，八成不是路由器「功率不够」，而是位置不对、频段选错、信道打架三件事：路由器挪到房子中心并抬高，经常用的房间连 5GHz（近处快），远隔两堵墙的房间连 2.4GHz（穿墙好），一个路由器实在覆盖不了就上 ">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="router-wifi-coverage">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router" aria-current="page">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#router">路由器与家庭网络</a><span class="fx-crumb__sep">›</span><span>信号与覆盖</span></nav>
+<h1 class="fx-title">某些房间 WiFi 信号差 / 一进卧室就断流怎么优化</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">路由器</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程全部是摆放、设置与组网层面的优化，不改宽带、不动数据。判断信号好坏用一个标准：手机 WiFi 图标旁的信号强度（dBm），-50 优秀 / -60 良好 / -70 及格 / -80 以下基本不可用。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">WiFi 信号差，八成不是路由器「功率不够」，而是<strong>位置不对、频段选错、信道打架</strong>三件事：路由器挪到房子中心并抬高，经常用的房间连 5GHz（近处快），远隔两堵墙的房间连 2.4GHz（穿墙好），一个路由器实在覆盖不了就上 Mesh——这是华为官方排障指南与主流方案一致给出的优化顺序。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>在信号差的房间看手机连的是 <strong>2.4G 还是 5G</strong>：隔两堵墙连着 5G（名字常带 _5G）→ 切到 2.4G 试试，5G 穿墙能力天生弱。<strong>期望结果</strong>：切完立刻能用。</li><li>看<strong>路由器的位置</strong>：塞在弱电箱/电视柜角落/地上 → 挪到房屋中心、离地 1 米以上、四周空旷。<strong>期望结果</strong>：同一房间信号格数上涨。</li><li>进路由器后台看 <strong>2.4G 信道</strong>是「自动」还是挤在 1/6/11 之外的值：邻居家的 WiFi 都挤在同一信道会互相拖慢，手动固定到 1、6 或 11。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>家里大部分房间正常，个别房间/卫生间信号差。</li><li>信号满格但刷视频转圈（连接速率被拉低）。</li><li>一梯两户/复式/跃层，单路由器怎么调都覆盖不全。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>所有房间都慢、连近距离也慢 → 是带宽/路由器性能问题，看<a class="fx-link" href="./slow-network.html">「网速慢怎么定位：是宽带、路由器还是电脑的问题」</a>。</li><li>完全搜不到自家 WiFi → 看看<a class="fx-link" href="./wifi-ssid-not-found.html">「Wi-Fi 列表里找不到自家网络」</a>。</li><li>疑似被人蹭网拖慢 → 看<a class="fx-link" href="./router-wifi-leech-check.html">「怎么查谁在蹭网 / 给设备限速与拉黑」</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机装一个 WiFi 分析 App（或用笔记本看信号 dBm），能记录不同房间的强度。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道路由器品牌型号，能找到对应后台地址。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>画出户型草图，标出路由器位置和信号差的房间。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记录当前 WiFi 名称与密码（改设置时别把自己踢下线）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>全屋各房间信号均 ≥ -65 dBm（WiFi 分析 App 可测）。</li><li>从客厅走到卧室视频通话不断流。</li><li>近处测速接近宽带签约值的 70% 以上，远处不低于 50%。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>Mesh 后仍有个别死角 → 加第三个节点或改吸顶 AP 方案（装修期首选）。</li><li>信号好但速率上不去 → 回到带宽层排查，看<a class="fx-link" href="./slow-network.html">「网速慢怎么定位」</a>。</li><li>老房子墙体含金属/承重厚 → 无线方案性价比下降，直接走明线装面板 AP 最彻底。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>路由器每月重启一次；固件保持更新（厂商会持续优化漫游算法）。</li><li>换新设备/新增大功率电器后复测一次各房间信号。</li><li>装修阶段就预埋网线到每个房间——WiFi 再强也替代不了有线回程。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。摆放/信道/穿墙模式建议综合华为官方指南与卡巴斯基家庭 WiFi 优化指南整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">把路由器搬到正确的位置（零成本，收益最大）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>房屋<strong>几何中心</strong>优先，别贴外墙、别进弱电箱（金属箱体 = 屏蔽罩）。</li><li>离地 1 米以上（桌面/架子顶），天线垂直直立。</li><li>远离微波炉、蓝牙音箱、金属柜、鱼缸——微波炉工作频率直接砸在 2.4G 频段上。</li><li>搬完在信号最差的房间测一次 dBm，对比之前。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：差房间信号改善 5-10 dBm。<strong>失败了怎么办</strong>：仍 -70 以下 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">频段与信道调优（后台操作）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>2.4G：信道从「自动」改为手动 <strong>1、6、11</strong> 之一（用 WiFi 分析 App 看哪个信道周围最空）；频宽 20MHz（穿墙场景 40MHz 反而不稳）。</li><li>5G：功率/模式若有「穿墙模式」选项就开启（华为官方建议项）；频宽 80MHz 提速率。</li><li>关掉「双频合一」做一次测试：给 5G 单独命名，手机在近处手动连 5G、远处连 2.4G，比自动漫游更可控。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：各房间都能连上「当下最快的那一个」。<strong>失败了怎么办</strong>：远房间 2.4G 也只有 -75 以下 → 单路由器物理极限到了，进步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">Mesh 组网（覆盖不足的正解）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li><strong>优先有线回程</strong>：预埋了网线的房子，主路由 + 子路由用网线连（稳定翻倍）。</li><li>没有预埋线就选无线回程 Mesh（主流品牌华硕/小米/华为/TP 的套装都可以），子节点放在「主路由信号 -60 左右」的位置——放在信号已死的地方只会更差。</li><li>中继器/电力猫是下位替代：便宜但会砍半速，Mesh 能全速漫游。</li><li>组网后全屋走同一个 WiFi 名称，走路时设备自动切换。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：全屋各房间 dBm 都在 -65 以上。<strong>失败了怎么办</strong>：Mesh 子节点间仍频繁切换断流 → 缩小子节点间距，或改成有线回程。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">终端侧小优化</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>手机关掉「智能选网/自动切换网络」（部分手机会在 2.4G/5G 间反复横跳造成卡顿）。</li><li>电脑无线网卡驱动更新到厂商最新版（旧驱动的漫游策略很笨）。</li><li>智能家居设备固定连 2.4G（大多只支持 2.4G），别和手机抢 5G 带宽。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：漫游顺畅，设备各得其所。<strong>失败了怎么办</strong>：单台设备在他处正常、独在这房间差 → 该设备天线/驱动问题，按设备类型单独处理。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/slow-network.html">网速慢怎么定位：是宽带、路由器还是电脑的问题</a><a href="../fix/router-wifi-leech-check.html">怎么查谁在蹭网 / 给设备限速与拉黑</a><a href="../fix/wifi-ssid-not-found.html">Wi-Fi 列表里找不到自家网络怎么办</a><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -26,8 +26,8 @@ prerequisites:
 tools: [浏览器, 系统代理设置, IT 工单系统]
 related: [proxy-server-not-responding, proxy-tool-broke-network, dns-broken-but-app-works, wifi-connected-but-no-internet]
 sources:
-  - title: Microsoft Learn - 了解 Windows 中的代理设置（WinHTTP/WinINET）
-    url: https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/networking/internet-explorer-q-and-a/winhttp-proxy-settings
+  - title: Microsoft Learn - netsh winhttp 命令参考（WinHTTP 代理配置）
+    url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-winhttp
   - title: Apple 支持 - 在 Mac 上使用代理服务器
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp2591/mac
 reviewer: 内容组

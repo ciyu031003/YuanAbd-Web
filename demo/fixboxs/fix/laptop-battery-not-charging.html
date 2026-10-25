@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>笔记本插着电却提示「未充电」/ 电量 0% 怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="「电源已接通，未充电」的四大来源：主板静电锁死、充电阈值设置、适配器/接口问题、电池驱动异常——前三个五分钟内能解决，真正「电池坏了」排最后。戴尔/惠普/联想官方都把「硬重置放静电」列为第一步，因为它解决的正是最常见的那">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="laptop-battery-not-charging">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware" aria-current="page">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>电池与充电</span></nav>
+<h1 class="fx-title">笔记本插着电却提示「未充电」/ 电量 0% 怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程以安全操作为主（断电、放静电、查驱动），不涉及拆电池。所有品牌的官方排查路线高度一致：<strong>先放静电硬重置，再查适配器与 BIOS 识别，然后官方电池诊断</strong>，最后才考虑换电池。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「电源已接通，未充电」的四大来源：<strong>主板静电锁死、充电阈值设置、适配器/接口问题、电池驱动异常</strong>——前三个五分钟内能解决，真正「电池坏了」排最后。戴尔/惠普/联想官方都把「硬重置放静电」列为第一步，因为它解决的正是最常见的那种「0% 且充不进」。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>硬重置放静电</strong>：关机 → 拔充电器 →（可拆电池机型取下电池）→ 按住电源键 <strong>15-30 秒</strong> → 只插充电器开机。<strong>期望结果</strong>：右下角显示正常充电——主板充电控制被静电锁死是最高频原因。</li><li>看<strong>充电指示灯</strong>和适配器接头：接头处有 LED 的看它亮不亮；插头没插到底、USB-C 口有异物都会导致「通电但握手失败」。</li><li>检查<strong>充电阈值设置</strong>：联想 Vantage / 戴尔 Power Manager / 华硕 MyASUS 里若开了「保养模式」（长期维持 60-80%），电池本来就不充到 100%——这不是故障。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>任务栏电池显示「已接通电源，未充电」。</li><li>电量 0% 且插电不开机、充电灯不亮。</li><li>电量卡在某个百分比不动。</li><li>拔掉充电器立刻关机。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>电池续航明显缩短但能正常充放 → 是老化，直接看「怎么确认修好了」一节的容量判断。</li><li>插充电器整机毫无反应（灯全不亮）→ 是供电问题，参考<a class="fx-link" href="./psu-no-power-check.html">「电脑按开机键没反应？电源故障自查清单」</a>的思路。</li><li>电池鼓包（触控板/底壳被顶起）→ <strong>立刻关机停用</strong>，不要充电不要挤压，直接送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>用的原装/同规格充电器（第三方快充头握手协议不匹配会「已接通不充电」）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电池类型：可拆卸（底部卡扣）还是内置（一体壳）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本型号，方便跑对应厂商的诊断工具。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件已备份（后续 BIOS 更新有小概率中断风险）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>插电显示「已接通电源，正在充电」，电量稳步上涨到 100%。</li><li>拔掉充电器能正常用电池供电（满电至少撑到标称的一半）。</li><li>厂商诊断工具报告电池状态正常。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>官方诊断报「更换电池」→ 换原厂或同规格电池；内置电池机型交给售后更稳。</li><li>BIOS 检测不到电池 + 换电池无效 → 主板充电电路故障，送修。</li><li>只在特定充电器下不充 → 适配器老化（功率塌陷），换原装充电器。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>长期插电办公的用户：把充电阈值设到 60-80%，电池寿命显著延长（这正是「保养模式」存在的意义，别当成故障）。</li><li>避免长期满电 + 高温（盖着被子用笔记本），高温是电池第一杀手。</li><li>每月跑一次厂商电池诊断，容量掉到 80% 以下心里有数。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。流程综合联想知识库、Dell/HP 官方电池充电排查文档整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">硬重置放静电（三家官方共同的第一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>关机，拔掉充电器和所有外接设备。</li><li>可拆卸电池机型取下电池；内置机型跳过。</li><li>按住电源键 15-30 秒（惠普社区案例里 30 秒更稳）。</li><li>装回电池（如有），只插充电器开机。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：正常充电，电量回升。<strong>失败了怎么办</strong>：依旧「未充电」→ 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查充电阈值与设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>打开品牌管理软件：联想 Vantage / 戴尔 Power Manager / 惠普 Battery Health Manager（部分在 BIOS 里）。</li><li>找「充电阈值 / 保养模式 / Conservation Mode」，改为「完全充电」或关掉阈值。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：电量开始上涨（阈值模式下显示「未充电」是设计行为）。<strong>失败了怎么办</strong>：阈值正常仍不充 → 步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">BIOS 里确认电池与适配器被识别</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>重启进 BIOS（开机按 F2/F10/Fn+F2 看品牌）。</li><li>在「电池信息 / Power」页看电池与适配器是否被识别、功率是否正常（如 65W/90W）。</li><li>显示「未检测到适配器」→ 换原装充电器/换 USB-C 口（部分机型仅特定口支持充电）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：BIOS 识别正常，回到系统看充电。<strong>失败了怎么办</strong>：BIOS 里电池显示异常 → 步骤 4 重装电池驱动后复测。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重装电池驱动（Windows）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>设备管理器 → 电池 → 右键「Microsoft ACPI- 兼容控制方法电池」→ 卸载设备 → 重启自动装回。</li><li>联想/戴尔知识库同款流程：驱动重装解决「电量卡住不动」的一类假故障。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：电量显示恢复实时刷新。<strong>失败了怎么办</strong>：仍不充电 → 步骤 5 跑官方诊断。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">跑官方电池诊断</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>戴尔：开机按 F12 → Diagnostics，或 SupportAssist 里的电池测试；惠普：HP Support Assistant 电池检查；联想：Vantage 电池健康；苹果：系统报告 → 电源（看循环次数与状态）。</li><li>看诊断结论：「正常」→ 回去复查充电器与接口；「更换电池 / 性能低下」→ 该换了。</li><li>官方经验值：电池实际容量低于设计容量 50% 或诊断报错，就该换电池。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：明确拿到「电池好/坏」的结论。<strong>失败了怎么办</strong>：诊断通过但仍不充电 → BIOS 有更新就升到最新（充电策略在 BIOS 里），仍不行送修主板充电电路。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/pc-overheat-cleaning.html">电脑温度过高 / 风扇狂转？清灰降温实操指南</a><a href="../fix/psu-no-power-check.html">电脑按开机键没反应？电源故障自查清单（含短接启动法）</a><a href="../fix/ram-reseat-no-boot.html">电脑反复重启 / 开机报警一长两短？先重插内存条</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -29,8 +29,8 @@ related: [ram-reseat-no-boot, win-blackscreen-cursor, monitor-no-signal, disk-cl
 sources:
   - title: Seasonic（海韵）官方 - 电源排障指引
     url: https://seasonic.com/pub/media/pdf/support/faq/troubleshooting-guide.pdf
-  - title: Corsair（海盗船）官方 - PSU troubleshooting
-    url: https://www.corsair.com/us/en/explorer/diy-builder/psu-troubleshooting/
+  - title: Corsair（海盗船）官方 - How to Test a PSU（回形针短接测试官方教程）
+    url: https://help.corsair.com/hc/en-us/articles/360025085372-PSU-How-to-test-a-PSU-Power-Supply-Unit
 reviewer: 内容组
 reviewed_at: 2026-10-24
 detail_href: ./fix/psu-no-power-check.html

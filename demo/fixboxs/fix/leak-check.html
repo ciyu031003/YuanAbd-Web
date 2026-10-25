@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>担心密码泄露？账号泄露自查与止损清单 · 修盒子 FIXBOX</title>
+<meta name="description" content="密码泄露的应对顺序是：先改「一个密码顶十个」的关键账号 → 再查泄露范围 → 最后逐个处理复用密码。邮箱是所有账号的「万能钥匙」（找回密码都走它），所以第一个要改的永远是邮箱密码；然后开双重认证，让「密码泄露」这件事本身">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="leak-check">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec" aria-current="page">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#account-sec">账号与安全</a><span class="fx-crumb__sep">›</span><span>泄露与止损</span></nav>
+<h1 class="fx-title">担心密码泄露？账号泄露自查与止损清单</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#已经中招了怎么办-实锤被盗">已经中招了怎么办（实锤被盗）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程是自查与防护指南，不涉及系统操作。核心原则一句话：<strong>查得到范围、改得掉密码、锁得住登录</strong>。已经确认被盗（异地登录、绑定被改）的，直接跳「已经中招了怎么办」。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">密码泄露的应对顺序是：<strong>先改「一个密码顶十个」的关键账号 → 再查泄露范围 → 最后逐个处理复用密码</strong>。邮箱是所有账号的「万能钥匙」（找回密码都走它），所以第一个要改的永远是邮箱密码；然后开双重认证，让「密码泄露」这件事本身失去杀伤力。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开 <a class="fx-link" target="_blank" rel="noopener" href="https://haveibeenpwned.com">Have I Been Pwned</a>，输入你的常用邮箱查一遍：它会列出这个邮箱出现在哪些已知泄露事件里、泄露了什么（邮箱+密码 / 邮箱+手机号…）。<strong>期望结果</strong>：明确「有没有泄露、泄露了什么」。</li><li>翻一翻常用账号的「登录记录 / 登录设备列表」（微信、QQ、邮箱、购物平台的设置里都有）：<strong>期望结果</strong>：发现陌生地点/陌生设备 = 实锤被盗，跳「已经中招了怎么办」。</li><li>问自己一句：<strong>这些账号的密码，有几个是同一个？</strong> 有复用 = 一次泄露 = 全线沦陷，按本文流程逐个处理。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>在泄露查询工具里查到自己的邮箱。</li><li>收到平台的「异地登录 / 新设备登录」提醒。</li><li>朋友说收到你发的奇怪消息（你的号可能已被冒用）。</li><li>单纯想定期体检账号安全（建议每季度一次）。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>只是收到「你的账号异常」的短信/邮件——先按<a class="fx-link" href="./phishing-message-check.html">「收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼」</a>判断真假，别点里面任何链接。</li><li>电脑本身行为异常（弹窗、卡顿）→ 先查中毒：看<a class="fx-link" href="./malware-first-response.html">「电脑中病毒了怎么办：先做这三件事再杀毒」</a>。</li><li>涉及资金损失 → 立即 110 / 96110，不要先自己折腾。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机在身边，能收各平台的验证码。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>列出你的「关键账号」清单：邮箱、支付（微信/支付宝/银行 App）、社交主号、云盘。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备一个可靠的密码记录方式（密码管理器优先，纸质本锁抽屉也行）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>别在公共 WiFi 下做这套操作。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="已经中招了怎么办-实锤被盗">已经中招了怎么办（实锤被盗）</h2><ol class="fx-ol"><li><strong>改密码抢回账号</strong>：用「忘记密码」通道，走邮箱/手机验证。</li><li><strong>检查并改回绑定</strong>：邮箱、手机号、密保问题——盗号者第一时间改的就是这些。</li><li><strong>踢掉所有登录会话</strong>：各平台「账号安全 → 登录设备管理 → 退出所有设备」。</li><li><strong>检查被盗期间干了什么</strong>：发过的消息、授权过的应用、绑定的免密支付——逐项撤销。</li><li>通知亲友号被盗，谨防有人用你的身份行骗；有资金往来立即报警。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认处理好了">怎么确认处理好了</h2><ul class="fx-ul"><li>Have I Been Pwned 上仍会有历史泄露记录（无法消除）——判断标准是<strong>新密码唯一 + 双重认证开启 + 无陌生登录</strong>。</li><li>各枢纽账号的登录设备列表里只有你自己的设备。</li><li>亲友未再收到冒充你的消息。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>账号申诉一直不通过 → 准备注册信息/历史凭证找平台人工客服；涉及支付的平台客服优先级最高。</li><li>无法确定哪些账号用过该邮箱 → 在邮箱里搜索「注册」「验证」「欢迎」等关键词，把历史注册邮件翻出来逐个处理。</li><li>心理上始终不放心 → 彻底弃用被泄露的邮箱做主邮箱，新注册一个只用于关键账号。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>密码管理器生成并保存唯一密码，人脑只记一个「主密码」+ 一两个重要密码。</li><li>每季度跑一遍本文的步骤 2（泄露自查），十分钟的事。</li><li>收到任何「账号异常」通知，先用官方 App 核实，永远不点短信/邮件里的链接。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。自查工具与止损顺序按 Have I Been Pwned 官方用法与反诈渠道整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先改「枢纽账号」的密码（顺序错了全白改）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li><strong>邮箱第一个改</strong>：所有平台的「忘记密码」都往邮箱发验证邮件——邮箱沦陷等于全线沦陷。</li><li>其次改：支付类（微信/支付宝/银行）、社交主号、云盘。</li><li>新密码要求：<strong>从未用过</strong>、12 位以上、与其他任何账号不同（别把旧密码「加个 1」——撞库字典里全是你这种变体）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：枢纽账号全部换上唯一新密码。<strong>失败了怎么办</strong>：某个账号登不进去（可能已被改密）→ 立即用「忘记密码 → 邮箱/手机找回」抢回；抢不回直接找平台客服申诉并冻结。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查清泄露范围</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>在 Have I Been Pwned 把你<strong>所有用过的邮箱</strong>查一遍（一个一个来）。</li><li>记下每个泄露事件泄露的字段：只有邮箱+昵称 → 风险低；<strong>带密码哈希/密码明文</strong> → 该邮箱注册过的所有账号都视为已暴露。</li><li>顺手查一下常用密码（不含关键账号的）：HIBP 的密码查询只提交哈希前缀，不会把你的明文密码发给任何人。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：一张「泄露范围清单」。<strong>失败了怎么办</strong>：工具打不开 → 直接按「全部复用密码都改」的最坏情况处理，更稳妥。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">双重认证全线补位</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>给步骤 1 的枢纽账号全部开启<strong>双重认证 / 两步验证 / 登录保护</strong>（各平台的「安全设置」里都有）。</li><li>验证方式优先级：验证器 App（如各平台自带的动态码）&gt; 短信验证码；有「通行密钥/密钥登录」的优先用。</li><li>把恢复码/备用码抄下来锁好——丢手机时它是唯一的门。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：枢纽账号即使密码泄露，对方也登不进来。<strong>失败了怎么办</strong>：某个平台不支持双重认证 → 把它的密码设得更长更独立，并绑定手机号做找回锚点。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理复用密码（按重要性分批）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>按「涉及支付的 &gt; 存了个人资料的 &gt; 纯论坛/工具类」的顺序，把复用同一密码的账号逐个改成唯一新密码。</li><li>改完一个，就在密码管理器里记一个；<strong>这次之后不再手工记密码</strong>。</li><li>顺手做三件事：解绑不再用的第三方授权、清空「已登录设备」列表、更新绑定的手机号/邮箱为当前有效的。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：一周内关键账号全部唯一密码 + 双重认证。<strong>失败了怎么办</strong>：账号太多改不完 → 优先保步骤 1 的清单，其余在两周内分批完成。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">建立「泄露后 1 小时」的预案</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>把这份清单存好：改邮箱密码 → 改支付密码 → 开双重认证 → 查登录记录 → 检查绑定手机/邮箱是否被改 → 通知亲友（账号可能被冒用发消息）。</li><li>手机装「国家反诈中心」App，遇到冒充客服/公检法的「帮你处理泄露」电话一律按诈骗处理——<strong>真平台不会打电话要你的验证码</strong>。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：下次再遇到泄露提醒，照单执行不慌。<strong>失败了怎么办</strong>：已经造成资金损失 → 立即 110 / 96110，凭证截图保留。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/phishing-message-check.html">收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼</a><a href="../fix/malware-first-response.html">电脑中病毒了怎么办：先做这三件事再杀毒</a><a href="../fix/remote-control-scam.html">有人让我下载软件并远程控制电脑，是诈骗吗</a><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#已经中招了怎么办-实锤被盗">已经中招了怎么办（实锤被盗）</a></li><li><a href="#怎么确认处理好了">怎么确认处理好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -1775,6 +1775,57 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "ethernet-no-link",
+  "title": "网线插着却提示「网络电缆被拔出」怎么修",
+  "domain": "net-basic",
+  "domainName": "网络基础",
+  "category": "net-adapter",
+  "categoryName": "网卡与适配器",
+  "path": "网络基础 › 网卡与适配器",
+  "summary": "「电缆被拔出」是网卡在说「我在物理层没看到对端」，所以先查物理层：网口指示灯亮不亮。灯不亮九成是网线/水晶头/对端口的问题；灯亮却报错才是系统层（驱动、节能选项、网络栈），按「换线换口 → 重",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows",
+   "network"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "网络电缆被拔出",
+   "网线插着没反应",
+   "以太网未连接",
+   "网口灯不亮",
+   "有线网络断了",
+   "网线接触不良",
+   "ethernet cable unplugged",
+   "插网线没网"
+  ],
+  "keywords": [
+   "网络电缆被拔出",
+   "以太网",
+   "网卡驱动",
+   "网线",
+   "网口",
+   "Energy Efficient Ethernet",
+   "网络重置",
+   "链路指示灯"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/ethernet-no-link.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "icloud-storage-full",
   "title": "iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升",
   "domain": "mac-app",
@@ -1822,6 +1873,122 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/icloud-storage-full.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "laptop-battery-not-charging",
+  "title": "笔记本插着电却提示「未充电」/ 电量 0% 怎么修",
+  "domain": "hardware",
+  "domainName": "硬件与主机",
+  "category": "hw-battery",
+  "categoryName": "电池与充电",
+  "path": "硬件与主机 › 电池与充电",
+  "summary": "「电源已接通，未充电」的四大来源：主板静电锁死、充电阈值设置、适配器/接口问题、电池驱动异常——前三个五分钟内能解决，真正「电池坏了」排最后。戴尔/惠普/联想官方都把「硬重置放静电」列为第一步",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "硬件无关",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "15-60 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "电池未充电",
+   "电源已接通未充电",
+   "电量 0% 充不进去",
+   "电池不蓄电",
+   "拔电源就关机",
+   "充电指示灯不亮",
+   "battery not charging",
+   "电池老化"
+  ],
+  "keywords": [
+   "电池不充电",
+   "电源适配器",
+   "硬重置",
+   "放静电",
+   "电池驱动",
+   "BIOS 电池检查",
+   "电池健康",
+   "充电阈值"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/laptop-battery-not-charging.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "leak-check",
+  "title": "担心密码泄露？账号泄露自查与止损清单",
+  "domain": "account-sec",
+  "domainName": "账号与安全",
+  "category": "as-leak",
+  "categoryName": "泄露与止损",
+  "path": "账号与安全 › 泄露与止损",
+  "summary": "密码泄露的应对顺序是：先改「一个密码顶十个」的关键账号 → 再查泄露范围 → 最后逐个处理复用密码。邮箱是所有账号的「万能钥匙」（找回密码都走它），所以第一个要改的永远是邮箱密码；然后开双重认",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "手机也适用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "密码泄露",
+   "收到异地登录提醒",
+   "账号被盗",
+   "数据泄露查询",
+   "密码被撞库",
+   "改密码来得及吗",
+   "邮箱泄露"
+  ],
+  "keywords": [
+   "泄露自查",
+   "撞库",
+   "Have I Been Pwned",
+   "双重认证",
+   "密码管理器",
+   "异地登录",
+   "止损"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/leak-check.html",
   "kind": "guide",
   "hot": 1
  },
@@ -1977,6 +2144,66 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/partition-manager.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "pc-overheat-cleaning",
+  "title": "电脑温度过高 / 风扇狂转？清灰降温实操指南",
+  "domain": "hardware",
+  "domainName": "硬件与主机",
+  "category": "hw-cooling",
+  "categoryName": "散热与清灰",
+  "path": "硬件与主机 › 散热与清灰",
+  "summary": "温度高 = 「热量产生得多」或「热量散不出去」：先看是谁在占用 CPU（软件层，看任务管理器），再清风扇和鳍片的灰（物理层，占八成），最后才是换硅脂/改善风道。别一觉得热就换散热器——积灰的散",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "硬件无关",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "30-90 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "电脑温度过高",
+   "风扇狂转",
+   "CPU 90 度",
+   "电脑烫手",
+   "自动关机过热",
+   "游戏降频卡顿",
+   "需要清灰",
+   "换硅脂"
+  ],
+  "keywords": [
+   "清灰",
+   "硅脂",
+   "温度",
+   "散热",
+   "风扇",
+   "降频",
+   "过热关机",
+   "风道",
+   "HWMonitor"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/pc-overheat-cleaning.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2144,6 +2371,70 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/ram-reseat-no-boot.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "router-wifi-coverage",
+  "title": "某些房间 WiFi 信号差 / 一进卧室就断流怎么优化",
+  "domain": "router",
+  "domainName": "路由器与家庭网络",
+  "category": "rt-coverage",
+  "categoryName": "信号与覆盖",
+  "path": "路由器与家庭网络 › 信号与覆盖",
+  "summary": "WiFi 信号差，八成不是路由器「功率不够」，而是位置不对、频段选错、信道打架三件事：路由器挪到房子中心并抬高，经常用的房间连 5GHz（近处快），远隔两堵墙的房间连 2.4GHz（穿墙好），",
+  "os": [
+   {
+    "t": "路由器",
+    "k": "router"
+   },
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "手机也适用",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows",
+   "network"
+  ],
+  "level": "入门",
+  "time": "20-60 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "WiFi 信号差",
+   "一进卧室就断",
+   "信号满格网速慢",
+   "WiFi 覆盖不到",
+   "隔墙信号弱",
+   "家里有的房间没信号",
+   "无线漫游卡",
+   "5G 频段穿墙差"
+  ],
+  "keywords": [
+   "WiFi 覆盖",
+   "信号差",
+   "穿墙",
+   "Mesh 组网",
+   "信道干扰",
+   "路由器摆放",
+   "2.4G 5G",
+   "穿墙模式"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/router-wifi-coverage.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2744,6 +3035,162 @@ window.FX_ARTICLES = [
   "updated": "2026-10-17",
   "detail_href": "./fix/sop-ticket-workflow.html",
   "kind": "reference",
+  "hot": 1
+ },
+ {
+  "slug": "webcam-not-working",
+  "title": "摄像头打不开 / 视频会议对方看不到我怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-cam",
+  "categoryName": "摄像头",
+  "path": "外设 › 摄像头",
+  "summary": "摄像头问题的三大来源按顺序是：物理遮挡/开关 → 隐私权限没放开 → 被别的程序占用。Windows 大版本更新后「相机访问」总开关被重置是高发原因——会议前 5 分钟打不开摄像头的人，九成是",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "摄像头打不开",
+   "视频会议看不到我",
+   "相机黑屏",
+   "摄像头被占用",
+   "找不到摄像头",
+   "视频会议没画面",
+   "camera not working",
+   "相机权限"
+  ],
+  "keywords": [
+   "摄像头",
+   "相机",
+   "视频会议",
+   "隐私设置",
+   "相机权限",
+   "驱动",
+   "物理开关",
+   "联想",
+   "会议软件"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/webcam-not-working.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-no-sound",
+  "title": "电脑没声音 / 右下角喇叭有红叉怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-audio",
+  "categoryName": "耳机与音箱",
+  "path": "外设 › 耳机与音箱",
+  "summary": "没声音按「物理 → 输出目标 → 系统服务 → 驱动」四层查：音箱/耳机本身和插口先确认；然后看是不是「声音输出到了错误的设备」（接了 HDMI 显示器却没选它/该选它没选）；红叉提示「音频服",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "电脑没声音",
+   "喇叭红叉",
+   "音频服务未运行",
+   "声音输出设备找不到",
+   "耳机没声音",
+   "更新后没声音",
+   "音量键叉号",
+   "no audio output device"
+  ],
+  "keywords": [
+   "没声音",
+   "音频",
+   "Realtek",
+   "音频服务",
+   "默认设备",
+   "疑难解答",
+   "Windows 更新后无声",
+   "音频驱动"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/win-no-sound.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-safe-restore",
+  "title": "系统改坏了进不去？安全模式、系统还原与重置的正确顺序",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-boot",
+  "categoryName": "开机与引导故障",
+  "path": "Windows 系统与开机 › 开机与引导故障",
+  "summary": "「把系统退回能用的状态」有四招，破坏力从小到大：安全模式排障 → 卸载最近更新 → 系统还原到还原点 → 重置此电脑。按这个顺序走，九成「改坏了」的系统能在前两步救回来；千万别一上来就重置甚至",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "20-90 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "装完软件开不了机",
+   "更新后系统异常",
+   "系统还原",
+   "安全模式进不去",
+   "想退回之前的状态",
+   "重置此电脑",
+   "改了设置系统出问题",
+   "winre 恢复环境"
+  ],
+  "keywords": [
+   "安全模式",
+   "系统还原",
+   "还原点",
+   "WinRE",
+   "高级启动",
+   "重置此电脑",
+   "卸载更新",
+   "恢复选项"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/win-safe-restore.html",
+  "kind": "guide",
   "hot": 1
  }
 ];

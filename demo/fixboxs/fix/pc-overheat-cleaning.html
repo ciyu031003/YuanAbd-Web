@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>电脑温度过高 / 风扇狂转？清灰降温实操指南 · 修盒子 FIXBOX</title>
+<meta name="description" content="温度高 = 「热量产生得多」或「热量散不出去」：先看是谁在占用 CPU（软件层，看任务管理器），再清风扇和鳍片的灰（物理层，占八成），最后才是换硅脂/改善风道。别一觉得热就换散热器——积灰的散热器配上满转速的风扇，才是「">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="pc-overheat-cleaning">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware" aria-current="page">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#hardware">硬件与主机</a><span class="fx-crumb__sep">›</span><span>散热与清灰</span></nav>
+<h1 class="fx-title">电脑温度过高 / 风扇狂转？清灰降温实操指南</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">进阶</span><span class="fx-badge fx-badge--time">30-90 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：清灰全程<strong>断电操作</strong>（台式机拔电源线并按电源键放电，笔记本关机断电取电池）；拆散热器后<strong>必须重新涂抹硅脂</strong>再装回，直接干装会让温度雪上加霜；品牌机保内拆机前先查保修条款——拿不准就送官方清洁服务（联想知识库明确提示操作不当造成的损伤不在保修范围）。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">温度高 = 「热量产生得多」或「热量散不出去」：先看<strong>是谁在占用 CPU</strong>（软件层，看任务管理器），再清<strong>风扇和鳍片的灰</strong>（物理层，占八成），最后才是<strong>换硅脂/改善风道</strong>。别一觉得热就换散热器——积灰的散热器配上满转速的风扇，才是「又吵又烫」的标准组合。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开任务管理器 → 性能，看 CPU 占用是谁拉的：某个进程 80%+ → 先杀进程/卸载软件（软件层）；占用不高但温度照旧 → 散热层，进步骤 2。</li><li>听风扇、看出风口：贴着出风口的手能感到明显热风吗？<strong>出风弱/无风</strong> = 鳍片堵死，直接安排清灰。</li><li>台式机摸机箱面板温度、听风扇转速骤变的时机：开机就狂转 = 温度墙触发，基本可以确定要清灰了。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>CPU 空载 70℃+/满载 95℃+、风扇起飞、游戏降频卡顿。</li><li>笔记本底面烫手、出风口热风弱。</li><li>用了 2 年以上从没清过灰的机器。</li><li>夏天频繁过热自动关机。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>温度正常只是风扇声音大：可能是风扇轴承老化，直接换风扇。</li><li>温度读数明显离谱（如 0℃ 或 200℃）：传感器/软件误报，换测温工具复核。</li><li>环境温度本身就 35℃+ 的夏天：一切温度判断要在相近室温下对比才有意义。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>装好测温工具：HWMonitor / AIDA64 / 任务管理器（性能页有 CPU 温度）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>台式机：新硅脂（信越/猫头鹰/Arctic 都可以）、气吹或压缩空气罐。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本：找到自己型号的底盖拆解教程（B 站/厂商知识库按型号搜），确认螺丝位与卡扣。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>品牌机保内的：查过保修条款，或决定送官方清洁。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>拍照留存拆之前的线缆走向与部件位置。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>待机 CPU 40-55℃、日常办公 60℃ 内、满载不再顶到 95-100℃ 温度墙。</li><li>风扇不再长期全速嘶吼，日常使用安静。</li><li>连续游戏/压视频 1 小时无过热降频、无自动关机。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>清灰换硅脂后满载仍顶温度墙 → 散热器规格不足或硅脂涂法错误，对照 Intel 官方涂法复查；仍不行换散热器。</li><li>温度高且伴随频繁死机蓝屏 → 检查是不是超频/CPU 供电问题，恢复默认频率再看。</li><li>笔记本清灰后仍烫 → 该型号本身散热上限如此，配合散热支架 + 抬升进风，物理上没有更多可压榨的。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>每 12 个月清一次灰（养宠/铺地毯的家庭半年一次）。</li><li>硅脂 2-3 年一换，干涸的硅脂接近绝缘体。</li><li>机箱进风口加防尘网，一次投入换每年少清一半灰。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。清灰与硅脂流程综合戴尔官方过热排查指南、Intel 官方涂膏指南与联想知识库整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">软件层先排除（10 分钟）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>任务管理器 → 详细信息按 CPU 排序：结束异常进程；常见的后台元凶是杀毒全盘扫描、浏览器标签爆炸、挖矿木马。</li><li>电源计划设为「平衡」（台式机「高性能」会让待机温度偏高是误解，平衡即可）。</li><li>开机自启清理：看<a class="fx-link" href="./win-startup-apps-disable.html">「开机自启软件太多，开机慢怎么关」</a>。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：占用降下来后温度明显回落。<strong>失败了怎么办</strong>：占用正常但温度仍高 → 物理层，进步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清灰（不拆散热器版）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>断电放电：台式机拔电源线按电源键 5 秒；笔记本关机断电。</li><li>打开侧板/底盖，用气吹或压缩空气罐（<strong>短促、斜角</strong>吹，罐体勿倒置）吹 CPU 散热器鳍片、显卡风扇、电源进风口、各处风扇。</li><li>用手按住风扇叶片再吹（防止气流把风扇吹得高速空转，伤轴承）。</li><li>出风口的灰毯用棉签 + 酒精擦净。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：鳍片缝隙透光，出风顺畅。<strong>失败了怎么办</strong>：清完温度降 5-10℃ 但仍偏高 → 鳍片深处已板结，拆散热器深度清 + 换硅脂，进步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">拆散热器深度清灰 + 换硅脂（台式机）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>断电放电，拆下 CPU 散热器（先拔风扇线；扣具按对角线顺序松）。</li><li>用无绒布 + 无水酒精擦掉 CPU 顶盖和散热器底座的旧硅脂，<strong>擦到完全干净反光</strong>。</li><li>按官方推荐的「<strong>中心点法</strong>」在 CPU 顶盖中央挤一粒黄豆大小的硅脂，靠散热器压力自然摊开——Intel 官方指南明确不推荐满涂。</li><li>装回散热器，对角线上扣具，接回风扇线。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：满载温度比清灰前低 10-20℃。<strong>失败了怎么办</strong>：装回后温度不降反升 → 硅脂没涂匀或散热器没压紧，重拆重装；扣具安装有疑问对着主板说明书核对。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">笔记本深度清洁</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>拆底盖（按型号教程），断电池排线（安全第一）。</li><li>同步骤 2 清灰；<strong>热管鳍片组不拆就不必重涂硅脂</strong>——笔记本热管与芯片是焊死/螺丝固定的模组，拆开风险大于收益。</li><li>顺带检查风扇扇叶有无裂痕、转轴是否顺滑。</li><li>装回底盖前先不盖，开机测试温度正常再封装。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：出风恢复、表面温度下降。<strong>失败了怎么办</strong>：清灰后仍 95℃+ → 笔记本硅脂老化（2-3 年会干），送官方清洁服务换硅脂，比自拆模组稳妥。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">风道与环境（台式机）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>理线：电源线堆在前部会挡风道，用扎带归拢到侧面。</li><li>风向一致：前面板进风、后部/顶部出风，别让两把风扇「对吹」。</li><li>机箱别塞进封闭柜子，四周留 10cm 以上进风空间。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：机箱内温度整体下降。<strong>失败了怎么办</strong>：风道正常仍热 → 散热器规格跟不上 CPU（如 95W CPU 配了下压式小散热器），按 TDP 换散热器。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><a href="../fix/psu-no-power-check.html">电脑按开机键没反应？电源故障自查清单（含短接启动法）</a><a href="../fix/ram-reseat-no-boot.html">电脑反复重启 / 开机报警一长两短？先重插内存条</a><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

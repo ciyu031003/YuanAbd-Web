@@ -1,7 +1,7 @@
 {
   "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。（2026-10-17 起新增「参考资料」用的 domain：ref-manual 装机运维手册 / ref-field 现场作业与工单，见 build-fix.cjs 的 REFERENCE_DOMAINS）",
-  "version": "1.2",
-  "updated": "2026-10-24",
+  "version": "1.3",
+  "updated": "2026-10-25",
   "domains": [
     {
       "id": "net-basic",
@@ -54,6 +54,10 @@
         {
           "id": "rt-qos",
           "name": "蹭网与限速"
+        },
+        {
+          "id": "rt-coverage",
+          "name": "信号与覆盖"
         }
       ]
     },
@@ -144,6 +148,14 @@
         {
           "id": "hw-psu",
           "name": "电源与供电"
+        },
+        {
+          "id": "hw-battery",
+          "name": "电池与充电"
+        },
+        {
+          "id": "hw-cooling",
+          "name": "散热与清灰"
         }
       ]
     },
@@ -166,6 +178,14 @@
         {
           "id": "per-bt",
           "name": "蓝牙与键鼠"
+        },
+        {
+          "id": "per-cam",
+          "name": "摄像头"
+        },
+        {
+          "id": "per-audio",
+          "name": "耳机与音箱"
         }
       ]
     },
@@ -194,6 +214,10 @@
         {
           "id": "as-phishing",
           "name": "诈骗识别"
+        },
+        {
+          "id": "as-leak",
+          "name": "泄露与止损"
         }
       ]
     },

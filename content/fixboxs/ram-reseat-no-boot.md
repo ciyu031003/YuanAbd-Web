@@ -28,7 +28,7 @@ tools: [十字螺丝刀, 橡皮擦, 主板说明书（或手机拍板子上的�
 related: [disk-clicking-failure, win-stuck-on-boot-logo, win-blackscreen-cursor, monitor-no-signal]
 sources:
   - title: Crucial（英睿达）官方 - 内存安装指南
-    url: https://www.crucial.com/support/articles-faq-memory/how-to-install-memory-in-your-computer
+    url: https://www.crucial.com/support/articles-faq-memory/how-to-upgrade-desktop-memory
   - title: Kingston（金士顿）官方 - 内存常见问题
     url: https://www.kingston.com/en/support/technical-support/memory-issues
 reviewer: 内容组

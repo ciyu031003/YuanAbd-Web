@@ -25,8 +25,8 @@ prerequisites:
 tools: [浏览器设置页, 系统代理设置, 插件管理页]
 related: [proxy-server-not-responding, proxy-tool-broke-network, dns-broken-but-app-works, enterprise-proxy]
 sources:
-  - title: Chrome 帮助 - 修复网页无法加载的问题
-    url: https://support.google.com/chrome/answer/113901?hl=zh-Hans
+  - title: Microsoft Edge 帮助中心（Chromium 系浏览器代理设置入口）
+    url: https://support.microsoft.com/zh-cn/microsoft-edge
   - title: Mozilla 支持 - Firefox 连接设置
     url: https://support.mozilla.org/zh-CN/kb/connection-settings-firefox
 reviewer: 内容组

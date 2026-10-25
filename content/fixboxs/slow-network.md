@@ -28,7 +28,7 @@ sources:
   - title: speedtest.cn 测速网 - 测速说明
     url: https://www.speedtest.cn/
   - title: Microsoft 支持 - 解决 Windows 中的网络连接问题
-    url: https://support.microsoft.com/zh-cn/windows/fix-network-connection-problems-in-windows-d06939a9-b795-4d4c-a2aa-40f80b4fdfc4
+    url: https://support.microsoft.com/zh-cn/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows
 reviewer: 内容组
 reviewed_at: 2026-10-24
 detail_href: ./fix/slow-network.html

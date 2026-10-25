@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Microsoft Store 打不开 / 商店应用装不上怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。九成卡在第一步就好了。开不了机的病因大都是这几样：代理/VPN 拦截、区域设成了奇怪的国家、时间不对、商店缓存坏了——">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-store-not-opening">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>软件打不开与闪退</span></nav>
+<h1 class="fx-title">Microsoft Store 打不开 / 商店应用装不上怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文的「重置商店」会清除商店的登录状态与缓存（重新登录即可，不影响已装应用）；「重置商店应用」级操作不动个人文件。改区域/代理设置后记得复原。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">商店问题的修复顺序照抄微软官方三板斧：<strong><code>wsreset.exe</code> 清缓存 → 设置里「修复」→ 「重置」</strong>。九成卡在第一步就好了。开不了机的病因大都是这几样：<strong>代理/VPN 拦截、区域设成了奇怪的国家、时间不对、商店缓存坏了</strong>——按本文顺序走，从软到硬，不用重装系统。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><code>Win + R</code> → 输入 <code>wsreset.exe</code> → 回车。<strong>期望结果</strong>：黑窗闪 10 秒后商店自动打开——官方第一步，命中率最高。</li><li>关掉 VPN/代理（退出加速器、抓包工具），看<a class="fx-link" href="./browser-proxy.html">「浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复」</a>清一下系统代理。<strong>期望结果</strong>：商店恢复加载。</li><li>看日期时间与区域：设置 → 时间和语言 → 区域 =「中国」（或你所在地区）；时间自动同步。<strong>期望结果</strong>：商店服务器握手正常。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>Microsoft Store 打不开、无限转圈、闪退、报 0x80131500/0x80131505 等错误码。</li><li>商店里应用下载卡 0% / 安装失败。</li><li>商店应用（照片/计算器等 UWP 应用）打不开或闪退。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>普通桌面软件闪退/缺 DLL：看<a class="fx-link" href="./win-app-crash-missing-dll.html">「Win 软件打不开 / 闪退提示缺少 DLL 怎么修」</a>。</li><li>公司电脑商店被组策略禁用（打不开且提示「联系管理员」）：找 IT，不是故障。</li><li>网页版商店可以但客户端不行：就是本文明示的网络/缓存层，照做。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>浏览器能正常上网（排除全断网）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>退出 VPN、代理、加速器。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下当前「区域」设置值。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>微软账户密码记得（重置后要重登）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>商店秒开、能搜索、能下载安装一个应用。</li><li>商店应用（照片/计算器）正常启动。</li><li>重启电脑后一切正常。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>报错码固定为 0x80131500 且换网络也一样 → 微软服务端区域问题，换 DNS + 等几天（微软偶发区域故障）。</li><li>只有公司电脑不行 → 组策略/防火墙拦了商店域名，找 IT。</li><li>LTSC/精简版系统 → 默认无商店，安装商店包属于系统改造，超出常规修复范围。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>别用「系统精简工具」删商店组件——修复成本远大于省下的空间。</li><li>加速器/VPN 用完就退，别常驻改系统代理。</li><li>大版本更新后先开一次商店，早发现早 wsreset。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。wsreset/修复/重置主流程与网络/区域/系统层排查综合微软官方支持文档与 Learn 问答整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">wsreset 清缓存（官方第一招）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li><code>Win + R</code> → <code>wsreset.exe</code> → 确定。</li><li>空白命令行窗口约 10 秒后自动关闭并拉起商店。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：商店正常打开。<strong>失败了怎么办</strong>：依旧打不开 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复与重置商店应用（官方第二三板斧）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>设置 → 应用 → 已安装的应用 → 搜「Microsoft Store」→ 高级选项。</li><li>依次点：<strong>终止 → 修复</strong>（修好为止，不丢数据）→ 无效再<strong>重置</strong>（清商店数据，重新登录）。</li><li>商店应用（照片/计算器类）打不开的：对该应用做同样的「修复/重置」。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：商店恢复。<strong>失败了怎么办</strong>：重置也无效 → 步骤 3 查网络层。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">网络层排查（代理/DNS/IPv6）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>系统代理确认为关（设置 → 网络 → 代理），见<a class="fx-link" href="./browser-proxy.html">「浏览器代理与 PAC 设置修复」</a>。</li><li>DNS 换 <code>223.5.5.5</code> / <code>119.29.29.29</code>（商店服务器解析被污染是常见案），必要时按<a class="fx-link" href="./dns-hijack.html">「DNS 被劫持怎么判断」</a>排查。</li><li>试试临时关 IPv6（适配器属性取消 IPv6 勾选）：部分网络环境下商店对 IPv6 兼容差。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：商店能加载内容。<strong>失败了怎么办</strong>：仍报错 → 记下错误码，进步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">时间、区域与账户</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>区域设为「中国」，重启一次（微软官方对商店异常也列了区域检查）。</li><li>时间：自动设置开启，时区正确——证书校验失败会伪装成「打不开」。</li><li>账户：设置 → 账户 → 确认微软账户登录正常；商店内点头像退出再登录。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：账户与区域就位后商店恢复。<strong>失败了怎么办</strong>：进步骤 5 系统层。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">系统层修复（疑难杂症）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>Windows 更新装齐（设置 → Windows 更新）——商店组件随累积更新修复。</li><li>管理员命令行跑系统文件检查：<code>sfc /scannow</code>，完成后再 <code>DISM /Online /Cleanup-Image /RestoreHealth</code>。</li><li>顽固案例（Store 被深度损坏）：管理员 PowerShell 执行重装商店命令 <code>Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register &quot;$($_.InstallLocation)\AppXManifest.xml&quot;}</code> 后重启。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：商店完整重生。<strong>失败了怎么办</strong>：仍不行 → 按<a class="fx-link" href="./win-safe-restore.html">「系统改坏了进不去？安全模式、系统还原与重置的正确顺序」</a>用系统还原退回正常时点，或「重置此电脑（保留我的文件）」。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-app-crash-missing-dll.html">软件打不开、闪退，提示缺少 dll 或 0xc000007b</a><a href="../fix/browser-proxy.html">浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复</a><a href="../fix/enterprise-proxy.html">公司电脑上不了网 / 提示证书不受信任？企业代理环境排查</a><a href="../fix/win-safe-restore.html">系统改坏了进不去？安全模式、系统还原与重置的正确顺序</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

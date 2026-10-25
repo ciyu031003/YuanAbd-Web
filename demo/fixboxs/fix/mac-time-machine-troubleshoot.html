@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>时间机器备份卡住 / 失败怎么修（含备份盘满了怎么办） · 修盒子 FIXBOX</title>
+<meta name="description" content="时间机器卡住/失败的四大惯犯按概率排：磁盘连接/格式问题、磁盘空间满、磁盘需要「急救」、首次备份本来就慢（几百 GB 走 USB 需要数小时到一晚，卡在「正在准备备份」几小时往往是正常的）。按 Apple 官方排查序：查">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-time-machine-troubleshoot">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup" aria-current="page">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#data-backup">数据与备份</a><span class="fx-crumb__sep">›</span><span>备份与迁移</span></nav>
+<h1 class="fx-title">时间机器备份卡住 / 失败怎么修（含备份盘满了怎么办）</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 12+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：备份盘出问题时<strong>不要随手格式化</strong>——里面有你的历史备份。Apple 官方的修复路径是「磁盘工具 → 急救」而不是重格；磁盘满了解决之道是换更大的盘，而不是删备份（时间机器自己会滚动清理最旧备份）。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">时间机器卡住/失败的四大惯犯按概率排：<strong>磁盘连接/格式问题、磁盘空间满、磁盘需要「急救」、首次备份本来就慢</strong>（几百 GB 走 USB 需要数小时到一晚，卡在「正在准备备份」几小时往往是正常的）。按 Apple 官方排查序：<strong>查连接 → 查空间 → 磁盘急救 → 重选备份盘</strong>，别动不动就重格。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>看卡在哪个阶段：菜单栏时间机器图标 → 「正在准备备份」（可等，尤其首次）/「正在备份 X of Y」不动 1 小时+（异常）。<strong>期望结果</strong>：先分辨「慢」和「死」。</li><li>备份盘连接与格式：插入后在「磁盘工具」能看到吗？格式是 <strong>APFS 或 Mac OS 扩展（HFS+）</strong>吗（NTFS 盘不能当时间机器盘）？<strong>期望结果</strong>：盘可见且格式正确。</li><li>空间：备份盘容量 ≥ <strong>Mac 已用空间 × 2</strong> 最稳（Apple 官方建议备份盘至少与被备份数据一样大，2 倍能保住历史版本）。<strong>期望结果</strong>：空间充足。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>时间机器备份一直「准备中」不动、备份到一半失败。</li><li>提示「备份磁盘已满」「找不到备份磁盘」「备份磁盘只读」。</li><li>备份慢到怀疑人生。</li><li>换了新备份盘想把旧备份迁走。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>还没配过时间机器、想从零开始：看<a class="fx-link" href="./backup-before-repair.html">「换硬盘 / 重装系统前，怎么把数据备份全」</a>步骤 3 的配置流程。</li><li>Mac 本体存储不足（「系统数据」几百 G）：看<a class="fx-link" href="./mac-storage-system-data.html">「Mac 储存空间不足 /「系统数据」占了上百 G」</a>。</li><li>备份盘在电脑上完全不识别（磁盘工具都看不到）：硬件问题，参考<a class="fx-link" href="./usb-drive-not-recognized.html">「U 盘 / 移动硬盘不识别、提示格式化怎么办」</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认当前阶段（准备中 / 备份中失败 / 磁盘满提示）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>备份盘容量与 Mac 已用容量心里有数。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记下备份盘名字（多块盘时别选错）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有急事要备份的，先手动把最要命的文件拷一份到别处——别把鸡蛋都押在排障上。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>一次完整备份跑完，菜单栏显示「最新备份：今天 xx:xx」。</li><li>之后每小时自动备份静默成功（看一眼时间机器设置里的进度记录）。</li><li>随便进时间机器界面能浏览历史版本。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>NAS 备份反复失败 → 回退到 USB 直连盘验证：直连好 = NAS 兼容/网络问题（NAS 固件更新、按<a class="fx-link" href="./router-wifi-coverage.html">「某些房间 WiFi 信号差」</a>改善网络，NAS 最好有线）。</li><li>备份慢得离谱（一晚只走几个 G）→ 换 USB 3.0+ 口与线；机械盘是瓶颈就接受或换 SSD 备份盘。</li><li>换 Mac 后旧备份打不开 → 新 Mac 用「迁移助理」从备份恢复（比手动翻备份目录正确一万倍）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>备份盘容量 = 已用空间 ×2，一劳永逸远离「磁盘已满」。</li><li>每季度做一次「恢复演练」：真从时间机器恢复一个小文件——<strong>没验证过的备份等于没有备份</strong>。</li><li>备份盘专盘专用，不当日常拷贝盘（减少故障与误格式化风险）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。排查顺序与「磁盘满/急救/重选盘」口径均参照 Apple 官方时间机器支持文档。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">连接与基础状态（Apple 官方排查第一步）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>备份盘拔下重插；换一个 USB/雷雳口；换一根线（移动硬盘盒的桥接芯片也会闹脾气）。</li><li>NAS 备份用户：确认 Mac 与 NAS 同网且 NAS 固件为最新（群晖/铁威马对时间机器的兼容修复很频繁）。</li><li>系统设置 → 通用 → 软件更新：macOS 装齐（官方排查表明确项）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：盘稳定可见。<strong>失败了怎么办</strong>：盘可见但仍报错 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">磁盘工具「急救」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>打开「磁盘工具」→ 显示所有设备 → 选中备份盘的<strong>卷</strong>（不是物理盘也顺手做一下）→ 「急救」→ 运行。</li><li>急救完成看报告：「操作成功」→ 回时间机器重新备份；「无法修复」→ 盘或分区表有损伤，按<a class="fx-link" href="./format-partition-recovery.html">「格式化后 / 分区不见了，数据还能救回来吗」</a>先抢救旧备份，再考虑换盘。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：文件系统修复，备份恢复。<strong>失败了怎么办</strong>：急救好了还失败 → 步骤 3。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">只读 / 权限问题</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>提示「备份磁盘只读」：磁盘工具选中该卷 → 卸载 → 重新挂载；仍只读说明卷有损坏或开了硬件写保护。</li><li>换盘测试：另一块盘设为时间机器盘，备份正常 → 原盘问题实锤；同样失败 → Mac 端问题（重选备份盘/重置时间机器配置）。</li><li>「重选」：系统设置 → 时间机器 → 删除旧盘 → 重新添加（会开始新备份链；旧备份仍在盘上可用）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：读写正常、备份链重建。<strong>失败了怎么办</strong>：进步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">磁盘已满的正确处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li><strong>首选：换更大的盘</strong>（Apple 官方建议：连接新备份盘并在设置里重新选定；容量按已用空间 ×2 买）。旧盘上的历史备份仍可手动挂载浏览。</li><li>让时间机器自己滚动清理：它默认会自动删除<strong>最旧的</strong>备份来腾空间——频繁报满是因为盘太小或每日变更量太大。</li><li>减少备份量：时间机器选项 → 排除大而不重要的目录（下载、虚拟机镜像、废纸篓），立竿见影。</li><li><strong>不要</strong>手动进盘里删备份文件夹——会破坏备份链结构。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：满的问题消失。<strong>失败了怎么办</strong>：换盘后仍报满提示 → 新盘分区/GPT 有问题，磁盘工具抹掉（APFS）后重选。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卡在「正在准备备份」几小时</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>首次备份/大更新后的准备阶段确实可能数小时（在构建快照与变更清单），插着电源过夜等一次。</li><li>反复卡同一进度：终端跑 <code>tmutil status</code> 看实际进度（比菜单栏图标诚实）；<code>tmutil destinationinfo</code> 确认目标盘。</li><li>顽固卡死（进阶）：停用再启用时间机器；或终端 <code>tmutil stopbackup</code> 后重来；仍不行用 <code>sudo tmutil resetcatalog</code>（重置备份目录索引，不影响备份数据本体）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：备份推进或重建后正常。<strong>失败了怎么办</strong>：始终无法推进 → 旧备份链已损坏，换新盘开新链（旧盘数据按恢复篇抢救）。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><a href="../fix/mac-battery-health.html">Mac 电池健康怎么看：循环次数、续航变差与「建议维修」</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/format-partition-recovery.html">格式化后 / 分区不见了，数据还能救回来吗</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

@@ -64,7 +64,7 @@ detail_href: ./fix/monitor-no-signal.html
 **不适用**
 
 - 笔记本**自带屏幕**完全没画面、开机只有风扇转：看[「电脑开机没反应 / 主机亮灯但显示器没信号」](./psu-no-power-check.html)。
-- 画面能显示但花屏、有彩色条纹、不定时闪：看[「电脑花屏 / 显示器闪屏，显卡还是线的问题」](./monitor-no-signal.html)。
+- 画面能显示但花屏、有彩色条纹、不定时闪：看[「电脑花屏 / 显示器闪屏，显卡还是线的问题」](./screen-artifacts-flicker.html)。
 - 是打印机之类的设备连不上：看[「打印机显示脱机 / 打印没反应怎么修」](./printer-offline.html)。
 
 ## 开始前确认
@@ -194,7 +194,7 @@ detail_href: ./fix/monitor-no-signal.html
 
 ## 还是不行？
 
-- **画面能显示但花屏、有条纹、间歇闪黑** → 看[「电脑花屏 / 显示器闪屏，显卡还是线的问题」](./monitor-no-signal.html)。
+- **画面能显示但花屏、有条纹、间歇闪黑** → 看[「电脑花屏 / 显示器闪屏，显卡还是线的问题」](./screen-artifacts-flicker.html)。
 - **主机开机没反应、显示器从头到尾没亮过** → 看[「电脑开机没反应 / 主机亮灯但显示器没信号」](./psu-no-power-check.html)。
 - **笔记本外接屏不亮，但自带屏幕正常，且换线换屏都试过** → 可能是笔记本的视频输出口或显卡故障，按电脑厂商官网的保修流程报修。
 - **显示器在所有电脑上都不亮、屏上一直没有信号提示，或面板有物理损伤** → 显示器硬件故障，联系**显示器厂商售后或送修**；公司设备**请联系 IT**。
@@ -209,7 +209,7 @@ detail_href: ./fix/monitor-no-signal.html
 
 ## 相关教程
 
-- [电脑花屏 / 显示器闪屏，显卡还是线的问题](./monitor-no-signal.html)
+- [电脑花屏 / 显示器闪屏，显卡还是线的问题](./screen-artifacts-flicker.html)
 - [电脑开机没反应 / 主机亮灯但显示器没信号](./psu-no-power-check.html)
 - [打印机显示脱机 / 打印没反应怎么修](./printer-offline.html)
 - [U 盘 / 移动硬盘不识别、提示格式化怎么办](./usb-drive-not-recognized.html)

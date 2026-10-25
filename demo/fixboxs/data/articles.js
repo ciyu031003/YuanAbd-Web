@@ -1782,6 +1782,57 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "driver-install-rollback",
+  "title": "驱动装错出问题？安装与回退的正确姿势（从哪下、怎么退）",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-driver",
+  "categoryName": "驱动与设备",
+  "path": "Windows 系统与开机 › 驱动与设备",
+  "summary": "驱动的正确姿势一句话：「官网下、对型号、能回退」。装错了别慌——设备管理器里每个设备都有「回退驱动程序」按钮（灰的就说明没装过第二版，改用系统还原）；「更新驱动后蓝屏/花屏/没声音」这类病例，",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "驱动装错了",
+   "更新驱动后出问题",
+   "怎么回退驱动",
+   "驱动从哪里下载",
+   "驱动人生 驱动精灵 该不该用",
+   "显卡驱动回退",
+   "网卡驱动安装",
+   "驱动冲突"
+  ],
+  "keywords": [
+   "驱动安装",
+   "回退驱动程序",
+   "设备管理器",
+   "厂商官网",
+   "Windows Update 驱动",
+   "显卡驱动",
+   "DDU",
+   "OEM 驱动",
+   "第三方驱动工具"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/driver-install-rollback.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "enterprise-proxy",
   "title": "公司电脑上不了网 / 提示证书不受信任？企业代理环境排查",
   "domain": "proxy-vpn",
@@ -2206,6 +2257,61 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/mac-forgot-password.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-time-machine-troubleshoot",
+  "title": "时间机器备份卡住 / 失败怎么修（含备份盘满了怎么办）",
+  "domain": "data-backup",
+  "domainName": "数据与备份",
+  "category": "db-backup",
+  "categoryName": "备份与迁移",
+  "path": "数据与备份 › 备份与迁移",
+  "summary": "时间机器卡住/失败的四大惯犯按概率排：磁盘连接/格式问题、磁盘空间满、磁盘需要「急救」、首次备份本来就慢（几百 GB 走 USB 需要数小时到一晚，卡在「正在准备备份」几小时往往是正常的）。按",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 11",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "时间机器备份卡住",
+   "时间机器备份失败",
+   "备份盘已满",
+   "时间机器很慢",
+   "备份进行中不动了",
+   "找不到备份磁盘",
+   "时间机器报错",
+   "备份磁盘只读"
+  ],
+  "keywords": [
+   "时间机器",
+   "Time Machine",
+   "备份失败",
+   "备份卡住",
+   "磁盘已满",
+   "磁盘工具急救",
+   "tmutil",
+   "备份磁盘",
+   "APFS"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/mac-time-machine-troubleshoot.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2993,6 +3099,119 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "screen-artifacts-flicker",
+  "title": "花屏 / 闪屏 / 有条纹：显卡、线还是屏坏了怎么分",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-display",
+  "categoryName": "显示器",
+  "path": "外设 › 显示器",
+  "summary": "花屏闪屏的分诊口诀：「条纹固定看面板，满屏雪花看显卡，换根线材定乾坤」——竖条纹位置固定不动 → 面板/排线嫌疑；满屏马赛克/绿屏 → 显卡或驱动；DP↔HDMI 换线互测，症状跟着线走就是线",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "花屏",
+   "闪屏",
+   "屏幕有条纹",
+   "绿屏",
+   "雪花点",
+   "屏幕闪烁",
+   "显示乱码",
+   "竖条纹"
+  ],
+  "keywords": [
+   "花屏",
+   "闪屏",
+   "条纹",
+   "绿屏",
+   "显卡",
+   "DP线",
+   "HDMI",
+   "刷新率",
+   "驱动",
+   "排线",
+   "面板",
+   "交叉测试"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/screen-artifacts-flicker.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "screen-cast-miracast",
+  "title": "无线投屏失败 / 搜不到电视怎么修（Win+K、Miracast、手机投屏）",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-display",
+  "categoryName": "显示器",
+  "path": "外设 › 显示器",
+  "summary": "投屏失败先分类：「搜不到设备」查同网段与电视入口（电视端功能名字各异：屏幕镜像/多屏互动/Miracast）；「搜得到连不上」查驱动（Windows 跑 dxdiag 看 Miracast 支",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "Android 8+",
+    "k": "windows"
+   },
+   {
+    "t": "智能电视",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "无线投屏失败",
+   "搜不到电视",
+   "投屏连不上",
+   "Win K 没有设备",
+   "Miracast 不支持",
+   "手机投屏搜不到电视",
+   "投屏卡顿断开",
+   "无线显示器连接失败"
+  ],
+  "keywords": [
+   "无线投屏",
+   "Miracast",
+   "Win+K",
+   "投屏到电视",
+   "dxdiag",
+   "无线显示器",
+   "DLNA",
+   "投屏搜不到",
+   "连接失败"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/screen-cast-miracast.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "slow-network",
   "title": "网速慢怎么定位：是宽带、路由器还是电脑的问题",
   "domain": "net-basic",
@@ -3744,6 +3963,56 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-25",
   "detail_href": "./fix/win-safe-restore.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-store-not-opening",
+  "title": "Microsoft Store 打不开 / 商店应用装不上怎么修",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-app-crash",
+  "categoryName": "软件打不开与闪退",
+  "path": "Windows 软件与性能 › 软件打不开与闪退",
+  "summary": "商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。九成卡在第一步就好了。开不了机的病因大都是这几样：代理/VPN 拦截、区域设成了奇怪的国家",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-45 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Microsoft Store 打不开",
+   "商店一直转圈",
+   "商店应用安装失败",
+   "应用商店打不开",
+   "Store 闪退",
+   "无法从商店下载",
+   "商店报错代码",
+   "商店应用打不开"
+  ],
+  "keywords": [
+   "Microsoft Store",
+   "wsreset",
+   "商店修复",
+   "商店重置",
+   "应用安装失败",
+   "0x80131500",
+   "区域设置",
+   "应用商店"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/win-store-not-opening.html",
   "kind": "guide",
   "hot": 1
  }

@@ -120,8 +120,8 @@ detail_href: ./fix/phishing-message-check.html
 
 ## 相关教程
 
-- [有人让我下载软件并远程控制电脑，是诈骗吗](#)
-- [电脑中病毒了怎么办：先做这三件事再杀毒](#)
+- [有人让我下载软件并远程控制电脑，是诈骗吗](./remote-control-scam.html)
+- [电脑中病毒了怎么办：先做这三件事再杀毒](./malware-first-response.html)
 
 ## 更新日志
 

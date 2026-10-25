@@ -125,10 +125,10 @@ detail_href: ./fix/psu-no-power-check.html
 
 ## 相关教程
 
-- [电脑反复重启 / 开机报警一长两短？先重插内存条](#)
-- [电脑开机黑屏只有鼠标指针，怎么救回来](#)
-- [显示器无信号 / 分辨率不对 / 外接屏不亮](#)
-- [硬盘咔咔响 / 识别不到硬盘怎么办](#)
+- [电脑反复重启 / 开机报警一长两短？先重插内存条](./ram-reseat-no-boot.html)
+- [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
+- [显示器无信号 / 分辨率不对 / 外接屏不亮](./monitor-no-signal.html)
+- [硬盘咔咔响 / 识别不到硬盘怎么办](./disk-clicking-failure.html)
 
 ## 更新日志
 

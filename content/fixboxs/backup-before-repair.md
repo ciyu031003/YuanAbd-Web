@@ -124,10 +124,10 @@ detail_href: ./fix/backup-before-repair.html
 
 ## 相关教程
 
-- [文件误删了怎么恢复（先做这一步，别写磁盘）](#)
-- [Mac 储存空间不足 /「系统数据」占了上百 G](#)
-- [C 盘爆红快满了，怎么安全清理出空间](#)
-- [硬盘咔咔响 / 识别不到硬盘怎么办](#)
+- [文件误删了怎么恢复（先做这一步，别写磁盘）](./deleted-file-recovery.html)
+- [Mac 储存空间不足 /「系统数据」占了上百 G](./mac-storage-system-data.html)
+- [C 盘爆红快满了，怎么安全清理出空间](./win-c-drive-full-cleanup.html)
+- [硬盘咔咔响 / 识别不到硬盘怎么办](./disk-clicking-failure.html)
 
 ## 更新日志
 

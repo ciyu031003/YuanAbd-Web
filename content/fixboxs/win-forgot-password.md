@@ -54,9 +54,9 @@ detail_href: ./fix/win-forgot-password.html
 - 想区分自己的账户是微软账户还是本地账户
 
 **不适用（请转对应文章）：**
-- 密码正确但登录后黑屏只剩鼠标 → [电脑开机黑屏只有鼠标指针，怎么救回来](#)
+- 密码正确但登录后黑屏只剩鼠标 → [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
 - 开机画面要求输入 48 位 BitLocker 恢复密钥 → 直接看本文步骤 5
-- 卡在开机 Logo 根本到不了登录界面 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
+- 卡在开机 Logo 根本到不了登录界面 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
 - 公司或学校发的电脑 → 联系公司 IT，本文大部分方法不适用
 
 ## 开始前确认
@@ -218,10 +218,10 @@ manage-bde -protectors -get C:
 
 ## 相关教程
 
-- [电脑开机黑屏只有鼠标指针，怎么救回来](#)
-- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- [Windows 更新卡在 0% / 一直失败，怎么强制修好](#)
-- [电脑越来越卡怎么办：一张表定位是哪里卡](#)
+- [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
+- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- [Windows 更新卡在 0% / 一直失败，怎么强制修好](./win-update-stuck.html)
+- [电脑越来越卡怎么办：一张表定位是哪里卡](./win-slow-diagnose.html)
 
 ## 更新日志
 

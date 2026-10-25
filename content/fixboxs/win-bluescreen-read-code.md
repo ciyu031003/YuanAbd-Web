@@ -53,9 +53,9 @@ detail_href: ./fix/win-bluescreen-read-code.html
 - 蓝屏后能正常进系统，只是偶尔再犯
 
 **不适用（请转对应文章）：**
-- 蓝屏后进不去系统、卡在 Logo → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- 开机黑屏只有鼠标指针 → [电脑开机黑屏只有鼠标指针，怎么救回来](#)
-- 每次都在装 Windows 更新时蓝屏 → [Windows 更新卡在 0% / 一直失败，怎么强制修好](#)
+- 蓝屏后进不去系统、卡在 Logo → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- 开机黑屏只有鼠标指针 → [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
+- 每次都在装 Windows 更新时蓝屏 → [Windows 更新卡在 0% / 一直失败，怎么强制修好](./win-update-stuck.html)
 - 屏幕要求输入 BitLocker 恢复密钥 → 先找回密钥，再去 account.microsoft.com/devices/recoverykey
 
 ## 开始前确认
@@ -227,8 +227,8 @@ sfc /scannow
 
 ## 还是不行？
 
-- 蓝屏只发生在装系统更新时 → [Windows 更新卡在 0% / 一直失败，怎么强制修好](#)
-- 蓝屏后直接进不了系统 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
+- 蓝屏只发生在装系统更新时 → [Windows 更新卡在 0% / 一直失败，怎么强制修好](./win-update-stuck.html)
+- 蓝屏后直接进不了系统 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
 - 代码指向硬件（0x124、内存/硬盘检测已报错） → 先备份数据，再联系维修点检测
 - 公司电脑或装了企业管控软件 → 联系公司 IT，不要自行卸载安全软件
 - 新买不久、还在保修期 → 走官方售后，附上蓝屏照片和代码
@@ -243,10 +243,10 @@ sfc /scannow
 
 ## 相关教程
 
-- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- [电脑开机黑屏只有鼠标指针，怎么救回来](#)
-- [Windows 更新卡在 0% / 一直失败，怎么强制修好](#)
-- [电脑越来越卡怎么办：一张表定位是哪里卡](#)
+- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
+- [Windows 更新卡在 0% / 一直失败，怎么强制修好](./win-update-stuck.html)
+- [电脑越来越卡怎么办：一张表定位是哪里卡](./win-slow-diagnose.html)
 
 ## 更新日志
 

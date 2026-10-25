@@ -130,10 +130,10 @@ detail_href: ./fix/laptop-battery-not-charging.html
 
 ## 相关教程
 
-- [电脑温度过高 / 风扇狂转？清灰降温实操指南](#)
-- [电脑按开机键没反应？电源故障自查清单](#)
-- [换硬盘 / 重装系统前，怎么把数据备份全](#)
-- [电脑反复重启 / 开机报警一长两短？先重插内存条](#)
+- [电脑温度过高 / 风扇狂转？清灰降温实操指南](./pc-overheat-cleaning.html)
+- [电脑按开机键没反应？电源故障自查清单](./psu-no-power-check.html)
+- [换硬盘 / 重装系统前，怎么把数据备份全](./backup-before-repair.html)
+- [电脑反复重启 / 开机报警一长两短？先重插内存条](./ram-reseat-no-boot.html)
 
 ## 更新日志
 

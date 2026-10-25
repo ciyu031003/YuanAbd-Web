@@ -54,10 +54,10 @@ detail_href: ./fix/mac-storage-system-data.html
 
 **不适用（请转对应文章）：**
 
-- iCloud 云盘、iCloud 照片提示空间不足 → [iCloud 储存空间不足怎么办](#)
-- 磁盘工具报错、SMART 状态异常、磁盘发出异响 → [Mac 磁盘报错与磁盘工具急救](#)
-- 系统已经卡到进不去桌面 → [Mac 无法开机 / 反复重启怎么办](#)
-- 准备抹掉磁盘重装系统 → 先看 [Mac 重装系统前如何完整备份](#)
+- iCloud 云盘、iCloud 照片提示空间不足 → [iCloud 储存空间不足怎么办](./icloud-storage-full.html)
+- 磁盘工具报错、SMART 状态异常、磁盘发出异响 → [Mac 磁盘报错与磁盘工具急救](./mac-wont-boot.html)
+- 系统已经卡到进不去桌面 → [Mac 无法开机 / 反复重启怎么办](./mac-wont-boot.html)
+- 准备抹掉磁盘重装系统 → 先看 [Mac 重装系统前如何完整备份](./backup-before-repair.html)
 
 ## 开始前确认
 
@@ -228,11 +228,11 @@ diskutil list
 
 ## 相关教程
 
-- [Mac 风扇狂转、机身发烫怎么办](#)
-- [iCloud 储存空间不足怎么办](#)
-- [Mac 磁盘报错与磁盘工具急救](#)
-- [Mac 重装系统前如何完整备份](#)
-- [「时间机器」备份卡住怎么办](#)
+- [Mac 风扇狂转、机身发烫怎么办](./mac-fan-noise-overheat.html)
+- [iCloud 储存空间不足怎么办](./icloud-storage-full.html)
+- [Mac 磁盘报错与磁盘工具急救](./mac-wont-boot.html)
+- [Mac 重装系统前如何完整备份](./backup-before-repair.html)
+- [「时间机器」备份卡住怎么办](./backup-before-repair.html)
 
 ## 更新日志
 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>打印机卡纸 / 打印有横纹、颜色淡怎么处理 · 修盒子 FIXBOX</title>
+<meta name="description" content="卡纸九成是「纸受潮 / 纸张规格不对 / 走纸道有残留纸屑」；质量差要按机型分诊——喷墨的横纹/缺色 ≈ 打印头堵塞（清洁+校准解决），激光的颜色淡 ≈ 硒鼓碳粉不足或废粉满。先打一张「打印质量报告」（HP 等品牌控制面">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="printer-jam-quality">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>打印机</span></nav>
+<h1 class="fx-title">打印机卡纸 / 打印有横纹、颜色淡怎么处理</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：清理卡纸<strong>先关机</strong>；激光打印机内部<strong>热凝器高温</strong>，刚打印完别徒手碰定影组件；卡纸往外拉时<strong>顺着走纸方向、双手均匀用力</strong>，撕碎在机器里会让下一次卡纸更难取。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">卡纸九成是「<strong>纸受潮 / 纸张规格不对 / 走纸道有残留纸屑</strong>」；质量差要按机型分诊——<strong>喷墨的横纹/缺色 ≈ 打印头堵塞</strong>（清洁+校准解决），<strong>激光的颜色淡 ≈ 硒鼓碳粉不足或废粉满</strong>。先打一张「打印质量报告」（HP 等品牌控制面板里都有），让机器自己告诉你缺哪种颜色。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>卡纸场景：关机 → 打开后盖/双面器，按走纸方向双手缓慢抽出整张纸。<strong>期望结果</strong>：完整取出，纸角无残留。</li><li>质量场景：在打印机控制面板找「设置 → 报告 → 打印质量报告」打一张。<strong>期望结果</strong>：测试图案哪一色缺线/有条纹，问题就在那一路。</li><li>换一叠刚拆封的新纸试打。<strong>期望结果</strong>：受潮纸是「突然开始卡纸」的第一大原因，换纸即愈。</li></ol></div>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>打印到一半卡纸、频繁卡纸、进纸歪斜。</li><li>打印内容有横向白线/条纹、某种颜色变淡或缺失。</li><li>打印重影、纸张起皱、字迹模糊。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>打印机完全不响应/脱机：看<a class="fx-link" href="./printer-offline.html">「打印机显示脱机 / 打印没反应怎么修」</a>。</li><li>连接共享打印机报 0x0000011b：看<a class="fx-link" href="./printer-shared-error-11b.html">「共享打印机连不上 / 报错 0x0000011b 怎么修」</a>。</li><li>打印机漏粉/异响/报硬件代码（如 13.xx 之外的 E 错误）：按型号查官方手册或送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>分清机型：喷墨（有墨盒/墨仓） or 激光（有硒鼓/碳粉）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有新拆封的 A4 纸（70-80g）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>打印质量报告会打（控制面板或电脑上打印机属性里）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>激光机断电 10 分钟后再开盖（热凝器降温）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>连续打印 20 张 A4 无卡纸、无横纹。</li><li>打印质量报告里各色块/线条完整均匀。</li><li>字迹浓度正常、纸张平整无重影。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>每次都在热凝器处卡纸且纸面有焦痕 → 定影膜损坏，送修换定影组件。</li><li>喷头清洁 3 级 + 手工清洗仍堵 → 打印头寿命到头，查一下换打印头与换整机哪个划算（家用机常常整机更划算）。</li><li>打印效果时好时坏伴随「咔哒」异响 → 进纸机构齿轮磨损，送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>纸张密封保存，拆封后 2 周内用完；南方潮湿季配密封箱。</li><li>喷墨机<strong>每周至少打一张彩色页</strong>——堵头基本都从长期闲置开始。</li><li>硒鼓余量 10% 时就备好下一个，别打到全空（空粉运转会伤鼓芯）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-25 v1.0：首版发布。卡纸取出（热凝器/后挡盖）与质量报告/清洁打印头流程依据 HP 官方支持文档整理。</li></ul></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卡纸的标准取出法</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>关机（激光机等热凝器冷却）。</li><li>按卡纸位置开盖：进纸托盘、后挡盖（绝大多数家用机卡在这是）、双面器/热凝器（HP 官方文档标注热凝器区域需压释放杆取出）。</li><li>双手捏住纸张两边，<strong>沿走纸方向</strong>匀速拉出；拉不动就换一侧盖子，不要硬拽。</li><li>取出后对着光检查纸角是否完整——缺角说明有碎纸残留，必须用镊子取出（这是「连续卡纸」的元凶）。</li><li>合盖开机，重打测试页。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：恢复正常进纸。<strong>失败了怎么办</strong>：同一位置反复卡 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">卡纸的根源治理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>换新纸：受潮纸（拆封超过 1-2 周/南方梅雨季）纤维变形，是最常见卡纸源。</li><li>纸盒别装太满（max 线以下），纸张抖散再放，导纸板贴紧但不夹死。</li><li>检查纸张规格：超厚铜版纸/信封/已打印过一面的纸，家用机走纸道处理不了。</li><li>走纸道用压缩空气/气吹清一遍（碎屑、订书钉、曲别针都算异物）。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：连续打印 20 张不卡。<strong>失败了怎么办</strong>：仍卡同一位置 → 搓纸轮/分离爪磨损，按型号买配件换（几十块）或送修。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">喷墨机——横纹/缺色的清洁与校准</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>控制面板/驱动里找「<strong>清洁打印头</strong>」（清洁 1 次 → 打质量报告看效果，最多连做 2-3 级；清洁很耗墨，别一次拉满）。</li><li>依旧缺色 →「<strong>校准打印头</strong>」跑一遍。</li><li>墨仓机检查墨管有气泡：做「冲洗/排气」操作（各品牌名不同）。</li><li>长期闲置（1 个月以上没用）导致的堵头：清洁无效时，取下打印头用无绒布蘸蒸馏水轻拭喷嘴面（可拆卸打印头机型），一体式墨盒直接考虑换墨盒。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：测试图案各色线条完整。<strong>失败了怎么办</strong>：某色彻底打不出 → 该色墨尽或打印头报废，换墨盒/打印头。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">激光机——颜色淡/重影的处理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>取出硒鼓，左右水平摇晃 5-6 次（碳粉重新分布，官方标准动作），装回再打。</li><li>摇后仍淡 → 碳粉将尽：换原装或品牌兼容硒鼓；「以旧换新」的鼓粉分离机型只换粉盒。</li><li>重影/底灰：废粉仓满或硒鼓老化，换鼓组件（鼓架寿命通常 3-4 个粉盒周期）。</li><li>纸张起皱：纸张受潮或定影组件老化，先换新纸验证。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：字迹浓黑清晰、无重影。<strong>失败了怎么办</strong>：换新硒鼓仍淡 → 定影/激光器故障，送修（自行更换定影组件需专业操作）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">软件层设置复核（两类机型通用）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>打印偏好里「纸张类型」与实际用纸一致（喷墨机用普通纸设置打照片纸会糊，反之会淡）。</li><li>「省墨/草稿模式」关掉再比较；彩色文档打印成黑白的话检查「灰度打印」选项。</li><li>驱动重装：删除打印机与驱动包，官网下载对应型号最新驱动重装。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：设置与介质匹配后质量正常。<strong>失败了怎么办</strong>：全部手段用尽 → 硬件老化（家用喷墨 3-5 年/激光 5-8 年），按维修报价决定换件还是换机。</p></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><a href="../fix/printer-shared-error-11b.html">共享打印机连不上 / 报错 0x0000011b 怎么修</a><a href="../fix/printer-network-ip-fixed.html">网络打印机 IP 变了就离线？固定 IP 与端口配置</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

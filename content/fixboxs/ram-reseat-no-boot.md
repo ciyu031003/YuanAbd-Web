@@ -127,10 +127,10 @@ detail_href: ./fix/ram-reseat-no-boot.html
 
 ## 相关教程
 
-- [硬盘咔咔响 / 识别不到硬盘怎么办](#)
-- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- [电脑蓝屏了怎么办：先学会读蓝屏代码](#)
-- [显示器无信号 / 分辨率不对 / 外接屏不亮](#)
+- [硬盘咔咔响 / 识别不到硬盘怎么办](./disk-clicking-failure.html)
+- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)
+- [显示器无信号 / 分辨率不对 / 外接屏不亮](./monitor-no-signal.html)
 
 ## 更新日志
 

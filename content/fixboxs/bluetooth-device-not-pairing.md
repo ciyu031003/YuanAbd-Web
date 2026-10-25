@@ -127,10 +127,10 @@ detail_href: ./fix/bluetooth-device-not-pairing.html
 
 ## 相关教程
 
-- [U 盘 / 移动硬盘不识别、提示格式化怎么办](#)
-- [打印机脱机 / 打印没反应怎么修](#)
-- [显示器无信号 / 分辨率不对 / 外接屏不亮](#)
-- [电脑没有 WLAN 选项 / 网络适配器不见了](#)
+- [U 盘 / 移动硬盘不识别、提示格式化怎么办](./usb-drive-not-recognized.html)
+- [打印机脱机 / 打印没反应怎么修](./printer-offline.html)
+- [显示器无信号 / 分辨率不对 / 外接屏不亮](./monitor-no-signal.html)
+- [电脑没有 WLAN 选项 / 网络适配器不见了](./wifi-adapter-missing.html)
 
 ## 更新日志
 

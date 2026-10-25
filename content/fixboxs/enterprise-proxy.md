@@ -131,10 +131,10 @@ detail_href: ./fix/enterprise-proxy.html
 
 ## 相关教程
 
-- [代理服务器没有响应怎么修](#)
-- [装了代理工具后网络乱了怎么办](#)
-- [网页打不开但 QQ / 微信能用：DNS 问题怎么修](#)
-- [Wi-Fi 有信号但上不了网](#)
+- [代理服务器没有响应怎么修](./proxy-server-not-responding.html)
+- [装了代理工具后网络乱了怎么办](./proxy-tool-broke-network.html)
+- [网页打不开但 QQ / 微信能用：DNS 问题怎么修](./dns-broken-but-app-works.html)
+- [Wi-Fi 有信号但上不了网](./wifi-connected-but-no-internet.html)
 
 ## 更新日志
 

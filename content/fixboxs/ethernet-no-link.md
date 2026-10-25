@@ -126,10 +126,10 @@ detail_href: ./fix/ethernet-no-link.html
 
 ## 相关教程
 
-- [Wi-Fi 有信号但上不了网](#)
-- [Wi-Fi 列表里找不到自家网络](#)
-- [获取到 169.254 地址怎么办](#)
-- [家里所有设备都上不了网怎么办](#)
+- [Wi-Fi 有信号但上不了网](./wifi-connected-but-no-internet.html)
+- [Wi-Fi 列表里找不到自家网络](./wifi-ssid-not-found.html)
+- [获取到 169.254 地址怎么办](./dhcp-no-ip-169-254.html)
+- [家里所有设备都上不了网怎么办](./home-network-all-offline.html)
 
 ## 更新日志
 

@@ -136,10 +136,10 @@ detail_href: ./fix/win-safe-restore.html
 
 ## 相关教程
 
-- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- [电脑蓝屏了怎么办：先学会读蓝屏代码](#)
-- [Windows 更新卡住了怎么办](#)
-- [换硬盘 / 重装系统前，怎么把数据备份全](#)
+- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)
+- [Windows 更新卡住了怎么办](./win-update-stuck.html)
+- [换硬盘 / 重装系统前，怎么把数据备份全](./backup-before-repair.html)
 
 ## 更新日志
 

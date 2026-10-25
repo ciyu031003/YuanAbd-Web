@@ -53,10 +53,10 @@ detail_href: ./fix/win-blackscreen-cursor.html
 - 桌面图标和任务栏消失，只剩一片黑或只剩壁纸
 
 **不适用（请转对应文章）：**
-- 卡在品牌 Logo 或一直转圈 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- 蓝底 + 哭脸 + 错误代码 → [电脑蓝屏了怎么办：先学会读蓝屏代码](#)
+- 卡在品牌 Logo 或一直转圈 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- 蓝底 + 哭脸 + 错误代码 → [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)
 - 完全没反应，连鼠标都没有、风扇也不转 → 属硬件/供电问题，见本文「还是不行？」
-- 忘了登录密码进不去 → [电脑开机密码忘了 / PIN 突然用不了](#)
+- 忘了登录密码进不去 → [电脑开机密码忘了 / PIN 突然用不了](./win-forgot-password.html)
 
 ## 开始前确认
 
@@ -186,9 +186,9 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 
 ## 还是不行？
 
-- 只在装了某个软件或驱动之后黑屏 → 用「干净启动」逐项排除，思路见 [开机太慢：关掉这些开机自启软件](#)。
+- 只在装了某个软件或驱动之后黑屏 → 用「干净启动」逐项排除，思路见 [开机太慢：关掉这些开机自启软件](./win-startup-apps-disable.html)。
 - 安全模式正常、正常模式必黑屏，也不想再折腾 → 「设置 → 系统 → 恢复 → 重置此电脑」，选「保留我的文件」。
-- 黑屏同时伴随蓝屏或自动重启 → [电脑蓝屏了怎么办：先学会读蓝屏代码](#)。
+- 黑屏同时伴随蓝屏或自动重启 → [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)。
 - 开机风扇转但显示器始终无信号，换线换显示器都一样 → 属于内存、显卡、主板等硬件问题，不要自己拆机，联系售后维修点或报修。
 - 公司或学校配发的电脑 → 直接联系公司 IT，不要自行重装系统或改注册表。
 
@@ -202,10 +202,10 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 
 ## 相关教程
 
-- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](#)
-- [电脑蓝屏了怎么办：先学会读蓝屏代码](#)
-- [电脑开机密码忘了 / PIN 突然用不了](#)
-- [电脑越来越卡怎么办：一张表定位是哪里卡](#)
+- [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
+- [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)
+- [电脑开机密码忘了 / PIN 突然用不了](./win-forgot-password.html)
+- [电脑越来越卡怎么办：一张表定位是哪里卡](./win-slow-diagnose.html)
 
 ## 更新日志
 

@@ -1993,6 +1993,60 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "mac-battery-health",
+  "title": "Mac 电池健康怎么看：循环次数、续航变差与「建议维修」",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-battery",
+  "categoryName": "电池与续航",
+  "path": "macOS 软件与性能 › 电池与续航",
+  "summary": "Mac 电池的判断标准只有两个数：循环次数和电池健康状态。Apple 官方口径是循环 1000 次后仍保留最多 80% 容量——低于这个表现或系统提示「建议维修」就该换电池了。续航变差先区分「",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 11",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "5-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac 电池健康",
+   "循环次数",
+   "Mac 续航变差",
+   "建议维修",
+   "电池鼓包",
+   "Mac 掉电快",
+   "电池百分比不准",
+   "优化电池充电"
+  ],
+  "keywords": [
+   "Mac 电池",
+   "循环次数",
+   "电池健康",
+   "建议维修",
+   "优化电池充电",
+   "充电上限",
+   "续航",
+   "system_profiler"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/mac-battery-health.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "mac-forgot-password",
   "title": "Mac 忘记开机密码怎么办（Apple Silicon / Intel 都覆盖）",
   "domain": "mac-system",
@@ -2040,6 +2094,60 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/mac-forgot-password.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-wifi-keeps-dropping",
+  "title": "Mac 的 Wi-Fi 反复断连 / 自己关掉怎么修",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-network",
+  "categoryName": "Wi-Fi 与网络",
+  "path": "macOS 系统与开机 › Wi-Fi 与网络",
+  "summary": "Mac Wi-Fi 断连先分清「只有 Mac 断还是「全家都断」：手机同网正常 → 问题在 Mac 这边，走「忘记网络重连 → 新建网络位置 → 关 VPN/代理干扰 → 无线诊断」；全家都断",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 11",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-45 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac Wi-Fi 反复断开",
+   "MacBook Wi-Fi 自动关闭",
+   "Mac 上网时断时续",
+   "Wi-Fi 图案打叉",
+   "Mac 连不上 Wi-Fi",
+   "自分配 IP",
+   "Mac 网络很慢",
+   "wifi 断流"
+  ],
+  "keywords": [
+   "Mac Wi-Fi 断连",
+   "无线诊断",
+   "自分配 IP",
+   "新建网络位置",
+   "DNS",
+   "VPN 冲突",
+   "SMC",
+   "无线漫游"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/mac-wifi-keeps-dropping.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2262,6 +2370,178 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-24",
   "detail_href": "./fix/phishing-message-check.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "printer-jam-quality",
+  "title": "打印机卡纸 / 打印有横纹、颜色淡怎么处理",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-printer",
+  "categoryName": "打印机",
+  "path": "外设 › 打印机",
+  "summary": "卡纸九成是「纸受潮 / 纸张规格不对 / 走纸道有残留纸屑」；质量差要按机型分诊——喷墨的横纹/缺色 ≈ 打印头堵塞（清洁+校准解决），激光的颜色淡 ≈ 硒鼓碳粉不足或废粉满。先打一张「打印质",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "打印机固件",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-45 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "打印机卡纸",
+   "打印有横纹",
+   "打印颜色淡",
+   "打印重影",
+   "打印有白线",
+   "纸张皱",
+   "打印糊",
+   "进纸歪"
+  ],
+  "keywords": [
+   "卡纸",
+   "打印质量",
+   "横纹",
+   "颜色淡",
+   "清洁打印头",
+   "校准",
+   "硒鼓",
+   "墨盒",
+   "热凝器",
+   "打印质量报告"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/printer-jam-quality.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "printer-network-ip-fixed",
+  "title": "网络打印机 IP 变了就离线？固定 IP 与端口配置",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-printer",
+  "categoryName": "打印机",
+  "path": "外设 › 打印机",
+  "summary": "网络打印机「过一阵就离线」的经典剧本：打印机靠 DHCP 自动拿 IP，路由器重启或租约到期后 IP 变了，而电脑上的打印机端口还指着旧 IP——自然连不上。解法两选一：路由器端做 DHCP ",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "macOS 12+",
+    "k": "macos"
+   },
+   {
+    "t": "路由器",
+    "k": "router"
+   }
+  ],
+  "osGroup": [
+   "macos",
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "网络打印机离线",
+   "打印机 IP 变了",
+   "打印机经常掉线",
+   "找不到网络打印机",
+   "打印机连不上",
+   "添加网络打印机",
+   "打印机端口"
+  ],
+  "keywords": [
+   "网络打印机",
+   "固定 IP",
+   "DHCP 保留",
+   "TCP/IP 端口",
+   "打印机离线",
+   "MAC 绑定",
+   "静态 IP",
+   "打印机 IP 查询"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/printer-network-ip-fixed.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "printer-shared-error-11b",
+  "title": "共享打印机连不上 / 报错 0x0000011b 怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-printer",
+  "categoryName": "打印机",
+  "path": "外设 › 打印机",
+  "summary": "0x0000011b 是 2021 年微软安全补丁（KB5005565 系列）加强了打印队列的 RPC 凭据验证之后出现的经典问题——不是打印机坏了。修复优先级：主机和客户机都装齐 Windo",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 7（作主机时）",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "15-60 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "共享打印机连不上",
+   "0x0000011b",
+   "连接共享打印机失败",
+   "拒绝访问共享打印机",
+   "打印机共享突然不能用",
+   "局域网打印机报错",
+   "Windows 更新后打印机连不上"
+  ],
+  "keywords": [
+   "0x0000011b",
+   "共享打印机",
+   "Print Spooler",
+   "RpcAuthnLevelPrivacyEnabled",
+   "KB5005565",
+   "凭据管理器",
+   "RPC",
+   "打印机共享"
+  ],
+  "updated": "2026-10-25",
+  "detail_href": "./fix/printer-shared-error-11b.html",
   "kind": "guide",
   "hot": 1
  },

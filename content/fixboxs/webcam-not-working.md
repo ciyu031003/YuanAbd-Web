@@ -132,10 +132,10 @@ detail_href: ./fix/webcam-not-working.html
 
 ## 相关教程
 
-- [电脑没声音 / 右下角喇叭有红叉怎么修](#)
-- [蓝牙耳机 / 键鼠连不上、一直配对失败怎么修](#)
-- [显示器无信号 / 分辨率不对 / 外接屏不亮](#)
-- [U 盘 / 移动硬盘不识别、提示格式化怎么办](#)
+- [电脑没声音 / 右下角喇叭有红叉怎么修](./win-no-sound.html)
+- [蓝牙耳机 / 键鼠连不上、一直配对失败怎么修](./bluetooth-device-not-pairing.html)
+- [显示器无信号 / 分辨率不对 / 外接屏不亮](./monitor-no-signal.html)
+- [U 盘 / 移动硬盘不识别、提示格式化怎么办](./usb-drive-not-recognized.html)
 
 ## 更新日志
 

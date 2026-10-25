@@ -128,10 +128,10 @@ detail_href: ./fix/slow-network.html
 
 ## 相关教程
 
-- [Wi-Fi 有信号但上不了网](#)
-- [家里所有设备都上不了网怎么办](#)
-- [怎么查谁在蹭网 / 给设备限速与拉黑](#)
-- [网页打不开但 QQ / 微信能用：DNS 问题怎么修](#)
+- [Wi-Fi 有信号但上不了网](./wifi-connected-but-no-internet.html)
+- [家里所有设备都上不了网怎么办](./home-network-all-offline.html)
+- [怎么查谁在蹭网 / 给设备限速与拉黑](./router-wifi-leech-check.html)
+- [网页打不开但 QQ / 微信能用：DNS 问题怎么修](./dns-broken-but-app-works.html)
 
 ## 更新日志
 

@@ -58,10 +58,10 @@ detail_href: ./fix/wifi-adapter-missing.html
 
 **不适用（请转对应文章）：**
 
-- 有 WLAN 选项、能看到网络但搜不到自家网络名 → [Wi-Fi 列表里找不到自家网络怎么办](#)
-- 能连上 Wi-Fi 但打不开网页 → [Wi-Fi 显示已连接但无法上网（打不开网页）](#)
-- 所有设备都没网（不是单台电脑的问题） → [家里所有设备都上不了网：先分清是谁的问题](#)
-- 提示 IP 地址冲突、地址是 169.254 开头 → [电脑获取不到 IP 地址 / IP 是 169.254 开头](#)
+- 有 WLAN 选项、能看到网络但搜不到自家网络名 → [Wi-Fi 列表里找不到自家网络怎么办](./wifi-ssid-not-found.html)
+- 能连上 Wi-Fi 但打不开网页 → [Wi-Fi 显示已连接但无法上网（打不开网页）](./wifi-connected-but-no-internet.html)
+- 所有设备都没网（不是单台电脑的问题） → [家里所有设备都上不了网：先分清是谁的问题](./home-network-all-offline.html)
+- 提示 IP 地址冲突、地址是 169.254 开头 → [电脑获取不到 IP 地址 / IP 是 169.254 开头](./dhcp-no-ip-169-254.html)
 - 公司配发的笔记本、带企业管控或 BIOS 密码 → 直接联系 IT，不要自行改 BIOS
 
 ## 开始前确认
@@ -224,8 +224,8 @@ system_profiler SPAirPortDataType | head -n 60
 
 ## 还是不行？
 
-- **只有搜不到某几个网络** → 看 [Wi-Fi 列表里找不到自家网络怎么办](#)
-- **能连上但打不开网页** → 看 [Wi-Fi 显示已连接但无法上网（打不开网页）](#)
+- **只有搜不到某几个网络** → 看 [Wi-Fi 列表里找不到自家网络怎么办](./wifi-ssid-not-found.html)
+- **能连上但打不开网页** → 看 [Wi-Fi 显示已连接但无法上网（打不开网页）](./wifi-connected-but-no-internet.html)
 - **无线不行、网线也不认** → 主板或网卡硬件问题，先备份重要文件再送修
 - **公司/学校设备、或 BIOS 被锁定** → 联系 IT 处理，不要尝试绕过管控
 - **Apple 诊断报出参考代码** → 预约 Apple Store 或 Apple 授权服务商
@@ -240,11 +240,11 @@ system_profiler SPAirPortDataType | head -n 60
 
 ## 相关教程
 
-- [Wi-Fi 列表里找不到自家网络怎么办](#)
-- [Wi-Fi 显示已连接但无法上网（打不开网页）](#)
-- [电脑获取不到 IP 地址 / IP 是 169.254 开头](#)
-- [家里所有设备都上不了网：先分清是谁的问题](#)
-- [如何正确安装和回退网卡驱动](#)
+- [Wi-Fi 列表里找不到自家网络怎么办](./wifi-ssid-not-found.html)
+- [Wi-Fi 显示已连接但无法上网（打不开网页）](./wifi-connected-but-no-internet.html)
+- [电脑获取不到 IP 地址 / IP 是 169.254 开头](./dhcp-no-ip-169-254.html)
+- [家里所有设备都上不了网：先分清是谁的问题](./home-network-all-offline.html)
+- [如何正确安装和回退网卡驱动](./wifi-adapter-missing.html)
 
 ## 更新日志
 

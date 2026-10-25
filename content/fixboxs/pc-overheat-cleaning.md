@@ -135,10 +135,10 @@ detail_href: ./fix/pc-overheat-cleaning.html
 
 ## 相关教程
 
-- [Mac 风扇狂转、机身发烫怎么办](#)
-- [电脑按开机键没反应？电源故障自查清单](#)
-- [开机自启软件太多，开机慢怎么关](#)
-- [电脑反复重启 / 开机报警一长两短？先重插内存条](#)
+- [Mac 风扇狂转、机身发烫怎么办](./mac-fan-noise-overheat.html)
+- [电脑按开机键没反应？电源故障自查清单](./psu-no-power-check.html)
+- [开机自启软件太多，开机慢怎么关](./win-startup-apps-disable.html)
+- [电脑反复重启 / 开机报警一长两短？先重插内存条](./ram-reseat-no-boot.html)
 
 ## 更新日志
 

@@ -56,7 +56,7 @@
 <ul class="fx-ul"><li>家里电脑的网络问题：看<a class="fx-link" href="./wifi-connected-but-no-internet.html">「Wi-Fi 有信号但上不了网」</a>，家宽没有企业代理那套。</li><li>个人 VPS/自建代理出问题：看<a class="fx-link" href="./proxy-server-not-responding.html">「代理服务器没有响应怎么修」</a>。</li><li>VPN 客户端（如公司远程办公 VPN）连不上：以 IT 文档为准，本文只覆盖办公内网场景。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认同座位同事的电脑正常（排除整层断电/交换机故障）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机连公司 Wi-Fi 测试：手机也不通 → 网络侧问题，提工单即可。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>截图当前的网络设置（代理页、证书报错页），改动前留底。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>找到 IT 的配置文档或上次的工单记录。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住自己装过哪些网络相关工具（抓包/加速/杀毒）。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>内网、外网都正常，浏览器无证书告警。</li><li>系统代理/PAC 设置与 IT 文档一致，重启电脑后依然正常。</li><li>没有残留的抓包工具代理（重启后设置不再被改）。</li></ul></section>
-<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>全部门/全公司都不通 → 不是你的问题，等 IT 广播即可，别自己重装系统。</li><li>只有你的电脑不通且 IT 也定位不了 → 备份数据后请 IT 重装准入客户端或重新注册终端。</li><li>反复被某个自装工具改代理 → 卸载它；工作必需的抓包需求，向 IT 申请白名单版本。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>全部门/全公司都不通 → 不是你的问题，等 IT 广播即可，别自己重装系统。</li><li>只有你的电脑不通且 IT 也定位不了 → 备份数据后请 IT 重装准入客户端或重新注册终端。</li><li>反复被某个自装工具改代理 → 卸载它；工作必需的抓包需求，向 IT 申请白名单版本。个人机器上的同类清理见<a class="fx-link" href="./proxy-tool-broke-network.html">「装了抓包/加速工具后全网断网怎么恢复」</a>。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>公司电脑不装来路不明的网络工具；必须装的，记下它改了什么。</li><li>IT 的网络配置文档存到收藏夹，换工位/重装后照着配一遍最快。</li><li>改任何网络设置前先截图——这是网络排障的「后悔药」。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖认证、代理还原、证书、PAC 与工单五层排查。</li></ul></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">区分「认证问题」还是「代理问题」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>浏览器访问一个明确的 HTTP 站点（如 <code>http://neverssl.com</code>）。企业网关常会把未认证流量重定向到认证页——若弹出登录/认证页，完成认证即可。</li><li>认证页弹不出来 → 手动访问 IT 文档里的认证地址（通常是 <code>http://1.1.1.1</code> 或公司指定的内网地址）。</li></ol>
@@ -72,7 +72,7 @@
 <div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
 <div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/proxy-server-not-responding.html">浏览器提示「代理服务器无响应」怎么修</a><a href="../fix/proxy-tool-broke-network.html">装了抓包/加速工具后全网断网怎么恢复</a><a href="../fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
 </article>
 <aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#合规提示">合规提示</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
@@ -85,7 +85,7 @@
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

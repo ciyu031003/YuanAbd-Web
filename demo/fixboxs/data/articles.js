@@ -411,7 +411,7 @@ window.FX_ARTICLES = [
    "登录选项",
    "net user 改密码"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-25",
   "detail_href": "./fix/win-forgot-password.html",
   "kind": "guide",
   "hot": 24
@@ -1663,7 +1663,7 @@ window.FX_ARTICLES = [
    "蓝牙适配器",
    "2.4G 干扰"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/bluetooth-device-not-pairing.html",
   "kind": "guide",
   "hot": 1
@@ -1881,7 +1881,7 @@ window.FX_ARTICLES = [
    "办公网络",
    "802.1X"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/enterprise-proxy.html",
   "kind": "guide",
   "hot": 1
@@ -2255,7 +2255,7 @@ window.FX_ARTICLES = [
    "Reset Password Assistant",
    "登录钥匙串"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/mac-forgot-password.html",
   "kind": "guide",
   "hot": 1
@@ -2586,7 +2586,7 @@ window.FX_ARTICLES = [
    "官方渠道核实",
    "反诈"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/phishing-message-check.html",
   "kind": "guide",
   "hot": 1
@@ -2812,7 +2812,7 @@ window.FX_ARTICLES = [
    "自动关机",
    "功率不足"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/psu-no-power-check.html",
   "kind": "guide",
   "hot": 1
@@ -2867,7 +2867,7 @@ window.FX_ARTICLES = [
    "双通道",
    "XMP"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "detail_href": "./fix/ram-reseat-no-boot.html",
   "kind": "guide",
   "hot": 1

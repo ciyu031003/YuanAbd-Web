@@ -50,7 +50,7 @@
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>把耳机放回充电盒、<strong>关盖等 10 秒再开盖</strong>，或长按功能键重置到配对模式（看说明书）。<strong>期望结果</strong>：设备进入「未连接」的干净状态，而不是「挂在手机上不肯走」。</li><li>关掉<strong>手机</strong>上与该设备的蓝牙连接（耳机通常只能同时服务一台主机）。<strong>期望结果</strong>：电脑这边马上能搜到/连上。</li><li>电脑蓝牙关开一次（设置 → 蓝牙和其他设备 → 关，再开）。<strong>期望结果</strong>：蓝牙栈小卡死就此恢复。</li></ol></div>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
-<ul class="fx-ul"><li>以前能连，现在搜不到 / 配对转圈后报失败。</li><li>换了新耳机、新鼠标，第一次配不上。</li><li>蓝牙键鼠连上了但频繁卡顿、断连。</li><li>蓝牙开关整个不见了（更多是驱动/服务问题）。</li></ul>
+<ul class="fx-ul"><li>以前能连，现在搜不到 / 配对转圈后报失败。</li><li>换了新耳机、新鼠标，第一次配不上。</li><li>蓝牙键鼠连上了但频繁卡顿、断连。</li><li>蓝牙开关整个不见了（更多是驱动/服务问题；驱动层处理见<a class="fx-link" href="./driver-install-rollback.html">「驱动装错出问题？安装与回退的正确姿势」</a>）。</li></ul>
 <p class="fx-p"><strong>不适用</strong></p>
 <ul class="fx-ul"><li>2.4G 接收器（USB 小狗）型无线键鼠连不上——那不是蓝牙，走 USB 排查，参考<a class="fx-link" href="./usb-drive-not-recognized.html">「U 盘 / 移动硬盘不识别怎么办」</a>的接口排查思路。</li><li>打印机走 Wi-Fi/USB 连接：看<a class="fx-link" href="./printer-offline.html">「打印机脱机 / 打印没反应」</a>。</li><li>设备说明书明确写着「不支持蓝牙，需接收器」。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>设备有电（耳机开盖有灯、鼠标底部灯亮）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>设备已从手机/平板断开，或干脆关闭手机蓝牙 2 分钟。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑蓝牙开关是开着的，且飞行模式没开。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>距离 1 米内重试——蓝牙 5 米理论距离在有墙情况下会腰斩。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>周围没有微波炉、USB3.0 集线器正对着用（2.4G 干扰源）。</li></ul></section>
@@ -71,7 +71,7 @@
 <div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
 <div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/wifi-adapter-missing.html">电脑没有 WLAN 选项 / 网络适配器不见了</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
 </article>
 <aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
@@ -84,7 +84,7 @@
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

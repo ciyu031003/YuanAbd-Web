@@ -17,8 +17,8 @@ symptoms:
   - 已配对但连不上
 keywords: [蓝牙配对, 蓝牙驱动, 蓝牙服务, 支持流, pairing, 蓝牙适配器, 2.4G 干扰]
 aliases: [耳机配对不上, 蓝牙失灵, 蓝牙断了, 蓝牙连了没声音, 无线鼠标连不上]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites:
   - 确认耳机/键鼠本身有电（能开机、有指示灯）
   - 知道该设备支持蓝牙版本（影响兼容性判断，说明书或官网可查）
@@ -31,7 +31,7 @@ sources:
   - title: Apple 支持 - 如果 Mac 上的蓝牙无法使用
     url: https://support.apple.com/zh-cn/102321
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-25
 detail_href: ./fix/bluetooth-device-not-pairing.html
 ---
 
@@ -56,7 +56,7 @@ detail_href: ./fix/bluetooth-device-not-pairing.html
 - 以前能连，现在搜不到 / 配对转圈后报失败。
 - 换了新耳机、新鼠标，第一次配不上。
 - 蓝牙键鼠连上了但频繁卡顿、断连。
-- 蓝牙开关整个不见了（更多是驱动/服务问题）。
+- 蓝牙开关整个不见了（更多是驱动/服务问题；驱动层处理见[「驱动装错出问题？安装与回退的正确姿势」](./driver-install-rollback.html)）。
 
 **不适用**
 

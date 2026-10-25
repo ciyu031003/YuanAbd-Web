@@ -17,8 +17,8 @@ symptoms:
   - 代理服务器拒绝连接
 keywords: [企业代理, 内网上不了外网, PAC, 证书不受信任, 上网行为管理, Deep packet inspection, 办公网络, 802.1X]
 aliases: [公司断网, 办公室上不了网, 企业网络限制, 上网认证]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites:
   - 明白公司网络的设置（代理地址、PAC、认证方式）由 IT 统一管理
   - 有 IT 部门的联系方式
@@ -31,7 +31,7 @@ sources:
   - title: Apple 支持 - 在 Mac 上使用代理服务器
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp2591/mac
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-25
 detail_href: ./fix/enterprise-proxy.html
 ---
 
@@ -121,7 +121,7 @@ detail_href: ./fix/enterprise-proxy.html
 
 - 全部门/全公司都不通 → 不是你的问题，等 IT 广播即可，别自己重装系统。
 - 只有你的电脑不通且 IT 也定位不了 → 备份数据后请 IT 重装准入客户端或重新注册终端。
-- 反复被某个自装工具改代理 → 卸载它；工作必需的抓包需求，向 IT 申请白名单版本。
+- 反复被某个自装工具改代理 → 卸载它；工作必需的抓包需求，向 IT 申请白名单版本。个人机器上的同类清理见[「装了抓包/加速工具后全网断网怎么恢复」](./proxy-tool-broke-network.html)。
 
 ## 预防
 

@@ -55,7 +55,7 @@
 <ul class="fx-ul"><li>能进系统只是使用中蓝屏、死机：先按<a class="fx-link" href="./win-bluescreen-read-code.html">「蓝屏代码怎么看」</a>走软件排查，蓝屏不一定是内存。</li><li>开机有画面只是卡 Logo 进不了系统：看<a class="fx-link" href="./win-stuck-on-boot-logo.html">「开机卡在主板 Logo」</a>。</li><li>笔记本且内存是板载（焊死）的：重插这条路不存在，直接送修。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电源线已拔、已按电源键放电。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>侧板打开后能看到竖插的内存条（笔记本是平躺的小条，在底盖下）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>橡皮是干净的白色橡皮，不要用带磨砂颗粒的。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手机拍下拆之前的插槽占用和线缆走向，方便复原。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>如果刚装过新内存：先全拔掉，只留<strong>原来那根</strong>确认机器本身正常。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>冷开机一次点亮，连续开关机 3 次都正常。</li><li>「任务管理器 → 性能 → 内存」显示的容量与实际安装一致。</li><li>若开了 XMP/EXPO 高频档，跑一局游戏或用「Windows 内存诊断」（<code>mdsched</code>）跑一轮无报错。</li></ul></section>
-<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>单根能亮、两根同插就重启 → 双通道兼容问题：更新主板 BIOS 到最新，或两条对调槽位。</li><li>重插后能点亮但用着蓝屏 → 内存颗粒边缘性问题，用 MemTest86 整夜测试确认，坏则换。</li><li>报警依旧、橡皮擦无效 → 换一根已知正常的内存交叉验证，定位条或板。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>单根能亮、两根同插就重启 → 双通道兼容问题：更新主板 BIOS 到最新，或两条对调槽位。</li><li>重插后能点亮但用着蓝屏 → 内存颗粒边缘性问题，用 MemTest86 整夜测试确认，坏则换。蓝屏代码读法见<a class="fx-link" href="./win-bluescreen-read-code.html">「电脑蓝屏了怎么办：先学会读蓝屏代码」</a>。</li><li>报警依旧、橡皮擦无效 → 换一根已知正常的内存交叉验证，定位条或板。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>每次清灰时顺手把内存拔插一遍，氧化层最爱在这种时候捣乱。</li><li>机箱搬动后开机异常，第一反应就是重插内存和显卡。</li><li>买内存优先同品牌同型号套装，双通道兼容性远好于两条散凑。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖断电放电、拔条、擦金手指、单根定位四步。</li></ul></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">断电放电，开侧板</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>关机，拔掉电源线（笔记本同时断开充电器）。</li><li>按住电源键 5 秒放残余电。</li><li>拧下侧板螺丝，打开侧板；冬季先摸金属物体放静电。</li></ol>
@@ -71,7 +71,7 @@
 <div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
 <div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><a href="../fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
 </article>
 <aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
@@ -84,7 +84,7 @@
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

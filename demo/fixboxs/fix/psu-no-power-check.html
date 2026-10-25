@@ -55,7 +55,7 @@
 <ul class="fx-ul"><li>能点亮、能进系统，只是用着重启：先查系统和温度，看<a class="fx-link" href="./win-slow-diagnose.html">「电脑很卡 / 频繁死机怎么排查」</a>。</li><li>雷雨天之后坏的：电源可能和主板一起伤，逐件送检，别只换电源。</li><li>品牌机（联想/戴尔/惠普）在保修内：<strong>不要短接测试</strong>，直接报修，拆封条会失保。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>房间插座确认有电（插个手机充电器试试）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电源线没有发黑、变硬、有糊味（有线损的直接换线）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>手边有回形针，能掰直。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记住机箱内部大致走线，方便复原。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>嗅觉确认无烧焦味（有 → 跳过一切测试，直接换电源）。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>冷启动 3 次都正常，满负载（跑游戏/压视频）半小时不自动断电。</li><li>无焦味、无异响（电源里「哒哒」继电器声高频出现也是老化征兆）。</li><li>万用表三路电压全部在 ±5% 内。</li></ul></section>
-<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>短接 PWR_SW 能开、机箱按钮不能开 → 换机箱开关线，或把 PWR_SW 接到 RESET 针上临时顶替。</li><li>短接测试正常但装回主板无反应 → 主板开机电路问题，送修主板；顺带检查主板上的电源开关跳线是否插错到 LED 针上。</li><li>用着突然断电且电源烫手 → 清灰换风扇或直接换电源，过热保护不是玩笑。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>短接 PWR_SW 能开、机箱按钮不能开 → 换机箱开关线，或把 PWR_SW 接到 RESET 针上临时顶替。</li><li>短接测试正常但装回主板无反应 → 主板开机电路问题，送修主板；顺带检查主板上的电源开关跳线是否插错到 LED 针上。</li><li>用着突然断电且电源烫手 → 清灰换风扇或直接换电源，过热保护不是玩笑。整机清灰流程看<a class="fx-link" href="./pc-overheat-cleaning.html">「电脑温度过高 / 风扇狂转？清灰降温实操指南」</a>。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>电源别买「够用就好」的杂牌：它带不动时最先死的是硬盘数据。</li><li>每年清一次电源进风口的灰，散热差直接缩短寿命。</li><li>大雷雨天气拔掉电源线，浪涌是电源和主板的双料杀手。</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><ul class="fx-ul"><li>2026-10-24 v1.0：首版发布。覆盖供电排查、机箱开关旁路、回形针短接、电压复核与换件检查。</li></ul></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除外部供电</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>直插墙插；换电源线（显示器、其他电器同规格的「品字口」线通用）。</li><li>检查电压选择开关（部分老电源背面 115/230V）在 230V。</li></ol>
@@ -71,7 +71,7 @@
 <div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
 <div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/ram-reseat-no-boot.html">电脑反复重启 / 开机报警一长两短？先重插内存条</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-24 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
 </article>
 <aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
@@ -84,7 +84,7 @@
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-24</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

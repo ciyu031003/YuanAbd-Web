@@ -18,8 +18,8 @@ symptoms:
   - 主机不通电
 keywords: [电源自查, PSU, 短接启动, 回形针点火, 24pin, 电源烧了, 自动关机, 功率不足]
 aliases: [主机没反应, 电源坏了, 电脑不通电, 电源炸了, 按开关没反应]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites:
   - 明白本教程只涉及「确认电源好坏」，不拆解电源本身
   - 一根回形针或一枚杜邦线（用于短接测试）
@@ -32,7 +32,7 @@ sources:
   - title: Corsair（海盗船）官方 - How to Test a PSU（回形针短接测试官方教程）
     url: https://help.corsair.com/hc/en-us/articles/360025085372-PSU-How-to-test-a-PSU-Power-Supply-Unit
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-25
 detail_href: ./fix/psu-no-power-check.html
 ---
 
@@ -115,7 +115,7 @@ detail_href: ./fix/psu-no-power-check.html
 
 - 短接 PWR_SW 能开、机箱按钮不能开 → 换机箱开关线，或把 PWR_SW 接到 RESET 针上临时顶替。
 - 短接测试正常但装回主板无反应 → 主板开机电路问题，送修主板；顺带检查主板上的电源开关跳线是否插错到 LED 针上。
-- 用着突然断电且电源烫手 → 清灰换风扇或直接换电源，过热保护不是玩笑。
+- 用着突然断电且电源烫手 → 清灰换风扇或直接换电源，过热保护不是玩笑。整机清灰流程看[「电脑温度过高 / 风扇狂转？清灰降温实操指南」](./pc-overheat-cleaning.html)。
 
 ## 预防
 

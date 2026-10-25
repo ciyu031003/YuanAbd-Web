@@ -19,7 +19,7 @@ symptoms:
 keywords: [摄像头, 相机, 视频会议, 隐私设置, 相机权限, 驱动, 物理开关, 联想, 会议软件]
 aliases: [摄像头黑屏, 摄像头不工作, 开会没画面, 相机打开失败, 笔记本摄像头用不了]
 updated: 2026-10-25
-version: "1.0"
+version: "1.1"
 prerequisites:
   - 知道是哪款会议软件（腾讯会议 / Zoom / Teams / 钉钉）出的问题
   - 笔记本确认摄像头有无物理遮挡开关（联想 ThinkPad 的 F8、戴尔侧边滑块等）
@@ -57,8 +57,8 @@ detail_href: ./fix/webcam-not-working.html
 **适用**
 
 - 会议软件里显示「无法检测到摄像头 / 相机被占用 / 黑屏」。
-- Windows 更新或重装后摄像头突然不能用。
-- 外接 USB 摄像头插上没反应。
+- Windows 更新或重装后摄像头突然不能用（驱动处理见[「驱动装错出问题？安装与回退的正确姿势」](./driver-install-rollback.html)）。
+- 外接 USB 摄像头插上没反应（接口层排查看[「U 盘 / 移动硬盘不识别、提示格式化怎么办」](./usb-drive-not-recognized.html)）。
 
 **不适用**
 

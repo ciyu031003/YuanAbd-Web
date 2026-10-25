@@ -18,8 +18,8 @@ symptoms:
   - 内存条接触不良
 keywords: [内存条重插, 报警声, 一长两短, Debug 灯, DRAM, 金手指, 橡皮擦, 双通道, XMP]
 aliases: [内存报警, 重启循环, 内存松了, 插内存开不了机, 内存条坏了]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites:
   - 会开台式机侧板（笔记本重插内存需具备一定动手能力，部分机型内存不可拆）
   - 一块橡皮和一把十字螺丝刀
@@ -32,7 +32,7 @@ sources:
   - title: Kingston（金士顿）官方 - 内存常见问题
     url: https://www.kingston.com/en/support/technical-support/memory-issues
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-25
 detail_href: ./fix/ram-reseat-no-boot.html
 ---
 
@@ -116,7 +116,7 @@ detail_href: ./fix/ram-reseat-no-boot.html
 ## 还是不行？
 
 - 单根能亮、两根同插就重启 → 双通道兼容问题：更新主板 BIOS 到最新，或两条对调槽位。
-- 重插后能点亮但用着蓝屏 → 内存颗粒边缘性问题，用 MemTest86 整夜测试确认，坏则换。
+- 重插后能点亮但用着蓝屏 → 内存颗粒边缘性问题，用 MemTest86 整夜测试确认，坏则换。蓝屏代码读法见[「电脑蓝屏了怎么办：先学会读蓝屏代码」](./win-bluescreen-read-code.html)。
 - 报警依旧、橡皮擦无效 → 换一根已知正常的内存交叉验证，定位条或板。
 
 ## 预防

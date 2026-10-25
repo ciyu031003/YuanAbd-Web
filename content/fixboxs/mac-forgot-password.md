@@ -16,8 +16,8 @@ symptoms:
   - Mac 登录不上
 keywords: [Mac 忘记密码, 重置密码, Apple 账户重置, 恢复模式重置, FileVault, Reset Password Assistant, 登录钥匙串]
 aliases: [Mac密码忘了, MacBook密码重置, 苹果电脑忘记密码, Mac改密码]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites:
   - 知道这台 Mac 绑定的 Apple 账户（Apple ID）邮箱和密码
   - 机器是你本人的或已获机主授权（有账户锁的机器无法绕过）
@@ -30,7 +30,7 @@ sources:
   - title: Apple 支持 - 如果 Mac 提示输入固件密码
     url: https://support.apple.com/zh-cn/102605
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-25
 detail_href: ./fix/mac-forgot-password.html
 ---
 
@@ -106,7 +106,7 @@ macOS 自带密码重置：**在登录窗口输错三次，就会冒出「用 Ap
 
 ## 还是不行？
 
-- 步骤 2 里终端报「无法找到用户」→ 系统卷损坏，先修卷再重置。
+- 步骤 2 里终端报「无法找到用户」→ 系统卷损坏，先修卷再重置（修卷流程见[「Mac 开不了机 / 卡在苹果标志怎么办」](./mac-wont-boot.html)步骤 3）。
 - 提示需要「固件密码 / 恢复密钥」而你都没有 → 带购买凭证联系 Apple 官方支持。
 - 一切成功但担心下次再忘 → 把密码放 iCloud 钥匙串 + 密码管理器，并给自己设一个提示问题。
 

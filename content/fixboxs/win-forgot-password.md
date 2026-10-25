@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [开机密码忘了, PIN 用不了, 密码错误进不去, 忘记PIN, 登录界面进不去, forgot windows password, 密码提示不正确, PIN 不可用请重试]
 keywords: [忘记开机密码, 重置PIN, 微软账户改密码, 本地账户密码, BitLocker 恢复密钥, 登录选项, net user 改密码]
 aliases: [密码忘了, 进不去系统, PIN 失效, 登录不了, 开机密码不对]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-25
+version: "1.1"
 prerequisites: [知道账户是微软账户还是本地账户, 有一台能上网的手机或电脑, 企业设备需联系 IT]
 tools: [登录界面的登录选项, 微软账户密码重置页, net user 命令, manage-bde, 密码重置盘]
 related: [win-blackscreen-cursor, win-stuck-on-boot-logo, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/net-user
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-25
 detail_href: ./fix/win-forgot-password.html
 ---
 
@@ -57,7 +57,7 @@ detail_href: ./fix/win-forgot-password.html
 - 密码正确但登录后黑屏只剩鼠标 → [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
 - 开机画面要求输入 48 位 BitLocker 恢复密钥 → 直接看本文步骤 5
 - 卡在开机 Logo 根本到不了登录界面 → [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
-- 公司或学校发的电脑 → 联系公司 IT，本文大部分方法不适用
+- 公司或学校发的电脑 → 联系公司 IT，本文大部分方法不适用；Mac 是另一套流程：[「Mac 忘记开机密码怎么办」](./mac-forgot-password.html)
 
 ## 开始前确认
 
@@ -202,7 +202,7 @@ manage-bde -protectors -get C:
 
 ## 还是不行？
 
-- 微软账户收不到验证码、恢复表单也没通过 → 等 24 小时后重试，或联系微软支持
+- 微软账户收不到验证码、恢复表单也没通过 → 等 24 小时后重试，或联系微软支持；重装前先按[「换硬盘 / 重装系统前，怎么把数据备份全」](./backup-before-repair.html)备份
 - 公司/学校账户、域账户、Entra ID 账户 → 联系公司 IT，他们能直接重置
 - 提示需要 BitLocker 恢复密钥但找不到 → 联系 IT 或数据恢复机构，绝对不要格式化
 - 只想拿回硬盘里的文件、不打算修系统 → 把硬盘接到别的电脑上拷贝（未加密的情况下）

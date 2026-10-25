@@ -201,4 +201,130 @@
     });
     paint();
   })();
+
+  /* ---------------- root 为用户换绑邮箱（发码 → 验证，两步模态） ----------------
+     流程：root 填新邮箱 → 系统寄 6 位验证码给对方 → 对方把验证码告知 root →
+     root 输入验证码 → 校验通过后新邮箱才正式替换登录邮箱。
+     路由层有 CSRF / 权限 / 频控 / 尝试次数限制，这里只负责把流程走顺。 */
+  (function () {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-email-bind]");
+      if (!btn) return;
+      openBindModal({
+        userId: btn.getAttribute("data-id"),
+        curEmail: btn.getAttribute("data-email") || "",
+        userName: btn.getAttribute("data-name") || "",
+        csrf: btn.getAttribute("data-csrf") || ""
+      });
+    });
+
+    function post(url, data) {
+      var fd = new FormData();
+      Object.keys(data).forEach(function (k) { fd.append(k, data[k]); });
+      return fetch(url, { method: "POST", body: fd, credentials: "same-origin" })
+        .then(function (r) { return r.json().catch(function () { return { error: "响应异常，请刷新重试" }; }); });
+    }
+
+    function openBindModal(o) {
+      var dlg = document.createElement("dialog");
+      dlg.style.cssText = "border:0;border-radius:16px;padding:0;max-width:460px;width:92vw;box-shadow:0 18px 50px -18px rgba(16,24,40,.5)";
+      dlg.innerHTML =
+        '<form method="dialog" style="padding:22px">' +
+        '<h3 style="margin:0 0 6px;font-size:16px">换绑邮箱 · ' + (o.userName || o.curEmail) + "</h3>" +
+        '<p style="margin:0 0 14px;color:var(--ink-3);font-size:12.5px;line-height:1.7">当前登录邮箱：' + o.curEmail +
+        "。绑定成功后该用户将改用新邮箱登录（密码不变）。</p>" +
+        '<div data-step1>' +
+        '<label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px">新邮箱</label>' +
+        '<input type="email" required autocomplete="off" style="width:100%;padding:9px 12px;border:1px solid var(--lo);border-radius:10px;font:inherit;background:var(--base-2);color:var(--ink)">' +
+        '<p style="margin:10px 0 0;color:var(--ink-3);font-size:12px">点击「发送验证码」后，系统向该邮箱寄出 6 位验证码（10 分钟内有效）。</p>' +
+        '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">' +
+        '<button class="btn" value="cancel" type="submit">取消</button>' +
+        '<button class="btn btn--primary" type="button" data-send>发送验证码</button></div></div>' +
+        '<div data-step2 hidden>' +
+        '<p data-sentto style="margin:0 0 12px;font-size:13px;color:var(--i-mint);background:var(--s-mint);border-radius:10px;padding:10px 12px"></p>' +
+        '<label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px">验证码（6 位）</label>' +
+        '<input inputmode="numeric" maxlength="6" autocomplete="one-time-code" style="width:100%;padding:9px 12px;border:1px solid var(--lo);border-radius:10px;font:inherit;letter-spacing:8px;text-align:center;background:var(--base-2);color:var(--ink)">' +
+        '<p style="margin:10px 0 0;color:var(--ink-3);font-size:12px">请对方查收邮件后把验证码告诉你，输错 5 次验证作废。</p>' +
+        '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;align-items:center;flex-wrap:wrap">' +
+        '<button class="btn btn--sm" type="button" data-resend disabled>重新发送（60s）</button>' +
+        '<span style="flex:1"></span>' +
+        '<button class="btn" value="cancel" type="submit">关闭</button>' +
+        '<button class="btn btn--primary" type="button" data-verify disabled>验证并绑定</button></div></div>' +
+        '<p data-msg style="margin:12px 0 0;font-size:12.5px;color:var(--warn);min-height:1.2em"></p>' +
+        "</form>";
+      document.body.appendChild(dlg);
+      var step1 = dlg.querySelector("[data-step1]");
+      var step2 = dlg.querySelector("[data-step2]");
+      var emailIn = dlg.querySelector('input[type="email"]');
+      var codeIn = dlg.querySelector('[data-step2] input');
+      var sendBtn = dlg.querySelector("[data-send]");
+      var resendBtn = dlg.querySelector("[data-resend]");
+      var verifyBtn = dlg.querySelector("[data-verify]");
+      var msg = dlg.querySelector("[data-msg]");
+      var sentTo = dlg.querySelector("[data-sentto]");
+      var targetEmail = "";
+      var countdownT = null;
+
+      dlg.addEventListener("close", function () { if (countdownT) clearInterval(countdownT); dlg.remove(); });
+      /* 回车触发主按钮，而不是隐式提交把对话框当「取消」关掉 */
+      dlg.addEventListener("keydown", function (ev) {
+        if (ev.key !== "Enter") return;
+        ev.preventDefault();
+        if (!step2.hidden) { if (!verifyBtn.disabled) verifyBtn.click(); }
+        else sendBtn.click();
+      });
+
+      function msg_(t, ok) { msg.textContent = t || ""; msg.style.color = ok ? "var(--i-mint)" : "var(--warn)"; }
+      function countdown(sec) {
+        var left = sec;
+        resendBtn.disabled = true;
+        clearInterval(countdownT);
+        countdownT = setInterval(function () {
+          left--;
+          if (left <= 0) { clearInterval(countdownT); resendBtn.disabled = false; resendBtn.textContent = "重新发送"; }
+          else resendBtn.textContent = "重新发送（" + left + "s）";
+        }, 1000);
+      }
+
+      function doSend(email, btn) {
+        btn.disabled = true; msg_("正在发送…");
+        post("/users/" + o.userId + "/email/bind", { _csrf: o.csrf, email: email })
+          .then(function (j) {
+            if (j.error) { msg_(j.error); btn.disabled = false; return; }
+            targetEmail = email;
+            msg_(j.message || "已发送", true);
+            sentTo.textContent = "✉ 验证码已发送至 " + email;
+            step1.hidden = true; step2.hidden = false;
+            codeIn.focus();
+            countdown(60);
+          })
+          .catch(function () { msg_("发送失败（网络）"); btn.disabled = false; });
+      }
+      sendBtn.addEventListener("click", function () {
+        var email = emailIn.value.trim().toLowerCase();
+        if (!email) { msg_("请填写新邮箱"); return; }
+        doSend(email, sendBtn);
+      });
+      resendBtn.addEventListener("click", function () {
+        if (!targetEmail) return;
+        doSend(targetEmail, resendBtn);
+      });
+      codeIn.addEventListener("input", function () {
+        verifyBtn.disabled = codeIn.value.replace(/\D/g, "").length !== 6;
+      });
+      verifyBtn.addEventListener("click", function () {
+        var code = codeIn.value.replace(/\D/g, "");
+        if (code.length !== 6) { msg_("请输入 6 位验证码"); return; }
+        verifyBtn.disabled = true; msg_("正在验证…");
+        post("/users/" + o.userId + "/email/verify", { _csrf: o.csrf, code: code })
+          .then(function (j) {
+            if (j.error) { msg_(j.error); verifyBtn.disabled = false; return; }
+            msg_(j.message || "绑定成功", true);
+            setTimeout(function () { window.location.reload(); }, 1400);
+          })
+          .catch(function () { msg_("验证失败（网络）"); verifyBtn.disabled = false; });
+      });
+      dlg.showModal();
+    }
+  })();
 })();

@@ -2169,16 +2169,23 @@ function usersPage(opts) {
     const rl = roleLabel(u.roles || "");
     const scoped = u.scope_domain
       ? ' <span class="muted">（限定 ' + esc(domNameById[u.scope_domain] || u.scope_domain) + "）</span>" : "";
-    const action = u.is_root ? '<span class="muted">不可操作</span>' :
-      '<form method="post" action="/users/' + u.id + '/toggle" style="display:inline">' +
-      '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
-      '<button class="btn btn--sm" type="submit">' + (u.status === "active" ? "停用" : "启用") + "</button></form>";
-    return "<tr><td>" + esc(u.email) + (u.is_root ? ' <span class="pill pill--admin">root</span>' : "") + "</td>" +
+    /* 待验证邮箱徽章：root 发过验证码但尚未完成验证时可见（含过期标记） */
+    const pending = u.pending_email
+      ? '<div class="slug" title="验证通过后才会替换登录邮箱">待验证：' + esc(u.pending_email) +
+        (u.pending_email_expires && new Date(u.pending_email_expires) < new Date() ? "（已过期）" : "") + "</div>"
+      : "";
+    const action =
+      '<button class="btn btn--sm" type="button" data-email-bind data-id="' + u.id + '" data-email="' + esc(u.email) + '" data-name="' + esc(u.name || "") + '" data-csrf="' + esc(opts.csrf) + '">换绑邮箱</button>' +
+      (u.is_root ? "" :
+        '<form method="post" action="/users/' + u.id + '/toggle" style="display:inline">' +
+        '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+        '<button class="btn btn--sm" type="submit">' + (u.status === "active" ? "停用" : "启用") + "</button></form>");
+    return "<tr><td>" + esc(u.email) + (u.is_root ? ' <span class="pill pill--admin">root</span>' : "") + pending + "</td>" +
       "<td>" + esc(u.name || "") + "</td>" +
       "<td>" + esc(rl) + scoped + "</td>" +
       '<td><span class="pill ' + (u.status === "active" ? "pill--published" : "pill--archived") + '">' + (u.status === "active" ? "启用" : "停用") + "</span></td>" +
       "<td>" + (esc(String(u.last_login_at || "").slice(0,19).replace("T"," ")) || "—") + "</td>" +
-      "<td>" + action + "</td></tr>";
+      '<td class="rowacts">' + action + "</td></tr>";
   }).join("");
   const invites = opts.invites.map(function (v) {
     const st = v.used_at ? "已使用" : (v.revoked_at ? "已撤销" : (new Date(v.expires_at) < new Date() ? "已过期" : "待使用"));

@@ -14,8 +14,9 @@
     "test": "node test/run.cjs"
   },
   "dependencies": {
-    "pg": "^8.13.1",
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "nodemailer": "^7.0.13",
+    "pg": "^8.13.1"
   },
   "comments": {
     "why": "依赖面刻意限定在最小范围（V2 §7.3.1/§6.13）：pg 负责数据库访问，gray-matter 负责 front-matter 解析。HTTP 服务、会话、RBAC、模板渲染均用 Node 内置能力实现，不引入框架。",

@@ -3,6 +3,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const config = require("./config.cjs");
 const db = require("./db.cjs");
 const auth = require("./auth.cjs");
@@ -14,6 +15,7 @@ const invites = require("./invites.cjs");
 const collab = require("./collab.cjs");
 const media = require("./media.cjs");
 const totp = require("./totp.cjs");
+const mailer = require("./mailer.cjs");
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
@@ -1109,6 +1111,7 @@ async function handle(req, res) {
     if (!await auth.can(sess.user, "user:manage")) return html(res, 403, views.simplePage("没有权限", "只有管理员可以管理账号。", pageOpts));
     const users = (await db.query(
       "SELECT u.id, u.email, u.name, u.is_root, u.status, u.last_login_at, " +
+      "       u.pending_email, u.pending_email_expires, " +
       "       (SELECT string_agg(ur.role, ', ') FROM user_roles ur WHERE ur.user_id = u.id) AS roles, " +
       "       (SELECT ur2.scope_domain FROM user_roles ur2 WHERE ur2.user_id = u.id AND ur2.scope_domain IS NOT NULL LIMIT 1) AS scope_domain " +
       "FROM users u ORDER BY u.is_root DESC, u.id")).rows;
@@ -1136,6 +1139,87 @@ async function handle(req, res) {
     } catch (e) {
       return redirect(res, "/users?error=" + encodeURIComponent(e.message));
     }
+  }
+
+  /* ---------------- root 为用户换绑邮箱（验证码确认，2026-10-24） ----------------
+     两步：bind = 生成验证码并寄到新邮箱（只写 pending_*，不动登录邮箱）；
+           verify = 对方把验证码告知 root，root 输入后校验通过才正式替换 email。
+     email 是登录标识，替换前必须证明新邮箱真实可用 —— 这就是验证码的意义。 */
+  const mEmailBind = p.match(/^\/users\/(\d+)\/email\/bind$/);
+  if (mEmailBind && method === "POST") {
+    if (!await auth.can(sess.user, "user:manage")) return h.sendJson(res, 403, { error: "只有管理员可以操作" }, h.securityHeaders());
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
+    const id = parseInt(mEmailBind[1], 10);
+    const newEmail = String(form.email || "").trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) return h.sendJson(res, 400, { error: "邮箱格式不正确" }, h.securityHeaders());
+    const t = await db.query("SELECT id, email, name, pending_email FROM users WHERE id = $1", [id]);
+    if (!t.rows.length) return h.sendJson(res, 404, { error: "账号不存在" }, h.securityHeaders());
+    const u = t.rows[0];
+    if (newEmail === u.email) return h.sendJson(res, 400, { error: "新邮箱与当前登录邮箱相同" }, h.securityHeaders());
+    // 新邮箱不得与他人现有登录邮箱重复
+    const dup = await db.query("SELECT id FROM users WHERE lower(email) = $1 AND id <> $2", [newEmail, id]);
+    if (dup.rows.length) return h.sendJson(res, 400, { error: "该邮箱已被其他账号使用" }, h.securityHeaders());
+    try {
+      const code = mailer.generateCode();
+      await mailer.sendBindCode(newEmail, code, u.name);
+      await db.query(
+        "UPDATE users SET pending_email=$2, pending_email_code_hash=$3, " +
+        "pending_email_expires = now() + ($4 || ' minutes')::interval, pending_email_attempts=0, updated_at=now() WHERE id=$1",
+        [id, newEmail, mailer.hashCode(code), String(config.mail.codeTtlMin)]);
+      await auth.audit(sess.user, "user.email.bind_request", u.email, { to: newEmail }, c.ip);
+      return h.sendJson(res, 200, {
+        ok: true,
+        message: "验证码已发送至 " + newEmail + "（" + config.mail.codeTtlMin + " 分钟内有效）。请对方查收后把验证码告诉你，再点击「验证并绑定」。"
+      }, h.securityHeaders());
+    } catch (e) {
+      return h.sendJson(res, e.status || 500, { error: e.message }, h.securityHeaders());
+    }
+  }
+
+  const mEmailVerify = p.match(/^\/users\/(\d+)\/email\/verify$/);
+  if (mEmailVerify && method === "POST") {
+    if (!await auth.can(sess.user, "user:manage")) return h.sendJson(res, 403, { error: "只有管理员可以操作" }, h.securityHeaders());
+    const form = h.parseForm(await h.readBody(req, 8192));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
+    const id = parseInt(mEmailVerify[1], 10);
+    const code = String(form.code || "").trim();
+    const t = await db.query(
+      "SELECT id, email, name, pending_email, pending_email_code_hash, pending_email_expires, pending_email_attempts " +
+      "FROM users WHERE id = $1", [id]);
+    if (!t.rows.length) return h.sendJson(res, 404, { error: "账号不存在" }, h.securityHeaders());
+    const u = t.rows[0];
+    if (!u.pending_email || !u.pending_email_code_hash) return h.sendJson(res, 400, { error: "没有待验证的邮箱，请先发送验证码" }, h.securityHeaders());
+    if (new Date(u.pending_email_expires) < new Date()) {
+      await db.query("UPDATE users SET pending_email=NULL, pending_email_code_hash=NULL, pending_email_attempts=0 WHERE id=$1", [id]);
+      return h.sendJson(res, 400, { error: "验证码已过期，请重新发送" }, h.securityHeaders());
+    }
+    if (u.pending_email_attempts >= 5) {
+      await db.query("UPDATE users SET pending_email=NULL, pending_email_code_hash=NULL, pending_email_attempts=0 WHERE id=$1", [id]);
+      return h.sendJson(res, 400, { error: "错误次数过多，验证已作废，请重新发送验证码" }, h.securityHeaders());
+    }
+    const given = mailer.hashCode(code);
+    const stored = String(u.pending_email_code_hash);
+    const ok = given.length === stored.length &&
+      crypto.timingSafeEqual(Buffer.from(given), Buffer.from(stored));
+    if (!ok) {
+      await db.query("UPDATE users SET pending_email_attempts = pending_email_attempts + 1 WHERE id=$1", [id]);
+      await auth.audit(sess.user, "user.email.verify_failed", u.email, { to: u.pending_email }, c.ip);
+      const left = 5 - (u.pending_email_attempts + 1);
+      return h.sendJson(res, 400, { error: "验证码不正确（剩余尝试次数：" + Math.max(0, left) + "）" }, h.securityHeaders());
+    }
+    // 正式替换登录邮箱。WHERE 带排他条件兜底并发（极小概率：验证期间该邮箱被别人占用）
+    const done = await db.query(
+      "UPDATE users SET email=$2, pending_email=NULL, pending_email_code_hash=NULL, " +
+      "pending_email_expires=NULL, pending_email_attempts=0, updated_at=now() " +
+      "WHERE id=$1 AND NOT EXISTS (SELECT 1 FROM users u2 WHERE u2.email=$2 AND u2.id<>$1) RETURNING email",
+      [id, u.pending_email]);
+    if (!done.rows.length) return h.sendJson(res, 409, { error: "该邮箱刚被其他账号占用，请换一个" }, h.securityHeaders());
+    await auth.audit(sess.user, "user.email.bind_success", u.email, { from: u.email, to: u.pending_email }, c.ip);
+    return h.sendJson(res, 200, {
+      ok: true,
+      message: "已绑定：" + u.pending_email + "。该用户下次登录请使用新邮箱（密码不变）。"
+    }, h.securityHeaders());
   }
 
   const mToggle = p.match(/^\/users\/(\d+)\/toggle$/);

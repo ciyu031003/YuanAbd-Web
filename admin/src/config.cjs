@@ -77,6 +77,23 @@ const config = {
     trustProxy: optional("TRUST_PROXY", "true") === "true"
   },
 
+  // ---- 邮件（root 为用户换绑邮箱时发验证码） ----
+  // 未启用时换绑接口会明确报「邮件服务未配置」，不影响系统其余功能。
+  mail: {
+    enabled: optional("MAIL_ENABLED", "false") === "true",
+    host: optional("MAIL_HOST", ""),
+    port: parseInt(optional("MAIL_PORT", "465"), 10),
+    // 465 = SMTPS（隐式 TLS）；腾讯云/阿里云服务器默认封 25 端口，务必用 465
+    secure: optional("MAIL_SECURE", "true") === "true",
+    user: optional("MAIL_USER", ""),
+    pass: optional("MAIL_PASS", ""),
+    from: optional("MAIL_FROM", ""),
+    // 验证码有效期与发送频控
+    codeTtlMin: parseInt(optional("MAIL_CODE_TTL_MIN", "10"), 10),
+    sendMaxPerWindow: parseInt(optional("MAIL_SEND_MAX", "3"), 10),
+    sendWindowMs: parseInt(optional("MAIL_SEND_WINDOW_MS", String(10 * 60 * 1000)), 10)
+  },
+
   env: optional("NODE_ENV", "development")
 };
 

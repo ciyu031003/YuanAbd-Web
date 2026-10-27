@@ -18,8 +18,8 @@ symptoms:
   - no audio output device
 keywords: [没声音, 音频, Realtek, 音频服务, 默认设备, 疑难解答, Windows 更新后无声, 音频驱动]
 aliases: [声音没了, 电脑静音了, 喇叭不响, 耳机没反应, 音量图标红叉]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 先确认音箱/耳机本身的音量旋钮和开关（物理层永远先查）
   - Windows 机器有管理员权限（重装驱动时用）
@@ -33,7 +33,7 @@ sources:
   - title: Microsoft 支持 - Windows 更新后声音失效的修复
     url: https://support.microsoft.com/zh-cn/windows/hardware/audio/fix-audio-stops-working-after-a-windows-update-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-no-sound.html
 ---
 
@@ -51,6 +51,14 @@ detail_href: ./fix/win-no-sound.html
 2. 点任务栏音量图标，看当前选中的**输出设备**对不对——接了 HDMI 显示器/扩展坞后声音常常「跑」到没有喇叭的设备上，手动切回扬声器/耳机。
 3. 开始菜单搜「**疑难解答设置**」（或 设置 → 系统 → 疑难解答 → 其他疑难解答）→ 音频 → 运行，选你的输出设备让它自动修。
 **期望结果**：疑难解答报告已修复，声音恢复。
+
+## 小白一键修复
+
+- 下载：[重启 Windows 音频服务（.bat）](../scripts/restart-audio-services.bat)
+- 适合：Windows 10/11，右下角喇叭有红叉、没有输出设备，或系统更新后突然无声。
+- 脚本会：重新扫描音频设备、重启 AudioEndpointBuilder 和 Audiosrv、打开声音设置。
+- 运行前：拔掉暂时不用的蓝牙耳机和扩展坞，确认扬声器已通电。
+- 注意：脚本不会安装声卡驱动；若设备管理器有声卡感叹号，请继续按正文更新或回退驱动。
 
 ## 适用 / 不适用
 

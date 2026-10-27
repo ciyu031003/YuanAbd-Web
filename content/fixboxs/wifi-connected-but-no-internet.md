@@ -6,12 +6,12 @@ category: net-connected-noint
 os: [Windows 10, Windows 11, macOS 12+]
 difficulty: 入门
 time: 15-45 分钟
-risk: 安全
+risk: 需谨慎
 symptoms: [连上wifi上不了网, 无Internet访问权限, 网络受限, 打不开网页, 有WiFi没网, 显示已连接但无法访问互联网, 网页转圈打不开, connected no internet, 有信号没网速, 微信能用网页打不开]
 keywords: [已连接但无法上网, 分层定位, 默认网关, DNS 解析, 代理设置, ipconfig, nslookup, netsh winsock reset]
 aliases: [上不了网, 断网, 没网, 连上网不能用, 有网但打不开网页]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [能正常使用手机, 知道自家路由器位置和管理地址, 电脑可以正常开关机]
 tools: [手机（对照测试）, Windows 命令提示符 / PowerShell, macOS 终端, 可以打开记事本或备忘录记录配置]
 related: [home-network-all-offline, dhcp-no-ip-169-254, dns-broken-but-app-works, wifi-adapter-missing, router-admin-page-unreachable]
@@ -27,11 +27,13 @@ sources:
   - title: Apple 支持 — 在 Mac 上使用"无线诊断"
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlf4de377f/mac
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/wifi-connected-but-no-internet.html
 ---
 
 # Wi-Fi 显示已连接但无法上网（打不开网页）
+
+> ⚠ 需谨慎：网络重置会短暂断开连接，VPN、代理或静态 IP 可能需要重新配置；公司或学校设备请先联系 IT。
 
 ## 一句话结论
 
@@ -42,6 +44,14 @@ detail_href: ./fix/wifi-connected-but-no-internet.html
 1. **用手机连同一个 Wi-Fi 打开网页。** 期望：手机也不行 → 是路由器或宽带的问题，直接看 [家里所有设备都上不了网：先分清是谁的问题](./home-network-all-offline.html)；手机正常 → 问题在这台电脑，继续往下。
 2. **重启路由器和光猫。** 两个都断电 30 秒，先开光猫、等指示灯稳定后再开路由器，再等 2 分钟。期望：约有一半的"连上没网"这样就好了。
 3. **按下面四层各敲一条命令**（Windows 用命令提示符，Mac 用终端）。期望：找出到底是哪一层断了，再对症处理。
+
+## 小白一键修复
+
+- 下载：[网络连接快速修复（.bat）](../scripts/fix-network-stack.bat)
+- 适合：Windows 10/11，Wi-Fi 已连接但网页打不开，且已排除欠费、路由器断网。
+- 脚本会：清理 DNS 缓存、重置 Winsock/TCP-IP、重新获取 IP，完成后询问是否重启。
+- 运行前：保存文档；如果电脑使用公司代理、VPN、静态 IP，先联系 IT。
+- 注意：重启后 VPN 或代理可能需要重新配置；脚本不会保证修复宽带、路由器或硬件故障。
 
 ## 适用 / 不适用
 
@@ -242,7 +252,7 @@ macOS：**系统设置 → 网络 → 详细信息 → 代理**，关闭所有�
 
 ### 步骤 7：重置网络栈（最后手段，需要重启）
 
-**目的**：把网络组件恢复到初始状态，解决协议栈损坏类问题。**注意：会清空已保存的 Wi-Fi 密码和自定义网络配置。**
+**目的**：把 Winsock 与 TCP/IP 恢复到初始状态，解决协议栈损坏类问题。**注意：可能清除自定义代理、VPN 网络组件和静态 IP 配置；这里的两条 `netsh` 命令通常不会删除已保存的 Wi-Fi 密码。**
 
 **操作**：
 
@@ -255,7 +265,7 @@ ipconfig /flushdns
 shutdown /r /t 0
 ```
 
-也可以在**设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置**里做同样的事，重启后需要重新输入 Wi-Fi 密码。
+也可以使用**设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置**。这个系统级“网络重置”范围更大，会移除并重装网络适配器，重启后通常需要重新连接 Wi-Fi。
 
 macOS：
 

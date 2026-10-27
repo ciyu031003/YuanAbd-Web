@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [没有WLAN选项, 网络适配器不见了, 设备管理器没有无线网卡, wifi图标没了, 适配器有黄色感叹号, 连不上wifi也没有wifi开关, no wifi adapter, 无线网卡消失, 以太网也看不见, 网络适配器出现感叹号]
 keywords: [网络适配器, WLAN, 设备管理器, 无线网卡驱动, 网卡消失, pnputil, Get-PnpDevice, 网络重置]
 aliases: [没有wifi选项, 找不到无线网卡, 网卡掉了, 无线适配器丢失]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [电脑能正常开机进入系统, 知道管理员密码, 另一台能上网的设备（下载驱动用）, 手边有可用的网线或 USB 无线网卡（可选）]
 tools: [设备管理器, Windows 设置（网络重置）, PowerShell, 厂商官网驱动下载, macOS 系统设置与终端]
 related: [wifi-ssid-not-found, wifi-connected-but-no-internet, ip-conflict-locate-device, home-network-all-offline]
@@ -29,7 +29,7 @@ sources:
   - title: Apple 支持 — 使用"Apple 诊断"测试你的 Mac
     url: https://support.apple.com/zh-cn/102550
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/wifi-adapter-missing.html
 ---
 
@@ -46,6 +46,14 @@ detail_href: ./fix/wifi-adapter-missing.html
 1. **看 Windows 快速设置面板有没有飞行模式、Wi-Fi 磁贴。** 期望：飞行模式是关的；Wi-Fi 磁贴可以点亮 → 只是被关掉了，不用重装驱动。
 2. **打开设备管理器 → 网络适配器**，看有没有带"无线/Wireless/WLAN/Wi-Fi"字样的设备。期望：有但带黄色感叹号 → 驱动问题；完全没有 → 网卡未被识别。
 3. **重启一次电脑并接上网线试。** 期望：网线能上网 → 至少系统网络组件正常，问题集中在无线网卡上。
+
+## 小白一键修复
+
+- 下载：[重启无线网卡与 WLAN 服务（.bat）](../scripts/restart-wifi-adapter.bat)
+- 适合：Windows 10/11，WLAN 选项突然消失，或无线网卡在设备管理器中异常。
+- 脚本会：重新扫描即插即用设备、重启 WLAN AutoConfig、输出无线网卡状态。
+- 运行前：如果电脑完全离线，请先用手机或其他电脑下载，再传到本机。
+- 注意：脚本不会卸载驱动或删除 Wi-Fi 密码；网卡硬件损坏、BIOS 禁用时仍需继续按正文处理。
 
 ## 适用 / 不适用
 

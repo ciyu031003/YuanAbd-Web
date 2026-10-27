@@ -17,8 +17,8 @@ symptoms:
   - 已配对但连不上
 keywords: [蓝牙配对, 蓝牙驱动, 蓝牙服务, 支持流, pairing, 蓝牙适配器, 2.4G 干扰]
 aliases: [耳机配对不上, 蓝牙失灵, 蓝牙断了, 蓝牙连了没声音, 无线鼠标连不上]
-updated: 2026-10-25
-version: "1.1"
+updated: 2026-10-27
+version: "1.2"
 prerequisites:
   - 确认耳机/键鼠本身有电（能开机、有指示灯）
   - 知道该设备支持蓝牙版本（影响兼容性判断，说明书或官网可查）
@@ -31,7 +31,7 @@ sources:
   - title: Apple 支持 - 如果 Mac 上的蓝牙无法使用
     url: https://support.apple.com/zh-cn/102321
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/bluetooth-device-not-pairing.html
 ---
 
@@ -48,6 +48,14 @@ detail_href: ./fix/bluetooth-device-not-pairing.html
 1. 把耳机放回充电盒、**关盖等 10 秒再开盖**，或长按功能键重置到配对模式（看说明书）。**期望结果**：设备进入「未连接」的干净状态，而不是「挂在手机上不肯走」。
 2. 关掉**手机**上与该设备的蓝牙连接（耳机通常只能同时服务一台主机）。**期望结果**：电脑这边马上能搜到/连上。
 3. 电脑蓝牙关开一次（设置 → 蓝牙和其他设备 → 关，再开）。**期望结果**：蓝牙栈小卡死就此恢复。
+
+## 小白一键修复
+
+- 下载：[重启蓝牙服务（.bat）](../scripts/restart-bluetooth-services.bat)
+- 适合：Windows 10/11，蓝牙开关正常，但耳机、键鼠一直配对失败或突然全部失联。
+- 脚本会：重新扫描设备、重启 Bluetooth Support Service、打开蓝牙设置。
+- 运行前：关闭其他设备上已连接的同一副耳机，并让设备进入配对模式。
+- 注意：脚本不会删除旧配对记录；配对记录损坏或驱动异常时仍需继续按正文处理。
 
 ## 适用 / 不适用
 

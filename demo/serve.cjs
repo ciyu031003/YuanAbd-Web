@@ -44,8 +44,10 @@ const COMPRESSIBLE = [".html", ".css", ".js", ".mjs", ".json", ".svg", ".txt", "
 const TEST_FREEZE = `<style id="dsh-test-freeze">
 *,*::before,*::after{animation:none!important;transition:none!important}
 html{scroll-behavior:auto!important}
-[data-reveal],.split .ch,.mask__inner,.line__inner{opacity:1!important;transform:none!important}
+[data-reveal],.fx-hero__line,.split .ch,.mask__inner,.line__inner{opacity:1!important;transform:none!important}
 .grain,.cursor{display:none!important}
+.fx-preloader,.fx-curtain{display:none!important}
+html.fx-entering body{opacity:1!important;transform:none!important}
 </style>`;
 
 http.createServer((req, res) => {

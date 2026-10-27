@@ -78,6 +78,12 @@ if (fs.existsSync(VENDOR)) {
 //    （与仓库既有的 bump-asset-versions 思路一致，但这里按内容自动计算）
 const ASSETS = ["css/tokens.css", "css/theme-fix.css", "css/fix.css", "css/fix-neu.css", "css/fix-atmosphere.css",
   "css/hardware.css", "js/fix.js", "js/hardware-3d.js", "data/articles.js", "data/hardware-parts.js"];
+const SCRIPTS = path.join(OUT, "scripts");
+if (fs.existsSync(SCRIPTS)) {
+  walk(SCRIPTS).filter(function (p) { return p.endsWith(".bat"); }).forEach(function (p) {
+    ASSETS.push(path.relative(OUT, p).split(path.sep).join("/"));
+  });
+}
 const versions = {};
 for (const rel of ASSETS) {
   const p = path.join(OUT, rel);

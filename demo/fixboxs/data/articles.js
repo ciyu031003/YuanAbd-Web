@@ -30,7 +30,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "15-45 分钟",
-  "risk": "安全",
+  "risk": "需谨慎",
   "symptoms": [
    "连上wifi上不了网",
    "无Internet访问权限",
@@ -53,7 +53,7 @@ window.FX_ARTICLES = [
    "nslookup",
    "netsh winsock reset"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-connected-but-no-internet.html",
   "kind": "guide",
   "hot": 31
@@ -102,7 +102,7 @@ window.FX_ARTICLES = [
    "black screen cursor",
    "桌面不显示"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-blackscreen-cursor.html",
   "kind": "guide",
   "hot": 30
@@ -362,7 +362,7 @@ window.FX_ARTICLES = [
    "hosts",
    "223.5.5.5"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/dns-broken-but-app-works.html",
   "kind": "guide",
   "hot": 25
@@ -391,7 +391,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "20-90 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "开机密码忘了",
    "PIN 用不了",
@@ -411,7 +411,7 @@ window.FX_ARTICLES = [
    "登录选项",
    "net user 改密码"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-forgot-password.html",
   "kind": "guide",
   "hot": 24
@@ -510,7 +510,7 @@ window.FX_ARTICLES = [
    "hiberfil.sys",
    "Windows.old"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-c-drive-full-cleanup.html",
   "kind": "guide",
   "hot": 22
@@ -568,7 +568,7 @@ window.FX_ARTICLES = [
    "Get-PnpDevice",
    "网络重置"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-adapter-missing.html",
   "kind": "guide",
   "hot": 21
@@ -621,7 +621,7 @@ window.FX_ARTICLES = [
    "代理设置残留",
    "proxy server"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/proxy-server-not-responding.html",
   "kind": "guide",
   "hot": 20
@@ -803,7 +803,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "30-90 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "开机一直转圈",
    "卡在品牌logo",
@@ -823,7 +823,7 @@ window.FX_ARTICLES = [
    "bootrec",
    "开机卡死"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-stuck-on-boot-logo.html",
   "kind": "guide",
   "hot": 16
@@ -881,7 +881,7 @@ window.FX_ARTICLES = [
    "网络重置",
    "RFC 3927"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/dhcp-no-ip-169-254.html",
   "kind": "guide",
   "hot": 15
@@ -935,7 +935,7 @@ window.FX_ARTICLES = [
    "网络打印机",
    "打印机驱动"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/printer-offline.html",
   "kind": "guide",
   "hot": 14
@@ -990,7 +990,7 @@ window.FX_ARTICLES = [
    "磁盘管理",
    "数据恢复"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/usb-drive-not-recognized.html",
   "kind": "guide",
   "hot": 13
@@ -1039,7 +1039,7 @@ window.FX_ARTICLES = [
    "依赖查看",
    "闪退"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-app-crash-missing-dll.html",
   "kind": "guide",
   "hot": 12
@@ -1097,7 +1097,7 @@ window.FX_ARTICLES = [
    "netsh wlan show networks",
    "无线诊断"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-ssid-not-found.html",
   "kind": "guide",
   "hot": 11
@@ -1248,7 +1248,7 @@ window.FX_ARTICLES = [
    "组件存储损坏",
    "更新疑难解答"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-update-stuck.html",
   "kind": "guide",
   "hot": 8
@@ -1557,7 +1557,7 @@ window.FX_ARTICLES = [
    "netsh winsock reset",
    "网络重置"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/proxy-tool-broke-network.html",
   "kind": "guide",
   "hot": 2
@@ -1663,7 +1663,7 @@ window.FX_ARTICLES = [
    "蓝牙适配器",
    "2.4G 干扰"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/bluetooth-device-not-pairing.html",
   "kind": "guide",
   "hot": 1
@@ -1697,7 +1697,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "5-25 分钟",
-  "risk": "安全",
+  "risk": "需谨慎",
   "symptoms": [
    "浏览器打不开网页",
    "网页打不开但微信能用",
@@ -1715,7 +1715,7 @@ window.FX_ARTICLES = [
    "系统代理",
    "浏览器插件代理"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-27",
   "detail_href": "./fix/browser-proxy.html",
   "kind": "guide",
   "hot": 1
@@ -2204,7 +2204,7 @@ window.FX_ARTICLES = [
    "续航",
    "system_profiler"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/mac-battery-health.html",
   "kind": "guide",
   "hot": 1
@@ -2217,7 +2217,7 @@ window.FX_ARTICLES = [
   "category": "mac-login",
   "categoryName": "登录与密码",
   "path": "macOS 系统与开机 › 登录与密码",
-  "summary": "macOS 自带密码重置：在登录窗口输错三次，就会冒出「用 Apple 账户重置」的入口；Apple Silicon 机器还可以在恢复模式里跑「重置密码助理」。不需要重装系统，也不需要进任何第",
+  "summary": "macOS 自带密码重置：在登录窗口按提示尝试「使用 Apple 账户重置」，具体入口取决于系统版本、账户类型和 FileVault 状态；Apple Silicon 机器还可以在恢复模式里运",
   "os": [
    {
     "t": "macOS 13+",
@@ -2237,7 +2237,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "10-40 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "Mac 忘记密码",
    "MacBook 密码不对",
@@ -2255,7 +2255,7 @@ window.FX_ARTICLES = [
    "Reset Password Assistant",
    "登录钥匙串"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/mac-forgot-password.html",
   "kind": "guide",
   "hot": 1
@@ -2718,7 +2718,7 @@ window.FX_ARTICLES = [
   "category": "per-printer",
   "categoryName": "打印机",
   "path": "外设 › 打印机",
-  "summary": "0x0000011b 是 2021 年微软安全补丁（KB5005565 系列）加强了打印队列的 RPC 凭据验证之后出现的经典问题——不是打印机坏了。修复优先级：主机和客户机都装齐 Windo",
+  "summary": "0x0000011b 常见于 2021 年打印组件安全更新之后，与打印队列的 RPC 凭据/隐私验证兼容性有关，不一定是打印机坏了。修复顺序应是：主机和客户机安装仍在支持期内的系统更新 → 客",
   "os": [
    {
     "t": "Windows 10",
@@ -2758,7 +2758,7 @@ window.FX_ARTICLES = [
    "RPC",
    "打印机共享"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/printer-shared-error-11b.html",
   "kind": "guide",
   "hot": 1
@@ -3861,7 +3861,7 @@ window.FX_ARTICLES = [
    "联想",
    "会议软件"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/webcam-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -3911,7 +3911,7 @@ window.FX_ARTICLES = [
    "Windows 更新后无声",
    "音频驱动"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-no-sound.html",
   "kind": "guide",
   "hot": 1
@@ -3961,7 +3961,7 @@ window.FX_ARTICLES = [
    "卸载更新",
    "恢复选项"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-safe-restore.html",
   "kind": "guide",
   "hot": 1
@@ -4011,7 +4011,7 @@ window.FX_ARTICLES = [
    "区域设置",
    "应用商店"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-store-not-opening.html",
   "kind": "guide",
   "hot": 1

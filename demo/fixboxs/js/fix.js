@@ -499,8 +499,9 @@
   function initCopy() {
     $$("[data-fx-copy]").forEach(function (btn) {
       btn.addEventListener("click", function () {
+        var targetId = btn.getAttribute("data-fx-copy-target");
         var block = btn.closest(".fx-cmd");
-        var code = block && $("code", block);
+        var code = targetId ? doc.getElementById(targetId) : (block && $("code", block));
         if (!code) return;
         var text = code.textContent.replace(/^\s*>\s?/gm, "");
         var done = function () {

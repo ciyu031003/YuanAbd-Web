@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：端口映射的本质是<strong>把内网服务的门开到公网</strong>。本文全程按「最小暴露」原则走（只开必需端口、避开高危端口、强密码 + HTTPS 优先），照做可以把风险压到可接受的范围；但<strong>不要把 SMB(445)、远程桌面(3389) 原样裸暴露</strong>，这两类端口是被扫得最凶的攻击面。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">外网访问家里设备的完整链路 = <strong>固定内网 IP（设备的门牌）→ 端口映射（把门牌挂到公网）→ DDNS（公网 IP 老变就绑个域名）</strong>。动手前先确认一件事：<strong>你家有没有公网 IP</strong>（<code>ip.cn</code> 查到的 IP 与路由器 WAN 口 IP 一致才算）——没有的话端口映射映射了个寂寞，直接走「内网穿透/IPv6」支线。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>访问 <code>ip.cn</code> 记下「你的 IP」，再登录路由器看 WAN 口 IP。<strong>期望结果</strong>：两个一致 = 有公网 IP，走主线；不一致（WAN 是 100.64.x / 10.x / 192.168.x）= 大内网，跳步骤 5。</li><li>目标设备（NAS/电脑）设置固定内网 IP（DHCP 保留，做法看<a class="fx-link" href="./printer-network-ip-fixed.html">「网络打印机 IP 变了就离线？固定 IP 与端口配置」</a>步骤 2，原理相同）。</li><li>局域网内先自测：手机连家里 Wi-Fi 访问 <code>http://NAS内网IP:端口</code> 能打开，再谈映射——<strong>内网都不通，映射了也不通</strong>。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>想在外面上班/出差时访问家里 NAS 的文件、看家里的摄像头。</li><li>远程桌面连家里电脑（配合安全加固）。</li><li>自建服务（相册、下载器、家庭服务器）想外网可达。</li></ul>
@@ -80,7 +81,7 @@
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

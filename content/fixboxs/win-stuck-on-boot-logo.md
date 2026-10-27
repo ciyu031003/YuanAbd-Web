@@ -6,12 +6,12 @@ category: win-boot
 os: [Windows 10, Windows 11]
 difficulty: 入门
 time: 30-90 分钟
-risk: 需谨慎
+risk: 有数据风险
 symptoms: [开机一直转圈, 卡在品牌logo, 卡在开机画面, 转圈进不去系统, 开机无限转圈, stuck on boot logo, 正在准备自动修复, 开机卡很久不进去]
 keywords: [开机一直转圈, 卡在品牌logo, 启动修复, 自动修复, winre, bootrec, 开机卡死]
 aliases: [开机卡住, 开机进不去, 卡在开机界面, 转圈转不停, 开机循环重启]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [记得开机密码, 重要数据有备份或能拆盘备份, 知道电脑是 UEFI 还是 Legacy 启动]
 tools: [Windows 恢复环境（WinRE）, 启动修复, 命令提示符, chkdsk, DISM, sfc, msconfig]
 related: [win-blackscreen-cursor, win-bluescreen-read-code, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-stuck-on-boot-logo.html
 ---
 

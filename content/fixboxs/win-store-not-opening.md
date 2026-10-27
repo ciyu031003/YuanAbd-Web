@@ -18,8 +18,8 @@ symptoms:
   - 商店应用打不开
 keywords: [Microsoft Store, wsreset, 商店修复, 商店重置, 应用安装失败, 0x80131500, 区域设置, 应用商店]
 aliases: [应用商店打不开, 微软商店问题, 商店无法加载, Store 修复]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - Windows 机器有管理员权限
   - 网络正常（浏览器能上网）
@@ -34,7 +34,7 @@ sources:
   - title: Microsoft Learn 问答 - 商店损坏的修复与重置
     url: https://learn.microsoft.com/zh-cn/answers/questions/3880734/question-3880734
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-store-not-opening.html
 ---
 
@@ -51,6 +51,14 @@ detail_href: ./fix/win-store-not-opening.html
 1. `Win + R` → 输入 `wsreset.exe` → 回车。**期望结果**：黑窗闪 10 秒后商店自动打开——官方第一步，命中率最高。
 2. 关掉 VPN/代理（退出加速器、抓包工具），看[「浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复」](./browser-proxy.html)清一下系统代理。**期望结果**：商店恢复加载。
 3. 看日期时间与区域：设置 → 时间和语言 → 区域 =「中国」（或你所在地区）；时间自动同步。**期望结果**：商店服务器握手正常。
+
+## 小白一键修复
+
+- 下载：[清理 Microsoft Store 缓存（.bat）](../scripts/reset-windows-store.bat)
+- 适合：Windows 10/11，商店打不开、闪退或应用下载长期卡住。
+- 脚本会：关闭商店窗口，执行系统自带 `wsreset.exe`，完成后尝试重新打开商店。
+- 运行前：保存正在填写的商店页面信息；脚本不会卸载应用。
+- 注意：若公司代理、区域设置或 Windows 更新时间异常，脚本只能清缓存，仍需继续按正文排查。
 
 ## 适用 / 不适用
 

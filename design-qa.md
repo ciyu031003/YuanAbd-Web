@@ -18,3 +18,19 @@
 - Remaining test gap: the taxonomy CRUD routes were rendered and syntax-checked locally; destructive write-path tests against the production database were not executed before deployment.
 
 Final result: passed
+
+## Fixbox BAT and mobile regression (2026-10-27)
+
+- Coverage: 27 page/viewport states across the homepage, article pages, BAT cards, and source views at 1440, 768, 390, 360, and 320 px.
+- BAT interaction: the download endpoint returned `fix-network-stack.bat` (1,493 bytes), and the copy control wrote the same full source to the clipboard.
+- Mobile behavior: long command strings and BAT source wrap without page overflow; every tested viewport reported `scrollWidth === clientWidth`.
+- Runtime health: no browser console errors or failed network requests were observed.
+- Evidence:
+  - `gui-test-screenshots/fixboxs-bat/home-desktop-1440.png`
+  - `gui-test-screenshots/fixboxs-bat/home-mobile-320.png`
+  - `gui-test-screenshots/fixboxs-bat/wifi-bat-mobile-390.png`
+  - `gui-test-screenshots/fixboxs-bat/bat-card-desktop.png`
+  - `gui-test-screenshots/fixboxs-bat/bat-source-mobile-390.png`
+- Findings: no actionable P0/P1/P2 issues remain in the reviewed states.
+
+Final result: passed

@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本教程<strong>严禁拆开电源外壳</strong>——内部大电容在断电后仍可能带数百伏高压，非专业人员拆解有生命危险。所有操作都在关机断电后进行；有烧焦味、异响或电源曾冒烟的，直接换新，不要再通电测试。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「按了没反应」要按 <strong>插座 → 电源线 → 开关 → 电源本身 → 主板开机电路</strong> 的顺序查，其中「回形针短接 24pin」是判断电源死活的金标准：短接后电源风扇转、各路电压正常，电源就是好的，锅在主板或机箱开关；不转，电源报废，换新即可。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>换一个确定正常的墙插，跳过插线板直接插墙。<strong>期望结果</strong>：不少「电源坏了」其实是插线板开关被碰掉了。</li><li>确认电源背后的<strong>机械开关</strong>在「—」位（I 是开），且电源线两端插紧。<strong>期望结果</strong>：排除最蠢也最常见的原因。</li><li>观察主机：按开机键时<strong>任何反应都没有</strong>（灯不闪、风扇不动）→ 按本教程走短接测试；<strong>风扇转一下就停</strong> → 更多是短路保护或内存/主板问题，看<a class="fx-link" href="./ram-reseat-no-boot.html">「电脑反复重启？先重插内存条」</a>。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>按开机键整机无任何反应，电源灯不亮。</li><li>使用中突然断电关机、再开没反应，过一会儿又能开（电源过热保护或老化）。</li><li>新装机或换件后点不亮，怀疑电源或安装问题。</li></ul>
@@ -80,7 +81,7 @@
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

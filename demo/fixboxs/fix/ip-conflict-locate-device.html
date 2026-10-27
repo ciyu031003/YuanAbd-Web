@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会修改本机与路由器的网络配置（释放/续约 IP、设置地址保留）。操作前建议截图保存当前 IP、网关与 DHCP 设置，方便还原。公司网络请先联系 IT。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">IP 冲突=同一个网段里有两台设备用了同一个地址。查法是：先在系统日志确认冲突事件，再用 <code>arp -a</code> 和路由器的 DHCP 客户端列表把人找出来，最后用&quot;DHCP 保留&quot;根治。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>Windows 上打开事件查看器 → Windows 日志 → 系统</strong>，右侧点「筛选当前日志」，来源选 <code>Tcpip</code>，事件 ID 填 <code>4198</code>。期望：能看到&quot;检测到地址冲突&quot;的记录，并带对方的 MAC 地址。</li><li><strong>在命令提示符执行</strong> <code>ipconfig /release</code> 后接 <code>ipconfig /renew</code>。期望：重新拿到一个不冲突的地址，网络暂时恢复。</li><li><strong>登录路由器后台，看 DHCP 客户端列表</strong>。期望：能列出在线设备的 IP、MAC 和主机名，对照第 1 步的 MAC 就能锁定是哪台设备。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>Windows 弹出&quot;检测到 IP 地址冲突&quot;，或网络图标出现感叹号</li><li>网络时通时断、两台设备轮流掉线</li><li>刚给某台设备设过固定 IP，之后家里网络开始不稳定</li><li>事件查看器里有来源 <code>Tcpip</code>、事件 ID <code>4198</code> 的记录</li></ul>
@@ -140,7 +141,7 @@ ifconfig en0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

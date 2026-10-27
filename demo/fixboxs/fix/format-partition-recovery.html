@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--danger"><span class="fx-callout__ico" aria-hidden="true">⛔</span><div>⛔ 有数据风险：恢复成功的最大敌人是「继续写入」。格式化后<strong>每写进一个新文件，就可能覆盖一批旧文件</strong>。动手前三个不要：不要装软件到这块盘、不要往里拷东西、不要反复「试格式化修复」。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p"><strong>快速格式化只是撕掉了图书馆的目录卡，书还在书架上</strong>——只要没被新数据覆盖，专业软件（DiskGenius 等）扫一遍大多能找回。分区不见（盘符消失/变未分配）多数是<strong>分区表损坏</strong>，用「搜索已丢失分区」连目录带结构一起恢复的概率更高。恢复的希望排序：<strong>刚格式化没写入 &gt; 分区表损坏 &gt; 格式化后写入过 &gt; （重装系统格了 C 盘）</strong>。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>确认属于哪种场景：</li><li><strong>A. 误点格式化</strong>（U 盘提示格式化点了确定 / 右键格错盘）→ 数据大多可救，进步骤 2。</li><li><strong>B. 分区不见了</strong>（磁盘管理里显示「未分配」/ 盘符消失）→ 分区表问题，进步骤 3。</li><li><strong>C. 重装系统时格式化了数据盘</strong> → 写入量看运气（系统文件会覆盖一部分），仍值得扫。</li><li>判断格式化类型：Windows 右键格式化<strong>默认勾选「快速格式化」</strong>——快速格式化可救率高；只有「完全格式化」（未勾快速）+ 部分老系统的完全格式化会写零。</li><li>硬盘有无异响：咔咔响先断电，看<a class="fx-link" href="./disk-clicking-failure.html">「硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了」</a>——<strong>物理故障盘继续通电 = 数据加速死亡</strong>，直接送恢复机构。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>误格式化 U 盘/移动硬盘/分区（快速格式化）。</li><li>分区表损坏：盘符消失、磁盘管理显示未分配、RAW 格式。</li><li>重装系统选错盘，格式化后又立刻发现。</li></ul>
@@ -80,7 +81,7 @@
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

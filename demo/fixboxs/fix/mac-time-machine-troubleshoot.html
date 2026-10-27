@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：备份盘出问题时<strong>不要随手格式化</strong>——里面有你的历史备份。Apple 官方的修复路径是「磁盘工具 → 急救」而不是重格；磁盘满了解决之道是换更大的盘，而不是删备份（时间机器自己会滚动清理最旧备份）。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">时间机器卡住/失败的四大惯犯按概率排：<strong>磁盘连接/格式问题、磁盘空间满、磁盘需要「急救」、首次备份本来就慢</strong>（几百 GB 走 USB 需要数小时到一晚，卡在「正在准备备份」几小时往往是正常的）。按 Apple 官方排查序：<strong>查连接 → 查空间 → 磁盘急救 → 重选备份盘</strong>，别动不动就重格。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>看卡在哪个阶段：菜单栏时间机器图标 → 「正在准备备份」（可等，尤其首次）/「正在备份 X of Y」不动 1 小时+（异常）。<strong>期望结果</strong>：先分辨「慢」和「死」。</li><li>备份盘连接与格式：插入后在「磁盘工具」能看到吗？格式是 <strong>APFS 或 Mac OS 扩展（HFS+）</strong>吗（NTFS 盘不能当时间机器盘）？<strong>期望结果</strong>：盘可见且格式正确。</li><li>空间：备份盘容量 ≥ <strong>Mac 已用空间 × 2</strong> 最稳（Apple 官方建议备份盘至少与被备份数据一样大，2 倍能保住历史版本）。<strong>期望结果</strong>：空间充足。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>时间机器备份一直「准备中」不动、备份到一半失败。</li><li>提示「备份磁盘已满」「找不到备份磁盘」「备份磁盘只读」。</li><li>备份慢到怀疑人生。</li><li>换了新备份盘想把旧备份迁走。</li></ul>
@@ -80,7 +81,7 @@
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

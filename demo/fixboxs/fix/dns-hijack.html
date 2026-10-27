@@ -48,6 +48,7 @@
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文会改路由器与系统的 DNS 设置——改之前截图记录原值，改错会导致整个家/这台电脑断网（恢复方法也给了）。判断劫持要拿证据，别凭「感觉慢」就乱改一通。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">DNS 劫持 = 你问路（域名解析），<strong>指路的人（DNS 服务器）被收买了</strong>——给你指到广告页、钓鱼站，或故意绕远路让你觉得慢。判断三板斧：<strong>ping 一个不存在的域名</strong>（居然能「解析成功」= 劫持实锤）、<strong>对比多个 DNS 的解析结果</strong>、<strong>查路由器 WAN/DHCP 下发的 DNS</strong>。根治 = 路由器与设备全改可信公共 DNS（223.5.5.5 / 119.29.29.29），中招的路由器顺手改密码升固件。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>命令行跑 <code>nslookup 不存在的域名随便起.test</code>：</li><li>正常：报「找不到 xxx，不存在」（NXDOMAIN）。</li><li><strong>劫持实锤</strong>：返回了一个 IP（劫持服务器，等着给你弹广告页）。</li><li><code>nslookup www.qq.com</code> 与 <code>nslookup www.qq.com 223.5.5.5</code> 对比：同一个域名，默认 DNS 与阿里公共 DNS 给出的 IP <strong>不一致且默认那个指向奇怪地址</strong> = 高度可疑。</li><li>登录路由器看「WAN 口状态 / DHCP 设置」里的 DNS 服务器：不是运营商常规地址（如 202.96.x.x 网通/电信段）也不是你设过的公共 DNS，而是陌生 IP → 路由器层被改。</li></ol></div>
+
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>网页打开前「先转一下」再跳到带广告的页面、右下角弹窗。</li><li>明显输入 A 网站却被带到 B 网站/导航站。</li><li>所有网站都慢，且慢在「开始加载前」（DNS 解析阶段）。</li><li>路由器 DNS 设置里出现陌生 IP。</li></ul>
@@ -82,7 +83,7 @@
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

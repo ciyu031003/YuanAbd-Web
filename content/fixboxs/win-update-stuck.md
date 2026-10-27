@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [更新卡在0%, 更新一直失败, 正在配置更新卡住, 更新错误码, 检查更新卡住, windows update stuck, 更新下载不动, 更新装到一半失败]
 keywords: [Windows更新卡住, 更新错误代码, DISM RestoreHealth, sfc scannow, SoftwareDistribution, 组件存储损坏, 更新疑难解答]
 aliases: [更新失败, 更新装不上, 更新卡住不动, 补丁打不上, 系统更新报错]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [电脑能正常进入系统, 有管理员权限, C 盘至少有 20 GB 可用空间, 企业电脑先联系 IT]
 tools: [设置中的疑难解答, 命令提示符（管理员）, DISM, sfc, 磁盘清理, Microsoft Update Catalog]
 related: [win-c-drive-full-cleanup, win-stuck-on-boot-logo, win-bluescreen-read-code]
@@ -28,12 +28,17 @@ sources:
   - title: Microsoft Update Catalog — 手动下载更新包
     url: https://www.catalog.update.microsoft.com/Home.aspx
     type: official
+  - title: Microsoft Lifecycle — Windows 10 Home and Pro
+    url: https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro
+    type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-update-stuck.html
 ---
 
 # Windows 更新卡在 0% / 一直失败，怎么强制修好
+
+> ℹ️ 版本提示：Windows 10 已于 2025-10-14 结束常规安全更新。仍在使用时请先确认设备是否符合升级条件，并查看微软的扩展安全更新政策；不要为了继续更新而安装来源不明的“永久更新工具”。
 
 > ⚠️ 需谨慎：本文会重命名系统更新缓存目录、清理组件存储并可能卸载更新，操作前请创建还原点并备份重要文件。
 > ⛔ 有数据风险：步骤 8 的重置电脑和步骤 4 的组件存储清理都会改变系统状态，动手前请备份重要数据，并确认你不需要回退已安装的更新。
@@ -48,6 +53,14 @@ detail_href: ./fix/win-update-stuck.html
 1. **先等 30-60 分钟。** 看硬盘灯是否还在闪、风扇是否还在转；有动静说明在装，别强制关机。卡在「正在配置更新」时断电最危险。
 2. **看错误码。** 「设置 → Windows 更新 → 更新历史记录」，记下失败更新的编号（如 KB5063878）和错误码，对照下文表格定方向。
 3. **看 C 盘空间。** 文件资源管理器 →「此电脑」，C 盘剩余不到 20 GB 就先去腾空间：[C 盘爆红快满了，怎么安全清理出空间](./win-c-drive-full-cleanup.html)。
+
+## 小白一键修复
+
+- 下载：[重置 Windows 更新缓存（.bat）](../scripts/repair-windows-update.bat)
+- 适合：Windows 10/11，更新长期卡在下载阶段、反复失败，但系统仍能正常进入桌面。
+- 脚本会：停止更新服务，备份并重建 SoftwareDistribution 与 catroot2，再启动服务。
+- 运行前：保存文档，确认 C 盘至少有 10 GB 可用空间；企业设备先联系 IT。
+- 注意：脚本不会卸载已安装更新或个人文件；旧缓存会保留为带时间戳的备份目录。
 
 ## 适用 / 不适用
 
@@ -217,10 +230,10 @@ netsh winhttp show proxy
 **操作**：
 1. 到 Microsoft Update Catalog 搜索失败更新的 KB 编号。
 2. 下载与本机系统版本、架构（x64 / ARM64）匹配的 `.msu` 文件。
-3. 双击安装；若安装器报「不适用」，可改用 DISM 直接添加包：
+3. 双击安装；若安装器报「不适用」，先核对系统版本、架构和 KB 编号，再把命令中的文件名替换为刚才下载的真实文件名：
 
 ```bat
-DISM /Online /Add-Package /PackagePath:"C:\Users\你的用户名\Downloads\windows10.0-kb5063878-x64.msu"
+DISM /Online /Add-Package /PackagePath:"C:\Users\你的用户名\Downloads\更新包文件名.msu"
 ```
 
 > ⛔ 有数据风险：重置电脑会清空系统盘上安装的程序和设置，「删除所有内容」还会清空个人文件。动手前必须备份重要数据。

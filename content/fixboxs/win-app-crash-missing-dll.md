@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [软件打不开, 软件闪退, 缺少dll, 0xc000007b, 应用程序无法正常启动, missing dll, 提示找不到dll文件, 游戏闪退]
 keywords: [缺少dll, 0xc000007b, VC++ 运行库, DirectX 运行库, .NET Framework, 依赖查看, 闪退]
 aliases: [dll 缺失, 打不开程序, 程序崩溃, 双击没反应, 一开就闪退]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [知道出问题的是哪个软件, 有管理员权限, 能上网下载运行库]
 tools: [Visual C++ 可再发行程序包, DirectX 终端用户运行时, .NET Framework, DISM, sfc, Dependencies（开源）, 事件查看器]
 related: [win-c-drive-full-cleanup, win-bluescreen-read-code, win-popup-ads-hijack]
@@ -29,7 +29,7 @@ sources:
     url: https://github.com/lucasg/Dependencies
     type: opensource
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-app-crash-missing-dll.html
 ---
 
@@ -46,6 +46,14 @@ detail_href: ./fix/win-app-crash-missing-dll.html
 1. **先记下 DLL 名字或错误码。** 弹窗里的 `xxx.dll` 和 `0xc000007b` 直接决定方向，拍照或抄下来。
 2. **直接重装那个软件。** 用软件官方安装包再装一次（选「修复」），大多数闪退就此消失。
 3. **装两个运行库先试。** Visual C++ 可再发行程序包（x64 和 x86 都要装）和 DirectX 终端用户运行时，这两样是 80% 的「缺 dll」元凶。
+
+## 小白一键修复
+
+- 下载：[修复 Windows 系统文件（.bat）](../scripts/repair-system-files.bat)
+- 适合：Windows 10/11，多个软件同时报 DLL 缺失或系统组件损坏，不是单一软件自身报错。
+- 脚本会：依次运行 DISM RestoreHealth 和 SFC 系统文件扫描。
+- 运行前：接好电源并保存文档，预留 15-60 分钟，不要强制关机。
+- 注意：脚本不会下载第三方 DLL，也不会修复软件自身安装包；特定软件仍应重新安装官方版本。
 
 ## 适用 / 不适用
 

@@ -19,13 +19,13 @@ symptoms:
 keywords: [Microsoft Store, wsreset, 商店修复, 商店重置, 应用安装失败, 0x80131500, 区域设置, 应用商店]
 aliases: [应用商店打不开, 微软商店问题, 商店无法加载, Store 修复]
 updated: 2026-10-27
-version: "1.1"
+version: "1.2"
 prerequisites:
   - Windows 机器有管理员权限
   - 网络正常（浏览器能上网）
   - 改「区域/时间」前记住当前设置（用完改回来）
 tools: [设置应用, wsreset, 命令提示符（管理员）, Windows 更新]
-related: [win-app-crash-missing-dll, browser-proxy, enterprise-proxy, win-safe-restore, dns-hijack]
+related: [win-app-crash-missing-dll, browser-proxy, enterprise-proxy, win-safe-restore, codex-desktop-install, win-update-enable]
 sources:
   - title: Microsoft 支持 - Microsoft Store 打不开（wsreset 官方流程）
     url: https://support.microsoft.com/zh-cn/accounts-billing/microsoft-store-doesn-t-open
@@ -44,7 +44,7 @@ detail_href: ./fix/win-store-not-opening.html
 
 ## 一句话结论
 
-商店问题的修复顺序照抄微软官方三板斧：**`wsreset.exe` 清缓存 → 设置里「修复」→ 「重置」**。九成卡在第一步就好了。开不了机的病因大都是这几样：**代理/VPN 拦截、区域设成了奇怪的国家、时间不对、商店缓存坏了**——按本文顺序走，从软到硬，不用重装系统。
+商店问题的修复顺序照抄微软官方三板斧：**`wsreset.exe` 清缓存 → 设置里「修复」→ 「重置」**。多数缓存或临时组件问题会在这几步恢复；常见原因还包括**代理/VPN 拦截、区域设置异常、系统时间错误和 Windows 更新组件异常**。按本文顺序从软到硬处理，不用先重装系统。
 
 ## 30 秒快速排查
 
@@ -54,11 +54,11 @@ detail_href: ./fix/win-store-not-opening.html
 
 ## 小白一键修复
 
-- 下载：[清理 Microsoft Store 缓存（.bat）](../scripts/reset-windows-store.bat)
-- 适合：Windows 10/11，商店打不开、闪退或应用下载长期卡住。
-- 脚本会：关闭商店窗口，执行系统自带 `wsreset.exe`，完成后尝试重新打开商店。
-- 运行前：保存正在填写的商店页面信息；脚本不会卸载应用。
-- 注意：若公司代理、区域设置或 Windows 更新时间异常，脚本只能清缓存，仍需继续按正文排查。
+- 下载：[修复 Microsoft Store（.bat）](../scripts/repair-microsoft-store.bat)
+- 适合：Windows 10/11，商店打不开、闪退、缓存损坏或应用下载长期卡住。
+- 脚本会：关闭商店窗口，执行系统自带 `wsreset.exe`，重新注册 Microsoft Store，再尝试打开商店。
+- 运行前：保存正在填写的商店页面信息；脚本不会卸载应用，也不会删除个人文件。
+- 注意：若公司代理、区域设置、账户权限或 Windows 更新状态异常，脚本只能修复本机商店组件，仍需继续按正文排查。
 
 ## 适用 / 不适用
 
@@ -67,6 +67,7 @@ detail_href: ./fix/win-store-not-opening.html
 - Microsoft Store 打不开、无限转圈、闪退、报 0x80131500/0x80131505 等错误码。
 - 商店里应用下载卡 0% / 安装失败。
 - 商店应用（照片/计算器等 UWP 应用）打不开或闪退。
+- 准备从商店安装 ChatGPT/Codex，但商店无法加载商品页。
 
 **不适用**
 
@@ -112,7 +113,7 @@ detail_href: ./fix/win-store-not-opening.html
 
 ### 步骤 5：系统层修复（疑难杂症）
 
-1. Windows 更新装齐（设置 → Windows 更新）——商店组件随累积更新修复。
+1. Windows 更新装齐（设置 → Windows 更新）——商店组件随累积更新修复。若更新被关闭，按[重新开启 Windows 更新](./win-update-enable.html)处理。
 2. 管理员命令行跑系统文件检查：`sfc /scannow`，完成后再 `DISM /Online /Cleanup-Image /RestoreHealth`。
 3. 顽固案例（Store 被深度损坏）：管理员 PowerShell 执行重装商店命令
    `Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}` 后重启。
@@ -142,7 +143,10 @@ detail_href: ./fix/win-store-not-opening.html
 - [浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复](./browser-proxy.html)
 - [DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法](./dns-hijack.html)
 - [系统改坏了进不去？安全模式、系统还原与重置的正确顺序](./win-safe-restore.html)
+- [Windows 更新被关闭了，怎么重新开启](./win-update-enable.html)
+- [Codex 怎么下载安装：Windows 桌面版与第一次使用](./codex-desktop-install.html)
 
 ## 更新日志
 
 - 2026-10-25 v1.0：首版发布。wsreset/修复/重置主流程与网络/区域/系统层排查综合微软官方支持文档与 Learn 问答整理。
+- 2026-10-27 v1.2：加入商店重新注册 BAT，补充 Windows 更新与 Codex 桌面安装关联路径。

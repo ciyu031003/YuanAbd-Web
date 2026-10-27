@@ -1721,6 +1721,102 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "codex-cli-install",
+  "title": "Codex CLI 下载安装与登录：Windows 一条命令搞定",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-ai-tools",
+  "categoryName": "AI 工具与开发软件",
+  "path": "Windows 软件与性能 › AI 工具与开发软件",
+  "summary": "Codex CLI 的 Windows 主流程是：安装 Node.js LTS → 运行 npm install -g @openai/codex → 用 codex --version 验证",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Codex CLI怎么安装",
+   "npm安装Codex失败",
+   "codex命令找不到",
+   "Codex登录不了",
+   "Codex升级",
+   "Codex doctor报错",
+   "Node版本不兼容"
+  ],
+  "keywords": [
+   "Codex CLI",
+   "npm",
+   "@openai/codex",
+   "codex login",
+   "codex doctor",
+   "Node.js",
+   "Windows终端"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/codex-cli-install.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "codex-desktop-install",
+  "title": "Codex 怎么下载安装：Windows 桌面版与第一次使用",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-ai-tools",
+  "categoryName": "AI 工具与开发软件",
+  "path": "Windows 软件与性能 › AI 工具与开发软件",
+  "summary": "不要从软件下载站找“Codex 独立安装包”。Windows 用户先在 Microsoft Store 搜索 ChatGPT，只安装发布者为 OpenAI 的应用；打开后登录账号并进入 Cod",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-20 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Codex怎么下载",
+   "Codex桌面版下载",
+   "ChatGPT里没有Codex",
+   "Codex安装不了",
+   "Codex打不开",
+   "Codex登录不了",
+   "微软商店找不到Codex"
+  ],
+  "keywords": [
+   "Codex下载",
+   "Codex Windows",
+   "ChatGPT桌面版",
+   "OpenAI Codex",
+   "Microsoft Store",
+   "Codex安装",
+   "Codex登录"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/codex-desktop-install.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "dns-hijack",
   "title": "DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法",
   "domain": "ip-dns",
@@ -3974,7 +4070,7 @@ window.FX_ARTICLES = [
   "category": "win-app-crash",
   "categoryName": "软件打不开与闪退",
   "path": "Windows 软件与性能 › 软件打不开与闪退",
-  "summary": "商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。九成卡在第一步就好了。开不了机的病因大都是这几样：代理/VPN 拦截、区域设成了奇怪的国家",
+  "summary": "商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。多数缓存或临时组件问题会在这几步恢复；常见原因还包括代理/VPN 拦截、区域设置异常、系统",
   "os": [
    {
     "t": "Windows 10",
@@ -4013,6 +4109,101 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-27",
   "detail_href": "./fix/win-store-not-opening.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-update-enable",
+  "title": "Windows 更新被关闭了，怎么重新开启并恢复检查更新",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-update",
+  "categoryName": "系统更新",
+  "path": "Windows 系统与开机 › 系统更新",
+  "summary": "先看设置里是不是点了“暂停更新”，再检查 Windows Update、BITS、加密服务和更新协调服务有没有被停用。个人电脑可用下方 BAT 选择“开启或恢复”，脚本只恢复服务启动方式并尝试",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "无法检查更新",
+   "更新被暂停",
+   "更新服务被禁用",
+   "设置里没有检查更新",
+   "Windows更新打不开",
+   "更新页面空白",
+   "更新一直显示已暂停"
+  ],
+  "keywords": [
+   "开启Windows更新",
+   "恢复更新",
+   "wuauserv",
+   "BITS",
+   "Windows Update服务",
+   "暂停更新",
+   "组策略"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-update-enable.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-update-pause",
+  "title": "Windows 自动更新太烦，怎样安全暂停或临时关闭",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-update",
+  "categoryName": "系统更新",
+  "path": "Windows 系统与开机 › 系统更新",
+  "summary": "优先用「设置 → Windows 更新 → 暂停更新」；只需要避开一两天，就用下方 BAT 选择“临时暂停 24 小时”。脚本会创建自动恢复任务，24 小时后把 Windows Update ",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-15 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "更新时自动重启",
+   "工作时弹更新",
+   "关机被迫更新",
+   "更新太频繁",
+   "想关闭自动更新",
+   "更新影响会议",
+   "更新占用网络"
+  ],
+  "keywords": [
+   "暂停Windows更新",
+   "关闭自动更新",
+   "更新自动重启",
+   "活动时间",
+   "更新暂停",
+   "临时关闭更新"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-update-pause.html",
   "kind": "guide",
   "hot": 1
  }

@@ -1,18 +1,19 @@
 # 修盒子内容审计与小白一键修复落地报告
 
 审计日期：2026-10-27
-范围：`content/fixboxs/*.md` 全部 78 篇、生成文章页、文章内链、命令块、来源链接与 BAT 方案。
+增量复核：2026-10-27
+范围：`content/fixboxs/*.md` 全部 82 篇、生成文章页、文章内链、命令块、来源链接与 BAT 方案。
 
 ## 1. 审计结果
 
-- 文章：78 篇，覆盖 14 个领域。
-- 风险分布：安全 20 篇、需谨慎 49 篇、有数据风险 9 篇。
+- 文章：82 篇，覆盖 14 个领域。
+- 风险分布：安全 21 篇、需谨慎 52 篇、有数据风险 9 篇。
 - 结构检查：`content-lint.cjs` 为 0 error / 0 warning / 0 info。
-- 正文命令块：128 个；Markdown 链接：1,526 条。
-- Front-matter：297 条来源 URL；解析、序列化、换行与空值往返测试通过。
+- 正文命令块：137 个；Markdown 链接：1,584 条。
+- Front-matter：310 条来源 URL；解析、序列化、换行与空值往返测试通过。
 - 来源在线检查：230 个去重 URL，225 个返回正常或可跳转；5 个因站点反爬、地区限制或网络拒绝无法自动确认。没有仅凭 HTTP 状态就删除来源。
 - 站内链接：构建及部署自检均为 0 断链。
-- 新增 15 个 BAT，接入 19 篇文章；所有脚本均可在文章页直接下载、展开查看全部源码、一键复制源码。
+- 累计 18 个 BAT，接入 23 篇文章；所有脚本均可在文章页直接下载、展开查看全部源码、一键复制源码。
 - 反馈邮箱已改为 `yuanhm0821@foxmail.com`。
 
 ## 2. 已修正的技术与内容问题
@@ -29,9 +30,10 @@
 | `win-update-stuck` | 固定要求安装某个旧 KB 包，容易与系统版本/架构不匹配 | 改为先从 Update Catalog 匹配本机版本，再替换真实文件名；补充 Windows 10 已于 2025-10-14 结束常规支持 |
 | 首页 | “大家都在修”声称按近期访问量排序，但站点没有访问统计 | 改为“按常见故障推荐” |
 | 公共页脚/构建模板 | 文章页仍写“全部 12 个领域”，与当前 14 个不一致 | 统一为 14 |
-| `fx-frontmatter.test.cjs` | 硬编码 30 篇、109 URL、32 type、版本必须为 1.0 | 改为动态对账，文章增长与版本升级不再误报 |
+| `fx-frontmatter.test.cjs` | 硬编码文章数、URL 数、来源类型数，且来源枚举易与 taxonomy 漂移 | 改为按当前原文与 taxonomy 动态对账，文章和来源类型增长不再误报 |
+| `win-store-not-opening` | “九成 wsreset 就好”属于无数据支持的命中率承诺；BAT 只清缓存 | 删除成功率承诺；脚本升级为清缓存 + 重新注册商店，并补充 Codex 安装路径 |
 
-## 3. 已接入小白一键修复的 19 篇文章
+## 3. 已接入小白一键修复的 23 篇文章
 
 | 文章 | BAT |
 |---|---|
@@ -52,8 +54,12 @@
 | `win-c-drive-full-cleanup` | `cleanup-temp-files.bat` |
 | `win-no-sound` | `restart-audio-services.bat` |
 | `win-safe-restore` | `open-recovery-settings.bat` |
-| `win-store-not-opening` | `reset-windows-store.bat` |
+| `win-store-not-opening` | `repair-microsoft-store.bat` |
 | `win-update-stuck` | `repair-windows-update.bat` |
+| `win-update-enable` | `manage-windows-update.bat` |
+| `win-update-pause` | `manage-windows-update.bat` |
+| `codex-desktop-install` | `open-codex-install.bat` |
+| `codex-cli-install` | `install-codex-cli.bat` |
 
 BAT 统一规则：
 
@@ -62,6 +68,8 @@ BAT 统一规则：
 - 脚本不会调用来源不明的第三方工具；系统自带命令之外只使用 PowerShell 系统 cmdlet。
 - 文章页读取真实 `.bat` 源码渲染，下载文件、说明与“查看源码”不会出现两套内容。
 - 浏览器无法直接下载时，可使用“复制全部脚本”保存为 TXT，再把后缀改为 `.bat`。
+- Windows 更新开关不永久停更：只恢复服务，或暂停 24 小时后由计划任务自动恢复。
+- Codex CLI 只在用户已有 Node.js/npm 时安装官方包 `@openai/codex`；缺少 Node.js 时仅打开官方下载页。
 
 ## 4. 未接入 BAT 的 59 篇及原因
 
@@ -109,5 +117,6 @@ BAT 统一规则：
 - `node build-fix.cjs`
 - `node deploy-fixboxs.cjs`
 - 桌面 1440×940、移动端 390×844、360×800、320×760 截图与横向溢出检查。
-- 文章 BAT 下载 URL、源码展开、复制按钮、管理员运行说明与移动端触控尺寸检查。
+- 37 个页面与视口状态回归，覆盖新增的更新、商店和两篇 Codex 教程；零控制台错误、零失败请求。
+- 新增 4 个 BAT 的 HTTP 200、关键命令内容、源码展开、复制按钮、管理员运行说明与移动端触控尺寸检查。
 - 全部 HTML、CSS、JS、数据和 BAT 进入自包含产物；线上逐页 HTTP 200 校验。

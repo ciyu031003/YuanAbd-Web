@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Codex 怎么下载安装：Windows 桌面版与第一次使用 · 修盒子 FIXBOX</title>
+<meta name="description" content="不要从软件下载站找“Codex 独立安装包”。Windows 用户先在 Microsoft Store 搜索 ChatGPT，只安装发布者为 OpenAI 的应用；打开后登录账号并进入 Codex。商店打不开时，先用修盒">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="codex-desktop-install">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>AI 工具与开发软件</span></nav>
+<h1 class="fx-title">Codex 怎么下载安装：Windows 桌面版与第一次使用</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-20 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 渠道说明：Windows 桌面能力由 OpenAI 发布的 Microsoft Store 包提供。截至 2026-10-27，本机安装信息显示包名为 <code>OpenAI.Codex</code>、应用显示名为 <code>ChatGPT</code>、发布者为 OpenAI。商店界面和账号可用范围可能变化，请以设备实际显示和 OpenAI 官方页面为准。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">不要从软件下载站找“Codex 独立安装包”。Windows 用户先在 Microsoft Store 搜索 <strong>ChatGPT</strong>，只安装发布者为 <strong>OpenAI</strong> 的应用；打开后登录账号并进入 Codex。商店打不开时，先用修盒子的商店修复教程处理，再回来安装。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开 Microsoft Store，搜索 <code>ChatGPT</code>，核对发布者必须是 <strong>OpenAI</strong>。</li><li>如果已经安装，在开始菜单打开 <strong>ChatGPT</strong>，登录后查找 Codex。</li><li>如果商店搜索不到、打不开或安装失败，先看 <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 打不开</a>。</li><li>如果只是想用命令行版本，直接看 <a class="fx-link" href="./codex-cli-install.html">Codex CLI 下载安装</a>。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/open-codex-install.bat" download="open-codex-install.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 打开 Codex 官方获取入口（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-codex-desktop-install">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>已经安装商店但找不到 Codex，或不确定本机是否安装过 OpenAI Codex。</span></li><li><b>脚本会</b><span>检查本机 <code>OpenAI.Codex</code> 安装状态，打开 Microsoft Store 搜索页和 OpenAI Codex 页面。</span></li><li><b>运行前</b><span>确认 Microsoft Store 能正常打开；脚本不会自动点击安装或代替账号登录。</span></li><li><b>注意</b><span>只安装发布者为 OpenAI 的结果，不要从第三方网盘下载“绿色版”“破解版”。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>open-codex-install.bat</span><span>40 行</span><span>1.4 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-codex-desktop-install">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 获取 Codex 桌面应用
+
+echo ============================================================
+echo 修盒子 - 获取 Codex 桌面应用
+echo ============================================================
+echo 将打开 Microsoft Store 的官方搜索页和 OpenAI Codex 页面。
+echo 只安装发布者为 OpenAI、商店包名为 OpenAI.Codex 的应用。
+echo 不会下载第三方安装包，也不会修改系统设置。
+echo.
+choice /C YN /N /M &quot;确认打开官方获取页面？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/3] 检查本机是否已经安装 Codex 桌面应用...
+powershell -NoProfile -Command &quot;$pkg = Get-AppxPackage -Name OpenAI.Codex; if ($pkg) { Write-Host ('已安装：OpenAI.Codex ' + $pkg.Version) } else { Write-Host '尚未安装：请在商店中核对发布者 OpenAI' }&quot;
+
+echo [2/3] 打开 Microsoft Store 搜索页...
+start &quot;&quot; &quot;ms-windows-store://search/?query=ChatGPT&quot;
+timeout /t 2 /nobreak &gt;nul
+
+echo [3/3] 打开 OpenAI Codex 页面...
+start &quot;&quot; &quot;https://chatgpt.com/codex/&quot;
+
+echo.
+echo 如果本机已安装，可在开始菜单搜索 ChatGPT 并从应用内进入 Codex。
+echo 商店没有结果时，先回到“Microsoft Store 打不开”教程修复商店。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有打开任何页面。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>第一次在 Windows 安装 Codex 桌面应用。</li><li>已经安装 ChatGPT 桌面应用，但不知道 Codex 从哪里进入。</li><li>想确认电脑里有没有安装 OpenAI 发布的 Codex。</li><li>需要区分桌面应用、网页版与 CLI 三种入口。</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>想要终端里的 Codex → <a class="fx-link" href="./codex-cli-install.html">Codex CLI 下载安装</a>。</li><li>Microsoft Store 本身打不开、闪退或安装一直失败 → 先修 <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store</a>。</li><li>账号无法登录、所在地区不支持或组织账号无权限 → 按 OpenAI 官方账号与地区说明处理，本文不提供绕过方法。</li><li>希望安装第三方修改版 → 不建议，存在账号、代码和本地文件泄露风险。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Windows 10/11 已安装可用更新。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>系统时间和时区准确。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Microsoft Store 能搜索和下载其他应用。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有可正常登录的 OpenAI 账号。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道桌面应用显示名可能是 ChatGPT，而不是只显示 Codex。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>Microsoft Store 显示应用已安装，发布者为 OpenAI。</li><li>开始菜单能打开 ChatGPT，应用内能看到 Codex。</li><li>PowerShell 查询到 <code>OpenAI.Codex</code> 包。</li><li>登录后能选择测试项目目录，应用没有持续闪退或报错。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>商店打不开、闪退或下载卡住 → <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 打不开</a>。</li><li>Codex 搜索不到或应用内没有入口 → 先在商店“库”更新，再核对账号和服务地区。</li><li>想使用终端版本 → <a class="fx-link" href="./codex-cli-install.html">Codex CLI 下载安装</a>。</li><li>浏览器能上网但应用连不上 → 检查代理与系统时间，参考 <a class="fx-link" href="./browser-proxy.html">浏览器代理与 PAC 设置修复</a>。</li><li>安装应用需要更新系统组件 → <a class="fx-link" href="./win-update-enable.html">Windows 更新被关闭了，怎么重新开启</a>。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>只从 Microsoft Store 的 OpenAI 发布者页面或 OpenAI 官方入口下载。</li><li>不从网盘、论坛或“绿色版”站点安装 Codex，避免账号令牌和代码泄露。</li><li>定期打开商店“库 → 获取更新”，不要长期停留在旧版本。</li><li>第一次使用先选测试项目，并确认工作目录和文件修改范围。</li><li>账号、地区和组织权限限制以 OpenAI 官方说明为准，不使用绕过工具。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：Windows 官方商店渠道、安装验证与三种入口说明</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先确认商店正常</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>商店组件损坏时，搜索、下载和更新都会失败。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开 Microsoft Store，搜索任意常用应用。</li><li>确认能看到搜索结果和安装按钮。</li><li>商店无限转圈或打不开时，先完成 <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 修复</a>。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>商店能正常加载账户、搜索和下载页面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>运行商店修复 BAT；仍失败时检查代理、系统时间和 Windows 更新状态。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">从 Microsoft Store 获取 OpenAI 应用</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>确保安装来源可信，避免第三方安装包。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>可运行 <a class="fx-link" href="../scripts/open-codex-install.bat">open-codex-install.bat</a>，或手动打开 Microsoft Store。</li><li>搜索 <code>ChatGPT</code>。</li><li>打开结果详情页，核对发布者为 <strong>OpenAI</strong>。</li><li>点击“获取”或“安装”，等待完成。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>开始菜单出现 ChatGPT 应用；本机 PowerShell 可查到 <code>Get-AppxPackage OpenAI.Codex</code>。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>商店报错时记下错误码，回到商店修复文章；不要下载同名第三方安装器。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">登录并进入 Codex</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>完成账号认证并打开工作入口。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>从开始菜单打开 ChatGPT。</li><li>使用自己的账号登录。</li><li>在应用内选择 Codex，按页面提示打开或新建工作目录。</li><li>第一次使用时先选择一个测试文件夹，不要直接让工具修改唯一一份重要资料。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>能看到 Codex 对话界面，并能选择本地项目目录。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>退出后重新登录；检查系统时间和网络；组织账号无权限时联系组织管理员。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">验证应用版本与更新</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除旧版本入口缺失或安装包半完成。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开 Microsoft Store →「库」。</li><li>点击“获取更新”，安装 ChatGPT 的可用更新。</li><li>PowerShell 运行：</li></ol>
+<div class="fx-cmd"><pre><code>Get-AppxPackage OpenAI.Codex | Select-Object Name, Version, PublisherDisplayName</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>返回 <code>OpenAI.Codex</code>、版本号，发布者显示 OpenAI。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>完全退出应用后重启；仍异常时可从商店卸载再重新安装，项目文件不会因卸载应用被删除，但仍建议先备份。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">选择桌面、网页或 CLI</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>按使用场景选择入口，避免重复安装和版本混乱。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>入口</th><th>适合场景</th><th>怎么打开</th></tr></thead><tbody><tr><td>Windows 桌面应用</td><td>图形界面、本地项目、任务管理</td><td>开始菜单打开 ChatGPT</td></tr><tr><td>Codex 网页</td><td>临时查看、云端任务</td><td>浏览器访问 OpenAI Codex 页面</td></tr><tr><td>Codex CLI</td><td>终端工作流、脚本与自动化</td><td>按 CLI 教程安装后运行 <code>codex</code></td></tr></tbody></table></div>
+<div class="fx-step__expect"><b>预期结果：</b>确定一种主要入口，并完成登录。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>桌面入口不可用时先用网页版确认账号状态；终端需求转到 <a class="fx-link" href="./codex-cli-install.html">Codex CLI 下载安装</a>。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-store-not-opening.html">Microsoft Store 打不开 / 商店应用装不上怎么修</a><a href="../fix/codex-cli-install.html">Codex CLI 下载安装与登录：Windows 一条命令搞定</a><a href="../fix/win-update-enable.html">Windows 更新被关闭了，怎么重新开启并恢复检查更新</a><a href="../fix/browser-proxy.html">浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

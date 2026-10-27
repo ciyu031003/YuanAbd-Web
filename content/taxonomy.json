@@ -1,7 +1,7 @@
 {
   "$comment": "内容分类字典（taxonomy）。由 content/fixboxs 的 30 篇实际取值反推，替代原先硬编码在 build-fix.cjs:22-40 的 DOMAINS/CATS。构建期与后台共用同一份数据（后台编辑器下拉框亦读此文件）。（2026-10-17 起新增「参考资料」用的 domain：ref-manual 装机运维手册 / ref-field 现场作业与工单，见 build-fix.cjs 的 REFERENCE_DOMAINS）",
-  "version": "1.6",
-  "updated": "2026-10-25",
+  "version": "1.7",
+  "updated": "2026-10-27",
   "domains": [
     {
       "id": "net-basic",
@@ -114,6 +114,10 @@
         {
           "id": "win-popup",
           "name": "弹窗与主页劫持"
+        },
+        {
+          "id": "win-ai-tools",
+          "name": "AI 工具与开发软件"
         }
       ]
     },
@@ -333,6 +337,8 @@
     ],
     "sourceType": [
       "official",
+      "internal",
+      "opensource",
       "vendor",
       "standard",
       "tested",

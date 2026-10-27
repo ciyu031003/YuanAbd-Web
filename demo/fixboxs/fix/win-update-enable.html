@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Windows 更新被关闭了，怎么重新开启并恢复检查更新 · 修盒子 FIXBOX</title>
+<meta name="description" content="先看设置里是不是点了“暂停更新”，再检查 Windows Update、BITS、加密服务和更新协调服务有没有被停用。个人电脑可用下方 BAT 选择“开启或恢复”，脚本只恢复服务启动方式并尝试启动，不修改组策略，也不删除">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-update-enable">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>系统更新</span></nav>
+<h1 class="fx-title">Windows 更新被关闭了，怎么重新开启并恢复检查更新</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 需谨慎：本文会检查并恢复 Windows Update 相关服务。长期关闭安全更新会扩大漏洞风险，不建议为了“电脑不提醒”而永久禁用更新。企业、学校或单位统一管理的设备不要自行改策略。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">先看设置里是不是点了“暂停更新”，再检查 Windows Update、BITS、加密服务和更新协调服务有没有被停用。个人电脑可用下方 BAT 选择“开启或恢复”，脚本只恢复服务启动方式并尝试启动，不修改组策略，也不删除个人文件。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开「设置 → Windows 更新」，如果出现“继续更新”或“恢复更新”，先点它。</li><li>看页面有没有“你的组织已管理更新”或“某些设置由组织管理”；出现这类提示时直接联系 IT。</li><li>运行下方 BAT 并选择 <code>[1] 开启或恢复 Windows 更新</code>，完成后重启一次再检查更新。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/manage-windows-update.bat" download="manage-windows-update.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 Windows 更新开关（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-update-enable">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11 个人电脑，更新服务被误设为禁用，或曾用第三方工具“关闭更新”。</span></li><li><b>脚本会</b><span>把 Windows Update、BITS、USOClient 恢复为按需启动，启动加密服务，删除修盒子创建的自动恢复任务，并打开更新设置。</span></li><li><b>运行前</b><span>保存文档；如果是公司电脑、学校电脑或提示“由组织管理”，先联系 IT。</span></li><li><b>注意</b><span>脚本不会修改注册表组策略，也不会绕过单位的更新管理；恢复后仍应在设置中点击“检查更新”。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>manage-windows-update.bat</span><span>105 行</span><span>3.4 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-update-enable">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - Windows 更新开关
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+if /I &quot;%~1&quot;==&quot;/restore&quot; goto :restore_mode
+
+echo ============================================================
+echo 修盒子 - Windows 更新开关
+echo ============================================================
+echo [1] 开启或恢复 Windows 更新
+echo [2] 临时暂停 24 小时，到期自动恢复
+echo [Q] 退出
+echo.
+echo 不会永久关闭更新，不会修改组策略或删除个人文件。
+echo 企业、学校或单位统一管理的电脑请先联系 IT。
+echo.
+choice /C 12Q /N /M &quot;请选择 [1/2/Q] &quot;
+if errorlevel 3 goto :cancelled
+if errorlevel 2 goto :pause_update
+if errorlevel 1 goto :enable_update
+goto :cancelled
+
+:enable_update
+echo.
+choice /C YN /N /M &quot;确认开启更新服务并取消定时恢复？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+call :restore_services
+schtasks /Delete /TN &quot;Fixbox\RestoreWindowsUpdate&quot; /F &gt;nul 2&gt;&amp;1
+echo.
+echo Windows 更新服务已恢复为手动启动并已尝试启动。
+start &quot;&quot; ms-settings:windowsupdate
+echo 请在设置页面点击“检查更新”；若显示“暂停更新”，再点“恢复更新”。
+goto :end
+
+:pause_update
+echo.
+echo 只会暂停 24 小时，到期后计划任务会自动恢复服务。
+echo 暂停期间无法获取安全补丁，请勿在联网办公电脑长期使用。
+choice /C YN /N /M &quot;确认临时暂停 24 小时？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+for /f %%I in ('powershell -NoProfile -Command &quot;(Get-Date).AddHours(24).AddMinutes(1).ToString('HH:mm')&quot;') do set &quot;RESTORE_AT=%%I&quot;
+if not exist &quot;%ProgramData%\Fixbox&quot; mkdir &quot;%ProgramData%\Fixbox&quot; &gt;nul 2&gt;&amp;1
+copy /Y &quot;%~f0&quot; &quot;%ProgramData%\Fixbox\manage-windows-update.bat&quot; &gt;nul
+
+echo.
+echo [1/3] 创建自动恢复任务，计划时间 %RESTORE_AT% ...
+schtasks /Create /TN &quot;Fixbox\RestoreWindowsUpdate&quot; /TR &quot;C:\ProgramData\Fixbox\manage-windows-update.bat /restore&quot; /SC ONCE /ST %RESTORE_AT% /RU SYSTEM /RL HIGHEST /F &gt;nul
+if errorlevel 1 (
+  echo 创建自动恢复任务失败，未暂停更新。
+  goto :end
+)
+
+echo [2/3] 停止更新相关服务...
+net stop usosvc /y &gt;nul 2&gt;&amp;1
+net stop wuauserv /y &gt;nul 2&gt;&amp;1
+net stop bits /y &gt;nul 2&gt;&amp;1
+
+echo [3/3] 临时禁用 Windows Update 服务...
+sc config wuauserv start= disabled &gt;nul 2&gt;&amp;1
+sc config bits start= demand &gt;nul 2&gt;&amp;1
+sc config usosvc start= demand &gt;nul 2&gt;&amp;1
+
+echo.
+echo 已临时暂停 Windows 更新。系统安全中心仍可能提示更新风险。
+echo 如需立即恢复，请重新运行本脚本并选择 [1]。
+goto :end
+
+:restore_mode
+call :restore_services
+if not exist &quot;%ProgramData%\Fixbox&quot; mkdir &quot;%ProgramData%\Fixbox&quot; &gt;nul 2&gt;&amp;1
+&gt;&gt;&quot;%ProgramData%\Fixbox\windows-update-restore.log&quot; echo %DATE% %TIME% Windows Update services restored by scheduled task.
+schtasks /Delete /TN &quot;Fixbox\RestoreWindowsUpdate&quot; /F &gt;nul 2&gt;&amp;1
+endlocal &amp; exit /b 0
+
+:restore_services
+echo.
+echo 正在恢复 Windows 更新服务...
+sc config wuauserv start= demand &gt;nul 2&gt;&amp;1
+sc config bits start= demand &gt;nul 2&gt;&amp;1
+sc config usosvc start= demand &gt;nul 2&gt;&amp;1
+sc config cryptsvc start= auto &gt;nul 2&gt;&amp;1
+net start cryptsvc &gt;nul 2&gt;&amp;1
+net start bits &gt;nul 2&gt;&amp;1
+net start wuauserv &gt;nul 2&gt;&amp;1
+net start usosvc &gt;nul 2&gt;&amp;1
+exit /b 0
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>曾在“服务”里把 <code>Windows Update</code> 设为禁用。</li><li>使用过第三方“更新屏蔽工具”，工具卸载后仍无法检查更新。</li><li>设置页能打开，但检查更新按钮不可用、页面一直空白或显示更新已暂停。</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>公司、学校或单位明确用组策略、Intune 或桌管软件管理更新 → 联系 IT。</li><li>更新能检查但下载卡住、安装失败 → 看 <a class="fx-link" href="./win-update-stuck.html">Windows 更新卡在 0% / 一直失败</a>。</li><li>Microsoft Store 打不开，准备从商店安装 Codex → 看 <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 打不开</a>。</li><li>系统盘空间不足、系统组件损坏或开机就蓝屏 → 先解决对应故障。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本接好电源，网络可用。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>当前账户有管理员权限。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道电脑是否属于公司、学校或组织。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>没有安装来源不明的“永久关闭更新”工具。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>重要文件已有备份或同步。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>「设置 → Windows 更新」能正常点击“检查更新”。</li><li><code>Windows Update</code> 服务状态为“手动”或“正在运行”，不再是“已禁用”。</li><li>系统能发现新的质量更新或明确显示“你已是最新版本”。</li><li>重启后没有被第三方工具自动改回禁用。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>更新能检查但卡在下载或安装 → <a class="fx-link" href="./win-update-stuck.html">Windows 更新卡在 0% / 一直失败</a>。</li><li>只想短时间避开自动重启 → <a class="fx-link" href="./win-update-pause.html">Windows 自动更新怎么安全暂停</a>。</li><li>微软商店无法打开，影响应用安装 → <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 打不开</a>。</li><li>页面提示“由组织管理” → 联系公司、学校或组织的 IT，不要自行绕过。</li><li>系统时间明显错误、代理被异常修改 → 先校准时间并检查系统代理设置。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>不要用“永久关闭 Windows 更新”的第三方工具；需要避开工作时间时使用“暂停更新”和“活动时间”。</li><li>每月至少检查一次更新，安全补丁不要长期积压。</li><li>更新前保持电源连接，并保留 20 GB 以上系统盘空间。</li><li>企业设备遵循单位更新策略，不要用个人脚本覆盖组织策略。</li><li>安装过优化工具后如果更新异常，先卸载工具并创建还原点，再排查服务。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：更新服务恢复、暂停状态、组织策略只读判断与一键开关脚本</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先取消“暂停更新”</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>设置中的暂停状态和服务禁用是两套机制，只启动服务并不一定会取消暂停。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开「设置 → Windows 更新」。</li><li>找到“暂停更新”区域，点击“继续更新”或“恢复更新”。</li><li>回到更新首页，点击“检查更新”。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>按钮恢复可用，并开始检查更新。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>如果显示“由组织管理”，不要继续改注册表，直接联系设备管理员；个人电脑继续步骤 2。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">运行更新开关脚本</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把被误禁用的 Windows Update 组件恢复为正常按需启动。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>下载 <a class="fx-link" href="../scripts/manage-windows-update.bat">manage-windows-update.bat</a>。</li><li>右键选择“以管理员身份运行”。</li><li>选择 <code>[1] 开启或恢复 Windows 更新</code>，再选择 <code>Y</code>。</li><li>脚本会打开更新设置，点击“检查更新”。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>更新页面不再提示服务已禁用，检查更新能够开始。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重启一次再试；仍失败时继续步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认关键服务状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除安全软件继续阻止服务启动。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Win + R</code>，输入 <code>services.msc</code>。</li><li>分别找到： - <code>Windows Update</code> - <code>Background Intelligent Transfer Service</code> - <code>Cryptographic Services</code> - <code>Update Orchestrator Service</code></li><li>前三项正常状态应为“手动”或“自动”，USOClient 通常为“手动”。</li><li>不要随意修改 <code>Windows Update Medic Service</code>，它是受保护的系统修复服务。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>服务没有被第三方软件持续改回“禁用”。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>如果服务刚启动又被改回禁用，卸载来源不明的“优化大师”“更新屏蔽器”，再重启。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">只读检查是否有策略限制</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>判断更新是否被组织策略或旧工具写入限制，避免盲目删除注册表。</p>
+<p class="fx-p"><strong>操作</strong>：管理员命令提示符执行以下只读检查：</p>
+<div class="fx-cmd"><pre><code>reg query &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate&quot; /s
+reg query &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU&quot; /s</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b>没有输出，或没有 <code>NoAutoUpdate</code>、<code>DisableWindowsUpdateAccess</code> 等限制项。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看到策略项时不要直接 <code>reg delete</code>。公司电脑交给 IT；个人电脑先卸载曾使用的更新管理软件，再重启检查。仍不能恢复时，使用系统还原退回安装该工具之前。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">运行系统更新疑难解答</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>让 Windows 自动修复更新组件注册、权限和临时缓存问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开「设置 → 系统 → 疑难解答 → 其他疑难解答」。</li><li>运行“Windows 更新”疑难解答。</li><li>完成后重启电脑，再检查更新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>疑难解答报告已修复问题，更新页面恢复。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>能检查但下载失败时，转 <a class="fx-link" href="./win-update-stuck.html">Windows 更新卡住修复</a> 执行缓存重置与系统文件检查。</div></details></div></li></ol></section>
+<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
+<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-update-pause.html">Windows 自动更新太烦，怎样安全暂停或临时关闭</a><a href="../fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a><a href="../fix/win-store-not-opening.html">Microsoft Store 打不开 / 商店应用装不上怎么修</a><a href="../fix/codex-desktop-install.html">Codex 怎么下载安装：Windows 桌面版与第一次使用</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

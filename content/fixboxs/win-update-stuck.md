@@ -11,10 +11,10 @@ symptoms: [更新卡在0%, 更新一直失败, 正在配置更新卡住, 更新�
 keywords: [Windows更新卡住, 更新错误代码, DISM RestoreHealth, sfc scannow, SoftwareDistribution, 组件存储损坏, 更新疑难解答]
 aliases: [更新失败, 更新装不上, 更新卡住不动, 补丁打不上, 系统更新报错]
 updated: 2026-10-27
-version: "1.1"
+version: "1.2"
 prerequisites: [电脑能正常进入系统, 有管理员权限, C 盘至少有 20 GB 可用空间, 企业电脑先联系 IT]
 tools: [设置中的疑难解答, 命令提示符（管理员）, DISM, sfc, 磁盘清理, Microsoft Update Catalog]
-related: [win-c-drive-full-cleanup, win-stuck-on-boot-logo, win-bluescreen-read-code]
+related: [win-c-drive-full-cleanup, win-stuck-on-boot-logo, win-bluescreen-read-code, win-update-enable, win-update-pause]
 sources:
   - title: Microsoft Learn — Windows 更新疑难解答指南（官方排查顺序）
     url: https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/installing-updates-features-roles/troubleshoot-windows-update-issues
@@ -76,6 +76,8 @@ detail_href: ./fix/win-update-stuck.html
 - 电脑根本连不上网 → 属网络故障，先解决联网问题
 - 就是 C 盘满了 → [C 盘爆红快满了，怎么安全清理出空间](./win-c-drive-full-cleanup.html)
 - 公司统一推送更新的电脑 → 联系公司 IT，不要改更新策略
+- 更新被关闭或服务被设为禁用 → [Windows 更新被关闭了，怎么重新开启](./win-update-enable.html)
+- 只是暂时不想被自动重启打断 → [Windows 自动更新怎么安全暂停](./win-update-pause.html)
 
 ## 开始前确认
 
@@ -270,9 +272,12 @@ DISM /Online /Add-Package /PackagePath:"C:\Users\你的用户名\Downloads\更�
 - [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
 - [电脑蓝屏了怎么办：先学会读蓝屏代码](./win-bluescreen-read-code.html)
 - [电脑越来越卡怎么办：一张表定位是哪里卡](./win-slow-diagnose.html)
+- [Windows 更新被关闭了，怎么重新开启](./win-update-enable.html)
+- [Windows 自动更新怎么安全暂停](./win-update-pause.html)
 
 ## 更新日志
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
 | 2026-10-11 | 1.0 | 首版发布：四类原因分类 + DISM→sfc 修复顺序 | 内容组 |
+| 2026-10-27 | 1.2 | 补充更新开启、临时暂停和商店/Codex 安装关联路径 | 内容组 |

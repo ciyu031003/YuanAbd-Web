@@ -19,6 +19,22 @@
 
 Final result: passed
 
+## Fixbox update, Store and Codex pages (2026-10-27)
+
+- Coverage: 37 page/viewport states across the homepage, browse/search, existing BAT pages, Windows update enable/pause, Microsoft Store repair, Codex desktop installation, and Codex CLI installation at 1440, 768, 390, 360, and 320 px.
+- Content checks: 82 articles passed content lint with 0 errors; front-matter round-trip ran 1,368 assertions; 23 articles now reference 18 BAT assets.
+- Script checks: all four new BAT files returned HTTP 200 and contained their expected commands, including scheduled update restoration, Store re-registration, Microsoft Store Codex discovery, and `npm install -g @openai/codex`.
+- Responsive checks: every tested viewport reported `scrollWidth === clientWidth`; the mobile step-complete control was raised from a sub-38px rendering to a fixed 44px target. No controls overlapped, no console errors occurred, and no network requests failed.
+- Visual evidence:
+  - `gui-test-screenshots/fixboxs-bat/update-enable-desktop-1440.png`
+  - `gui-test-screenshots/fixboxs-bat/update-pause-mobile-390.png`
+  - `gui-test-screenshots/fixboxs-bat/store-bat-mobile-390.png`
+  - `gui-test-screenshots/fixboxs-bat/codex-desktop-mobile-390.png`
+  - `gui-test-screenshots/fixboxs-bat/codex-cli-desktop-1440.png`
+- Findings: no actionable P0/P1/P2 layout or interaction issues remain in the reviewed states.
+
+Final result: passed
+
 ## Fixbox BAT and mobile regression (2026-10-27)
 
 - Coverage: 27 page/viewport states across the homepage, article pages, BAT cards, and source views at 1440, 768, 390, 360, and 320 px.

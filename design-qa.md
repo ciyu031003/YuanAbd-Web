@@ -23,6 +23,7 @@ Final result: passed
 
 - Coverage: 37 page/viewport states across the homepage, browse/search, existing BAT pages, Windows update enable/pause, Microsoft Store repair, Codex desktop installation, and Codex CLI installation at 1440, 768, 390, 360, and 320 px.
 - Content checks: 82 articles passed content lint with 0 errors; front-matter round-trip ran 1,368 assertions; 23 articles now reference 18 BAT assets.
+- Store prerequisite: the rendered guide places "Windows Update enabled and working" before `wsreset`; the BAT performs the same update-service gate before touching Store components.
 - Script checks: all four new BAT files returned HTTP 200 and contained their expected commands, including scheduled update restoration, Store re-registration, Microsoft Store Codex discovery, and `npm install -g @openai/codex`.
 - Responsive checks: every tested viewport reported `scrollWidth === clientWidth`; the mobile step-complete control was raised from a sub-38px rendering to a fixed 44px target. No controls overlapped, no console errors occurred, and no network requests failed.
 - Visual evidence:

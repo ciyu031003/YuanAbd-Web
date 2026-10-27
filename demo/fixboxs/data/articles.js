@@ -4070,7 +4070,7 @@ window.FX_ARTICLES = [
   "category": "win-app-crash",
   "categoryName": "软件打不开与闪退",
   "path": "Windows 软件与性能 › 软件打不开与闪退",
-  "summary": "商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。多数缓存或临时组件问题会在这几步恢复；常见原因还包括代理/VPN 拦截、区域设置异常、系统",
+  "summary": "先确认 Windows 更新已开启并能正常检查更新，这是商店可用的前提。更新正常后，再按 wsreset.exe 清缓存 → 设置里「修复」→「重置」 处理商店本身。Windows Updat",
   "os": [
    {
     "t": "Windows 10",
@@ -4095,10 +4095,13 @@ window.FX_ARTICLES = [
    "Store 闪退",
    "无法从商店下载",
    "商店报错代码",
-   "商店应用打不开"
+   "商店应用打不开",
+   "系统更新关闭后商店打不开",
+   "Windows Update 服务禁用后商店异常"
   ],
   "keywords": [
    "Microsoft Store",
+   "Windows Update依赖",
    "wsreset",
    "商店修复",
    "商店重置",

@@ -6,7 +6,7 @@ category: px-system
 os: [Windows 10, Windows 11, macOS 12+]
 difficulty: 入门
 time: 5-25 分钟
-risk: 安全
+risk: 需谨慎
 symptoms:
   - 浏览器打不开网页
   - 网页打不开但微信能用
@@ -17,8 +17,8 @@ symptoms:
   - 浏览器走了代理
 keywords: [浏览器代理, PAC, ERR_PROXY_CONNECTION_FAILED, SwitchyOmega, 系统代理, 浏览器插件代理]
 aliases: [浏览器上不了网, 网页打不开微信能上, 代理设置错误, 浏览器插件断网]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 确认微信/QQ/游戏等其他联网应用正常（这是本篇的前提症状）
   - 知道自己装过哪些浏览器代理类插件
@@ -30,11 +30,13 @@ sources:
   - title: Mozilla 支持 - Firefox 连接设置
     url: https://support.mozilla.org/zh-CN/kb/connection-settings-firefox
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-10-27
 detail_href: ./fix/browser-proxy.html
 ---
 
 # 浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复
+
+> ⚠ 需谨慎：清除代理会让浏览器恢复直连；公司、学校或 VPN 环境可能依赖统一代理，执行前先确认配置来源。
 
 > ℹ️ 本教程只动浏览器和系统代理设置，全部可逆，不涉及数据删除。唯一的坑是改设置前没截图——改乱了照着截图改回来即可。
 
@@ -51,6 +53,14 @@ detail_href: ./fix/browser-proxy.html
 1. 换一个浏览器（Chrome ↔ Edge ↔ Firefox）开同一个网页。**期望结果**：另一个浏览器能开 → 锅在第一个浏览器的插件/独立代理配置，直接去它的插件管理页把代理插件关掉。
 2. 记住报错关键词：`ERR_PROXY_CONNECTION_FAILED` / `ERR_TUNNEL_CONNECTION_FAILED` → 实锤代理问题，走本文；`DNS_PROBE_FINISHED_NXDOMAIN` → 是 DNS 问题，看[「网页打不开但 QQ / 微信能用：DNS 问题怎么修」](./dns-broken-but-app-works.html)。
 3. 回忆最近装过的浏览器插件（尤其是 SwitchyOmega、各类加速/翻译/安全插件），先全部禁用再逐个放开。**期望结果**：禁用某个插件后恢复，锁定元凶。
+
+## 小白一键修复
+
+- 下载：[清除异常代理设置（.bat）](../scripts/reset-proxy-settings.bat)
+- 适合：Windows 10/11，只有浏览器打不开网页，QQ/微信正常，且最近安装或卸载过代理、VPN、抓包工具。
+- 脚本会：关闭当前用户的系统代理和 PAC，重置 WinHTTP 代理，并清理 DNS 缓存。
+- 运行前：记下公司或 VPN 的代理地址；企业设备、公司内网电脑不要自行运行。
+- 注意：脚本会移除原有代理配置，不会删除浏览器扩展；关闭后需要恢复内网代理时请联系 IT。
 
 ## 适用 / 不适用
 

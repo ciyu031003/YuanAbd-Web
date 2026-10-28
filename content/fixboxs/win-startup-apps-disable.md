@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [开机太慢, 开机要很久, 开机启动软件太多, 进桌面后卡半天, 开机自启怎么关, slow startup, 右下角一堆图标, 开机后硬盘狂转]
 keywords: [开机启动项, 启动应用, 任务管理器启动, 启动影响, shell startup, Autoruns, 计划任务开机启动]
 aliases: [自启动, 开机自动运行, 启动项太多, 开机慢, 开机时间长]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [有管理员权限, 知道自己平时真的会用到哪些软件]
 tools: [任务管理器, 设置中的「启动」, 文件资源管理器, 任务计划程序, Autoruns（微软官方）, 系统配置 msconfig]
 related: [win-slow-diagnose, win-c-drive-full-cleanup, win-popup-ads-hijack]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-startup-apps-disable.html
 ---
 
@@ -43,6 +43,14 @@ detail_href: ./fix/win-startup-apps-disable.html
 1. **Ctrl+Shift+Esc → 「启动」标签**，看「启动影响」一列，把标「高」且你不需要开机就运行的项，右键 →「禁用」。
 2. **设置 → 应用 → 启动**，这是同一个列表的另一种入口，把不需要的开关全部关掉。
 3. **看右下角托盘**：开机后一堆常驻图标（网盘、下载器、厂商助手），它们基本都是从启动项来的，关掉即可。
+
+## 小白一键修复
+
+- 下载：[打开全部启动设置（.bat）](../scripts/open-startup-settings.bat)
+- 适合：Windows 10/11，不知道任务管理器、启动文件夹分别在哪里。
+- 脚本会：一次打开启动应用设置、任务管理器、当前用户启动文件夹和所有用户启动文件夹。
+- 运行前：先记住自己认识的软件；脚本只打开窗口，不会自动关闭或卸载任何程序。
+- 注意：不确定的项目先保留；银行安全控件、企业管控、输入法和触摸板相关程序不要随意关闭。
 
 ## 适用 / 不适用
 
@@ -213,4 +221,5 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location, Us
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-10-27 | 1.1 | 增加一键打开全部启动项入口的脚本 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：启动项七步清理与保留清单 | 内容组 |

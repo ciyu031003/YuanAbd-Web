@@ -6,7 +6,7 @@ category: mac-login
 os: [macOS 13+, macOS 12+, macOS 11]
 difficulty: 入门
 time: 10-40 分钟
-risk: 需谨慎
+risk: 有数据风险
 symptoms:
   - Mac 忘记密码
   - MacBook 密码不对
@@ -16,8 +16,8 @@ symptoms:
   - Mac 登录不上
 keywords: [Mac 忘记密码, 重置密码, Apple 账户重置, 恢复模式重置, FileVault, Reset Password Assistant, 登录钥匙串]
 aliases: [Mac密码忘了, MacBook密码重置, 苹果电脑忘记密码, Mac改密码]
-updated: 2026-10-25
-version: "1.1"
+updated: 2026-10-27
+version: "1.2"
 prerequisites:
   - 知道这台 Mac 绑定的 Apple 账户（Apple ID）邮箱和密码
   - 机器是你本人的或已获机主授权（有账户锁的机器无法绕过）
@@ -30,21 +30,21 @@ sources:
   - title: Apple 支持 - 如果 Mac 提示输入固件密码
     url: https://support.apple.com/zh-cn/102605
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/mac-forgot-password.html
 ---
 
 # Mac 忘记开机密码怎么办（Apple Silicon / Intel 都覆盖）
 
-> ⚠ 需谨慎：密码重置本身不删文件，但**旧账户的「登录钥匙串」不会跟着解锁**——重置后首次登录会提示创建新钥匙串，旧的已存密码（Wi-Fi、网页保存的密码）可能读不出来。这也是为什么先试 Apple 账户重置，它能把钥匙串一起带走。
+> ⛔ 有数据风险：密码重置通常不删除个人文件，但**旧账户的「登录钥匙串」不一定能解锁**，已保存的 Wi-Fi/网页密码可能读不出来。若 FileVault/文件保险箱已开启且恢复密钥丢失，仍可能无法访问数据；动手前先确认 Apple 账户与恢复密钥，企业设备联系 IT。
 
 ## 一句话结论
 
-macOS 自带密码重置：**在登录窗口输错三次，就会冒出「用 Apple 账户重置」的入口**；Apple Silicon 机器还可以在恢复模式里跑「重置密码助理」。不需要重装系统，也不需要进任何第三方工具。
+macOS 自带密码重置：**在登录窗口按提示尝试「使用 Apple 账户重置」**，具体入口取决于系统版本、账户类型和 FileVault 状态；Apple Silicon 机器还可以在恢复模式里运行「重置密码助理」。不需要重装系统，也不要使用第三方破解工具。
 
 ## 30 秒快速排查
 
-1. 在登录窗口连续输错密码 **3 次**。**期望结果**：提示框出现「使用 Apple 账户重置密码」或「重置密码」选项（恢复密钥/文件保险箱开启的机器会先要恢复密钥）。
+1. 在登录窗口按提示尝试错误密码，等待系统显示恢复选项。**期望结果**：可能出现「使用 Apple 账户重置密码」或「重置密码」；若出现恢复密钥/文件保险箱提示，先找回恢复密钥。
 2. 点它，输入 Apple 账户邮箱和密码，按提示设置新密码。**期望结果**：用新密码直接进桌面，文件都在。
 3. 如果重启后仍然要求旧密码（常见于刚改完密码）：先输**旧密码**试一次，或直接联系本机其他管理员账户改。
 

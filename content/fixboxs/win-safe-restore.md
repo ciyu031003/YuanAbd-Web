@@ -18,8 +18,8 @@ symptoms:
   - winre 恢复环境
 keywords: [安全模式, 系统还原, 还原点, WinRE, 高级启动, 重置此电脑, 卸载更新, 恢复选项]
 aliases: [系统恢复, 还原系统, 进安全模式, 系统退回, 撤销更新]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 明白还原/重置的破坏范围（下文有对照表）
   - 重要的个人文件已有备份或已同步
@@ -34,7 +34,7 @@ sources:
   - title: Microsoft 支持 - Windows 恢复环境（WinRE）
     url: https://support.microsoft.com/zh-cn/windows/experience/backup-recovery/windows-recovery-environment
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-safe-restore.html
 ---
 
@@ -51,6 +51,14 @@ detail_href: ./fix/win-safe-restore.html
 1. 能正常开机进桌面吗？能 → 直接在系统里操作（步骤 1）；不能 → 连续强制关机 3 次（开机看到厂商 Logo 就长按电源键），Windows 会自动进入**恢复环境（WinRE）**，从那里继续。
 2. 想想最近**动过什么**：装了软件/驱动 → 安全模式里卸载它；装了更新 → WinRE 里「卸载更新」；改了设置/删了东西 → 系统还原到之前的还原点。
 3. 一切手段之前，先把桌面/文档里有价值的文件备份出来（安全模式下可以拷文件到 U 盘）。
+
+## 小白一键修复
+
+- 下载：[打开 Windows 恢复环境（.bat）](../scripts/open-recovery-settings.bat)
+- 适合：Windows 10/11 当前还能进入桌面，但需要进入“高级启动”使用安全模式或系统还原。
+- 脚本会：检查恢复环境状态，并在确认后 20 秒重启到蓝色“高级选项”页面。
+- 运行前：保存所有文档，确认 BitLocker 恢复密钥可用；企业设备先联系 IT。
+- 注意：脚本不会自动执行还原或重置。进入恢复环境后，需要由你选择具体操作。
 
 ## 适用 / 不适用
 

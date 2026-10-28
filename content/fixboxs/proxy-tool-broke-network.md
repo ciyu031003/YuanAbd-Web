@@ -17,8 +17,8 @@ symptoms:
   - 网络重置
 keywords: [TAP虚拟网卡, TUN, WinTun, 虚拟网卡残留, 系统代理未清除, DNS被改, 路由表被劫持, netsh winsock reset, 网络重置]
 aliases: [装完VPN就没网了, 加速器卸载后断网, 虚拟网卡删不掉, 路由表被改, 网络被工具接管了]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 确认这台设备是你本人拥有或已获授权
   - 已准备好重新安装网卡驱动所需的联网手段（可用手机 USB 共享网络）
@@ -35,7 +35,7 @@ sources:
   - title: Microsoft Support - Windows 中的代理设置
     url: https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/proxy-tool-broke-network.html
 ---
 
@@ -57,6 +57,14 @@ detail_href: ./fix/proxy-tool-broke-network.html
 1. 右键任务栏网络图标 → "网络和 Internet 设置"，看适配器列表里**是不是多了一块不认识、带黄色感叹号或"未识别的网络"的网卡**（名字里常带 TAP、TUN、WireGuard、WinTun、VPN 字样）。**期望结果**：找到那块多余的虚拟网卡。
 2. 打开"设置 → 网络和 Internet → 代理"，把自动检测、脚本、手动代理都关掉，刷新网页。**期望结果**：网页能打开，说明只是代理残留。
 3. 命令行执行 `ipconfig /all`，看**默认网关还在不在**（正常应该指向你家路由器地址）。**期望结果**：默认网关为空或指向一个陌生地址，说明路由被工具接管了。
+
+## 小白一键修复
+
+- 下载：[清除异常代理设置（.bat）](../scripts/reset-proxy-settings.bat)
+- 适合：Windows 10/11，安装/退出加速器、VPN、抓包或代理工具后，浏览器和系统网络一起异常。
+- 脚本会：关闭系统代理与 PAC、重置 WinHTTP 代理、清理 DNS 缓存。
+- 运行前：先退出相关工具，保存代理配置截图；公司设备先联系 IT。
+- 注意：此脚本先处理最常见的代理残留。若网卡仍异常，再回到正文执行网络重置或修复虚拟网卡。
 
 ## 适用 / 不适用
 

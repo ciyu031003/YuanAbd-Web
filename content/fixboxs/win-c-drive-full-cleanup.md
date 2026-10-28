@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [C盘满了, C盘爆红, 磁盘空间不足, 电脑提示空间不够, C盘越来越小, disk full, 只剩几百MB, C盘红了怎么办]
 keywords: [C盘清理, 清理建议, 存储感知, 磁盘清理 cleanmgr, 清理系统文件, WinSxS 组件清理, hiberfil.sys, Windows.old]
 aliases: [C盘满了, 空间不足, 硬盘满了, C盘瘦身, 磁盘爆红]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [有管理员权限, 知道哪些文件是重要资料, 重要数据已备份]
 tools: [设置中的存储, 存储感知, 磁盘清理 cleanmgr, DISM, powercfg, 资源管理器, WinDirStat（开源）]
 related: [win-update-stuck, win-slow-diagnose, win-startup-apps-disable]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/installing-updates-features-roles/troubleshoot-windows-update-issues
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-c-drive-full-cleanup.html
 ---
 
@@ -44,6 +44,14 @@ C 盘满不要瞎删：先用「设置 → 系统 → 存储」看清是哪一�
 1. **看谁占了空间**：「设置 → 系统 → 存储」，等它扫描完，看是「应用和功能」「临时文件」「文档」「其他」哪一类最大。
 2. **一键清临时文件**：同一页面点「清理建议」或打开「存储感知」，先清临时文件和回收站，动辄能空出几个 GB。
 3. **带系统文件深清**：按 Win+R 输入 `cleanmgr` → 选 C 盘 → 点「清理系统文件」→ 勾选「Windows 更新清理」「传递优化文件」等。这一步通常最有效。
+
+## 小白一键修复
+
+- 下载：[安全清理临时文件（.bat）](../scripts/cleanup-temp-files.bat)
+- 适合：Windows 10/11，C 盘临时文件很多，想先安全腾出一部分空间。
+- 脚本会：清理当前用户和 Windows 临时目录中未被占用的文件，并显示 C 盘剩余空间。
+- 运行前：保存正在编辑的文档；正在使用的临时文件会自动跳过。
+- 注意：脚本不会清空下载、桌面、文档、回收站、系统还原点或 Windows.old，也不会删除休眠文件。
 
 ## 适用 / 不适用
 

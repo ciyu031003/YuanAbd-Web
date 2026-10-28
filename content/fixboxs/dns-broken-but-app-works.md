@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [网页打不开但微信能用, QQ能上网页打不开, DNS错误, 无法解析域名, 有些网站打不开, 网页加载很慢, DNS_PROBE_FINISHED, 找不到服务器, 域名解析失败, 部分网站上不去]
 keywords: [DNS, nslookup, 域名解析, DNS 缓存, 安全 DNS, DoH, hosts, 223.5.5.5]
 aliases: [DNS有问题, 域名解析不了, 网站打不开, 部分网站上不去]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [能使用 QQ/微信等即时通讯软件（说明网络本身是通的）, 知道管理员密码（清缓存和改 DNS 需要）, 知道自家路由器管理地址]
 tools: [命令提示符 / PowerShell, macOS 终端, 浏览器设置, 路由器管理页面]
 related: [wifi-connected-but-no-internet, dhcp-no-ip-169-254, ip-conflict-locate-device, home-network-all-offline]
@@ -25,7 +25,7 @@ sources:
   - title: IETF — RFC 1034：域名概念与设施
     url: https://datatracker.ietf.org/doc/html/rfc1034
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/dns-broken-but-app-works.html
 ---
 
@@ -42,6 +42,14 @@ detail_href: ./fix/dns-broken-but-app-works.html
 1. **验证是不是 DNS**：管理员命令提示符执行 `ping 223.5.5.5`（能通）再执行 `ping www.baidu.com`（提示找不到主机）。期望：前者通、后者不通 → 确认是 DNS 问题。
 2. **清一次 DNS 缓存**：Windows 执行 `ipconfig /flushdns`；macOS 执行 `sudo dscacheutil -flushcache` 和 `sudo killall -HUP mDNSResponder`。期望：缓存造成的解析错误立刻修复。
 3. **临时换公共 DNS**：Windows 在网络设置里把 DNS 改成手动 `223.5.5.5`；macOS 执行 `networksetup -setdnsservers Wi-Fi 223.5.5.5 119.29.29.29`。期望：网页恢复打开。
+
+## 小白一键修复
+
+- 下载：[清理 DNS 缓存（.bat）](../scripts/flush-dns-cache.bat)
+- 适合：Windows 10/11，QQ/微信等直连应用正常，但网页域名解析失败或刚改过 DNS。
+- 脚本会：执行 `ipconfig /flushdns` 清空本机 DNS 缓存。
+- 运行前：关闭正在打开的浏览器。
+- 注意：脚本不会修改 DNS 服务器地址；如果 DNS 被路由器或恶意软件篡改，还要继续按正文修正上游配置。
 
 ## 适用 / 不适用
 

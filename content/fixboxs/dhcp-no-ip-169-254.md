@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [IP是169.254开头, 获取不到IP地址, 169.254开头的地址, 没有有效的IP配置, 网络未识别的网络, 无Internet访问, 自动配置IPv4地址, 拿不到IP, DHCP失败, 一直显示正在识别]
 keywords: [APIPA, 169.254, DHCP, 自动专用 IP 地址, 链路本地地址, ipconfig /renew, 网络重置, RFC 3927]
 aliases: [拿不到IP, 没有IP地址, IP是169开头, 自动私有地址]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [能登录路由器管理页面, Windows 有管理员权限, 记得 Wi-Fi 密码（网络重置后要重输）, 如果是有线网络，手边有一根备用网线]
 tools: [命令提示符 / PowerShell, macOS 终端, 路由器管理页面, 网线（备用）]
 related: [ip-conflict-locate-device, wifi-connected-but-no-internet, home-network-all-offline, router-admin-page-unreachable]
@@ -25,7 +25,7 @@ sources:
   - title: Apple 支持 — 如果 Mac 无法通过 Wi-Fi 接入互联网
     url: https://support.apple.com/zh-cn/101588
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/dhcp-no-ip-169-254.html
 ---
 
@@ -42,6 +42,14 @@ detail_href: ./fix/dhcp-no-ip-169-254.html
 1. **重启路由器和电脑**：路由器断电 30 秒后通电，等 2 分钟，再重启电脑。期望：约一半情况地址会变回 `192.168.x.x`。
 2. **让本机强制重新要一次地址**：管理员命令提示符执行 `ipconfig /release`，再执行 `ipconfig /renew`。期望：提示里出现新的 IPv4 地址。
 3. **用手机连同一个 Wi-Fi 看它的 IP**（Wi-Fi 详情里有"IP 地址"）。期望：手机拿到 192.168 开头的地址 → 路由器 DHCP 正常，问题在这台电脑；手机也是 169.254 → 路由器 DHCP 出问题了。
+
+## 小白一键修复
+
+- 下载：[网络连接快速修复（.bat）](../scripts/fix-network-stack.bat)
+- 适合：Windows 10/11，网卡地址是 `169.254.x.x`，路由器和其他设备工作正常。
+- 脚本会：清理 DNS 缓存、重置 Winsock/TCP-IP、重新请求 DHCP 地址。
+- 运行前：保存文档并确认这不是公司统一配置的静态 IP。
+- 注意：重置后必须重启；如果路由器 DHCP 关闭或网线/无线链路本身有问题，脚本不能替代硬件排查。
 
 ## 适用 / 不适用
 

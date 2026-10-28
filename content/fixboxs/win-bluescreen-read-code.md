@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [电脑蓝屏, 蓝屏重启, 蓝屏代码看不懂, 你的设备遇到问题需要重启, 蓝屏后自动重启, blue screen, 电脑蓝屏哭脸, 蓝屏错误代码]
 keywords: [蓝屏代码, 停止代码, stop code, 事件查看器 1001, 内存检测, 小内存转储, 驱动导致蓝屏]
 aliases: [蓝屏, 蓝屏死机, 电脑蓝屏怎么办, 出现哭脸, 系统崩溃重启]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [记得蓝屏上出现的代码或拍到照片, 能重启进入系统, 有管理员权限]
 tools: [事件查看器, Windows 内存诊断, 设备管理器, 命令提示符（管理员）, WinDbg（可选）]
 related: [win-stuck-on-boot-logo, win-blackscreen-cursor, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/sfc
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-bluescreen-read-code.html
 ---
 
@@ -43,6 +43,14 @@ detail_href: ./fix/win-bluescreen-read-code.html
 1. **先拍照。** 把整屏拍下来，重点是停止代码（如 `IRQL_NOT_LESS_OR_EQUAL`）、错误编号（如 `0x0000000A`）和下面那个文件名（如 `nvlddmkm.sys`）。
 2. **回想最近装了什么。** 蓝屏前装过驱动、杀软、外设、系统更新？按本文步骤 4 先卸载它，这一步能解决大多数「突然开始蓝屏」。
 3. **偶尔蓝屏一次、之后一切正常**，可以先观察：去「事件查看器 → Windows 日志 → 系统」看是否有 1001 号 BugCheck 记录，记下时间和代码，再决定要不要动手。
+
+## 小白一键修复
+
+- 下载：[导出蓝屏证据（.bat）](../scripts/collect-bluescreen-evidence.bat)
+- 适合：Windows 10/11，蓝屏后自动重启，没拍到停止代码。
+- 脚本会：导出最近的 41、1001、6008 号系统事件，列出 `C:\Windows\Minidump` 里的转储文件。
+- 运行前：用管理员账户登录并接上电源；脚本不会分析、移动或删除转储文件。
+- 注意：报告只保存在桌面，不会上传；它负责收集证据，不等于自动修好蓝屏。
 
 ## 适用 / 不适用
 
@@ -252,4 +260,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-10-27 | 1.1 | 增加蓝屏事件与转储文件导出脚本 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：蓝屏代码读法 + 八步排查 | 内容组 |

@@ -18,8 +18,8 @@ symptoms:
   - 打印机排队不动
 keywords: [打印机脱机, Print Spooler, 打印队列, 打印后台处理程序, 打印任务卡住, 网络打印机, 打印机驱动]
 aliases: [打印机离线, 打印机不工作, 打不出东西, 打印卡住, 打印没反应]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 打印机电源已开、纸盒有纸、不缺墨/粉
   - 知道打印机是 USB 直连还是网络/无线连接
@@ -34,7 +34,7 @@ sources:
   - title: Apple 支持 - 在 Mac 上添加或移除打印机
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp1036/mac
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/printer-offline.html
 ---
 
@@ -51,6 +51,14 @@ detail_href: ./fix/printer-offline.html
 1. 打开"设置 → 蓝牙和其他设备 → 打印机和扫描仪"，点开你的打印机 → **打开打印队列**，把里面堆积的任务全部取消（队列 → 取消所有文档）。**期望结果**：队列清空，打印机可能立刻吐出之前积压的纸。
 2. 在同一页面点"**打印机属性**"，在"常规"或"端口"页里确认该打印机**没有**勾选"脱机使用打印机（Use Printer Offline）"。**期望结果**：取消勾选后状态从"脱机"变为"就绪"。
 3. 关掉打印机电源，等 30 秒再开；同时重启一次电脑。**期望结果**：设备和电脑重新握手，状态恢复正常。
+
+## 小白一键修复
+
+- 下载：[清理打印队列（.bat）](../scripts/clear-print-queue.bat)
+- 适合：Windows 10/11，打印机显示脱机或队列里堆着一直“正在打印”的任务。
+- 脚本会：停止 Print Spooler、清空待打印缓存、重新启动打印服务。
+- 运行前：确认没有必须保留的待打印任务；打印机电源和连接保持正常。
+- 注意：脚本不会修复打印机 IP、驱动或硬件故障，也不会更改默认打印机。
 
 ## 适用 / 不适用
 

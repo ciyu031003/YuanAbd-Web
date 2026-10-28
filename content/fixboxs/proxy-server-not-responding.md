@@ -17,8 +17,8 @@ symptoms:
   - 网络代理错误
 keywords: [代理服务器无响应, 系统代理, WinHTTP代理, PAC自动配置脚本, netsh winhttp, 代理设置残留, proxy server]
 aliases: [代理无响应, 代理服务器拒绝连接, 代理设置关了还是打不开网页, 浏览器提示代理错误]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites:
   - 确认电脑本身已连上 Wi-Fi 或网线
   - 知道这台电脑是不是公司/学校统一管理的设备
@@ -33,7 +33,7 @@ sources:
   - title: Apple 支持 - 在 Mac 上输入代理服务器设置
     url: https://support.apple.com/en-us/guide/mac-help/mchlp2591/mac
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/proxy-server-not-responding.html
 ---
 
@@ -55,6 +55,14 @@ detail_href: ./fix/proxy-server-not-responding.html
 1. 按 `Win + I` 打开设置 → **网络和 Internet → 代理**，把「使用代理服务器」和「自动检测设置」都关掉，回到浏览器刷新页面。**期望结果**：网页能打开，说明就是残留的代理设置。
 2. 如果设置里本来就是关的，打开无痕/隐私窗口再试一次。**期望结果**：无痕能开、正常窗口不能开，是浏览器扩展在管代理（见步骤 5）。
 3. 打开微信或 QQ 看能不能收发消息。**期望结果**：聊天软件正常、只有浏览器不行 = 浏览器侧问题；所有软件都不行 = 系统级代理或网络本身有问题。
+
+## 小白一键修复
+
+- 下载：[清除异常代理设置（.bat）](../scripts/reset-proxy-settings.bat)
+- 适合：Windows 10/11，错误提示明确指向代理服务器，且这是个人或家庭网络。
+- 脚本会：关闭当前用户代理/PAC、重置 WinHTTP 代理、清理 DNS 缓存。
+- 运行前：拍照记录原代理地址和端口；公司/学校设备先联系 IT。
+- 注意：恢复直连可能让公司内网、VPN 专线暂时不可用，确认自己不需要这些配置再继续。
 
 ## 适用 / 不适用
 

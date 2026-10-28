@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [开机黑屏只有鼠标, 黑屏有鼠标能动, 登录后黑屏, 桌面图标不见, 黑屏没有任务栏, black screen with cursor, 电脑黑屏只看到箭头, 开机后一直黑屏]
 keywords: [黑屏只有鼠标指针, explorer.exe 未启动, 登录后黑屏, 显卡驱动黑屏, 资源管理器, black screen cursor, 桌面不显示]
 aliases: [黑屏有鼠标, 黑屏只剩指针, 开机没桌面, 鼠标能动没有桌面, 只有箭头没图标]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [能移动鼠标并按键盘, 记得开机密码, 知道黑屏前是否装过更新或驱动]
 tools: [任务管理器, Windows 恢复环境, 设备管理器, 系统还原, 命令提示符（管理员）, 注册表编辑器]
 related: [win-stuck-on-boot-logo, win-bluescreen-read-code, win-forgot-password]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-blackscreen-cursor.html
 ---
 
@@ -44,6 +44,14 @@ detail_href: ./fix/win-blackscreen-cursor.html
 1. **按 Ctrl+Alt+Del**，出现蓝底选项说明系统活着。选「任务管理器」→ 左上角「文件」→「运行新任务」→ 输入 `explorer.exe` → 确定。桌面和任务栏出现，就是它。
 2. **按 Win+Ctrl+Shift+B**。这是 Windows 内置的「重启显卡驱动」快捷键，屏幕会闪黑一下、可能「叮」一声。按完桌面出现，问题在显卡驱动。
 3. **长按电源键 10 秒强制关机**，拔掉所有 USB 设备（U 盘、移动硬盘、打印机、扩展坞）后重新开机。外接设备冲突导致黑屏很常见。
+
+## 小白一键修复
+
+- 下载：[重启 Windows 桌面（.bat）](../scripts/restart-explorer.bat)
+- 适合：Windows 10/11，能移动鼠标，但桌面、任务栏或图标不显示。
+- 脚本会：结束并重新启动 `explorer.exe`，不会重启电脑。
+- 运行前：如果你还能用 `Ctrl + Alt + Del` 打开任务管理器，可先保存正在运行的程序。
+- 注意：完全黑屏且看不到鼠标时无法运行此脚本；反复黑屏仍需继续检查显卡驱动和系统文件。
 
 ## 适用 / 不适用
 

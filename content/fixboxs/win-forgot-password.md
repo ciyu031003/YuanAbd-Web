@@ -6,12 +6,12 @@ category: win-login
 os: [Windows 10, Windows 11]
 difficulty: 入门
 time: 20-90 分钟
-risk: 需谨慎
+risk: 有数据风险
 symptoms: [开机密码忘了, PIN 用不了, 密码错误进不去, 忘记PIN, 登录界面进不去, forgot windows password, 密码提示不正确, PIN 不可用请重试]
 keywords: [忘记开机密码, 重置PIN, 微软账户改密码, 本地账户密码, BitLocker 恢复密钥, 登录选项, net user 改密码]
 aliases: [密码忘了, 进不去系统, PIN 失效, 登录不了, 开机密码不对]
-updated: 2026-10-25
-version: "1.1"
+updated: 2026-10-27
+version: "1.2"
 prerequisites: [知道账户是微软账户还是本地账户, 有一台能上网的手机或电脑, 企业设备需联系 IT]
 tools: [登录界面的登录选项, 微软账户密码重置页, net user 命令, manage-bde, 密码重置盘]
 related: [win-blackscreen-cursor, win-stuck-on-boot-logo, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/net-user
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-forgot-password.html
 ---
 

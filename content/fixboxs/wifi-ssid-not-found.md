@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [搜不到wifi, 找不到自家网络, wifi列表里没有我家网络, 路由器隐藏了SSID, 5G信号搜不到, wifi名字不见了, 手机能搜到电脑搜不到, can't find my wifi network, SSID not showing, 搜不到路由器信号]
 keywords: [SSID, 隐藏网络, 无线信道, 5GHz, 2.4GHz, 无线网卡驱动, netsh wlan show networks, 无线诊断]
 aliases: [找不到wifi, 没有wifi名字, 搜不到网络, 无线列表是空的]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [有一台能正常上网的手机用于对照, 知道自家 Wi-Fi 名称和密码, 知道路由器放在哪里]
 tools: [手机, Windows 设备管理器, macOS 无线诊断, 路由器管理页面]
 related: [wifi-connected-but-no-internet, wifi-adapter-missing, home-network-all-offline, router-admin-page-unreachable]
@@ -25,7 +25,7 @@ sources:
   - title: Microsoft Learn — netsh wlan 命令
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-wlan
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/wifi-ssid-not-found.html
 ---
 
@@ -40,6 +40,14 @@ detail_href: ./fix/wifi-ssid-not-found.html
 1. **拿手机看 Wi-Fi 列表**里有没有自家网络名。期望：手机能搜到 → 问题在这台电脑；手机也搜不到 → 问题在路由器。
 2. **看路由器指示灯**：电源灯亮、Wi-Fi（或 WLAN）灯是否亮或闪。期望：Wi-Fi 灯不亮 → 路由器上的 Wi-Fi 被关了。
 3. **把电脑搬到路由器旁边**（1 米内）再看一次列表。期望：近距离能搜到 → 之前是信号太弱或被墙挡住。
+
+## 小白一键修复
+
+- 下载：[重启无线网卡与 WLAN 服务（.bat）](../scripts/restart-wifi-adapter.bat)
+- 适合：Windows 10/11，原先能连的 Wi-Fi 突然从列表消失，手机仍能搜到该网络。
+- 脚本会：重新扫描设备、重启 WLAN AutoConfig、显示当前无线网卡状态。
+- 运行前：先确认没有关闭笔记本的物理 Wi-Fi 开关或飞行模式。
+- 注意：隐藏 SSID、信道不兼容、路由器未广播等情况需要继续按正文调整。
 
 ## 适用 / 不适用
 

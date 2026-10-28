@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [电脑越来越卡, 电脑很慢, 打开程序慢, 开机慢, 用一会儿就卡, computer slow, 鼠标卡顿, 电脑反应迟钝]
 keywords: [电脑卡顿, 任务管理器占用100%, 磁盘100%, 内存不足, 资源监视器, 电脑变慢原因, 可靠性监视器]
 aliases: [卡顿, 电脑慢, 反应慢, 一顿一顿的, 用着卡]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-10-27
+version: "1.1"
 prerequisites: [能正常进入系统, 有管理员权限可选, 最好接上电源而不是用电池]
 tools: [任务管理器, 资源监视器, 性能监视器, 可靠性监视器, PowerShell, 事件查看器]
 related: [win-startup-apps-disable, win-c-drive-full-cleanup, win-bluescreen-read-code]
@@ -26,7 +26,7 @@ sources:
     url: https://support.microsoft.com/en-us/windows/free-up-drive-space-in-windows-85529ccb-c365-490d-b548-831022bc9b32
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-27
 detail_href: ./fix/win-slow-diagnose.html
 ---
 
@@ -43,6 +43,14 @@ detail_href: ./fix/win-slow-diagnose.html
 1. **Ctrl+Shift+Esc 打开任务管理器**，点「性能」看四条曲线：哪一项长期贴顶（多数是磁盘 100% 或内存 90%+），问题就在那一栏对应的步骤。
 2. **「启动」标签看影响**：标着「高」的项目全列出来，能关的先关，做法见 [开机太慢：关掉这些开机自启软件](./win-startup-apps-disable.html)。
 3. **看 C 盘剩余空间**：低于 10% 会明显拖慢系统，先去清理：[C 盘爆红快满了，怎么安全清理出空间](./win-c-drive-full-cleanup.html)。
+
+## 小白一键修复
+
+- 下载：[生成电脑诊断报告（.bat）](../scripts/collect-system-diagnostics.bat)
+- 适合：Windows 10/11，电脑反复卡顿、死机或偶发蓝屏，但不知道先查什么。
+- 脚本会：读取系统型号、磁盘健康、剩余空间、启动项、高占用进程和近期系统错误，保存成桌面 TXT 报告。
+- 运行前：关闭正在处理的重要工作；脚本只读，不会修改设置或删除文件。
+- 注意：报告含电脑名、用户名和软件名，发给别人前先打开检查，删除不愿公开的内容。
 
 ## 适用 / 不适用
 
@@ -229,4 +237,5 @@ sfc /verifyonly
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-10-27 | 1.1 | 增加只读诊断报告脚本与小白入口 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：症状对照表 + 七步定位 | 内容组 |

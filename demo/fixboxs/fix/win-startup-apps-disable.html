@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/fix.css">
 <link rel="stylesheet" href="../css/fix-neu.css">
 </head>
-<body data-slug="win-startup-apps-disable">
+<body data-slug="win-startup-apps-disable" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
 <div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
 <a class="fx-skip" href="#main">跳到主要内容</a>
@@ -44,11 +44,56 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>开机启动</span></nav>
 <h1 class="fx-title">开机太慢：关掉这些开机自启软件</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文只调整启动项，不删除软件、不动系统文件，操作都可随时恢复，风险很低。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">开机慢八成是自启动程序太多：聊天工具、网盘、游戏平台、厂商更新器都会抢开机时间。打开任务管理器的「启动」标签，把标「高」影响的非必要项全部禁用，通常能快一半。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>Ctrl+Shift+Esc → 「启动」标签</strong>，看「启动影响」一列，把标「高」且你不需要开机就运行的项，右键 →「禁用」。</li><li><strong>设置 → 应用 → 启动</strong>，这是同一个列表的另一种入口，把不需要的开关全部关掉。</li><li><strong>看右下角托盘</strong>：开机后一堆常驻图标（网盘、下载器、厂商助手），它们基本都是从启动项来的，关掉即可。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/open-startup-settings.bat" download="open-startup-settings.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 打开全部启动设置（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-startup-apps-disable">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，不知道任务管理器、启动文件夹分别在哪里。</span></li><li><b>脚本会</b><span>一次打开启动应用设置、任务管理器、当前用户启动文件夹和所有用户启动文件夹。</span></li><li><b>运行前</b><span>先记住自己认识的软件；脚本只打开窗口，不会自动关闭或卸载任何程序。</span></li><li><b>注意</b><span>不确定的项目先保留；银行安全控件、企业管控、输入法和触摸板相关程序不要随意关闭。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>open-startup-settings.bat</span><span>46 行</span><span>1.2 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-startup-apps-disable">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 打开开机启动设置
 
+echo ============================================================
+echo 修盒子 - 打开开机启动设置
+echo ============================================================
+echo 适用于：开机太慢，想先看哪些软件会自动启动。
+echo.
+echo 将打开 Windows 启动应用设置、任务管理器和两个启动文件夹。
+echo 只打开设置窗口，不会自动禁用、删除或卸载任何软件。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/4] 打开“启动应用”设置...
+start &quot;&quot; ms-settings:startupapps
+timeout /t 1 /nobreak &gt;nul
+
+echo [2/4] 打开任务管理器...
+start &quot;&quot; taskmgr.exe
+timeout /t 1 /nobreak &gt;nul
+
+echo [3/4] 打开当前用户启动文件夹...
+start &quot;&quot; explorer.exe shell:startup
+timeout /t 1 /nobreak &gt;nul
+
+echo [4/4] 打开所有用户启动文件夹...
+start &quot;&quot; explorer.exe shell:common startup
+
+echo.
+echo 完成。请只关闭你认识、且不需要开机自动运行的软件。
+echo 不确定的项目先保留，回到文章对照“哪些绝对不能关”。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有打开任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>开机要 2 分钟以上才进桌面，进桌面后还要卡一阵</li><li>任务管理器「启动」标签里一堆「高」影响项</li><li>右下角托盘区常年挤满图标</li><li>想弄清某个程序为什么会自己启动</li></ul>
@@ -58,7 +103,7 @@
 <section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启后任务管理器「上次 BIOS 时间」和进桌面总耗时明显缩短（通常能减少 30 秒到 2 分钟）；托盘区只剩你认识的图标；连续开关机 2 次都稳定，且被保留的软件功能（声音、触摸板、网络）全部正常。</p></section>
 <section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>启动项已经很少，开机还是慢 → 瓶颈可能在硬盘或内存，看 <a class="fx-link" href="./win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a></li><li>关完启动项后某个软件一直弹报错 → 重新启用该项，或卸载重装该软件</li><li>每次开机都多出新的自启项 → 可能有广告软件，看 <a class="fx-link" href="./win-popup-ads-hijack.html">电脑老是弹广告、浏览器主页被劫持改不回来</a></li><li>C 盘空间不足拖慢开机 → <a class="fx-link" href="./win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a></li><li>公司统一配置的电脑，自启项被策略锁定改不了 → 联系公司 IT</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>装软件时注意取消勾选「开机自动启动」「随系统启动」这类默认选项。</li><li>每 3 个月检查一次「设置 → 应用 → 启动」，及时清理新装的常驻程序。</li><li>同类工具只留一个（云盘、下载器、播放器各一个就够）。</li><li>不安装来源不明的「加速」「优化」「清理」类软件。</li><li>系统盘用 SSD，这是开机速度提升最明显的一步。</li></ol></section>
-<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：启动项七步清理与保留清单</td><td>内容组</td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.1</td><td>增加一键打开全部启动项入口的脚本</td><td>内容组</td></tr><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：启动项七步清理与保留清单</td><td>内容组</td></tr></tbody></table></div></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先量出开机到底慢在哪</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>有了数字，关完启动项才知道有没有变快。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <ol class="fx-ol"><li>任务管理器（Ctrl+Shift+Esc）→「启动」标签，右上角会显示「上次 BIOS 时间」，这是固件加系统的开机用时。</li><li>看「启动影响」列：<code>高</code>、<code>中</code>、<code>低</code>、<code>无</code>、<code>未测量</code>。判定标准（微软官方说明）：CPU 超过 1 秒或磁盘读写超过 3 MB 记为高影响。</li><li>更细的记录：事件查看器 →「应用程序和服务日志 → Microsoft → Windows → Diagnostics-Performance → Operational」，找事件 ID <code>100</code>（整机启动耗时），<code>101-103</code> 会指出具体拖慢启动的应用、驱动或服务。</li></ol>
@@ -95,12 +140,11 @@
 <ol class="fx-ol"><li>卸载「开机加速」「内存优化」「系统瘦身」类工具，它们常自带常驻进程和广告。</li><li>卸载后把它们的启动项一并清掉（用步骤 4 的 Autoruns 复查）。</li><li>只用系统自带的设置、任务管理器、Autoruns 这三样处理启动项。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>启动项清单只剩你自己认识的程序。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>卸载后出现异常 → 用系统还原回到卸载前的时间点。</div></details></div></li></ol></section>
-<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
-<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-popup-ads-hijack.html">电脑老是弹广告、浏览器主页被劫持改不回来</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>
@@ -111,7 +155,7 @@
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Mac App Store 下载卡住 / 应用装不上怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="App Store 卡在“等待中”，通常是下载队列、网络、日期时间或账户登录状态不同步，不等于应用损坏。先暂停再继续下载，再检查网络和储存空间；仍然不行才退出 Apple 账户重新登录。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-app-store-download-stuck" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>应用与 App Store</span></nav>
+<h1 class="fx-title">Mac App Store 下载卡住 / 应用装不上怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 14+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文不会删除已安装应用或账户购买记录。退出 Apple 账户再登录前，请确认自己记得密码并能接收双重认证验证码。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">App Store 卡在“等待中”，通常是下载队列、网络、日期时间或账户登录状态不同步，不等于应用损坏。先暂停再继续下载，再检查网络和储存空间；仍然不行才退出 Apple 账户重新登录。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>App Store 底部点“下载”或“账户”，在更新列表里找到卡住的项目，先暂停再继续。</li><li>用 Safari 打开一个普通网页，再打开 Apple 系统状态页面，确认不是整个网络断了。</li><li>打开系统设置 → 通用 → 储存空间，确认至少有 10% 空闲空间。</li></ol></div>
+
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>下载进度长时间停在“等待中”或 0%</li><li>更新按钮点击后没有反应</li><li>已购应用显示云朵图标但无法下载</li><li>App Store 能打开，搜索也正常，只有安装失败</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>整台 Mac 所有网站都打不开 → 先检查 Wi-Fi 和 DNS</li><li>Safari 单独打不开网页 → 看 <a class="fx-link" href="./mac-safari-cant-load.html">Mac Safari 打不开网页</a></li><li>macOS 系统更新卡住 → 系统更新与 App Store 不是同一通道</li><li>公司或学校 Mac 禁止安装软件 → 联系设备管理员</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Mac 电量充足或已接电源</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道 Apple 账户密码与双重认证设备</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>没在使用会拦截 Apple 服务的公司代理或家长控制</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>已确认应用支持当前 macOS 版本</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">先下载一个体积较小的免费应用测试，进度能开始并完成安装；再更新一个已有应用；重启 Mac 后打开 App Store，下载列表没有重新卡住。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>整台 Mac 网络都不稳定 → 检查 Wi-Fi、DNS、代理和路由器</li><li>只有 Safari 网页异常 → <a class="fx-link" href="./mac-safari-cant-load.html">Mac Safari 打不开网页</a></li><li>储存空间持续不足 → <a class="fx-link" href="./mac-storage-system-data.html">Mac 储存空间不足怎么清理</a></li><li>聚焦、App Store 和 Finder 同时异常 → 检查系统更新、磁盘健康和第三方清理工具</li><li>提示账户问题 → 从 Apple 官方账户恢复流程处理，不向来路不明网站提供验证码</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>保持日期、时区和 Apple 账户双重认证正常。</li><li>不在下载时同时切换 VPN、代理和网络。</li><li>为系统盘保留足够空间，避免更新和应用缓存反复失败。</li><li>软件优先从 App Store 或开发商官网下载，不使用聚合站安装包。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：下载队列、网络时间、储存空间、账户与安全模式</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">处理卡住的下载队列</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>App Store 可能同时排队多个下载，前面的任务卡住会挡住后续应用。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开 App Store，点左下角账户或“下载”。</li><li>找到正在下载或显示“等待中”的项目，点圆形暂停按钮。</li><li>等 10 秒后继续，观察进度是否变化。</li><li>如果多个任务同时进行，先暂停其他任务，只保留一个下载。</li><li>按 <code>Command+R</code> 重新载入 App Store 页面。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>进度开始变化，按钮从“等待中”变成百分比或“停止”。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍然不动 → 重启 App Store 和 Mac，再继续步骤 2。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查网络、日期与 Apple 服务状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>证书和账户验证依赖正确时间，网络代理也会让商店连接失败。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>断开 VPN、公司代理和第三方网络加速器，改用普通 Wi-Fi 或手机热点测试。</li><li>系统设置 → 通用 → 日期与时间，打开自动设置日期和时间、自动设置时区。</li><li>访问 Apple“系统状态”页面，确认 App Store 没有大范围故障。</li><li>如果使用内容过滤或防火墙，临时允许 App Store 后测试，完成后恢复安全设置。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>网络可访问 Apple 服务，日期时间正确，App Store 能刷新账户页面。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仅某个网络失败 → 检查路由器、DNS 或代理；所有网络都失败 → 继续账户排查。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查储存空间和应用兼容性</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>空间不足或系统版本不满足要求时，App Store 可能只显示“等待中”而不给明确提示。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开系统设置 → 通用 → 储存空间，确认可用空间大于应用标注大小的两倍。</li><li>在 App Store 应用页面向下查看“兼容性”，确认支持当前 macOS。</li><li>删除不再使用的安装包和下载缓存，但不要直接删除不认识的系统文件。</li><li>重启 Mac 后再次下载。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>空间充足，应用兼容当前系统，重新下载有明确进度或错误码。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>空间仍不足 → 参考 Mac 储存空间文章；应用不兼容 → 找开发商提供的兼容版本或官网下载渠道。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">刷新 Apple 账户登录状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>账户令牌过期时，商店能显示购买记录，却无法开始或验证下载。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>记下当前 Apple 账户邮箱，确认双重认证可用。</li><li>App Store 左下角账户 → 退出登录。</li><li>重启 Mac。</li><li>重新登录同一个 Apple 账户，同意必要条款后重试。</li><li>若使用家人共享，确认当前账户仍有下载权限。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>账户页面正常刷新，已购应用出现云朵下载按钮，下载可以开始。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示“账户被停用”“需要验证” → 按 Apple 官方提示处理账户问题，不要反复猜测密码。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">安全模式与系统更新</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>第三方安全、同步或网络软件可能拦截 App Store；系统组件也可能需要更新。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>正常重启一次 Mac。</li><li>仍然失败时进入安全模式，再打开 App Store 测试。</li><li>如果安全模式正常，退出登录项中的 VPN、网络过滤、清理和同步软件后再测。</li><li>打开系统设置 → 通用 → 软件更新，安装可用的 macOS 更新并重启。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>安全模式能下载说明第三方软件干扰；更新后错误码消失，下载恢复。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不同应用都失败且账户正常 → 联系 Apple 支持，提供错误码、macOS 版本和发生时间。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-spotlight-not-working.html">Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修</a><a href="../fix/icloud-storage-full.html">iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/mac-safari-cant-load.html">Mac Safari 打不开网页 / 只有浏览器上不了网怎么修</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

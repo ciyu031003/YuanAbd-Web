@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Windows 文件图标变白 / 缩略图不显示怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="缩略图和图标由多个缓存数据库负责，缓存损坏时会显示白纸、错图或忽然不显示。先确认只是图标问题而不是文件损坏，再清理当前用户的 thumbcache 和 iconcache 让 Windows 自动重建。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-thumbnail-cache-broken" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>桌面、搜索与常用功能</span></nav>
+<h1 class="fx-title">Windows 文件图标变白 / 缩略图不显示怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>清理缓存会让桌面和文件夹短暂消失，并让图片缩略图重新生成。它不会删除照片、视频或文档本身，也不会改变文件内容。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">缩略图和图标由多个缓存数据库负责，缓存损坏时会显示白纸、错图或忽然不显示。先确认只是图标问题而不是文件损坏，再清理当前用户的 <code>thumbcache</code> 和 <code>iconcache</code> 让 Windows 自动重建。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>双击图片能否用看图软件正常打开？<strong>能打开就说明文件没坏</strong>，问题只在预览缓存或图标关联。</li><li>文件资源管理器 →“查看” →“显示” → 确认“项目复选框”等设置没有误改，再检查“查看”是否被设成了“详细信息”而不是“中图标/大图标”。</li><li>先试试运行本文 BAT。桌面闪一下属于正常现象，缓存重建需要几分钟。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/clear-thumbnail-cache.bat" download="clear-thumbnail-cache.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 重建缩略图与图标缓存（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-thumbnail-cache-broken">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，图片缩略图空白、文件图标变白或图标错乱。</span></li><li><b>脚本会</b><span>重启资源管理器，删除当前用户可自动重建的缩略图与图标缓存。</span></li><li><b>运行前</b><span>保存桌面上的工作，关闭正在复制文件的文件夹窗口。</span></li><li><b>注意</b><span>首次重新打开图片较多的文件夹时，缩略图会慢慢生成，不会瞬间全部出现。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>clear-thumbnail-cache.bat</span><span>45 行</span><span>1.4 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-thumbnail-cache-broken">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 重建缩略图与图标缓存
+
+echo ============================================================
+echo 修盒子 - 重建缩略图与图标缓存
+echo ============================================================
+echo 适用于：图片缩略图空白、文件图标变成白纸、
+echo 或资源管理器里出现错乱、重复、显示错误的图标。
+echo.
+echo 将重启 Explorer，并删除当前用户可自动重建的缩略图和图标缓存。
+echo 不会删除照片、视频、文档或任何个人文件。
+echo 桌面和打开的文件夹会短暂消失，随后自动恢复。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/3] 关闭资源管理器...
+taskkill /f /im explorer.exe &gt;nul 2&gt;&amp;1
+timeout /t 2 /nobreak &gt;nul
+
+echo [2/3] 清理可自动重建的缓存...
+del /f /q &quot;%LocalAppData%\Microsoft\Windows\Explorer\thumbcache_*.db&quot; &gt;nul 2&gt;&amp;1
+del /f /q &quot;%LocalAppData%\Microsoft\Windows\Explorer\iconcache_*.db&quot; &gt;nul 2&gt;&amp;1
+del /f /q &quot;%LocalAppData%\IconCache.db&quot; &gt;nul 2&gt;&amp;1
+
+echo [3/3] 重新打开资源管理器...
+start &quot;&quot; explorer.exe
+
+echo.
+echo 完成。首次打开图片较多的文件夹时缩略图会重新生成，
+echo 磁盘和 CPU 可能短暂升高，请等待几分钟再判断效果。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>图片文件能打开，但资源管理器只显示通用白图标</li><li>视频缩略图黑屏、空白或显示成另一个视频的截图</li><li>某个扩展名的图标全部变白，重启后仍然异常</li><li>文件夹图标、桌面快捷方式图标明显错乱</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>文件双击也打不开 → 可能是文件损坏或默认应用设置问题</li><li>U 盘里的照片全部看不到 → 先保护数据，看 <a class="fx-link" href="./usb-drive-not-recognized.html">U 盘不识别怎么处理</a></li><li>磁盘空间爆满、系统不断提示写入失败 → 先清理空间</li><li>只有一个软件图标异常 → 重新创建快捷方式通常更快</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>用看图或播放软件确认至少一个异常文件能正常打开</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>保存桌面工作，暂停正在进行的文件复制</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道问题发生在所有文件夹还是某一个文件夹</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>准备等待几分钟，让缓存重新生成</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">打开三个不同类型文件所在的文件夹，图片、视频和常用文档都能显示正确图标或缩略图；重启电脑后仍然正常；同一个文件不会间歇性显示成其他文件的画面。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>双击文件也打不开 → 修复默认应用或检查文件是否损坏</li><li>只有 U 盘里的文件异常 → 换 USB 接口和电脑交叉测试，先备份数据</li><li>C 盘剩余空间极少 → <a class="fx-link" href="./win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a></li><li>文件资源管理器整体卡顿 → <a class="fx-link" href="./win-taskbar-unresponsive.html">Windows 任务栏卡死</a></li><li>系统文件检查反复报错 → 备份数据并检查硬盘健康</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>不要同时安装多个带文件预览插件的看图、压缩和云盘工具。</li><li>定期清理无用大文件，给缓存和系统更新保留空间。</li><li>遇到异常关机后，先正常重启一次再判断缩略图是否损坏。</li><li>来路不明的“图标包”“系统美化包”不要直接写入系统目录。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：文件校验、视图设置、缓存重建与默认应用排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认文件本身没有损坏</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>如果文件内容损坏，清缓存只能把白图标换成另一个坏图标。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>双击一个异常图片或视频，确认默认应用能正常显示内容。</li><li>把同一个文件复制到桌面，观察图标是否仍然异常。</li><li>打开文件属性，确认文件大小不是 0 字节。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>文件能正常打开，大小合理，问题只出在资源管理器预览。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>多个文件都无法打开 → 先备份整个目录，再从另一台电脑或备份盘交叉验证。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查资源管理器的查看方式</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>视图太小时本来就不会显示缩略图，避免把设置问题当成缓存故障。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开任意文件夹，点顶部“查看”。</li><li>选择“大图标”或“中等图标”，不要选“详细信息”或“列表”。</li><li>点“查看 → 显示”，确认没有误开会遮盖预览的选项。</li><li>在“文件夹选项 → 查看”里点“还原为默认值”只恢复视图设置。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>正常的图片立刻显示缩略图，图标恢复正常大小。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>设置正确仍全是白图标 → 继续步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清理缓存并重启资源管理器</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>删除损坏的缓存，让系统按当前文件重新生成预览。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>运行上方 BAT，阅读说明后选择 <code>Y</code>。</li><li>桌面和任务栏会短暂消失，等待它们自动回来。</li><li>打开一个图片文件夹，等待 1-3 分钟，不要连续刷新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>缩略图逐步出现，白纸图标减少。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍然全部空白 → 检查“性能选项”和默认应用，见步骤 4、5。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查系统性能与默认应用设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>关闭缩略图或没有关联看图软件时，系统不会生成预览。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Win+R</code> 输入 <code>sysdm.cpl</code> →“高级”→“性能设置”。</li><li>不要选择“调整为最佳性能”后一直不管；勾选“显示缩略图，而不是显示图标”。</li><li>设置 → 应用 → 默认应用，为 <code>.jpg</code>、<code>.png</code>、<code>.mp4</code> 选择你信任的看图或播放器。</li><li>重新打开文件夹确认。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>性能设置允许显示缩略图，文件类型有正确的默认应用。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>默认应用选择后自动跳回 → 先卸载重复或损坏的看图软件，再重新设置。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除系统文件和存储问题</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统组件或磁盘错误会让缓存反复损坏。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>以管理员身份打开终端，依次执行：</li></ol>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>查看 C 盘剩余空间，至少保留 10%-15%。</li><li>机械硬盘有异响或磁盘健康异常时，先备份，不要运行修复型磁盘工具。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统文件检查完成，C 盘有充足空间，重启后图标稳定。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>缓存过一天又坏 → 记录最近安装的美化、看图、云盘或文件预览软件，并逐个退出测试。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-search-not-working.html">Windows 搜索没反应 / 搜不到文件怎么修</a><a href="../fix/win-taskbar-unresponsive.html">Windows 任务栏卡死 / 点击没反应怎么修</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-app-crash-missing-dll.html">软件打不开、闪退，提示缺少 dll 或 0xc000007b</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

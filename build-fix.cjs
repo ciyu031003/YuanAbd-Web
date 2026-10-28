@@ -18,6 +18,8 @@ const SRC = path.join(ROOT, "content", "fixboxs");
 const OUT = path.join(ROOT, "demo", "fixboxs");
 const OUT_FIX = path.join(OUT, "fix");
 const OUT_DATA = path.join(OUT, "data");
+const FEEDBACK_ENDPOINT = process.env.FIXBOXS_FEEDBACK_ENDPOINT ||
+  "https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback";
 
 /* 分类字典已外置到 content/taxonomy.json（原先硬编码在此处）。
    外置的意义：后台编辑器的 domain/category 下拉框与构建读**同一份数据**，
@@ -74,6 +76,27 @@ const CRITICAL = [
 const BOOT = '<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>';
 const PRELOADER = '<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>';
 const CONNECTOR = '<div class="fx-connector" aria-hidden="true"></div>';
+const READER_FEEDBACK = [
+  '<div class="fx-feedback" data-fx-feedback>',
+  '<div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div>',
+  '<div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div>',
+  '<div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div>',
+  '<form class="fx-feedback__form" data-fx-feedback-form hidden novalidate>',
+  '<fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types">',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label>',
+  '</div></fieldset>',
+  '<label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label>',
+  '<label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label>',
+  '<label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label>',
+  '<div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div>',
+  '</form></div>',
+].join("");
 /* 移动端抽屉导航：生成的文章页在 /fix/ 子目录，链接统一用 ../ 前缀（2026-10-24 移动端适配） */
 const MOBILE_BURGER = '<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>';
 const MOBILE_DRAWER = [
@@ -524,7 +547,7 @@ CRITICAL, BOOT,
 '<link rel="stylesheet" href="../css/theme-fix.css">',
 '<link rel="stylesheet" href="../css/fix.css">',
   '<link rel="stylesheet" href="../css/fix-neu.css">',
-"</head>", '<body data-slug="' + escAttr(slug) + '">',
+"</head>", '<body data-slug="' + escAttr(slug) + '" data-feedback-endpoint="' + escAttr(FEEDBACK_ENDPOINT) + '">',
 PRELOADER,
 '<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>',
 '<a class="fx-skip" href="#main">跳到主要内容</a>',
@@ -571,7 +594,14 @@ rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + s
 "</div></footer>",
 '<script src="../data/articles.js"></script>', '<script src="../js/fix.js"></script>',
 "</body>", "</html>",
-].join("\n");
+].filter(function (line) {
+  return line.indexOf('<div class="fx-feedback"><h2>') === -1 &&
+    line.indexOf('<div class="fx-feedback__row"><a class="fx-btn') === -1;
+}).reduce(function (out, line) {
+  if (line === "</article>") out.push(READER_FEEDBACK);
+  out.push(line);
+  return out;
+}, []).join("\n");
 }
 
 function main() {

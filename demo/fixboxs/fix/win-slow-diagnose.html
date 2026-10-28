@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/fix.css">
 <link rel="stylesheet" href="../css/fix-neu.css">
 </head>
-<body data-slug="win-slow-diagnose">
+<body data-slug="win-slow-diagnose" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
 <div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
 <a class="fx-skip" href="#main">跳到主要内容</a>
@@ -44,11 +44,90 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>卡顿与性能</span></nav>
 <h1 class="fx-title">电脑越来越卡怎么办：一张表定位是哪里卡</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文只做检测和常规维护，不涉及格式化、分区等有风险的操作，可以放心按步骤执行。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「卡」不是一种病，得先分清卡在哪：先看任务管理器里 CPU、内存、磁盘、网络哪一项长期接近 100%，再按症状对照表定位到具体环节，然后只修那一处，别一上来就重装。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>Ctrl+Shift+Esc 打开任务管理器</strong>，点「性能」看四条曲线：哪一项长期贴顶（多数是磁盘 100% 或内存 90%+），问题就在那一栏对应的步骤。</li><li><strong>「启动」标签看影响</strong>：标着「高」的项目全列出来，能关的先关，做法见 <a class="fx-link" href="./win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a>。</li><li><strong>看 C 盘剩余空间</strong>：低于 10% 会明显拖慢系统，先去清理：<a class="fx-link" href="./win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a>。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/collect-system-diagnostics.bat" download="collect-system-diagnostics.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 生成电脑诊断报告（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-slow-diagnose">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，电脑反复卡顿、死机或偶发蓝屏，但不知道先查什么。</span></li><li><b>脚本会</b><span>读取系统型号、磁盘健康、剩余空间、启动项、高占用进程和近期系统错误，保存成桌面 TXT 报告。</span></li><li><b>运行前</b><span>关闭正在处理的重要工作；脚本只读，不会修改设置或删除文件。</span></li><li><b>注意</b><span>报告含电脑名、用户名和软件名，发给别人前先打开检查，删除不愿公开的内容。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>collect-system-diagnostics.bat</span><span>80 行</span><span>3.6 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-slow-diagnose">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 生成电脑诊断报告
 
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 生成电脑诊断报告
+echo ============================================================
+echo 适用于：电脑反复卡顿、死机或偶发蓝屏，想知道应该查什么。
+echo.
+echo 将读取系统版本、磁盘健康、空间、启动项、高占用进程和近期错误，
+echo 并把结果保存为桌面上的 TXT 报告。
+echo 不会修改系统设置，不会删除文件，不会上传任何内容。
+echo 报告会包含电脑名、用户名、软件名和日志，分享前请先自行检查。
+echo.
+choice /C YN /N /M &quot;确认生成报告？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+set &quot;REPORT=%USERPROFILE%\Desktop\Fixbox-Diagnostics-%RANDOM%.txt&quot;
+echo 正在收集信息，可能需要 1-3 分钟...
+
+&gt; &quot;%REPORT%&quot; echo 修盒子 Windows 诊断报告
+&gt;&gt; &quot;%REPORT%&quot; echo 生成时间：
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-Date -Format 'yyyy-MM-dd HH:mm:ss'&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [系统与硬件]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-ComputerInfo | Select-Object CsManufacturer,CsModel,CsName,WindowsProductName,WindowsVersion,OsBuildNumber,OsArchitecture,CsTotalPhysicalMemory | Format-List&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [磁盘健康]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-PhysicalDisk | Select-Object FriendlyName,MediaType,HealthStatus,OperationalStatus,Size | Format-Table -AutoSize&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [分区剩余空间]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-Volume | Where-Object DriveLetter | Select-Object DriveLetter,FileSystemLabel,FileSystem,HealthStatus,@{N='SizeGB';E={[math]::Round($_.Size/1GB,1)}},@{N='FreeGB';E={[math]::Round($_.SizeRemaining/1GB,1)}} | Format-Table -AutoSize&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [内存占用最高的 15 个进程]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 15 Name,Id,@{N='MemoryMB';E={[math]::Round($_.WorkingSet64/1MB,1)}},CPU | Format-Table -AutoSize&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [启动项]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-CimInstance Win32_StartupCommand | Select-Object Name,Command,Location,User | Format-List&quot;
+
+&gt;&gt; &quot;%REPORT%&quot; echo.
+&gt;&gt; &quot;%REPORT%&quot; echo [最近 30 条系统错误和严重事件]
+&gt;&gt; &quot;%REPORT%&quot; echo ------------------------------------------------------------
+&gt;&gt; &quot;%REPORT%&quot; powershell -NoProfile -Command &quot;Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 30 | Select-Object TimeCreated,Id,ProviderName,Message | Format-List&quot;
+
+echo.
+echo 报告已保存到：
+echo %REPORT%
+echo.
+echo 请先查看报告，删除不愿公开的电脑名、用户名等信息，再发给维护人员。
+start &quot;&quot; notepad &quot;%REPORT%&quot;
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有读取或写入诊断报告。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>开机要好几分钟才进桌面</li><li>打开任何程序都要转半天圈</li><li>用一会儿就卡，重启后短暂恢复</li><li>鼠标一顿一顿、声音断续、视频卡帧</li><li>想知道到底该换硬盘还是加内存</li></ul>
@@ -58,7 +137,7 @@
 <section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启后连续使用 1-2 小时，任务管理器中 CPU、内存、磁盘不再长期贴近 100%；开机进入桌面时间明显缩短；打开常用软件不再长时间转圈，并且「可靠性监视器」里最近三天没有新的应用崩溃记录。</p></section>
 <section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>主要是开机慢，进桌面后还算正常 → <a class="fx-link" href="./win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a></li><li>主要是 C 盘满导致变慢 → <a class="fx-link" href="./win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a></li><li>卡着卡着蓝屏、死机、自动重启 → <a class="fx-link" href="./win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a></li><li>只有某个软件卡、其他都正常 → 卸载重装该软件，或联系软件官方支持</li><li>已经按本文排查完、硬件也换过还是卡 → 主板或 CPU 可能存在故障，送修检测</li></ul></section>
 <section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>系统盘尽量用 SSD，并保持 15%-20% 的剩余空间。</li><li>只装必要的常驻软件，开机自启越少越好。</li><li>浏览器标签页别开几十个，定期重启浏览器。</li><li>每 6-12 个月清一次灰，笔记本注意散热垫和出风口。</li><li>不要安装「系统加速」「深度优化」类工具，它们往往是卡顿的来源。</li></ol></section>
-<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：症状对照表 + 七步定位</td><td>内容组</td></tr></tbody></table></div></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.1</td><td>增加只读诊断报告脚本与小白入口</td><td>内容组</td></tr><tr><td>2026-10-11</td><td>1.0</td><td>首版发布：症状对照表 + 七步定位</td><td>内容组</td></tr></tbody></table></div></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用任务管理器做 20 秒定位</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>先确定瓶颈在哪一类资源，后面的排查才有的放矢。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <ol class="fx-ol"><li>按 <code>Ctrl+Shift+Esc</code> 打开任务管理器。</li><li>点「性能」标签，盯住 30 秒，看 CPU、内存、磁盘、以太网/Wi-Fi 四条曲线。</li><li>回到「进程」标签，点列头按 CPU、内存、磁盘排序，看排在前三位的是谁。</li></ol>
@@ -101,12 +180,11 @@ sfc /verifyonly</code></pre><button class="fx-cmd__copy" type="button" data-fx-c
 <div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>情况</th><th>建议</th><th>说明</th></tr></thead><tbody><tr><td>系统盘还是机械硬盘（HDD）</td><td>换 SSD</td><td>提升最明显，换完开机通常从几分钟降到十几秒</td></tr><tr><td>内存 4 GB / 8 GB 常年吃满</td><td>加内存</td><td>优先加到 16 GB，注意型号与插槽</td></tr><tr><td>硬盘 <code>HealthStatus</code> 异常或有异响</td><td>立即备份并更换</td><td>随时可能彻底损坏</td></tr><tr><td>清灰后仍高温降频</td><td>清灰、换硅脂或送修</td><td>笔记本建议找专业人员</td></tr><tr><td>换 SSD、加内存后依旧卡</td><td>送修检测主板/CPU</td><td>别再继续买配件试</td></tr></tbody></table></div>
 <div class="fx-step__expect"><b>预期结果：</b>明确是「花小钱升级」还是「该送修」。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定能不能自己加内存/换硬盘 → 查整机型号的官方维护手册，或直接找售后。</div></details></div></li></ol></section>
-<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
-<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a><a href="../fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><a href="../fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>
@@ -117,7 +195,7 @@ sfc /verifyonly</code></pre><button class="fx-cmd__copy" type="button" data-fx-c
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

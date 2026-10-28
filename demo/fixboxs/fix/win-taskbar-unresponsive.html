@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Windows 任务栏卡死 / 点击没反应怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="任务栏是 explorer.exe 画出来的。开始菜单、任务栏同时卡住时，先重启资源管理器；只有一个图标异常时，往往是对应应用或通知区域卡住。重启两次都没用，再检查 Windows 更新、系统文件和后台启动程序。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-taskbar-unresponsive" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>桌面、搜索与常用功能</span></nav>
+<h1 class="fx-title">Windows 任务栏卡死 / 点击没反应怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>重启资源管理器只会关闭桌面、任务栏和文件窗口，不会删除文件；正在编辑但尚未保存的内容仍可能丢失，所以先尽量用键盘保存工作。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">任务栏是 <code>explorer.exe</code> 画出来的。开始菜单、任务栏同时卡住时，先重启资源管理器；只有一个图标异常时，往往是对应应用或通知区域卡住。重启两次都没用，再检查 Windows 更新、系统文件和后台启动程序。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>按 <code>Ctrl+Shift+Esc</code>。任务管理器能打开，说明系统还活着，只是桌面外壳卡住。</li><li>任务管理器 →“进程”→ 找到 `Windows 资源管理器” →“重新启动”。任务栏会消失几秒后回来。</li><li>退出正在播放的全屏游戏或视频，再按一次 <code>Win</code> 键。全屏程序抢占界面也会让任务栏看起来失灵。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/restart-explorer.bat" download="restart-explorer.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 重启 Windows 桌面（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-taskbar-unresponsive">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，任务栏、开始菜单或桌面图标突然不响应。</span></li><li><b>脚本会</b><span>结束并重新启动 <code>explorer.exe</code>，不会重启整台电脑。</span></li><li><b>运行前</b><span>保存能用键盘操作到的文档；打开的文件资源管理器窗口会关闭。</span></li><li><b>注意</b><span>脚本只重启桌面外壳；如果每次开机都卡死，还需要按步骤 4、5 排查更新和启动项。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>restart-explorer.bat</span><span>34 行</span><span>0.9 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-taskbar-unresponsive">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 重启 Windows 桌面
+
+echo ============================================================
+echo 修盒子 - 重启 Windows 桌面
+echo ============================================================
+echo 适用于：能看到鼠标，但桌面、任务栏或图标不显示。
+echo 将重启 explorer.exe，不会删除文件，不会重启电脑。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo 正在重启 Explorer...
+taskkill /f /im explorer.exe &gt;nul 2&gt;&amp;1
+timeout /t 2 /nobreak &gt;nul
+start &quot;&quot; explorer.exe
+
+echo.
+echo 完成。请等待几秒，让桌面和任务栏重新出现。
+echo 如果仍然黑屏，请回到文章检查显卡驱动和系统文件。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>任务栏图标点不动，但键盘和鼠标还能移动</li><li>开始按钮、搜索框、通知区域同时失灵</li><li>桌面图标消失或桌面右键菜单打不开</li><li>任务管理器偶尔能打开，资源管理器占用异常</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>整块屏幕冻住、鼠标也不能动 → 更像显卡驱动或系统死机</li><li>开机后只有黑屏和鼠标 → <a class="fx-link" href="./win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针</a></li><li>只有一个第三方软件的托盘图标失灵 → 退出并重开该软件</li><li>任务栏能点，但搜索没有结果 → <a class="fx-link" href="./win-search-not-working.html">Windows 搜索没反应</a></li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>先尝试用 <code>Alt+F4</code> 保存并关闭前台软件</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道当前是否正在运行全屏游戏、远程桌面或虚拟机</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>有管理员权限，后续系统检查会用到</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记录任务栏开始异常的准确时间，方便对照更新和软件安装记录</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">重启电脑后连续操作 30 分钟：开始菜单、搜索框、任务栏固定图标、通知区域和桌面右键都能响应；打开两个文件资源管理器窗口后也不会再次卡死。连续关机再开机两次仍正常，才算稳定。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>同时黑屏、花屏或鼠标也不能动 → 先查显卡驱动和硬件</li><li>只有搜索框失效 → <a class="fx-link" href="./win-search-not-working.html">Windows 搜索没反应怎么修</a></li><li>复制粘贴也同时失效 → <a class="fx-link" href="./win-clipboard-not-working.html">Windows 剪贴板不能用</a></li><li>开机后任务栏迟迟不出现、磁盘长期 100% → <a class="fx-link" href="./win-slow-diagnose.html">电脑越来越卡怎么办</a></li><li>任务管理器里 <code>explorer.exe</code> 反复崩溃 → 保存事件日志并考虑系统还原</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>少装任务栏美化、开始菜单替换和系统深度修改工具。</li><li>Windows 更新后主动重启一次，不要长期只关机不休眠。</li><li>保留 C 盘空间并及时更新显卡与扩展坞官方驱动。</li><li>出现崩溃时记录时间、程序和更新编号，方便下一次快速定位。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：资源管理器重启、全屏程序、更新与系统文件排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先判断是任务栏还是整台电脑卡死</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>避免把显卡死机、系统假死误当成任务栏问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Ctrl+Shift+Esc</code> 打开任务管理器。</li><li>按 <code>Ctrl+Alt+Del</code> 看安全选项页面能否出现。</li><li>按 <code>Caps Lock</code>，观察键盘指示灯是否变化；没有指示灯的键盘可用记事本测试输入。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>任务管理器或安全选项能出现，说明系统核心仍在运行。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>任何组合键都没反应、鼠标也不能动 → 长按电源键 10 秒关机，再按 <a class="fx-link" href="./win-slow-diagnose.html">电脑死机排查</a>处理。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启资源管理器</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是最快、可逆的桌面外壳修复，不会卸载软件。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>运行上方 BAT，选择 <code>Y</code>。</li><li>手动操作时，在任务管理器“进程”中找到 <code>Windows 资源管理器</code>，右键 →“重新启动”。</li><li>如果找不到，点“运行新任务”，输入 <code>explorer.exe</code> 并确定。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>桌面和任务栏消失几秒后重新出现，所有图标可以点击。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重新启动后马上再次卡死 → 不要连续重启十几次，继续步骤 3 至 5。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除全屏程序、远程桌面和虚拟机</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>某些程序会改变分辨率、捕获鼠标或占用桌面窗口，看起来像任务栏失灵。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>按 <code>Alt+Tab</code> 切换到其他窗口，再按两次 <code>Esc</code> 退出全屏。</li><li>退出远程桌面、云电脑、虚拟机增强模式和屏幕录制软件。</li><li>外接显示器或扩展坞时，拔下再重新连接，观察主屏任务栏是否恢复。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>退出相关程序后，任务栏立即恢复响应。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>只在连接扩展坞时发生 → 换线或换接口，并更新扩展坞与显卡驱动；不要自动批量安装驱动。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查最近的 Windows 更新和后台程序</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>任务栏卡死常在系统更新后出现，也可能是第三方 shell 扩展导致。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开「设置 → Windows 更新 → 更新历史记录」，记下最近安装的更新。</li><li>打开任务管理器 →“启动”，只禁用你明确认识的游戏平台、下载器和厂商助手。</li><li>临时退出美化工具、任务栏增强工具、剪贴板工具和文件预览插件，观察是否恢复。</li><li>如果问题正好在某次更新后开始，按设置页提供的选项卸载最近的质量更新。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>找到某个固定程序或更新与卡死时间完全对应。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>无法确定来源 → 用“干净启动”临时关闭第三方服务，但不要禁用安全软件；公司电脑联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修复系统组件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>资源管理器二进制或系统映像损坏时，重启只能短暂缓解。</p>
+<p class="fx-p"><strong>操作</strong>：以管理员身份打开终端，依次运行：</p>
+<div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<p class="fx-p">完成后重启电脑，再测试任务栏、开始菜单和文件资源管理器。</p>
+<div class="fx-step__expect"><b>预期结果：</b>命令完成且没有“无法修复”的组件，重启后任务栏稳定。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>仍反复崩溃 → 新建一个本地管理员账户测试；新账户正常说明旧账户配置损坏，先备份再迁移账户。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-search-not-working.html">Windows 搜索没反应 / 搜不到文件怎么修</a><a href="../fix/win-clipboard-not-working.html">Windows 剪贴板不能用 / 复制粘贴失效怎么修</a><a href="../fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><a href="../fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

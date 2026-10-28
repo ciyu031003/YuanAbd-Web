@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/fix.css">
 <link rel="stylesheet" href="../css/fix-neu.css">
 </head>
-<body data-slug="webcam-not-working">
+<body data-slug="webcam-not-working" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
 <div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
 <a class="fx-skip" href="#main">跳到主要内容</a>
@@ -44,10 +44,55 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>摄像头</span></nav>
 <h1 class="fx-title">摄像头打不开 / 视频会议对方看不到我怎么修</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">5-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本教程只涉及设置与驱动，不会删除任何文件。顺带提醒：排查完记得把不常用的应用的相机权限关回去——摄像头权限管理是隐私安全的一部分，只给信得过的软件开。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">摄像头问题的三大来源按顺序是：<strong>物理遮挡/开关 → 隐私权限没放开 → 被别的程序占用</strong>。Windows 大版本更新后「相机访问」总开关被重置是高发原因——会议前 5 分钟打不开摄像头的人，九成是这一个开关的问题。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>找一下<strong>物理遮挡/开关</strong>：笔记本屏幕上缘的滑动挡板、ThinkPad 的 F8 摄像头键、外接摄像头镜头上的转环。<strong>期望结果</strong>：拨开/按下后会议软件立刻出画面。</li><li>重启<strong>会议软件</strong>（完全退出再开，不是最小化）。<strong>期望结果</strong>：摄像头被上一个会议进程占着的情况就此解决。</li><li>Windows：设置 → 隐私和安全性 → 摄像头，确认<strong>「相机访问」总开关和「允许应用访问你的相机」都是开</strong>。<strong>期望结果</strong>：打开后相机立刻可用——更新后两开关被关是最高频原因。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/restart-camera-service.bat" download="restart-camera-service.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 重启摄像头服务（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-webcam-not-working">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，摄像头此前可用，更新或休眠后突然提示“找不到摄像头/被占用”。</span></li><li><b>脚本会</b><span>重新扫描设备、重启 FrameServer、打开摄像头隐私设置。</span></li><li><b>运行前</b><span>关闭会议软件和相机应用，拔掉暂时不用的 USB 摄像头。</span></li><li><b>注意</b><span>脚本不会更改隐私开关；权限、驱动、硬件遮挡或物理开关仍需继续按正文确认。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>restart-camera-service.bat</span><span>45 行</span><span>1.1 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-webcam-not-working">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 重启摄像头服务
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 重启摄像头服务
+echo ============================================================
+echo 将重新扫描摄像头并重启 FrameServer 服务。
+echo 不会更改隐私权限，不会卸载摄像头驱动。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/3] 重新扫描设备...
+pnputil /scan-devices
+
+echo [2/3] 重启 FrameServer...
+powershell -NoProfile -Command &quot;Restart-Service -Name FrameServer -Force -ErrorAction SilentlyContinue&quot;
+sc query FrameServer | findstr /I &quot;STATE&quot;
+
+echo [3/3] 打开摄像头隐私设置...
+start &quot;&quot; ms-settings:privacy-webcam
+
+echo.
+echo 完成。请确认“摄像头访问”和对应应用的权限已经打开。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>会议软件里显示「无法检测到摄像头 / 相机被占用 / 黑屏」。</li><li>Windows 更新或重装后摄像头突然不能用（驱动处理见<a class="fx-link" href="./driver-install-rollback.html">「驱动装错出问题？安装与回退的正确姿势」</a>）。</li><li>外接 USB 摄像头插上没反应（接口层排查看<a class="fx-link" href="./usb-drive-not-recognized.html">「U 盘 / 移动硬盘不识别、提示格式化怎么办」</a>）。</li></ul>
@@ -68,23 +113,22 @@
 <p class="fx-p"><strong>期望结果</strong>：设备管理器里摄像头正常无感叹号，相机 App 出画面。<strong>失败了怎么办</strong>：装完驱动仍黑屏且设备带感叹号 → 进步骤 5。</p></div></li>
 <li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">会议软件侧修</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>在会议软件的设置 → 视频里手动选中你的摄像头（多摄像头机器默认选错是常事）。</li><li>重置该软件：退出登录重登、或卸载重装（会议记录云端会保留）。</li><li>换一个会议软件测试（能开的那个做应急）。</li></ol>
 <p class="fx-p"><strong>期望结果</strong>：目标软件恢复出图。<strong>失败了怎么办</strong>：仅一个软件不行且重装无效 → 该软件与摄像头兼容问题，去其官方社区反馈，期间用其他软件应急。</p></div></li></ol></section>
-<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
-<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-no-sound.html">电脑没声音 / 右下角喇叭有红叉怎么修</a><a href="../fix/bluetooth-device-not-pairing.html">蓝牙耳机 / 键鼠连不上、一直配对失败怎么修</a><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-25 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-25</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

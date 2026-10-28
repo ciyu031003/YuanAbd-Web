@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/fix.css">
 <link rel="stylesheet" href="../css/fix-neu.css">
 </head>
-<body data-slug="wifi-connected-but-no-internet">
+<body data-slug="wifi-connected-but-no-internet" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
 <div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
 <a class="fx-skip" href="#main">跳到主要内容</a>
@@ -43,11 +43,72 @@
 <article>
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#net-basic">网络基础</a><span class="fx-crumb__sep">›</span><span>连上但上不了网</span></nav>
 <h1 class="fx-title">Wi-Fi 显示已连接但无法上网（打不开网页）</h1>
-<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
-
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：网络重置会短暂断开连接，VPN、代理或静态 IP 可能需要重新配置；公司或学校设备请先联系 IT。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「已连接」只说明电脑和路由器握手了，不代表路由器能上网。不要乱试，按<strong>物理层 → IP 层 → DNS 层 → 代理层</strong>四层各敲一条命令定位，哪层不通就修哪层。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>用手机连同一个 Wi-Fi 打开网页。</strong> 期望：手机也不行 → 是路由器或宽带的问题，直接看 <a class="fx-link" href="./home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a>；手机正常 → 问题在这台电脑，继续往下。</li><li><strong>重启路由器和光猫。</strong> 两个都断电 30 秒，先开光猫、等指示灯稳定后再开路由器，再等 2 分钟。期望：约有一半的&quot;连上没网&quot;这样就好了。</li><li><strong>按下面四层各敲一条命令</strong>（Windows 用命令提示符，Mac 用终端）。期望：找出到底是哪一层断了，再对症处理。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/fix-network-stack.bat" download="fix-network-stack.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 网络连接快速修复（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-wifi-connected-but-no-internet">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，Wi-Fi 已连接但网页打不开，且已排除欠费、路由器断网。</span></li><li><b>脚本会</b><span>清理 DNS 缓存、重置 Winsock/TCP-IP、重新获取 IP，完成后询问是否重启。</span></li><li><b>运行前</b><span>保存文档；如果电脑使用公司代理、VPN、静态 IP，先联系 IT。</span></li><li><b>注意</b><span>重启后 VPN 或代理可能需要重新配置；脚本不会保证修复宽带、路由器或硬件故障。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>fix-network-stack.bat</span><span>61 行</span><span>1.5 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-wifi-connected-but-no-internet">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 网络连接快速修复
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 网络连接快速修复
+echo ============================================================
+echo 将执行：
+echo   1. 清理 DNS 缓存
+echo   2. 重置 Winsock 与 TCP/IP
+echo   3. 重新获取 IP 地址
+echo.
+echo 注意：VPN、代理、静态 IP 或公司网络配置可能需要重新设置。
+echo 公司/学校统一管理的电脑请不要运行，先联系 IT。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/3] 清理 DNS 缓存...
+ipconfig /flushdns
+
+echo.
+echo [2/3] 重置网络协议栈...
+netsh winsock reset
+netsh int ip reset
+
+echo.
+echo [3/3] 重新获取 IP 地址...
+ipconfig /renew
+
+echo.
+echo 网络组件已重置。必须重启 Windows 后才会完全生效。
+choice /C YN /N /M &quot;现在重启电脑？[Y/N] &quot;
+if errorlevel 2 goto :done
+shutdown /r /t 15 /c &quot;修盒子网络修复：15 秒后重启&quot;
+echo 已计划在 15 秒后重启。可执行 shutdown /a 取消。
+goto :done
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+goto :end
+
+:done
+echo.
+echo 修复流程结束。若仍未联网，请回到文章继续按步骤排查。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>Wi-Fi 图标显示已连接，但浏览器打不开网页，或任务栏出现地球/叹号图标</li><li>提示「无 Internet 访问权限」「网络受限」「无法访问互联网」</li><li>一会儿能上一会儿不能上，网页时好时坏</li></ul>
@@ -127,14 +188,14 @@ networksetup -getdnsservers Wi-Fi</code></pre><button class="fx-cmd__copy" type=
 <div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>合规提示：本文只讲&quot;代理残留导致断网&quot;的故障排查，不提供任何跨境代理或翻墙的方法与工具。在中国大陆，搭建或使用未经批准的跨境代理可能违反相关规定；公司、学校配发的设备请直接联系 IT，不要自行改动代理配置。</div></div>
 <div class="fx-step__expect"><b>预期结果：</b>关闭后网页恢复；<code>netsh winhttp show proxy</code> 显示&quot;直接访问(没有代理服务器)&quot;。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>刚装过加速器、抓包或虚拟网卡软件后全网断网，卸载该软件并重启；仍不行继续步骤 7。</div></details></div></li>
-<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置网络栈（最后手段，需要重启）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把网络组件恢复到初始状态，解决协议栈损坏类问题。<strong>注意：会清空已保存的 Wi-Fi 密码和自定义网络配置。</strong></p>
+<li class="fx-step" data-fx-step data-step-id="s8"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置网络栈（最后手段，需要重启）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 8 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把 Winsock 与 TCP/IP 恢复到初始状态，解决协议栈损坏类问题。<strong>注意：可能清除自定义代理、VPN 网络组件和静态 IP 配置；这里的两条 <code>netsh</code> 命令通常不会删除已保存的 Wi-Fi 密码。</strong></p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <p class="fx-p">Windows（管理员命令提示符，逐条执行后重启）：</p>
 <div class="fx-cmd"><pre><code>netsh winsock reset
 netsh int ip reset
 ipconfig /flushdns
 shutdown /r /t 0</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
-<p class="fx-p">也可以在<strong>设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置</strong>里做同样的事，重启后需要重新输入 Wi-Fi 密码。</p>
+<p class="fx-p">也可以使用<strong>设置 → 网络和 Internet → 高级网络设置 → 网络重置 → 立即重置</strong>。这个系统级“网络重置”范围更大，会移除并重装网络适配器，重启后通常需要重新连接 Wi-Fi。</p>
 <p class="fx-p">macOS：</p>
 <ol class="fx-ol"><li><strong>系统设置 → 网络</strong>，选中 Wi-Fi，点&quot;-&quot;删除服务，再用&quot;+&quot;重新添加 Wi-Fi 服务；</li><li>或者重启 Mac，并在开机时按住 Shift 进入安全模式测一次网络，再正常重启。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>重启后网络恢复正常。</div>
@@ -144,23 +205,22 @@ shutdown /r /t 0</code></pre><button class="fx-cmd__copy" type="button" data-fx-
 <ol class="fx-ol"><li>临时关闭第三方杀毒/防火墙（只关 5 分钟测试，测完立刻打开），看是否恢复。</li><li>macOS 新建一个测试用户账户登录，看新账户能否上网（能上说明是你原账户的配置问题）。</li><li>检查系统时间和日期是否准确（时间偏差过大会导致 HTTPS 握手失败，网页打不开）。</li><li>确认浏览器不是&quot;离线模式&quot;，并换一个浏览器、换一台设备试。</li><li>仍怀疑系统文件损坏，可在管理员命令提示符里依次执行 <code>DISM /Online /Cleanup-Image /RestoreHealth</code> 和 <code>sfc /scannow</code>（各需几分钟），完成后重启。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>找到具体诱因（某个安全软件、账户配置、系统时间、浏览器设置），处理后恢复上网。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>所有步骤做完仍然不行，按下一节&quot;还是不行？&quot;分流；公司/学校设备直接联系 IT。</div></details></div></li></ol></section>
-<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
-<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><a href="../fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a><a href="../fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><a href="../fix/wifi-adapter-missing.html">电脑没有 WLAN 选项 / 网络适配器不见了</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

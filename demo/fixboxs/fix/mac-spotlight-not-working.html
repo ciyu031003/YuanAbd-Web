@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="Spotlight 搜不到东西，先分清是快捷键失效、某个磁盘没有索引，还是索引数据库损坏。快捷键失效在键盘设置里修；只有某些文件搜不到，检查“聚焦隐私”和结果分类；所有内容都搜不到，再用 mdutil 重建索引。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-spotlight-not-working" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>Finder 与文件</span></nav>
+<h1 class="fx-title">Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 13+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 14+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文会检查聚焦索引并可能重建索引。重建不会删除文件，但完成后一段时间内 Mac 可能更费电、更热，这是系统重新扫描磁盘的正常现象。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">Spotlight 搜不到东西，先分清是快捷键失效、某个磁盘没有索引，还是索引数据库损坏。快捷键失效在键盘设置里修；只有某些文件搜不到，检查“聚焦隐私”和结果分类；所有内容都搜不到，再用 <code>mdutil</code> 重建索引。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>点屏幕右上角菜单栏的放大镜，输入一个应用名。<strong>菜单栏能搜到、快捷键没反应</strong>，问题在快捷键冲突。</li><li>找到文件原来所在文件夹，用访达右上角搜索框搜一次。<strong>访达能搜到、聚焦搜不到</strong>，更像索引问题。</li><li>重启 Mac 后再试。刚更新系统、刚迁移数据或外接硬盘刚接入时，聚焦需要时间重新扫描。</li></ol></div>
+
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li><code>Command+Space</code> 无法打开聚焦，或输入后一直没有结果</li><li>应用能搜到，但文档、图片、邮件搜不到</li><li>外接硬盘中的文件完全不在结果里</li><li>系统更新或迁移助理完成后，聚焦长期只转圈</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>文件已经被删除 → 聚焦不是恢复工具，先看数据恢复</li><li>只有访达某个网络卷挂载失败 → 先修网络和共享连接</li><li>整台 Mac 卡顿、鼠标转圈 → 先处理性能或磁盘空间</li><li>公司 Mac 由 MDM 禁用 Spotlight → 联系组织管理员</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认文件确实存在，并且不是只在 iCloud 云端、尚未下载到本机</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>接上电源，避免重建索引时 Mac 休眠</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道管理员密码，<code>sudo</code> 命令需要</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>记录是“所有磁盘”还是“某个外接卷”搜不到</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">菜单栏和 <code>Command+Space</code> 都能打开聚焦；分别搜索一个应用、一个文档和一张图片都有结果；重启 Mac 后仍正常。刚重建完只搜到部分文件是正常的，等待索引完成再判断。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>访达整体卡死、窗口无响应 → <a class="fx-link" href="./mac-finder-unresponsive.html">Mac Finder 卡死 / 转圈怎么修</a></li><li>磁盘几乎写满、系统数据异常 → <a class="fx-link" href="./mac-storage-system-data.html">Mac 储存空间不足</a></li><li>文件实际不存在或刚被删除 → 重点转为备份与数据恢复</li><li>外接盘不显示 → 换线换口，先确认磁盘是否挂载</li><li>公司 Mac 设置被统一管理 → 联系 IT，不要绕过 MDM 策略</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>系统更新和迁移完成后先接电等待索引跑完。</li><li>不要把整块系统盘误加进“聚焦隐私”。</li><li>保留足够储存空间，避免索引数据库不断失败。</li><li>少装需要读取全部文件的来源不明清理工具。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：快捷键、结果分类、mdutil 索引与安全模式排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先确认快捷键和菜单栏搜索</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>快捷键被输入法、截图工具占用时，聚焦本身可能完全正常。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>点菜单栏右上角放大镜，测试应用和文件名。</li><li>打开系统设置 → 键盘 → 键盘快捷键 → 聚焦。</li><li>确认“显示聚焦搜索”已勾选，并把快捷键改为未被其他软件占用的组合。</li><li>退出最近安装的启动器、剪贴板工具和快捷键工具后再试。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b><code>Command+Space</code> 能稳定打开聚焦，菜单栏搜索也有结果。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>菜单栏也没有结果 → 继续索引排查；快捷键可打开但没有结果 → 跳到步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查聚焦结果分类与隐私排除</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>某一类结果被关闭，或磁盘被列进隐私列表，文件存在也不会被收录。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开系统设置 → Siri 与聚焦（旧版 macOS 为“聚焦”）。</li><li>在搜索结果分类里确认“应用程序”“文稿”“文件夹”等需要的类别已勾选。</li><li>滚动到底部打开“聚焦隐私”。</li><li>如果整块磁盘被误加入，选中后点 <code>-</code> 移除；若要强制重新收录，可先把磁盘拖入再移除。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统磁盘不在隐私排除列表，常用结果类别已启用。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>退出聚焦隐私后仍无结果 → 继续步骤 3 查看索引状态。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查看索引是否启用</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span><code>mdutil</code> 会直接显示每个卷的索引状态，避免盲目重建。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开“终端”。</li><li>输入以下命令并按回车：</li></ol>
+<div class="fx-cmd"><pre><code>mdutil -s /</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>正常状态应显示 <code>/:\n\tIndexing enabled.</code>。</li><li>外接硬盘可用 <code>ls /Volumes</code> 看卷名，再运行 <code>mdutil -s &quot;/Volumes/磁盘名称&quot;</code>。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统和目标磁盘都显示索引已启用。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>显示 <code>Indexing disabled</code> → 运行 <code>sudo mdutil -i on /</code>；没有管理员权限时联系设备管理员。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重建系统磁盘索引</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>索引数据库损坏时，删除并从文件重新生成是标准修复方式。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在终端运行：</li></ol>
+<div class="fx-cmd"><pre><code>sudo mdutil -E /</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<ol class="fx-ol"><li>输入管理员密码。输入时终端不显示星号，这是正常现象。</li><li>保持 Mac 接电，等待数分钟到数小时。文件越多，重建越久。</li><li>可以正常使用 Mac，但不要连续重复执行重建命令。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>命令提示索引正在重建，之后 <code>mdutil -s /</code> 仍显示启用。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>报 <code>Error: unable to perform operation</code> → 先重启再试；磁盘空间不足或磁盘检查异常 → 先备份并处理磁盘。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 iCloud、外接盘和磁盘空间</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>未下载到本机的云端文件、未挂载的外接盘和几乎写满的磁盘都不会正常出现在结果里。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在访达中进入 iCloud Drive，找到文件并确认已下载到本机。</li><li>打开访达侧边栏确认外接盘已经挂载，不要只检查桌面图标。</li><li>打开系统设置 → 通用 → 储存空间，确认至少还有 10%-15% 可用空间。</li><li>外接盘索引重建可用：<code>sudo mdutil -E &quot;/Volumes/磁盘名称&quot;</code>。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>目标文件所在磁盘已挂载、有足够空间，索引能够完成。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>iCloud 文件始终不下载 → 检查网络与 Apple 账户；外接盘反复掉线 → 先备份并检查线材/硬盘健康。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s6"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">安全模式确认第三方软件干扰</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 6 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>某些清理、同步或安全软件会阻止索引读取文件。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>Apple 芯片 Mac：关机后长按电源键，出现“正在载入启动选项”后选启动磁盘并按住 <code>Shift</code> 进入安全模式。</li><li>Intel Mac：开机时按住 <code>Shift</code>，直到看到登录窗口。</li><li>在安全模式中测试聚焦能否打开并返回结果。</li><li>正常重启，退出第三方清理、同步和安全软件后再测试。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>安全模式正常，说明登录项或第三方软件干扰；两种模式都不正常，更像系统索引或磁盘问题。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不确定安全模式操作 → 先备份；仍无结果可更新 macOS，或在完整备份后联系 Apple 支持。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-finder-unresponsive.html">Mac Finder 卡死 / 一直转圈怎么修</a><a href="../fix/mac-app-store-download-stuck.html">Mac App Store 下载卡住 / 应用装不上怎么修</a><a href="../fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><a href="../fix/mac-bluetooth-unavailable.html">Mac 蓝牙不可用 / 设备突然消失怎么修</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

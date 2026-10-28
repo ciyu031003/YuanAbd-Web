@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../css/fix.css">
 <link rel="stylesheet" href="../css/fix-neu.css">
 </head>
-<body data-slug="printer-offline">
+<body data-slug="printer-offline" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
 <div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
 <a class="fx-skip" href="#main">跳到主要内容</a>
@@ -44,10 +44,59 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>打印机</span></nav>
 <h1 class="fx-title">打印机显示脱机 / 打印没反应怎么修</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">Windows 10</span><span class="fx-badge fx-badge--os" data-os="macos">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">20-60 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>ℹ️ 本文只涉及打印队列、连接方式与驱动，不会删除你的任何文件。唯一需要注意的是清除打印任务会作废排队的文档（未保存的内容请先在软件里另存一份）。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">&quot;脱机&quot;九成不是打印机坏了，而是<strong>电脑上的打印队列卡死了</strong>或者<strong>取消了&quot;脱机使用打印机&quot;的勾选</strong>；先清空队列，再取消脱机状态，最后才考虑重装驱动。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>打开&quot;设置 → 蓝牙和其他设备 → 打印机和扫描仪&quot;，点开你的打印机 → <strong>打开打印队列</strong>，把里面堆积的任务全部取消（队列 → 取消所有文档）。<strong>期望结果</strong>：队列清空，打印机可能立刻吐出之前积压的纸。</li><li>在同一页面点&quot;<strong>打印机属性</strong>&quot;，在&quot;常规&quot;或&quot;端口&quot;页里确认该打印机<strong>没有</strong>勾选&quot;脱机使用打印机（Use Printer Offline）&quot;。<strong>期望结果</strong>：取消勾选后状态从&quot;脱机&quot;变为&quot;就绪&quot;。</li><li>关掉打印机电源，等 30 秒再开；同时重启一次电脑。<strong>期望结果</strong>：设备和电脑重新握手，状态恢复正常。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/clear-print-queue.bat" download="clear-print-queue.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 清理打印队列（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-printer-offline">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，打印机显示脱机或队列里堆着一直“正在打印”的任务。</span></li><li><b>脚本会</b><span>停止 Print Spooler、清空待打印缓存、重新启动打印服务。</span></li><li><b>运行前</b><span>确认没有必须保留的待打印任务；打印机电源和连接保持正常。</span></li><li><b>注意</b><span>脚本不会修复打印机 IP、驱动或硬件故障，也不会更改默认打印机。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>clear-print-queue.bat</span><span>49 行</span><span>1.1 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-printer-offline">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 清理打印队列
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 清理打印队列
+echo ============================================================
+echo 将重启 Print Spooler 并删除尚未打印的排队任务。
+echo 不会删除打印机驱动，也不会清空纸盒或更改 IP。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/3] 停止 Print Spooler...
+net stop spooler /y &gt;nul 2&gt;&amp;1
+
+echo [2/3] 清理打印队列缓存...
+del /Q /F &quot;%SystemRoot%\System32\spool\PRINTERS\*.*&quot; &gt;nul 2&gt;&amp;1
+
+echo [3/3] 启动 Print Spooler...
+net start spooler &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo Print Spooler 未能启动。请重启电脑后再试。
+) else (
+  echo 打印服务已恢复。
+)
+
+echo.
+echo 完成。请重新发送一份打印任务测试。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
 <ul class="fx-ul"><li>打印机面板显示正常，但电脑上显示&quot;脱机&quot;&quot;离线&quot;&quot;暂停&quot;。</li><li>点了打印之后任务一直排队、进度不动。</li><li>之前能打、突然打不了，没有换过任何设置。</li></ul>
@@ -106,23 +155,22 @@ net start spooler</code></pre><button class="fx-cmd__copy" type="button" data-fx
 <p class="fx-p"><strong>操作</strong>：设置 → 系统 → 疑难解答 → 其他疑难解答 → 找到&quot;<strong>打印机</strong>&quot; → 运行。按提示应用修复。</p>
 <div class="fx-step__expect"><b>预期结果：</b>疑难解答报告已修复或未发现问题。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>疑难解答修不了就不必反复跑；回到步骤 1 重新判断是&quot;打印机侧&quot;还是&quot;电脑侧&quot;，走&quot;还是不行&quot;里的分流。</div></details></div></li></ol></section>
-<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>
-<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>
 <h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><a href="../fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><a href="../fix/enterprise-proxy.html">公司电脑上不了网 / 提示证书不受信任？企业代理环境排查</a></div>
-<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>
-<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-11</span></div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
 </div></footer>
 <script src="../data/articles.js"></script>
 <script src="../js/fix.js"></script>

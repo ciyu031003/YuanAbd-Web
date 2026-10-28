@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>电脑时间总是不对 / 每次开机都变慢怎么办 · 修盒子 FIXBOX</title>
+<meta name="description" content="时间不准先看三个地方：时区是不是选错、自动校时有没有打开、Windows Time 服务是否正常运行。如果关机断电后时间直接归零，软件设置通常救不了，八成是主板纽扣电池没电。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-time-repeatedly-wrong" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system" aria-current="page">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-system">Windows 系统与开机</a><span class="fx-crumb__sep">›</span><span>时间与系统服务</span></nav>
+<h1 class="fx-title">电脑时间总是不对 / 每次开机都变慢怎么办</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文只会恢复时间服务和重新校时，不会改动你的文件。公司域电脑可能由单位服务器统一管理时间，强行改成本地时间服务器反而会引发登录或证书问题。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">时间不准先看三个地方：时区是不是选错、自动校时有没有打开、Windows Time 服务是否正常运行。如果关机断电后时间直接归零，软件设置通常救不了，八成是主板纽扣电池没电。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>右键任务栏时间 →“调整日期和时间”，确认“自动设置时间”和时区都正确。</li><li>点“立即同步”，看提示是成功、超时，还是“时间服务未运行”。</li><li>关机、拔掉电源等 1 分钟再开机。如果时间直接回到多年前，优先怀疑主板电池，而不是继续重装系统。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/sync-windows-time.bat" download="sync-windows-time.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 同步 Windows 时间（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-time-repeatedly-wrong">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，时间和时区基本正确，但经常变慢或自动同步失败。</span></li><li><b>脚本会</b><span>把 Windows Time 服务恢复为自动，连接 <code>time.windows.com</code> 并立即校时。</span></li><li><b>运行前</b><span>确认电脑没有加入公司域；域电脑请先联系 IT，避免覆盖单位校时策略。</span></li><li><b>注意</b><span>脚本不会改时区，也不会修复已经没电的主板纽扣电池。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>sync-windows-time.bat</span><span>62 行</span><span>1.7 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-time-repeatedly-wrong">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 同步 Windows 时间
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 同步 Windows 时间
+echo ============================================================
+echo 适用于：每次开机时间都不对、网页提示证书时间错误、
+echo 或手动改完时间后很快又变回错误时间。
+echo.
+echo 将恢复 Windows Time 服务、连接 time.windows.com 并立即校时。
+echo 不会修改时区，不会删除文件。
+echo 公司域电脑通常由单位服务器统一校时，请先联系 IT。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/4] 恢复 Windows Time 服务...
+sc config w32time start= auto &gt;nul 2&gt;&amp;1
+net stop w32time /y &gt;nul 2&gt;&amp;1
+
+echo [2/4] 配置微软时间服务器...
+w32tm /config /manualpeerlist:&quot;time.windows.com,0x8&quot; /syncfromflags:manual /update
+
+echo [3/4] 启动时间服务...
+net start w32time &gt;nul 2&gt;&amp;1
+
+echo [4/4] 立即同步...
+w32tm /resync /force
+if errorlevel 1 (
+  echo.
+  echo 首次同步失败，通常是网络、代理或防火墙阻止了 UDP 123 端口。
+  echo 请检查网络后重新运行；公司域电脑请联系 IT。
+) else (
+  echo.
+  echo 校时命令已执行。当前状态如下：
+  w32tm /query /status
+)
+
+echo.
+echo 完成。请重启一次电脑，再观察时间是否仍然自动跑偏。
+echo 若每次关机后时间归零，通常是主板纽扣电池需要更换。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>每次开机时间都慢几分钟到几小时</li><li>“立即同步”总是失败或提示没有权限</li><li>浏览器提示网站证书时间不正确</li><li>手动改对后，过一段时间又自动变错</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>时间是 12/24 小时显示不对 → 这是格式设置，不是校时故障</li><li>公司电脑无法修改时间 → 通常由域策略控制，联系 IT</li><li>主板明显没电、每次断电都回到 2000 年 → 直接更换纽扣电池</li><li>电脑自动重启、同时伴随蓝屏 → 看 <a class="fx-link" href="./win-bluescreen-read-code.html">电脑蓝屏了怎么办</a></li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道现在正确的日期、时间和时区</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>电脑能正常联网，浏览器能打开 HTTPS 网站</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>公司域电脑先联系 IT，不要随意修改时间源</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>笔记本先接上电源，避免修复过程中休眠</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">完成修复后重启电脑，等待 10 分钟再核对网页、手机和任务栏时间；连续关机再开机两次，时间仍然正确。浏览器不再提示证书日期错误，Microsoft Store 和需要登录的软件也能正常打开。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>每次断电后 BIOS 时间归零 → 更换主板纽扣电池或送修</li><li>浏览器仍提示证书错误，但系统时间正确 → 检查代理与根证书，参考 <a class="fx-link" href="./enterprise-proxy.html">企业代理排查</a></li><li>时间正确但 Microsoft Store 仍打不开 → <a class="fx-link" href="./win-store-not-opening.html">Microsoft Store 打不开怎么修</a></li><li>公司域电脑一直显示“某些设置由组织管理” → 联系 IT，不要绕过单位策略</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>保持“自动设置时间”和自动时区开启。</li><li>使用三五年的台式机可提前检查主板电池电压。</li><li>不要安装来源不明的“时间修正器”或“网络加速器”。</li><li>出差跨时区后，先确认自动时区是否随位置更新。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：时区、自动校时、服务、网络与主板电池判断</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先检查时区和自动设置</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>选错城市或关闭自动设置时，校时服务再正常也没有用。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>右键任务栏时间 →“调整日期和时间”。</li><li>打开“自动设置时间”，时区选择你当前所在城市（中国大陆通常为 <code>(UTC+08:00) 北京，重庆，香港特别行政区，乌鲁木齐</code>）。</li><li>点“立即同步”，等待结果。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>日期、时间和时区立即正确，页面显示同步成功。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>显示同步失败 → 继续步骤 2；修改后重启又恢复错误 → 可能是策略或主板电池，按后续步骤区分。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">恢复 Windows Time 服务</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>校时依赖后台时间服务，服务被停止或禁用后“立即同步”一定失败。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>优先运行本文 BAT，阅读提示后选择 <code>Y</code>。</li><li>手动处理时，按 <code>Win+R</code> 输入 <code>services.msc</code>。</li><li>找到 <code>Windows Time</code>，把启动类型改为“自动”，点“启动”。</li><li>回到设置页再次点“立即同步”。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>服务状态为“正在运行”，设置页同步成功。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>服务启动后又停止 → 打开事件查看器 → Windows 日志 → 系统，记下错误代码；公司域电脑联系 IT。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">手动向微软时间服务器校时</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>图形界面同步失败时，命令行会给出更明确的错误信息。</p>
+<p class="fx-p"><strong>操作</strong>：以管理员身份打开终端，依次运行：</p>
+<div class="fx-cmd"><pre><code>w32tm /config /manualpeerlist:&quot;time.windows.com,0x8&quot; /syncfromflags:manual /update
+Restart-Service w32time
+w32tm /resync /force
+w32tm /query /status</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
+<div class="fx-step__expect"><b>预期结果：</b><code>/resync</code> 提示命令成功完成，状态里的时间源为 <code>time.windows.com</code>。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>提示 RPC 或服务未启动 → 回到步骤 2；提示超时 → 检查代理、防火墙或网络是否阻止 UDP 123 端口。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认不是网络或代理导致校时失败</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>能打开网页不代表允许 NTP 时间协议通过。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>临时断开 VPN、代理或公司网络，改用手机热点测试一次。</li><li>关闭第三方防火墙的“网络时间保护”或类似功能后再同步。</li><li>不要在来路不明的网站“在线校时”，只使用 Windows 设置或官方时间服务器。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>换网络后校时成功，说明原网络拦截了时间协议。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>所有网络都失败 → 记录错误代码；若当前时间偏差太大，先手动把时间改到与手机一致，再重试。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">判断主板纽扣电池是否没电</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>软件每次都能修好、断电后又重置，是典型的硬件电池问题。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>正常关机并拔掉电源；笔记本可拆电池的机型也取下电池。</li><li>等待 1-2 分钟后重新开机，观察 BIOS 时间是否归零或回到默认年份。</li><li>台式机可查主板型号对应的 <code>CR2032</code> 纽扣电池；笔记本是否可自行更换要看官方维护手册。</li><li>在保修期内或电池位于主板背面、需要拆键盘的机型，建议交给官方售后。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>判断出“只是服务故障”还是“断电后 BIOS 时间立即丢失”。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>不敢拆机就不要硬拆；拍照记录现象，带着型号咨询维修点。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/win-store-not-opening.html">Microsoft Store 打不开 / 商店应用装不上怎么修</a><a href="../fix/win-update-enable.html">Windows 更新被关闭了，怎么重新开启并恢复检查更新</a><a href="../fix/codex-cli-install.html">Codex CLI 下载安装与登录：Windows 一条命令搞定</a><a href="../fix/codex-desktop-install.html">Codex 怎么下载安装：Windows 桌面版与第一次使用</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

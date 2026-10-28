@@ -16,6 +16,7 @@ const collab = require("./collab.cjs");
 const media = require("./media.cjs");
 const totp = require("./totp.cjs");
 const mailer = require("./mailer.cjs");
+const readerFeedback = require("./feedback.cjs");
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
@@ -125,6 +126,54 @@ async function handle(req, res) {
   if (p === "/healthz") {
     const ok = await db.healthcheck();
     return h.sendJson(res, ok ? 200 : 503, { ok: ok }, h.securityHeaders());
+  }
+
+  // Public article feedback. This route is intentionally outside the admin
+  // session boundary, but only accepts writes from configured site origins.
+  if (p === "/api/public/article-feedback") {
+    const origin = req.headers.origin || "";
+    const cors = readerFeedback.corsHeaders(origin);
+    const headers = h.securityHeaders(cors);
+    if (!readerFeedback.isAllowedOrigin(origin)) {
+      return h.sendJson(res, 403, { error: "当前来源不允许提交反馈" }, headers);
+    }
+    if (method === "OPTIONS") {
+      return h.send(res, 204, "", headers);
+    }
+    if (method !== "POST") {
+      return h.sendJson(res, 405, { error: "Method not allowed" }, headers);
+    }
+    if (readerFeedback.rateLimited(c.ip)) {
+      return h.sendJson(res, 429, { error: "提交过于频繁，请稍后再试" }, headers);
+    }
+    if (String(req.headers["content-type"] || "").indexOf("application/json") !== 0) {
+      return h.sendJson(res, 415, { error: "仅接受 JSON 请求" }, headers);
+    }
+
+    let payload;
+    try {
+      payload = JSON.parse(await h.readBody(req, 16 * 1024));
+    } catch (e) {
+      const status = e && e.status ? e.status : 400;
+      return h.sendJson(res, status, { error: status === 413 ? "反馈内容过长" : "反馈格式无效" }, headers);
+    }
+
+    const checked = readerFeedback.validate(payload);
+    if (checked.error) {
+      return h.sendJson(res, 400, { error: checked.error }, headers);
+    }
+    try {
+      articles.read(checked.value.slug);
+    } catch (e) {
+      return h.sendJson(res, 404, { error: "文章不存在或已下线" }, headers);
+    }
+
+    const saved = await readerFeedback.record(checked.value);
+    return h.sendJson(res, 200, {
+      ok: true,
+      duplicate: saved.duplicate,
+      message: saved.duplicate ? "这次反馈已经记录过了" : "感谢反馈，我们已经收到"
+    }, headers);
   }
 
   const sess = await currentUser(req);
@@ -500,10 +549,17 @@ async function handle(req, res) {
       }
     } catch (e) { /* publish_jobs 表不可用时降级为空图，不阻塞工作台 */ }
 
+    let articleFeedback = readerFeedback.emptyDashboard();
+    try {
+      articleFeedback = await readerFeedback.dashboardData();
+    } catch (e) {
+      console.error("[feedback] analytics unavailable: " + e.message);
+    }
+
     return html(res, 200, views.dashboardPage(Object.assign({
       stats: stats, recent: recent, stale: stale,
       byDomain: byDomain, byStatus: byStatus, heat: heat,
-      pubTrend: pubTrend,
+      pubTrend: pubTrend, feedback: articleFeedback,
       total: all.length
     }, pageOpts)));
   }

@@ -1116,6 +1116,68 @@ td,th{line-height:1.5}
 .chart--trend .chart__bar--on{opacity:1}
 .chart--trend .chart__lab{font-size:9.5px}
 
+/* ---- 读者反馈分析 ---- */
+.feedback-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:20px 0}
+.feedback-kpi{
+  --fk:var(--c-indigo);--fks:var(--s-indigo);--fki:var(--i-indigo);
+  position:relative;overflow:hidden;min-width:0;padding:18px 19px 17px;border-radius:var(--r-card);
+  background:var(--base);box-shadow:var(--raise);
+}
+.feedback-kpi::after{content:"";position:absolute;right:-22px;bottom:-30px;width:92px;height:92px;
+  border-radius:50%;background:var(--fks);opacity:.8}
+.feedback-kpi--mint{--fk:var(--c-mint);--fks:var(--s-mint);--fki:var(--i-mint)}
+.feedback-kpi--coral{--fk:var(--c-coral);--fks:var(--s-coral);--fki:var(--i-coral)}
+.feedback-kpi--amber{--fk:var(--c-amber);--fks:var(--s-amber);--fki:var(--i-amber)}
+.feedback-kpi__top{display:flex;align-items:center;gap:9px;color:var(--ink-2);font-size:12.5px;font-weight:700}
+.feedback-kpi__ico{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  color:var(--fki);background:var(--fks);box-shadow:var(--raise-sm);position:relative;z-index:1}
+.feedback-kpi__n{position:relative;z-index:1;margin-top:12px;font-family:var(--mono);
+  font-size:30px;line-height:1;font-weight:800;color:var(--fki)}
+.feedback-kpi__h{position:relative;z-index:1;margin-top:7px;font-size:11.5px;color:var(--ink-3)}
+.feedback-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:start}
+.feedback-issues{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px 0}
+.feedback-issue-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:var(--r-full);
+  background:var(--s-coral);color:var(--i-coral);font-size:11px;font-weight:700}
+.feedback-issue-chip b{font-family:var(--mono)}
+.feedback-feed{display:flex;flex-direction:column}
+.feedback-articles{display:flex;flex-direction:column}
+.feedback-article-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;
+  padding:14px 17px;border-bottom:1px solid rgba(214,200,189,.55)
+}
+.feedback-article-row:last-child{border-bottom:0}
+.feedback-article-row__title{min-width:0}
+.feedback-article-row__title a{display:block;font-size:13.5px;font-weight:700;color:var(--ink);
+  overflow-wrap:anywhere;line-height:1.55}
+.feedback-article-row__title .slug{margin-top:3px}
+.feedback-article-counts{display:flex;align-items:center;gap:7px;flex:none}
+.feedback-article-count{
+  min-width:56px;padding:5px 8px;border-radius:9px;text-align:center;
+  font-size:10.5px;font-weight:700;background:var(--s-mint);color:var(--i-mint)
+}
+.feedback-article-count--unresolved{background:var(--s-coral);color:var(--i-coral)}
+.feedback-article-count b{display:block;font-family:var(--mono);font-size:16px;line-height:1.2}
+.feedback-item{padding:14px 18px;border-bottom:1px solid rgba(214,200,189,.55)}
+.feedback-item:last-child{border-bottom:0}
+.feedback-item__hd{display:flex;align-items:flex-start;gap:9px;flex-wrap:wrap}
+.feedback-item__hd a{font-size:13.5px;font-weight:700;color:var(--i-coral);min-width:0;overflow-wrap:anywhere}
+.feedback-item__time{margin-left:auto;color:var(--ink-3);font-size:11px;font-family:var(--mono)}
+.feedback-item__loc{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:7px;font-size:11.5px;color:var(--ink-2)}
+.feedback-item__loc strong{color:var(--ink);font-weight:700}
+.feedback-item__msg{margin:7px 0 0;color:var(--ink-2);font-size:12.5px;line-height:1.7;overflow-wrap:anywhere}
+.feedback-inline-empty{padding:28px 18px;text-align:center;color:var(--ink-3);font-size:12.5px}
+@media(max-width:1100px){
+  .feedback-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feedback-grid{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .feedback-kpis{grid-template-columns:1fr;gap:12px}
+  .feedback-kpi{padding:15px 16px}
+  .feedback-kpi__n{font-size:26px}
+  .feedback-article-row{grid-template-columns:1fr;gap:9px}
+  .feedback-article-counts{justify-content:flex-start}
+}
+
 /* ============================================================
    深色模式（跟随系统 prefers-color-scheme）
    ------------------------------------------------------------
@@ -1197,6 +1259,7 @@ function layout(title, bodyHtml, opts) {
   if (user) {
     nav = '<div class="sidebar__sec">内容</div><nav class="sidebar__nav">' +
       navItem("/dashboard", icon("dashboard"), "工作台", "dashboard", null, "content") +
+      navItem("/dashboard#reader-feedback", icon("chart"), "数据分析", "analytics", null, "content") +
       navItem("/articles", icon("articles"), "文章", "articles", opts.counts && opts.counts.articles, "content") +
       navItem("/articles/new", icon("plus"), "新建文章", "new", null, "content") +
       navItem("/media", icon("media"), "媒体库", "media", null, "content") +
@@ -1914,6 +1977,78 @@ function viewsBar(opts) {
 }
 
 function dashboardPage(opts) {
+  function readerFeedbackSection() {
+    const fb = opts.feedback || {};
+    const fs = fb.stats || {};
+    const issueLabels = {
+      premise: "适用前提", steps: "步骤或顺序", command: "命令或脚本",
+      error: "报错或现象", result: "修复结果", source: "链接或资料", other: "其他"
+    };
+    const issueChips = (fb.issues || []).map(function (item) {
+      return '<span class="feedback-issue-chip">' + esc(issueLabels[item.issue_type] || "其他") +
+        '<b>' + (item.n || 0) + "</b></span>";
+    }).join("");
+    const articleRows = (fb.articles || []).slice(0, 12).map(function (item) {
+      return '<div class="feedback-article-row"><div class="feedback-article-row__title">' +
+        '<a href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
+        '<div class="slug">' + esc(item.slug) + "</div></div>" +
+        '<div class="feedback-article-counts"><span class="feedback-article-count"><b>' +
+          (item.resolved || 0) + "</b>已解决</span><span class=\"feedback-article-count feedback-article-count--unresolved\"><b>" +
+          (item.unresolved || 0) + "</b>未解决</span></div></div>";
+    }).join("");
+    const recentItems = (fb.recent || []).slice(0, 12).map(function (item) {
+      const location = item.issue_location || "未指定具体位置";
+      return '<div class="feedback-item">' +
+        '<div class="feedback-item__hd"><span class="pill pill--changes_requested">未解决</span>' +
+          '<a href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
+          '<span class="feedback-item__time">' + esc(String(item.created_at || "").slice(0, 16).replace("T", " ")) + "</span>" +
+        "</div>" +
+        '<div class="feedback-item__loc"><span>问题类型：<strong>' +
+          esc(issueLabels[item.issue_type] || "其他") + "</strong></span>" +
+          '<span>文章位置：<strong>' + esc(location) + "</strong></span></div>" +
+        '<p class="feedback-item__msg">' +
+          esc(item.message || "读者只标记了问题位置，没有填写补充说明。") + "</p></div>";
+    }).join("");
+
+    return '<section id="reader-feedback" aria-labelledby="reader-feedback-title">' +
+      '<div class="feedback-kpis">' +
+        '<div class="feedback-kpi feedback-kpi--mint"><div class="feedback-kpi__top">' +
+          '<span class="feedback-kpi__ico">' + icon("check", 17) + '</span>已解决</div>' +
+          '<div class="feedback-kpi__n">' + (fs.resolved || 0) + '</div>' +
+          '<div class="feedback-kpi__h">累计有效反馈</div></div>' +
+        '<div class="feedback-kpi feedback-kpi--coral"><div class="feedback-kpi__top">' +
+          '<span class="feedback-kpi__ico">' + icon("warning", 17) + '</span>未解决</div>' +
+          '<div class="feedback-kpi__n">' + (fs.unresolved || 0) + '</div>' +
+          '<div class="feedback-kpi__h">已附问题位置与说明</div></div>' +
+        '<div class="feedback-kpi"><div class="feedback-kpi__top">' +
+          '<span class="feedback-kpi__ico">' + icon("chart", 17) + '</span>解决率</div>' +
+          '<div class="feedback-kpi__n">' + (fs.resolutionRate || 0) + '%</div>' +
+          '<div class="feedback-kpi__h">已解决 / 全部反馈</div></div>' +
+        '<div class="feedback-kpi feedback-kpi--amber"><div class="feedback-kpi__top">' +
+          '<span class="feedback-kpi__ico">' + icon("clock", 17) + '</span>近 7 天未解决</div>' +
+          '<div class="feedback-kpi__n">' + (fs.unresolved7 || 0) + '</div>' +
+          '<div class="feedback-kpi__h">建议优先回到原文核对</div></div>' +
+      "</div>" +
+      '<div class="feedback-grid">' +
+        '<div class="card card--flush">' +
+          '<div class="card__hd"><span class="card__ico" style="background:var(--s-coral);color:var(--i-coral)">' +
+            icon("warning", 16) + '</span><h3 id="reader-feedback-title">文章反馈分布</h3>' +
+            '<span class="topbar__sp"></span><span class="muted">按未解决数排序</span></div>' +
+          '<div class="feedback-articles">' + (articleRows ||
+            '<div class="feedback-inline-empty"><div class="empty__ico">' + icon("chart", 24) +
+            '</div><div class="empty__t">还没有读者反馈</div><div>文章页收到反馈后会自动汇总到这里</div></div>') +
+          "</div></div>" +
+        '<div class="card card--flush">' +
+          '<div class="card__hd"><span class="card__ico" style="background:var(--s-amber);color:var(--i-amber)">' +
+            icon("inbox", 16) + '</span><h3>最近未解决反馈</h3><span class="topbar__sp"></span>' +
+            '<span class="muted">最多显示 12 条</span></div>' +
+          '<div class="feedback-issues">' + (issueChips || '<span class="muted">暂无问题类型统计</span>') + "</div>" +
+          '<div class="feedback-feed">' + (recentItems ||
+            '<div class="feedback-inline-empty">暂无“未解决”反馈。收到反馈后会显示问题类型、文章位置和补充说明。</div>') +
+          "</div></div>" +
+      "</div></section>";
+  }
+
   const s = opts.stats || {};
   const TILE_COLORS = ["indigo", "mint", "amber", "coral", "sky", "violet"];
 
@@ -2038,6 +2173,8 @@ function dashboardPage(opts) {
     })() +
 
     // ---- 彩色磁贴 ----
+    readerFeedbackSection() +
+
     '<div class="tiles">' +
       tile("inReview", "待我审核", "需要我给出结论", icon("review"), "indigo", "/articles?status=in_review") +
       tile("drafts", "我的草稿", "尚未提交", icon("draft"), "amber", "/articles?status=draft") +

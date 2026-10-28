@@ -499,8 +499,9 @@
   function initCopy() {
     $$("[data-fx-copy]").forEach(function (btn) {
       btn.addEventListener("click", function () {
+        var targetId = btn.getAttribute("data-fx-copy-target");
         var block = btn.closest(".fx-cmd");
-        var code = block && $("code", block);
+        var code = targetId ? doc.getElementById(targetId) : (block && $("code", block));
         if (!code) return;
         var text = code.textContent.replace(/^\s*>\s?/gm, "");
         var done = function () {
@@ -542,6 +543,156 @@
   }
 
   /* ============ 12. 收藏 ============ */
+  /* ============ 12a. Reader feedback ============ */
+  function initFeedback() {
+    var box = $("[data-fx-feedback]");
+    if (!box) return;
+    var actions = $("[data-fx-feedback-actions]", box);
+    var form = $("[data-fx-feedback-form]", box);
+    var statusEl = $("[data-fx-feedback-status]", box);
+    var locationSelect = $("[data-fx-feedback-location]", box);
+    var typeInputs = $$('input[name="issue_type"]', box);
+    var outcomeButtons = $$("[data-fx-feedback-outcome]", box);
+    var submitButton = $('button[type="submit"]', form);
+    var cancelButton = $("[data-fx-feedback-cancel]", box);
+    var trap = $('input[name="website"]', box);
+    var slug = document.body.getAttribute("data-slug") || "";
+    var endpoint = document.body.getAttribute("data-feedback-endpoint") || "";
+    var sentKey = "fx.feedback." + slug;
+    var eventId = newEventId();
+
+    function newEventId() {
+      try {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+      } catch (e) {}
+      var out = "";
+      var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+      for (var i = 0; i < 32; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
+      return out + String(Date.now());
+    }
+
+    function status(message, kind) {
+      statusEl.hidden = !message;
+      statusEl.textContent = message || "";
+      statusEl.className = "fx-feedback__status" + (kind ? " is-" + kind : "");
+    }
+
+    function complete(message) {
+      box.classList.add("is-sent");
+      if (actions) actions.hidden = true;
+      if (form) form.hidden = true;
+      status(message, "ok");
+    }
+
+    function setBusy(busy) {
+      outcomeButtons.forEach(function (button) { button.disabled = busy; });
+      if (submitButton) submitButton.disabled = busy;
+      box.setAttribute("aria-busy", busy ? "true" : "false");
+    }
+
+    function addLocations() {
+      if (!locationSelect) return;
+      var seen = {};
+      Array.prototype.forEach.call(locationSelect.options, function (option) {
+        seen[option.value] = true;
+      });
+      $$("article h2, article .fx-step__title").forEach(function (node) {
+        if (node.closest(".fx-feedback")) return;
+        var text = String(node.textContent || "").replace(/\s+/g, " ").trim();
+        if (!text || text.length > 100 || seen[text]) return;
+        seen[text] = true;
+        var option = document.createElement("option");
+        option.value = text;
+        option.textContent = text;
+        locationSelect.appendChild(option);
+      });
+    }
+
+    function post(payload) {
+      if (!endpoint) return Promise.reject(new Error("反馈接口未配置"));
+      return fetch(endpoint, {
+        method: "POST",
+        mode: "cors",
+        credentials: "omit",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (data) {
+          if (!response.ok) throw new Error(data.error || "提交失败，请稍后再试");
+          return data;
+        });
+      });
+    }
+
+    function send(outcome, issueType, issueLocation, message) {
+      setBusy(true);
+      status("正在提交反馈…");
+      return post({
+        slug: slug,
+        outcome: outcome,
+        issue_type: issueType || "",
+        issue_location: issueLocation || "",
+        message: message || "",
+        page_path: location.pathname,
+        client_event_id: eventId
+      }).then(function (data) {
+        sess.set(sentKey, outcome);
+        complete(data.message || (outcome === "resolved" ? "谢谢你确认问题已解决。" : "反馈已收到，我们会核对这篇文章。"));
+      }).catch(function (error) {
+        setBusy(false);
+        status(error && error.message ? error.message : "提交失败，请稍后再试", "err");
+      });
+    }
+
+    outcomeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var outcome = button.getAttribute("data-fx-feedback-outcome");
+        if (outcome === "resolved") {
+          send("resolved");
+          return;
+        }
+        form.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        addLocations();
+        status("请选择问题类型，再指出具体位置。");
+        var first = typeInputs[0];
+        if (first) first.focus();
+      });
+    });
+
+    if (cancelButton) cancelButton.addEventListener("click", function () {
+      form.hidden = true;
+      status("");
+      var unresolved = $('[data-fx-feedback-outcome="unresolved"]', box);
+      if (unresolved) unresolved.setAttribute("aria-expanded", "false");
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (trap && trap.value) return;
+      var selected = typeInputs.filter(function (input) { return input.checked; })[0];
+      if (!selected) {
+        status("请先选择问题主要出在哪里。", "err");
+        if (typeInputs[0]) typeInputs[0].focus();
+        return;
+      }
+      var textarea = $("textarea", form);
+      send(
+        "unresolved",
+        selected.value,
+        locationSelect ? locationSelect.value : "不确定具体位置",
+        textarea ? textarea.value.trim() : ""
+      );
+    });
+
+    var previous = sess.get(sentKey);
+    if (previous) {
+      complete(previous === "resolved" ? "本页面本次访问已确认解决，感谢反馈。" : "本页面本次访问已提交未解决反馈。");
+    }
+  }
+
   function initFav() {
     var btn = $("[data-fx-fav]");
     if (!btn) return;
@@ -763,6 +914,7 @@
     initSteps();
     initCopy();
     initToc();
+    initFeedback();
     initFav();
     initWizard();
   }

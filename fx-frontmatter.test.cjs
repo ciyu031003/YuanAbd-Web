@@ -7,6 +7,8 @@
 const fs = require("fs");
 const path = require("path");
 const fx = require("./fx-frontmatter.cjs");
+const taxonomy = JSON.parse(fs.readFileSync(path.join(__dirname, "content", "taxonomy.json"), "utf8"));
+const allowedSourceTypes = new Set(taxonomy.enums.sourceType);
 
 const SRC = path.join(__dirname, "content", "fixboxs");
 const files = fs.readdirSync(SRC).filter(function (f) { return f.endsWith(".md"); }).sort();
@@ -19,7 +21,10 @@ function check(id, name, ok, detail) {
 }
 
 // ---- 全量统计（E1/E2 的基线）----
-let urlCount = 0, typeCount = 0, typeOfficial = 0, typeOpensource = 0;
+let urlCount = 0, typeCount = 0;
+let rawUrlLines = 0, rawTypeLines = 0, rawTypeFiles = 0;
+const rawTypeCounts = {};
+const parsedTypeCounts = {};
 let perFileSourceCounts = [];
 const objectsWithType = [];
 
@@ -27,6 +32,16 @@ const objectsWithType = [];
 files.forEach(function (f) {
   const full = path.join(SRC, f);
   const original = fs.readFileSync(full, "utf8");
+  const fmEnd = original.indexOf("\n---", 4);
+  const fmText = fmEnd >= 0 ? original.slice(0, fmEnd) : original;
+  rawUrlLines += (fmText.match(/^\s+url:\s*\S+/gm) || []).length;
+  const rawTypes = fmText.match(/^\s+type:\s*(\S+)/gm) || [];
+  rawTypeLines += rawTypes.length;
+  if (rawTypes.length) rawTypeFiles++;
+  rawTypes.forEach(function (line) {
+    const value = line.replace(/^\s+type:\s*/, "").trim();
+    rawTypeCounts[value] = (rawTypeCounts[value] || 0) + 1;
+  });
 
   // R1: parse → serialize → parse 三态语义等价
   const p1 = fx.parse(original);
@@ -41,8 +56,9 @@ files.forEach(function (f) {
   check("R8", f + " 字节级恒等", byteIdentical,
     byteIdentical ? "" : "len " + original.length + " vs " + s1.length);
 
-  // R7: version 必须仍是字符串 "1.0"
-  check("R7", f + " version 仍为字符串", typeof p1.meta.version === "string" && p1.meta.version === "1.0",
+  // R7: version 必须是可解析的字符串版本号，允许内容升级后递增
+  check("R7", f + " version 为字符串版本号",
+    typeof p1.meta.version === "string" && /^\d+\.\d+(?:\.\d+)?$/.test(p1.meta.version),
     "got " + JSON.stringify(p1.meta.version));
 
   // E3/E4/E5: sources 逐条键集合、值、键序
@@ -64,8 +80,7 @@ files.forEach(function (f) {
     if (item.url) urlCount++;
     if (item.type !== undefined) {
       typeCount++;
-      if (item.type === "official") typeOfficial++;
-      if (item.type === "opensource") typeOpensource++;
+      parsedTypeCounts[item.type] = (parsedTypeCounts[item.type] || 0) + 1;
       objectsWithType.push(f);
     }
   });
@@ -107,17 +122,29 @@ files.forEach(function (f) {
   check("R13", f + " 空值不改变文件", s2 === original);
 });
 
-// ---- E1 / E2：数量基线 ----
-check("E1", "url 总条数 = 109", urlCount === 109, "got " + urlCount);
-check("E2", "type 总条数 = 32", typeCount === 32, "got " + typeCount);
-check("E2b", "official = 31", typeOfficial === 31, "got " + typeOfficial);
-check("E2c", "opensource = 1", typeOpensource === 1, "got " + typeOpensource);
+// ---- E1 / E2：解析结果必须覆盖当前全文，而不是绑定某个历史文章数量 ----
+check("E1", "sources.url 无遗漏", urlCount === rawUrlLines,
+  "parsed " + urlCount + " / raw " + rawUrlLines);
+check("E2", "sources.type 无遗漏", typeCount === rawTypeLines,
+  "parsed " + typeCount + " / raw " + rawTypeLines);
+const unknownTypes = Object.keys(parsedTypeCounts).filter(function (type) { return !allowedSourceTypes.has(type); });
+check("E2b", "type 仅包含 taxonomy 已登记取值", unknownTypes.length === 0,
+  unknownTypes.length ? unknownTypes.join(",") : "ok");
+const allTypeNames = Array.from(new Set(
+  Object.keys(rawTypeCounts).concat(Object.keys(parsedTypeCounts)).concat(Array.from(allowedSourceTypes))
+)).sort();
+allTypeNames.forEach(function (type) {
+  check("E2c", type + " 数量与原文一致", (parsedTypeCounts[type] || 0) === (rawTypeCounts[type] || 0),
+    "parsed " + (parsedTypeCounts[type] || 0) + " / raw " + (rawTypeCounts[type] || 0));
+});
 
-// ---- E3 补充：20 篇两键 / 10 篇三键 ----
-const twoKey = perFileSourceCounts.filter(function (x) { return true; }).length;
+// ---- E3 补充：按当前原文动态统计，不再硬编码历史篇数 ----
 const filesWithType = new Set(objectsWithType).size;
-check("E3b", "含 type 的篇数 = 10", filesWithType === 10, "got " + filesWithType);
-check("E3c", "不含 type 的篇数 = 20", (files.length - filesWithType) === 20, "got " + (files.length - filesWithType));
+check("E3b", "含 type 的篇数与原文一致", filesWithType === rawTypeFiles,
+  "parsed " + filesWithType + " / raw " + rawTypeFiles);
+check("E3c", "不含 type 的篇数与原文一致",
+  (files.length - filesWithType) === (files.length - rawTypeFiles),
+  "parsed " + (files.length - filesWithType) + " / raw " + (files.length - rawTypeFiles));
 
 // ---- 未变更文件不得输出多余 type 键 ----
 files.forEach(function (f) {
@@ -132,9 +159,11 @@ files.forEach(function (f) {
 // ---- 输出 ----
 console.log("=== front-matter round-trip 测试 ===");
 console.log("扫描文件：" + files.length + " 篇");
-console.log("url 总数：" + urlCount + "（期望 109）");
-console.log("type 总数：" + typeCount + "（期望 32：official " + typeOfficial + " + opensource " + typeOpensource + "）");
-console.log("含 type 的篇数：" + filesWithType + "（期望 10）");
+console.log("url 总数：" + urlCount + "（front-matter 原始行 " + rawUrlLines + "）");
+console.log("type 总数：" + typeCount + "（" + allTypeNames.map(function (type) {
+  return type + " " + (parsedTypeCounts[type] || 0);
+}).join(" + ") + "）");
+console.log("含 type 的篇数：" + filesWithType + " / 共 " + files.length);
 console.log("");
 console.log("通过：" + pass + "　失败：" + fail);
 if (fail) {

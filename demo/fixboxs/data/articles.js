@@ -30,7 +30,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "15-45 分钟",
-  "risk": "安全",
+  "risk": "需谨慎",
   "symptoms": [
    "连上wifi上不了网",
    "无Internet访问权限",
@@ -53,7 +53,7 @@ window.FX_ARTICLES = [
    "nslookup",
    "netsh winsock reset"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-connected-but-no-internet.html",
   "kind": "guide",
   "hot": 31
@@ -102,7 +102,7 @@ window.FX_ARTICLES = [
    "black screen cursor",
    "桌面不显示"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-blackscreen-cursor.html",
   "kind": "guide",
   "hot": 30
@@ -256,7 +256,7 @@ window.FX_ARTICLES = [
    "小内存转储",
    "驱动导致蓝屏"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-bluescreen-read-code.html",
   "kind": "guide",
   "hot": 27
@@ -362,7 +362,7 @@ window.FX_ARTICLES = [
    "hosts",
    "223.5.5.5"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/dns-broken-but-app-works.html",
   "kind": "guide",
   "hot": 25
@@ -391,7 +391,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "20-90 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "开机密码忘了",
    "PIN 用不了",
@@ -411,7 +411,7 @@ window.FX_ARTICLES = [
    "登录选项",
    "net user 改密码"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-forgot-password.html",
   "kind": "guide",
   "hot": 24
@@ -460,7 +460,7 @@ window.FX_ARTICLES = [
    "电脑变慢原因",
    "可靠性监视器"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-slow-diagnose.html",
   "kind": "guide",
   "hot": 23
@@ -510,7 +510,7 @@ window.FX_ARTICLES = [
    "hiberfil.sys",
    "Windows.old"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-c-drive-full-cleanup.html",
   "kind": "guide",
   "hot": 22
@@ -568,7 +568,7 @@ window.FX_ARTICLES = [
    "Get-PnpDevice",
    "网络重置"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-adapter-missing.html",
   "kind": "guide",
   "hot": 21
@@ -621,7 +621,7 @@ window.FX_ARTICLES = [
    "代理设置残留",
    "proxy server"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/proxy-server-not-responding.html",
   "kind": "guide",
   "hot": 20
@@ -803,7 +803,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "30-90 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "开机一直转圈",
    "卡在品牌logo",
@@ -823,7 +823,7 @@ window.FX_ARTICLES = [
    "bootrec",
    "开机卡死"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-stuck-on-boot-logo.html",
   "kind": "guide",
   "hot": 16
@@ -881,7 +881,7 @@ window.FX_ARTICLES = [
    "网络重置",
    "RFC 3927"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/dhcp-no-ip-169-254.html",
   "kind": "guide",
   "hot": 15
@@ -935,7 +935,7 @@ window.FX_ARTICLES = [
    "网络打印机",
    "打印机驱动"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/printer-offline.html",
   "kind": "guide",
   "hot": 14
@@ -990,7 +990,7 @@ window.FX_ARTICLES = [
    "磁盘管理",
    "数据恢复"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/usb-drive-not-recognized.html",
   "kind": "guide",
   "hot": 13
@@ -1039,7 +1039,7 @@ window.FX_ARTICLES = [
    "依赖查看",
    "闪退"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-app-crash-missing-dll.html",
   "kind": "guide",
   "hot": 12
@@ -1097,7 +1097,7 @@ window.FX_ARTICLES = [
    "netsh wlan show networks",
    "无线诊断"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/wifi-ssid-not-found.html",
   "kind": "guide",
   "hot": 11
@@ -1248,7 +1248,7 @@ window.FX_ARTICLES = [
    "组件存储损坏",
    "更新疑难解答"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-update-stuck.html",
   "kind": "guide",
   "hot": 8
@@ -1457,7 +1457,7 @@ window.FX_ARTICLES = [
    "Autoruns",
    "计划任务开机启动"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-startup-apps-disable.html",
   "kind": "guide",
   "hot": 4
@@ -1557,7 +1557,7 @@ window.FX_ARTICLES = [
    "netsh winsock reset",
    "网络重置"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-10-27",
   "detail_href": "./fix/proxy-tool-broke-network.html",
   "kind": "guide",
   "hot": 2
@@ -1663,7 +1663,7 @@ window.FX_ARTICLES = [
    "蓝牙适配器",
    "2.4G 干扰"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/bluetooth-device-not-pairing.html",
   "kind": "guide",
   "hot": 1
@@ -1697,7 +1697,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "5-25 分钟",
-  "risk": "安全",
+  "risk": "需谨慎",
   "symptoms": [
    "浏览器打不开网页",
    "网页打不开但微信能用",
@@ -1715,8 +1715,104 @@ window.FX_ARTICLES = [
    "系统代理",
    "浏览器插件代理"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-10-27",
   "detail_href": "./fix/browser-proxy.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "codex-cli-install",
+  "title": "Codex CLI 下载安装与登录：Windows 一条命令搞定",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-ai-tools",
+  "categoryName": "AI 工具与开发软件",
+  "path": "Windows 软件与性能 › AI 工具与开发软件",
+  "summary": "Codex CLI 的 Windows 主流程是：安装 Node.js LTS → 运行 npm install -g @openai/codex → 用 codex --version 验证",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "进阶",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Codex CLI怎么安装",
+   "npm安装Codex失败",
+   "codex命令找不到",
+   "Codex登录不了",
+   "Codex升级",
+   "Codex doctor报错",
+   "Node版本不兼容"
+  ],
+  "keywords": [
+   "Codex CLI",
+   "npm",
+   "@openai/codex",
+   "codex login",
+   "codex doctor",
+   "Node.js",
+   "Windows终端"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/codex-cli-install.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "codex-desktop-install",
+  "title": "Codex 怎么下载安装：Windows 桌面版与第一次使用",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-ai-tools",
+  "categoryName": "AI 工具与开发软件",
+  "path": "Windows 软件与性能 › AI 工具与开发软件",
+  "summary": "不要从软件下载站找“Codex 独立安装包”。Windows 用户先在 Microsoft Store 搜索 ChatGPT，只安装发布者为 OpenAI 的应用；打开后登录账号并进入 Cod",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-20 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Codex怎么下载",
+   "Codex桌面版下载",
+   "ChatGPT里没有Codex",
+   "Codex安装不了",
+   "Codex打不开",
+   "Codex登录不了",
+   "微软商店找不到Codex"
+  ],
+  "keywords": [
+   "Codex下载",
+   "Codex Windows",
+   "ChatGPT桌面版",
+   "OpenAI Codex",
+   "Microsoft Store",
+   "Codex安装",
+   "Codex登录"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/codex-desktop-install.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2156,6 +2252,60 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "mac-app-store-download-stuck",
+  "title": "Mac App Store 下载卡住 / 应用装不上怎么修",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-apps",
+  "categoryName": "应用与 App Store",
+  "path": "macOS 软件与性能 › 应用与 App Store",
+  "summary": "App Store 卡在“等待中”，通常是下载队列、网络、日期时间或账户登录状态不同步，不等于应用损坏。先暂停再继续下载，再检查网络和储存空间；仍然不行才退出 Apple 账户重新登录。",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac App Store下载卡住",
+   "应用一直等待中",
+   "商店转圈不下载",
+   "App Store安装失败",
+   "已购项目不能下载",
+   "更新按钮没反应",
+   "Mac软件装不上",
+   "app store stuck"
+  ],
+  "keywords": [
+   "Mac App Store修复",
+   "等待中",
+   "暂停下载",
+   "Apple账户",
+   "日期时间",
+   "储存空间",
+   "网络代理",
+   "App Store缓存"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-app-store-download-stuck.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "mac-battery-health",
   "title": "Mac 电池健康怎么看：循环次数、续航变差与「建议维修」",
   "domain": "mac-app",
@@ -2204,8 +2354,171 @@ window.FX_ARTICLES = [
    "续航",
    "system_profiler"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/mac-battery-health.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-bluetooth-unavailable",
+  "title": "Mac 蓝牙不可用 / 设备突然消失怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-bt",
+  "categoryName": "蓝牙与键鼠",
+  "path": "外设 › 蓝牙与键鼠",
+  "summary": "所有蓝牙设备都消失，先重启蓝牙模块和 Mac；只有一个设备连不上，删除旧配对后重新配对。蓝牙开关灰色、菜单栏图标消失且重启无效时，再排查系统更新、USB 干扰和硬件诊断。",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac蓝牙不可用",
+   "蓝牙图标不见了",
+   "蓝牙设备突然断开",
+   "Mac连不上蓝牙耳机",
+   "蓝牙一直搜索",
+   "蓝牙开关灰色",
+   "蓝牙鼠标不工作",
+   "mac bluetooth not working"
+  ],
+  "keywords": [
+   "Mac蓝牙修复",
+   "蓝牙开关",
+   "忽略设备",
+   "重新配对",
+   "蓝牙耳机",
+   "蓝牙鼠标",
+   "2.4G干扰",
+   "Apple诊断"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-bluetooth-unavailable.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-external-display-not-detected",
+  "title": "Mac 外接显示器 / 扩展坞不识别怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-display",
+  "categoryName": "显示器",
+  "path": "外设 › 显示器",
+  "summary": "Mac 外接屏没信号，先分清是显示器没被识别、被识别但没有画面，还是分辨率/镜像设置错误。优先直连、换线、换口，再看系统设置；扩展坞必须同时满足协议、带宽和供电，接口长得一样不代表功能一样。",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac外接显示器没反应",
+   "扩展坞不识别",
+   "外接屏无信号",
+   "Mac检测不到显示器",
+   "TypeC转HDMI不显示",
+   "Mac扩展屏黑屏",
+   "显示器没有信号",
+   "mac external display not detected"
+  ],
+  "keywords": [
+   "Mac外接显示器",
+   "USB-C扩展坞",
+   "HDMI",
+   "DisplayPort",
+   "合盖模式",
+   "检测显示器",
+   "镜像扩展",
+   "分辨率",
+   "扩展坞供电"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-external-display-not-detected.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-finder-unresponsive",
+  "title": "Mac Finder 卡死 / 一直转圈怎么修",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-files",
+  "categoryName": "Finder 与文件",
+  "path": "macOS 软件与性能 › Finder 与文件",
+  "summary": "Finder 卡死先看范围：打开任何文件夹都转圈，通常是 Finder 或系统外壳卡住；只有某个外接盘、网络卷或 iCloud 目录卡住，问题在对应存储。先安全重启 Finder，再逐个挂载磁",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-40 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Finder卡死",
+   "访达一直转圈",
+   "Mac文件夹打不开",
+   "访达彩虹圈",
+   "Finder无响应",
+   "Mac桌面图标不能点",
+   "外接硬盘打开卡住",
+   "finder frozen"
+  ],
+  "keywords": [
+   "Finder修复",
+   "访达重启",
+   "killall Finder",
+   "强制退出",
+   "外接盘卡住",
+   "iCloud Drive",
+   "磁盘工具",
+   "安全模式"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-finder-unresponsive.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2217,7 +2530,7 @@ window.FX_ARTICLES = [
   "category": "mac-login",
   "categoryName": "登录与密码",
   "path": "macOS 系统与开机 › 登录与密码",
-  "summary": "macOS 自带密码重置：在登录窗口输错三次，就会冒出「用 Apple 账户重置」的入口；Apple Silicon 机器还可以在恢复模式里跑「重置密码助理」。不需要重装系统，也不需要进任何第",
+  "summary": "macOS 自带密码重置：在登录窗口按提示尝试「使用 Apple 账户重置」，具体入口取决于系统版本、账户类型和 FileVault 状态；Apple Silicon 机器还可以在恢复模式里运",
   "os": [
    {
     "t": "macOS 13+",
@@ -2237,7 +2550,7 @@ window.FX_ARTICLES = [
   ],
   "level": "入门",
   "time": "10-40 分钟",
-  "risk": "需谨慎",
+  "risk": "有数据风险",
   "symptoms": [
    "Mac 忘记密码",
    "MacBook 密码不对",
@@ -2255,8 +2568,114 @@ window.FX_ARTICLES = [
    "Reset Password Assistant",
    "登录钥匙串"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/mac-forgot-password.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-safari-cant-load",
+  "title": "Mac Safari 打不开网页 / 只有浏览器上不了网怎么修",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-network",
+  "categoryName": "Wi-Fi 与网络",
+  "path": "macOS 系统与开机 › Wi-Fi 与网络",
+  "summary": "微信、App Store 都能联网，只有 Safari 打不开，重点查扩展、网站数据、VPN/代理和 iCloud 私人中继。如果所有应用都不能联网，就不是 Safari 故障，先去修 Wi-",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Safari打不开网页",
+   "Mac浏览器上不了网",
+   "Safari一直转圈",
+   "Safari提示无法连接服务器",
+   "其他应用能上网",
+   "Mac网页加载空白",
+   "Safari not loading"
+  ],
+  "keywords": [
+   "Safari修复",
+   "浏览器打不开",
+   "VPN代理",
+   "iCloud私人中继",
+   "扩展插件",
+   "清除网站数据",
+   "DNS缓存",
+   "日期时间"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-safari-cant-load.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-spotlight-not-working",
+  "title": "Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-files",
+  "categoryName": "Finder 与文件",
+  "path": "macOS 软件与性能 › Finder 与文件",
+  "summary": "Spotlight 搜不到东西，先分清是快捷键失效、某个磁盘没有索引，还是索引数据库损坏。快捷键失效在键盘设置里修；只有某些文件搜不到，检查“聚焦隐私”和结果分类；所有内容都搜不到，再用 md",
+  "os": [
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "15-60 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac聚焦搜索没结果",
+   "Spotlight搜不到文件",
+   "Command空格没反应",
+   "聚焦搜索一直转圈",
+   "只搜得到应用",
+   "Mac搜索不工作",
+   "spotlight not working",
+   "mdutil"
+  ],
+  "keywords": [
+   "macOS聚焦",
+   "Spotlight索引",
+   "mdutil",
+   "搜索隐私",
+   "Spotlight重建",
+   "访达搜索",
+   "Command加空格"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/mac-spotlight-not-working.html",
   "kind": "guide",
   "hot": 1
  },
@@ -2718,7 +3137,7 @@ window.FX_ARTICLES = [
   "category": "per-printer",
   "categoryName": "打印机",
   "path": "外设 › 打印机",
-  "summary": "0x0000011b 是 2021 年微软安全补丁（KB5005565 系列）加强了打印队列的 RPC 凭据验证之后出现的经典问题——不是打印机坏了。修复优先级：主机和客户机都装齐 Windo",
+  "summary": "0x0000011b 常见于 2021 年打印组件安全更新之后，与打印队列的 RPC 凭据/隐私验证兼容性有关，不一定是打印机坏了。修复顺序应是：主机和客户机安装仍在支持期内的系统更新 → 客",
   "os": [
    {
     "t": "Windows 10",
@@ -2758,7 +3177,7 @@ window.FX_ARTICLES = [
    "RPC",
    "打印机共享"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/printer-shared-error-11b.html",
   "kind": "guide",
   "hot": 1
@@ -3861,8 +4280,107 @@ window.FX_ARTICLES = [
    "联想",
    "会议软件"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/webcam-not-working.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-clipboard-not-working",
+  "title": "Windows 剪贴板不能用 / 复制粘贴失效怎么修",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-desktop",
+  "categoryName": "桌面、搜索与常用功能",
+  "path": "Windows 软件与性能 › 桌面、搜索与常用功能",
+  "summary": "复制粘贴失效先分范围：所有软件都不行，通常是桌面外壳或系统剪贴板卡住；只有浏览器、远程桌面或虚拟机不行，问题通常在对应软件的剪贴板权限。先用记事本交叉测试，再重启 explorer.exe，最",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "剪贴板不能用",
+   "复制粘贴失效",
+   "CtrlV没反应",
+   "复制后粘贴不出来",
+   "剪贴板历史打不开",
+   "浏览器不能粘贴",
+   "远程桌面剪贴板失效",
+   "clipboard not working"
+  ],
+  "keywords": [
+   "Windows剪贴板",
+   "复制粘贴修复",
+   "Win+V",
+   "剪贴板历史",
+   "RDP剪贴板",
+   "重启explorer",
+   "系统文件"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-clipboard-not-working.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-microphone-not-working",
+  "title": "电脑麦克风没声音 / 会议里对方听不到怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-audio",
+  "categoryName": "耳机与音箱",
+  "path": "外设 › 耳机与音箱",
+  "summary": "“对方听不到”不一定是麦克风坏了。先看系统输入设备有没有选对、麦克风是否静音，再检查 Windows 与会议软件的权限。系统录音有电频、只有会议软件没声音，问题就在应用设置；系统里也没有输入，",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "麦克风没声音",
+   "对方听不到我说话",
+   "麦克风静音",
+   "会议麦克风不工作",
+   "录音没声音",
+   "Windows麦克风权限",
+   "麦克风输入很小",
+   "mic not working"
+  ],
+  "keywords": [
+   "麦克风修复",
+   "输入设备",
+   "隐私权限",
+   "麦克风阵列",
+   "音量增强",
+   "音频服务",
+   "会议软件",
+   "蓝牙耳机麦克风"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-microphone-not-working.html",
   "kind": "guide",
   "hot": 1
  },
@@ -3911,7 +4429,7 @@ window.FX_ARTICLES = [
    "Windows 更新后无声",
    "音频驱动"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-no-sound.html",
   "kind": "guide",
   "hot": 1
@@ -3961,8 +4479,58 @@ window.FX_ARTICLES = [
    "卸载更新",
    "恢复选项"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-safe-restore.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-search-not-working",
+  "title": "Windows 搜索没反应 / 搜不到文件怎么修",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-desktop",
+  "categoryName": "桌面、搜索与常用功能",
+  "path": "Windows 软件与性能 › 桌面、搜索与常用功能",
+  "summary": "Windows 搜索其实分三层：开始菜单搜索、文件资源管理器搜索、后台搜索索引。先确认是“所有地方都搜不到”还是“只有某个文件夹搜不到”，再重启 WSearch 服务并检查索引范围。只有索引本",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "15-45 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Windows搜索没反应",
+   "开始菜单搜不到程序",
+   "搜索框打不开",
+   "搜不到文件",
+   "文件资源管理器搜索无结果",
+   "输入后一直转圈",
+   "Windows Search不工作",
+   "search not working"
+  ],
+  "keywords": [
+   "Windows搜索修复",
+   "SearchHost",
+   "WSearch",
+   "搜索索引",
+   "索引选项",
+   "重建索引",
+   "资源管理器搜索",
+   "开始菜单搜索"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-search-not-working.html",
   "kind": "guide",
   "hot": 1
  },
@@ -3974,7 +4542,7 @@ window.FX_ARTICLES = [
   "category": "win-app-crash",
   "categoryName": "软件打不开与闪退",
   "path": "Windows 软件与性能 › 软件打不开与闪退",
-  "summary": "商店问题的修复顺序照抄微软官方三板斧：wsreset.exe 清缓存 → 设置里「修复」→ 「重置」。九成卡在第一步就好了。开不了机的病因大都是这几样：代理/VPN 拦截、区域设成了奇怪的国家",
+  "summary": "先确认 Windows 更新已开启并能正常检查更新，这是商店可用的前提。更新正常后，再按 wsreset.exe 清缓存 → 设置里「修复」→「重置」 处理商店本身。Windows Updat",
   "os": [
    {
     "t": "Windows 10",
@@ -3999,10 +4567,13 @@ window.FX_ARTICLES = [
    "Store 闪退",
    "无法从商店下载",
    "商店报错代码",
-   "商店应用打不开"
+   "商店应用打不开",
+   "系统更新关闭后商店打不开",
+   "Windows Update 服务禁用后商店异常"
   ],
   "keywords": [
    "Microsoft Store",
+   "Windows Update依赖",
    "wsreset",
    "商店修复",
    "商店重置",
@@ -4011,8 +4582,252 @@ window.FX_ARTICLES = [
    "区域设置",
    "应用商店"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "detail_href": "./fix/win-store-not-opening.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-taskbar-unresponsive",
+  "title": "Windows 任务栏卡死 / 点击没反应怎么修",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-desktop",
+  "categoryName": "桌面、搜索与常用功能",
+  "path": "Windows 软件与性能 › 桌面、搜索与常用功能",
+  "summary": "任务栏是 explorer.exe 画出来的。开始菜单、任务栏同时卡住时，先重启资源管理器；只有一个图标异常时，往往是对应应用或通知区域卡住。重启两次都没用，再检查 Windows 更新、系统",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "任务栏卡死",
+   "任务栏点不动",
+   "开始菜单打不开",
+   "任务栏图标消失",
+   "任务栏一直转圈",
+   "桌面右键没反应",
+   "Windows任务栏无响应",
+   "taskbar frozen"
+  ],
+  "keywords": [
+   "任务栏修复",
+   "重启explorer",
+   "Explorer.exe",
+   "开始菜单卡住",
+   "任务栏无响应",
+   "Windows更新",
+   "系统文件修复"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-taskbar-unresponsive.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-thumbnail-cache-broken",
+  "title": "Windows 文件图标变白 / 缩略图不显示怎么修",
+  "domain": "win-app",
+  "domainName": "Windows 软件与性能",
+  "category": "win-desktop",
+  "categoryName": "桌面、搜索与常用功能",
+  "path": "Windows 软件与性能 › 桌面、搜索与常用功能",
+  "summary": "缩略图和图标由多个缓存数据库负责，缓存损坏时会显示白纸、错图或忽然不显示。先确认只是图标问题而不是文件损坏，再清理当前用户的 thumbcache 和 iconcache 让 Windows ",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "文件图标变白",
+   "缩略图不显示",
+   "图片没有预览图",
+   "视频图标空白",
+   "图标错乱重复",
+   "文件类型图标异常",
+   "Windows icon cache",
+   "thumbnail missing"
+  ],
+  "keywords": [
+   "缩略图缓存",
+   "图标缓存",
+   "thumbcache",
+   "iconcache",
+   "文件资源管理器",
+   "查看选项",
+   "默认应用",
+   "预览窗格"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-thumbnail-cache-broken.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-time-repeatedly-wrong",
+  "title": "电脑时间总是不对 / 每次开机都变慢怎么办",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-time",
+  "categoryName": "时间与系统服务",
+  "path": "Windows 系统与开机 › 时间与系统服务",
+  "summary": "时间不准先看三个地方：时区是不是选错、自动校时有没有打开、Windows Time 服务是否正常运行。如果关机断电后时间直接归零，软件设置通常救不了，八成是主板纽扣电池没电。",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "电脑时间不对",
+   "时间总是变慢",
+   "每次开机时间都变",
+   "网页证书时间错误",
+   "Windows时间不同步",
+   "系统时间自动变回",
+   "时间比实际慢几个小时",
+   "clock wrong"
+  ],
+  "keywords": [
+   "电脑校时",
+   "Windows Time",
+   "w32tm",
+   "time.windows.com",
+   "自动设置时间",
+   "时区错误",
+   "CMOS电池",
+   "主板纽扣电池"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-time-repeatedly-wrong.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-update-enable",
+  "title": "Windows 更新被关闭了，怎么重新开启并恢复检查更新",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-update",
+  "categoryName": "系统更新",
+  "path": "Windows 系统与开机 › 系统更新",
+  "summary": "先看设置里是不是点了“暂停更新”，再检查 Windows Update、BITS、加密服务和更新协调服务有没有被停用。个人电脑可用下方 BAT 选择“开启或恢复”，脚本只恢复服务启动方式并尝试",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "无法检查更新",
+   "更新被暂停",
+   "更新服务被禁用",
+   "设置里没有检查更新",
+   "Windows更新打不开",
+   "更新页面空白",
+   "更新一直显示已暂停"
+  ],
+  "keywords": [
+   "开启Windows更新",
+   "恢复更新",
+   "wuauserv",
+   "BITS",
+   "Windows Update服务",
+   "暂停更新",
+   "组策略"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-update-enable.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "win-update-pause",
+  "title": "Windows 自动更新太烦，怎样安全暂停或临时关闭",
+  "domain": "win-system",
+  "domainName": "Windows 系统与开机",
+  "category": "win-update",
+  "categoryName": "系统更新",
+  "path": "Windows 系统与开机 › 系统更新",
+  "summary": "优先用「设置 → Windows 更新 → 暂停更新」；只需要避开一两天，就用下方 BAT 选择“临时暂停 24 小时”。脚本会创建自动恢复任务，24 小时后把 Windows Update ",
+  "os": [
+   {
+    "t": "Windows 10",
+    "k": "windows"
+   },
+   {
+    "t": "Windows 11",
+    "k": "windows"
+   }
+  ],
+  "osGroup": [
+   "windows"
+  ],
+  "level": "入门",
+  "time": "5-15 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "更新时自动重启",
+   "工作时弹更新",
+   "关机被迫更新",
+   "更新太频繁",
+   "想关闭自动更新",
+   "更新影响会议",
+   "更新占用网络"
+  ],
+  "keywords": [
+   "暂停Windows更新",
+   "关闭自动更新",
+   "更新自动重启",
+   "活动时间",
+   "更新暂停",
+   "临时关闭更新"
+  ],
+  "updated": "2026-10-27",
+  "detail_href": "./fix/win-update-pause.html",
   "kind": "guide",
   "hot": 1
  }

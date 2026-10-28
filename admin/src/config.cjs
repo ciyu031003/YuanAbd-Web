@@ -77,6 +77,16 @@ const config = {
     trustProxy: optional("TRUST_PROXY", "true") === "true"
   },
 
+  // Anonymous reader feedback. No IP address or browser fingerprint is stored.
+  feedback: {
+    allowedOrigins: optional(
+      "FEEDBACK_ALLOWED_ORIGINS",
+      "https://pc-fixboxs.yuanabd.cn"
+    ).split(",").map(function (item) { return item.trim(); }).filter(Boolean),
+    maxPerWindow: parseInt(optional("FEEDBACK_MAX_PER_WINDOW", "20"), 10),
+    windowMs: parseInt(optional("FEEDBACK_WINDOW_MS", String(10 * 60 * 1000)), 10)
+  },
+
   // ---- 邮件（root 为用户换绑邮箱时发验证码） ----
   // 未启用时换绑接口会明确报「邮件服务未配置」，不影响系统其余功能。
   mail: {

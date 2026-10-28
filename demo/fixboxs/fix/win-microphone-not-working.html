@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>电脑麦克风没声音 / 会议里对方听不到怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="“对方听不到”不一定是麦克风坏了。先看系统输入设备有没有选对、麦克风是否静音，再检查 Windows 与会议软件的权限。系统录音有电频、只有会议软件没声音，问题就在应用设置；系统里也没有输入，才去修服务和驱动。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="win-microphone-not-working" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>耳机与音箱</span></nav>
+<h1 class="fx-title">电脑麦克风没声音 / 会议里对方听不到怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">Windows 10</span><span class="fx-badge fx-badge--os" data-os="windows">Windows 11</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--safe"><span class="fx-callout__ico" aria-hidden="true">✅</span><div>本文只检查输入设备、权限和音频服务，不会录音保存隐私内容。测试麦克风时，请不要在会议或直播中播放测试声音。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">“对方听不到”不一定是麦克风坏了。先看系统输入设备有没有选对、麦克风是否静音，再检查 Windows 与会议软件的权限。系统录音有电频、只有会议软件没声音，问题就在应用设置；系统里也没有输入，才去修服务和驱动。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li>右键任务栏音量图标 →“声音设置”，在“输入”里选正确麦克风，说话时看“输入音量”条是否动。</li><li>会议软件里打开“音频设置”，确认麦克风选的是同一设备，且没有静音。</li><li>检查笔记本键盘或耳机线上的物理静音键/隐私开关；蓝牙耳机要确认当前使用的是“头戴式耳机”而不是只输出声音的模式。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/restart-audio-services.bat" download="restart-audio-services.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 重启 Windows 音频服务（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-win-microphone-not-working">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>Windows 10/11，扬声器正常，但系统突然检测不到麦克风或音频设置打开很慢。</span></li><li><b>脚本会</b><span>重新扫描音频设备，重启音频端点与 Windows Audio 服务，并打开声音设置。</span></li><li><b>运行前</b><span>拔掉暂时不用的耳机和扩展坞，关闭会议、录音和直播软件。</span></li><li><b>注意</b><span>脚本不会更改隐私权限或安装驱动；打开声音设置后仍需手动选中正确输入设备。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>restart-audio-services.bat</span><span>49 行</span><span>1.1 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-win-microphone-not-working">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 重启 Windows 音频服务
+
+fltmc &gt;nul 2&gt;&amp;1
+if errorlevel 1 (
+  echo 正在请求管理员权限...
+  powershell -NoProfile -Command &quot;Start-Process -FilePath '%~f0' -Verb RunAs&quot;
+  exit /b
+)
+
+echo ============================================================
+echo 修盒子 - 重启 Windows 音频服务
+echo ============================================================
+echo 将重新扫描音频设备，并重启 AudioEndpointBuilder 与 Audiosrv。
+echo 不会删除声卡驱动。
+echo.
+choice /C YN /N /M &quot;确认继续？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+echo.
+echo [1/4] 停止音频服务...
+net stop Audiosrv /y &gt;nul 2&gt;&amp;1
+net stop AudioEndpointBuilder /y &gt;nul 2&gt;&amp;1
+
+echo [2/4] 重新扫描音频设备...
+pnputil /scan-devices
+
+echo [3/4] 启动音频服务...
+net start AudioEndpointBuilder &gt;nul 2&gt;&amp;1
+net start Audiosrv &gt;nul 2&gt;&amp;1
+
+echo [4/4] 打开声音设置...
+start &quot;&quot; ms-settings:sound
+
+echo.
+echo 完成。请在声音设置里确认已选择正确的输出设备。
+goto :end
+
+:cancelled
+echo.
+echo 已取消，没有修改任何设置。
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
+<ul class="fx-ul"><li>录音机里没有波形，会议软件提示“找不到麦克风”</li><li>之前能说话，Windows 更新或休眠后突然无声</li><li>接了耳机、扩展坞或蓝牙设备后输入设备选错</li><li>系统测试有声音，但浏览器或会议软件不工作</li></ul>
+<p class="fx-p"><strong>不适用：</strong></p>
+<ul class="fx-ul"><li>播放音乐也没声音 → 看 <a class="fx-link" href="./win-no-sound.html">电脑没声音怎么修</a></li><li>蓝牙耳机根本配对不上 → 看 <a class="fx-link" href="./bluetooth-device-not-pairing.html">蓝牙耳机 / 键鼠连不上</a></li><li>摄像头同时不工作 → 看 <a class="fx-link" href="./webcam-not-working.html">摄像头打不开怎么修</a></li><li>只有某个网页会议平台异常 → 先查该平台的浏览器麦克风权限</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>确认电脑可以正常播放声音</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>摘掉耳机测试内置麦克风，或换一个已知正常的耳机交叉验证</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>关闭所有会议、录音、直播和语音助手软件</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>查看笔记本或耳机是否有物理静音开关</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><p class="fx-p">用系统录音机录 10 秒并回放，波形和声音正常；在会议软件里测试 2 分钟，对方能连续听到且没有明显断续；重启电脑、休眠唤醒后各再测试一次，设备仍然存在。</p></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>所有声音都没有 → <a class="fx-link" href="./win-no-sound.html">电脑没声音怎么修</a></li><li>摄像头同时打不开 → <a class="fx-link" href="./webcam-not-working.html">摄像头打不开怎么修</a></li><li>蓝牙耳机只能听不能收 → <a class="fx-link" href="./bluetooth-device-not-pairing.html">蓝牙设备连不上怎么修</a></li><li>驱动有黄色感叹号 → <a class="fx-link" href="./driver-install-rollback.html">驱动安装与回退</a></li><li>内置麦克风完全检测不到 → 预约官方售后检查排线或麦克风模组</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ol class="fx-ol"><li>会议前用系统录音机做 10 秒自检，确认输入设备名称。</li><li>Windows 更新和显卡、音频驱动更新后，再测试一次会议权限。</li><li>蓝牙耳机注意区分“听音乐”和“通话”模式，避免误以为麦克风损坏。</li><li>不安装宣称能“增强音质”但要求常驻录音权限的来源不明软件。</li></ol></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：系统录音测试、隐私权限、会议设备、服务与驱动排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">在系统里测试输入是否真的没有</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>把问题分成“麦克风没采集”和“会议软件没使用”两段。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>打开设置 → 系统 → 声音 → 输入。</li><li>选择正确设备，对着麦克风正常说话。</li><li>观察“输入音量”是否跳动；再打开系统“录音机”录 5 秒并回放。</li><li>打开声音控制面板 →“录制”，双击麦克风 →“级别”，确认没有静音且音量不是 0。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统里能看到输入电平，录音机能录到你的声音。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>系统里完全没有输入 → 继续步骤 2、5；系统正常但会议软件不行 → 跳到步骤 3。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查 Windows 麦克风隐私权限</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统总开关或单个应用权限关闭后，软件不会收到任何声音。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>设置 → 隐私和安全性 → 麦克风。</li><li>打开“麦克风访问”和“允许应用访问你的麦克风”。</li><li>在应用列表里找到会议、浏览器和录音软件，逐个允许。</li><li>完全退出软件再重新打开，权限修改才会生效。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>系统总开关与应用开关都打开，会议软件能检测到输入电平。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>开关灰掉并显示“由组织管理” → 公司电脑联系 IT；个人电脑检查组策略或安全软件。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">在会议软件里选对输入设备</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>系统有多个麦克风时，软件可能一直使用已拔掉或不存在的设备。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>在会议软件设置中找到“音频”“麦克风”“输入设备”。</li><li>选择与 Windows 声音设置相同的设备。</li><li>关闭“自动调整麦克风音量”后测试；若声音太小，再手动把输入音量调到 70%-85%。</li><li>检查软件里的静音按钮和快捷键，不要只看耳机上的灯。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>会议软件的输入电平随说话跳动，内置测试或预览能听到声音。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>软件里没有设备 → 重启软件；浏览器会议还要检查地址栏旁的站点麦克风权限。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启音频设备与服务</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>音频服务或端点设备卡住时，系统可能保留一个不可用的麦克风设备。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>运行上方 BAT，选择 <code>Y</code>。</li><li>完成后在声音设置里重新选择输入设备。</li><li>若有 USB 麦克风，换一个 USB 接口，避免经过无供电的扩展坞。</li><li>蓝牙耳机在系统“蓝牙和设备”中断开再连接，并选择带“麦克风/免提”能力的模式。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>设备重新出现在列表里，输入电平恢复正常。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>设备仍然不出现 → 继续步骤 5。</div></details></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查驱动与硬件</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>设备管理器看不到硬件时，继续改会议软件没有意义。</p>
+<p class="fx-p"><strong>操作</strong>：</p>
+<ol class="fx-ol"><li>右键开始菜单 → 设备管理器，展开“音频输入和输出”或“声音、视频和游戏控制器”。</li><li>有黄色感叹号时，右键设备 → 属性，记录错误代码。</li><li>笔记本优先到品牌官网按完整型号下载音频驱动；不要用聚合驱动工具批量替换。</li><li>USB 麦克风换电脑测试；内置麦克风在所有系统中都无声时，可能是排线或模组故障。</li><li>装错驱动后参考 <a class="fx-link" href="./driver-install-rollback.html">驱动安装与回退</a>。</li></ol>
+<div class="fx-step__expect"><b>预期结果：</b>设备管理器没有错误，系统能识别麦克风并采集声音。</div>
+<details class="fx-step__fallback"><summary>失败怎么办？</summary><div>其他电脑也无声 → 外设本身故障；内置麦克风在恢复环境或外接系统中也无声 → 送修检查。</div></details></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/webcam-not-working.html">摄像头打不开 / 视频会议对方看不到我怎么修</a><a href="../fix/win-no-sound.html">电脑没声音 / 右下角喇叭有红叉怎么修</a><a href="../fix/bluetooth-device-not-pairing.html">蓝牙耳机 / 键鼠连不上、一直配对失败怎么修</a><a href="../fix/driver-install-rollback.html">驱动装错出问题？安装与回退的正确姿势（从哪下、怎么退）</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-27 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

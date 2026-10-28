@@ -18,6 +18,8 @@ const SRC = path.join(ROOT, "content", "fixboxs");
 const OUT = path.join(ROOT, "demo", "fixboxs");
 const OUT_FIX = path.join(OUT, "fix");
 const OUT_DATA = path.join(OUT, "data");
+const FEEDBACK_ENDPOINT = process.env.FIXBOXS_FEEDBACK_ENDPOINT ||
+  "https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback";
 
 /* 分类字典已外置到 content/taxonomy.json（原先硬编码在此处）。
    外置的意义：后台编辑器的 domain/category 下拉框与构建读**同一份数据**，
@@ -74,6 +76,27 @@ const CRITICAL = [
 const BOOT = '<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>';
 const PRELOADER = '<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>';
 const CONNECTOR = '<div class="fx-connector" aria-hidden="true"></div>';
+const READER_FEEDBACK = [
+  '<div class="fx-feedback" data-fx-feedback>',
+  '<div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div>',
+  '<div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div>',
+  '<div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div>',
+  '<form class="fx-feedback__form" data-fx-feedback-form hidden novalidate>',
+  '<fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types">',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label>',
+  '<label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label>',
+  '</div></fieldset>',
+  '<label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label>',
+  '<label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label>',
+  '<label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label>',
+  '<div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div>',
+  '</form></div>',
+].join("");
 /* 移动端抽屉导航：生成的文章页在 /fix/ 子目录，链接统一用 ../ 前缀（2026-10-24 移动端适配） */
 const MOBILE_BURGER = '<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>';
 const MOBILE_DRAWER = [
@@ -218,6 +241,59 @@ function mdToHtml(md) {
     out.push('<p class="fx-p">' + inline(buf.join(" ")) + "</p>");
   }
   return out.join("\n");
+}
+
+/* 小白一键修复卡片：Markdown 只负责声明脚本和适用边界，构建期读取真实 .bat 源码，
+   确保下载文件、页面说明和可复制源码三者不会漂移。 */
+function renderBatfix(md, slug) {
+  const scriptMatch = String(md).match(/-\s*下载[：:]\s*\[([^\]]+)\]\((\.\.\/scripts\/[a-z0-9-]+\.bat)\)/i);
+  if (!scriptMatch) {
+    throw new Error("小白一键修复段落缺少 ../scripts/*.bat 下载链接");
+  }
+  const label = scriptMatch[1].trim();
+  const href = scriptMatch[2];
+  const rel = href.replace(/^\.\.\//, "");
+  const sourcePath = path.join(OUT, rel);
+  if (!fs.existsSync(sourcePath)) {
+    throw new Error("脚本文件不存在：" + rel);
+  }
+  const source = fs.readFileSync(sourcePath, "utf8").replace(/\r\n/g, "\n");
+  const filename = path.basename(rel);
+  const details = [];
+  String(md).split(/\r?\n/).forEach(function (line) {
+    const m = line.match(/^-\s*([^：:]+)[：:]\s*(.+)$/);
+    if (!m || /^下载$/.test(m[1].trim())) return;
+    details.push({ label: m[1].trim(), value: m[2].trim() });
+  });
+  const codeId = "fx-bat-code-" + slug;
+  const rows = details.map(function (item) {
+    return '<li><b>' + esc(item.label) + '</b><span>' + inline(item.value) + "</span></li>";
+  }).join("");
+  const lines = source.split("\n").length;
+  const sizeKb = (Buffer.byteLength(source) / 1024).toFixed(1);
+
+  return [
+    '<section class="fx-batfix" id="' + slugify("小白一键修复") + '" data-reveal>',
+    '<div class="fx-batfix__head">',
+    '<span class="fx-batfix__kicker">纯小白模式 · Windows</span>',
+    '<h2 class="fx-h2">小白一键修复</h2>',
+    '<p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p>',
+    '</div>',
+    '<div class="fx-batfix__actions">',
+    '<a class="fx-btn fx-btn--primary fx-batfix__download" href="' + escAttr(href) + '" download="' + escAttr(filename) + '">',
+    '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>',
+    '下载 ' + esc(label),
+    '</a>',
+    '<button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="' + codeId + '">复制全部脚本</button>',
+    '</div>',
+    '<div class="fx-batfix__body">',
+    rows ? '<ul class="fx-batfix__facts">' + rows + "</ul>" : "",
+    '<div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div>',
+    '<div class="fx-batfix__meta"><span>' + esc(filename) + "</span><span>" + lines + " 行</span><span>" + sizeKb + " KB</span></div>",
+    '<details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="' + codeId + '">' + esc(source) + "</code></pre></details>",
+    '</div>',
+    '</section>'
+  ].join("");
 }
 
 function renderSteps(md) {
@@ -420,11 +496,14 @@ function renderArticle(meta, body) {
   });
   const conclusion = blocks["一句话结论"] || "";
   const quickfix = blocks["30 秒快速排查"] || "";
+  const batfixMd = blocks["小白一键修复"] || "";
   const stepMd = blocks["分步骤"] || "";
   // 「相关教程」由下方模板用 front-matter 的 related 渲染成可点击链接，正文同名段落不再重复输出
   const rest = order.filter(function (n) {
-    return n !== "一句话结论" && n !== "30 秒快速排查" && n !== "分步骤" && n !== "相关教程";
+    return n !== "一句话结论" && n !== "30 秒快速排查" && n !== "小白一键修复" &&
+      n !== "分步骤" && n !== "相关教程";
   });
+  const batfixHtml = batfixMd ? renderBatfix(batfixMd, slug) : "";
 
   const riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
   const rk = riskMap[meta.risk] || riskMap["需谨慎"];
@@ -449,6 +528,7 @@ function renderArticle(meta, body) {
   const tocLinks =
     '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
     (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
+    (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">🧰 小白一键修复</a></li>' : "") +
     rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
     (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "");
   const tocMobile = tocLinks
@@ -467,7 +547,7 @@ CRITICAL, BOOT,
 '<link rel="stylesheet" href="../css/theme-fix.css">',
 '<link rel="stylesheet" href="../css/fix.css">',
   '<link rel="stylesheet" href="../css/fix-neu.css">',
-"</head>", '<body data-slug="' + escAttr(slug) + '">',
+"</head>", '<body data-slug="' + escAttr(slug) + '" data-feedback-endpoint="' + escAttr(FEEDBACK_ENDPOINT) + '">',
 PRELOADER,
 '<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>',
 '<a class="fx-skip" href="#main">跳到主要内容</a>',
@@ -493,6 +573,7 @@ tocMobile,
 preambleHtml,
 '<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
 (quickItems.length ? '<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : ""),
+batfixHtml,
 CONNECTOR,
 rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>"; }).join("\n"),
 (stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : ""),
@@ -505,7 +586,7 @@ rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + s
 "</div>", '<div style="height:60px"></div>', "</main>",
 '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
 '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
-'<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 12 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>',
+    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>',
 '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
 '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
 "</div>",
@@ -513,7 +594,14 @@ rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + s
 "</div></footer>",
 '<script src="../data/articles.js"></script>', '<script src="../js/fix.js"></script>',
 "</body>", "</html>",
-].join("\n");
+].filter(function (line) {
+  return line.indexOf('<div class="fx-feedback"><h2>') === -1 &&
+    line.indexOf('<div class="fx-feedback__row"><a class="fx-btn') === -1;
+}).reduce(function (out, line) {
+  if (line === "</article>") out.push(READER_FEEDBACK);
+  out.push(line);
+  return out;
+}, []).join("\n");
 }
 
 function main() {

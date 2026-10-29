@@ -123,6 +123,8 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>卸载后重启又自动出现，说明还有服务在重建它——回到步骤 1 再查一遍是否真的卸载干净；删错了真实网卡也没关系，重启后 Windows 一般会自动重装，或用&quot;扫描检测硬件改动&quot;重建。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清除系统代理与 WinHTTP 代理</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>工具常会把系统代理指向本机端口（如 <code>127.0.0.1:某端口</code>），程序关掉后这个端口已经没人监听，所有网页就都打不开。</p>
 <p class="fx-p"><strong>操作</strong>：按 <code>Win + I</code> → <strong>网络和 Internet → 代理</strong>，关闭&quot;自动检测设置&quot;&quot;使用设置脚本&quot;&quot;使用代理服务器&quot;三项。</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/win11-proxy-on.webp" alt="卸载工具后系统代理常常还停留在 127.0.0.1" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">很多代理/加速工具退出或卸载后，这个开关还留在「开」，地址指向本机一个已经没人监听的端口——所有网页自然全打不开。点成灰色再保存即可。</figcaption></figure>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/win11-proxy-off.webp" alt="三个开关都变灰才算清干净" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">这就是干净状态：三项全部为灰，地址栏也会消失。</figcaption></figure>
 <p class="fx-p">再以<strong>管理员身份</strong>打开命令提示符，执行：</p>
 <div class="fx-cmd"><pre><code>netsh winhttp show proxy</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
 <p class="fx-p">确认输出里没有残留的 <code>127.0.0.1</code> 或陌生地址后，若确实有，执行：</p>

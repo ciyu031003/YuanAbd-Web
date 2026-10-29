@@ -107,6 +107,7 @@ nslookup www.baidu.com 223.5.5.5</code></pre><button class="fx-cmd__copy" type="
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清空 DNS 缓存</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>缓存里存着过期的或错误的解析结果，清一次成本最低。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <p class="fx-p">Windows（管理员命令提示符）：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/cmd-flushdns.webp" alt="在命令提示符里执行 ipconfig /flushdns" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">按 Win+R 输入 cmd（建议以管理员身份运行），输入这行命令回车，看到「已成功刷新 DNS 解析缓存」就说明清干净了。</figcaption></figure>
 <div class="fx-cmd"><pre><code>ipconfig /displaydns
 ipconfig /flushdns</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
 <p class="fx-p">macOS（终端）：</p>

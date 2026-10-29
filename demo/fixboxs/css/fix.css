@@ -983,3 +983,20 @@ html:not(.fx-js) [data-reveal]{opacity:1;transform:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .fx-preloader{display:none}
 }
+
+/* ---------- 图文教程：配图与图注 ---------- */
+.fx-fig{margin:30px 0 34px}
+.fx-fig__frame{
+  position:relative;border:2px solid var(--fx-ink);border-radius:16px;overflow:hidden;
+  background:#fff;box-shadow:7px 7px 0 var(--fx-ink);
+}
+.fx-fig__frame img{display:block;width:100%;height:auto}
+.fx-fig__cap{
+  margin-top:14px;font-size:14.5px;line-height:1.68;color:var(--fx-ink-2);
+  text-align:center;padding:0 6%;
+}
+@media (max-width:640px){
+  .fx-fig{margin:24px 0 26px}
+  .fx-fig__frame{border-radius:12px;box-shadow:4px 4px 0 var(--fx-ink)}
+  .fx-fig__cap{font-size:13.5px;padding:0 2%}
+}

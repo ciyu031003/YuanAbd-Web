@@ -142,6 +142,10 @@ function parseFrontMatter(text) {
 function inline(s) {
   let t = esc(s);
   t = t.replace(new RegExp(BT + "([^" + BT + "]+)" + BT, "g"), "<code>$1</code>");
+  // 行内图片：![替代文字](路径) —— 独立成行时由 mdToHtml 提升为 <figure>
+  t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (_, alt, imgSrc) {
+    return '<img class="fx-img" src="' + imgSrc + '" alt="' + alt + '" loading="lazy" decoding="async">';
+  });
   t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (_, txt, href) {
     const ext = /^https?:/i.test(href);
@@ -231,6 +235,20 @@ function mdToHtml(md) {
       }
       if (items.length) out.push('<ul class="fx-ul">' + items.join("") + "</ul>");
       if (checks.length) out.push('<ul class="fx-checklist">' + checks.join("") + "</ul>");
+      continue;
+    }
+    const figM = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+    if (figM) {
+      const alt = figM[1], figSrc = figM[2];
+      i++;
+      let cap = "";
+      if (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\||\s*!\[)/.test(lines[i])) {
+        cap = inline(lines[i].trim());
+        i++;
+      }
+      out.push('<figure class="fx-fig"><div class="fx-fig__frame">' +
+        '<img class="fx-img" src="' + figSrc + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
+        '</div>' + ((cap || alt) ? '<figcaption class="fx-fig__cap">' + (cap || esc(alt)) + "</figcaption>" : "") + "</figure>");
       continue;
     }
     if (!line.trim()) { i++; continue; }

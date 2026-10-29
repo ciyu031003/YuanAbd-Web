@@ -86,6 +86,9 @@ detail_href: ./fix/enterprise-proxy.html
 
 ### 步骤 2：核对并还原系统代理设置
 
+![设置 → 网络和 Internet → 代理 的位置](../img/guides/win11-proxy-entry.webp)
+先按 Win + I 打开设置，点左侧「网络和 Internet」，再点「代理」——公司统一下发的代理和 PAC 都在这两页里。
+
 1. Windows：设置 → 网络和 Internet → 代理。看「使用设置脚本（PAC）」和「手动代理」两项是否与 IT 文档一致。
 2. macOS：系统设置 → 网络 → 详细信息 → 代理。同样逐项核对。
 3. 发现不一致（尤其是自己装的抓包工具留下的 `127.0.0.1:8888`）→ 关掉手动代理/PAC，重启浏览器再测；确认是哪个工具改的，退干净。

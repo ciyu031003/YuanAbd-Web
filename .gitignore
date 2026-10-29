@@ -39,3 +39,4 @@ admin/admin.env
 #     媒体文件游离在工作区，一旦有人 git add -A / reset 就出问题）；
 #   · 元数据（alt/上传者/哈希）在 DB media 表，文件丢失可在媒体库里被发现。
 demo/fixboxs/media/
+.tmp-img/

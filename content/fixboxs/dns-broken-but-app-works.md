@@ -114,6 +114,9 @@ macOS 上把第一条改成 `ping -c 4 223.5.5.5` 和 `ping -c 4 www.baidu.com`�
 
 Windows（管理员命令提示符）：
 
+![在命令提示符里执行 ipconfig /flushdns](../img/guides/cmd-flushdns.webp)
+按 Win+R 输入 cmd（建议以管理员身份运行），输入这行命令回车，看到「已成功刷新 DNS 解析缓存」就说明清干净了。
+
 ```bat
 ipconfig /displaydns
 ipconfig /flushdns

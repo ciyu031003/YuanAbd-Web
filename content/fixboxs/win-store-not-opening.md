@@ -110,6 +110,9 @@ detail_href: ./fix/win-store-not-opening.html
 
 ### 步骤 2：wsreset 清缓存（更新正常后）
 
+![在命令提示符里执行 WSReset.exe](../img/guides/cmd-wsreset.webp)
+也可以在命令提示符里直接输入 WSReset.exe 回车，效果一样：窗口会运行十几秒，然后商店自动弹出。
+
 1. `Win + R` → `wsreset.exe` → 确定。
 2. 空白命令行窗口约 10 秒后自动关闭并拉起商店。
 **期望结果**：商店正常打开。**失败了怎么办**：依旧打不开 → 步骤 3。

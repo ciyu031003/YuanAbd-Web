@@ -115,6 +115,9 @@ detail_href: ./fix/win-update-enable.html
 
 **操作**：
 
+![服务管理器里定位 Windows Update](../img/guides/services-mmc.webp)
+在「服务」列表里按名称找 Windows Update，双击打开属性，「启动类型」选「自动」后点「启动」。
+
 1. 按 `Win + R`，输入 `services.msc`。
 2. 分别找到：
    - `Windows Update`

@@ -92,6 +92,9 @@ detail_href: ./fix/wifi-connected-but-no-internet.html
 
 **目的**：分清是"路由器/宽带的问题"还是"这台电脑的问题"，方向错了会越修越乱。
 
+![网络和 Internet 状态页：先跑一次疑难解答](../img/guides/win11-network-status.webp)
+连上了 Wi-Fi 却打不开网页时，先到「设置 → 网络和 Internet → 状态」跑一次「网络疑难解答」，它会自动重置适配器、续租 IP，很多情况一次就好。
+
 **操作**：用手机连同一个 Wi-Fi，打开任意网页；再打开一个视频 App 播 10 秒。
 
 **预期结果**：

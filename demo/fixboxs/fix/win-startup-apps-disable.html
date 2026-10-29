@@ -111,6 +111,7 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>看不到「上次 BIOS 时间」→ 系统版本较老，可以忽略，直接看影响等级；事件日志为空 → 直接用任务管理器列表判断。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">在任务管理器或设置里禁用启动项</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是最安全也最有效的第一步，禁用只是不自动启动，软件本身还在。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/taskmgr-startup.webp" alt="任务管理器 → 启动应用：右键 → 禁用" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">按 Ctrl+Shift+Esc 打开任务管理器，点左侧「启动应用」，在列表里右键目标程序选「禁用」。「启动影响」标「高」的优先处理。</figcaption></figure>
 <ol class="fx-ol"><li>任务管理器 →「启动」标签，右键要处理的项 →「禁用」。</li><li>或「设置 → 应用 → 启动」，把对应开关关掉。</li><li>建议顺序：先关游戏平台、下载工具、播放器、云盘、厂商更新助手，再关聊天软件。</li><li>处理完重启一次，用步骤 1 的方法对比开机时间。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>重启后开机明显变快，托盘图标减少。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>列表里找不到某个顽固程序 → 做步骤 3、4；关掉后某个软件不好用了 → 重新「启用」即可，无副作用。</div></details></div></li>

@@ -117,6 +117,8 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>打不出自检页就检查纸张、墨盒/碳粉、是否卡纸；面板报错误码时<strong>以打印机厂商官网的错误码说明为准</strong>。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清空卡住的打印队列</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>一个坏任务会把整条队列堵死，后面所有任务都变成&quot;没反应&quot;。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/win11-printers.webp" alt="打印机和扫描仪页面：脱机的打印机在这里" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">在「设置 → 蓝牙和其他设备 → 打印机和扫描仪」里先看目标打印机有没有标「脱机」，点它右侧的「打开打印队列」进入队列窗口。</figcaption></figure>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/printqueue-offline.webp" alt="打印队列里「脱机使用打印机」被勾上的样子" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">队列窗口点菜单「打印机」，如果「脱机使用打印机」前面有勾，先把勾去掉——这一项被勾上时，任务会一直堆在这里发不出去。</figcaption></figure>
 <ol class="fx-ol"><li>打开打印队列窗口（设置 → 蓝牙和其他设备 → 打印机和扫描仪 → 你的打印机 → 打开打印队列）。</li><li>点菜单&quot;<strong>打印机 → 取消所有文档</strong>&quot;。</li><li>如果任务删不掉（点了没反应），用管理员身份重启后台服务：</li></ol>
 <div class="fx-cmd"><pre><code>net stop spooler
 net start spooler</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>

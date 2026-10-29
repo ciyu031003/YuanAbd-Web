@@ -175,6 +175,7 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重启一次再试；仍失败时继续步骤 3。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">确认关键服务状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>排除安全软件继续阻止服务启动。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/services-mmc.webp" alt="服务管理器里定位 Windows Update" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">在「服务」列表里按名称找 Windows Update，双击打开属性，「启动类型」选「自动」后点「启动」。</figcaption></figure>
 <ol class="fx-ol"><li>按 <code>Win + R</code>，输入 <code>services.msc</code>。</li><li>分别找到： - <code>Windows Update</code> - <code>Background Intelligent Transfer Service</code> - <code>Cryptographic Services</code> - <code>Update Orchestrator Service</code></li><li>前三项正常状态应为“手动”或“自动”，USOClient 通常为“手动”。</li><li>不要随意修改 <code>Windows Update Medic Service</code>，它是受保护的系统修复服务。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>服务没有被第三方软件持续改回“禁用”。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>如果服务刚启动又被改回禁用，卸载来源不明的“优化大师”“更新屏蔽器”，再重启。</div></details></div></li>

@@ -61,6 +61,7 @@
 <section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：Finder 重启、外接盘、iCloud、磁盘急救与登录项排查</td><td>内容组</td></tr></tbody></table></div></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">只重启 Finder</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>Finder 是独立进程，重启通常不会影响其他应用。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/mac-force-quit.webp" alt="强制退出窗口：选中「访达」→ 强制退出，Finder 会自动重启" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">快捷键 <code>Option + Command + Esc</code> 打开这个窗口，选中「访达」点「强制退出」。桌面和 Finder 窗口消失一两秒后会自动重建，<strong>不会关闭你其他的应用</strong>。</figcaption></figure>
 <ol class="fx-ol"><li>按住 <code>Option</code> 键，右键 Dock 上的 Finder →“重新启动”。</li><li>或在终端运行：</li></ol>
 <div class="fx-cmd"><pre><code>killall Finder</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
 <ol class="fx-ol"><li>等待桌面图标和 Finder 窗口重新出现。</li></ol>

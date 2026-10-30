@@ -66,6 +66,7 @@
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>所有设备都搜不到 → 继续步骤 2；手机也搜不到原设备 → 优先检查设备电池和配对模式。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">关闭蓝牙、重启 Mac 并重新搜索</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>蓝牙后台进程卡住时，单纯关开关可能没有真正重置。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/mac-bluetooth.webp" alt="macOS 蓝牙设置：灰色圆点的设备就是没连上" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">绿点 = 已连接，灰点 = 未连接。设备在列表里但一直是灰点，通常不是配对丢了，而是蓝牙进程卡住——关开关再重启一次往往就能连上。</figcaption></figure>
 <ol class="fx-ol"><li>控制中心关闭蓝牙。</li><li>正常重启 Mac，重新登录桌面。</li><li>打开蓝牙，等待 10-20 秒再搜索。</li><li>如果是蓝牙鼠标或键盘无法登录，先用有线键鼠进入系统。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>蓝牙列表重新出现设备，开关能正常切换且不再灰色。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>开关灰色或菜单栏图标消失 → 继续步骤 5；单个设备仍不在列表 → 继续步骤 3。</div></details></div></li>

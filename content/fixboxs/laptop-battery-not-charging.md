@@ -78,6 +78,9 @@ detail_href: ./fix/laptop-battery-not-charging.html
 
 ### 步骤 1：硬重置放静电（三家官方共同的第一步）
 
+![USB-C 充电器与线材：线和头要分开排查](../img/guides/hw-usbc-charger.webp "Wikimedia Commons / CC BY-SA 4.0")
+Type-C 机型要**分别**换线和换头测试：线只支持充电不支持数据、或者头功率不够，都会表现为「插着但不充电」。
+
 1. 关机，拔掉充电器和所有外接设备。
 2. 可拆卸电池机型取下电池；内置机型跳过。
 3. 按住电源键 15-30 秒（惠普社区案例里 30 秒更稳）。

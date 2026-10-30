@@ -66,6 +66,10 @@ Finder 卡死先看范围：打开任何文件夹都转圈，通常是 Finder �
 **目的**：Finder 是独立进程，重启通常不会影响其他应用。
 
 **操作**：
+
+![强制退出窗口：选中「访达」→ 强制退出，Finder 会自动重启](../img/guides/mac-force-quit.webp)
+快捷键 `Option + Command + Esc` 打开这个窗口，选中「访达」点「强制退出」。桌面和 Finder 窗口消失一两秒后会自动重建，**不会关闭你其他的应用**。
+
 1. 按住 `Option` 键，右键 Dock 上的 Finder →“重新启动”。
 2. 或在终端运行：
 

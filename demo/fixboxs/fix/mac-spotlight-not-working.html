@@ -61,12 +61,16 @@
 <section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-27</td><td>1.0</td><td>首版：快捷键、结果分类、mdutil 索引与安全模式排查</td><td>内容组</td></tr></tbody></table></div></section>
 <div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">先确认快捷键和菜单栏搜索</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>快捷键被输入法、截图工具占用时，聚焦本身可能完全正常。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
-<ol class="fx-ol"><li>点菜单栏右上角放大镜，测试应用和文件名。</li><li>打开系统设置 → 键盘 → 键盘快捷键 → 聚焦。</li><li>确认“显示聚焦搜索”已勾选，并把快捷键改为未被其他软件占用的组合。</li><li>退出最近安装的启动器、剪贴板工具和快捷键工具后再试。</li></ol>
+<ol class="fx-ol"><li>点菜单栏右上角放大镜，测试应用和文件名。</li></ol>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/mac-spotlight-shortcut.webp" alt="键盘快捷键里的「显示聚焦搜索」，确认它是勾选状态" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">如果这里被取消勾选，或者快捷键被输入法、截图工具抢走，<code>Command + Space</code> 就会没反应——聚焦本身其实是好的。</figcaption></figure>
+<ol class="fx-ol"><li>打开系统设置 → 键盘 → 键盘快捷键 → 聚焦。</li><li>确认“显示聚焦搜索”已勾选，并把快捷键改为未被其他软件占用的组合。</li><li>退出最近安装的启动器、剪贴板工具和快捷键工具后再试。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b><code>Command+Space</code> 能稳定打开聚焦，菜单栏搜索也有结果。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>菜单栏也没有结果 → 继续索引排查；快捷键可打开但没有结果 → 跳到步骤 3。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查聚焦结果分类与隐私排除</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>某一类结果被关闭，或磁盘被列进隐私列表，文件存在也不会被收录。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
-<ol class="fx-ol"><li>打开系统设置 → Siri 与聚焦（旧版 macOS 为“聚焦”）。</li><li>在搜索结果分类里确认“应用程序”“文稿”“文件夹”等需要的类别已勾选。</li><li>滚动到底部打开“聚焦隐私”。</li><li>如果整块磁盘被误加入，选中后点 <code>-</code> 移除；若要强制重新收录，可先把磁盘拖入再移除。</li></ol>
+<ol class="fx-ol"><li>打开系统设置 → Siri 与聚焦（旧版 macOS 为“聚焦”）。</li><li>在搜索结果分类里确认“应用程序”“文稿”“文件夹”等需要的类别已勾选。</li></ol>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/mac-spotlight-privacy.webp" alt="聚焦隐私里如果列着整块磁盘，那盘里的文件永远搜不到" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">「聚焦隐私」列表里的磁盘和文件夹<strong>不会被索引</strong>。整块 Macintosh HD 出现在这里，就等于关闭了全盘搜索。</figcaption></figure>
+<ol class="fx-ol"><li>滚动到底部打开“聚焦隐私”。</li><li>如果整块磁盘被误加入，选中后点 <code>-</code> 移除；若要强制重新收录，可先把磁盘拖入再移除。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>系统磁盘不在隐私排除列表，常用结果类别已启用。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>退出聚焦隐私后仍无结果 → 继续步骤 3 查看索引状态。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">查看索引是否启用</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span><code>mdutil</code> 会直接显示每个卷的索引状态，避免盲目重建。</p>

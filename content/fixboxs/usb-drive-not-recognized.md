@@ -93,6 +93,9 @@ detail_href: ./fix/usb-drive-not-recognized.html
 
 **操作**：
 
+![U 盘：金手指那面插进去才是数据口，插反插不进](../img/guides/hw-usb-drive.webp "Wikimedia Commons / CC BY-SA 4.0")
+U 盘本身很少有「坏了」的情况，多数是接口接触不良、供电不足或者插在前置口上带不动。
+
 1. 拔下 U 盘，换电脑上**另一个 USB 口**（台式机优先机箱后置、直插主板的 USB 口）。
 2. 移动硬盘用**原装数据线**，换一根已知良好的线再试；如果是 Type-C 硬盘盒，换一条支持数据（不是只充电）的线。
 3. 换一台电脑或 Mac 交叉验证。

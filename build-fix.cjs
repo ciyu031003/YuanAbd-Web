@@ -246,9 +246,13 @@ function mdToHtml(md) {
         cap = inline(lines[i].trim());
         i++;
       }
+      const credM = figSrc.match(/^([^\s]+)\s+"([^"]*)"$/);
+      const realSrc = credM ? credM[1] : figSrc;
+      const cred = credM ? credM[2] : "";
       out.push('<figure class="fx-fig"><div class="fx-fig__frame">' +
-        '<img class="fx-img" src="' + figSrc + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
-        '</div>' + ((cap || alt) ? '<figcaption class="fx-fig__cap">' + (cap || esc(alt)) + "</figcaption>" : "") + "</figure>");
+        '<img class="fx-img" src="' + realSrc + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
+        '</div>' + ((cap || alt) ? '<figcaption class="fx-fig__cap">' + (cap || esc(alt)) + "</figcaption>" : "") +
+        (cred ? '<div class="fx-fig__cred">图片来源：' + esc(cred) + "</div>" : "") + "</figure>");
       continue;
     }
     if (!line.trim()) { i++; continue; }

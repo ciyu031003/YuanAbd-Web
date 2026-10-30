@@ -42,7 +42,7 @@ const REQUIRED_SECTIONS = ["一句话结论", "分步骤"];
 /* 参考资料（kind: reference / ref-* 领域）另有一套骨架：
    它们索引的是别人的 SOP 手册，用「快速概览」而不是「一句话结论」。
    两套骨架共用 V7（分步骤下必须有 ### 步骤 N）。 */
-const REFERENCE_DOMAINS = ["ref-manual", "ref-field"];
+const REFERENCE_DOMAINS = ["ref-manual"];
 const REFERENCE_SECTIONS = ["快速概览", "分步骤"];
 const isReferenceMeta = function (meta) {
   return meta && (meta.kind === "reference" || REFERENCE_DOMAINS.indexOf(meta.domain) >= 0);

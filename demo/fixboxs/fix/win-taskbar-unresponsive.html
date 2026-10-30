@@ -39,7 +39,7 @@
 </nav></div>
 <main id="main" class="fx-wrap">
 <div class="fx-doc">
-<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></aside>
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app" aria-current="page">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li></ul></aside>
 <article>
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#win-app">Windows 软件与性能</a><span class="fx-crumb__sep">›</span><span>桌面、搜索与常用功能</span></nav>
 <h1 class="fx-title">Windows 任务栏卡死 / 点击没反应怎么修</h1>
@@ -99,7 +99,9 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>任何组合键都没反应、鼠标也不能动 → 长按电源键 10 秒关机，再按 <a class="fx-link" href="./win-slow-diagnose.html">电脑死机排查</a>处理。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重启资源管理器</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>这是最快、可逆的桌面外壳修复，不会卸载软件。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
-<ol class="fx-ol"><li>运行上方 BAT，选择 <code>Y</code>。</li><li>手动操作时，在任务管理器“进程”中找到 <code>Windows 资源管理器</code>，右键 →“重新启动”。</li><li>如果找不到，点“运行新任务”，输入 <code>explorer.exe</code> 并确定。</li></ol>
+<ol class="fx-ol"><li>运行上方 BAT，选择 <code>Y</code>。</li></ol>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/win-taskmgr-explorer.webp" alt="任务管理器里右键「Windows 资源管理器」→ 重新启动" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">任务栏和桌面都是「Windows 资源管理器」这个进程在管。右键它选「重新启动」，桌面会闪一下重建，不用重启电脑。</figcaption></figure>
+<ol class="fx-ol"><li>手动操作时，在任务管理器“进程”中找到 <code>Windows 资源管理器</code>，右键 →“重新启动”。</li><li>如果找不到，点“运行新任务”，输入 <code>explorer.exe</code> 并确定。</li></ol>
 <div class="fx-step__expect"><b>预期结果：</b>桌面和任务栏消失几秒后重新出现，所有图标可以点击。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>重新启动后马上再次卡死 → 不要连续重启十几次，继续步骤 3 至 5。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除全屏程序、远程桌面和虚拟机</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>某些程序会改变分辨率、捕获鼠标或占用桌面窗口，看起来像任务栏失灵。</p>
@@ -130,7 +132,7 @@ sfc /scannow</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy
 <footer class="fx-foot"><div class="fx-wrap">
 <div class="fx-foot__inner">
 <div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
 <div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
 <div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
 </div>

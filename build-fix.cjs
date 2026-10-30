@@ -38,7 +38,7 @@ TAXONOMY.domains.forEach(function (d) {
      · 列表里标成「参考」并单独成组，避免读者误以为是本站原创排障结论。
    判定用两个信号：front-matter 的 kind: reference，或 domain 属于下面两个领域。
    两个信号都要认，是因为后台编辑器不一定总带上 kind 字段。 */
-const REFERENCE_DOMAINS = ["ref-manual", "ref-field"];
+const REFERENCE_DOMAINS = ["ref-manual"];
 const isReference = (meta) => meta.kind === "reference" || REFERENCE_DOMAINS.indexOf(meta.domain) >= 0;
 /* 参考资料专属段落：单独渲染，不进目录的普通 h2 流程之外的「分步骤」步骤卡 */
 const REFERENCE_SECTIONS = {
@@ -483,7 +483,7 @@ function renderReference(meta, body) {
     "</div>", '<div style="height:60px"></div>', "</main>",
     '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
     '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
-    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>',
+    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>',
     '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
     '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
     "</div>",
@@ -608,7 +608,7 @@ rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + s
 "</div>", '<div style="height:60px"></div>', "</main>",
 '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
 '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
-    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 14 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>',
+    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>',
 '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
 '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
 "</div>",

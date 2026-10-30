@@ -320,24 +320,6 @@
           "name": "有偿维修与延保"
         }
       ]
-    },
-    {
-      "id": "ref-field",
-      "name": "现场作业与工单",
-      "cats": [
-        {
-          "id": "field-service",
-          "name": "现场服务与检测"
-        },
-        {
-          "id": "field-ticket",
-          "name": "工单与服务流程"
-        },
-        {
-          "id": "field-good-practice",
-          "name": "检测与测试规范"
-        }
-      ]
     }
   ],
   "enums": {

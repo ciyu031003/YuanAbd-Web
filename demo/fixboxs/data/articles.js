@@ -4027,45 +4027,6 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
-  "slug": "sop-onsite-service",
-  "title": "现场服务与检测标准：到场、沟通、检测、报价与离场",
-  "domain": "ref-field",
-  "domainName": "现场作业与工单",
-  "category": "field-service",
-  "categoryName": "现场服务与检测",
-  "path": "现场作业与工单 › 现场服务与检测",
-  "summary": "同一台机器，换个工程师去，客户的评价可能完全不同——差别往往不在技术，而在现场动作是否标准。",
-  "os": [
-   {
-    "t": "通用",
-    "k": "windows"
-   }
-  ],
-  "osGroup": [
-   "reference"
-  ],
-  "level": "入门",
-  "time": "10-30 分钟",
-  "risk": "需谨慎",
-  "symptoms": [
-   "现场服务与检测标准 处理方法",
-   "SOP 参考"
-  ],
-  "keywords": [
-   "现场服务与检测标准 SOP",
-   "到场",
-   "沟通",
-   "检测",
-   "报价与离场",
-   "参考手册",
-   "作业指导"
-  ],
-  "updated": "2026-10-17",
-  "detail_href": "./fix/sop-onsite-service.html",
-  "kind": "reference",
-  "hot": 1
- },
- {
   "slug": "sop-pe-usb-install",
   "title": "PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装",
   "domain": "ref-manual",
@@ -4150,82 +4111,6 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-17",
   "detail_href": "./fix/sop-printer-connected-fix.html",
-  "kind": "reference",
-  "hot": 1
- },
- {
-  "slug": "sop-testing-practice",
-  "title": "故障复现与测试规范：避免「测错方向」把故障数量做大",
-  "domain": "ref-field",
-  "domainName": "现场作业与工单",
-  "category": "field-good-practice",
-  "categoryName": "检测与测试规范",
-  "path": "现场作业与工单 › 检测与测试规范",
-  "summary": "SOP 的 BadCase 里有一条很典型的教训：过多不必要的交叉测试。",
-  "os": [
-   {
-    "t": "通用",
-    "k": "windows"
-   }
-  ],
-  "osGroup": [
-   "reference"
-  ],
-  "level": "入门",
-  "time": "10-30 分钟",
-  "risk": "需谨慎",
-  "symptoms": [
-   "故障复现与测试规范 处理方法",
-   "SOP 参考"
-  ],
-  "keywords": [
-   "故障复现与测试规范 SOP",
-   "避免「测错方向」把故障数量做大",
-   "参考手册",
-   "作业指导"
-  ],
-  "updated": "2026-10-17",
-  "detail_href": "./fix/sop-testing-practice.html",
-  "kind": "reference",
-  "hot": 1
- },
- {
-  "slug": "sop-ticket-workflow",
-  "title": "工单全流程速查：接单、改派、挂起、升级、换机与寄回",
-  "domain": "ref-field",
-  "domainName": "现场作业与工单",
-  "category": "field-ticket",
-  "categoryName": "工单与服务流程",
-  "path": "现场作业与工单 › 工单与服务流程",
-  "summary": "工单流程比技术细节更容易扣分：该打卡没打、该申请跳字没申请、改派没走流程，评价直接掉。",
-  "os": [
-   {
-    "t": "通用",
-    "k": "windows"
-   }
-  ],
-  "osGroup": [
-   "reference"
-  ],
-  "level": "入门",
-  "time": "10-30 分钟",
-  "risk": "需谨慎",
-  "symptoms": [
-   "工单全流程速查 处理方法",
-   "SOP 参考"
-  ],
-  "keywords": [
-   "工单全流程速查 SOP",
-   "接单",
-   "改派",
-   "挂起",
-   "升级",
-   "换机与寄回",
-   "参考手册",
-   "作业指导"
-  ],
-  "updated": "2026-10-17",
-  "detail_href": "./fix/sop-ticket-workflow.html",
   "kind": "reference",
   "hot": 1
  },

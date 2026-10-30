@@ -174,6 +174,10 @@ function countItems(s) {
 
 /* ---- 生成 ---- */
 const dir = path.join(ROOT, "content", "fixboxs");
+/* 内部工程师专用、不对客户展示的 SOP：生成到 _drafts（构建已隔离该目录），
+   不写进 content/fixboxs 根目录，避免重新生成时又把它们放回线上。 */
+const HIDDEN_SLUGS = new Set(["sop-onsite-service", "sop-ticket-workflow", "sop-testing-practice"]);
+const DRAFT_DIR = path.join(dir, "_drafts");
 const written = [];
 const allSlugs = SECTIONS.map(function (k) { return cat[k]; });
 
@@ -200,9 +204,14 @@ SECTIONS.forEach(function (k) {
     prerequisites: ["能登录公司内部 SOP 知识库（部分原文需要账号）"],
     tools: ["浏览器", "内部 SOP 知识库"]
   }) + "\n" + body(s);
-  fs.writeFileSync(path.join(dir, s.slug + ".md"), text, "utf8");
-  written.push({ slug: s.slug, items: countItems(s) });
+  const hidden = HIDDEN_SLUGS.has(s.slug);
+  const outDir = hidden ? DRAFT_DIR : dir;
+  if (hidden) fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, s.slug + ".md"), text, "utf8");
+  written.push({ slug: s.slug, items: countItems(s), hidden: hidden });
 });
 
 console.log("生成完成：" + written.length + " 篇，条目合计 " + written.reduce(function (a, b) { return a + b.items; }, 0));
-written.forEach(function (w) { console.log("  " + w.slug + "  (" + w.items + " 条)"); });
+const hiddenCount = written.filter(function (w) { return w.hidden; }).length;
+if (hiddenCount) console.log("  其中 " + hiddenCount + " 篇为内部专用，已生成到 content/fixboxs/_drafts（不参与构建）");
+written.forEach(function (w) { console.log("  " + w.slug + "  (" + w.items + " 条)" + (w.hidden ? "  [内部·不发布]" : "")); });

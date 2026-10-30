@@ -91,6 +91,9 @@ detail_href: ./fix/win-taskbar-unresponsive.html
 
 **操作**：
 1. 运行上方 BAT，选择 `Y`。
+![任务管理器里右键「Windows 资源管理器」→ 重新启动](../img/guides/win-taskmgr-explorer.webp)
+任务栏和桌面都是「Windows 资源管理器」这个进程在管。右键它选「重新启动」，桌面会闪一下重建，不用重启电脑。
+
 2. 手动操作时，在任务管理器“进程”中找到 `Windows 资源管理器`，右键 →“重新启动”。
 3. 如果找不到，点“运行新任务”，输入 `explorer.exe` 并确定。
 

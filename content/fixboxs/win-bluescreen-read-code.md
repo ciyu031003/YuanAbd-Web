@@ -95,6 +95,7 @@ detail_href: ./fix/win-bluescreen-read-code.html
 **目的**：蓝屏会自动记录到系统日志，代码和转储文件都能在这里找到。
 
 **操作**：
+
 ![事件查看器：系统日志里的 BugCheck 1001 与 Kernel-Power 41](../img/guides/event-viewer-bugcheck.webp)
 蓝屏记录在「事件查看器 → Windows 日志 → 系统」里：级别为「错误」、来源 BugCheck、事件 ID 1001 的那条就是，双击能看到停止代码。
 

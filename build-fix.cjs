@@ -256,9 +256,22 @@ function mdToHtml(md) {
       continue;
     }
     if (!line.trim()) { i++; continue; }
+    // 兜底：段落以图片开头（上一行是 **操作**： 这类无空行的加粗行）时，
+    // 图片若混在段落里会退化成行内 img，丢掉图框与图注。这里把它拆成独立 figure。
+    if (/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/.test(line)) {
+      const mm = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+      const alt = mm[1], figSrc2 = mm[2];
+      i++;
+      let cap2 = "";
+      if (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\||\s*!\[)/.test(lines[i])) { cap2 = inline(lines[i].trim()); i++; }
+      out.push('<figure class="fx-fig"><div class="fx-fig__frame">' +
+        '<img class="fx-img" src="' + figSrc2 + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
+        '</div>' + ((cap2 || alt) ? '<figcaption class="fx-fig__cap">' + (cap2 || esc(alt)) + "</figcaption>" : "") + "</figure>");
+      continue;
+    }
     const buf = [line]; i++;
     while (i < lines.length && lines[i].trim() &&
-           !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\|)/.test(lines[i]) &&
+           !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\||\s*!\[)/.test(lines[i]) &&
            !new RegExp("^\\s*" + BT + "{3,}").test(lines[i])) { buf.push(lines[i]); i++; }
     out.push('<p class="fx-p">' + inline(buf.join(" ")) + "</p>");
   }

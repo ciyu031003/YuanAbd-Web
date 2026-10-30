@@ -119,6 +119,9 @@ APIPA 的行为由 RFC 3927 定义，Windows 与 macOS 都实现了它。**看�
 
 Windows（管理员命令提示符，逐条执行）：
 
+![先 release 释放旧地址，再 renew 重新要一个](../img/guides/cmd-ipconfig-renew.webp)
+执行完 `ipconfig /renew` 后，地址应该从 169.254.x.x 变成 192.168.x.x 这类正常地址。
+
 ```bat
 ipconfig /release
 ipconfig /renew

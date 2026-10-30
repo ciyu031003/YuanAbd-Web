@@ -134,6 +134,7 @@ endlocal
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">强制释放并重新获取地址</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>清掉本机残留的地址状态，重新走一次 DHCP 四步流程。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <p class="fx-p">Windows（管理员命令提示符，逐条执行）：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/cmd-ipconfig-renew.webp" alt="先 release 释放旧地址，再 renew 重新要一个" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">执行完 <code>ipconfig /renew</code> 后，地址应该从 169.254.x.x 变成 192.168.x.x 这类正常地址。</figcaption></figure>
 <div class="fx-cmd"><pre><code>ipconfig /release
 ipconfig /renew
 ipconfig /all</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>

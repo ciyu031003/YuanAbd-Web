@@ -166,6 +166,7 @@ Get-Disk | Select-Object Number, FriendlyName, HealthStatus</code></pre><button 
 <li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用系统自带工具收集证据</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>间歇性卡顿需要记录一段时间的表现才能定位。</p>
 <p class="fx-p"><strong>操作</strong>：</p>
 <ol class="fx-ol"><li>资源监视器：按 Win+R 输入 <code>resmon</code>，看「概览」里的 CPU、磁盘、网络、内存四张图，以及「磁盘」标签里各文件的读写量。</li><li>可靠性监视器：按 Win+R 输入 <code>perfmon /rel</code>，查看最近几天的「警告」「错误」以及每次系统崩溃、应用失败的时间点。</li><li>开机耗时：事件查看器 →「应用程序和服务日志 → Microsoft → Windows → Diagnostics-Performance → Operational」，看事件 ID <code>100</code>（启动性能）的耗时明细。</li><li>系统文件体检（管理员命令提示符）：</li></ol>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/cmd-sfc-scannow.webp" alt="sfc /scannow 修复系统文件，跑完会告诉你有没有找到损坏" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap">如果 <code>/verifyonly</code> 报告有损坏，就用 <code>sfc /scannow</code> 做修复；扫描期间别关窗口，通常要 5-15 分钟。</figcaption></figure>
 <div class="fx-cmd"><pre><code>DISM /Online /Cleanup-Image /ScanHealth
 sfc /verifyonly</code></pre><button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>
 <div class="fx-step__expect"><b>预期结果：</b>拿到具体的时间点、进程名或文件路径，能把「卡」对应到一个明确对象。</div>

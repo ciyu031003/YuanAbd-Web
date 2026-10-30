@@ -132,7 +132,7 @@ endlocal
 <div class="fx-step__expect"><b>预期结果：</b>拿到停止代码、错误编号和 .sys 文件名三样线索。</div>
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>屏幕太快看不清 → 关掉自动重启（见步骤 7 的「启动和故障恢复」），下次蓝屏就会停在屏幕上。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">从事件查看器里把代码读出来</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>蓝屏会自动记录到系统日志，代码和转储文件都能在这里找到。</p>
-<p class="fx-p"><strong>操作</strong>：</p>
+<p class="fx-p"><strong>操作</strong>： <img class="fx-img" src="../img/guides/event-viewer-bugcheck.webp" alt="事件查看器：系统日志里的 BugCheck 1001 与 Kernel-Power 41" loading="lazy" decoding="async"> 蓝屏记录在「事件查看器 → Windows 日志 → 系统」里：级别为「错误」、来源 BugCheck、事件 ID 1001 的那条就是，双击能看到停止代码。</p>
 <ol class="fx-ol"><li>按 Win+R，输入 <code>eventvwr.msc</code> 回车。</li><li>左侧依次展开「Windows 日志 → 系统」。</li><li>右侧点「筛选当前日志」，事件 ID 填 <code>1001</code> 或 <code>41</code>。</li><li>找到 1001 号（来源 BugCheck）的记录，双击查看详细信息，里面有停止代码和参数。</li></ol>
 <p class="fx-p">也可以用管理员 PowerShell 一次性拉出来：</p>
 <div class="fx-cmd"><pre><code>Get-WinEvent -FilterHashtable @{LogName='System'; Id=1001,41} -MaxEvents 20 |

@@ -163,6 +163,9 @@ Get-Process | Sort-Object WS -Descending | Select-Object -First 10 Name, WS, CPU
 3. 开机耗时：事件查看器 →「应用程序和服务日志 → Microsoft → Windows → Diagnostics-Performance → Operational」，看事件 ID `100`（启动性能）的耗时明细。
 4. 系统文件体检（管理员命令提示符）：
 
+![sfc /scannow 修复系统文件，跑完会告诉你有没有找到损坏](../img/guides/cmd-sfc-scannow.webp)
+如果 `/verifyonly` 报告有损坏，就用 `sfc /scannow` 做修复；扫描期间别关窗口，通常要 5-15 分钟。
+
 ```bat
 DISM /Online /Cleanup-Image /ScanHealth
 sfc /verifyonly

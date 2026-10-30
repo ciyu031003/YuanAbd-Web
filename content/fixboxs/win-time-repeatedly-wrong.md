@@ -105,6 +105,9 @@ detail_href: ./fix/win-time-repeatedly-wrong.html
 
 **操作**：以管理员身份打开终端，依次运行：
 
+![w32tm /resync 强制重新校时，并用 /query /status 看结果](../img/guides/cmd-w32tm-resync.webp)
+`/resync` 返回「命令已成功完成」就说明对上了；再看 `上次成功同步` 的时间是否刚刚更新。
+
 ```powershell
 w32tm /config /manualpeerlist:"time.windows.com,0x8" /syncfromflags:manual /update
 Restart-Service w32time

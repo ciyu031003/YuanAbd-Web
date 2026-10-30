@@ -132,6 +132,7 @@ endlocal
 <details class="fx-step__fallback"><summary>失败怎么办？</summary><div>服务启动后又停止 → 打开事件查看器 → Windows 日志 → 系统，记下错误代码；公司域电脑联系 IT。</div></details></div></li>
 <li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">手动向微软时间服务器校时</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><p class="fx-step__goal"><span class="fx-step__label">目的：</span>图形界面同步失败时，命令行会给出更明确的错误信息。</p>
 <p class="fx-p"><strong>操作</strong>：以管理员身份打开终端，依次运行：</p>
+<figure class="fx-fig"><div class="fx-fig__frame"><img class="fx-img" src="../img/guides/cmd-w32tm-resync.webp" alt="w32tm /resync 强制重新校时，并用 /query /status 看结果" loading="lazy" decoding="async"></div><figcaption class="fx-fig__cap"><code>/resync</code> 返回「命令已成功完成」就说明对上了；再看 <code>上次成功同步</code> 的时间是否刚刚更新。</figcaption></figure>
 <div class="fx-cmd"><pre><code>w32tm /config /manualpeerlist:&quot;time.windows.com,0x8&quot; /syncfromflags:manual /update
 Restart-Service w32time
 w32tm /resync /force

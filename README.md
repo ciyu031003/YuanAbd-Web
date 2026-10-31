@@ -75,7 +75,7 @@ SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.
 | 门户引用 | 位置 | 状态 |
 |---|---|---|
 | 五本手册：市场雷达 / 题库路线图 / 看板 / 就绪度 | 01 节 feat + chips + mock | 产品叙事口径 |
-| 19 个数据源 · 每日自动抓取 | marquee + NOW 卡 `data-count="19"` | ⚠️ 生产库 `job_postings` 实测已有 **20** 个 source（2026-10-31），下次门户迭代可顺手更新 |
+| 20 个数据源 · 每日自动抓取 | marquee + NOW 卡 `data-count="20"` | ✅ 2026-10-31 按生产库 `job_postings` 实测（20 个 source）更新 |
 | v1.0.0 · LIVE / WEB + ANDROID | 01 节 chips | 版本以 Learn-Workbench 仓库为准 |
 
 落地页 = 本仓库 `demo/learn.html`（+ `download.html` / `privacy.html` / 共享 css/js），部署见「部署」一节第 2 步；应用本体由 Learn-Workbench 仓库自行发布（Docker Compose + GHCR 镜像 + 一键回滚）。
@@ -89,7 +89,7 @@ SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.
 | 门户引用 | 位置 | 状态 |
 |---|---|---|
 | 足迹地图 / 城市画册 / 相册同步 / 旅行圈 | 02 节 feat | 产品叙事口径 |
-| 「6 座城市已收录」（02 节 chips） vs 「7 座城市」（NOW 卡 `data-count="7"` + marquee） | 02 节 / NOW / marquee | ⚠️ **门户自身两处不一致，待统一**。生产库实存地点 4~5 个（广州 + 新疆三地，2026-10-31 实测；画廊中北京/上海/杭州照片不在库内，疑为旧库遗留）。城市口径请以你想展示的为准后统一三处 |
+| 7 座城市已收录 | 02 节 chips + NOW 卡 `data-count="7"` + marquee | ✅ 2026-10-31 三处统一为 7（口径 = 画廊北京/上海/杭州 + 生产库广州/乌鲁木齐/博尔塔拉/喀什，去重合计 7） |
 
 落地页 = 本仓库 `demo/travel.html`，线上入口 `travel-notes.yuanabd.cn/portal/`（nginx alias `/var/www/travel-landing/`，见顶部说明）；应用本体由 Travel-Notes 仓库自行发布。
 

@@ -731,7 +731,10 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
 /* 小节标题：等宽小字 + 细线，延续 .section__label 的语法 */
 .fx__sub{display:flex;align-items:center;gap:12px;margin:34px 0 14px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:500}
 .fx__sub::after{content:"";flex:1;height:1px;background:var(--line)}
-/* 12 个领域：紧凑两列/三列标签，不抢叙事 */
+/* 四种走法：直接复用苦旅/甜途的 .feat 组件（主站组件语言），
+   仅收紧跟在 .fx__sub 后的上边距，避免 36px+14px 叠加过大 */
+.fx__intro .fx__sub+.feat{margin-top:14px}
+/* 13 个领域：紧凑两列/三列标签，不抢叙事 */
 .fx__domains{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:34em}
 .fx__domains li{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.55);font-size:.83rem;line-height:1.35;color:var(--ink-dim);transition:border-color .3s,background .3s,color .3s,transform .35s var(--ease-out)}
 .fx__domains li:hover{border-color:rgba(31,169,124,.42);background:rgba(255,255,255,.92);color:var(--ink);transform:translateY(-2px)}
@@ -773,7 +776,7 @@ html:not(.js) .city img[loading="lazy"]{opacity:1}
 .fx-term__check{list-style:none;display:grid;gap:8px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line-strong)}
 .fx-term__check li{display:flex;align-items:flex-start;gap:10px;font-size:.83rem;line-height:1.6;color:var(--ink-dim)}
 .fx-term__check i{flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.66rem;font-weight:700;line-height:1;color:#0B3B2E;background:rgba(145,230,193,.85)}
-/* 浮动徽章：呼应 .mock__float，表达「12 个领域」 */
+/* 浮动徽章：呼应 .mock__float，表达「13 个领域」 */
 .fx__float{position:absolute;right:-14px;bottom:-22px;width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px 12px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:0 24px 50px -24px rgba(24,32,42,.55);transform:rotate(-3deg)}
 .fx__float b{font:700 1.9rem/1 var(--font-disp);letter-spacing:-.01em}
 .fx__float span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;color:rgba(255,253,247,.72)}
@@ -1270,7 +1273,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
 {"@context":"https://schema.org","@graph":[
   {"@type":"Organization","@id":"https://www.yuanabd.cn/#org","name":"YUAN.ABD","url":"https://www.yuanabd.cn/","description":"YUAN.ABD 独立开发者：苦旅（求职与学习手册）、甜途（旅行记忆空间）与修盒子（电脑排障手册）三件在营产品。","founder":{"@type":"Person","name":"YUAN.ABD"}},
   {"@type":"WebSite","@id":"https://www.yuanabd.cn/#site","url":"https://www.yuanabd.cn/","name":"YUAN.ABD","publisher":{"@id":"https://www.yuanabd.cn/#org"},"inLanguage":"zh-CN"},
-  {"@type":"WebApplication","@id":"https://pc-fixboxs.yuanabd.cn/#app","name":"修盒子 FIXBOX","alternateName":"FIXBOX","url":"https://pc-fixboxs.yuanabd.cn/","description":"电脑与网络故障的自助排障手册：Windows、Mac、路由器、网络与 DNS、硬件外设等 12 类故障，提供分步骤排查教程。","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"zh-CN","isAccessibleForFree":true,"publisher":{"@id":"https://www.yuanabd.cn/#org"}}
+  {"@type":"WebApplication","@id":"https://pc-fixboxs.yuanabd.cn/#app","name":"修盒子 FIXBOX","alternateName":"FIXBOX","url":"https://pc-fixboxs.yuanabd.cn/","description":"电脑与网络故障的自助排障手册：Windows、Mac、路由器、网络与 DNS、硬件外设等 13 个领域、91 篇分步教程，附症状向导、命令速查与拆机图解。","featureList":"按现象搜索, 症状向导, 命令速查, 拆机图解","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"zh-CN","isAccessibleForFree":true,"publisher":{"@id":"https://www.yuanabd.cn/#org"}}
 ]}
 </script>
 </head>
@@ -1341,20 +1344,20 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
     <div class="marquee__row">
       <div class="marquee__track">
         <div class="marquee__group">
-          <span>苦旅 KULV · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+          <span>苦旅 KULV · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>修盒子 FIXBOX · 91 篇教程</span><span>DESIGN × ENGINEERING</span>
         </div>
         <div class="marquee__group">
-          <span>苦旅 KULV · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>DESIGN × ENGINEERING</span>
+          <span>苦旅 KULV · LIVE</span><span>甜途 TIAN TU · V1.0.0</span><span>BUILD IN PUBLIC</span><span>5 本手册 · 7 座城市</span><span>修盒子 FIXBOX · 91 篇教程</span><span>DESIGN × ENGINEERING</span>
         </div>
       </div>
     </div>
     <div class="marquee__row marquee__row--rev">
       <div class="marquee__track">
         <div class="marquee__group">
-          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>100% INDEPENDENT</span>
+          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>症状向导 · 命令速查 · 拆机图解</span><span>100% INDEPENDENT</span>
         </div>
         <div class="marquee__group">
-          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>100% INDEPENDENT</span>
+          <span>足迹地图 · FOOTPRINTS</span><span>城市画册 · ALBUMS</span><span>相册自动同步 · OFFLINE FIRST</span><span>19 个数据源 · 每日更新</span><span>症状向导 · 命令速查 · 拆机图解</span><span>100% INDEPENDENT</span>
         </div>
       </div>
     </div>
@@ -1511,23 +1514,32 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
             <span class="thin">把「电脑坏了」，翻译成照着做就能修好的步骤。</span>
           </h2>
           <p class="fx__desc" data-reveal data-reveal-delay="2">
-            蓝屏、连不上网、Wi-Fi 有信号却没网、路由器后台打不开、打印机没反应——<b>先别急着重装系统</b>。修盒子把 Windows、Mac、路由器、网络与 DNS、硬件外设等常见故障整理成 12 个领域，每一篇都按「先做什么 → 会看到什么 → 失败了怎么办」分步给出。
+            蓝屏、连不上网、Wi-Fi 有信号却没网、路由器后台打不开、打印机没反应——<b>先别急着重装系统</b>。修盒子把 Windows、Mac、路由器、网络与代理、硬件外设的常见故障整理成 13 个领域、91 篇教程，每一篇都按「先做什么 → 会看到什么 → 失败了怎么办」分步给出。
           </p>
 
-          <h3 class="fx__sub" data-reveal data-reveal-delay="2">12 个领域，按常见程度排序</h3>
+          <h3 class="fx__sub" data-reveal data-reveal-delay="2">四种走法，通向同一篇答案</h3>
+          <ul class="feat" data-reveal data-reveal-delay="2">
+            <li><span class="feat__idx">A.</span><span class="feat__name">按现象搜索</span><span class="feat__en">Search · Ctrl K</span></li>
+            <li><span class="feat__idx">B.</span><span class="feat__name">症状向导 · 7 问定位</span><span class="feat__en">Wizard</span></li>
+            <li><span class="feat__idx">C.</span><span class="feat__name">命令速查 · 一键复制</span><span class="feat__en">Toolkit</span></li>
+            <li><span class="feat__idx">D.</span><span class="feat__name">拆机图解 · 实物对照</span><span class="feat__en">Teardown</span></li>
+          </ul>
+
+          <h3 class="fx__sub" data-reveal data-reveal-delay="3">13 个领域，按常见程度排序</h3>
           <ul class="fx__domains" data-reveal data-reveal-delay="3">
             <li>网络基础</li>
-            <li>Windows 系统</li>
-            <li>路由器</li>
+            <li>Windows 系统与开机</li>
+            <li>路由器与家庭网络</li>
             <li>IP 与 DNS</li>
-            <li>Windows 性能</li>
-            <li>macOS 系统</li>
-            <li>macOS 性能</li>
+            <li>Windows 软件与性能</li>
+            <li>macOS 系统与开机</li>
+            <li>macOS 软件与性能</li>
             <li>硬件与主机</li>
             <li>外设</li>
             <li>代理与 VPN</li>
             <li>账号与安全</li>
             <li>数据与备份</li>
+            <li>参考资料 SOP</li>
           </ul>
 
           <h3 class="fx__sub" data-reveal data-reveal-delay="3">三步，走到能用的答案</h3>
@@ -1538,14 +1550,14 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
           </ol>
 
           <div class="duo__stats fx__tags" data-reveal data-reveal-delay="4">
-            <span class="chip">12 类故障</span>
-            <span class="chip">分步骤教程</span>
+            <span class="chip">13 个领域</span>
+            <span class="chip">91 篇分步教程</span>
             <span class="chip">Windows / Mac / 路由器</span>
             <span class="chip">免费 · 无需注册</span>
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
             <a class="btn btn--fix" data-ripple href="https://pc-fixboxs.yuanabd.cn/" target="_blank" rel="noopener noreferrer" aria-label="前往使用修盒子（新标签页）">前往使用 <i class="ico-ext" aria-hidden="true">↗</i></a>
-            <a class="btn btn--ghost" data-ripple href="https://pc-fixboxs.yuanabd.cn/search.html" target="_blank" rel="noopener noreferrer" aria-label="搜索故障现象（新标签页）">搜索故障现象</a>
+            <a class="btn btn--ghost" data-ripple href="https://pc-fixboxs.yuanabd.cn/wizard.html" target="_blank" rel="noopener noreferrer" aria-label="用症状向导定位故障（新标签页）">不知道哪坏了？试试向导</a>
           </div>
         </div>
 
@@ -1572,7 +1584,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
               </ul>
             </div>
           </div>
-          <div class="fx__float ui-lift" data-spotlight aria-hidden="true"><b>12</b><span>DOMAINS · 领域</span></div>
+          <div class="fx__float ui-lift" data-spotlight aria-hidden="true"><b>13</b><span>DOMAINS · 领域</span></div>
         </div>
       </div>
     </div>
@@ -1643,7 +1655,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
               <li>苦旅：招聘数据每日更新，职业准备度曲线持续内测</li>
               <li>Travel-Notes：城市画廊已收录 7 座城市，足迹地图与相册同步推进</li>
               <li>Mobile：双端 App 已在线上运行，Web + Android 同步迭代</li>
-              <li>FIXBOX：修盒子已上线 12 类故障领域，按「现象 → 步骤 → 验收」持续补教程</li>
+              <li>FIXBOX：修盒子已上线 13 个领域、91 篇分步教程，按「现象 → 步骤 → 验收」持续补教程</li>
             </ul>
           </div>
           <div class="now__cards">
@@ -1680,7 +1692,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
           <span class="fcard__logo"><span class="fcard__mark" aria-hidden="true">修</span></span>
           <span class="fcard__mono">03 · FIXBOX · PC-FIXBOXS</span>
           <h3>修盒子</h3>
-          <p>电脑与网络故障的自助排障手册：12 类常见问题，每一篇都是分步骤教程。</p>
+          <p>电脑与网络故障的自助排障手册：13 个领域 · 91 篇分步教程，附症状向导与命令速查。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
       </div>
@@ -2369,7 +2381,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   /* ---------- P2 卡片 3D 倾斜 ---------- */
   function initTilt(){
     if (reduce || !fine) return;
-    var sel = ".credo__card,.ncard,.fcard,.mock,.chip,.duo .feat li";
+    var sel = ".credo__card,.ncard,.fcard,.mock,.chip,.duo .feat li,.fx .feat li";
     var els = document.querySelectorAll(sel);
     els.forEach(function(el){
       el.classList.add("tilt");

@@ -24,7 +24,10 @@
 /* 小节标题：等宽小字 + 细线，延续 .section__label 的语法 */
 .fx__sub{display:flex;align-items:center;gap:12px;margin:34px 0 14px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:500}
 .fx__sub::after{content:"";flex:1;height:1px;background:var(--line)}
-/* 12 个领域：紧凑两列/三列标签，不抢叙事 */
+/* 四种走法：直接复用苦旅/甜途的 .feat 组件（主站组件语言），
+   仅收紧跟在 .fx__sub 后的上边距，避免 36px+14px 叠加过大 */
+.fx__intro .fx__sub+.feat{margin-top:14px}
+/* 13 个领域：紧凑两列/三列标签，不抢叙事 */
 .fx__domains{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:34em}
 .fx__domains li{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.55);font-size:.83rem;line-height:1.35;color:var(--ink-dim);transition:border-color .3s,background .3s,color .3s,transform .35s var(--ease-out)}
 .fx__domains li:hover{border-color:rgba(31,169,124,.42);background:rgba(255,255,255,.92);color:var(--ink);transform:translateY(-2px)}
@@ -66,7 +69,7 @@
 .fx-term__check{list-style:none;display:grid;gap:8px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line-strong)}
 .fx-term__check li{display:flex;align-items:flex-start;gap:10px;font-size:.83rem;line-height:1.6;color:var(--ink-dim)}
 .fx-term__check i{flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.66rem;font-weight:700;line-height:1;color:#0B3B2E;background:rgba(145,230,193,.85)}
-/* 浮动徽章：呼应 .mock__float，表达「12 个领域」 */
+/* 浮动徽章：呼应 .mock__float，表达「13 个领域」 */
 .fx__float{position:absolute;right:-14px;bottom:-22px;width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px 12px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:0 24px 50px -24px rgba(24,32,42,.55);transform:rotate(-3deg)}
 .fx__float b{font:700 1.9rem/1 var(--font-disp);letter-spacing:-.01em}
 .fx__float span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;color:rgba(255,253,247,.72)}

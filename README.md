@@ -1,6 +1,6 @@
 # YuanAbd-Web
 
-YUAN.ABD 门户与项目落地页（纯静态，无构建步骤）。
+YUAN.ABD 门户与项目落地页（纯静态；门户 `index.html` 为单文件内联形态，改源文件后需重新构建，见下文）。
 
 ## 站点结构
 
@@ -9,7 +9,7 @@ YUAN.ABD 门户与项目落地页（纯静态，无构建步骤）。
 | `index.html` | https://www.yuanabd.cn/ | `/var/www/yuanabd/` |
 | `learn.html` + `download.html` + `privacy.html` + `css/` + `js/` | https://learn.yuanabd.cn/ | `/data/learn-workbench/landing/` |
 | `travel.html` + `css/` + `js/` 等 | https://travel-notes.yuanabd.cn**/portal/** | `/var/www/travel-landing/` |
-| （子站，独立部署） | https://pc-fixboxs.yuanabd.cn/ | 不在本仓库部署链路内；门户仅做入口跳转 |
+| （子站，独立部署） | https://pc-fixboxs.yuanabd.cn/ | 不在本仓库部署链路内；门户 03 节做介绍章节 + 入口跳转 |
 
 > **甜途门户已迁到 `/portal/` 子路径**（2026-09 起）：`travel-notes.yuanabd.cn/`
 > 根路径由 Next.js 应用（Docker :3000）接管，门户通过 nginx 的
@@ -46,19 +46,25 @@ node build-portal.cjs --check # 校验产物与源文件是否同步
 
 | 内容 | 源 | 产出 |
 |---|---|---|
-| 故障教程与指南 82 篇 | `content/fixboxs/*.md` | `demo/fixboxs/fix/*.html` + `data/articles.js` |
-| **参考资料 13 篇（SOP）** | `content/fixboxs/sop-*.md`，由 `content/sop-source/` 生成 | 同上，带「参考 SOP」标识 |
-| 分类字典 | `content/taxonomy.json`（故障 12 领域 + 参考 2 领域） | 后台下拉框与构建共用 |
+| 故障教程与指南 81 篇 | `content/fixboxs/*.md` | `demo/fixboxs/fix/*.html` + `data/articles.js` |
+| **参考资料 10 篇（SOP）** | `content/fixboxs/sop-*.md`，由 `content/sop-source/` 生成 | 同上，带「参考 SOP」标识 |
+| 分类字典 | `content/taxonomy.json` v1.8（故障 12 领域 + 参考 1 领域「装机与运维手册」，共 13 领域） | 后台下拉框与构建共用 |
 | 媒体库上传 | 服务器 `demo/fixboxs/media/`（**不入库**，已 gitignore） | 随发布产物上线，不经 git |
+
+合计 **13 个领域 · 91 篇教程**（与线上 `data/articles.js` 一致）。
 
 ```bash
 node content-lint.cjs        # 内容校验（V1–V15，失败非零退出）
 node build-fix.cjs           # 构建站点产物
 node content/sop-source/import-xlsx.cjs <SOP.xlsx>   # 校验 SOP 表格与 catalog 一一对应
-node content/sop-source/gen.cjs                      # 由 catalog 重新生成 13 篇 SOP 参考资料
+node content/sop-source/gen.cjs                      # 由 catalog 重新生成 SOP 参考资料（现 10 篇）
 ```
 
 SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.md](content/sop-source/README.md)。
+
+> **门户口径同步**：门户 `demo/index.html` 里修盒子的数字是硬编码的——03 节描述
+> 与 chips、右栏浮动徽章（13 DOMAINS）、JSON-LD、NOW 列表、页脚 `fcard--fix`、
+> marquee 数据带。每批内容上线后要同步改这些数字并重新构建门户。
 
 ## 本地预览
 
@@ -72,8 +78,10 @@ cd demo && node serve.cjs   # http://localhost:8080
 ## 部署
 
 ```bash
-# 1) 门户（单文件）
-scp demo/index.html travel-notes:/var/www/yuanabd/index.html
+# 1) 门户（单文件；scp 直接覆盖亦可，推荐下面这种「备份 → .new → 原子替换」流程）
+ssh travel-notes 'cp -p /var/www/yuanabd/index.html ~/portal-bak/yuanabd-index.html.bak-$(date +%Y%m%d)'
+scp demo/index.html travel-notes:/var/www/yuanabd/index.html.new
+ssh travel-notes 'chmod 644 /var/www/yuanabd/index.html.new && chown ubuntu:ubuntu /var/www/yuanabd/index.html.new && mv -f /var/www/yuanabd/index.html.new /var/www/yuanabd/index.html'
 
 # 2) 苦旅（注意：nginx root 是 /data/learn-workbench/landing，不是 /var/www/learn-landing）
 scp demo/learn.html demo/download.html demo/privacy.html travel-notes:/data/learn-workbench/landing/
@@ -91,7 +99,10 @@ scp demo/css/tokens.css demo/css/base.css demo/css/components.css \
 scp demo/js/ui.js travel-notes:/var/www/travel-landing/js/
 ```
 
-部署前先 `git commit`，不要在服务器上直接改文件；不用 `.bak` 备份（版本管理走 git）。
+部署前先 `git commit`，不要在服务器上直接改文件；web root 内不留 `.bak`
+（nginx 已屏蔽 `\.bak`，版本管理走 git），发布前旧文件备份到服务器
+`~/portal-bak/`（既有惯例，目录不在 web root 内）。
+部署后快速验证：`curl -s https://www.yuanabd.cn/ | grep -c "13 个领域"` 之类的口径词。
 > 三个站点的 nginx `root`：www → `/var/www/yuanabd/`、learn → `/data/learn-workbench/landing/`、
 > travel → `/var/www/travel-landing/`（线上入口 `/portal/`）。
 

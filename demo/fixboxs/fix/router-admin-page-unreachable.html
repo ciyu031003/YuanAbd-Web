@@ -44,11 +44,52 @@
 <nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#router">路由器与家庭网络</a><span class="fx-crumb__sep">›</span><span>路由器后台登录</span></nav>
 <h1 class="fx-title">路由器后台 192.168.1.1 打不开怎么办</h1>
 <div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="windows">通用</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">15-45 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
-<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
 <div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠️ 本文会查询并可能修改本机网络设置，最后一步会涉及路由器恢复出厂（会清空配置）。操作前请把当前的 IP、网关、Wi-Fi 名称与密码、宽带账号记录下来。</div></div></div>
 <div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">打不开路由器后台，第一位原因不是浏览器坏了，而是<strong>地址不对</strong>：真正的网段是 192.168.0.1 或路由器被改成了桥接/AP 模式。先查出你电脑真正的默认网关，用它去访问。</p></div>
 <div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>查默认网关</strong>：Windows 命令提示符执行 <code>ipconfig</code>，macOS 终端执行 <code>netstat -nr</code>，看第一条 <code>default</code> 后面的地址。期望：拿到你家路由器真正的地址。</li><li><strong>用它去访问</strong>，并在浏览器地址栏里明确写上 <code>http://</code>（不要用 https）。期望：出现路由器登录页。</li><li><strong>换无痕窗口、换浏览器、换一台设备（手机）再试。</strong> 期望：如果换设备能打开，就是原电脑的浏览器缓存或代理问题。</li></ol></div>
+<section class="fx-batfix" id="小白一键修复" data-reveal><div class="fx-batfix__head"><span class="fx-batfix__kicker">纯小白模式 · Windows</span><h2 class="fx-h2">小白一键修复</h2><p>不想研究原因，就下载脚本，右键选择“以管理员身份运行”。脚本执行前仍会再次确认。</p></div><div class="fx-batfix__actions"><a class="fx-btn fx-btn--primary fx-batfix__download" href="../scripts/open-router-admin.bat" download="open-router-admin.bat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载 直达路由器管理后台（.bat）</a><button class="fx-btn fx-btn--ghost" type="button" data-fx-copy data-fx-copy-target="fx-bat-code-router-admin-page-unreachable">复制全部脚本</button></div><div class="fx-batfix__body"><ul class="fx-batfix__facts"><li><b>适合</b><span>记不住后台地址、192.168.1.1 打不开、或换了新路由器不知道管理地址是多少。</span></li><li><b>脚本会</b><span>读取当前网络的默认网关地址（即路由器管理地址），用浏览器以 http 明确打开；检测不到有效网关时退回 192.168.1.1。</span></li><li><b>运行前</b><span>确保这台电脑连接在目标路由器上（有线或 Wi-Fi 均可）；无需管理员权限。</span></li><li><b>注意</b><span>脚本只负责打开登录页，不会输入账号密码，也不会修改路由器任何设置。</span></li></ul><div class="fx-batfix__hint"><strong>运行方式：</strong>下载后先解压（如有），右键 BAT 文件 → 以管理员身份运行 → 阅读提示后选择 Y。浏览器若提示“不常见文件”，请先核对文件名与下方源码。若浏览器无法下载，点“复制全部脚本”，粘贴到记事本，保存类型选择“所有文件”，文件名以 .bat 结尾。</div><div class="fx-batfix__meta"><span>open-router-admin.bat</span><span>42 行</span><span>1.6 KB</span></div><details class="fx-batfix__source"><summary>查看完整 BAT 源码</summary><pre><code id="fx-bat-code-router-admin-page-unreachable">@echo off
+chcp 65001 &gt;nul
+setlocal EnableExtensions
+title 修盒子 - 直达路由器管理后台
 
+echo ============================================================
+echo 修盒子 - 直达路由器管理后台
+echo ============================================================
+echo 适用于：路由器后台地址记不住、192.168.1.1 打不开、
+echo         或换了新路由器不知道管理地址是多少。
+echo.
+echo 将读取当前网络的默认网关地址（就是你家路由器的管理地址），
+echo 并用浏览器打开它。不会修改任何设置，不会输入任何账号密码。
+echo 需要这台电脑当前通过该路由器上网（有线或 Wi-Fi 均可）。
+echo.
+choice /C YN /N /M &quot;确认打开？[Y/N] &quot;
+if errorlevel 2 goto :cancelled
+
+set &quot;GW=&quot;
+for /f &quot;delims=&quot; %%G in ('powershell -NoProfile -Command &quot;(Get-NetRoute -DestinationPrefix '0.0.0.0/0' -ErrorAction SilentlyContinue | Sort-Object RouteMetric | Select-Object -First 1).NextHop&quot;') do set &quot;GW=%%G&quot;
+
+echo.
+echo [1/2] 检测到的默认网关：%GW%
+echo %GW% | findstr /r &quot;^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$&quot; &gt;nul
+if errorlevel 1 (
+  echo 没有检测到有效网关地址，改用常见默认地址 192.168.1.1 尝试...
+  set &quot;GW=192.168.1.1&quot;
+)
+
+echo [2/2] 用浏览器打开 http://%GW% （请使用 http 而不是 https）...
+start &quot;&quot; &quot;http://%GW%&quot;
+
+echo.
+echo 打不开的话，按正文继续：换无痕窗口 / 关掉本机代理后再试；
+echo 或用手机连接同一个 Wi-Fi 访问同一地址，判断是不是这台电脑的问题。
+goto :end
+
+:end
+echo.
+pause
+endlocal
+</code></pre></details></div></section>
 <div class="fx-connector" aria-hidden="true"></div>
 <section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用：</strong></p>
 <ul class="fx-ul"><li>浏览器输入 192.168.1.1 后一直转圈、提示&quot;无法访问此网站&quot;</li><li>输入厂家域名（如 tplogin.cn、miwifi.com）也打不开</li><li>刚换过路由器、改过网线接法，之后就进不去后台</li><li>主路由能进，接在后面的那台设备进不去</li></ul>
@@ -114,7 +155,7 @@ route -n get default</code></pre><button class="fx-cmd__copy" type="button" data
 <p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-11 · 复核：内容组</p>
 <div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
 </article>
-<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#小白一键修复">🧰 小白一键修复</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
 </div>
 <div style="height:60px"></div>
 </main>

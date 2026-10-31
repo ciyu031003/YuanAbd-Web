@@ -1223,6 +1223,7 @@ td,th{line-height:1.5}
   .pill--archived,.pill--viewer{background:#2A3039;color:#AAB4C0}
   .alert--err{color:#FFB4A0}
   .alert--warn{color:#EFC98A}
+  .alert--info{color:#9FB4E8}
   .check--warn .check__ic{color:#E8C077}
   .hero{filter:saturate(.82) brightness(.94)}
   .donut{box-shadow:var(--raise)}
@@ -1263,6 +1264,7 @@ function layout(title, bodyHtml, opts) {
       navItem("/articles", icon("articles"), "文章", "articles", opts.counts && opts.counts.articles, "content") +
       navItem("/articles/new", icon("plus"), "新建文章", "new", null, "content") +
       navItem("/media", icon("media"), "媒体库", "media", null, "content") +
+      navItem("/sources-check", icon("search"), "来源体检", "sources", null, "content") +
       '</nav>' +
       (isReviewer ? '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
         navItem("/audit", icon("audit"), "审计日志", "audit", null, "collab") +
@@ -2624,6 +2626,84 @@ function mediaPage(opts) {
     Object.assign({ current: "media", accent: "sky", crumbs: [{ label: "媒体库" }] }, opts));
 }
 
+function sourcesCheckPage(opts) {
+  const job = opts.job || { status: "idle" };
+  const rep = job.report;
+  const csrf = opts.csrf || "";
+  const KIND_LABEL = { ok: "正常", dead: "死链", blocked: "疑似反爬", network: "疑似被墙/网络", server: "服务端错误" };
+  const KIND_PILL = { ok: "published", dead: "changes_requested", blocked: "draft", network: "in_review", server: "changes_requested" };
+
+  let body = pageHead({
+    ico: "search", title: "来源体检",
+    sub: "批量探测全部文章的来源外链与正文外链。服务器在广州，探测结果≈大陆读者能否打开。",
+    acts: rep ? '<span class="page-head__chip">' + rep.summary.total + " 条外链</span>" : ""
+  });
+
+  if (job.status === "running") {
+    body += '<div class="alert alert--info" role="status" data-srcpoll>' +
+      "体检进行中（开始于 " + esc(String(job.startedAt || "").slice(0, 19).replace("T", " ")) + "）——共几百条外链，约需 1-3 分钟，本页会自动刷新。" +
+      "</div>";
+  } else if (job.status === "error") {
+    body += '<div class="alert alert--err" role="alert">上一轮体检失败：' + esc(job.error || "未知错误") + "</div>";
+  }
+
+  const startForm = '<form method="post" action="/sources-check/run" style="display:inline">' +
+    '<input type="hidden" name="_csrf" value="' + esc(csrf) + '">' +
+    '<button class="btn btn--primary" type="submit"' + (job.status === "running" ? " disabled" : "") + ">" +
+    (rep ? "重新体检" : "开始体检") + "</button></form>";
+
+  if (!rep && job.status !== "running") {
+    body += '<div class="card card--accent">' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("search") + '</span><h3>还没有体检记录</h3></div>' +
+      '<p class="muted" style="margin:0 0 16px">体检只读不改：收集 front-matter 的 sources 与正文外链，逐条 GET 探测（8 秒超时、最多 5 跳重定向、并发 8），把结果分成「正常 / 死链 / 疑似反爬 / 疑似被墙 / 服务端错误」。</p>' +
+      startForm + "</div>";
+    return layout("来源体检", body, Object.assign({ current: "sources", accent: "sky", crumbs: [{ label: "来源体检" }] }, opts));
+  }
+
+  if (rep) {
+    const s = rep.summary;
+    const pill = function (kind, label, count) {
+      return '<span class="pill pill--' + KIND_PILL[kind] + '">' + label + " " + count + "</span>";
+    };
+    body += '<div class="card">' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("chart") + '</span><h3>体检结果</h3></div>' +
+      '<p class="muted" style="margin:0 0 12px">完成于 ' + esc(String(job.finishedAt || "").slice(0, 19).replace("T", " ")) + " · 共 " + s.total + " 条</p>" +
+      '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">' +
+        pill("ok", "正常", s.ok) + pill("dead", "死链", s.dead) +
+        pill("blocked", "疑似反爬", s.blocked) + pill("network", "疑似被墙/网络", s.network) +
+        pill("server", "服务端错误", s.server) +
+      "</div>" +
+      '<div class="row row--end" style="gap:10px">' + startForm +
+        '<a class="btn btn--sm" href="' + (opts.showAll ? "/sources-check" : "/sources-check?all=1") + '">' +
+        (opts.showAll ? "只看问题项" : "显示全部 " + s.total + " 条") + "</a>" +
+      "</div></div>";
+
+    const rows = rep.urls.filter(function (u) { return opts.showAll || u.kind !== "ok"; });
+    const trs = rows.map(function (u) {
+      return "<tr>" +
+        '<td><span class="pill pill--' + KIND_PILL[u.kind] + '">' + KIND_LABEL[u.kind] + "</span></td>" +
+        "<td>" + (u.status ? u.status : "—") + (u.error ? '<div class="muted" style="font-size:12px">' + esc(u.error) + "</div>" : "") + "</td>" +
+        '<td style="max-width:34em;word-break:break-all"><a href="' + esc(u.url) + '" target="_blank" rel="noopener noreferrer">' + esc(u.url) + "</a>" +
+          (u.finalUrl && u.finalUrl !== u.url ? '<div class="muted" style="font-size:12px">→ ' + esc(u.finalUrl) + "</div>" : "") + "</td>" +
+        "<td>" + u.articles.map(function (slug) {
+          return '<a href="/articles/' + esc(slug) + '">' + esc(slug) + "</a>";
+        }).join(", ") + "</td>" +
+        "</tr>";
+    }).join("");
+    body += '<div class="card">' +
+      '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("articles") + '</span><h3>' +
+      (opts.showAll ? "全部外链" : "问题项（" + rows.length + " 条）") + "</h3></div>" +
+      (trs
+        ? '<table><thead><tr><th>分类</th><th>状态</th><th>外链</th><th>涉及文章</th></tr></thead><tbody>' + trs + "</tbody></table>"
+        : '<div class="empty"><div class="empty__ico">' + icon("check", 24) + '</div><div class="empty__t">没有问题项</div><div>全部外链可达，或仅为需人工复核的反爬/网络类。</div></div>') +
+      "</div>";
+    body += '<div class="card"><p class="muted" style="margin:0">' +
+      "口径：<b>死链（404/410）</b>应换成现行官方页面；<b>疑似反爬 / 疑似被墙</b>不代表可删——微软、厂商支持页对脚本请求普遍返回 403，浏览器通常可达，处理前请先人工打开确认；<b>服务端错误</b>多半是对方站点临时问题，过段时间复测。</p></div>";
+  }
+
+  return layout("来源体检", body, Object.assign({ current: "sources", accent: "sky", crumbs: [{ label: "来源体检" }] }, opts));
+}
+
 function simplePage(title, msg, opts) {
   return layout(title, '<div class="card"><h1>' + esc(title) + "</h1><p>" + esc(msg) + '</p><a class="btn" href="/articles">返回文章列表</a></div>', opts);
 }
@@ -2633,7 +2713,7 @@ module.exports = {
   articlesPage: articlesPage, editorPage: editorPage, publishPage: publishPage,
   usersPage: usersPage, taxonomyPage: taxonomyPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
   revisionsPage: revisionsPage, revisionDiffPage: revisionDiffPage, commentsBlock: commentsBlock, viewsBar: viewsBar,
-  mediaPage: mediaPage,
+  mediaPage: mediaPage, sourcesCheckPage: sourcesCheckPage,
   securityPage: securityPage, securityConfirmPage: securityConfirmPage, totpChallengePage: totpChallengePage,
   statusLabel: statusLabel
 };

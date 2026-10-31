@@ -17,6 +17,12 @@ const media = require("./media.cjs");
 const totp = require("./totp.cjs");
 const mailer = require("./mailer.cjs");
 const readerFeedback = require("./feedback.cjs");
+/* 来源体检：直接复用仓库里的 check-sources.cjs（同一份实现，CLI 与后台共用）。
+   REPO_ROOT 挂载点即仓库根，__dirname 指向仓库根，content 目录随之确定。 */
+const sourcesChecker = require(path.join(config.repo.root, "check-sources.cjs"));
+/* 体检是分钟级网络任务，不能挂在一个 HTTP 请求里：任务态存内存，
+   POST 只负责启动，页面用 data-srcpoll 自动刷新读取结果。 */
+const sourcesJob = { status: "idle", startedAt: null, finishedAt: null, error: null, report: null };
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
 function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
@@ -1008,6 +1014,35 @@ async function handle(req, res) {
     else await collab.reopenComment(id);
     await auth.audit(sess.user, "comment." + mResolve[2], String(id), null, c.ip);
     return redirect(res, "/articles/" + (form.slug || "") + "#comments");
+  }
+  // ---- 来源体检 ----
+  if (p === "/sources-check" && method === "GET") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能查看来源体检。", pageOpts));
+    return html(res, 200, views.sourcesCheckPage(Object.assign({
+      job: sourcesJob,
+      showAll: url.searchParams.get("all") === "1"
+    }, pageOpts)));
+  }
+  if (p === "/sources-check/run" && method === "POST") {
+    if (!await auth.can(sess.user, "article:edit")) return html(res, 403, views.simplePage("没有权限", "你的角色不能运行来源体检。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    if (sourcesJob.status !== "running") {
+      sourcesJob.status = "running";
+      sourcesJob.startedAt = new Date().toISOString();
+      sourcesJob.error = null;
+      sourcesChecker.run().then(function (rep) {
+        sourcesJob.status = "done";
+        sourcesJob.finishedAt = new Date().toISOString();
+        sourcesJob.report = rep;
+      }).catch(function (e) {
+        sourcesJob.status = "error";
+        sourcesJob.finishedAt = new Date().toISOString();
+        sourcesJob.error = e && e.message ? e.message : String(e);
+      });
+      await auth.audit(sess.user, "sources.check", "run", null, c.ip);
+    }
+    return redirect(res, "/sources-check");
   }
   // ---- 媒体库 ----
   if (p === "/media") {

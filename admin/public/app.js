@@ -327,4 +327,11 @@
       dlg.showModal();
     }
   })();
+
+  /* ---------------- 来源体检：任务后台运行中时自动刷新 ---------------- */
+  (function () {
+    "use strict";
+    if (!document.querySelector("[data-srcpoll]")) return;
+    setTimeout(function () { window.location.reload(); }, 6000);
+  })();
 })();

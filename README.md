@@ -46,12 +46,12 @@ node build-portal.cjs --check # 校验产物与源文件是否同步
 
 | 内容 | 源 | 产出 |
 |---|---|---|
-| 故障教程与指南 81 篇 | `content/fixboxs/*.md` | `demo/fixboxs/fix/*.html` + `data/articles.js` |
+| 故障教程与指南 86 篇 | `content/fixboxs/*.md` | `demo/fixboxs/fix/*.html` + `data/articles.js` |
 | **参考资料 10 篇（SOP）** | `content/fixboxs/sop-*.md`，由 `content/sop-source/` 生成 | 同上，带「参考 SOP」标识 |
-| 分类字典 | `content/taxonomy.json` v1.8（故障 12 领域 + 参考 1 领域「装机与运维手册」，共 13 领域） | 后台下拉框与构建共用 |
+| 分类字典 | `content/taxonomy.json` v1.9（故障 12 领域 + 参考 1 领域「装机与运维手册」，共 13 领域） | 后台下拉框与构建共用 |
 | 媒体库上传 | 服务器 `demo/fixboxs/media/`（**不入库**，已 gitignore） | 随发布产物上线，不经 git |
 
-合计 **13 个领域 · 91 篇教程**（与线上 `data/articles.js` 一致）。
+合计 **13 个领域 · 96 篇教程**（与线上 `data/articles.js` 一致）。
 
 ```bash
 node content-lint.cjs        # 内容校验（V1–V15，失败非零退出）

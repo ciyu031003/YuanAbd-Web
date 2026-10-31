@@ -2252,6 +2252,117 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "mac-airdrop-not-working",
+  "title": "隔空投送用不了：搜不到设备 / 一直等待 / 传到一半失败",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-network",
+  "categoryName": "Wi-Fi 与网络",
+  "path": "macOS 系统与开机 › Wi-Fi 与网络",
+  "summary": "隔空投送 = 蓝牙发现 + Wi-Fi 直连传输，两副链条缺一不可：搜不到是「发现」层的问题（蓝牙/接收范围设置/专注模式），搜到了却卡在「正在等待」是「传输」层的问题（Wi-Fi 干扰、个人",
+  "os": [
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 12",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "5-15 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "隔空投送搜不到设备",
+   "AirDrop 一直正在等待",
+   "隔空投送看不到对方",
+   "AirDrop 传输失败",
+   "iPhone 隔空投送不到 Mac",
+   "Mac 隔空投送不到 iPhone",
+   "隔空投送只能收到所有人的文件"
+  ],
+  "keywords": [
+   "隔空投送",
+   "AirDrop",
+   "搜不到设备",
+   "正在等待",
+   "蓝牙",
+   "Wi-Fi",
+   "个人热点",
+   "仅限联系人",
+   "连续互通"
+  ],
+  "updated": "2026-10-31",
+  "detail_href": "./fix/mac-airdrop-not-working.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-app-damaged-cant-open",
+  "title": "Mac 应用打不开：提示「已损坏」或「无法验证开发者」怎么修",
+  "domain": "mac-app",
+  "domainName": "macOS 软件与性能",
+  "category": "mac-apps",
+  "categoryName": "应用与 App Store",
+  "path": "macOS 软件与性能 › 应用与 App Store",
+  "summary": "「已损坏」「无法验证开发者」是 Gatekeeper（门禁）在拦截没有公证签名的应用，不是应用真的坏了。macOS 15 起右键「打开」的老办法被收走了，官方途径是「系统设置 → 隐私与安全性",
+  "os": [
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "5-20 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac 应用已损坏无法打开",
+   "无法验证开发者",
+   "无法打开因为无法确认其来自身份不明的开发者",
+   "Apple 无法检查是否包含恶意软件",
+   "Mac 应用闪退打不开",
+   "dmg 安装后打不开",
+   "app is damaged and can't be opened"
+  ],
+  "keywords": [
+   "Mac 应用打不开",
+   "Gatekeeper",
+   "公证",
+   "仍要打开",
+   "xattr",
+   "隔离属性",
+   "隐私与安全性",
+   "开发者验证"
+  ],
+  "updated": "2026-10-31",
+  "detail_href": "./fix/mac-app-damaged-cant-open.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "mac-app-store-download-stuck",
   "title": "Mac App Store 下载卡住 / 应用装不上怎么修",
   "domain": "mac-app",
@@ -2574,6 +2685,112 @@ window.FX_ARTICLES = [
   "hot": 1
  },
  {
+  "slug": "mac-no-sound",
+  "title": "Mac 没声音：内置扬声器/耳机没声音怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-audio",
+  "categoryName": "耳机与音箱",
+  "path": "外设 › 耳机与音箱",
+  "summary": "Mac「没声音」九成不是硬件坏了，而是声音被输出到了别的地方——HDMI 显示器、蓝牙耳机、或插过的 USB 声卡还占着输出通道。先到「系统设置 → 声音 → 输出」把设备选回来；列表里压根没",
+  "os": [
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "5-20 分钟",
+  "risk": "安全",
+  "symptoms": [
+   "Mac 没有声音",
+   "MacBook 扬声器没声音",
+   "Mac 音量图标变灰",
+   "耳机插上没声音",
+   "Mac 声音输出设备消失",
+   "蓝牙耳机连上但没声音",
+   "Mac 音量键失灵"
+  ],
+  "keywords": [
+   "Mac 没声音",
+   "输出设备",
+   "内置扬声器",
+   "coreaudiod",
+   "耳机口红光",
+   "HDMI 声音",
+   "蓝牙耳机",
+   "NVRAM"
+  ],
+  "updated": "2026-10-31",
+  "detail_href": "./fix/mac-no-sound.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-printer-offline",
+  "title": "Mac 打印机没反应 / 显示离线怎么修",
+  "domain": "peripheral",
+  "domainName": "外设",
+  "category": "per-printer",
+  "categoryName": "打印机",
+  "path": "外设 › 打印机",
+  "summary": "Mac 打印问题九成出在「链路」而不是驱动：打印机没连上和 Mac 同一个网、打印队列里任务被暂停、或打印机 IP 变了导致离线。按「打印机自身 → 网络 → 队列 → 重新添加」的顺序查，绝",
+  "os": [
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10-30 分钟",
+  "risk": "需谨慎",
+  "symptoms": [
+   "Mac 打印机没反应",
+   "Mac 打印机显示离线",
+   "打印任务卡在队列",
+   "Mac 添加不到打印机",
+   "Mac 打印出错",
+   "AirPrint 找不到打印机",
+   "Mac 打印机暂停"
+  ],
+  "keywords": [
+   "Mac 打印机",
+   "离线",
+   "打印队列",
+   "AirPrint",
+   "打印机与扫描仪",
+   "还原打印系统",
+   "打印中心",
+   "驱动"
+  ],
+  "updated": "2026-10-31",
+  "detail_href": "./fix/mac-printer-offline.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
   "slug": "mac-safari-cant-load",
   "title": "Mac Safari 打不开网页 / 只有浏览器上不了网怎么修",
   "domain": "mac-system",
@@ -2731,6 +2948,59 @@ window.FX_ARTICLES = [
   ],
   "updated": "2026-10-25",
   "detail_href": "./fix/mac-time-machine-troubleshoot.html",
+  "kind": "guide",
+  "hot": 1
+ },
+ {
+  "slug": "mac-update-stuck",
+  "title": "macOS 更新卡住：下载不动 / 安装进度条不动怎么办",
+  "domain": "mac-system",
+  "domainName": "macOS 系统与开机",
+  "category": "mac-update",
+  "categoryName": "系统更新",
+  "path": "macOS 系统与开机 › 系统更新",
+  "summary": "macOS 更新分三个阶段，卡的位置不同，解法完全不同：下载卡住查网络和储存空间；安装进度条不动先耐心等（大版本 1-2 小时属正常）；重启后卡在苹果标志才是真出事——长按电源键关机、进恢复模",
+  "os": [
+   {
+    "t": "macOS 15+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 14+",
+    "k": "macos"
+   },
+   {
+    "t": "macOS 13+",
+    "k": "macos"
+   }
+  ],
+  "osGroup": [
+   "macos"
+  ],
+  "level": "入门",
+  "time": "10 分钟-2 小时",
+  "risk": "需谨慎",
+  "symptoms": [
+   "macOS 更新下载卡住",
+   "安装进度条不动",
+   "Mac 更新一直转圈",
+   "卡在苹果标志和进度条",
+   "软件更新失败",
+   "macOS 安装出错",
+   "更新后开不了机"
+  ],
+  "keywords": [
+   "macOS 更新卡住",
+   "软件更新",
+   "进度条不动",
+   "恢复模式",
+   "重新安装 macOS",
+   "急救",
+   "强制关机",
+   "安装器"
+  ],
+  "updated": "2026-10-31",
+  "detail_href": "./fix/mac-update-stuck.html",
   "kind": "guide",
   "hot": 1
  },

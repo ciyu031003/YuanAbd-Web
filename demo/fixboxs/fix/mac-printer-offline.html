@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Mac 打印机没反应 / 显示离线怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="Mac 打印问题九成出在「链路」而不是驱动：打印机没连上和 Mac 同一个网、打印队列里任务被暂停、或打印机 IP 变了导致离线。按「打印机自身 → 网络 → 队列 → 重新添加」的顺序查，绝大多数不用装任何驱动就能修好">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-printer-offline" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral" aria-current="page">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#peripheral">外设</a><span class="fx-crumb__sep">›</span><span>打印机</span></nav>
+<h1 class="fx-title">Mac 打印机没反应 / 显示离线怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 15+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 14+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">10-30 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：文末的「还原打印系统」会<strong>清空这台 Mac 上已配置的所有打印机与打印队列</strong>（有别的打印机在用的办公环境要注意），属于最后手段。其余步骤都是无风险的查看与重添加。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">Mac 打印问题九成出在「<strong>链路</strong>」而不是驱动：打印机没连上和 Mac 同一个网、打印队列里任务被暂停、或打印机 IP 变了导致离线。按「打印机自身 → 网络 → 队列 → 重新添加」的顺序查，绝大多数不用装任何驱动就能修好（macOS 内置 AirPrint 已覆盖近年的打印机）。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看打印机本身</strong>：面板/指示灯有无报错（缺纸、卡纸、盖板未合）；曾有卡纸先处理——见<a class="fx-link" href="./printer-jam-quality.html">「打印机卡纸与打印质量差」</a>。<strong>期望结果</strong>：打印机待机、无报错。</li><li><strong>看网络</strong>：打印机面板的「网络设置」页确认它连的 Wi-Fi 名和 Mac 一致（打印机常被接进访客/5G 隔离网络）。<strong>期望结果</strong>：同一网络。</li><li><strong>看打印队列</strong>：系统设置 →「打印机与扫描仪」→ 选中打印机 →「打印队列」——若有任务显示「暂停」，右键恢复或删掉任务。<strong>期望结果</strong>：队列清空后能重新打印。</li></ol></div>
+
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>打印时无反应，队列里任务一直「正在打印」不动。</li><li>打印机在列表里但标记「离线」。</li><li>「添加打印机」列表里搜不到打印机。</li><li>更新 macOS 后打印机突然不能用。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>打印出来有横纹/褪色/拖影 → 是喷头与耗材问题，看<a class="fx-link" href="./printer-jam-quality.html">「打印机卡纸与打印质量差」</a>。</li><li>Windows 电脑打印这台打印机正常、只有 Mac 不行 → 走本文；两台都不行 → 看<a class="fx-link" href="./printer-network-ip-fixed.html">「打印机连不上网/经常离线」</a>。</li><li>公司共享打印机报 0x0000011b 之类错误码 → 那是 Windows 共享层的问题，看对应文章。</li><li>打印机面板自己报硬件错误码 → 按品牌手册处理或送修。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>打印机型号（面板标签上），后面找驱动/核对 AirPrint 支持用。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>打印机连的是主 Wi-Fi 而非访客网络；若是有线接路由器，确认网线灯亮。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Mac 已更新到最新 macOS（Apple 会随系统更新内置打印机驱动）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>连续打印 3 份文档（含 1 份带图片的）全部正常出纸。</li><li>打印机重启、Mac 重启各一次后再打，仍然正常（确认不是靠「重加」续命）。</li><li>「打印队列」里任务完成后自动清空，不残留离线状态。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>按了 IP 也连不上 → 打印机与 Mac 不在同一网段（路由器子网隔离），看<a class="fx-link" href="./printer-network-ip-fixed.html">「打印机连不上网/经常离线」</a>把打印机 IP 固定下来。</li><li>老打印机没有 AirPrint → 去厂商官网下 macOS 驱动；厂商已停止支持的老型号考虑换机。</li><li>公司打印机走打印服务器 → 找 IT 拿 Mac 版打印配置（多数需要装服务器证书与专用队列）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>在路由器里给打印机固定 IP（DHCP 静态分配），IP 一变就是一次「离线」——见<a class="fx-link" href="./printer-network-ip-fixed.html">「打印机固定 IP」</a>。</li><li>打印机固件和 macOS 保持更新，AirPrint 兼容性靠两边一起维护。</li><li>别把打印机接进访客 Wi-Fi——隔离网络是「搜不到打印机」的头号原因。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-31</td><td>1.0</td><td>初版：链路四步 + 按 IP 添加 + 还原打印系统兜底</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">让打印机「上线」——网络与休眠</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>打印机深度休眠时对 AirPrint 广播会消失：按一下打印机面板把它唤醒再试。</li><li>打印机面板里重连一次 Wi-Fi（多数机型：设置 → 网络 → 无线设置向导）。</li><li>路由器若开了「AP 隔离 / 访客网络隔离」，打印机与 Mac 互相看不见——关掉隔离或都挪到主网络。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：Mac「添加打印机」列表重新出现这台打印机。<strong>失败了怎么办</strong>：仍搜不到 → 步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">删掉重加打印机（官方推荐动作）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>系统设置 →「打印机与扫描仪」→ 选中这台打印机 → 「−」删除。</li><li>点「＋」→ 在弹出列表中选中打印机。名字旁标「AirPrint」的优先选 <strong>AirPrint 通用驱动</strong>（不依赖厂商驱动，最稳）。</li><li>添加后打一张测试页。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：添加成功并打出测试页。<strong>失败了怎么办</strong>：列表里搜不到 → 步骤 3；能添加但打印仍出错 → 步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">搜不到打印机时——按 IP 添加</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>在打印机面板网络页查出它的 IP 地址（如 192.168.1.105）。</li><li>系统设置 → 打印机与扫描仪 → ＋ → 工具栏「IP」图标 → 输入该 IP，协议选 <strong>IPP</strong>（或 HP Jetdirect-Socket，视机型）。</li><li>驱动选「AirPrint」或厂商对应型号 → 添加 → 测试页。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：按 IP 直连成功。<strong>失败了怎么办</strong>：浏览器打开 <code>http://&lt;打印机IP&gt;</code> 也进不去面板 → 打印机根本没连上网，回到步骤 1 重配网络，或看<a class="fx-link" href="./printer-network-ip-fixed.html">「打印机连不上网/经常离线」</a>。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">清卡住的打印任务与打印中心</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>系统设置 → 打印机与扫描仪 → 选中打印机 →「打印队列」。</li><li>全选任务 → 删除；若有任务反复「正在打印」，在打印中心里停止后再试。</li><li>打印中心（应用程序 → 实用工具）里确认打印机未处于「暂停」状态。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：新任务正常出纸。<strong>失败了怎么办</strong>：队列反复卡死 → 步骤 5。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">还原打印系统（最后手段，会清空所有打印机配置）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>前提：记下这台 Mac 上<strong>所有</strong>打印机的型号（之后要重新添加）。</li><li>系统设置 → 打印机与扫描仪 → 在打印机列表内右键（或按住 Control 点按）任意空白处 →「还原打印系统」→ 确认。</li><li>按步骤 2 重新添加各台打印机。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：打印子系统回到出厂状态，重新添加后正常。<strong>失败了怎么办</strong>：还原后重加仍离线 → 到打印机官网装 macOS 版全功能驱动/固件升级打印机，仍不行换 USB 线直连测试（直连正常则纯网络问题）。</p></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><a href="../fix/printer-network-ip-fixed.html">网络打印机 IP 变了就离线？固定 IP 与端口配置</a><a href="../fix/printer-jam-quality.html">打印机卡纸 / 打印有横纹、颜色淡怎么处理</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-31 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-31</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

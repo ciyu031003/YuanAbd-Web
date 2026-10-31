@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>Mac 应用打不开：提示「已损坏」或「无法验证开发者」怎么修 · 修盒子 FIXBOX</title>
+<meta name="description" content="「已损坏」「无法验证开发者」是 Gatekeeper（门禁）在拦截没有公证签名的应用，不是应用真的坏了。macOS 15 起右键「打开」的老办法被收走了，官方途径是「系统设置 → 隐私与安全性 → 仍要打开」；确认来源可">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-app-damaged-cant-open" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app" aria-current="page">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-app">macOS 软件与性能</a><span class="fx-crumb__sep">›</span><span>应用与 App Store</span></nav>
+<h1 class="fx-title">Mac 应用打不开：提示「已损坏」或「无法验证开发者」怎么修</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 15+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 14+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">5-20 分钟</span><span class="fx-badge fx-badge--caution">⚠ 需谨慎</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+<div data-reveal><div class="fx-callout fx-callout--caution"><span class="fx-callout__ico" aria-hidden="true">⚠</span><div>⚠ 需谨慎：本文的「仍要打开」和移除隔离属性，本质都是绕过苹果的应用安全审查。<strong>只对来源可信的安装包使用</strong>（官网、公司内部渠道）；来路不明的「破解版」「绿色版」就算能打开，也可能携带窃密程序——打不开反而是 Gatekeeper 在保护你。</div></div></div>
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">「已损坏」「无法验证开发者」是 Gatekeeper（门禁）在拦截没有公证签名的应用，<strong>不是应用真的坏了</strong>。macOS 15 起右键「打开」的老办法被收走了，官方途径是「系统设置 → 隐私与安全性 → 仍要打开」；确认来源可信后走这条路，绝大多数都能解决。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>看提示原文</strong>：「无法打开，因为无法确认其来自身份不明的开发者」或「Apple 无法检查是否包含恶意软件」→ 是 Gatekeeper 拦截，走步骤 2。「应用&quot;xxx&quot;已损坏，无法打开」→ 可能是下载不完整，先走步骤 3 重新下载。</li><li><strong>系统设置放行</strong>：苹果菜单 →「系统设置」→「隐私与安全性」→ 滚动到「安全性」区，会看到「&quot;xxx&quot;已被阻止」一行 → 点「仍要打开」→ 输密码。<strong>期望结果</strong>：应用正常启动。</li><li><strong>重新下载安装包</strong>：删掉 dmg/app，从软件官网重新下载（别用下载站的加速器版本）。<strong>期望结果</strong>：完整下载后能打开。</li></ol></div>
+
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>双击应用弹出「已损坏，无法打开，建议将它移到废纸篓」。</li><li>提示「无法验证开发者」/「无法确认其来自身份不明的开发者」。</li><li>从官网下载的 dmg 安装后，第一次启动就被拦。</li><li>同一个安装包在别的 Mac 上能装，这台不行。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>App Store 下载的应用打不开 → 看<a class="fx-link" href="./mac-app-store-download-stuck.html">「Mac App Store 下载卡住 / 无法更新应用」</a>。</li><li>应用能打开但用着用着闪退 → 是应用本身的问题，先重装该应用。</li><li>提示「应用不在此 Mac 上受支持」→ 架构不符（老 Intel 应用装在 Apple Silicon 上），找该应用的 Apple Silicon 版本。</li><li>企业 MDM 管理的电脑被策略拦截 → 联系公司 IT。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>知道安装包的来源，且认为它可信。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>Mac 有管理员密码。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>安装包不是从聊天工具「传文件」过来的半截文件（大小和官网标注一致）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>双击应用直接启动，不再出现任何 Gatekeeper 弹窗。</li><li>重启 Mac 之后再打开一次，依然正常（确认放行已持久生效）。</li><li>「系统设置 → 隐私与安全性」里不再出现新的拦截记录。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>应用是公司内部工具 → 找 IT 出签名版或走 MDM 下发，不要自己绕过安全策略。</li><li>怀疑系统安全组件异常 → 重启进安全模式（Apple Silicon：关机后长按电源键到出现启动选项，选中启动盘并按住 Shift 点「以安全模式继续」）再装一次。</li><li>同类问题在多台 Mac 上出现且都指向同一个安装包 → 这个包发布方需要重新公证签名，等官方更新。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>只从官网或 App Store 拿软件；「已损坏」提示本身就是一道防线，不要养成见弹窗就绕的习惯。</li><li>大型软件下载后先看文件大小对不对得上官网标注。</li><li>macOS 升级大版本后，老应用可能重新被拦——那是它们没跟上新的公证要求，去官网拿新版。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-31</td><td>1.0</td><td>初版：Gatekeeper 三层解法（放行/右键/xattr）与下载完整性排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用「隐私与安全性」放行（macOS 15/14 官方途径）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>双击应用，让拦截弹窗出现一次（哪怕提示「移到废纸篓」也先别删，点「完成」）。</li><li>苹果菜单 →「系统设置」→「隐私与安全性」→ 滚动到「安全性」。</li><li>找到「&quot;xxx&quot;已被阻止，使用前需要验证开发者」→ 点「仍要打开」→ 输入管理员密码 → 确认。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：应用启动，此后不会再拦这个应用。<strong>失败了怎么办</strong>：安全性区没有那一行 → 说明该应用被系统判定为高风险（常见于伪装的假安装包），直接删掉换官方下载源。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">右键「打开」（macOS 13 及更早）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>在访达里<strong>按住 Control 点按</strong>（或右键）应用图标 → 选「打开」。</li><li>弹窗里再点「打开」确认。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：绕过首次验证，应用启动。<strong>失败了怎么办</strong>：macOS 15 已移除此入口，回到步骤 1。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">排除「下载不完整」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>删除已下载的 dmg 和已安装的 app（拖进废纸篓并清空）。</li><li>用浏览器从软件官网重新下载，对比文件大小是否与官网标注一致。</li><li>重新安装后再打开。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：完整安装包不再报「已损坏」。<strong>失败了怎么办</strong>：报错依旧 → 走步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">用终端移除隔离属性（高级，确认来源可信再用）</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>打开「终端」（启动台 → 其他 → 终端）。</li><li>输入：<code>xattr -dr com.apple.quarantine /Applications/应用名.app</code>（把「应用名」换成实际名称；输入 <code>/Applications/</code> 后可以把应用图标拖进终端自动补全路径）。</li><li>回车后再双击打开。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：隔离标记被清除，应用正常打开。<strong>失败了怎么办</strong>：提示 <code>Operation not permitted</code> → 给终端授权：系统设置 → 隐私与安全性 → 完全磁盘访问权限 → 打开「终端」；仍不行说明应用本身有问题，别再折腾，回到步骤 3 换下载源。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s5"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">还不行就换安装包来源</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 5 步已完成">○</button></div><ol class="fx-ol"><li>官网下载总是报错 → 换浏览器（Safari ↔ Chrome）下载，排除下载中途断流。</li><li>某些国产软件官网把 Intel/Apple Silicon 安装包混在一起 → 确认下载的是本机架构版本。</li><li>以上全部无效且你确信安装包没问题 → 到「磁盘工具」跑一次「急救」修复系统盘权限异常，再重装应用。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：换源后正常安装。<strong>失败了怎么办</strong>：依旧「已损坏」→ 大概率这个包真的有问题（被篡改或版本太老不兼容新系统），放弃它，找该应用的官方现行版本。</p></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-app-store-download-stuck.html">Mac App Store 下载卡住 / 应用装不上怎么修</a><a href="../fix/mac-safari-cant-load.html">Mac Safari 打不开网页 / 只有浏览器上不了网怎么修</a><a href="../fix/mac-finder-unresponsive.html">Mac Finder 卡死 / 一直转圈怎么修</a><a href="../fix/mac-forgot-password.html">Mac 忘记开机密码怎么办（Apple Silicon / Intel 都覆盖）</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-31 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-31</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

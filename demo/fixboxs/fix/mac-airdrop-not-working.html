@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FBF6EC">
+<title>隔空投送用不了：搜不到设备 / 一直等待 / 传到一半失败 · 修盒子 FIXBOX</title>
+<meta name="description" content="隔空投送 = 蓝牙发现 + Wi-Fi 直连传输，两副链条缺一不可：搜不到是「发现」层的问题（蓝牙/接收范围设置/专注模式），搜到了却卡在「正在等待」是「传输」层的问题（Wi-Fi 干扰、个人热点抢占、防火墙）。按「先发">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
+<style id="fx-critical">html.fx-entering body{opacity:0}html.fx-first:not(.fx-leaving) .fx-curtain{display:none}.fx-curtain{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#A995FF;transform:translateY(100%);transition:transform .52s cubic-bezier(.65,0,.35,1)}html.fx-entering .fx-curtain{transform:translateY(0)}html.fx-entering.fx-ready .fx-curtain{transform:translateY(-100%)}html.fx-leaving .fx-curtain{transform:translateY(0)}.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}</style>
+<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../css/theme-fix.css">
+<link rel="stylesheet" href="../css/fix.css">
+<link rel="stylesheet" href="../css/fix-neu.css">
+</head>
+<body data-slug="mac-airdrop-not-working" data-feedback-endpoint="https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback">
+<div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子"><div class="fx-preloader__inner"><div class="fx-preloader__mark"><span class="fx-preloader__ring" aria-hidden="true"></span><span class="fx-preloader__ring fx-preloader__ring--inner" aria-hidden="true"></span><span class="fx-preloader__core" aria-hidden="true">修</span><span class="fx-preloader__dot fx-preloader__dot--a" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--b" aria-hidden="true"></span><span class="fx-preloader__dot fx-preloader__dot--c" aria-hidden="true"></span></div><p class="fx-preloader__text">正在打开修盒子…</p><div class="fx-preloader__bar" aria-hidden="true"><i></i></div></div></div><div class="fx-curtain" aria-hidden="true"></div>
+<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>
+<a class="fx-skip" href="#main">跳到主要内容</a>
+<header class="fx-top"><div class="fx-top__inner">
+<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
+<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>
+<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+<button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+</div></header>
+<div class="fx-drawer" id="fx-drawer" hidden>
+<div class="fx-drawer__backdrop" data-fx-drawer-close></div>
+<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
+<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
+<a class="fx-drawer__link" href="../index.html">首页</a>
+<a class="fx-drawer__link" href="../browse.html">领域</a>
+<a class="fx-drawer__link" href="../hardware.html">拆机图</a>
+<a class="fx-drawer__link" href="../wizard.html">症状向导</a>
+<a class="fx-drawer__link" href="../tools.html">工具</a>
+<a class="fx-drawer__link" href="../search.html">搜索教程</a>
+<a class="fx-drawer__link" href="../about.html">关于</a>
+<p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
+</nav></div>
+<main id="main" class="fx-wrap">
+<div class="fx-doc">
+<aside class="fx-doc__nav"><h3>当前领域</h3><ul><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#router">路由器与家庭网络</a></li><li><a href="../browse.html#ip-dns">IP 与 DNS</a></li><li><a href="../browse.html#win-app">Windows 软件与性能</a></li><li><a href="../browse.html#mac-system" aria-current="page">macOS 系统与开机</a></li><li><a href="../browse.html#mac-app">macOS 软件与性能</a></li><li><a href="../browse.html#hardware">硬件与主机</a></li><li><a href="../browse.html#peripheral">外设</a></li><li><a href="../browse.html#proxy-vpn">代理与 VPN</a></li><li><a href="../browse.html#account-sec">账号与安全</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li></ul></aside>
+<article>
+<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#mac-system">macOS 系统与开机</a><span class="fx-crumb__sep">›</span><span>Wi-Fi 与网络</span></nav>
+<h1 class="fx-title">隔空投送用不了：搜不到设备 / 一直等待 / 传到一半失败</h1>
+<div class="fx-meta"><span class="fx-badge fx-badge--os" data-os="macos">macOS 15+</span><span class="fx-badge fx-badge--os" data-os="macos">macOS 14+</span><span class="fx-badge fx-badge--level">入门</span><span class="fx-badge fx-badge--time">5-15 分钟</span><span class="fx-badge fx-badge--safe">✅ 安全</span><span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>
+<details class="fx-toc-m"><summary>📑 本页目录</summary><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></details>
+
+<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2><p class="fx-p">隔空投送 = <strong>蓝牙发现 + Wi-Fi 直连传输</strong>，两副链条缺一不可：搜不到是「发现」层的问题（蓝牙/接收范围设置/专注模式），搜到了却卡在「正在等待」是「传输」层的问题（Wi-Fi 干扰、个人热点抢占、防火墙）。按「先发现、后传输」的顺序查，九成在五分钟内解决。</p></div>
+<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol><li><strong>双方各开 Wi-Fi 和蓝牙</strong>（不用连同一个 Wi-Fi，但要都开着），并<strong>关闭个人热点</strong>——热点会让 Wi-Fi 模块退出直连模式。<strong>期望结果</strong>：重新打开访达 → 隔空投送，能看到对方。</li><li><strong>接收设置改成「所有人 · 10 分钟」</strong>：Mac 在控制中心 → 隔空投送；iPhone 在设置 → 通用 → 隔空投送。传完再改回「仅限联系人」。<strong>期望结果</strong>：立即可见。</li><li><strong>关掉专注模式</strong>：Mac 与 iPhone 的勿扰/专注会静默拒绝隔空投送请求。</li></ol></div>
+
+<div class="fx-connector" aria-hidden="true"></div>
+<section data-reveal><h2 class="fx-h2" id="适用-不适用">适用 / 不适用</h2><p class="fx-p"><strong>适用</strong></p>
+<ul class="fx-ul"><li>访达「隔空投送」里始终看不到附近设备。</li><li>能看到对方头像，点发送后对方一直显示「正在等待」。</li><li>传输到一半失败或速度极慢。</li><li>iPhone → Mac 或 Mac → iPhone 单方向不通。</li></ul>
+<p class="fx-p"><strong>不适用</strong></p>
+<ul class="fx-ul"><li>Mac 蓝牙完全打不开/搜不到任何蓝牙设备 → 先看<a class="fx-link" href="./mac-bluetooth-unavailable.html">「Mac 蓝牙不可用」</a>，那是底层问题。</li><li>Wi-Fi 本身断连 → 先修网络：<a class="fx-link" href="./mac-wifi-keeps-dropping.html">「Mac 的 Wi-Fi 反复断连」</a>。</li><li>只是嫌隔空投送慢、要传几十 GB → 用线：U 盘/移动硬盘方案见<a class="fx-link" href="./usb-drive-not-recognized.html">「U 盘无法识别」</a>。</li><li>公司网络屏蔽了设备发现（AP 隔离）→ 换个人热点试，或联系网管。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="开始前确认">开始前确认</h2><ul class="fx-checklist"><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>两台设备距离 9 米以内、中间没有厚墙。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>两台都是 2012 年之后的 Mac / 较新的 iPhone（更早的机型不支持发现模式）。</li><li class="fx-check"><span class="fx-check__box" aria-hidden="true"></span>双方系统都是较新版本（隔空投送行为随版本变过好几轮）。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="怎么确认修好了">怎么确认修好了</h2><ul class="fx-ul"><li>访达隔空投送面板稳定出现对方设备。</li><li>连续互传 3 个文件（含 1 个几百 MB 的）全部成功。</li><li>传完后把接收设置改回「仅限联系人」，隔天再传一次仍然正常。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="还是不行">还是不行？</h2><ul class="fx-ul"><li>单向不通（iPhone 能发 Mac 收不到）→ 在 Mac 上新建一个测试用户账户试一次，排除个人配置问题。</li><li>换了网络环境、重置过无线仍不行 → Apple 官方诊断：Apple Silicon 重启时长按电源键进选项按 Command-D（Intel 按 D）跑硬件诊断，看无线模块是否报错。</li><li>是公司/学校 Mac → IT 可能用配置描述文件锁死了隔空投送，找 IT。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="预防">预防</h2><ul class="fx-ul"><li>平时接收设置保持「仅限联系人」，别长期开「所有人」——机场地铁里会被陌生人投垃圾图。</li><li>定期重启 Mac，长期不重启是无线模块抽风的最大来源。</li><li>需要传大文件时，提前关掉热点和 VPN。</li></ul></section>
+<section data-reveal><h2 class="fx-h2" id="更新日志">更新日志</h2><div class="fx-table-wrap"><table class="fx-table"><thead><tr><th>日期</th><th>版本</th><th>变更</th><th>作者/审核</th></tr></thead><tbody><tr><td>2026-10-31</td><td>1.0</td><td>初版：「发现层/传输层」两段式排查</td><td>内容组</td></tr></tbody></table></div></section>
+<div class="fx-connector" aria-hidden="true"></div><section data-reveal><h2 class="fx-h2" id="分步骤">分步骤</h2><ol class="fx-steps"><li class="fx-step" data-fx-step data-step-id="s1"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修「发现」层——让双方互相看见</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 1 步已完成">○</button></div><ol class="fx-ol"><li>Mac 打开访达 → 边栏「隔空投送」；iPhone 打开「隔空投送」接收面板，两个窗口同时开着。</li><li>Mac 侧确认控制中心：Wi-Fi ✓、蓝牙 ✓、隔空投送 = 仅限联系人或所有人；iPhone 侧同样确认。</li><li>关闭双方专注模式/勿扰。</li><li>接收方临时改成「所有人 · 10 分钟」再测。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：发送方列表出现对方头像。<strong>失败了怎么办</strong>：进步骤 2。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s2"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">重置无线模块</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 2 步已完成">○</button></div><ol class="fx-ol"><li>两台设备都关闭再打开 Wi-Fi 和蓝牙（控制中心里直接点）。</li><li>没效果就把两台设备<strong>都重启</strong>——社区案例里这解决最多。</li><li>Mac 再试一次隔空投送。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：搜到并可发送。<strong>失败了怎么办</strong>：仍卡「正在等待」→ 步骤 3（传输层）。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s3"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">修「传输」层——卡在「正在等待」</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 3 步已完成">○</button></div><ol class="fx-ol"><li>确认 Mac 没开个人热点，也没连着 VPN（VPN 会改路由，直连打不通）。</li><li>检查 Mac 防火墙：系统设置 → 网络 → 防火墙 → 若开着，进「选项」确认没有阻止性的严格策略（临时关掉防火墙测一次最能说明问题）。</li><li>换个环境试：离开当前 Wi-Fi 环境（隔空投送不需要网络，但拥挤的公共 Wi-Fi 信道会干扰直连）。</li><li>大文件（几 GB）中途失败 → 先传一个小文件确认链路，再把大文件分批传。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：小文件秒传成功，大文件分批传完。<strong>失败了怎么办</strong>：小文件也一直等待 → 步骤 4。</p></div></li>
+<li class="fx-step" data-fx-step data-step-id="s4"><div class="fx-step__num" aria-hidden="true"></div><div class="fx-step__body"><div class="fx-step__head"><h3 class="fx-step__title">检查账号与系统状态</h3><button class="fx-step__check" type="button" data-fx-check aria-pressed="false" aria-label="标记第 4 步已完成">○</button></div><ol class="fx-ol"><li>「仅限联系人」模式要求双方登录 Apple 账户且互为联系人：确认接收方的 Apple 账户邮箱/手机号就在发送方通讯录里。</li><li>两台设备都更新到最新系统（隔空投送协议随系统演进，版本差太多会握手失败）。</li><li>Apple Silicon 与 Intel 混用时发现慢是正常的——先传一次，第二次就快了。</li></ol>
+<p class="fx-p"><strong>期望结果</strong>：链路稳定，不再反复掉。<strong>失败了怎么办</strong>：彻底无解 → 用「接力」或微信文件传输助手替代，或用线传（U 盘/移动硬盘）。</p></div></li></ol></section>
+<h2 class="fx-h2">相关教程</h2><div class="fx-related"><a href="../fix/mac-bluetooth-unavailable.html">Mac 蓝牙不可用 / 设备突然消失怎么修</a><a href="../fix/mac-wifi-keeps-dropping.html">Mac 的 Wi-Fi 反复断连 / 自己关掉怎么修</a><a href="../fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a></div>
+<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：2026-10-31 · 复核：内容组</p>
+<div class="fx-feedback" data-fx-feedback><div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div><div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div><div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div><form class="fx-feedback__form" data-fx-feedback-form hidden novalidate><fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types"><label class="fx-feedback__type"><input type="radio" name="issue_type" value="premise"><span>适用前提</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="steps"><span>步骤或顺序</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="command"><span>命令或脚本</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="error"><span>报错或现象</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="result"><span>修复结果</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="source"><span>链接或资料</span></label><label class="fx-feedback__type"><input type="radio" name="issue_type" value="other"><span>其他</span></label></div></fieldset><label class="fx-feedback__field"><span>具体是哪一段？</span><select data-fx-feedback-location><option value="整篇教程">整篇教程</option><option value="不确定具体位置">不确定具体位置</option></select></label><label class="fx-feedback__field"><span>补充说明 <small>选填，最多 1200 字</small></span><textarea maxlength="1200" rows="4" placeholder="例如：第 3 步执行后提示找不到命令；或者按教程做完后问题仍然存在。"></textarea></label><label class="fx-feedback__trap" aria-hidden="true">网站<input type="text" name="website" tabindex="-1" autocomplete="off"></label><div class="fx-feedback__formacts"><button class="fx-btn fx-btn--primary" type="submit">提交反馈</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-cancel>取消</button><a href="../wizard.html">先重新定位问题</a></div></form></div>
+</article>
+<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul><li><a href="#一句话结论">💡 一句话结论</a></li><li><a href="#30-秒快速排查">⚡ 30 秒快速排查</a></li><li><a href="#适用-不适用">适用 / 不适用</a></li><li><a href="#开始前确认">开始前确认</a></li><li><a href="#怎么确认修好了">怎么确认修好了</a></li><li><a href="#还是不行">还是不行？</a></li><li><a href="#预防">预防</a></li><li><a href="#更新日志">更新日志</a></li><li><a href="#分步骤">分步骤</a></li></ul></aside>
+</div>
+<div style="height:60px"></div>
+</main>
+<footer class="fx-foot"><div class="fx-wrap">
+<div class="fx-foot__inner">
+<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
+<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>
+<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>
+<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>
+</div>
+<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-31</span></div>
+</div></footer>
+<script src="../data/articles.js"></script>
+<script src="../js/fix.js"></script>
+</body>
+</html>

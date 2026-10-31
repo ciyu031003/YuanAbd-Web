@@ -66,6 +66,33 @@ SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.
 > 与 chips、右栏浮动徽章（13 DOMAINS）、JSON-LD、NOW 列表、页脚 `fcard--fix`、
 > marquee 数据带。每批内容上线后要同步改这些数字并重新构建门户。
 
+## 苦旅 KuLv（learn.yuanabd.cn · Learn-Workbench）
+
+**仓库**：[ciyu031003/Learn-Workbench](https://github.com/ciyu031003/Learn-Workbench)（独立仓库，不在本仓库部署链路内）
+
+求职与学习全栈工作台：多职业学习路线图、每日任务与专注计时、习惯与健康、求职工作台（招聘信息每日抓取 + 面试题库 + 简历管理）、SM-2 间隔复习、运动档案；**Web（Next.js 16 + React 19 + PostgreSQL 16，Docker :3001）+ Android（Expo，签名 OTA 应用内升级）** 双端云端同步。
+
+| 门户引用 | 位置 | 状态 |
+|---|---|---|
+| 五本手册：市场雷达 / 题库路线图 / 看板 / 就绪度 | 01 节 feat + chips + mock | 产品叙事口径 |
+| 19 个数据源 · 每日自动抓取 | marquee + NOW 卡 `data-count="19"` | ⚠️ 生产库 `job_postings` 实测已有 **20** 个 source（2026-10-31），下次门户迭代可顺手更新 |
+| v1.0.0 · LIVE / WEB + ANDROID | 01 节 chips | 版本以 Learn-Workbench 仓库为准 |
+
+落地页 = 本仓库 `demo/learn.html`（+ `download.html` / `privacy.html` / 共享 css/js），部署见「部署」一节第 2 步；应用本体由 Learn-Workbench 仓库自行发布（Docker Compose + GHCR 镜像 + 一键回滚）。
+
+## 甜途 TIAN TU（travel-notes.yuanabd.cn · Travel-Notes）
+
+**仓库**：[ciyu031003/Travel-Notes](https://github.com/ciyu031003/Travel-Notes)（独立仓库）
+
+个人旅行记忆空间：旅行记录（Travel → TravelDay → 行程项 → 花费闭环）、交互式中国地图（d3-geo）、相册（复古像素 / 银河星空双视觉）、护照式记忆档案、旅行圈（Masonry Feed + 点赞评论收藏）、多人旅行空间（RBAC 协作）、全功能后台；**Web（Next.js 15 + MySQL/Prisma，Docker :3000）+ Android（Capacitor，SQLite 离线 + 同步队列）**。
+
+| 门户引用 | 位置 | 状态 |
+|---|---|---|
+| 足迹地图 / 城市画册 / 相册同步 / 旅行圈 | 02 节 feat | 产品叙事口径 |
+| 「6 座城市已收录」（02 节 chips） vs 「7 座城市」（NOW 卡 `data-count="7"` + marquee） | 02 节 / NOW / marquee | ⚠️ **门户自身两处不一致，待统一**。生产库实存地点 4~5 个（广州 + 新疆三地，2026-10-31 实测；画廊中北京/上海/杭州照片不在库内，疑为旧库遗留）。城市口径请以你想展示的为准后统一三处 |
+
+落地页 = 本仓库 `demo/travel.html`，线上入口 `travel-notes.yuanabd.cn/portal/`（nginx alias `/var/www/travel-landing/`，见顶部说明）；应用本体由 Travel-Notes 仓库自行发布。
+
 ## 本地预览
 
 ```bash

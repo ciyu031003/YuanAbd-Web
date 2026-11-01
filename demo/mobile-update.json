@@ -1,15 +1,22 @@
 {
-  "versionName": "1.53.1",
-  "versionCode": 88,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.53.1.apk",
-  "sizeBytes": 77188211,
-  "sha256": "10e5fccfd46036aae6cf6479fec7bc26b559358f87c990b06694c188023e8227",
+  "versionName": "1.54.0",
+  "versionCode": 89,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.54.0.apk",
+  "sizeBytes": 77546019,
+  "sha256": "abccfa47ca7f037764efca8fc6e63fac93b9fc2fda0255552f6a7456667adc29",
   "releaseNotes": [
-    "修复：408 知识点页面新增「参数变化」双通道消费——上一版部分场景换科目/换章节打开知识点仍显示第一次内容的概率进一步收敛",
-    "诊断：408 知识点全链路面包屑（点击/关闭/加载/聚焦），用于定位真机残留问题"
+    "v1.54.0（versionCode 89）",
+    "408 考研专区：全部 99 个知识点补上正文——点开知识点先读正文，再做该知识点的真题。",
+    "· 覆盖数据结构 31、计算机组成原理 27、操作系统 17、计算机网络 24 个知识点",
+    "· 每个知识点 4–12 段、600–1800 字：定义/性质 → 存储与算法/公式（带数字例题）→ 复杂度与对比 → 真题问法与易错点",
+    "· 正文存于服务端（已与本次发布同步上线），旧版本 App 不受影响",
+    "· 与 1.53 的 25 章「讲义阅读」互补：讲义按章讲透，专区按知识点速查",
+    "修复与优化：",
+    "· 知识点页新增「知识点正文」卡片（空正文不显示）",
+    "· 网页端 /learn/408/points 同步支持正文"
   ],
-  "publishedAt": "2026-11-01T07:13:21.673Z",
+  "publishedAt": "2026-11-01T09:27:13.800Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "Oo7BWQl_e-A_mD76xtmJm9SkGLu-v0J1Usvat9jlfQkE_6iuH7rfDkV29OdXhrWHiWRWVIsyYdFfagmrUPvvDA"
+  "signature": "OqBdW74lf7zf87aG2UjwlTVpBh1SX38foHMJb3F-RpS-ckH0rihEBz-ymt0ZZy6CdMhfTFt9npVbl_P-ldhYAg"
 }

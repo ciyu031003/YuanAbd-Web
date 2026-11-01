@@ -1,20 +1,22 @@
 {
-  "versionName": "1.57.0",
-  "versionCode": 93,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.57.0.apk",
-  "sizeBytes": 77730411,
-  "sha256": "005e9812dc44708080f7c607062878aee8a6fe3302859ac93b20bf50cf475c86",
+  "versionName": "1.58.0",
+  "versionCode": 94,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.58.0.apk",
+  "sizeBytes": 77765539,
+  "sha256": "4efb3d535bc4ae2aa132daed673e988ad282f763125e534e2324234875a0a0cb",
   "releaseNotes": [
-    "v1.57.0（versionCode 93）",
-    "408 专区修复与补全。",
-    "· 交互演示可内嵌直接看：修正同源 iframe 安全头（此前提示「拒绝连接」必须新开窗口）",
-    "· 知识点地址统一为 yuanabd-408（旧 beokayy-408 链接继续可用，自动兼容）",
-    "· App 端公式改为图形排版：服务端 TeX→SVG，双端同一套公式渲染（不再显示 LaTeX 源码）",
-    "· 聚合页真题改为按年份展开加载，知识点页首屏更轻、打开更快",
-    "· 内容模型与仓库版本对齐（内容新鲜度恢复 FRESH）"
+    "v1.58.0（versionCode 94）",
+    "两处体验修复：专注壁纸每日更新 + 应用内更新后台下载。",
+    "· Bing 壁纸：改为服务端每日定时抓取并入库（此前没有定时任务、生产也没有图片文件，",
+    "所以专注页一直是一张固定背景）。现在每天自动更新，最近 7 天可回溯，图片走",
+    "/api/background/img 直出（带缓存与 ETag），断网回退上一张。",
+    "· 后台下载：应用内更新改用 Android 系统下载器（DownloadManager），熄屏/切后台不再中断，",
+    "通知栏与控制中心可见下载进度；下载完成自动校验 SHA256 并跳到系统安装页。",
+    "App 被杀掉或重启后会自动认领未完成的下载继续处理；iOS 维持原有可续传下载。",
+    "· 其它：手动「刷新壁纸」改为 Node 抓取（不再依赖 python）；修复若干升级弹层文案。"
   ],
-  "publishedAt": "2026-11-01T13:11:39.443Z",
+  "publishedAt": "2026-11-01T15:47:47.981Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "Itdz3vdO9vpUYyC6AQePzLfSlJVFyVfMiHrya9PEBHeV6YF1oMkoCAFIeJfMOpCww73qACko-vsk1Ihfa0EjAg"
+  "signature": "6qIp2hs8MU0CnHV1WP5pqcm_o9mUkKCzYVFXzLPl11etzIH62vi6GIlwDsnytbngq1FVusfhb5iwTp88pyMDCA"
 }

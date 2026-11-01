@@ -1,15 +1,15 @@
 {
-  "versionName": "1.53.0",
-  "versionCode": 87,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.53.0.apk",
-  "sizeBytes": 77186623,
-  "sha256": "91d52fdaeb8d67ee458bab8ab5c95f3c7c9f01ad6d5fa663c902c34a0812497e",
+  "versionName": "1.53.1",
+  "versionCode": 88,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.53.1.apk",
+  "sizeBytes": 77188211,
+  "sha256": "10e5fccfd46036aae6cf6479fec7bc26b559358f87c990b06694c188023e8227",
   "releaseNotes": [
-    "内容：408 讲义按官方考试大纲补齐细目缺口——排序补堆排序与基数排序、图补最短路径与十字链表、组成补校验码（海明码）与 RAID、OS 补交换覆盖与线程实现、网络补 VLAN/CRC/PPP/RIP-OSPF-BGP/IPv6",
-    "新增：讲义大纲覆盖防回归门禁（43 条细目断言），后续内容改动缺失考点会被 CI 拦下"
+    "修复：408 知识点页面新增「参数变化」双通道消费——上一版部分场景换科目/换章节打开知识点仍显示第一次内容的概率进一步收敛",
+    "诊断：408 知识点全链路面包屑（点击/关闭/加载/聚焦），用于定位真机残留问题"
   ],
-  "publishedAt": "2026-11-01T06:21:03.463Z",
+  "publishedAt": "2026-11-01T07:13:21.673Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "tDtUcrGi7CEEH-J7fDNccm_W6AIjPmh9pbLH553oF1yLGG4Fl_4HmCNz8VyMaIv1ceWh68NP7ZvIWX80wD2SCw"
+  "signature": "Oo7BWQl_e-A_mD76xtmJm9SkGLu-v0J1Usvat9jlfQkE_6iuH7rfDkV29OdXhrWHiWRWVIsyYdFfagmrUPvvDA"
 }

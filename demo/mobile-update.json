@@ -1,22 +1,15 @@
 {
-  "versionName": "1.51.0",
-  "versionCode": 85,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.51.0.apk",
-  "sizeBytes": 77172699,
-  "sha256": "cd6cee7919c540c8d5181ee460d01ebd0dcce6a6e6323ef6467ca6e99dc9fa1f",
+  "versionName": "1.52.0",
+  "versionCode": 86,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.52.0.apk",
+  "sizeBytes": 77175379,
+  "sha256": "7720ea35c2f953d91cc7cef942fc4e24c02c39f1de9148b6c938e56d2e5af77c",
   "releaseNotes": [
-    "修复：408 考研专区换科目/换章节后，知识点关联真题仍显示第一套（导航参数冻结，本次找到真根因并修复）",
-    "加固：同类「页面参数冻结」隐患 6 处一并收口——知识点阅读、章节页、练习页、408 试卷答题、趋势选日期跳饮食、训练记录编辑",
-    "修复：趋势页选择日期后跳到饮食页未跟随所选日期；月视图同步对齐",
-    "修复：刷题快速连滑时偶发吞掉翻页",
-    "同步：协议升级 v2.1——离线补传的学习记录在其他设备立即可见；大批量数据同步不再丢分页",
-    "修复：练习记录离线补传此前可能静默丢失（推送改为逐条回执确认）",
-    "内容：408 四门知识体系加深扩容至 2767 题（数据结构 / 计算机组成原理 / 操作系统 / 计算机网络）",
-    "安全：关闭安卓本地数据备份（allowBackup）；计时前台服务内存占用优化",
-    "稳定性：离线队列条目被丢弃时会在诊断中报告具体原因"
+    "新增：408 专区的知识体系与章节题库页新增「讲义阅读」入口——按科目进入 25 章正文讲解（概念 / 机制 / 易错点，来自计算机考研杂货铺）",
+    "新增：408 讲义课程放回技术题库课程库（此前被排除，App 内无法浏览 408 讲义；Web 端一直可见）"
   ],
-  "publishedAt": "2026-11-01T04:30:24.616Z",
+  "publishedAt": "2026-11-01T05:26:10.177Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "FwYDi8YBMYGB74i302hlF6UBz6svnbUkHYPM77vxo6B6r51R_-UGeeuMZoruPqyMxO8nYdvLK2XpbCe1Uw2HBg"
+  "signature": "as_lNIhUV5VVQoZpvNV1VLDOCxGw11kw1_vcFtG7E5igyVkC4xbyZYcoSveFQYjBPc86W7N5BGeSvoDpQFc7CA"
 }

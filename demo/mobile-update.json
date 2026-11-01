@@ -1,15 +1,15 @@
 {
-  "versionName": "1.52.0",
-  "versionCode": 86,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.52.0.apk",
-  "sizeBytes": 77175379,
-  "sha256": "7720ea35c2f953d91cc7cef942fc4e24c02c39f1de9148b6c938e56d2e5af77c",
+  "versionName": "1.53.0",
+  "versionCode": 87,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.53.0.apk",
+  "sizeBytes": 77186623,
+  "sha256": "91d52fdaeb8d67ee458bab8ab5c95f3c7c9f01ad6d5fa663c902c34a0812497e",
   "releaseNotes": [
-    "新增：408 专区的知识体系与章节题库页新增「讲义阅读」入口——按科目进入 25 章正文讲解（概念 / 机制 / 易错点，来自计算机考研杂货铺）",
-    "新增：408 讲义课程放回技术题库课程库（此前被排除，App 内无法浏览 408 讲义；Web 端一直可见）"
+    "内容：408 讲义按官方考试大纲补齐细目缺口——排序补堆排序与基数排序、图补最短路径与十字链表、组成补校验码（海明码）与 RAID、OS 补交换覆盖与线程实现、网络补 VLAN/CRC/PPP/RIP-OSPF-BGP/IPv6",
+    "新增：讲义大纲覆盖防回归门禁（43 条细目断言），后续内容改动缺失考点会被 CI 拦下"
   ],
-  "publishedAt": "2026-11-01T05:26:10.177Z",
+  "publishedAt": "2026-11-01T06:21:03.463Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "as_lNIhUV5VVQoZpvNV1VLDOCxGw11kw1_vcFtG7E5igyVkC4xbyZYcoSveFQYjBPc86W7N5BGeSvoDpQFc7CA"
+  "signature": "tDtUcrGi7CEEH-J7fDNccm_W6AIjPmh9pbLH553oF1yLGG4Fl_4HmCNz8VyMaIv1ceWh68NP7ZvIWX80wD2SCw"
 }

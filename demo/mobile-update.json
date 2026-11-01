@@ -1,24 +1,19 @@
 {
-  "versionName": "1.55.0",
-  "versionCode": 90,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.55.0.apk",
-  "sizeBytes": 77665711,
-  "sha256": "679d0d54bc5544441a34e51227bdf23a4f37ebdba1a63684625c7b111d79c3a9",
+  "versionName": "1.55.1",
+  "versionCode": 91,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.55.1.apk",
+  "sizeBytes": 77691379,
+  "sha256": "96e741476e2a084cf1a6e0547cadd9dba99d2ff7b6e47bb75d6ccfb17715aa18",
   "releaseNotes": [
-    "v1.55.0（versionCode 90）",
-    "408 专区大版本：知识精读 + 交互演示 + 刷卡背诵 + 真题考试模式。",
-    "· 知识精读：cs408 全文镜像 181 篇（数据结构 51 / 组成 46 / 操作系统 37 / 网络 47），",
-    "表格、公式、插图、章节目录、上一节/下一节，桌面端左侧目录 + 移动端抽屉",
-    "· 交互演示：98 个（排序/树/图/查找/调度/置换/流水线/Cache/握手/拥塞等），",
-    "播放、单步、拖动进度、倍速，配逐步讲解，与知识点互链",
-    "· 刷卡背诵：529 张速记卡（四科），到期队列 + 三档自评（忘记/模糊/掌握）+ 易错本，",
-    "FSRS 安排复习，今日统计与连续天数；App 支持离线评级与自动补发",
-    "· 真题考试模式：一题一屏 + 题号答题卡 + 交卷统计 + 速览筛选（题型/年份），键盘快捷键",
-    "· 阅读体验：知识点聚合（精读/速查正文/演示/真题）、字号与主题、来源署名与原文链接",
-    "说明：内容在服务端（已同步上线），旧版本 App 仍可使用原有功能。"
+    "v1.55.1（versionCode 91）",
+    "修复「章节知识图谱」外链占位：改为原生渲染，不再是「去原文查看交互图谱」。",
+    "· 精读里的 25 个章节知识图谱全部原生绘制（Web/App），核心知识点 + 补充内容 + 可视化演示分层展示",
+    "· 节点显示重要度、真题频次、卡片/演示/题量，点击直接进入对应精读正文或知识点",
+    "· 交互：缩放（按钮/滚轮/双指）、拖拽平移、重置视图、键盘 Tab+Enter、悬停/聚焦提示",
+    "· 去掉全部外链 iframe，阅读页不再跳转站外"
   ],
-  "publishedAt": "2026-11-01T10:45:42.619Z",
+  "publishedAt": "2026-11-01T11:29:05.810Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "AzkoxSiprNK30WXhHlUJWGUFVKimD80uTHh7GRxK4us6iISbQiT6uwZsnTbFoMjJczHT4ydKwEmUB1oMAN6FBA"
+  "signature": "DgdnqEEEFyMNew4VOCNlc5oei6AskNb5uoyn7-EGpSRxQmCqocMef95qhLK7AjYV13k0UxhuxyvebPdgej4hBw"
 }

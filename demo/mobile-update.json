@@ -1,19 +1,21 @@
 {
-  "versionName": "1.55.1",
-  "versionCode": 91,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.55.1.apk",
-  "sizeBytes": 77691379,
-  "sha256": "96e741476e2a084cf1a6e0547cadd9dba99d2ff7b6e47bb75d6ccfb17715aa18",
+  "versionName": "1.56.0",
+  "versionCode": 92,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.56.0.apk",
+  "sizeBytes": 77720047,
+  "sha256": "c8dfbe204f51958920b73925b1b44c3e2bf5f13d98227899f7b0848c1f78dd6f",
   "releaseNotes": [
-    "v1.55.1（versionCode 91）",
-    "修复「章节知识图谱」外链占位：改为原生渲染，不再是「去原文查看交互图谱」。",
-    "· 精读里的 25 个章节知识图谱全部原生绘制（Web/App），核心知识点 + 补充内容 + 可视化演示分层展示",
-    "· 节点显示重要度、真题频次、卡片/演示/题量，点击直接进入对应精读正文或知识点",
-    "· 交互：缩放（按钮/滚轮/双指）、拖拽平移、重置视图、键盘 Tab+Enter、悬停/聚焦提示",
-    "· 去掉全部外链 iframe，阅读页不再跳转站外"
+    "v1.56.0（versionCode 92）",
+    "408 专区大版本 · 阅读与学习闭环全面升级。",
+    "· 精读阅读器重做：宽屏三栏（目录 / 正文 / 信息栏）、目录随滚动高亮 + 阅读进度、移动端目录抽屉",
+    "· 公式终于排版：全部 $...$ 与 $$...$$ 用 KaTeX 渲染（此前直接显示 LaTeX 源码），表格/代码/提示块排版升级",
+    "· 知识点聚合页：一个知识点同时看到「精读文章 + 演示 + 速记卡 + 真题」，真题按年份折叠",
+    "· 全局搜索：⌘K / Ctrl+K 搜知识点、精读、速记卡、真题，键盘可全程操作",
+    "· 35 个交互可视化（KMP / 树 / 图 / 排序 / 流水线 / 调度 / 网络等）本地化，不再跳转外站",
+    "· App：知识点页新增精读/演示/速记卡入口，刷卡页支持易错本，阅读排版更舒适"
   ],
-  "publishedAt": "2026-11-01T11:29:05.810Z",
+  "publishedAt": "2026-11-01T12:13:52.718Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "DgdnqEEEFyMNew4VOCNlc5oei6AskNb5uoyn7-EGpSRxQmCqocMef95qhLK7AjYV13k0UxhuxyvebPdgej4hBw"
+  "signature": "VOR4lhCd50O1XjFIS-OZHVFIbN6ck_Tr5uDKYTAb9vPeELPeZUYB_d9_YvB0OO1uvwUvLCTjMBkNG7V8KwzaBw"
 }

@@ -1,22 +1,24 @@
 {
-  "versionName": "1.54.0",
-  "versionCode": 89,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.54.0.apk",
-  "sizeBytes": 77546019,
-  "sha256": "abccfa47ca7f037764efca8fc6e63fac93b9fc2fda0255552f6a7456667adc29",
+  "versionName": "1.55.0",
+  "versionCode": 90,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.55.0.apk",
+  "sizeBytes": 77665711,
+  "sha256": "679d0d54bc5544441a34e51227bdf23a4f37ebdba1a63684625c7b111d79c3a9",
   "releaseNotes": [
-    "v1.54.0（versionCode 89）",
-    "408 考研专区：全部 99 个知识点补上正文——点开知识点先读正文，再做该知识点的真题。",
-    "· 覆盖数据结构 31、计算机组成原理 27、操作系统 17、计算机网络 24 个知识点",
-    "· 每个知识点 4–12 段、600–1800 字：定义/性质 → 存储与算法/公式（带数字例题）→ 复杂度与对比 → 真题问法与易错点",
-    "· 正文存于服务端（已与本次发布同步上线），旧版本 App 不受影响",
-    "· 与 1.53 的 25 章「讲义阅读」互补：讲义按章讲透，专区按知识点速查",
-    "修复与优化：",
-    "· 知识点页新增「知识点正文」卡片（空正文不显示）",
-    "· 网页端 /learn/408/points 同步支持正文"
+    "v1.55.0（versionCode 90）",
+    "408 专区大版本：知识精读 + 交互演示 + 刷卡背诵 + 真题考试模式。",
+    "· 知识精读：cs408 全文镜像 181 篇（数据结构 51 / 组成 46 / 操作系统 37 / 网络 47），",
+    "表格、公式、插图、章节目录、上一节/下一节，桌面端左侧目录 + 移动端抽屉",
+    "· 交互演示：98 个（排序/树/图/查找/调度/置换/流水线/Cache/握手/拥塞等），",
+    "播放、单步、拖动进度、倍速，配逐步讲解，与知识点互链",
+    "· 刷卡背诵：529 张速记卡（四科），到期队列 + 三档自评（忘记/模糊/掌握）+ 易错本，",
+    "FSRS 安排复习，今日统计与连续天数；App 支持离线评级与自动补发",
+    "· 真题考试模式：一题一屏 + 题号答题卡 + 交卷统计 + 速览筛选（题型/年份），键盘快捷键",
+    "· 阅读体验：知识点聚合（精读/速查正文/演示/真题）、字号与主题、来源署名与原文链接",
+    "说明：内容在服务端（已同步上线），旧版本 App 仍可使用原有功能。"
   ],
-  "publishedAt": "2026-11-01T09:27:13.800Z",
+  "publishedAt": "2026-11-01T10:45:42.619Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "OqBdW74lf7zf87aG2UjwlTVpBh1SX38foHMJb3F-RpS-ckH0rihEBz-ymt0ZZy6CdMhfTFt9npVbl_P-ldhYAg"
+  "signature": "AzkoxSiprNK30WXhHlUJWGUFVKimD80uTHh7GRxK4us6iISbQiT6uwZsnTbFoMjJczHT4ydKwEmUB1oMAN6FBA"
 }

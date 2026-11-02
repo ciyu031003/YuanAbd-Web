@@ -1,20 +1,24 @@
 {
-  "versionName": "1.60.0",
-  "versionCode": 96,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.60.0.apk",
-  "sizeBytes": 77763771,
-  "sha256": "d2b5d087ccdfa93841a2ecd95f9cda85c65ebfe6585064179dd3a3629e1733bf",
+  "versionName": "1.61.0",
+  "versionCode": 97,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.61.0.apk",
+  "sizeBytes": 77821119,
+  "sha256": "cddf0123a30ef2e07d092938a7b426cebfee68653a46b7d4a4e4246012d6f41a",
   "releaseNotes": [
-    "v1.60.0（versionCode 96）",
-    "底部弹窗按内容自适应高度：内容一屏放得下就长到刚好，不用再在弹窗里上滑。",
-    "· 小内容弹窗（筛选、设置项、确认框等）打开即完整显示，不再固定占半屏留白；",
-    "· 内容超长时才封顶，并在弹窗内滚动，底部按钮始终可见；",
-    "· 内容动态变化（切换分段、更多条目）时高度自动跟随；",
-    "· 键盘弹出时弹窗自动压矮并允许滚动，输入框和按钮不会被挡住；",
-    "· 下滑关闭、遮罩点击、动效与安全区行为保持不变。"
+    "v1.61.0（versionCode 97）",
+    "408 专区稳定性和移动端体验批量优化。",
+    "· 修复闪退：知识体系 → 章节 → 详细讲义点进去会闪退。根因是讲义里的插图 SVG 带 pointer-events=\"all\"，",
+    "App 渲染时触发原生崩溃；现在渲染前统一清洗，并加了全局错误边界（异常时提示重试，不再白屏）。",
+    "· 修复知识精读空白：目录接口结构变化导致 App 解析不到文章，现在能正常显示四科 8 章 / 51 篇。",
+    "· 修复闪退后章节点不动：弹层状态残留会挡住整屏触摸，现在回来会自动收敛，异常时也有提示。",
+    "· 刷卡背诵：科目筛选缩到文字宽度、卡片占屏幕约 2/3、题干和答案都在卡片内滚动，长答案不再被遮挡。",
+    "· 简历：PDF/Word 简历支持重命名（自动保留扩展名），点击文件直接预览；列表显示类型/大小/日期。",
+    "· 就业雷达：重做筛选与卡片——概览统计、匹配度与理由、省市二级城市、薪资/经验/学历/来源多选、",
+    "匹配度/最新/薪资排序、分页加载、骨架与空态。",
+    "· 朝花城市：改为「省份 → 城市」两级筛选，不再一次摊开全部城市；热门城市保留快捷入口。"
   ],
-  "publishedAt": "2026-11-02T11:44:53.896Z",
+  "publishedAt": "2026-11-02T12:36:09.402Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "UZwNcMfM_YfCve75c8pNJ_cBvh6Gx-aAeMKl_1gK8RpWIiVQtHq5gZT6XZqljbeI_JcdwYaCta5xJPQdVFYwCA"
+  "signature": "m0i2FbryTy9g_YTeR2GGdBbKtLNWp-H4US6x6yxzVe9rXnY7xp87dXGnVN6Taxm5ypYS1YOqZooG6go6wwKeBA"
 }

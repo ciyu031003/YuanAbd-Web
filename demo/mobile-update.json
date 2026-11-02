@@ -1,22 +1,25 @@
 {
-  "versionName": "1.58.0",
-  "versionCode": 94,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.58.0.apk",
-  "sizeBytes": 77765539,
-  "sha256": "4efb3d535bc4ae2aa132daed673e988ad282f763125e534e2324234875a0a0cb",
+  "versionName": "1.59.0",
+  "versionCode": 95,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v1.59.0.apk",
+  "sizeBytes": 77756239,
+  "sha256": "57a0a0342136ce37fa1f9ed9faa39a4e500d8b5eaccf8c796b3d87fb37357fdc",
   "releaseNotes": [
-    "v1.58.0（versionCode 94）",
-    "两处体验修复：专注壁纸每日更新 + 应用内更新后台下载。",
-    "· Bing 壁纸：改为服务端每日定时抓取并入库（此前没有定时任务、生产也没有图片文件，",
-    "所以专注页一直是一张固定背景）。现在每天自动更新，最近 7 天可回溯，图片走",
-    "/api/background/img 直出（带缓存与 ETag），断网回退上一张。",
-    "· 后台下载：应用内更新改用 Android 系统下载器（DownloadManager），熄屏/切后台不再中断，",
-    "通知栏与控制中心可见下载进度；下载完成自动校验 SHA256 并跳到系统安装页。",
-    "App 被杀掉或重启后会自动认领未完成的下载继续处理；iOS 维持原有可续传下载。",
-    "· 其它：手动「刷新壁纸」改为 Node 抓取（不再依赖 python）；修复若干升级弹层文案。"
+    "v1.59.0（versionCode 95）",
+    "408 专区移动端补齐：精读、演示、刷卡一目了然；刷卡翻面修好了。",
+    "· 学习方式入口：408 专区顶部新增「知识精读 / 交互演示 / 刷卡背诵」三张卡，",
+    "不用再翻到科目详情或练习页里找；四科通用。",
+    "· 知识精读：目录与正文适配小屏，目录抽屉更大更好点，表格/图片不再溢出。",
+    "· 交互演示：新增入口；播放器按屏幕宽度自适应（平板/横屏也不会拉变形），",
+    "可单步、播放、调速，返回路径统一回 408 专区。",
+    "· 刷卡背诵：修复「点开答案后再点没反应」——现在点卡片正面看答案、点答案任意处回到题干，",
+    "可反复来回，另有「隐藏答案」按钮兜底；",
+    "顶部加了进度条和第 x/N 张；忘记/模糊/掌握三个大按钮带图标与间隔提示；",
+    "评级后卡片滑出自动下一张；答案按步骤/易错/口诀分区，长答案可滚动。",
+    "· 知识点页的「延伸内容」三入口（精读/演示/速记卡）小屏可点、不挤。"
   ],
-  "publishedAt": "2026-11-01T15:47:47.981Z",
+  "publishedAt": "2026-11-02T11:12:18.365Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "6qIp2hs8MU0CnHV1WP5pqcm_o9mUkKCzYVFXzLPl11etzIH62vi6GIlwDsnytbngq1FVusfhb5iwTp88pyMDCA"
+  "signature": "mfgqNGsTRZyAjxuX7W1aQPnhcU_I-mmYFGerc5rjI3KU8VeNmRF8kulC8U9tzzLV6vPdVCgv4aazwt5M2MyGCw"
 }

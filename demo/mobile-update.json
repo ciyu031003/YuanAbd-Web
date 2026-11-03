@@ -1,24 +1,22 @@
 {
-  "versionName": "2.0.0",
-  "versionCode": 103,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.0.0.apk",
-  "sizeBytes": 78044260,
-  "sha256": "3b3ead7c899fe9560e23f050fcdf33ef39390418c1d77f7198f4a8db0920290c",
+  "versionName": "2.0.1",
+  "versionCode": 104,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.0.1.apk",
+  "sizeBytes": 78930934,
+  "sha256": "19b22ab748f73cc8e9f1e0fa01f101a08f62bc1e28a0571c102ba22cdff94dba",
   "releaseNotes": [
-    "v2.0.0（versionCode 103）",
-    "全新 UI：冷调工作台 + 液态玻璃 + 更顺的动效（业务逻辑不变）。",
-    "· 全局：全新冷调浅色工作台（#F6F8FC 画布 + 天蓝主色）与全新深色；卡片细描边、19 圆角、轻投影；顶栏/吸顶栏/弹层使用毛玻璃（iOS 26 系统液态玻璃，Android 真模糊）。",
-    "· 底栏：改为浮动胶囊（左右 12、高 62），选中态浅蓝 pill；页面底部留白按新几何重算。",
-    "· 今日：页头范式 + 浅蓝渐变 Hero（问候/连续打卡/本周七格）+ 状态选择（接现有精力数据）+ 玻璃专注卡（专注模式、开始专注、刷题/阅读/训练三目标条）+ 习惯列表 + 今日学习/饮水双环。",
-    "· 学习：复习提醒条 + 继续学习卡 + 2×2 学习入口 + 本周学习时长柱图；学习架与管理入口折叠保留，全部入口不删。",
-    "· 职业：准备度环 + 四维明细 + 三格指标 + 成长路径（岗位雷达 / 求职五阶段轨道 / 简历完成度）。",
-    "· 健康：三格指标带 + 2×2 行动卡（饮食/饮水/训练/睡眠）+ 本周趋势柱图。",
-    "· 我的：身份卡 + 分组设置行（全部设置项与开关逐项保留）。",
-    "· 二级页：408 专区/刷卡/精读/历史成绩、招花/岗位详情/收藏/投递、雷达/搜索/简历/证书等统一新质感。",
-    "· 动效：进度条填充、习惯勾选弹跳、卡片错峰入场；设置里的「动效」开关与系统「减弱动态」仍可让全部装饰动效停止。"
+    "v2.0.1（versionCode 104）",
+    "真机反馈修复。",
+    "· 修复 408 知识精读下滑闪退（讲义插图 SVG 箭头标记触发的系统级崩溃）。",
+    "· 修复底栏、专注卡、身份卡、408 顶栏上的白色块/白条（玻璃材质在 Android 上的绘制与阴影问题），同时提升玻璃不透明度，不再过度透明。",
+    "· 修复职业页、健康页顶部与手机状态栏重叠。",
+    "· 睡眠记录：点击不再跳领域记录，改为弹层记录；已支持自动读取手机健康数据（Health Connect）里的昨晚睡眠，读不到时可手动填写；数据保存在本机。",
+    "· 开始专注与专注计时改为一屏展示，不再上下滚动；底部励志短句随屏幕自适应。",
+    "· 全 App 图标改用开源图标库，不再使用 emoji，观感统一。",
+    "· 由于健康数据能力要求，Android 最低版本提升到 8.0（API 26）。"
   ],
-  "publishedAt": "2026-11-03T13:56:49.913Z",
+  "publishedAt": "2026-11-03T14:59:44.454Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "m8U5lunZvMLytXHJ_lkC3ZBCX_dF37yDpCZm-hmdcKWlp_U1CrRC6vjHLh5Dl__jMVymWRWxFxBxHEMPHwlgCA"
+  "signature": "cb2HygJfLzPhCK7FCyabso5XeyHa6-x57CZIbzwWhfhaXdyJYJQKNCub9Uje3-LF8vkli5RvnhBuGYNqyY9eCg"
 }

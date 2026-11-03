@@ -1,22 +1,21 @@
 {
-  "versionName": "2.0.1",
-  "versionCode": 104,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.0.1.apk",
-  "sizeBytes": 78930934,
-  "sha256": "19b22ab748f73cc8e9f1e0fa01f101a08f62bc1e28a0571c102ba22cdff94dba",
+  "versionName": "2.1.0",
+  "versionCode": 105,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.1.0.apk",
+  "sizeBytes": 78983230,
+  "sha256": "d22d0c64258e054434e87b9f0bc9e08612b5c49a7e914ec4386ab028d4d994f9",
   "releaseNotes": [
-    "v2.0.1（versionCode 104）",
-    "真机反馈修复。",
-    "· 修复 408 知识精读下滑闪退（讲义插图 SVG 箭头标记触发的系统级崩溃）。",
-    "· 修复底栏、专注卡、身份卡、408 顶栏上的白色块/白条（玻璃材质在 Android 上的绘制与阴影问题），同时提升玻璃不透明度，不再过度透明。",
-    "· 修复职业页、健康页顶部与手机状态栏重叠。",
-    "· 睡眠记录：点击不再跳领域记录，改为弹层记录；已支持自动读取手机健康数据（Health Connect）里的昨晚睡眠，读不到时可手动填写；数据保存在本机。",
-    "· 开始专注与专注计时改为一屏展示，不再上下滚动；底部励志短句随屏幕自适应。",
-    "· 全 App 图标改用开源图标库，不再使用 emoji，观感统一。",
-    "· 由于健康数据能力要求，Android 最低版本提升到 8.0（API 26）。"
+    "v2.1.0（versionCode 105）",
+    "视觉升级：液态玻璃底栏 + 数据面板。",
+    "· 底部导航全新升级：浮动液态玻璃胶囊（iOS 26 真玻璃 / Android 真模糊），选中项为蓝色渐变发光胶囊、白色图标，未选中为灰色图标；高度与留白重新标定，点击/双击回顶手感保留。",
+    "· 学习统计：换成新的数据面板——指标卡（总时长/连续天数/正确率等）、近 7 天柱状图、月度热力日历、分项排行占比条。",
+    "· 趋势分析：指标卡 + 面积趋势图 + 周柱状/达成环 + 分项排行，时间范围切换保留。",
+    "· 职业准备度：准备度分段环/能力雷达 + 指标卡 + 缺口技能排行，原有入口与工具保留。",
+    "· Web 端（随站点一起更新）：仪表盘、职业、市场三页接入 BoardUI 设计系统的 KPI 指标卡与图表卡，信息密度与可读性提升。",
+    "· 本版无功能删减，数据统计口径不变；Android 8.0+。"
   ],
-  "publishedAt": "2026-11-03T14:59:44.454Z",
+  "publishedAt": "2026-11-03T16:08:13.221Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "cb2HygJfLzPhCK7FCyabso5XeyHa6-x57CZIbzwWhfhaXdyJYJQKNCub9Uje3-LF8vkli5RvnhBuGYNqyY9eCg"
+  "signature": "U7sEa4a4J3Q08faSZIalNWd42jVd6hhAnw20u_KCS9b6g2-3ki4Sb-Me9xK2RhpsamclFI2yDpSAr9m0PgfKAg"
 }

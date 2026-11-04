@@ -1,22 +1,17 @@
 {
-  "versionName": "2.2.0",
-  "versionCode": 106,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.0.apk",
-  "sizeBytes": 78992142,
-  "sha256": "50948f83c9bf54cb24afc8db48d1765b15bf74790d165d32540fdba81fe10549",
+  "versionName": "2.2.1",
+  "versionCode": 107,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.1.apk",
+  "sizeBytes": 78997886,
+  "sha256": "ad0418e5fb89396d4d92f66422254b05b508d226f8436506b00dda28f4eb5ec1",
   "releaseNotes": [
-    "v2.2.0（versionCode 106）",
-    "内容阅读与视觉优化。",
-    "· Tab 切换改为横向滑动过渡：从当前页划向目标页（方向感知），不再瞬间切换；开启「减弱动态」时自动关闭。",
-    "· 408 知识精读 Markdown 正常渲染：加粗、行内代码、表格都按 MD 排版展示，不再出现 ** 星号、反引号、竖线等原始符号；技术题库/题卡同步修复。",
-    "· 今日页：今日学习/饮水卡更突出（图标芯片、渐变、更粗的进度环与大号数值），连续打卡、专注卡层级加强。",
-    "· 职业页：准备度环与总分放大、四维明细与缺口排行更清晰、更多工具入口加大。",
-    "· 408 专区新增「我的 408 学习统计」：卡片总数/已刷/套卷次数/最佳得分 + 最近套卷得分柱图 + 最佳套卷排行。",
-    "· 健康页新增「本周健康周报」：饮水/训练/睡眠三环达成率 + 四项周指标。",
-    "· 清理历史无用组件（不影响功能），包体与启动更轻。"
+    "v2.2.1（versionCode 107）",
+    "真机反馈修复。",
+    "· 修复底部 Tab 切换时页面叠加/半透明残影：切换过程中上一页完全隐藏，只保留横向滑动过渡，不再出现「职业页叠在学习页上」。",
+    "· 修复 408 知识精读的表格与列表排版：带加粗的单元格/列表项不再被拆成左右两列或逐字竖排，正文与加粗按正常行内流一行行折行；表格列宽更合理，长表可横向滚动。"
   ],
-  "publishedAt": "2026-11-04T11:07:52.714Z",
+  "publishedAt": "2026-11-04T12:54:41.872Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "Yt-s1yCuPR3mLU3wdc8QIjKLopK-EKwuG6hgWuCVTCPJtE08MAcyMLOPwlzlbf0m9O09Azy3olDGzTeHa5ksAg"
+  "signature": "l8CciSD-WUan8hT2yTTRJlUP6CJITWItSUkby7tqD5I6ahEO2UIOMm5bby4h8ZMLjaDOzGjz37taoD3jnmDSDw"
 }

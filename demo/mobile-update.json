@@ -1,21 +1,22 @@
 {
-  "versionName": "2.1.0",
-  "versionCode": 105,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.1.0.apk",
-  "sizeBytes": 78983230,
-  "sha256": "d22d0c64258e054434e87b9f0bc9e08612b5c49a7e914ec4386ab028d4d994f9",
+  "versionName": "2.2.0",
+  "versionCode": 106,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.0.apk",
+  "sizeBytes": 78992142,
+  "sha256": "50948f83c9bf54cb24afc8db48d1765b15bf74790d165d32540fdba81fe10549",
   "releaseNotes": [
-    "v2.1.0（versionCode 105）",
-    "视觉升级：液态玻璃底栏 + 数据面板。",
-    "· 底部导航全新升级：浮动液态玻璃胶囊（iOS 26 真玻璃 / Android 真模糊），选中项为蓝色渐变发光胶囊、白色图标，未选中为灰色图标；高度与留白重新标定，点击/双击回顶手感保留。",
-    "· 学习统计：换成新的数据面板——指标卡（总时长/连续天数/正确率等）、近 7 天柱状图、月度热力日历、分项排行占比条。",
-    "· 趋势分析：指标卡 + 面积趋势图 + 周柱状/达成环 + 分项排行，时间范围切换保留。",
-    "· 职业准备度：准备度分段环/能力雷达 + 指标卡 + 缺口技能排行，原有入口与工具保留。",
-    "· Web 端（随站点一起更新）：仪表盘、职业、市场三页接入 BoardUI 设计系统的 KPI 指标卡与图表卡，信息密度与可读性提升。",
-    "· 本版无功能删减，数据统计口径不变；Android 8.0+。"
+    "v2.2.0（versionCode 106）",
+    "内容阅读与视觉优化。",
+    "· Tab 切换改为横向滑动过渡：从当前页划向目标页（方向感知），不再瞬间切换；开启「减弱动态」时自动关闭。",
+    "· 408 知识精读 Markdown 正常渲染：加粗、行内代码、表格都按 MD 排版展示，不再出现 ** 星号、反引号、竖线等原始符号；技术题库/题卡同步修复。",
+    "· 今日页：今日学习/饮水卡更突出（图标芯片、渐变、更粗的进度环与大号数值），连续打卡、专注卡层级加强。",
+    "· 职业页：准备度环与总分放大、四维明细与缺口排行更清晰、更多工具入口加大。",
+    "· 408 专区新增「我的 408 学习统计」：卡片总数/已刷/套卷次数/最佳得分 + 最近套卷得分柱图 + 最佳套卷排行。",
+    "· 健康页新增「本周健康周报」：饮水/训练/睡眠三环达成率 + 四项周指标。",
+    "· 清理历史无用组件（不影响功能），包体与启动更轻。"
   ],
-  "publishedAt": "2026-11-03T16:08:13.221Z",
+  "publishedAt": "2026-11-04T11:07:52.714Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "U7sEa4a4J3Q08faSZIalNWd42jVd6hhAnw20u_KCS9b6g2-3ki4Sb-Me9xK2RhpsamclFI2yDpSAr9m0PgfKAg"
+  "signature": "Yt-s1yCuPR3mLU3wdc8QIjKLopK-EKwuG6hgWuCVTCPJtE08MAcyMLOPwlzlbf0m9O09Azy3olDGzTeHa5ksAg"
 }

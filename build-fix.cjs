@@ -540,6 +540,25 @@ function renderArticle(meta, body) {
   });
   const batfixHtml = batfixMd ? renderBatfix(batfixMd, slug) : "";
 
+  /* 段落顺序（2026-11-06）：「小白一键修复」之后直接进「分步骤」，
+     适用性、前置确认、验收、兜底、预防、更新日志这些说明性段落统一后置。
+     合规提示属于风险声明，仍保留在分步骤之前。 */
+  const TRAILING_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "怎么确认处理好了",
+    "还是不行？", "预防", "更新日志"];
+  const LEADING_SECTIONS = ["合规提示"];
+  const sectionHtml = function (n) {
+    return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>";
+  };
+  const tocItem = function (n) {
+    return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>";
+  };
+  const leadingRest = rest.filter(function (n) { return LEADING_SECTIONS.indexOf(n) >= 0; });
+  const trailingRest = rest.filter(function (n) { return TRAILING_SECTIONS.indexOf(n) >= 0; })
+    .sort(function (a, b) { return TRAILING_SECTIONS.indexOf(a) - TRAILING_SECTIONS.indexOf(b); });
+  const middleRest = rest.filter(function (n) {
+    return LEADING_SECTIONS.indexOf(n) < 0 && TRAILING_SECTIONS.indexOf(n) < 0;
+  });
+
   const riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
   const rk = riskMap[meta.risk] || riskMap["需谨慎"];
   const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
@@ -564,8 +583,9 @@ function renderArticle(meta, body) {
     '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
     (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
     (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">🧰 小白一键修复</a></li>' : "") +
-    rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
-    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "");
+    leadingRest.map(tocItem).join("") +
+    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
+    middleRest.concat(trailingRest).map(tocItem).join("");
   const tocMobile = tocLinks
     ? '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>"
     : "";
@@ -610,8 +630,9 @@ preambleHtml,
 (quickItems.length ? '<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : ""),
 batfixHtml,
 CONNECTOR,
-rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>"; }).join("\n"),
+  leadingRest.map(sectionHtml).join("\n"),
 (stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : ""),
+  middleRest.concat(trailingRest).map(sectionHtml).join("\n"),
 '<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>',
 '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>',
 (related.length ? '<h2 class="fx-h2">相关教程</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),

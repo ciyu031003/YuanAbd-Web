@@ -1108,6 +1108,8 @@ td,th{line-height:1.5}
   .grp__bd.previewing{grid-template-columns:1fr}
   .grp__bd.previewing #body{min-height:280px}
 }
+/* 2026-11-06：预览改为 iframe 承载线上整页，容器要给它完整高度 */
+.grp__bd.previewing .md-preview{height:72vh;min-height:520px;padding:0;overflow:hidden}
 #body{transition:none}
 .grp__bd.previewing .md-preview{position:sticky;top:76px}
 /* ---- 发布节奏趋势图（复用图表柱，弱化空柱） ---- */

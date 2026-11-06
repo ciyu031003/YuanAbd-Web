@@ -1,18 +1,21 @@
 {
-  "versionName": "2.2.2",
-  "versionCode": 108,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.2.apk",
-  "sizeBytes": 79002274,
-  "sha256": "588adfd8569429a0ba49e7a5d7ab125147c7c0b56c1cba51e6b4f4d1e5a20994",
+  "versionName": "2.3.0",
+  "versionCode": 109,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.3.0.apk",
+  "sizeBytes": 79087914,
+  "sha256": "2c7d3f872c2dcb60112df66378cf8e0143d01d1cb681b108859a4c5b91dc85d5",
   "releaseNotes": [
-    "v2.2.2（versionCode 108）",
-    "真机反馈修复。",
-    "· 修复 Tab 切换重影与卡顿：切换改为纯横向滑动（两页不再同时半透明叠在一起），200ms 缓出，页面不透明底；开启「减弱动态」时直接切换。",
-    "· 修复切换页面时骨架屏突然闪出：骨架屏只在首次进入且还没有数据时出现；之后切回或刷新会保留旧内容后台更新，弱网/失败也不会清空已显示内容。408 专区返回时不再出现「正在加载知识体系」占位。",
-    "· 修复 408 知识精读表格错位：表头与数据行共用固定列宽，「描述」「示例」等列对齐，长文本在列内自动换行，不再跑到其它列下面。"
+    "v2.3.0（versionCode 109）",
+    "睡眠模块重做。",
+    "· 自动读取系统健康数据（Android Health Connect）：最近 30 天睡眠记录，解析深睡/浅睡/快速眼动/清醒分期、清醒次数、睡眠效率，同晚多条记录自动合并去重。",
+    "· 新增睡眠详情页：日 / 周 / 月切换；睡眠评分环；总时长、入睡、起床、深睡占比、清醒次数、睡眠效率六项指标；睡眠分期时间轴；分期占比与参考区间；就寝规律性；最近 7 / 30 天趋势。",
+    "· 手动补录支持任意日期（可编辑、可删除），不再只能记昨晚；旧版记录自动迁移。",
+    "· 数据源状态卡：未授权时可一键去授权 / 重新读取；并提示小米运动健康需在「我的 → 健康数据/第三方接入」中开启 Health Connect 同步。",
+    "· 健康页的睡眠卡与睡眠指标改为进入睡眠详情页。",
+    "· 说明：小米/华为等厂商健康 App 不会自动写入 Health Connect，需在对应 App 里开启同步；未开启时仍可手动记录。"
   ],
-  "publishedAt": "2026-11-06T11:36:12.853Z",
+  "publishedAt": "2026-11-06T14:01:13.436Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "fdMRWQOjM1pIBnLNrtDJUNuBD5JtJ5ixL1ErekfwkZyhHc30o8zwSoFoZA0OJrKHH-gojKEaSJLvSIslBL7BBw"
+  "signature": "PWBCnb87l_Ai1j0CAjPImfeZlDE-x5fU5e3MhFRs6L1h1yzUgfD9hZCcaOA5yKKN9-KvxSsx0v8UFOH9NY-sAg"
 }

@@ -1,17 +1,18 @@
 {
-  "versionName": "2.2.1",
-  "versionCode": 107,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.1.apk",
-  "sizeBytes": 78997886,
-  "sha256": "ad0418e5fb89396d4d92f66422254b05b508d226f8436506b00dda28f4eb5ec1",
+  "versionName": "2.2.2",
+  "versionCode": 108,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.2.2.apk",
+  "sizeBytes": 79002274,
+  "sha256": "588adfd8569429a0ba49e7a5d7ab125147c7c0b56c1cba51e6b4f4d1e5a20994",
   "releaseNotes": [
-    "v2.2.1（versionCode 107）",
+    "v2.2.2（versionCode 108）",
     "真机反馈修复。",
-    "· 修复底部 Tab 切换时页面叠加/半透明残影：切换过程中上一页完全隐藏，只保留横向滑动过渡，不再出现「职业页叠在学习页上」。",
-    "· 修复 408 知识精读的表格与列表排版：带加粗的单元格/列表项不再被拆成左右两列或逐字竖排，正文与加粗按正常行内流一行行折行；表格列宽更合理，长表可横向滚动。"
+    "· 修复 Tab 切换重影与卡顿：切换改为纯横向滑动（两页不再同时半透明叠在一起），200ms 缓出，页面不透明底；开启「减弱动态」时直接切换。",
+    "· 修复切换页面时骨架屏突然闪出：骨架屏只在首次进入且还没有数据时出现；之后切回或刷新会保留旧内容后台更新，弱网/失败也不会清空已显示内容。408 专区返回时不再出现「正在加载知识体系」占位。",
+    "· 修复 408 知识精读表格错位：表头与数据行共用固定列宽，「描述」「示例」等列对齐，长文本在列内自动换行，不再跑到其它列下面。"
   ],
-  "publishedAt": "2026-11-04T12:54:41.872Z",
+  "publishedAt": "2026-11-06T11:36:12.853Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "l8CciSD-WUan8hT2yTTRJlUP6CJITWItSUkby7tqD5I6ahEO2UIOMm5bby4h8ZMLjaDOzGjz37taoD3jnmDSDw"
+  "signature": "fdMRWQOjM1pIBnLNrtDJUNuBD5JtJ5ixL1ErekfwkZyhHc30o8zwSoFoZA0OJrKHH-gojKEaSJLvSIslBL7BBw"
 }

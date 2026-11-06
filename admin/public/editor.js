@@ -251,15 +251,24 @@
     var f = document.getElementById("editor");
     var csrfEl = f && f.querySelector('[name="_csrf"]');
     if (!csrfEl) return;
-    var fd = new FormData();
-    fd.append("_csrf", csrfEl.value);
-    fd.append("md", ta.value);
+    // 带上整张表单（标题 / 领域 / 风险 / 时间等），服务端据此渲染与线上一致的整页
+    var fd = new FormData(f);
+    fd.set("md", ta.value);
     previewBox.innerHTML = '<p class="muted">渲染中…</p>';
     fetch("/articles/preview", { method: "POST", body: fd, credentials: "same-origin" })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (seq !== previewSeq) return;   // 只采纳最新一次输入的渲染结果
-        previewBox.innerHTML = j.error ? '<p class="muted">预览失败：' + j.error + "</p>" : (j.html || "");
+        if (j.error) { previewBox.innerHTML = '<p class="muted">预览失败：' + j.error + '</p>'; return; }
+        /* 2026-11-06：预览改为 iframe 承载线上整页 HTML ——
+           段落顺序（分步骤在前）、卡片与步骤样式都与线上完全一致。 */
+        var ifr = document.createElement("iframe");
+        ifr.setAttribute("title", "文章预览");
+        ifr.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
+        ifr.style.cssText = "width:100%;height:74vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block";
+        ifr.srcdoc = j.html || "";
+        previewBox.innerHTML = "";
+        previewBox.appendChild(ifr);
       })
       .catch(function () {
         if (seq !== previewSeq) return;

@@ -804,4 +804,4 @@ function main() {
 /* 供管理后台的预览接口复用同一套渲染器（admin server require 本模块时不会触发构建）。
    预览保真：后台「实时预览」看到的 HTML 与线上构建产物完全一致。 */
 if (require.main === module) main();
-module.exports = { mdToHtml: mdToHtml, slugify: slugify };
+module.exports = { mdToHtml: mdToHtml, slugify: slugify, renderArticle: renderArticle, renderReference: renderReference };

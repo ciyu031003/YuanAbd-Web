@@ -60,30 +60,6 @@ detail_href: ./fix/codex-desktop-install.html
 - 运行前：确认 Microsoft Store 能正常打开；脚本不会自动点击安装或代替账号登录。
 - 注意：只安装发布者为 OpenAI 的结果，不要从第三方网盘下载“绿色版”“破解版”。
 
-## 适用 / 不适用
-
-**适用：**
-
-- 第一次在 Windows 安装 Codex 桌面应用。
-- 已经安装 ChatGPT 桌面应用，但不知道 Codex 从哪里进入。
-- 想确认电脑里有没有安装 OpenAI 发布的 Codex。
-- 需要区分桌面应用、网页版与 CLI 三种入口。
-
-**不适用：**
-
-- 想要终端里的 Codex → [Codex CLI 下载安装](./codex-cli-install.html)。
-- Microsoft Store 本身打不开、闪退或安装一直失败 → 先修 [Microsoft Store](./win-store-not-opening.html)。
-- 账号无法登录、所在地区不支持或组织账号无权限 → 按 OpenAI 官方账号与地区说明处理，本文不提供绕过方法。
-- 希望安装第三方修改版 → 不建议，存在账号、代码和本地文件泄露风险。
-
-## 开始前确认
-
-- [ ] Windows 10/11 已安装可用更新。
-- [ ] 系统时间和时区准确。
-- [ ] Microsoft Store 能搜索和下载其他应用。
-- [ ] 有可正常登录的 OpenAI 账号。
-- [ ] 知道桌面应用显示名可能是 ChatGPT，而不是只显示 Codex。
-
 ## 分步骤
 
 ### 步骤 1：先确认商店正常
@@ -163,6 +139,30 @@ Get-AppxPackage OpenAI.Codex | Select-Object Name, Version, PublisherDisplayName
 **预期结果**：确定一种主要入口，并完成登录。
 
 **失败怎么办**：桌面入口不可用时先用网页版确认账号状态；终端需求转到 [Codex CLI 下载安装](./codex-cli-install.html)。
+
+## 适用 / 不适用
+
+**适用：**
+
+- 第一次在 Windows 安装 Codex 桌面应用。
+- 已经安装 ChatGPT 桌面应用，但不知道 Codex 从哪里进入。
+- 想确认电脑里有没有安装 OpenAI 发布的 Codex。
+- 需要区分桌面应用、网页版与 CLI 三种入口。
+
+**不适用：**
+
+- 想要终端里的 Codex → [Codex CLI 下载安装](./codex-cli-install.html)。
+- Microsoft Store 本身打不开、闪退或安装一直失败 → 先修 [Microsoft Store](./win-store-not-opening.html)。
+- 账号无法登录、所在地区不支持或组织账号无权限 → 按 OpenAI 官方账号与地区说明处理，本文不提供绕过方法。
+- 希望安装第三方修改版 → 不建议，存在账号、代码和本地文件泄露风险。
+
+## 开始前确认
+
+- [ ] Windows 10/11 已安装可用更新。
+- [ ] 系统时间和时区准确。
+- [ ] Microsoft Store 能搜索和下载其他应用。
+- [ ] 有可正常登录的 OpenAI 账号。
+- [ ] 知道桌面应用显示名可能是 ChatGPT，而不是只显示 Codex。
 
 ## 怎么确认修好了
 

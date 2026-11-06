@@ -791,8 +791,34 @@ async function handle(req, res) {
     if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
     try {
       const siteBuild = require(path.join(config.repo.root, "build-fix.cjs"));
-      const html = siteBuild.mdToHtml(String(form.md || ""));
-      return h.sendJson(res, 200, { html: html }, h.securityHeaders());
+      /* 2026-11-06：预览从「只渲染 Markdown 片段」升级为「复用线上整页渲染」。
+         线上文章的段落顺序由 build-fix 的模板决定（分步骤提前、说明段落后置），
+         只调 mdToHtml 会按 Markdown 书写顺序输出，导致预览与线上不一致。
+         现在直接调 renderArticle 生成整页，相对资源换成站点绝对地址，前端用 iframe 承载。 */
+      const md = String(form.body || form.md || "");
+      const splitList = function (v) {
+        return String(v || "").split(/[,，、\s]+/).map(function (x) { return x.trim(); }).filter(Boolean);
+      };
+      const meta = {
+        title: String(form.title || "（未命名文章）"),
+        slug: String(form.slug || "preview"),
+        kind: String(form.kind || "fix"),
+        domain: String(form.domain || ""),
+        category: String(form.category || ""),
+        os: splitList(form.os).length ? splitList(form.os) : ["Windows"],
+        difficulty: String(form.difficulty || "入门"),
+        time: String(form.time || "10-30 分钟"),
+        risk: String(form.risk || "需谨慎"),
+        related: splitList(form.related),
+        updated: new Date().toISOString().slice(0, 10),
+        reviewer: "编辑器预览"
+      };
+      const isRef = /^(reference|sop)$/.test(meta.kind) || /^ref-/.test(meta.domain);
+      let page = isRef ? siteBuild.renderReference(meta, md) : siteBuild.renderArticle(meta, md);
+      const site = String(config.siteUrl || "").replace(/\/+$/, "");
+      // 所有 ../ 与 ../../ 前缀统一换成站点根：CSS/JS/图片与站内链接在预览里都能正常加载
+      page = page.replace(/(?:\.\.\/)+/g, site + "/");
+      return h.sendJson(res, 200, { html: page }, h.securityHeaders());
     } catch (e) {
       return h.sendJson(res, 500, { error: "渲染失败：" + e.message }, h.securityHeaders());
     }

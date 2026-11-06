@@ -21,6 +21,9 @@ const config = {
   port: parseInt(optional("ADMIN_PORT", "3020"), 10),
   host: optional("ADMIN_HOST", "0.0.0.0"),
   publicUrl: optional("ADMIN_PUBLIC_URL", "https://dashboard.pc-fixboxs.yuanabd.cn"),
+  /* 前台站点地址：编辑器预览把整页 HTML 塞进 iframe，相对资源需换成站点绝对地址，
+     这样「预览所见 = 线上所见」。可用 SITE_PUBLIC_URL 覆盖。 */
+  siteUrl: optional("SITE_PUBLIC_URL", "https://pc-fixboxs.yuanabd.cn"),
 
   // ---- 数据库（独立库，最小权限角色） ----
   db: {

@@ -65,32 +65,6 @@ detail_href: ./fix/win-store-not-opening.html
 - 运行前：先在「设置 → Windows 更新」确认系统能正常检查更新；保存正在填写的商店页面信息。
 - 注意：脚本不会替你修改组策略，不会卸载应用，也不会删除个人文件。若更新组件本身损坏，还要按更新教程执行 `DISM` 和 `sfc`。
 
-## 适用 / 不适用
-
-**适用**
-
-- Microsoft Store 打不开、无限转圈、闪退、报 0x80131500/0x80131505 等错误码。
-- 商店里应用下载卡 0% / 安装失败。
-- 商店应用（照片/计算器等 UWP 应用）打不开或闪退。
-- 准备从商店安装 ChatGPT/Codex，但商店无法加载商品页。
-
-**不适用**
-
-- Windows 更新被暂停、关闭，或 `Windows Update` 服务被禁用：先按 [重新开启 Windows 更新](./win-update-enable.html) 处理。
-- 更新能打开但长期检查失败、下载卡住或安装失败：先按 [Windows 更新卡住修复](./win-update-stuck.html) 处理。
-- 普通桌面软件闪退/缺 DLL：看[「Win 软件打不开 / 闪退提示缺少 DLL 怎么修」](./win-app-crash-missing-dll.html)。
-- 公司电脑商店被组策略禁用（打不开且提示「联系管理员」）：找 IT，不是故障。
-- 网页版商店可以但客户端不行：就是本文明示的网络/缓存层，照做。
-
-## 开始前确认
-
-- [ ] 浏览器能正常上网（排除全断网）。
-- [ ] Windows 更新没有暂停，`Windows Update` 服务没有禁用。
-- [ ] 「设置 → Windows 更新」能正常点击“检查更新”。
-- [ ] 退出 VPN、代理、加速器。
-- [ ] 记下当前「区域」设置值。
-- [ ] 微软账户密码记得（重置后要重登）。
-
 ## 分步骤
 
 ### 步骤 1：先确认 Windows 更新正常（商店前提）
@@ -145,6 +119,32 @@ detail_href: ./fix/win-store-not-opening.html
 3. 顽固案例（Store 被深度损坏）：管理员 PowerShell 执行重装商店命令
    `Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}` 后重启。
 **期望结果**：商店完整重生。**失败了怎么办**：仍不行 → 按[「系统改坏了进不去？安全模式、系统还原与重置的正确顺序」](./win-safe-restore.html)用系统还原退回正常时点，或「重置此电脑（保留我的文件）」。
+
+## 适用 / 不适用
+
+**适用**
+
+- Microsoft Store 打不开、无限转圈、闪退、报 0x80131500/0x80131505 等错误码。
+- 商店里应用下载卡 0% / 安装失败。
+- 商店应用（照片/计算器等 UWP 应用）打不开或闪退。
+- 准备从商店安装 ChatGPT/Codex，但商店无法加载商品页。
+
+**不适用**
+
+- Windows 更新被暂停、关闭，或 `Windows Update` 服务被禁用：先按 [重新开启 Windows 更新](./win-update-enable.html) 处理。
+- 更新能打开但长期检查失败、下载卡住或安装失败：先按 [Windows 更新卡住修复](./win-update-stuck.html) 处理。
+- 普通桌面软件闪退/缺 DLL：看[「Win 软件打不开 / 闪退提示缺少 DLL 怎么修」](./win-app-crash-missing-dll.html)。
+- 公司电脑商店被组策略禁用（打不开且提示「联系管理员」）：找 IT，不是故障。
+- 网页版商店可以但客户端不行：就是本文明示的网络/缓存层，照做。
+
+## 开始前确认
+
+- [ ] 浏览器能正常上网（排除全断网）。
+- [ ] Windows 更新没有暂停，`Windows Update` 服务没有禁用。
+- [ ] 「设置 → Windows 更新」能正常点击“检查更新”。
+- [ ] 退出 VPN、代理、加速器。
+- [ ] 记下当前「区域」设置值。
+- [ ] 微软账户密码记得（重置后要重登）。
 
 ## 怎么确认修好了
 

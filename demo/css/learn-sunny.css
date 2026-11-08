@@ -412,3 +412,125 @@ body.learn::before{
 .app__search,
 .stage__chip b,
 .stars .dim{color:var(--c-ink-500)}
+
+
+/* ============================================================
+   2026-11-08 落地层（依据 ui-proposal-sub 提案 A / B / C）
+   ------------------------------------------------------------
+   A. 顶栏 125px → 72px；锚点补偿同步收到 84px
+   B. 307px 幽灵字整层删除，改右侧竖排「学习」印记
+   C. 标题渐变收回整行（不再逐字切片）、去掉逐字白边
+   D. 五本书桌面一排放平、书脚对齐；≤900 改 2 列静态书架
+   ============================================================ */
+
+/* --- A. 顶栏：11 + 50 + 11 = 72px --- */
+@media (min-width:901px){
+  .topbar{padding:11px 3.2vw}
+  /* 首屏文案起点：顶栏 72 + 3.2vh，不再被压 */
+  .hero-wrap{top:calc(72px + 3.2vh)}
+}
+[id]{scroll-margin-top:84px}
+
+/* --- B. 幽灵字整层删除，只留右侧竖排印记（3% 幽灵感，不压任何文字） --- */
+.hero-word{display:none}
+.hero-mark{
+  position:absolute;z-index:1;right:2.2vw;top:50%;
+  transform:translateY(-50%);
+  writing-mode:vertical-rl;text-orientation:upright;
+  font:500 24px/1.9 var(--font-serif,serif);
+  letter-spacing:.42em;
+  color:#18202A;opacity:.06;
+  user-select:none;pointer-events:none;white-space:nowrap;
+}
+@media (max-width:900px){ .hero-mark{display:none} }
+
+/* --- C. 标题：整行一张渐变，去白描边 --- */
+.hero-title{text-shadow:none}
+.hero-title em{
+  /* 固定附着：每个字的取样都落在同一张视口渐变上，因此不再出现横向切片 */
+  background-image:linear-gradient(96deg,#0E5FA8 0%,#1C6AAB 34%,#C2452C 100%);
+  background-attachment:fixed;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.split em .ch{
+  background-image:inherit;
+  background-attachment:fixed;
+  background-size:100% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+
+/* --- D1. 桌面：五本书一排放平，书脚对齐 --- */
+@media (min-width:901px){
+  .book-card{--w:min(17.4vw,240px);--y:54%;--r:0deg;--yaw:0deg}
+  .book-card[data-book="market"]   {--x:19.5%; --w:min(17.4vw,240px);--y:54%;--r:-2.2deg;--yaw:-2deg}
+  .book-card[data-book="quiz"]     {--x:34.75%;--w:min(17.4vw,240px);--y:54%;--r:-1.1deg;--yaw:-1deg}
+  .book-card[data-book="roadmap"]  {--x:50%;   --w:min(17.4vw,240px);--y:54%;--r:0deg;   --yaw:0deg}
+  .book-card[data-book="pipeline"] {--x:65.25%;--w:min(17.4vw,240px);--y:54%;--r:1.1deg; --yaw:1deg}
+  .book-card[data-book="readiness"]{--x:80.5%; --w:min(17.4vw,240px);--y:54%;--r:2.2deg; --yaw:2deg}
+}
+
+/* --- D2. ≤900：静态 2 列书架（退出「扇形出画 + 互相压」） --- */
+@media (max-width:900px){
+  body.learn[data-mode="gallery"] .stage{min-height:auto;overflow:visible}
+  body.learn[data-mode="gallery"] .hero-wrap{
+    position:static;top:auto;transform:none;filter:none;
+    padding:calc(72px + 5vh) 20px 26px;text-align:left;
+  }
+  body.learn[data-mode="gallery"] .hero-title{max-width:14em;margin:8px 0 12px}
+  body.learn[data-mode="gallery"] .hero-sub{margin:0;max-width:none}
+  body.learn[data-mode="gallery"] .hero-cta{margin-top:16px}
+  body.learn[data-mode="gallery"] .gallery{
+    position:relative;inset:auto;
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:22px 18px;padding:0 18px 6px;
+    perspective:none;
+  }
+  body.learn[data-mode="gallery"] .book-card{
+    position:relative;left:auto;top:auto;width:100%;
+    transform:none !important;
+    --r:0deg;--yaw:0deg;--hover-y:0px;
+  }
+  body.learn[data-mode="gallery"] .book-card:hover .book{transform:none}
+  body.learn[data-mode="gallery"] .cover-title{font-size:clamp(20px,6.4vw,30px)}
+  body.learn[data-mode="gallery"] .cover-subtitle{font-size:clamp(9px,2.6vw,13px)}
+  body.learn[data-mode="gallery"] .cover-kicker{font-size:clamp(7px,1.9vw,9px)}
+
+  /* 点开某本书后（详情态）：改成一册 + 下方文档，顺着页面往下读，不再有出画扇形 */
+  body.learn[data-mode="detail"]{overflow:auto !important}
+  body.learn[data-mode="detail"] .hero-wrap{display:none !important}
+  body.learn[data-mode="detail"] .stage{min-height:auto !important;overflow:visible !important}
+  body.learn[data-mode="detail"] .close-button{
+    position:fixed !important;top:calc(var(--nav-h) + 12px) !important;z-index:60
+  }
+  body.learn[data-mode="detail"] .gallery{
+    position:relative !important;inset:auto !important;
+    display:flex !important;flex-direction:column;align-items:center;
+    height:auto !important;padding:0 18px !important;
+  }
+  body.learn[data-mode="detail"] .book-card{
+    position:relative !important;
+    left:auto !important;top:auto !important;
+    max-width:min(62vw,300px) !important;width:100% !important;
+    margin:calc(var(--nav-h) + 28px) auto 0 !important;
+    transform:none !important;filter:none !important;
+    --r:0deg !important;--yaw:0deg !important;
+  }
+  body.learn[data-mode="detail"] .book-card:not(.selected){display:none !important}
+  body.learn[data-mode="detail"] .book-card.selected{opacity:1 !important}
+  body.learn[data-mode="detail"] .detail-panel{
+    position:static !important;
+    margin:30px 20px 96px !important;width:auto !important;
+    opacity:1 !important;
+    transition:none !important;
+  }
+  body.learn[data-mode="detail"] .detail-scroll{max-height:none !important;overflow:visible !important}
+  body.learn[data-mode="detail"] .bottom-dock{position:static !important;margin-top:18px}
+
+  /* 触控：页脚链接与 logo 抬到 44px 命中区（原先 22-30px 高） */
+  .footer a{display:inline-flex;align-items:center;min-height:44px}
+  .topbar .brand{display:inline-flex;align-items:center;min-height:44px}
+}

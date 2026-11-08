@@ -1,21 +1,21 @@
 {
-  "versionName": "2.3.0",
-  "versionCode": 109,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.3.0.apk",
-  "sizeBytes": 79087914,
-  "sha256": "2c7d3f872c2dcb60112df66378cf8e0143d01d1cb681b108859a4c5b91dc85d5",
+  "versionName": "2.4.0",
+  "versionCode": 110,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.4.0.apk",
+  "sizeBytes": 79273346,
+  "sha256": "c4ee27e105fb795e5080003e3007c2606e1dd351fb2e9f84aed1e2681becd317",
   "releaseNotes": [
-    "v2.3.0（versionCode 109）",
-    "睡眠模块重做。",
-    "· 自动读取系统健康数据（Android Health Connect）：最近 30 天睡眠记录，解析深睡/浅睡/快速眼动/清醒分期、清醒次数、睡眠效率，同晚多条记录自动合并去重。",
-    "· 新增睡眠详情页：日 / 周 / 月切换；睡眠评分环；总时长、入睡、起床、深睡占比、清醒次数、睡眠效率六项指标；睡眠分期时间轴；分期占比与参考区间；就寝规律性；最近 7 / 30 天趋势。",
-    "· 手动补录支持任意日期（可编辑、可删除），不再只能记昨晚；旧版记录自动迁移。",
-    "· 数据源状态卡：未授权时可一键去授权 / 重新读取；并提示小米运动健康需在「我的 → 健康数据/第三方接入」中开启 Health Connect 同步。",
-    "· 健康页的睡眠卡与睡眠指标改为进入睡眠详情页。",
-    "· 说明：小米/华为等厂商健康 App 不会自动写入 Health Connect，需在对应 App 里开启同步；未开启时仍可手动记录。"
+    "v2.4.0（versionCode 110）",
+    "移动端 UI 重构：浅色科技风（瓷白冷调 / 晴空蓝 / 实景带 / 玻璃锚点）。",
+    "· 设计令牌：瓷白冷画布 #F1F4F5、晴空蓝 #2F74C0、阳光橘仅用于「今天」；圆角四档（机壳 30 / 卡片 18 / 控件 12 / 胶囊 999）；字阶 27 / 16 / 15.5 / 11。",
+    "· 今日页：渐变 Hero 改为高山云海实景带（本地打包图，离线可见），上下加暗场保证白字可读；今天格强制橙色。",
+    "· 底栏：选中胶囊与专注色档对齐新晴空蓝；浮动胶囊与页面间距同步。",
+    "· 跨端同步：packages/ui 设计令牌更新（画布 / 玻璃 / 文字灰 / 图表序列色），Web 与 App 同源。",
+    "· 可读性审查修复：弱化文字 #78888F → #64767D（白卡对比度 3.67 → 4.74，满足 WCAG AA）；任务勾选对勾改纯白（对成功绿底 3.18:1）。",
+    "· 结构未变：五个 Tab 与二级页功能、路由、数据口径全部沿用 2.3.x。"
   ],
-  "publishedAt": "2026-11-06T14:01:13.436Z",
+  "publishedAt": "2026-11-08T04:52:15.420Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "PWBCnb87l_Ai1j0CAjPImfeZlDE-x5fU5e3MhFRs6L1h1yzUgfD9hZCcaOA5yKKN9-KvxSsx0v8UFOH9NY-sAg"
+  "signature": "lVV3_N2ES2NYfji3TKg8Lbwpdbd6B-CviAUQlbNwFi9SCvv_FOdwaQG2u8tYRkH0F5ys7qv67UqaiIOmXZSbCQ"
 }

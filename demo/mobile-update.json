@@ -1,19 +1,21 @@
 {
-  "versionName": "2.6.1",
-  "versionCode": 113,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.1.apk",
-  "sizeBytes": 79320370,
-  "sha256": "cadc3c39f205910e3e98056a5f807fd5259aeb9228b1038ba4a162545c50f6af",
+  "versionName": "2.6.2",
+  "versionCode": 114,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.2.apk",
+  "sizeBytes": 79319782,
+  "sha256": "a6d18294a9054245c3150bc438710115b4212563122ba91b24841a8f746bf03d",
   "releaseNotes": [
-    "v2.6.1（versionCode 113）",
-    "Web / 真机审计后的修复补丁。",
-    "· 修复区块标题错位：学习、职业、我的等页面的区块标题（数据洞察 / 求职准备 / 最近获得 / 设置等）此前被挤到行中间，现与左侧主色竖条对齐。",
-    "· 修复实景图显示：今日页「每日一景」与「我的」个人卡背景图在部分环境下只露出左上角，现完整铺满（cover）。",
-    "· 专注模式：清理一条无效的 lint 抑制注释，行为不变。",
-    "· 其余与 2.6.0 一致：五 Tab v3 版式、专注模式、任务详情面板、真实数据口径与原有跳转全部保留。"
+    "v2.6.2（versionCode 114）",
+    "移动端 UI 按设计提案收口（豆包版打磨）。",
+    "· 底栏：改为全宽白色底栏（贴底、顶部细分隔线、背景模糊），选中项为蓝色软底图标 + 蓝字。",
+    "· 区块标题：去掉左侧竖条，纯文字标题（学习 / 职业 / 健康 / 我的 / 今日一致）。",
+    "· 今日页：铃铛未读点、专注卡圆角 26、三格指标分隔线、开始专注按钮蓝色渐变、问候标题字重、专注时长 40pt 大数字。",
+    "· 专注模式：默认纯色深蓝暗场，开始即满圈、随剩余时间缩短；图片背景才叠压暗层。",
+    "· 设置 / 招花 / 营养卡片：标题字重与间距同步收口。",
+    "· 功能与跳转全部保持不变。"
   ],
-  "publishedAt": "2026-11-08T07:32:55.031Z",
+  "publishedAt": "2026-11-08T12:30:59.947Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "CiifagbEsj-p10DL7eDTero05R6GzBOgBGvMXU2NZCs5t_rh3_fv1fPJdutiTD5mfLNskxVNjGwii4TkQ-ZcDA"
+  "signature": "jLrIqt_cb--jChEfqSoZcMKmqDAbNPX_WI6npopeoXUFWUIokXmy4PhEXlrHf3D1kJMkDYmBMIbWj0tAau5OCg"
 }

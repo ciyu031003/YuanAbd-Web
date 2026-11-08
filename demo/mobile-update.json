@@ -1,21 +1,22 @@
 {
-  "versionName": "2.4.0",
-  "versionCode": 110,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.4.0.apk",
-  "sizeBytes": 79273346,
-  "sha256": "c4ee27e105fb795e5080003e3007c2606e1dd351fb2e9f84aed1e2681becd317",
+  "versionName": "2.5.0",
+  "versionCode": 111,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.5.0.apk",
+  "sizeBytes": 79280690,
+  "sha256": "56344b63e524df1054dfc14a8a58ac58df68b26942baf5b6c94c0b0cd4f59c17",
   "releaseNotes": [
-    "v2.4.0（versionCode 110）",
-    "移动端 UI 重构：浅色科技风（瓷白冷调 / 晴空蓝 / 实景带 / 玻璃锚点）。",
-    "· 设计令牌：瓷白冷画布 #F1F4F5、晴空蓝 #2F74C0、阳光橘仅用于「今天」；圆角四档（机壳 30 / 卡片 18 / 控件 12 / 胶囊 999）；字阶 27 / 16 / 15.5 / 11。",
-    "· 今日页：渐变 Hero 改为高山云海实景带（本地打包图，离线可见），上下加暗场保证白字可读；今天格强制橙色。",
-    "· 底栏：选中胶囊与专注色档对齐新晴空蓝；浮动胶囊与页面间距同步。",
-    "· 跨端同步：packages/ui 设计令牌更新（画布 / 玻璃 / 文字灰 / 图表序列色），Web 与 App 同源。",
-    "· 可读性审查修复：弱化文字 #78888F → #64767D（白卡对比度 3.67 → 4.74，满足 WCAG AA）；任务勾选对勾改纯白（对成功绿底 3.18:1）。",
-    "· 结构未变：五个 Tab 与二级页功能、路由、数据口径全部沿用 2.3.x。"
+    "v2.5.0（versionCode 111）",
+    "今日页按《移动端 UI 优化提案》重排（第一阶段：仅今日页，其余四页待确认后继续）。",
+    "· 顶栏：LEARN · WORKBENCH 字标 + 通知 + 头像（通知弹层可直接去任务/统计/打卡）。",
+    "· 问候区移到实景带外：日期 · 星期 · 周号 + 「早上好，{昵称}」+ 今天几件事。",
+    "· 实景带：每日一景 · 云海日出，顶部「取景时刻」角标。",
+    "· 今日专注玻璃卡：今日时长（Xh Ym）+ 日目标环（180 分钟口径）+ 本周七格节律柱（今天阳光橘）+ 三格指标（今日任务 / 刷题进度 / 连续打卡，打卡格可直接点）+ 开始专注 CTA（带「25 分钟 · 学习内容 · 第 N 个番茄」副行）。",
+    "· 今日安排：时间轴式任务行（类型 / 标题 / 专注分钟 / 圆形勾选），保留原勾选与庆祝动效。",
+    "· 本周学习 / 今日饮水双卡、今日习惯三瓦片、本周专注洞察（近 7 天曲线 + 对比前 7 天）。",
+    "· 保留能力：刷题/阅读/训练快捷入口、精力状态记录、AI/规则每日建议、下拉刷新、通知弹层、专注计时链路。"
   ],
-  "publishedAt": "2026-11-08T04:52:15.420Z",
+  "publishedAt": "2026-11-08T06:00:22.934Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "lVV3_N2ES2NYfji3TKg8Lbwpdbd6B-CviAUQlbNwFi9SCvv_FOdwaQG2u8tYRkH0F5ys7qv67UqaiIOmXZSbCQ"
+  "signature": "DtUQMKUcnFgSrVDiHbq5XjLDcH4sYoQ9xlNDslYWl-OnRAilWiRhSdO_zeBUl980g3nK5C_egdMoudEvmeXkCA"
 }

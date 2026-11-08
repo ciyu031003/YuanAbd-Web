@@ -43,11 +43,13 @@
   ];
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var isMobile = window.matchMedia("(max-width: 760px)").matches;
+  /* 2026-11-08：<900 不再走 3D 环绕 —— 相机在窄视口里把环推到一侧，
+     实测只剩右边一条。窄屏改为静态帧 + 底部索引点，桌面 3D 不变。 */
+  var isMobile = window.matchMedia("(max-width: 899px)").matches;
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
 
   /* ---------- 相册滚动长度 = 帧数 * 视口高 ---------- */
-  track.style.height = (n * 100) + "vh";
+  track.style.height = isMobile ? "100vh" : (n * 100) + "vh";
   if (totalEl) totalEl.textContent = String(n).padStart(2, "0");
 
   /* ---------- HUD 圆点 ---------- */
@@ -74,6 +76,8 @@
     if (cityname) cityname.classList.toggle("is-on", currentP > 0.06);
   }
   function onScroll() {
+    /* 窄屏：画廊是静态帧 + 手点索引，滚动不再改写当前帧 */
+    if (isMobile) return;
     var rect = track.getBoundingClientRect();
     var total = track.offsetHeight - window.innerHeight;
     currentP = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
@@ -146,11 +150,39 @@
     });
     stage.appendChild(wrap);
     var cards = Array.prototype.slice.call(wrap.children);
+    var manualIdx = 0;
     domRender = function () {
-      var idx = Math.round(currentP * (n - 1));
+      var idx = isMobile ? manualIdx : Math.round(currentP * (n - 1));
       cards.forEach(function (c, j) { c.classList.toggle("is-on", j === idx); });
     };
     domRender();
+
+    /* 窄屏：底部索引点可点，切帧与 HUD 文字 */
+    if (isMobile) {
+      dots.forEach(function (dot, i) {
+        dot.style.pointerEvents = "auto";
+        dot.style.cursor = "pointer";
+        dot.setAttribute("role", "button");
+        dot.setAttribute("tabindex", "0");
+        dot.setAttribute("aria-label", "第 " + (i + 1) + " 帧：" + cities[i].title);
+        var pick = function () {
+          manualIdx = i;
+          if (hudCur) hudCur.textContent = String(i + 1).padStart(2, "0");
+          if (hudName) hudName.textContent = cities[i].title;
+          if (hudDesc) hudDesc.textContent = cities[i].desc;
+          var cn = document.getElementById("cityName");
+          if (cn) cn.textContent = cities[i].title;
+          var ci = document.getElementById("cityIdx");
+          if (ci) ci.textContent = String(i + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+          dots.forEach(function (d, j) { d.classList.toggle("is-on", j === i); });
+          domRender();
+        };
+        dot.addEventListener("click", pick);
+        dot.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); }
+        });
+      });
+    }
   }
 
   /* 探测 WebGL：上下文创建失败则走 DOM 降级 */
@@ -160,7 +192,7 @@
     webglOK = !!(probe.getContext("webgl") || probe.getContext("experimental-webgl"));
   } catch (e) { webglOK = false; }
 
-  if (THREE && webglOK) {
+  if (THREE && webglOK && !isMobile) {
     var documentVisible = !document.hidden;
     var hostVisible = true;
     var startTime = null;

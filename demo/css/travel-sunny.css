@@ -436,3 +436,161 @@ body{background:var(--bg);color:var(--ink)}
 }
 .scard__tag{color:var(--c-travel-700)}
 .smeta{color:#9E5F3C}
+
+
+/* ============================================================
+   2026-11-08 落地层（依据 ui-proposal-sub 提案 D / E / F）
+   ------------------------------------------------------------
+   D. 首屏去掉玻璃卡：文字直接压在照片上，用上下两段遮罩保读
+   E. 核心功能 6,582px 吸顶叠卡 → 3×2 实底网格（吸顶逻辑同步退役）
+   F. ≤900：补导航抽屉、画廊改静态帧 + 可点索引点
+   ============================================================ */
+
+/* --- D1. 遮罩：上暗下暗，中间留出照片 --- */
+.gallery__shade{
+  background:
+    linear-gradient(180deg,rgba(14,11,9,.66) 0%,rgba(14,11,9,.46) 30%,rgba(14,11,9,.14) 56%,rgba(14,11,9,0) 72%),
+    linear-gradient(0deg,rgba(14,11,9,.58) 0%,rgba(14,11,9,.18) 22%,rgba(14,11,9,0) 44%);
+}
+.stage__hint{color:rgba(255,253,247,.82)}
+
+/* --- D2. 标题：没有卡片底了，改成压在图上的一层白字 --- */
+.gallery-title{
+  max-width:min(27em,58vw);
+  padding:0;border-radius:0;background:none;box-shadow:none;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.gallery-title__name{
+  color:#FFFDF7;
+  font-size:clamp(2rem,4.4vw,3.5rem);
+  text-shadow:0 2px 22px rgba(10,8,6,.5);
+}
+.gallery-title__desc{color:rgba(255,253,247,.86);text-shadow:0 1px 12px rgba(10,8,6,.45)}
+.gallery-title .card__kicker{
+  background:none;-webkit-background-clip:border-box;background-clip:border-box;
+  -webkit-text-fill-color:currentColor;color:#FFDFB4;
+}
+
+/* --- D3. HUD 收到左下角：深底 + 白字，不再用浅色玻璃片 --- */
+.stage__hud .hud__inner{
+  padding:12px 20px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(14,11,9,0),rgba(14,11,9,.58));
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.stage__hud .hud__cur,.stage__hud .hud__name{color:#FFFDF7;text-shadow:none}
+.stage__hud .hud__desc{color:rgba(255,253,247,.82)}
+.stage__hud .hud__sep,.stage__hud .hud__total{color:rgba(255,253,247,.55)}
+.stage__hud .hud__dot{background:rgba(255,253,247,.42)}
+
+/* --- D4. 城市名与索引收到右下角 --- */
+.stage__cityname{
+  left:auto;right:clamp(24px,5vw,72px);
+  bottom:clamp(96px,13vh,140px);
+  transform:none;text-align:right;
+  padding:0;border-radius:0;background:none;
+}
+.stage__cityname b{
+  color:#FFFDF7;letter-spacing:.02em;
+  font-size:clamp(1.5rem,3.2vw,2.6rem);
+  text-shadow:0 2px 20px rgba(10,8,6,.55);
+}
+.stage__cityname i{color:#FFD9A8;letter-spacing:.2em}
+
+/* --- E. 功能节：3 列 × 2 行实底网格（原先 6,582px = 全页 32%） --- */
+.stack{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(16px,1.6vw,24px);
+  align-items:stretch;
+}
+.stack__item{position:static}
+.scard{
+  height:100%;transform:none !important;will-change:auto;
+  padding:clamp(14px,1.5vw,20px) clamp(14px,1.5vw,20px) clamp(16px,1.7vw,22px);
+  border-radius:clamp(16px,1.6vw,22px);
+  box-shadow:0 22px 50px -34px rgba(47,41,34,.34),inset 0 1px 0 rgba(255,255,255,.75);
+}
+.scard__num{font-size:clamp(1.5rem,2.1vw,2rem)}
+.scard__tag{font-size:.6rem;padding:.4em .8em}
+.scard__title{font-size:clamp(1.02rem,1.5vw,1.32rem);line-height:1.28}
+.scard__text{font-size:.88rem;line-height:1.7}
+.scard__chips{gap:6px}
+.scard__chips span{font-size:.58rem;padding:.42em .78em}
+.scard__media{order:-1;aspect-ratio:16/10;max-height:none;min-height:0}
+@media (max-width:900px){
+  .stack{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:700px){
+  .stack{grid-template-columns:minmax(0,1fr)}
+  .scard__media{aspect-ratio:16/9;min-height:0}
+}
+
+/* --- 锚点：导航 72px，补偿收到 84px --- */
+[id]{scroll-margin-top:84px}
+
+/* ============================================================
+   F. 窄屏（≤900）
+   ============================================================ */
+.nav__burger{
+  display:none;place-items:center;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line-strong);background:rgba(255,255,255,.82);
+  color:var(--ink);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav__burger-glyph{position:relative;display:block;width:16px;height:10px}
+.nav__burger-glyph::before,.nav__burger-glyph::after{
+  content:"";position:absolute;left:0;width:16px;height:2px;border-radius:2px;
+  background:currentColor;transition:transform .3s cubic-bezier(.16,1,.3,1),top .3s
+}
+.nav__burger-glyph::before{top:1px}
+.nav__burger-glyph::after{top:7px}
+body[data-nav="open"] .nav__burger-glyph::before{top:4px;transform:rotate(45deg)}
+body[data-nav="open"] .nav__burger-glyph::after{top:4px;transform:rotate(-45deg)}
+.nav-drawer{
+  position:fixed;z-index:39;left:0;right:0;top:var(--nav-h);
+  display:none;flex-direction:column;gap:4px;
+  padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));
+  background:rgba(253,251,246,.96);
+  backdrop-filter:blur(16px) saturate(1.2);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 34px 60px -34px rgba(47,41,34,.4);
+}
+.nav-drawer .nav__link{
+  display:flex;align-items:center;min-height:52px;
+  padding:0 14px;border-radius:12px;font-size:1.02rem;color:var(--ink);
+}
+.nav-drawer .nav__link::after{display:none}
+.nav-drawer .nav__link:active{background:rgba(232,120,74,.12)}
+.nav-drawer .btn{align-self:flex-start;margin-top:6px;min-height:48px;padding:0 26px}
+
+/* 导航压在照片上时用浅色字（滚动后 is-solid 切回深墨） */
+.nav:not(.is-solid) .nav__brand{color:#FFFDF7}
+.nav:not(.is-solid) .nav__brand .brand__sub{color:#FFDFB4}
+.nav:not(.is-solid) .nav__link{color:rgba(255,253,247,.82)}
+.nav:not(.is-solid) .nav__link:hover{color:#FFFDF7}
+.nav:not(.is-solid) .nav__link.is-active{color:#FFFDF7}
+
+@media (max-width:900px){
+  .nav__burger{display:grid}
+  .nav__links{display:none}
+  .nav__brand .brand__sub{display:none}
+  body[data-nav="open"] .nav-drawer{display:flex}
+
+  /* 画廊：静态帧铺满 + 标题压图上 + 底部索引点 */
+  .gallery-hero{height:100svh}
+  .gallery-fallback__card{inset:0;margin:0;border:0;border-radius:0;box-shadow:none}
+  .gallery-fallback__card figcaption{display:none}
+  .gallery-title{left:18px;right:18px;top:calc(var(--nav-h) + 26px);max-width:none}
+  .gallery-title__name{font-size:clamp(1.7rem,7.2vw,2.4rem);line-height:1.12}
+  .gallery-title__desc{display:none}
+  .stage__cityname{display:none}
+  .stage__hint{display:none}
+  .stage__hud{left:16px;right:16px;bottom:22px}
+  .stage__hud .hud__meta{display:flex}
+  .stage__hud .hud__desc{display:none}
+  .stage__hud .hud__name{font-size:.95rem;line-height:1.2}
+  .stage__hud .hud__cur{font-size:1.6rem}
+  .stage__hud .hud__inner{padding:10px 14px;background:rgba(14,11,9,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .stage__hud .hud__dot{pointer-events:auto}
+}

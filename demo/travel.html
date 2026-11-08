@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="./css/travel-gallery.css?v=20261001m" />
   <link rel="stylesheet" href="./css/drift-wall.css?v=20261001m" />
   <link rel="stylesheet" href="./css/travel-download.css?v=20261001m" />
-  <link rel="stylesheet" href="./css/travel-sunny.css?v=20261001m" />
+  <link rel="stylesheet" href="./css/travel-sunny.css?v=20261108a" />
   <link rel="stylesheet" href="./css/theme-travel.css?v=20261001m" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"MobileApplication","name":"甜途 TianTu","url":"https://travel-notes.yuanabd.cn/portal/","description":"甜途：把走过的路画成一座可旋转的城市画廊。足迹地图、旅行画册、旅行圈、相册与内容管理。","operatingSystem":"Android, Web","applicationCategory":"TravelApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"author":{"@type":"Organization","name":"YUAN.ABD"},"inLanguage":"zh-CN"}
@@ -68,7 +68,17 @@
       <a class="nav__link" href="https://learn.yuanabd.cn/">苦旅 <span aria-hidden="true">↗</span></a>
       <a class="btn btn--solid btn--sm" data-ripple href="#" data-login data-magnetic>登录</a>
     </nav>
+    <button class="nav__burger" id="navBurger" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="navDrawer">
+      <span class="nav__burger-glyph" aria-hidden="true"></span>
+    </button>
   </header>
+
+  <div class="nav-drawer" id="navDrawer" aria-label="移动端导航">
+    <a class="nav__link" href="#" data-nav="about">关于</a>
+    <a class="nav__link" href="#" data-nav="download">下载</a>
+    <a class="nav__link" href="https://learn.yuanabd.cn/">苦旅 <span aria-hidden="true">↗</span></a>
+    <a class="btn btn--solid btn--sm" data-ripple href="#" data-login data-magnetic>登录</a>
+  </div>
 
   <main id="main">
     <!-- ============ 旋转画廊（ThreeUI Gallery 移植）============ -->
@@ -214,7 +224,7 @@
         <div class="section__head" data-reveal>
           <span class="section__label">核心功能 · Features</span>
           <h2 class="section__title">一座安静的旅行记忆空间</h2>
-          <p class="lede">从记录、规划、回望到分享，甜途把一次出发拆成八件小事，每件都认真做完。向下滚动，卡片会一张张落在桌上。</p>
+          <p class="lede">从记录、规划、回望到分享，甜途把一次出发拆成八件小事，每件都认真做完。八张卡片摊在同一张桌上，一眼看完。</p>
         </div>
       </div>
       <div class="stack" id="featureStack">
@@ -599,9 +609,32 @@
     window.addEventListener('scroll', apply, { passive: true });
   })();
   </script>
-  <script src="./js/travel-gallery.js?v=20261001m"></script>
+  <script defer>
+  /* 移动端导航抽屉（≤900 三个文字链此前被 base.css 隐藏，手机上看不到「关于/下载/苦旅」） */
+  (function(){
+    var burger = document.getElementById('navBurger');
+    var drawer = document.getElementById('navDrawer');
+    if (!burger || !drawer) return;
+    function setOpen(on){
+      document.body.dataset.nav = on ? 'open' : 'closed';
+      burger.setAttribute('aria-expanded', on ? 'true' : 'false');
+      burger.setAttribute('aria-label', on ? '关闭导航' : '打开导航');
+    }
+    setOpen(false);
+    burger.addEventListener('click', function(){
+      setOpen(document.body.dataset.nav !== 'open');
+    });
+    drawer.addEventListener('click', function(e){
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') setOpen(false);
+    });
+  })();
+  </script>
+  <script src="./js/travel-gallery.js?v=20261108a"></script>
   <script src="./js/drift-wall.js?v=20261001m"></script>
-  <script src="./js/travel-stack.js?v=20261001m"></script>
+  <script src="./js/travel-stack.js?v=20261108a"></script>
   <script src="./js/project.js?v=20261001m"></script>
   <script src="./js/travel-download.js?v=20261001m"></script>
   <script>

@@ -23,6 +23,11 @@ dist-fixboxs.tgz
 # 设计文档（本地保留，不入库 —— 按项目负责人要求）
 docs/
 
+# UI 设计提案与设计运行产物（本地保留，不入库）
+ui-design-runs/
+ui-proposal/
+ui-proposal-sub/
+
 # 后台服务依赖（lockfile 入库、node_modules 不入库）
 admin/node_modules/
 

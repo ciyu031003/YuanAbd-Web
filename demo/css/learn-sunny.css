@@ -447,20 +447,23 @@ body.learn::before{
 /* --- C. 标题：整行一张渐变，去白描边 --- */
 .hero-title{text-shadow:none}
 .hero-title em{
-  /* 固定附着：每个字的取样都落在同一张视口渐变上，因此不再出现横向切片 */
+  /* 渐变挂在 em 自身、由它裁字；逐字拆出来的 .ch 不再各自带背景，
+     于是 16 个字共用同一张渐变，横向不再出现切片白缝 */
   background-image:linear-gradient(96deg,#0E5FA8 0%,#1C6AAB 34%,#C2452C 100%);
-  background-attachment:fixed;
+  background-attachment:scroll;
   background-size:100% 100%;
   background-repeat:no-repeat;
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;
 }
 .split em .ch{
-  background-image:inherit;
-  background-attachment:fixed;
-  background-size:100% 100%;
-  -webkit-background-clip:text;background-clip:text;
+  background:none;-webkit-background-clip:border-box;background-clip:border-box;
   -webkit-text-fill-color:transparent;color:transparent;
+  text-shadow:none;
+}
+@media (max-width:900px){
+  /* 窄屏标题换行后，渐变按行宽重新铺，仍是一整段 */
+  .hero-title em{background-image:linear-gradient(96deg,#0E5FA8 0%,#1C6AAB 30%,#C2452C 100%)}
 }
 
 /* --- D1. 桌面：五本书一排放平，书脚对齐 --- */

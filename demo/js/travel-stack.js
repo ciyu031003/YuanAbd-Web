@@ -18,6 +18,13 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) return;
 
+  /* 2026-11-08：桌面段已改为 3×2 实底网格（.stack__item 不再 sticky），
+     吸顶叠卡的「缩放 / 压暗 / 覆盖进度」失去意义，只保留内容常显。 */
+  if (window.getComputedStyle(items[0]).position !== "sticky") {
+    items.forEach(function (item) { item.classList.add("is-live"); });
+    return;
+  }
+
   /* 每张卡随机 ±3° 初始倾角：进入视口时「散落」，落定后回正（模拟落在桌上） */
   var rots = items.map(function () { return (Math.random() * 6 - 3); });
 

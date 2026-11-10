@@ -1,21 +1,24 @@
 {
-  "versionName": "2.6.2",
-  "versionCode": 114,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.2.apk",
-  "sizeBytes": 79319782,
-  "sha256": "a6d18294a9054245c3150bc438710115b4212563122ba91b24841a8f746bf03d",
+  "versionName": "2.6.3",
+  "versionCode": 115,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.3.apk",
+  "sizeBytes": 79327074,
+  "sha256": "28bc38cdcbf6bfb8242b4a87e99ecf7ff265c8c85ea3cef32708b1c2dd4934ca",
   "releaseNotes": [
-    "v2.6.2（versionCode 114）",
-    "移动端 UI 按设计提案收口（豆包版打磨）。",
-    "· 底栏：改为全宽白色底栏（贴底、顶部细分隔线、背景模糊），选中项为蓝色软底图标 + 蓝字。",
-    "· 区块标题：去掉左侧竖条，纯文字标题（学习 / 职业 / 健康 / 我的 / 今日一致）。",
-    "· 今日页：铃铛未读点、专注卡圆角 26、三格指标分隔线、开始专注按钮蓝色渐变、问候标题字重、专注时长 40pt 大数字。",
-    "· 专注模式：默认纯色深蓝暗场，开始即满圈、随剩余时间缩短；图片背景才叠压暗层。",
-    "· 设置 / 招花 / 营养卡片：标题字重与间距同步收口。",
-    "· 功能与跳转全部保持不变。"
+    "v2.6.3（versionCode 115）",
+    "修复底栏图标偏移与安全区适配，五个 Tab 的图标和文字重新居中对齐。",
+    "今日页实景图与专注卡不再重叠，周专注零值也会显示可见柱。",
+    "开始专注恢复学习/运动选择，运动支持类型、项目、时长和计时方式。",
+    "我的页支持修改头像和昵称，今日页与我的页身份信息保持一致。",
+    "职业页改为数据看板，岗位列表统一回到招花，并新增招花入口。",
+    "二级页滚动后显示紧凑标题，不再同时出现两个同名大标题。",
+    "网络异常统一为中文可重试提示，不再直接暴露 Failed to fetch。",
+    "深色模式补全图表轨道与空柱可见度，营养模块配色收回主色蓝。",
+    "招花筛选在小屏自动换行，不再出现最后一枚被裁切。",
+    "空状态与页面说明收紧，移除重复空态和冗长描述；开关关闭态颜色统一。"
   ],
-  "publishedAt": "2026-11-08T12:30:59.947Z",
+  "publishedAt": "2026-11-10T11:01:07.264Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "jLrIqt_cb--jChEfqSoZcMKmqDAbNPX_WI6npopeoXUFWUIokXmy4PhEXlrHf3D1kJMkDYmBMIbWj0tAau5OCg"
+  "signature": "luJgJKiGlu6NLOpC323UsNCNe6NayyjMLG6FUulOMQbSDEh7ia4bXzbrlIbd7k4Ou4WGfAaptGloeaxs-BN4Aw"
 }

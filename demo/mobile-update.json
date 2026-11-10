@@ -1,24 +1,23 @@
 {
-  "versionName": "2.6.3",
-  "versionCode": 115,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.3.apk",
-  "sizeBytes": 79327074,
-  "sha256": "28bc38cdcbf6bfb8242b4a87e99ecf7ff265c8c85ea3cef32708b1c2dd4934ca",
+  "versionName": "2.6.4",
+  "versionCode": 116,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.4.apk",
+  "sizeBytes": 81591658,
+  "sha256": "7c6ff35218ee7ccbf8c5e25953a495362b066c223c5b35db48648f4d519a43b7",
   "releaseNotes": [
-    "v2.6.3（versionCode 115）",
-    "修复底栏图标偏移与安全区适配，五个 Tab 的图标和文字重新居中对齐。",
-    "今日页实景图与专注卡不再重叠，周专注零值也会显示可见柱。",
-    "开始专注恢复学习/运动选择，运动支持类型、项目、时长和计时方式。",
-    "我的页支持修改头像和昵称，今日页与我的页身份信息保持一致。",
-    "职业页改为数据看板，岗位列表统一回到招花，并新增招花入口。",
-    "二级页滚动后显示紧凑标题，不再同时出现两个同名大标题。",
-    "网络异常统一为中文可重试提示，不再直接暴露 Failed to fetch。",
-    "深色模式补全图表轨道与空柱可见度，营养模块配色收回主色蓝。",
-    "招花筛选在小屏自动换行，不再出现最后一枚被裁切。",
-    "空状态与页面说明收紧，移除重复空态和冗长描述；开关关闭态颜色统一。"
+    "睡眠详情新增 Health Connect 诊断，能区分未授权、无记录与小米只同步总时长",
+    "小米只提供总时长时，自动补全深睡、浅睡、REM、清醒次数与睡眠效率，并统一标注“估算”",
+    "睡眠评分不再固定高分：无设备分期最高 84 分，异常超过 24 小时的记录记 0 分",
+    "手动补录支持深睡分钟、REM 分钟、清醒次数与睡眠效率",
+    "周/月睡眠统计同步使用估算指标，不再出现大面积“—”",
+    "专注室重做：6 个场景、今日目标、音乐/背景音量、25/45/50/90 番茄档位",
+    "专注计时支持暂停、跳过、重置、结束；自然完成保留结果页与分享入口",
+    "移动端新增横屏沉浸布局：左侧计时卡、右侧目标与控制区",
+    "场景图随包内置，无网络也能显示；旧场景偏好自动迁移",
+    "移动端底栏改为悬浮液态玻璃胶囊，图标与标签垂直居中，适配安全区"
   ],
-  "publishedAt": "2026-11-10T11:01:07.264Z",
+  "publishedAt": "2026-11-10T17:41:06.473Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "luJgJKiGlu6NLOpC323UsNCNe6NayyjMLG6FUulOMQbSDEh7ia4bXzbrlIbd7k4Ou4WGfAaptGloeaxs-BN4Aw"
+  "signature": "tvbmw4I9gral03wKHqG-3zKDdxdCjUKhUe_GFAGmh8xQI89mgK7GIaKd36xaEo6LuI8oBfQFUKzVwCqAK78CAQ"
 }

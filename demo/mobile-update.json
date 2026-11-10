@@ -1,23 +1,18 @@
 {
-  "versionName": "2.6.4",
-  "versionCode": 116,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.4.apk",
-  "sizeBytes": 81591658,
-  "sha256": "7c6ff35218ee7ccbf8c5e25953a495362b066c223c5b35db48648f4d519a43b7",
+  "versionName": "2.6.5",
+  "versionCode": 117,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.5.apk",
+  "sizeBytes": 81591698,
+  "sha256": "704d0cf8a87c87aa0046ac8f8b864f6ca4083e97d7cdb116545b415444eb53de",
   "releaseNotes": [
-    "睡眠详情新增 Health Connect 诊断，能区分未授权、无记录与小米只同步总时长",
-    "小米只提供总时长时，自动补全深睡、浅睡、REM、清醒次数与睡眠效率，并统一标注“估算”",
-    "睡眠评分不再固定高分：无设备分期最高 84 分，异常超过 24 小时的记录记 0 分",
-    "手动补录支持深睡分钟、REM 分钟、清醒次数与睡眠效率",
-    "周/月睡眠统计同步使用估算指标，不再出现大面积“—”",
-    "专注室重做：6 个场景、今日目标、音乐/背景音量、25/45/50/90 番茄档位",
-    "专注计时支持暂停、跳过、重置、结束；自然完成保留结果页与分享入口",
-    "移动端新增横屏沉浸布局：左侧计时卡、右侧目标与控制区",
-    "场景图随包内置，无网络也能显示；旧场景偏好自动迁移",
-    "移动端底栏改为悬浮液态玻璃胶囊，图标与标签垂直居中，适配安全区"
+    "修复 Web 专注室正向秒表进度恒显示 100% 的问题，改为「正向计时 / 进行中」",
+    "正向秒表圆环保持满圈，不再随时间空转",
+    "纯色或自定义背景不再显示上一个场景名，每日 Bing 名称显示正确",
+    "Web 运动会话结束按钮改为「结束运动」",
+    "本版包含 2.6.4 的睡眠诊断与估算指标、6 场景专注室和悬浮液态玻璃底栏"
   ],
-  "publishedAt": "2026-11-10T17:41:06.473Z",
+  "publishedAt": "2026-11-10T18:07:09.249Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "tvbmw4I9gral03wKHqG-3zKDdxdCjUKhUe_GFAGmh8xQI89mgK7GIaKd36xaEo6LuI8oBfQFUKzVwCqAK78CAQ"
+  "signature": "6eA2oUip5GJZyhhSm_4syEnDYvaA5P2D3_7xz-B8ziONmhysaiLtQTJglnmWxEDWJ5nJZ_FIHI3nZdR0AXXwBA"
 }

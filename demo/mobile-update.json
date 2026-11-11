@@ -1,18 +1,21 @@
 {
-  "versionName": "2.6.5",
-  "versionCode": 117,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.5.apk",
-  "sizeBytes": 81591698,
-  "sha256": "704d0cf8a87c87aa0046ac8f8b864f6ca4083e97d7cdb116545b415444eb53de",
+  "versionName": "2.6.6",
+  "versionCode": 118,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.6.apk",
+  "sizeBytes": 81608182,
+  "sha256": "5c898a9c4d2230f10ad744636bea4b03ca063b7308943533c5f2d01f0db49e8d",
   "releaseNotes": [
-    "修复 Web 专注室正向秒表进度恒显示 100% 的问题，改为「正向计时 / 进行中」",
-    "正向秒表圆环保持满圈，不再随时间空转",
-    "纯色或自定义背景不再显示上一个场景名，每日 Bing 名称显示正确",
-    "Web 运动会话结束按钮改为「结束运动」",
-    "本版包含 2.6.4 的睡眠诊断与估算指标、6 场景专注室和悬浮液态玻璃底栏"
+    "今日 / 学习 / 职业 / 健康 / 我的 五个入口统一，招花回到职业页内。",
+    "专注计时支持学习与运动两种模式，并适配横屏展示。",
+    "职业页改为数据概览优先，招花入口更明确。",
+    "睡眠评分补充来源说明、评分构成和近 7 晚对比；设备数据不足时不再伪装成完整体检。",
+    "底部导航改为悬浮胶囊，补充安全区、键盘焦点与选中态。",
+    "今日、健康、设置与课程库压缩空态和首屏信息密度，减少重复提示。",
+    "统一中文单位、标题字距与正文对比度，修复深浅层文字可读性。",
+    "修复移动端运行版本号与安装包版本号不一致的问题。"
   ],
-  "publishedAt": "2026-11-10T18:07:09.249Z",
+  "publishedAt": "2026-11-11T18:02:36.743Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "6eA2oUip5GJZyhhSm_4syEnDYvaA5P2D3_7xz-B8ziONmhysaiLtQTJglnmWxEDWJ5nJZ_FIHI3nZdR0AXXwBA"
+  "signature": "7Xr0D-QJii-GvwtkYB59Cqv7W5WVRtpC6kfVdXAuG_sCthykvxuWxRQ_95ASIX7ci8OzsqhT3EKcd9o4nbT6DA"
 }

@@ -1,21 +1,19 @@
 {
-  "versionName": "2.6.6",
-  "versionCode": 118,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.6.apk",
-  "sizeBytes": 81608182,
-  "sha256": "5c898a9c4d2230f10ad744636bea4b03ca063b7308943533c5f2d01f0db49e8d",
+  "versionName": "2.6.7",
+  "versionCode": 119,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.7.apk",
+  "sizeBytes": 81620218,
+  "sha256": "fb34621a9b91d0fe4db79af30f1a17d5d4b77ea621c4faf780e529548a08c981",
   "releaseNotes": [
-    "今日 / 学习 / 职业 / 健康 / 我的 五个入口统一，招花回到职业页内。",
-    "专注计时支持学习与运动两种模式，并适配横屏展示。",
-    "职业页改为数据概览优先，招花入口更明确。",
-    "睡眠评分补充来源说明、评分构成和近 7 晚对比；设备数据不足时不再伪装成完整体检。",
-    "底部导航改为悬浮胶囊，补充安全区、键盘焦点与选中态。",
-    "今日、健康、设置与课程库压缩空态和首屏信息密度，减少重复提示。",
-    "统一中文单位、标题字距与正文对比度，修复深浅层文字可读性。",
-    "修复移动端运行版本号与安装包版本号不一致的问题。"
+    "专注计时新增「收起为悬浮计时」，切换页面后继续计时，返回可随时恢复全屏。",
+    "专注完成新增庆祝动效与成功触感，完成页保留唯一主操作「分享打卡卡片」。",
+    "今日、学习、职业、健康四页按新版视觉重构：统一主色与信息层级，导航选中态更清晰。",
+    "空数据态不再显示 0 值占位，并补上明确的下一步引导（创建路线 / 设置求职方向 / 记录第一杯水）。",
+    "进度条按语义配色：正常进度用主色，预警与达成状态区分明显。",
+    "今日页任务、习惯与趋势空态各自给出可直接执行的入口，减少空白首屏。"
   ],
-  "publishedAt": "2026-11-11T18:02:36.743Z",
+  "publishedAt": "2026-11-13T11:20:29.974Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "7Xr0D-QJii-GvwtkYB59Cqv7W5WVRtpC6kfVdXAuG_sCthykvxuWxRQ_95ASIX7ci8OzsqhT3EKcd9o4nbT6DA"
+  "signature": "pG_vCFdLHnA6_x4WQVLdKm2E8BWfo8Ay7dsErvqP768wUodb1rScLVIlmDEswumqTPDoS7M2aFMjkcMNJiqhBA"
 }

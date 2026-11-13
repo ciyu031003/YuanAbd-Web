@@ -1,19 +1,19 @@
 {
-  "versionName": "2.6.7",
-  "versionCode": 119,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.7.apk",
-  "sizeBytes": 81620218,
-  "sha256": "fb34621a9b91d0fe4db79af30f1a17d5d4b77ea621c4faf780e529548a08c981",
+  "versionName": "2.6.8",
+  "versionCode": 120,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.8.apk",
+  "sizeBytes": 81620158,
+  "sha256": "e27aab7b0c49b3dab544e8db9c4e44805190e511eec29d91fc5a814d517d2997",
   "releaseNotes": [
-    "专注计时新增「收起为悬浮计时」，切换页面后继续计时，返回可随时恢复全屏。",
-    "专注完成新增庆祝动效与成功触感，完成页保留唯一主操作「分享打卡卡片」。",
-    "今日、学习、职业、健康四页按新版视觉重构：统一主色与信息层级，导航选中态更清晰。",
-    "空数据态不再显示 0 值占位，并补上明确的下一步引导（创建路线 / 设置求职方向 / 记录第一杯水）。",
-    "进度条按语义配色：正常进度用主色，预警与达成状态区分明显。",
-    "今日页任务、习惯与趋势空态各自给出可直接执行的入口，减少空白首屏。"
+    "底栏按 demo 重做为 70pt 悬浮白色玻璃胶囊，选中块改为 spring 平移动画（减弱动态时直接落位）。",
+    "今日首页改为「页头 + 今日专注 hero + 三格数据」：大数字、环形日目标与唯一主 CTA，移除原实景带。",
+    "学习首页合并为单张路线 hero：阶段 chip、路线名、阶段进度、继续学习卡与主 CTA。",
+    "职业首页改为「今日岗位推荐」hero，并在准备度卡补「查看准备度报告」入口。",
+    "健康空态改用统一 hero 卡，先记一杯水仍为唯一主操作。",
+    "空数据态统一用待规划 / 待开始 / 尚未开始，不再出现无意义 0 值。"
   ],
-  "publishedAt": "2026-11-13T11:20:29.974Z",
+  "publishedAt": "2026-11-13T12:35:29.378Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "pG_vCFdLHnA6_x4WQVLdKm2E8BWfo8Ay7dsErvqP768wUodb1rScLVIlmDEswumqTPDoS7M2aFMjkcMNJiqhBA"
+  "signature": "JyCt7Tf0EG92rZdiSdaruvWxEC0wpGna4rZ6kzbteiDiDDLmLo6z6pKwCILNyBo54b2mKqhhYG-3B1tpd0f_CQ"
 }

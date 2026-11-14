@@ -1,19 +1,18 @@
 {
-  "versionName": "2.6.8",
-  "versionCode": 120,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.8.apk",
-  "sizeBytes": 81620158,
-  "sha256": "e27aab7b0c49b3dab544e8db9c4e44805190e511eec29d91fc5a814d517d2997",
+  "versionName": "2.6.9",
+  "versionCode": 121,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.9.apk",
+  "sizeBytes": 81628066,
+  "sha256": "ad1fe939e01d3e103b0fa1a27a5438efb6cd6f669caf54643e587319d362770b",
   "releaseNotes": [
-    "底栏按 demo 重做为 70pt 悬浮白色玻璃胶囊，选中块改为 spring 平移动画（减弱动态时直接落位）。",
-    "今日首页改为「页头 + 今日专注 hero + 三格数据」：大数字、环形日目标与唯一主 CTA，移除原实景带。",
-    "学习首页合并为单张路线 hero：阶段 chip、路线名、阶段进度、继续学习卡与主 CTA。",
-    "职业首页改为「今日岗位推荐」hero，并在准备度卡补「查看准备度报告」入口。",
-    "健康空态改用统一 hero 卡，先记一杯水仍为唯一主操作。",
-    "空数据态统一用待规划 / 待开始 / 尚未开始，不再出现无意义 0 值。"
+    "408 刷卡改为按科目记住当天已看的卡：中途退出或切页再进，从下一张继续，不再回到第一张。",
+    "每日计划 20 张；看完后显示「今日 20 张已完成」，可点「再刷一轮」清空当天记录重刷。",
+    "饮食条目改份量时，1.5 / 2 份的热量与 P/C/F 按份数实时重算，保存后由服务端按食物库再算一次。",
+    "今日饮水弹层支持上拉展开，内容不再被屏幕底部截断。",
+    "手动添加的食材默认存入「我的常用食物」，之后搜索就能直接选到。"
   ],
-  "publishedAt": "2026-11-13T12:35:29.378Z",
+  "publishedAt": "2026-11-14T14:54:19.259Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "JyCt7Tf0EG92rZdiSdaruvWxEC0wpGna4rZ6kzbteiDiDDLmLo6z6pKwCILNyBo54b2mKqhhYG-3B1tpd0f_CQ"
+  "signature": "p-toimbWRgrDEvzd3030wvd6tN7nuEK0x0GJTUEJW51emSXlGyuq9cbTs1QAybNQ81gM4B8FygfHL9h-mWXJCg"
 }

@@ -1,18 +1,19 @@
 {
-  "versionName": "2.6.9",
-  "versionCode": 121,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.9.apk",
-  "sizeBytes": 81628066,
-  "sha256": "ad1fe939e01d3e103b0fa1a27a5438efb6cd6f669caf54643e587319d362770b",
+  "versionName": "2.6.10",
+  "versionCode": 122,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.10.apk",
+  "sizeBytes": 81647286,
+  "sha256": "300901db3ce37afdad9478195cfe5630e1404b835621a2d16ff0810fcefb4841",
   "releaseNotes": [
-    "408 刷卡改为按科目记住当天已看的卡：中途退出或切页再进，从下一张继续，不再回到第一张。",
-    "每日计划 20 张；看完后显示「今日 20 张已完成」，可点「再刷一轮」清空当天记录重刷。",
-    "饮食条目改份量时，1.5 / 2 份的热量与 P/C/F 按份数实时重算，保存后由服务端按食物库再算一次。",
-    "今日饮水弹层支持上拉展开，内容不再被屏幕底部截断。",
-    "手动添加的食材默认存入「我的常用食物」，之后搜索就能直接选到。"
+    "学习计时上线：408 知识点、精读、真题、刷卡与练习会话自动计时，单次满 30 秒计入今日专注。",
+    "页面顶部会显示「本次已学 X 分钟」；与全屏/悬浮专注自动互斥，同一段时间不会重复记账。",
+    "408 刷卡改为翻面才记为已看：中途退出再进从下一张继续，每日 20 张计划保持不变。",
+    "学习内容渲染审计：修正标题层级、代码块横向滚动、表格换行、展示公式/矩阵与长行内公式，答案图片和「答案」标签不再重复显示。",
+    "题目选项字母对齐、答案卡标题去重；知识点没有配套真题时新增空态与「去刷 408 卡片」引导。",
+    "练习会话长题干改用正文号，320px 窄屏与 1.3 倍字号下更易读。"
   ],
-  "publishedAt": "2026-11-14T14:54:19.259Z",
+  "publishedAt": "2026-11-14T15:44:40.266Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "p-toimbWRgrDEvzd3030wvd6tN7nuEK0x0GJTUEJW51emSXlGyuq9cbTs1QAybNQ81gM4B8FygfHL9h-mWXJCg"
+  "signature": "D-eJjO0lSzgcDDzXvAFckPam5qXZYRWGYMAip_anyhKY49OMJnZoBSiM_ySKe0NuyCrSkA_APljQKEpXsls2DA"
 }

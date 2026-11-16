@@ -1,19 +1,19 @@
 {
-  "versionName": "2.6.12",
-  "versionCode": 124,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.12.apk",
-  "sizeBytes": 83868314,
-  "sha256": "8afb1159b812d7ee397a585a9f5ef562a83a3233871af78bb2ff1db7a29ad869",
+  "versionName": "2.6.13",
+  "versionCode": 125,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.13.apk",
+  "sizeBytes": 83869042,
+  "sha256": "81c7f5bc3cd8081e68c32652ad9f5241d321285c9fc137dadb2a6d2cad5197b8",
   "releaseNotes": [
     "408 刷卡续播修复：第 10 张退出后重新进入从第 11 张继续，进度按当天 20 张显示",
-    "刷卡交互改为点击翻面、左右滑动切换上一张/下一张，快速连滑不吞卡",
+    "刷卡支持点击翻面、左右滑动切换上一张/下一张，快速连滑不吞卡",
+    "刷完切换今日队列/易错本再回来保持完成态，不闪回第 1 张",
     "刷卡完成态重新居中，完成统计与「再刷一轮」在窄屏也完整可见",
-    "回前台自动刷新队列并继承上次位置，切换科目/易错本不再串进度",
-    "408 知识精读列表、引用、表格中的公式正常渲染，不再露出 LaTeX 源码",
+    "408 知识精读列表、引用、表格公式正常渲染，不再露出 LaTeX 源码",
     "每日专注目标改为可在「设置 → 账户与偏好」中人为调整（1–8 小时）"
   ],
-  "publishedAt": "2026-11-16T15:02:31.460Z",
+  "publishedAt": "2026-11-16T15:11:07.022Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "ZAhBI5hpffQFOwSSNYia8Vyq3m2_XaYQMUAomEJld3B4yo6mDIUByZxl6Y1Lk-6vUp8sQvSzfmxw08SXSOBjBg"
+  "signature": "0KlL6ioKIBSOGDyxMk3Frr_yjTaMoFtvcTtlah6WO6I8QCXsbvkN-SSKciLpr4JNzpWnbBEkSAH7NLMicLMCAw"
 }

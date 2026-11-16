@@ -1,19 +1,19 @@
 {
-  "versionName": "2.6.11",
-  "versionCode": 123,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.11.apk",
-  "sizeBytes": 83839778,
-  "sha256": "40c6b115b87be14de962392d2c29932ee52fac00b8b614ec03783f3d3d88d261",
+  "versionName": "2.6.12",
+  "versionCode": 124,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.12.apk",
+  "sizeBytes": 83868314,
+  "sha256": "8afb1159b812d7ee397a585a9f5ef562a83a3233871af78bb2ff1db7a29ad869",
   "releaseNotes": [
-    "今日状态升级为 3D 表情：5 档精力各配一张本地 3D 表情，点击有弹跳与触感，选中态用描边、光晕和勾选三重标记。",
-    "统一完成庆祝：今日计划全部完成、408 每日 20 张、读完一节、一组练习结束都会触发同一套庆祝视觉。",
-    "新增 3D 完成 GIF 主视觉：计划/章节/刷题完成时弹出；同一天同一里程碑只庆祝一次，退出重进不会重复弹。",
-    "单条任务与习惯完成改为轻量横幅，2.4 秒自动收起，不再打断浏览；全屏庆祝只留给真正的里程碑。",
-    "专注完成页加入 3D 庆祝主视觉，原有烟花、统计卡与分享入口保持不变。",
-    "减弱动态模式下关闭 GIF 播放与装饰动画，保留静态主视觉与结果文案；3D 表情全部本地打包，不依赖外链。"
+    "408 刷卡续播修复：第 10 张退出后重新进入从第 11 张继续，进度按当天 20 张显示",
+    "刷卡交互改为点击翻面、左右滑动切换上一张/下一张，快速连滑不吞卡",
+    "刷卡完成态重新居中，完成统计与「再刷一轮」在窄屏也完整可见",
+    "回前台自动刷新队列并继承上次位置，切换科目/易错本不再串进度",
+    "408 知识精读列表、引用、表格中的公式正常渲染，不再露出 LaTeX 源码",
+    "每日专注目标改为可在「设置 → 账户与偏好」中人为调整（1–8 小时）"
   ],
-  "publishedAt": "2026-11-14T16:53:47.380Z",
+  "publishedAt": "2026-11-16T15:02:31.460Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "Pgjo0YUWuqfmE3kaKx5Mv25yar82uG8geqyWexRJxXlbYc6yIhvB4xASDLWPoDavRhjCcYBGzgA0YSWUzQYOAA"
+  "signature": "ZAhBI5hpffQFOwSSNYia8Vyq3m2_XaYQMUAomEJld3B4yo6mDIUByZxl6Y1Lk-6vUp8sQvSzfmxw08SXSOBjBg"
 }

@@ -1,19 +1,21 @@
 {
-  "versionName": "2.6.13",
-  "versionCode": 125,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.6.13.apk",
-  "sizeBytes": 83869042,
-  "sha256": "81c7f5bc3cd8081e68c32652ad9f5241d321285c9fc137dadb2a6d2cad5197b8",
+  "versionName": "2.7.0",
+  "versionCode": 126,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.7.0.apk",
+  "sizeBytes": 136459887,
+  "sha256": "1f829f7e13c8fb682048725e8d1ddd31ca6c226e3cdc35af80ca96085aa6df66",
   "releaseNotes": [
-    "408 刷卡续播修复：第 10 张退出后重新进入从第 11 张继续，进度按当天 20 张显示",
-    "刷卡支持点击翻面、左右滑动切换上一张/下一张，快速连滑不吞卡",
-    "刷完切换今日队列/易错本再回来保持完成态，不闪回第 1 张",
-    "刷卡完成态重新居中，完成统计与「再刷一轮」在窄屏也完整可见",
-    "408 知识精读列表、引用、表格公式正常渲染，不再露出 LaTeX 源码",
-    "每日专注目标改为可在「设置 → 账户与偏好」中人为调整（1–8 小时）"
+    "今日页减噪：三格数据条改为一条实底卡 + 细分割线；成长摘要双列卡收敛为纸感卡面（去饱和色块）；",
+    "「继续上次」零状态不再重复主 CTA；空态改用紧凑排版。",
+    "学习页「待复习 / 错题练习」合并为一张「复习与错题」通栏卡，入口 4→3。",
+    "我的页统计条与今日页统一为一套数字刻度。",
+    "深色模式：卡面明度差从 3% 提到 5%，卡片边界更清楚。",
+    "Android 真玻璃：底部悬浮栏与玻璃卡启用 blurTarget（Android 12+ 硬件模糊）。",
+    "修复：专注 hero 圆环中心数字错位（14% 压在环顶）。",
+    "数据与同步协议零变更，可直接覆盖安装。"
   ],
-  "publishedAt": "2026-11-16T15:11:07.022Z",
+  "publishedAt": "2026-11-19T16:07:02.596Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "0KlL6ioKIBSOGDyxMk3Frr_yjTaMoFtvcTtlah6WO6I8QCXsbvkN-SSKciLpr4JNzpWnbBEkSAH7NLMicLMCAw"
+  "signature": "ZzmID8I1WzCfvdAmQ6OMBfkyo_DNq2DZ9qyFtWRNR5RO2AnzPVuP8h-g7oH2s8GM4qNW_2t7gCaGoXkKnsfPAg"
 }

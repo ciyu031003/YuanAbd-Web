@@ -1,21 +1,18 @@
 {
-  "versionName": "2.7.0",
-  "versionCode": 126,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.7.0.apk",
-  "sizeBytes": 136459887,
-  "sha256": "1f829f7e13c8fb682048725e8d1ddd31ca6c226e3cdc35af80ca96085aa6df66",
+  "versionName": "2.8.0",
+  "versionCode": 127,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.0.apk",
+  "sizeBytes": 84128242,
+  "sha256": "88317c774855620d6d22d9d2fd14d364ecce832e215a5f2536be5586ff4c9aca",
   "releaseNotes": [
-    "今日页减噪：三格数据条改为一条实底卡 + 细分割线；成长摘要双列卡收敛为纸感卡面（去饱和色块）；",
-    "「继续上次」零状态不再重复主 CTA；空态改用紧凑排版。",
-    "学习页「待复习 / 错题练习」合并为一张「复习与错题」通栏卡，入口 4→3。",
-    "我的页统计条与今日页统一为一套数字刻度。",
-    "深色模式：卡面明度差从 3% 提到 5%，卡片边界更清楚。",
-    "Android 真玻璃：底部悬浮栏与玻璃卡启用 blurTarget（Android 12+ 硬件模糊）。",
-    "修复：专注 hero 圆环中心数字错位（14% 压在环顶）。",
-    "数据与同步协议零变更，可直接覆盖安装。"
+    "今日页改为「Day Sheet」：大日期 + 06:00–24:00 时间弧（专注块与当前时刻标记）+ 今天只做三件事 + 今日一句 + 夜间回顾占位。",
+    "学习页改为「学习舱」：阶段环形进度 + 章节树（节点完成态/在读）+ 近 7 天学习节律 + 2×2 学习工具。",
+    "职业页改为「决策工作台」：目标方向匹配分解 + 岗位决策矩阵 + 技能缺口 + 投递漏斗 + 本周行动 + 决策日志。",
+    "图标系统换成 Phosphor（Regular / Bold / Fill / Duotone 四档 weight），底部导航选中态改为实心填充。",
+    "数据模型、同步协议、API 契约零变更，可直接覆盖安装。"
   ],
-  "publishedAt": "2026-11-19T16:07:02.596Z",
+  "publishedAt": "2026-11-21T18:21:06.374Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "ZzmID8I1WzCfvdAmQ6OMBfkyo_DNq2DZ9qyFtWRNR5RO2AnzPVuP8h-g7oH2s8GM4qNW_2t7gCaGoXkKnsfPAg"
+  "signature": "-JqmEWLSLm7s4d9RYMqtdT_IzZ7RLy4sql-QTxjqwGQMWBCNu_ZylweOk-OkRBbbiL1Bqom0wZDcUui3EmdsDQ"
 }

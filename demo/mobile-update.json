@@ -1,19 +1,17 @@
 {
-  "versionName": "2.8.1",
-  "versionCode": 128,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.1.apk",
-  "sizeBytes": 84157874,
-  "sha256": "1b8f514ad85730563a9e17125039435772cf76ab2b5f59d86b303f82eb267105",
+  "versionName": "2.8.2",
+  "versionCode": 129,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk",
+  "sizeBytes": 84157878,
+  "sha256": "f076ec5e61a18023b577b9612925890c4db172ac684020b972671ea4259bccf8",
   "releaseNotes": [
-    "2.8.1 更新",
-    "· 还原习惯打卡的庆祝动画：勾选今日习惯时重新出现庆祝横幅与计划完成弹窗（与改版前一致）。",
-    "· 成长页重构：首屏只保留概览（今日完成度环形、连续打卡/本周记录/今日状态、本周 7 天存在感条），更简约清晰。",
-    "· 新增「数据看板」二级页（成长页右上角入口）：习惯打卡、领域追踪、体重趋势、趋势分析、运动闪光卡与今日记录整块迁入。",
-    "· 成长页与数据看板加入骨架屏与淡入过渡，加载完成不再突然掉落。",
-    "· 版本 2.8.1（versionCode 128），可直接覆盖安装。"
+    "2.8.2 修复",
+    "· 修复部分场景下的原生闪退（SIGSEGV / 栈溢出）：关闭 Android 端玻璃截图背景，避免视图递归重绘。",
+    "· 玻璃层级改为半透明染色实底，可读性不变；iOS 系统玻璃不受影响。",
+    "· 版本 2.8.2（versionCode 129）。"
   ],
-  "publishedAt": "2026-11-22T02:03:31.436Z",
+  "publishedAt": "2026-11-22T02:29:02.944Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "YEaQSQ_iLRIQLVB0Wg0iz_ZkOtZeGvRZSZSM1CW9ihn-7d08OzdBwWG_8X81T6hQ8hs-hCZB7v0w5LUoP8dsBw"
+  "signature": "PqVp-evNfnOhaCKynwk3qULocq8RFAFjMWkrAT4Q88YU0yLzgkogWCRH8rahzifwGo1DLcnd3AiPXlr8PumECg"
 }

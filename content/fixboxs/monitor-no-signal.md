@@ -18,8 +18,8 @@ symptoms:
   - 屏幕显示超出范围
 keywords: [显示器无信号, 输入源, HDMI, DisplayPort, 扩展屏, 分辨率, 刷新率, 显示设置, 多显示器]
 aliases: [屏幕没画面, 显示器不亮, 外接屏没反应, 分辨率变大了, 显示器黑屏但主机在转]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 能看到显示器上的提示文字（如"No Signal"）或电源灯状态
   - 手边能换一根显示线和换一个接口测试
@@ -34,7 +34,7 @@ sources:
   - title: Microsoft Support - 在 Windows 中更改屏幕分辨率
     url: https://support.microsoft.com/en-us/windows/hardware/display-graphics/change-your-screen-resolution-and-layout-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/monitor-no-signal.html
 ---
 
@@ -209,6 +209,24 @@ detail_href: ./fix/monitor-no-signal.html
 3. 记住自己电脑哪个口接哪块屏，换位置时对照显示器上的接口编号。
 4. 更新显卡驱动只从 NVIDIA/AMD/Intel 官网或电脑厂商官网下载。
 5. Type-C 一线连场景使用带供电的扩展坞，并保留一根直连线作为备份。
+
+## 常见问题
+
+**Q：显示器电源灯亮着但提示「无信号」，最先查什么？**
+
+A：先按显示器边框上的 Source / Input 键切换输入源，对照线实际插的是 HDMI1 还是 HDMI2（步骤 2）。这是「无信号」里出现频率最高的原因，比拆机换线快得多。
+
+**Q：台式机后面好几个视频接口，线该插哪个？**
+
+A：有独立显卡时一定插显卡挡板上的接口；插主板上的接口走核显，部分机器不出画面，这是「显示器无信号」最常见的原因之一（步骤 3 的图注）。
+
+**Q：改了分辨率之后黑屏了怎么办？**
+
+A：别急着关机。设置完如果不确认，系统会在 15 秒后自动回滚到原来的分辨率（步骤 4 的失败处理）；已经黑屏且不回滚，就进安全模式把分辨率降回 1920×1080、刷新率 60Hz。
+
+**Q：用 Type-C 扩展坞接显示器没画面？**
+
+A：先确认这个头子支持视频输出（DP Alt Mode），不是只能充电或走数据的；需要外接供电的扩展坞把电源适配器接上，能直连就直连、绕开它测试（步骤 6）。
 
 ## 相关教程
 

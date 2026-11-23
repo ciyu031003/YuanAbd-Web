@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Windows搜索没反应, 开始菜单搜不到程序, 搜索框打不开, 搜不到文件, 文件资源管理器搜索无结果, 输入后一直转圈, Windows Search不工作, search not working]
 keywords: [Windows搜索修复, SearchHost, WSearch, 搜索索引, 索引选项, 重建索引, 资源管理器搜索, 开始菜单搜索]
 aliases: [搜索坏了, 搜索框没用, 搜不到应用, 搜不出文件, 搜索一直转圈]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [电脑能正常进入桌面, 至少预留 20 分钟, 有管理员权限可运行修复脚本]
 tools: [Windows 设置, 索引选项, 服务, 任务管理器, 命令提示符（管理员）]
 related: [win-taskbar-unresponsive, win-thumbnail-cache-broken, win-slow-diagnose, win-c-drive-full-cleanup]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-config
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-search-not-working.html
 ---
 
@@ -179,6 +179,24 @@ sfc /scannow
 3. 系统更新后第一次登录可等待几分钟，让索引和后台任务先完成。
 4. 机械硬盘出现异响、磁盘健康异常时尽早备份并更换。
 
+## 常见问题
+
+**Q：开始菜单能搜到程序但搜不到文件，是哪一层坏了？**
+
+A：文件索引那一层。先看「索引选项」里磁盘或目录有没有被勾选、文件类型有没有被取消，再考虑重建索引（步骤 3-4）。
+
+**Q：重建索引要多久，期间能正常用电脑吗？**
+
+A：可以正常用，但 CPU 和磁盘占用会暂时升高。耗时从十分钟到数小时不等，文件越多越久；接上电源别断电，也不要反复点「重建」。
+
+**Q：搜索转圈、任务栏也卡，先重启哪个进程？**
+
+A：先结束 `SearchHost.exe`，再结束 `StartMenuExperienceHost.exe`，开始菜单会自动重启。任务栏一起卡住时，再重启 `explorer.exe`（步骤 5）。
+
+**Q：只有移动硬盘里的文件搜不到，是搜索坏了吗？**
+
+A：多半是索引没包含它。打开「索引选项 → 修改」，确认该磁盘被勾选且没有被排除（步骤 3）。
+
 ## 相关教程
 
 - [Windows 任务栏卡死 / 点击没反应怎么修](./win-taskbar-unresponsive.html)
@@ -190,4 +208,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：搜索分层、服务修复、索引范围与重建流程 | 内容组 |

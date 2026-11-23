@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Mac蓝牙不可用, 蓝牙图标不见了, 蓝牙设备突然断开, Mac连不上蓝牙耳机, 蓝牙一直搜索, 蓝牙开关灰色, 蓝牙鼠标不工作, mac bluetooth not working]
 keywords: [Mac蓝牙修复, 蓝牙开关, 忽略设备, 重新配对, 蓝牙耳机, 蓝牙鼠标, 2.4G干扰, Apple诊断]
 aliases: [苹果电脑蓝牙坏了, 蓝牙打不开, 蓝牙自动断开, 设备找不到, 蓝牙连接失败]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [至少有一个有线键鼠可用于恢复操作, 蓝牙设备有电, 知道设备如何进入配对模式]
 tools: [系统设置, 控制中心, 蓝牙设备, Apple 诊断]
 related: [bluetooth-device-not-pairing, mac-external-display-not-detected, mac-finder-unresponsive, mac-app-store-download-stuck]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp1177/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-bluetooth-unavailable.html
 ---
 
@@ -154,6 +154,24 @@ detail_href: ./fix/mac-bluetooth-unavailable.html
 3. macOS 大版本更新前做好备份，更新后逐一测试耳机、鼠标和键盘。
 4. 不使用宣称可以“增强蓝牙信号”的来路不明驱动。
 
+## 常见问题
+
+**Q：只有一个蓝牙设备连不上，也要按整机流程查吗？**
+
+A：不用。只有一个设备出问题，优先删掉旧配对重新配对（步骤 4）；整机蓝牙列表为空、或开关变灰，才按本文从重启蓝牙模块开始。
+
+**Q：蓝牙开关变灰，是不是硬件坏了？**
+
+A：未必，先重启 Mac 并把 macOS 更新到当前版本。若「系统信息 → 硬件 → 蓝牙」里根本看不到控制器，才更可能是硬件问题，需要联系 Apple 支持。
+
+**Q：拔掉扩展坞和 USB 硬盘真的有用吗？**
+
+A：有。USB 3.0 硬盘、扩展坞和无线接收器都可能干扰无线信号，拔掉后重新搜索是最省事的验证方式（步骤 5）。
+
+**Q：蓝牙键鼠连不上、进不了系统怎么办？**
+
+A：先用有线键鼠进入系统再排查，所有配对操作都要在能操作 Mac 的前提下做（步骤 2）。
+
 ## 相关教程
 
 - [蓝牙耳机 / 键鼠连不上、一直配对失败怎么修](./bluetooth-device-not-pairing.html)
@@ -165,4 +183,5 @@ detail_href: ./fix/mac-bluetooth-unavailable.html
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：范围判断、蓝牙重启、重新配对、干扰与硬件诊断 | 内容组 |

@@ -17,8 +17,8 @@ symptoms:
   - 网络延迟高
 keywords: [网速慢, 测速, 延迟, 丢包, 5GHz, DNS, 运营商, 网线, 信道拥堵]
 aliases: [网络很慢, 上网慢, 网卡顿, 速度上不去, WiFi很卡]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 知道自己宽带签约带宽（如 300M / 500M / 1000M）
   - 手机和电脑都能联网（分段测试要用）
@@ -30,7 +30,7 @@ sources:
   - title: Microsoft 支持 - 解决 Windows 中的网络连接问题
     url: https://support.microsoft.com/zh-cn/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-11-23
 detail_href: ./fix/slow-network.html
 ---
 
@@ -126,6 +126,24 @@ detail_href: ./fix/slow-network.html
 - 新设备优先连 5GHz；智能家居留在 2.4G，互不抢占。
 - 每半年对着账单测一次速，带宽缩水能第一时间发现。
 
+## 常见问题
+
+**Q：测速多少才算「不是宽带的问题」？**
+
+A：有线直连测到签约值的 80% 以上，基本可以判定宽带正常，问题在 Wi-Fi 或设备段。达不到就先重启光猫和路由器再复测。
+
+**Q：只有晚上 8-11 点慢，是家里路由器的问题吗？**
+
+A：更像小区共享带宽拥塞。这种时段性变慢向运营商投诉才有效，报出测速截图和时段，重启路由器帮不上。
+
+**Q：300M 宽带下载只有 30 多 MB/s，是被限速了吗？**
+
+A：不是。300M 宽带的下载峰值约 37MB/s，达不到 40MB/s 属正常范围，先对照签约带宽管理预期（步骤 5）。
+
+**Q：网页打开慢但下载很快，怎么办？**
+
+A：这是 DNS 解析慢，不是带宽不足。把 DNS 换成 `223.5.5.5` 或 `119.29.29.29` 再试，细节可看站内 DNS 专题文章。
+
 ## 相关教程
 
 - [Wi-Fi 有信号但上不了网](./wifi-connected-but-no-internet.html)
@@ -136,3 +154,4 @@ detail_href: ./fix/slow-network.html
 ## 更新日志
 
 - 2026-10-24 v1.0：首版发布。覆盖分段测速、Wi-Fi 链路、路由器/运营商与设备四层定位。
+- 2026-11-23 v1.1：补充「常见问题」，校对字段与相关教程。

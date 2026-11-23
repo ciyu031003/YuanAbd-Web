@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [风扇一直响, 风扇狂转, Mac 发烫, 机身烫手, 风扇声音很大, 电脑很热, 风扇转个不停, Mac overheating, fan noise, 笔记本发热严重]
 keywords: [风扇噪音, 过热, 热节流, kernel_task, 活动监视器, SMC, 散热, pmset]
 aliases: [风扇响, Mac 很热, 发烫, 风扇吵]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [Mac 能正常开机并进入桌面, 知道开机密码和管理员密码, 已保存并退出正在编辑的文档]
 tools: [活动监视器, 终端, 系统设置, 气吹或软毛刷（可选）]
 related: [mac-storage-system-data, wifi-adapter-missing, dns-broken-but-app-works]
@@ -29,7 +29,7 @@ sources:
   - title: Apple 支持 — 使用"Apple 诊断"测试你的 Mac
     url: https://support.apple.com/zh-cn/102550
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-fan-noise-overheat.html
 ---
 
@@ -203,6 +203,24 @@ pmset -g batt
 4. 每 3 到 6 个月清理一次进风口/出风口的灰尘（关机断电后，用气吹或软毛刷）。
 5. 夏天避免在高温环境长时间满负载运行渲染、游戏或视频导出。
 
+## 常见问题
+
+**Q：风扇一直响，是不是散热器坏了？**
+
+A：多数不是。先用「活动监视器」按 CPU 排序找出长时间占满处理器的程序，正常退出后等 2 分钟再听，噪音常常就下去了。
+
+**Q：能强制退出占 CPU 的程序吗？**
+
+A：可以退出普通应用，但不要强制退出名字里带 com.apple 的系统进程，强退系统进程可能引发登录或启动异常。
+
+**Q：放在床上、腿上用会加重发热吗？**
+
+A：会。底部进风口和转轴处出风被堵住，热量散不出去；换到硬质平面或用支架垫起，并拔掉不用的外接硬盘和扩展坞。
+
+**Q：安全模式里风扇不响了，说明什么？**
+
+A：说明是第三方登录项或后台程序在拖负载。正常启动后去「系统设置 → 通用 → 登录项」逐项关掉再观察（步骤 3）。
+
 ## 相关教程
 
 - [Mac 储存空间不足 /「系统数据」占了上百 G](./mac-storage-system-data.html)
@@ -215,4 +233,5 @@ pmset -g batt
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首次发布：活动监视器定位、散热环境、安全模式与 SMC、Apple 诊断分流 | 内容组 |

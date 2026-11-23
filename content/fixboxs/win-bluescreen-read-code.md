@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [电脑蓝屏, 蓝屏重启, 蓝屏代码看不懂, 你的设备遇到问题需要重启, 蓝屏后自动重启, blue screen, 电脑蓝屏哭脸, 蓝屏错误代码]
 keywords: [蓝屏代码, 停止代码, stop code, 事件查看器 1001, 内存检测, 小内存转储, 驱动导致蓝屏]
 aliases: [蓝屏, 蓝屏死机, 电脑蓝屏怎么办, 出现哭脸, 系统崩溃重启]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [记得蓝屏上出现的代码或拍到照片, 能重启进入系统, 有管理员权限]
 tools: [事件查看器, Windows 内存诊断, 设备管理器, 命令提示符（管理员）, WinDbg（可选）]
 related: [win-stuck-on-boot-logo, win-blackscreen-cursor, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/sfc
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-bluescreen-read-code.html
 ---
 
@@ -253,6 +253,24 @@ sfc /scannow
 4. 保留至少 15% 的 C 盘空闲空间，磁盘长期满载会加剧文件系统错误。
 5. 重要数据定期备份；硬盘出现异响或健康度下降就尽早更换。
 
+## 常见问题
+
+**Q：蓝屏一闪就重启，没看清代码怎么办？**
+
+A：重启后去事件查看器查 1001 号 BugCheck 记录，里面有停止代码和参数。还可以在「启动和故障恢复」里取消「自动重新启动」，让下次蓝屏停在屏幕上（步骤 7）。
+
+**Q：偶尔蓝屏一次要紧吗？**
+
+A：可以先观察。到事件查看器 →「Windows 日志 → 系统」看有没有新的 1001 或 41 号记录，记下时间和代码，再决定要不要动手。
+
+**Q：蓝屏后能正常进系统，还需要重装吗？**
+
+A：不必马上重装。先按步骤 4 卸载最近装的驱动、更新、软件，再跑内存和硬盘检测，多数「突然开始蓝屏」能这样找到原因。
+
+**Q：蓝屏上那个 .sys 文件名有什么用？**
+
+A：它往往就是元凶驱动。拿着文件名去设备管理器找对应设备（如 `nvlddmkm.sys` 是 NVIDIA 显卡驱动），回退或重装该驱动（步骤 4）。
+
 ## 相关教程
 
 - [电脑开机一直转圈 / 卡在品牌 Logo 进不去系统](./win-stuck-on-boot-logo.html)
@@ -264,5 +282,6 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.1 | 增加蓝屏事件与转储文件导出脚本 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：蓝屏代码读法 + 八步排查 | 内容组 |

@@ -20,8 +20,8 @@ symptoms:
   - Windows Update 服务禁用后商店异常
 keywords: [Microsoft Store, Windows Update依赖, wsreset, 商店修复, 商店重置, 应用安装失败, 0x80131500, 区域设置, 应用商店]
 aliases: [应用商店打不开, 微软商店问题, 商店无法加载, Store 修复, 系统更新没开商店打不开]
-updated: 2026-10-27
-version: "1.3"
+updated: 2026-11-23
+version: "1.4"
 prerequisites:
   - Windows 机器有管理员权限
   - Windows 更新已开启且能正常检查更新
@@ -37,7 +37,7 @@ sources:
   - title: Microsoft Learn 问答 - 商店损坏的修复与重置
     url: https://learn.microsoft.com/zh-cn/answers/questions/3880734/question-3880734
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-store-not-opening.html
 ---
 
@@ -167,6 +167,24 @@ detail_href: ./fix/win-store-not-opening.html
 - 不要为了关闭更新而永久禁用 `Windows Update` 服务；商店和应用安装都依赖更新组件。
 - 加速器/VPN 用完就退，别常驻改系统代理。
 - 大版本更新后先开一次商店，早发现早 wsreset。
+
+## 常见问题
+
+**Q：Windows 更新被关掉了，能不能先修商店？**
+
+A：不能，顺序反了。商店依赖 Windows 更新服务和应用安装组件，更新被禁用时先按[《Windows 更新被关闭了，怎么重新开启》](./win-update-enable.html)恢复，再回来修商店（「不适用」第一条）。
+
+**Q：`wsreset.exe` 会删掉已装应用或账户吗？**
+
+A：不会删已装应用。它只清商店缓存和登录状态，重新登录即可；「重置」才会清商店数据、需要重新登录（正文开头的说明）。
+
+**Q：修复时报 `0x80131500`，换网络也一样？**
+
+A：这类固定错误码常常是微软服务端的区域问题，不一定是本机故障（「还是不行？」第一条）。先按步骤 4 换 DNS、核对时间与区域，再等一两天重试。
+
+**Q：公司电脑的商店提示「联系管理员」怎么办？**
+
+A：那是组策略禁用了商店，属于管控策略而不是故障（「不适用」第四条）。找 IT 处理，自己反复跑 `wsreset` 不会有作用。
 
 ## 相关教程
 

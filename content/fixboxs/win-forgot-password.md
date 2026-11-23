@@ -10,8 +10,8 @@ risk: 有数据风险
 symptoms: [开机密码忘了, PIN 用不了, 密码错误进不去, 忘记PIN, 登录界面进不去, forgot windows password, 密码提示不正确, PIN 不可用请重试]
 keywords: [忘记开机密码, 重置PIN, 微软账户改密码, 本地账户密码, BitLocker 恢复密钥, 登录选项, net user 改密码]
 aliases: [密码忘了, 进不去系统, PIN 失效, 登录不了, 开机密码不对]
-updated: 2026-10-27
-version: "1.2"
+updated: 2026-11-23
+version: "1.3"
 prerequisites: [知道账户是微软账户还是本地账户, 有一台能上网的手机或电脑, 企业设备需联系 IT]
 tools: [登录界面的登录选项, 微软账户密码重置页, net user 命令, manage-bde, 密码重置盘]
 related: [win-blackscreen-cursor, win-stuck-on-boot-logo, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/net-user
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-forgot-password.html
 ---
 
@@ -219,6 +219,24 @@ manage-bde -protectors -get C:
 3. 开启 BitLocker 时按微软建议把恢复密钥打印出来或保存在只有你能访问的地方，不要只存在这台电脑上。
 4. 设置 PIN 的同时确保账户密码记在密码管理器或纸质记录里（PIN 忘了必须靠密码重设）。
 5. 重要文件同时存网盘或移动硬盘，别只放在系统盘。
+
+## 常见问题
+
+**Q：PIN 忘了但密码还记得，需要重装系统吗？**
+
+A：不用。PIN 只是本地快捷登录方式，在登录界面点「登录选项」切到密码登录，进系统后在「设置 → 账户 → 登录选项」里重设 PIN 即可（步骤 2）。
+
+**Q：重置密码会不会触发 BitLocker 恢复密钥？**
+
+A：有这个风险。开了设备加密的电脑，任何离线重置、重装都可能要求 48 位恢复密钥（步骤 5）。动手前先用 `manage-bde -status C:` 确认加密状态，并找到密钥。
+
+**Q：网上的「PE 密码破解 U 盘」能试吗？**
+
+A：不建议。正文明确不提供这类方法：它属于绕过登录保护，在单位设备上属于违规，在开了 BitLocker 的机器上极易触发恢复密钥要求，可能直接导致数据读不出来。
+
+**Q：微软账户收不到验证码怎么办？**
+
+A：在验证页选「使用其他验证方式」换个通道；完全不记得账户名，就走账户恢复表单，通常 24 小时内出结果（步骤 3 的失败处理）。
 
 ## 相关教程
 

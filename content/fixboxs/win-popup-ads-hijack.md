@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [电脑弹广告, 浏览器主页被改, 主页改不回来, 右下角弹窗广告, 打开浏览器跳广告页, popup ads, 搜索引擎被换掉, 桌面多出图标]
 keywords: [弹窗广告, 主页劫持, 浏览器主页被改, hosts 文件, 浏览器快捷方式被改, 计划任务, Process Explorer 定位弹窗]
 aliases: [弹广告, 流氓软件, 主页被篡改, 浏览器被劫持, 开机弹窗]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [有管理员权限, 知道平时用哪个浏览器, 重要数据有备份]
 tools: [任务管理器, Process Explorer（微软官方）, Autoruns（微软官方）, Microsoft Defender, Microsoft Safety Scanner, 任务计划程序, 记事本]
 related: [win-startup-apps-disable, win-app-crash-missing-dll, win-slow-diagnose]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/microsoft-365/security/intelligence/safety-scanner-download
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-popup-ads-hijack.html
 ---
 
@@ -240,6 +240,24 @@ netsh winhttp show proxy
 4. 每周用 Windows 安全中心做一次快速扫描，保持系统自动更新开启。
 5. 不要使用第三方「主页锁定」「IE 修复」「浏览器保护」类工具，它们本身就是劫持来源之一。
 
+## 常见问题
+
+**Q：主页改回来又被改走，为什么？**
+
+A：因为有常驻程序在每次开机时把设置写回去。先用任务管理器或 Process Explorer 定位弹窗进程，再卸载它，最后才改主页（步骤 1-3）。
+
+**Q：怎么快速抓到是哪个程序弹的广告？**
+
+A：弹窗出现时别关掉，按 Ctrl+Shift+Esc 打开任务管理器找可疑进程、打开文件所在位置；或用微软官方 Process Explorer 的准星拖到弹窗上，高亮那行就是元凶。
+
+**Q：浏览器快捷方式「目标」里多了网址怎么办？**
+
+A：那是快捷方式被劫持。把「目标」里 `chrome.exe` 后面多出来的网址删掉，或删掉该快捷方式，从开始菜单重新固定一个。
+
+**Q：有些广告只在通知中心或锁屏出现，也要卸载软件吗？**
+
+A：不用。这类是系统通知与锁屏推荐，卸载软件解决不了；在「设置 → 系统 → 通知」和「个性化 → 锁屏界面」里关掉相关选项即可（步骤 7）。
+
 ## 相关教程
 
 - [开机太慢：关掉这些开机自启软件](./win-startup-apps-disable.html)
@@ -251,4 +269,5 @@ netsh winhttp show proxy
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：先定位进程、再清理、最后修主页 | 内容组 |

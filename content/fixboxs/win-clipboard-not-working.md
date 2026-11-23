@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [剪贴板不能用, 复制粘贴失效, CtrlV没反应, 复制后粘贴不出来, 剪贴板历史打不开, 浏览器不能粘贴, 远程桌面剪贴板失效, clipboard not working]
 keywords: [Windows剪贴板, 复制粘贴修复, Win+V, 剪贴板历史, RDP剪贴板, 重启explorer, 系统文件]
 aliases: [粘贴不了, 复制没反应, 剪贴板坏了, CtrlC无效, 复制后是旧内容]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能正常登录 Windows, 可以打开记事本做测试, 有管理员权限可选]
 tools: [记事本, 文件资源管理器, 任务管理器, Windows 设置, 命令提示符（管理员）]
 related: [win-taskbar-unresponsive, win-search-not-working, win-app-crash-missing-dll, win-slow-diagnose]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-clipboard-not-working.html
 ---
 
@@ -165,6 +165,24 @@ sfc /scannow
 3. 少装来源不明的剪贴板增强和自动翻译工具。
 4. 遇到异常时先记录“哪个应用复制、粘贴到哪里失败”，便于快速定位。
 
+## 常见问题
+
+**Q：所有软件都不能复制粘贴，是不是系统坏了？**
+
+A：多半是桌面外壳或系统剪贴板卡住了。先在记事本里自己复制粘贴测一次，再重启 `explorer.exe`（步骤 2），最后才修系统组件。
+
+**Q：重启 `explorer.exe` 会丢东西吗？**
+
+A：不会丢文件。桌面和任务栏会闪一下重启，正在编辑未保存的文档请先保存；重启后剪贴板里的内容可能被清空。
+
+**Q：只有远程桌面里不能粘贴，为什么？**
+
+A：那是远程客户端的剪贴板重定向没开。在连接设置里打开剪贴板共享，云电脑看「本地剪贴板同步」，虚拟机看共享剪贴板与增强工具（步骤 3）。
+
+**Q：清空剪贴板历史会删掉我的密码吗？**
+
+A：剪贴板历史里可能存着密码、验证码，清空前先把需要的抄下来。步骤 4 的清理只清历史记录，不影响文件和已保存的密码。
+
 ## 相关教程
 
 - [Windows 任务栏卡死 / 点击没反应怎么修](./win-taskbar-unresponsive.html)
@@ -176,4 +194,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：跨应用测试、桌面重启、远程剪贴板与历史清理 | 内容组 |

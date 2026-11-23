@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [没有WLAN选项, 网络适配器不见了, 设备管理器没有无线网卡, wifi图标没了, 适配器有黄色感叹号, 连不上wifi也没有wifi开关, no wifi adapter, 无线网卡消失, 以太网也看不见, 网络适配器出现感叹号]
 keywords: [网络适配器, WLAN, 设备管理器, 无线网卡驱动, 网卡消失, pnputil, Get-PnpDevice, 网络重置]
 aliases: [没有wifi选项, 找不到无线网卡, 网卡掉了, 无线适配器丢失]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [电脑能正常开机进入系统, 知道管理员密码, 另一台能上网的设备（下载驱动用）, 手边有可用的网线或 USB 无线网卡（可选）]
 tools: [设备管理器, Windows 设置（网络重置）, PowerShell, 厂商官网驱动下载, macOS 系统设置与终端]
 related: [wifi-ssid-not-found, wifi-connected-but-no-internet, ip-conflict-locate-device, home-network-all-offline]
@@ -29,7 +29,7 @@ sources:
   - title: Apple 支持 — 使用"Apple 诊断"测试你的 Mac
     url: https://support.apple.com/zh-cn/102550
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/wifi-adapter-missing.html
 ---
 
@@ -245,6 +245,24 @@ system_profiler SPAirPortDataType | head -n 60
 3. 系统大版本更新前做一次还原点或备份，更新后确认网络正常。
 4. 不要在 BIOS 里随意修改与网络无关的选项；改动前先拍照记录原值。
 5. 笔记本避免在开机状态下震动、摔碰，无线网卡的天线接口比较脆弱。
+
+## 常见问题
+
+**Q：WLAN 选项突然消失，最可能是什么原因？**
+
+A：先查开关：飞行模式、`Fn` 快捷键、机身物理开关，甚至 BIOS 里的无线项被禁用（步骤 2）。这三处排掉之后，才轮到驱动和硬件。
+
+**Q：设备管理器里有个带感叹号的「未知设备」，是网卡吗？**
+
+A：有可能。先在设备管理器「查看 → 显示隐藏的设备」里确认，再按步骤 3 卸载设备并重启让系统重装驱动；仍不行就用笔记本/主板厂商官网的对应型号驱动。
+
+**Q：做「网络重置」会丢什么？**
+
+A：会清空已保存的 Wi-Fi 名称和密码，自定义的 IP、DNS、代理设置也会还原（步骤 5 的风险提示）。重置前先把这些记下来，重置后要重新连 Wi-Fi。
+
+**Q：重装驱动能恢复，但过几天又消失？**
+
+A：多半是驱动与系统更新版本冲突（步骤 7 的对照表）。固定使用厂商官网的驱动版本，必要时关闭自动驱动更新或回退，而不是反复重装。
 
 ## 相关教程
 

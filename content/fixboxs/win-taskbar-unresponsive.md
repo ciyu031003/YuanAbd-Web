@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [任务栏卡死, 任务栏点不动, 开始菜单打不开, 任务栏图标消失, 任务栏一直转圈, 桌面右键没反应, Windows任务栏无响应, taskbar frozen]
 keywords: [任务栏修复, 重启explorer, Explorer.exe, 开始菜单卡住, 任务栏无响应, Windows更新, 系统文件修复]
 aliases: [任务栏坏了, 任务栏没反应, 底部菜单栏卡住, 开始按钮点不动, 任务栏消失]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能用键盘打开任务管理器, 能正常登录桌面, 最好保存当前工作]
 tools: [任务管理器, 设置, Windows 终端, 事件查看器]
 related: [win-search-not-working, win-clipboard-not-working, win-slow-diagnose, win-blackscreen-cursor]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sfc
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-taskbar-unresponsive.html
 ---
 
@@ -163,6 +163,24 @@ sfc /scannow
 2. Windows 更新后主动重启一次，不要长期只关机不休眠。
 3. 保留 C 盘空间并及时更新显卡与扩展坞官方驱动。
 4. 出现崩溃时记录时间、程序和更新编号，方便下一次快速定位。
+
+## 常见问题
+
+**Q：重启资源管理器会把没保存的东西弄丢吗？**
+
+A：会关掉桌面、任务栏和所有文件资源管理器窗口，正在编辑但没保存的内容仍可能丢失（正文开头提示）。所以能用键盘 `Alt+F4` 保存就先保存，再重启 `explorer.exe`。
+
+**Q：任务栏卡死，要不要直接重启电脑？**
+
+A：不必先重启。按 `Ctrl+Shift+Esc` 打开任务管理器，在「进程」里右键「Windows 资源管理器」→「重新启动」最快（步骤 2）；重启后马上又卡，才继续查更新和系统文件。
+
+**Q：只有某个软件在任务栏的图标点不动？**
+
+A：那通常不是任务栏的问题，而是那个应用或它在通知区域的图标卡住了（见「不适用」）。先退出再重开该软件，别整机折腾。
+
+**Q：每次开机任务栏都要卡一阵才出来？**
+
+A：更可能是启动项太多或磁盘长期 100%（「还是不行？」最后一条）。到任务管理器「启动」标签禁用你认识的启动项，配合[《电脑越来越卡怎么办》](./win-slow-diagnose.html)一起查。
 
 ## 相关教程
 

@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Codex怎么下载, Codex桌面版下载, ChatGPT里没有Codex, Codex安装不了, Codex打不开, Codex登录不了, 微软商店找不到Codex]
 keywords: [Codex下载, Codex Windows, ChatGPT桌面版, OpenAI Codex, Microsoft Store, Codex安装, Codex登录]
 aliases: [下载Codex, 安装Codex, Codex电脑版, Codex桌面应用, ChatGPT Codex]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - Windows 10/11 电脑
   - Microsoft Store 能正常打开
@@ -33,7 +33,7 @@ sources:
     url: https://developers.openai.com/codex/
     type: tested
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/codex-desktop-install.html
 ---
 
@@ -186,6 +186,24 @@ Get-AppxPackage OpenAI.Codex | Select-Object Name, Version, PublisherDisplayName
 3. 定期打开商店“库 → 获取更新”，不要长期停留在旧版本。
 4. 第一次使用先选测试项目，并确认工作目录和文件修改范围。
 5. 账号、地区和组织权限限制以 OpenAI 官方说明为准，不使用绕过工具。
+
+## 常见问题
+
+**Q：网上有「Codex 独立安装包」，能下载吗？**
+
+A：不建议。正文写明 Windows 桌面版由 Microsoft Store 的 OpenAI 包提供，只装发布者为 **OpenAI** 的结果；第三方网盘、论坛的「绿色版」存在账号令牌和代码泄露风险。
+
+**Q：安装完成后，开始菜单里怎么找不到「Codex」？**
+
+A：应用显示名是 **ChatGPT** 而不是 Codex（「开始前确认」最后一条也提到了）。从开始菜单打开 ChatGPT，登录后在应用内进入 Codex 即可。
+
+**Q：怎么确认装的是官方包，而不是同名的山寨应用？**
+
+A：在 PowerShell 里运行 `Get-AppxPackage OpenAI.Codex | Select-Object Name, Version, PublisherDisplayName`，能返回 `OpenAI.Codex`、发布者显示 OpenAI 就对了（步骤 4）。
+
+**Q：商店里搜不到，或安装一直失败怎么办？**
+
+A：先按[《Microsoft Store 打不开 / 商店应用装不上怎么修》](./win-store-not-opening.html)把商店本身修好（步骤 1），再回来安装。商店报错时记下错误码，不要转头去下第三方安装器。
 
 ## 相关教程
 

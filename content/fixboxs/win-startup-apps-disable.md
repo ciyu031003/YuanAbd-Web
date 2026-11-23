@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [开机太慢, 开机要很久, 开机启动软件太多, 进桌面后卡半天, 开机自启怎么关, slow startup, 右下角一堆图标, 开机后硬盘狂转]
 keywords: [开机启动项, 启动应用, 任务管理器启动, 启动影响, shell startup, Autoruns, 计划任务开机启动]
 aliases: [自启动, 开机自动运行, 启动项太多, 开机慢, 开机时间长]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [有管理员权限, 知道自己平时真的会用到哪些软件]
 tools: [任务管理器, 设置中的「启动」, 文件资源管理器, 任务计划程序, Autoruns（微软官方）, 系统配置 msconfig]
 related: [win-slow-diagnose, win-c-drive-full-cleanup, win-popup-ads-hijack]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-startup-apps-disable.html
 ---
 
@@ -214,6 +214,24 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location, Us
 4. 不安装来源不明的「加速」「优化」「清理」类软件。
 5. 系统盘用 SSD，这是开机速度提升最明显的一步。
 
+## 常见问题
+
+**Q：禁用启动项会影响软件正常使用吗？**
+
+A：不会删软件，只是不让它开机自启。禁用后打开软件要手动点，功能和数据都不受影响的；拿不准的项可以先禁用，观察几天再决定。
+
+**Q：哪些启动项不能关？**
+
+A：输入法、音频、触摸板、网络相关的系统项不要关，「步骤 5」有保留清单。拿不准的第三方项先禁用，看是否影响使用再决定。
+
+**Q：任务管理器里没有的启动项去哪找？**
+
+A：启动文件夹（`shell:startup`）、注册表 Run 键和计划任务里都可能藏着。用微软官方 Autoruns 一次看全，先取消勾选临时禁用更稳妥（步骤 3-4）。
+
+**Q：用第三方「一键加速」清理启动项可以吗？**
+
+A：不建议。这类工具常自带常驻进程和广告，等于又多了几个启动项；只用任务管理器、系统设置和 Autoruns 处理就够（步骤 7）。
+
 ## 相关教程
 
 - [电脑越来越卡怎么办：一张表定位是哪里卡](./win-slow-diagnose.html)
@@ -225,5 +243,6 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location, Us
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.1 | 增加一键打开全部启动项入口的脚本 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：启动项七步清理与保留清单 | 内容组 |

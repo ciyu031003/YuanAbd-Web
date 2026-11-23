@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [系统数据占了一百多G, 储存空间不足, 磁盘快满了, 其他占了很大空间, Mac 空间不够, 删了文件空间没变, 系统数据越来越大, Mac storage full, system data huge, 启动磁盘几乎已满]
 keywords: [系统数据, System Data, 储存空间, 本地快照, 时间机器, 缓存, 可清除空间, tmutil]
 aliases: [空间满了, 硬盘不够用, 系统资料占用, 其他占用太大]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [Mac 能正常进入桌面, 已把重要文件备份到外置硬盘或云盘, 知道管理员密码, 预留 30 分钟以上时间]
 tools: [系统设置（储存空间）, 访达, 终端, 磁盘工具]
 related: [mac-fan-noise-overheat, mac-wont-boot, icloud-storage-full, backup-before-repair]
@@ -25,7 +25,7 @@ sources:
   - title: Apple 支持 — 在 Mac 上查看已用和可用的储存空间
     url: https://support.apple.com/zh-cn/guide/system-information/syspf9b375b9/mac
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-storage-system-data.html
 ---
 
@@ -225,6 +225,24 @@ diskutil list
 3. iPhone 备份改用 iCloud，或导出到电脑后立即删除本机备份。
 4. 不装「一键清理/加速」类第三方工具，不手动删除系统目录。
 5. Xcode、Docker、虚拟机用户每月清理一次 DerivedData、无用镜像和旧模拟器。
+
+## 常见问题
+
+**Q：删掉时间机器的本地快照，会不会把备份一起删了？**
+
+A：本地快照只是这台 Mac 上的回滚点，删掉后不能再用它恢复文件；外接盘上的时间机器完整备份不受影响。很久没做过完整备份的，先做一次外部备份再删（步骤 2 的风险提示）。
+
+**Q：「系统数据」突然变大，是中毒了吗？**
+
+A：多数不是。它装的是缓存、日志、本地快照和 iPhone 备份（步骤 1）。想确认就按步骤 4 用体积排行看是哪几个目录在占，别一上来就用第三方「清理大师」。
+
+**Q：把缓存删了，会不会让软件出问题？**
+
+A：缓存可以安全重建，删完第一次打开某个 App 会慢一点，属正常（步骤 3）。真正不能删的是 `~/Library/Application Support`、`~/Library/Keychains`、`~/Library/Preferences` 这些目录。
+
+**Q：清完没几天空间又满了？**
+
+A：说明有程序在持续写入（同步盘、虚拟机、录屏、日志狂写的软件）。回步骤 3、4 把它找出来，而不是反复清缓存（见「还是不行？」第一条）。
 
 ## 相关教程
 

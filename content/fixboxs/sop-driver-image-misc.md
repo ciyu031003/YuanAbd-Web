@@ -1,5 +1,5 @@
 ---
-title: 驱动、镜像与软件环境杂项：Ubuntu 驱动、WPS VBA、CAD 与网页视频
+title: 驱动与软件环境杂项：Ubuntu 驱动、WPS VBA 与 CAD 卡死
 slug: sop-driver-image-misc
 kind: reference
 domain: ref-manual
@@ -8,11 +8,11 @@ os: [Windows, macOS]
 difficulty: 入门
 time: 10-30 分钟
 risk: 需谨慎
-symptoms: [驱动、镜像与软件环境杂项 处理方法, SOP 参考]
+symptoms: [驱动、镜像与软件环境杂项 处理方法, SOP 参考, Ubuntu 显卡驱动与 CUDA, WPS 无法运行 VBA]
 keywords: [驱动, 镜像与软件环境杂项 SOP, Ubuntu 驱动, WPS VBA, CAD 与网页视频, 参考手册, 作业指导]
 aliases: [SOP, 作业指导, 参考手册, 驱动、镜像与软件环境杂项]
-updated: 2026-10-17
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能登录公司内部 SOP 知识库（部分原文需要账号）]
 tools: [浏览器, 内部 SOP 知识库]
 related: [sop-pe-usb-install, sop-macos-maintain, sop-diagnose-tools]
@@ -42,18 +42,16 @@ sources:
     url: https://support.apple.com/zh-cn/guide/disk-utility/welcome/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-17
+reviewed_at: 2026-11-23
 ---
 
-# 驱动、镜像与软件环境杂项：Ubuntu 驱动、WPS VBA、CAD 与网页视频
+# 驱动与软件环境杂项：Ubuntu 驱动、WPS VBA 与 CAD 卡死
 
 ## 快速概览
 
-SOP 里还有一批「装完系统/装完软件之后的杂项」：Ubuntu 显卡驱动与 CUDA、
+装完系统或装完软件后，遇到「Ubuntu 装不上显卡驱动 / WPS 打不开 VBA / CAD 一开就卡死 / 网页视频有声音没画面」这类杂项问题时，用这一页按「系统 / 软件 / 网页」三层定位。
 
-WPS 的 VBA 支持库、CAD 打开卡死、Eagle 安装报错、网页视频有声音无画面、BOSS 直聘简历字体模糊……
-
-这些问题的共同点是：**版本与驱动不匹配**。这一页按「系统 / 软件 / 网页」分类索引。
+这批问题大多出在**版本与驱动不匹配**上：看完你能判断该从哪个官方来源补组件、驱动与 CUDA 版本怎么对应，以及交付前要按客户实际用法回归验证什么。
 
 本页共整理 **15** 条 SOP 条目，全部保留原始链接；处理细节以原文为准。
 
@@ -240,6 +238,24 @@ WPS 的 VBA 支持库、CAD 打开卡死、Eagle 安装报错、网页视频有�
 - 提醒：USB 异常先查这里
 
 **原文**：[惠普S01主板差别和USB设置](https://mvs-h5.edianzu.cn/tips-detail?id=3327)
+
+## 常见问题
+
+**Q：Ubuntu 装显卡驱动要注意什么？**
+
+A：先准备好恢复方式（例如先用系统自带的开源驱动），装错闭源驱动可能导致进不了图形界面（风险提示第 1 条）；驱动与 CUDA 的版本要一一对应（步骤 2、3）。
+
+**Q：能用「驱动大师」这类工具一键装驱动吗？**
+
+A：不要用。正文明确不建议第三方驱动工具，它们常把驱动装错版本；显卡驱动走厂商官网或 Windows 更新，Office/WPS 组件从官方安装包补装（步骤 2）。
+
+**Q：网页视频有声音没画面，从哪查起？**
+
+A：先按「网页层」排查浏览器的硬件加速和字体/缩放设置（步骤 1），不要直接重装浏览器；改完在同一浏览器、同一缩放比例下复测（步骤 3）。
+
+**Q：交付前要怎么验证才算过？**
+
+A：用客户实际的软件版本和文件打开测试（步骤 3）：Ubuntu 客户要验证 GPU 驱动加载与 CUDA 版本，网页类问题按原缩放比例复测。
 
 ## 仍需帮助
 

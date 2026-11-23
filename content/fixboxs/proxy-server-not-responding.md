@@ -17,8 +17,8 @@ symptoms:
   - 网络代理错误
 keywords: [代理服务器无响应, 系统代理, WinHTTP代理, PAC自动配置脚本, netsh winhttp, 代理设置残留, proxy server]
 aliases: [代理无响应, 代理服务器拒绝连接, 代理设置关了还是打不开网页, 浏览器提示代理错误]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites:
   - 确认电脑本身已连上 Wi-Fi 或网线
   - 知道这台电脑是不是公司/学校统一管理的设备
@@ -33,7 +33,7 @@ sources:
   - title: Apple 支持 - 在 Mac 上输入代理服务器设置
     url: https://support.apple.com/en-us/guide/mac-help/mchlp2591/mac
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/proxy-server-not-responding.html
 ---
 
@@ -236,6 +236,24 @@ sudo networksetup -setsecurewebproxystate "Wi-Fi" off
 3. 把当前正常的代理设置页截图存到手机相册，出问题时对照恢复。
 4. 公司办公电脑上的代理、脚本地址一律按 IT 下发的填写，不自行改动。
 5. 定期执行一次 `netsh winhttp show proxy` 留个底，出问题时能立刻判断是不是被改了。
+
+## 常见问题
+
+**Q：代理开关本来就是关的，为什么还提示代理服务器无响应？**
+
+A：可能根本不是系统代理：一是浏览器扩展在单独接管代理（步骤 5，用无痕窗口测就能分辨），二是被漏掉的 WinHTTP 代理（步骤 4，用 `netsh winhttp show proxy` 查）。
+
+**Q：重置 WinHTTP 代理后内网系统打不开了怎么办？**
+
+A：说明单位的内网系统依赖这个代理。用 `netsh winhttp set proxy <地址:端口>` 把原地址填回去，或联系 IT 重新下发配置——公司设备上不要自己删（步骤 4 的提醒）。
+
+**Q：卸载加速器、抓包工具后要检查哪几处？**
+
+A：三处：设置里的「使用代理服务器」和 PAC 开关、WinHTTP 代理、浏览器扩展里的情景模式（步骤 2、4、5）。任一处留着失效地址，都会继续报代理错误。
+
+**Q：公司电脑上的代理设置是灰的、改不动怎么办？**
+
+A：那是单位统一下发的管控策略，不要尝试绕过（「不适用」里也是这么写的），按单位流程联系 IT 处理。
 
 ## 相关教程
 

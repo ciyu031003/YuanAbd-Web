@@ -8,11 +8,11 @@ os: [Windows, macOS]
 difficulty: 入门
 time: 10-30 分钟
 risk: 需谨慎
-symptoms: [PE 制作与系统安装速查 处理方法, SOP 参考]
+symptoms: [PE 制作与系统安装速查 处理方法, SOP 参考, PE 不认硬盘, 系统安装与引导修复]
 keywords: [PE 制作与系统安装速查 SOP, PE 盘, 多合一, U 盘与在线安装, 参考手册, 作业指导]
 aliases: [SOP, 作业指导, 参考手册, PE 制作与系统安装速查]
-updated: 2026-10-17
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能登录公司内部 SOP 知识库（部分原文需要账号）]
 tools: [浏览器, 内部 SOP 知识库]
 related: [sop-macos-maintain, sop-diagnose-tools, sop-printer-connected-fix]
@@ -42,18 +42,16 @@ sources:
     url: https://support.apple.com/zh-cn/guide/disk-utility/welcome/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-17
+reviewed_at: 2026-11-23
 ---
 
 # PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装
 
 ## 快速概览
 
-装系统是桌面运维最高频的动作，也最容易翻车：PE 不认硬盘、引导不对、装完没有驱动。
+要重装系统、第一次做 PE 盘，或者卡在「PE 不认硬盘 / 引导不对 / 装完没驱动」时，用这一页按「PE 制作 → 进 PE → 分区 → 装系统 → 收尾」的顺序走。
 
-这一页把 SOP 里「PE 制作 → 进 PE → 分区 → 装系统 → 修复」的 40 多条原文链接按顺序排好，
-
-先按「先做哪一步」的顺序读，再点原文看具体截图。
+看完你能选对安装方式（U 盘镜像 / PE 内安装 / 在线安装 / 一键还原），并知道每个环节卡住时该查哪一条原文；本页把 SOP 里的安装与修复条目按顺序排好，先读流程，再点原文看截图与注意事项。
 
 本页共整理 **123** 条 SOP 条目，全部保留原始链接；处理细节以原文为准。
 
@@ -1131,6 +1129,24 @@ reviewed_at: 2026-10-17
 - 提醒：驱动按具体机型下载
 
 **原文**：培训口述内容，SOP 表格中没有对应链接。
+
+## 常见问题
+
+**Q：进了 PE 却看不到硬盘怎么办？**
+
+A：新平台（11 代以后）常缺 Intel VMD/RST 驱动，按「在 PE 无法识别硬盘的解决方法」补驱动；也可能是 SATA 模式被设成了 RAID（步骤 2）。
+
+**Q：进不去 PE 是什么原因？**
+
+A：先核对启动快捷键（「多品牌电脑选择 PE 启动的快捷键」）；再检查安全启动——联想、华为等品牌机开了 Secure Boot 可能进不去 PE，需要在 BIOS 里临时关闭（风险提示第 3 条）。
+
+**Q：分区表该选 GPT 还是 MBR？**
+
+A：跟着引导模式走：UEFI 对应 GPT，Legacy 对应 MBR（步骤 2、3）。进 PE 后先用 DG（DiskGenius）确认分区表类型再动手。
+
+**Q：没有 U 盘就不能装系统吗？**
+
+A：可以。按步骤 4 的替代路线走在线安装、MSDN 安装或云装机；只想恢复出厂或保留数据时，优先用「易点云一键还原」或「无 U 盘重置电脑」，而不是直接格式化。
 
 ## 仍需帮助
 

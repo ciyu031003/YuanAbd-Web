@@ -17,14 +17,14 @@ symptoms:
   - 网络重置
 keywords: [TAP虚拟网卡, TUN, WinTun, 虚拟网卡残留, 系统代理未清除, DNS被改, 路由表被劫持, netsh winsock reset, 网络重置]
 aliases: [装完VPN就没网了, 加速器卸载后断网, 虚拟网卡删不掉, 路由表被改, 网络被工具接管了]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites:
   - 确认这台设备是你本人拥有或已获授权
   - 已准备好重新安装网卡驱动所需的联网手段（可用手机 USB 共享网络）
   - 记得断网前装过哪些网络类工具的名称
 tools: [设备管理器, 命令提示符(管理员), Windows 网络重置, 终端(scutil/networksetup)]
-related: [proxy-server-not-responding, browser-proxy, browser-proxy, enterprise-proxy, wifi-adapter-missing]
+related: [proxy-server-not-responding, browser-proxy, enterprise-proxy, wifi-adapter-missing]
 sources:
   - title: Microsoft Learn - netsh winsock 命令参考
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-winsock
@@ -35,7 +35,7 @@ sources:
   - title: Microsoft Support - Windows 中的代理设置
     url: https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/proxy-tool-broke-network.html
 ---
 
@@ -276,6 +276,24 @@ route print -4
 4. 卸载完成后按本文步骤 3-6 自查一遍，再重启确认。
 5. 公司电脑上不安装来源不明的网络工具，需要抓包时向 IT 申请测试环境。
 
+## 常见问题
+
+**Q：工具已经卸载了，为什么网络还是不通？**
+
+A：因为卸载只删程序，没删它留下的虚拟网卡、代理和路由改动。按步骤 2 到步骤 6 依次清虚拟网卡、代理、DNS、路由表，最后重置网络栈。
+
+**Q：删掉虚拟网卡会不会影响正常上网？**
+
+A：不会，物理网卡不受影响。要删的是名字里带 TAP、TUN、Wintun、WireGuard、VPN 的那类设备，删完重启，系统会正常使用物理网卡（步骤 2）。
+
+**Q：重置网络栈需要重装网卡驱动吗？**
+
+A：一般不用，重置网络栈会恢复 Winsock 和 IP 配置，重启后网卡驱动仍由系统加载。若网卡在设备管理器里彻底不见了，按「电脑没有 WLAN 选项 / 网络适配器不见了」处理。
+
+**Q：公司电脑能用这套办法吗？**
+
+A：不能自行操作。单位统一下发的管控或 VPN 客户端被删掉可能违反规定、也会影响准入，请联系 IT 处理。
+
 ## 相关教程
 
 - [浏览器提示「代理服务器无响应」怎么修](./proxy-server-not-responding.html)
@@ -288,4 +306,5 @@ route print -4
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首次发布：卸载顺序、虚拟网卡清理、代理与 DNS 恢复、路由表清理、网络栈重置 | 内容组 |

@@ -17,8 +17,8 @@ symptoms:
   - 打印机端口
 keywords: [网络打印机, 固定 IP, DHCP 保留, TCP/IP 端口, 打印机离线, MAC 绑定, 静态 IP, 打印机 IP 查询]
 aliases: [打印机掉线, 无线打印机连不上, 打印机IP设置, 打印机重新连网]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 打印机支持网络（有网口或 Wi-Fi 功能）
   - 能登录路由器管理后台
@@ -31,7 +31,7 @@ sources:
   - title: 爱普生官方 - EpsonNet 配置工具设置打印机手动 IP
     url: https://www.epson.com.cn/faq/0f241a0eddb640e3a6feebbd062b595a.html
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-11-23
 detail_href: ./fix/printer-network-ip-fixed.html
 ---
 
@@ -127,6 +127,24 @@ detail_href: ./fix/printer-network-ip-fixed.html
 - 办公室网络改造/换路由器后，把「打印机 IP 检查」列入收尾清单。
 - 团队里所有电脑统一用 TCP/IP 端口，禁用 WSD 添加。
 
+## 常见问题
+
+**Q：打印机用 DHCP 自动拿 IP，为什么过一阵就离线？**
+
+A：因为 IP 变了。路由器重启或租约到期后打印机分到新地址，电脑上的打印机端口还指着旧 IP，自然连不上；解决办法是固定 IP（步骤 2 或 3）。
+
+**Q：路由器端做 DHCP 保留和打印机端设静态 IP，该选哪个？**
+
+A：优先用路由器端的 DHCP 保留，不用动打印机，改错也好回退。路由器没有这个功能时，再在打印机的 Web 管理页手动改静态 IP。
+
+**Q：固定 IP 之后反而 ping 不通，为什么？**
+
+A：多半是地址冲突，选的 IP 被别的设备占了。换一个更冷门的地址（如 x.x.x.250）再试，改完重启打印机核对网络配置页。
+
+**Q：Wi-Fi 打印机隔天掉一次网，怎么处理？**
+
+A：先看打印机无线模块的休眠、节能设置，调长或关掉；仍不行就改网线直连，比反复调无线稳。
+
 ## 相关教程
 
 - [打印机显示脱机 / 打印没反应怎么修](./printer-offline.html)
@@ -137,3 +155,4 @@ detail_href: ./fix/printer-network-ip-fixed.html
 ## 更新日志
 
 - 2026-10-25 v1.0：首版发布。DHCP 保留流程参照华为路由官方指引，打印机手动 IP 流程参照爱普生 EpsonNet 官方文档。
+- 2026-11-23 v1.1：补充「常见问题」，校对字段与相关教程。

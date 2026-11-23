@@ -18,8 +18,8 @@ symptoms:
   - MacBook 无法开机
 keywords: [Mac 开不了机, 安全模式, 恢复模式, macOS 实用工具, Apple 诊断, NVRAM, SMC, 苹果标志卡住]
 aliases: [Mac 无法启动, MacBook 开机没反应, Mac 黑屏, Mac 卡logo, 苹果电脑开不了机]
-updated: 2026-10-24
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 电源适配器在手边（笔记本先排除没电）
   - 知道这台 Mac 是 Apple Silicon（M 系列）还是 Intel 芯片
@@ -34,7 +34,7 @@ sources:
   - title: Apple 支持 - 在 Mac 上使用 Apple 诊断
     url: https://support.apple.com/zh-cn/102550
 reviewer: 内容组
-reviewed_at: 2026-10-24
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-wont-boot.html
 ---
 
@@ -130,6 +130,20 @@ Mac 开不了机，**九成是「没电 / 外接设备捣乱 / 系统卷挂载�
 - 系统更新时插着电源、不要合盖走人；更新失败多数发生在中途断电。
 - 重要文件放 iCloud / 网盘或定期用「时间机器」备份，硬盘坏了也不慌。
 - 每季度重启一次（不是合盖睡眠），让系统完成积压的维护任务。
+
+## 常见问题
+
+**Q：卡在苹果标志，第一步做什么？**
+
+A：长按电源键 10 秒强制关机，再正常开机一次；同时拔掉所有外接设备，只留电源（30 秒快速排查）。单次启动异常和有问题的外置盘，这两个动作就能排掉一大部分。
+
+**Q：怎么知道自己这台 Mac 是 Apple Silicon 还是 Intel？**
+
+A：看机身年份：2020 年末之后的 Mac 基本都是 Apple Silicon，更早的是 Intel。两者进恢复模式的按键完全不同——Apple Silicon 长按电源键到「载入启动选项」，Intel 开机按 Command+R（步骤 3）。
+
+**Q：恢复模式里点「重新安装 macOS」会丢数据吗？**
+
+A：不会，它只替换系统文件、保留个人文件（步骤 4）。会丢数据的是「抹掉磁盘重装」，本文没让你点那个；数据重要又怀疑硬盘故障时，先送修别自己抹。
 
 ## 相关教程
 

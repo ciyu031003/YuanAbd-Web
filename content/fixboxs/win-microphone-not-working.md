@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [麦克风没声音, 对方听不到我说话, 麦克风静音, 会议麦克风不工作, 录音没声音, Windows麦克风权限, 麦克风输入很小, mic not working]
 keywords: [麦克风修复, 输入设备, 隐私权限, 麦克风阵列, 音量增强, 音频服务, 会议软件, 蓝牙耳机麦克风]
 aliases: [话筒没声音, 麦克风失效, 说话没输入, 视频会议没声音, 录音无声]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [电脑能播放声音, 知道是内置麦克风还是外接/蓝牙麦克风, 有管理员权限可选]
 tools: [Windows 设置, 声音设置, 隐私权限, 设备管理器, 会议软件设置]
 related: [webcam-not-working, win-no-sound, bluetooth-device-not-pairing, driver-install-rollback]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-microphone-not-working.html
 ---
 
@@ -162,6 +162,24 @@ detail_href: ./fix/win-microphone-not-working.html
 3. 蓝牙耳机注意区分“听音乐”和“通话”模式，避免误以为麦克风损坏。
 4. 不安装宣称能“增强音质”但要求常驻录音权限的来源不明软件。
 
+## 常见问题
+
+**Q：会议里对方听不到，是麦克风坏了吗？**
+
+A：未必。先看系统输入设备选对没有、有没有静音：对着麦克风说话看「输入音量」条是否跳动，系统录音机能录到就说明硬件正常（步骤 1）。
+
+**Q：系统录音正常、会议软件没声音，怎么办？**
+
+A：问题在会议软件侧。在软件的音频设置里选中同一设备，关掉「自动调整麦克风音量」，并检查软件自己的静音按钮和快捷键（步骤 3）。
+
+**Q：蓝牙耳机只能听不能说，怎么切？**
+
+A：蓝牙耳机的「耳机」模式通常不带麦克风。在系统「蓝牙和设备」里断开重连，选择带「麦克风/免提」能力的模式（步骤 4）。
+
+**Q：装音频驱动时能用一键驱动工具吗？**
+
+A：不建议。优先到品牌官网按完整型号下载音频驱动，聚合驱动工具批量替换容易装错版本；装错后按「驱动安装与回退」处理。
+
 ## 相关教程
 
 - [摄像头打不开 / 视频会议对方看不到我怎么修](./webcam-not-working.html)
@@ -173,4 +191,5 @@ detail_href: ./fix/win-microphone-not-working.html
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：系统录音测试、隐私权限、会议设备、服务与驱动排查 | 内容组 |

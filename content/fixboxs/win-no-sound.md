@@ -18,8 +18,8 @@ symptoms:
   - no audio output device
 keywords: [没声音, 音频, Realtek, 音频服务, 默认设备, 疑难解答, Windows 更新后无声, 音频驱动]
 aliases: [声音没了, 电脑静音了, 喇叭不响, 耳机没反应, 音量图标红叉]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites:
   - 先确认音箱/耳机本身的音量旋钮和开关（物理层永远先查）
   - Windows 机器有管理员权限（重装驱动时用）
@@ -33,7 +33,7 @@ sources:
   - title: Microsoft 支持 - Windows 更新后声音失效的修复
     url: https://support.microsoft.com/zh-cn/windows/hardware/audio/fix-audio-stops-working-after-a-windows-update-in-windows
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-no-sound.html
 ---
 
@@ -136,6 +136,24 @@ detail_href: ./fix/win-no-sound.html
 - 「优化软件」不要禁用 Windows Audio 服务——它是系统核心服务，禁它换不来性能。
 - 大版本更新后先测声音和摄像头，两个最高发的更新副作用。
 - USB 耳机/声卡尽量插同一个口，Windows 按口记忆设备配置。
+
+## 常见问题
+
+**Q：喇叭图标有红叉，是不是声卡坏了？**
+
+A：不一定。红叉通常表示「音频服务未运行」或没有可用输出设备，按步骤 3 重启 `Windows Audio` 和 `Windows Audio Endpoint Builder` 两个服务试试；服务反复被停才算异常。
+
+**Q：疑难解答能自动修好吗，要不要先跑？**
+
+A：先跑。正文把它放在第一步（步骤 1）：微软的音频疑难解答能自动处理物理层和输出设备这类常见问题，比一上来就折腾驱动快得多。
+
+**Q：输出列表里没有扬声器、只有数字输出？**
+
+A：说明系统没认到模拟输出设备。先按步骤 4 卸载声卡设备、重启让系统重装，或去厂商官网装对应型号的音频驱动；设备管理器有感叹号时优先试「回退驱动程序」。
+
+**Q：只有某个播放器没声音，也要这么折腾吗？**
+
+A：不用。那通常是该软件的音量合成器被调成 0 或被静音（「不适用」里写了）：右键音量图标 → 打开音量合成器，单独看那个软件的音量。
 
 ## 相关教程
 

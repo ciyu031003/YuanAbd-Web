@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [搜不到wifi, 找不到自家网络, wifi列表里没有我家网络, 路由器隐藏了SSID, 5G信号搜不到, wifi名字不见了, 手机能搜到电脑搜不到, can't find my wifi network, SSID not showing, 搜不到路由器信号]
 keywords: [SSID, 隐藏网络, 无线信道, 5GHz, 2.4GHz, 无线网卡驱动, netsh wlan show networks, 无线诊断]
 aliases: [找不到wifi, 没有wifi名字, 搜不到网络, 无线列表是空的]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [有一台能正常上网的手机用于对照, 知道自家 Wi-Fi 名称和密码, 知道路由器放在哪里]
 tools: [手机, Windows 设备管理器, macOS 无线诊断, 路由器管理页面]
 related: [wifi-connected-but-no-internet, wifi-adapter-missing, home-network-all-offline, router-admin-page-unreachable]
@@ -25,7 +25,7 @@ sources:
   - title: Microsoft Learn — netsh wlan 命令
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/netsh-wlan
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/wifi-ssid-not-found.html
 ---
 
@@ -196,6 +196,24 @@ Wi-Fi 列表里能看到自家网络名（隐藏网络则是手动加入后显�
 3. 把路由器的管理地址、登录密码、宽带账号写在纸上收好，不要只存在浏览器里。
 4. 每 1-2 个月重启一次路由器，固件有更新时及时升级。
 5. 电脑上不要随意卸载无线网卡驱动；更新驱动优先用笔记本厂商官网的版本。
+
+## 常见问题
+
+**Q：手机能搜到、只有这台电脑搜不到，问题在哪？**
+
+A：在电脑侧：无线网卡、驱动或飞行模式（步骤 4）。先跑 `netsh wlan show interfaces` 看网卡状态，再看设备管理器里有没有黄色感叹号。
+
+**Q：搜不到 5G 的名字，但 2.4G 能搜到，是不是坏了？**
+
+A：多半是频段覆盖问题，不一定是故障：5GHz 穿墙弱，隔一两堵墙就可能消失（步骤 3）。走近路由器再试，或把 5G 信道固定到 36-48 这类常用信道。
+
+**Q：没开隐藏 SSID，但所有设备都搜不到？**
+
+A：先看路由器的 Wi-Fi / WLAN 指示灯亮不亮（步骤 2），灯不亮说明无线被关了；灯正常但谁都搜不到、也进不去后台，可能是路由器故障，可先恢复出厂试试。
+
+**Q：手动加入隐藏网络时连不上怎么办？**
+
+A：检查 SSID 是否完全一致（区分大小写，空格、连字符、中文都算），安全类型选 WPA2/WPA3 个人级（步骤 6）。中文或表情符号的名字在部分设备上会显示异常。
 
 ## 相关教程
 

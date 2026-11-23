@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [C盘满了, C盘爆红, 磁盘空间不足, 电脑提示空间不够, C盘越来越小, disk full, 只剩几百MB, C盘红了怎么办]
 keywords: [C盘清理, 清理建议, 存储感知, 磁盘清理 cleanmgr, 清理系统文件, WinSxS 组件清理, hiberfil.sys, Windows.old]
 aliases: [C盘满了, 空间不足, 硬盘满了, C盘瘦身, 磁盘爆红]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [有管理员权限, 知道哪些文件是重要资料, 重要数据已备份]
 tools: [设置中的存储, 存储感知, 磁盘清理 cleanmgr, DISM, powercfg, 资源管理器, WinDirStat（开源）]
 related: [win-update-stuck, win-slow-diagnose, win-startup-apps-disable]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/installing-updates-features-roles/troubleshoot-windows-update-issues
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-c-drive-full-cleanup.html
 ---
 
@@ -259,6 +259,24 @@ DISM /Online /Cleanup-Image /StartComponentCleanup /ResetBase
 3. 打开存储感知，让它每周自动清临时文件和回收站。
 4. 桌面和下载文件夹不要当仓库，重要大文件放到其他盘或网盘。
 5. 每月打开一次「设置 → 系统 → 存储」看一眼趋势，别等到爆红才处理。
+
+## 常见问题
+
+**Q：删掉「以前的 Windows 安装」之后，还能退回旧版本吗？**
+
+A：不能。勾选它（相当于删除 Windows.old）后就无法回退到升级前的系统（步骤 3 的风险提示）。升级不满 10 天、又有可能后悔的，先别勾这一项。
+
+**Q：关掉休眠（`powercfg /h off`）有什么副作用？**
+
+A：休眠文件和快速启动会一起失效，下次开机会慢一点；想恢复执行 `powercfg /h on` 即可（步骤 5）。平时用「睡眠」不受影响。
+
+**Q：用「XX 管家 C 盘瘦身」这类工具一键清理行不行？**
+
+A：不建议。来路不明的清理工具可能误删文件、捆绑安装甚至改系统设置（步骤 1 的取舍原则）；系统自带的存储感知、磁盘清理和 DISM 已经覆盖主要场景。
+
+**Q：`WinSxS` 占了很大一块，能手动删吗？**
+
+A：不能。它是组件存储，只能通过 `DISM /Online /Cleanup-Image /StartComponentCleanup` 维护（步骤 7、8）。手动删会让更新和系统修复功能出问题。
 
 ## 相关教程
 

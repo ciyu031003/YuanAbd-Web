@@ -17,8 +17,8 @@ symptoms:
   - Windows 更新后打印机连不上
 keywords: [0x0000011b, 共享打印机, Print Spooler, RpcAuthnLevelPrivacyEnabled, KB5005565, 凭据管理器, RPC, 打印机共享]
 aliases: [打印机0x0000011b, 共享打印失败, 连接打印机被拒绝, 打印机共享错误]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites:
   - 知道哪台电脑是「主机」（打印机物理连接/安装在那台机器上）
   - 主机与客户机都能正常上网（同一局域网）
@@ -31,7 +31,7 @@ sources:
   - title: Microsoft 支持 - Windows 更新历史（含打印组件的累积修复）
     url: https://support.microsoft.com/zh-cn/windows
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/printer-shared-error-11b.html
 ---
 
@@ -126,6 +126,24 @@ detail_href: ./fix/printer-shared-error-11b.html
 - 新客户机接入时，先在凭据管理器存主机账号再连打印机（省一次报错）。
 - 打印机支持网口/Wi-Fi 的，优先用 TCP/IP 直连架构，「共享」是无奈之选。
 
+## 常见问题
+
+**Q：报 0x0000011b，是打印机坏了吗？**
+
+A：多数不是。这个错误码常见于打印组件安全更新后的共享兼容问题；主机上直接打测试页正常，就说明打印机和驱动都没问题。
+
+**Q：改注册表这个办法能长期用吗？**
+
+A：只当临时缓解。把 `RpcAuthnLevelPrivacyEnabled` 设为 0 会降低 RPC 隐私保护，能不打就不打；记录这次改动，等厂商或后续 Windows 更新修复后改回 1 或删除该值。
+
+**Q：为什么不建议继续用 Windows 7 当共享主机？**
+
+A：它已结束支持，没有后续修复补丁，是局域网里的安全短板。人多或要求稳定时，建议改成 TCP/IP 直连打印机，或换一台受支持的主机（步骤 5）。
+
+**Q：几招都试过还是报错怎么办？**
+
+A：先卸载最近一次质量更新，验证是不是更新引起的，确认后暂时暂停该更新等下月修复版；只有某一台客户机出错，则多半是它的系统太旧。
+
 ## 相关教程
 
 - [打印机显示脱机 / 打印没反应怎么修](./printer-offline.html)
@@ -136,3 +154,4 @@ detail_href: ./fix/printer-shared-error-11b.html
 ## 更新日志
 
 - 2026-10-25 v1.0：首版发布。成因（KB5005565 RPC 强化）与修复顺序（更新根治 / 凭据 / 注册表缓解）依据 Microsoft Learn 官方问答与支持文档整理。
+- 2026-11-23 v1.2：补充「常见问题」，校对字段与相关教程。

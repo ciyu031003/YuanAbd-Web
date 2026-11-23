@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [IP地址冲突, 提示IP冲突, 网络时断时续, 检测到IP地址冲突, 地址已被占用, 有的设备能上有的时候不能, another device is using the same IP, Windows 弹出IP地址冲突, 上网一会断一会好]
 keywords: [IP 冲突, arp -a, 事件 ID 4198, DHCP 保留, MAC 地址, Get-NetNeighbor, nbtstat, DHCP 客户端列表]
 aliases: [地址冲突, IP重复了, IP被占用, 两个设备同一个IP]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能登录路由器管理页面, Windows 有管理员权限, 知道路由器管理密码, 家里设备数量大致清楚]
 tools: [事件查看器, 命令提示符 / PowerShell, macOS 终端与控制台, 路由器管理页面]
 related: [dhcp-no-ip-169-254, wifi-connected-but-no-internet, router-admin-page-unreachable, home-network-all-offline]
@@ -25,7 +25,7 @@ sources:
   - title: Apple 支持 — 在 Mac 上使用"网络实用工具"
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlf4de377f/mac
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/ip-conflict-locate-device.html
 ---
 
@@ -274,6 +274,24 @@ ifconfig en0
 3. 只允许一台路由器开启 DHCP；扩展器、第二台路由器一律改为桥接或 AP 模式。
 4. 把家里的设备清单（名称、MAC、期望 IP）记一份在手机备忘录里。
 5. 路由器固件保持更新，出现频繁冲突时先重启并检查 DHCP 池是否够用。
+
+## 常见问题
+
+**Q：怎么确认真的是 IP 冲突，而不是普通掉线？**
+
+A：看事件查看器：Windows 日志 → 系统，来源筛 `Tcpip`、事件 ID 填 `4198`，能看到「检测到地址冲突」并带对方 MAC 才算实锤（步骤 1）。没有这条记录，多半就不是冲突。
+
+**Q：日志里只有一串 MAC，怎么知道是哪台设备？**
+
+A：拿 MAC 去路由器后台的 DHCP 客户端列表对照主机名（步骤 4）；列表里没有主机名，就按 MAC 前 6 位查厂商缩小范围，或拔掉可疑设备的网线、电源逐个排除。
+
+**Q：`arp -a` 里同一个 IP 每次查到不同 MAC，说明什么？**
+
+A：说明两台设备在抢同一个地址，是典型冲突（步骤 3 的失败处理）。这时先 `ipconfig /release` 再 `/renew` 让本机换个地址应急，再去给另一台设备做地址保留。
+
+**Q：公司或学校网络里出现冲突，能自己改吗？**
+
+A：不能。公司网段的地址由 IT 统一分配，自行改 IP 或动路由器配置可能直接连不上网，按「不适用」里的说明联系 IT 处理。
 
 ## 相关教程
 

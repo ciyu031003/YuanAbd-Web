@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Mac App Store下载卡住, 应用一直等待中, 商店转圈不下载, App Store安装失败, 已购项目不能下载, 更新按钮没反应, Mac软件装不上, app store stuck]
 keywords: [Mac App Store修复, 等待中, 暂停下载, Apple账户, 日期时间, 储存空间, 网络代理, App Store缓存]
 aliases: [应用商店卡住, Mac商店下载失败, 软件一直等待, 更新卡住, App Store打不开]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [Mac能正常联网, 知道Apple账户密码, 至少保留10%储存空间]
 tools: [App Store, 系统设置, 访达, 活动监视器]
 related: [mac-spotlight-not-working, icloud-storage-full, mac-storage-system-data, mac-safari-cant-load]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/102470
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-app-store-download-stuck.html
 ---
 
@@ -152,6 +152,24 @@ App Store 卡在“等待中”，通常是下载队列、网络、日期时间�
 3. 为系统盘保留足够空间，避免更新和应用缓存反复失败。
 4. 软件优先从 App Store 或开发商官网下载，不使用聚合站安装包。
 
+## 常见问题
+
+**Q：卡在「等待中」是不是应用本身坏了？**
+
+A：通常不是，多数是下载队列、网络、日期时间或账户登录状态不同步。先在 App Store 里暂停再继续，多个任务时只留一个下载。
+
+**Q：退出 Apple 账户重新登录，会不会丢已购应用？**
+
+A：不会，已购记录跟账户走，重新登录后仍可下载。只是这一步比较折腾，建议放到步骤 4，前面几项都排查完再做。
+
+**Q：系统日期不准也会让下载失败吗？**
+
+A：会。日期时间偏差过大时与 Apple 服务器的连接可能异常；打开「自动设置日期和时间」「自动设置时区」再重试（步骤 2）。
+
+**Q：空间还够，为什么还是装不上？**
+
+A：先看应用页面的「兼容性」是否支持当前 macOS。另外可用空间最好留出应用标注大小的两倍，安装过程本身也要落地临时文件。
+
 ## 相关教程
 
 - [Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修](./mac-spotlight-not-working.html)
@@ -163,4 +181,5 @@ App Store 卡在“等待中”，通常是下载队列、网络、日期时间�
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：下载队列、网络时间、储存空间、账户与安全模式 | 内容组 |

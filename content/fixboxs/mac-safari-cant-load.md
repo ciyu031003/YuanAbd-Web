@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Safari打不开网页, Mac浏览器上不了网, Safari一直转圈, Safari提示无法连接服务器, 其他应用能上网, Mac网页加载空白, Safari not loading]
 keywords: [Safari修复, 浏览器打不开, VPN代理, iCloud私人中继, 扩展插件, 清除网站数据, DNS缓存, 日期时间]
 aliases: [苹果浏览器打不开, Safari不能上网, Safari白屏, 网页一直加载, 只有Safari有问题]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [知道其他应用是否也能联网, 记得当前Safari扩展列表, 知道管理员密码]
 tools: [Safari, 系统设置, 活动监视器, 终端]
 related: [browser-proxy, mac-app-store-download-stuck, dns-broken-but-app-works, enterprise-proxy]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/102423
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-safari-cant-load.html
 ---
 
@@ -173,6 +173,24 @@ Safari 能连续打开 5 个不同 HTTPS 网站，登录页能正常加载；私
 2. 不在多个 VPN、代理和私人中继之间频繁叠加。
 3. 系统日期、时区和 macOS 安全更新保持最新。
 4. 遇到证书警告先停止输入账号密码，确认网站域名无误。
+
+## 常见问题
+
+**Q：微信、App Store 都能上网，只有 Safari 打不开，是网络坏了吗？**
+
+A：不是。这说明网络本身是通的，问题在 Safari 这侧（扩展、网站数据、代理）。先按步骤 1 用私人浏览窗口测一次，能打开就往扩展和网站数据方向查。
+
+**Q：装了加速器或抓包工具之后 Safari 就打不开网页了？**
+
+A：多半是退出工具时系统代理没清掉（步骤 4）。到「系统设置 → 网络 → 当前网络 → 详细信息 → 代理」把勾全部取消，再刷新网页。
+
+**Q：清理「网站数据」会退出登录、删掉书签吗？**
+
+A：会退出部分网站的登录并删掉它们的本地缓存，但不会删书签和密码（正文开头提示）。所以先只删出问题那个域名的数据（步骤 3），不必整机清空。
+
+**Q：Safari 提示证书有问题，能不能点「继续访问」？**
+
+A：不要。证书警告通常意味着域名被劫持、代理在中间转发，或系统时间不对：先把「日期与时间」设成自动（步骤 4），仍报警就停止访问并核对域名。
 
 ## 相关教程
 

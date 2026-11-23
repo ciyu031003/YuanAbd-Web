@@ -17,8 +17,8 @@ symptoms:
   - 浏览器走了代理
 keywords: [浏览器代理, PAC, ERR_PROXY_CONNECTION_FAILED, SwitchyOmega, 系统代理, 浏览器插件代理]
 aliases: [浏览器上不了网, 网页打不开微信能上, 代理设置错误, 浏览器插件断网]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites:
   - 确认微信/QQ/游戏等其他联网应用正常（这是本篇的前提症状）
   - 知道自己装过哪些浏览器代理类插件
@@ -30,7 +30,7 @@ sources:
   - title: Mozilla 支持 - Firefox 连接设置
     url: https://support.mozilla.org/zh-CN/kb/connection-settings-firefox
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/browser-proxy.html
 ---
 
@@ -145,6 +145,24 @@ Chrome / Edge 里打开「设置 → 系统 → 计算机的代理设置」，�
 - 代理类工具用完即退出，别让它常驻改系统代理。
 - 浏览器插件只装必要的，代理插件能不装就不装（系统层配置一次即可）。
 - 改代理前截图，10 秒钟换来的后悔药。
+
+## 常见问题
+
+**Q：微信能用、浏览器打不开，一定是代理问题吗？**
+
+A：大概率是，但不绝对。先看报错关键词：带 `ERR_PROXY_CONNECTION_FAILED`、`ERR_TUNNEL_CONNECTION_FAILED` 的才是代理问题；`DNS_PROBE_FINISHED_NXDOMAIN` 是 DNS，转[《网页打不开但 QQ / 微信能用：DNS 问题怎么修》](./dns-broken-but-app-works.html)。
+
+**Q：关闭代理后公司内网系统打不开了怎么办？**
+
+A：说明内网依赖 IT 统一下发的代理。按正文「截图留底、改回原样」的原则把地址填回去，或直接联系 IT；不要用它绕过单位的访问审计（见「合规提示」）。
+
+**Q：换一个浏览器就能打开，说明什么？**
+
+A：说明网络和系统代理基本没问题，问题出在那个浏览器的插件或独立代理配置（30 秒排查第 1 条）。去它的扩展管理页把代理类插件逐个禁用再排查。
+
+**Q：重置浏览器设置会丢书签和密码吗？**
+
+A：不会丢书签和密码，但会禁用插件、清掉启动页（步骤 5）。所以重置前先把插件清单记一下，重置完再按需装回。
 
 ## 相关教程
 

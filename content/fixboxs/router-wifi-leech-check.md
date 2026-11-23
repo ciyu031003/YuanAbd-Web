@@ -18,8 +18,8 @@ symptoms:
   - 给设备限速
 keywords: [蹭网, 陌生设备, DHCP客户端列表, MAC地址过滤, QoS限速, 访客网络, WPS, router-qos]
 aliases: [有人偷用我家WiFi, 路由限速, 拉黑设备, 查看连接设备, wifi被别人用了]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 知道路由器后台地址与管理员密码
   - 能连上这台路由器的 Wi-Fi 或用网线直连
@@ -34,7 +34,7 @@ sources:
   - title: Microsoft Learn - ipconfig 命令与网络故障排查
     url: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/router-wifi-leech-check.html
 ---
 
@@ -222,6 +222,24 @@ arp -a
 3. 客人一律走访客网络，主网络密码不写在纸上贴墙、不发在群里。
 4. 每季度打开一次客户端列表看一眼，陌生设备趁早处理。
 5. 路由器固件保持厂商最新版本，旧型号长期无更新就该换。
+
+## 常见问题
+
+**Q：客户端列表里一堆看不懂的名字，怎么判断是不是蹭网的？**
+
+A：先按步骤 2 的对照表逐台对：手机型号、`DESKTOP-xxxx`、`ESP_xxxx`、`Tuya` 这类多是自家设备；实在认不出的记下 MAC，按前 3 段查厂商名，或改完 Wi-Fi 密码后看家里哪台设备掉线。
+
+**Q：直接改 Wi-Fi 密码是不是最省事？**
+
+A：是最干净的一招（步骤 3），陌生设备会一次性掉线；代价是自家设备也要重新输一遍密码，智能家居多的家庭先确认它们都能重连。
+
+**Q：开了 MAC 白名单，会不会把自己也关在门外？**
+
+A：会，这是最常见的翻车方式（步骤 6 的失败处理）。被关在门外可以用网线直连路由器恢复；恢复出厂会清空宽带账号等全部配置，所以开白名单前先记好配置。
+
+**Q：没人蹭网，但网速还是慢？**
+
+A：那就不是蹭网问题。按[《网速变慢了：测速、延迟、丢包怎么一步步查》](./slow-network.html)做测速和丢包排查，别在路由器上反复改设置。
 
 ## 相关教程
 

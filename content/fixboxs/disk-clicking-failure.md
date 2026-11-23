@@ -18,8 +18,8 @@ symptoms:
   - 移动硬盘咔哒声
 keywords: [硬盘异响, 咔咔声, SMART, 重映射扇区, 待定扇区, CrystalDiskInfo, 掉盘, 坏道, 固态掉盘]
 aliases: [硬盘要坏了, 磁盘响, 硬盘哒哒响, 硬盘读不出来, 机械盘异响]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 另一块容量足够的硬盘或云盘用于备份
   - 已停止在故障盘上安装软件、下载文件、跑修复
@@ -34,7 +34,7 @@ sources:
   - title: Microsoft Learn - chkdsk 命令参考
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/chkdsk
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/disk-clicking-failure.html
 ---
 
@@ -244,6 +244,24 @@ Optimize-Volume -DriveLetter C -ReTrim -Verbose
 4. 机械硬盘用到 4-5 年后主动更换，别等它报错——那时往往已经拷不动了。
 5. 笔记本避免长期高温运行（散热垫、清灰），高温会加速盘体与主控老化。
 
+## 常见问题
+
+**Q：硬盘已经咔咔响了，还能先跑个检测软件看看吗？**
+
+A：别跑。规律性异响基本可判定机械硬盘物理故障，继续通电检测只会加重损伤；第一件事是断电，把要紧数据备份到别的盘。
+
+**Q：拷数据必须一次拷完吗？**
+
+A：不用整盘拷。一次只拷要紧的文件，拷完一批就让盘拔下来休息一下；拷不动就跳过报错的文件，先保住其余的（步骤 4）。
+
+**Q：换根数据线、换个接口能解决吗？**
+
+A：只有在 BIOS 里完全认不到盘时才值得换线换口再确认一次。已经有异响的盘不要反复通电试，数据不可替代时优先考虑专业恢复。
+
+**Q：固态硬盘掉盘，也是同样处理吗？**
+
+A：不一样。SSD 没有机械异响，先关机断电 1 分钟再开机看能否恢复识别，同时检查散热与厂商固件，见步骤 6。
+
 ## 相关教程
 
 - [U 盘 / 移动硬盘不识别、提示格式化怎么办](./usb-drive-not-recognized.html)
@@ -256,4 +274,5 @@ Optimize-Volume -DriveLetter C -ReTrim -Verbose
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首次发布：异响判定、BIOS 层确认、SMART 读取与属性对照、只读抢救、禁止操作清单、SSD 掉盘 | 内容组 |

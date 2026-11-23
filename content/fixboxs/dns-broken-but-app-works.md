@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [网页打不开但微信能用, QQ能上网页打不开, DNS错误, 无法解析域名, 有些网站打不开, 网页加载很慢, DNS_PROBE_FINISHED, 找不到服务器, 域名解析失败, 部分网站上不去]
 keywords: [DNS, nslookup, 域名解析, DNS 缓存, 安全 DNS, DoH, hosts, 223.5.5.5]
 aliases: [DNS有问题, 域名解析不了, 网站打不开, 部分网站上不去]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [能使用 QQ/微信等即时通讯软件（说明网络本身是通的）, 知道管理员密码（清缓存和改 DNS 需要）, 知道自家路由器管理地址]
 tools: [命令提示符 / PowerShell, macOS 终端, 浏览器设置, 路由器管理页面]
 related: [wifi-connected-but-no-internet, dhcp-no-ip-169-254, ip-conflict-locate-device, home-network-all-offline]
@@ -25,7 +25,7 @@ sources:
   - title: IETF — RFC 1034：域名概念与设施
     url: https://datatracker.ietf.org/doc/html/rfc1034
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/dns-broken-but-app-works.html
 ---
 
@@ -268,6 +268,24 @@ networksetup -setdnsservers Wi-Fi Empty
 3. 浏览器里的安全 DNS（DoH）保持默认，除非你清楚它对当前网络的影响。
 4. 路由器固件保持更新，开启家长控制/域名过滤时记下自己加过的规则。
 5. 遇到解析异常时，先截图 `nslookup` 的结果，报修时能省很多沟通时间。
+
+## 常见问题
+
+**Q：QQ、微信能用但网页打不开，一定是 DNS 吗？**
+
+A：先按步骤 1 验证：`ping 223.5.5.5` 通、`ping www.baidu.com` 不通，才能确认是解析问题。两条都通却打不开网页，就不是 DNS，转[《Wi-Fi 显示已连接但无法上网》](./wifi-connected-but-no-internet.html)。
+
+**Q：清完 DNS 缓存还是打不开，下一步做什么？**
+
+A：换 DNS 服务器（步骤 3）：Windows 在网卡的 DNS 分配里手动填 `223.5.5.5` 和 `119.29.29.29`；macOS 用 `networksetup -setdnsservers` 设置。改完再执行一次 `ipconfig /flushdns`。
+
+**Q：换了公共 DNS 反而更慢、有些网站打不开？**
+
+A：这不是故障，不同 DNS 的解析结果和延迟本来就不同。把 DNS 改回「自动 (DHCP)」即可（macOS：`networksetup -setdnsservers Wi-Fi Empty`），日常保持自动获取最省心。
+
+**Q：只有浏览器打不开、其他程序正常，也是 DNS 吗？**
+
+A：不一定。浏览器自带的安全 DNS（DoH）和代理类扩展会绕过系统 DNS，先按步骤 4 把它们关掉再测；关完仍不行，才回到 DNS 这条线排查。
 
 ## 相关教程
 

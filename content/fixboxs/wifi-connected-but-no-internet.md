@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [连上wifi上不了网, 无Internet访问权限, 网络受限, 打不开网页, 有WiFi没网, 显示已连接但无法访问互联网, 网页转圈打不开, connected no internet, 有信号没网速, 微信能用网页打不开]
 keywords: [已连接但无法上网, 分层定位, 默认网关, DNS 解析, 代理设置, ipconfig, nslookup, netsh winsock reset]
 aliases: [上不了网, 断网, 没网, 连上网不能用, 有网但打不开网页]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [能正常使用手机, 知道自家路由器位置和管理地址, 电脑可以正常开关机]
 tools: [手机（对照测试）, Windows 命令提示符 / PowerShell, macOS 终端, 可以打开记事本或备忘录记录配置]
 related: [home-network-all-offline, dhcp-no-ip-169-254, dns-broken-but-app-works, wifi-adapter-missing, router-admin-page-unreachable]
@@ -27,7 +27,7 @@ sources:
   - title: Apple 支持 — 在 Mac 上使用"无线诊断"
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlf4de377f/mac
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/wifi-connected-but-no-internet.html
 ---
 
@@ -320,6 +320,24 @@ macOS：
 3. 家用路由器 DNS 保持"自动获取"，需要时再临时改公共 DNS，用完改回。
 4. 定期重启光猫和路由器（每 1-2 个月一次），并保持路由器固件为最新版本。
 
+## 常见问题
+
+**Q：Wi-Fi 显示已连接，为什么还是上不了网？**
+
+A：「已连接」只说明电脑和路由器握手成功，不代表路由器能上网。先拿手机连同一个 Wi-Fi 试，手机也不行就是路由器或宽带的问题。
+
+**Q：重启路由器和光猫有顺序要求吗？**
+
+A：有。两个都断电 30 秒，先开光猫、等指示灯稳定后再开路由器，再等 2 分钟；顺序对了才有效，部分「连上没网」这样就能恢复。
+
+**Q：不知道断在哪一层，怎么最快判断？**
+
+A：按物理层 → IP 层 → DNS 层 → 代理层各敲一条命令，哪层不通就修哪层（步骤 2-6），不要凭感觉乱改设置。
+
+**Q：公司或学校的设备也能按这篇改吗？**
+
+A：不要自行改动。企业网络的 DNS、代理、准入策略由 IT 统一管理，改了可能直接失去内网访问；这种情况联系单位 IT。
+
 ## 相关教程
 
 - [家里所有设备都上不了网：先分清是谁的问题](./home-network-all-offline.html)
@@ -332,4 +350,5 @@ macOS：
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首次发布：确立四层定位法（物理层/IP 层/DNS 层/代理层），补齐 Windows 与 macOS 双系统命令 | 内容组 |

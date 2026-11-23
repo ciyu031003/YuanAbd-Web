@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [更新卡在0%, 更新一直失败, 正在配置更新卡住, 更新错误码, 检查更新卡住, windows update stuck, 更新下载不动, 更新装到一半失败]
 keywords: [Windows更新卡住, 更新错误代码, DISM RestoreHealth, sfc scannow, SoftwareDistribution, 组件存储损坏, 更新疑难解答]
 aliases: [更新失败, 更新装不上, 更新卡住不动, 补丁打不上, 系统更新报错]
-updated: 2026-10-27
-version: "1.2"
+updated: 2026-11-23
+version: "1.3"
 prerequisites: [电脑能正常进入系统, 有管理员权限, C 盘至少有 20 GB 可用空间, 企业电脑先联系 IT]
 tools: [设置中的疑难解答, 命令提示符（管理员）, DISM, sfc, 磁盘清理, Microsoft Update Catalog]
 related: [win-c-drive-full-cleanup, win-stuck-on-boot-logo, win-bluescreen-read-code, win-update-enable, win-update-pause]
@@ -32,7 +32,7 @@ sources:
     url: https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-update-stuck.html
 ---
 
@@ -269,6 +269,24 @@ DISM /Online /Add-Package /PackagePath:"C:\Users\你的用户名\Downloads\更�
 4. 每月手动检查一次更新，别攒半年一次性打，出问题更难定位。
 5. 大版本升级前创建还原点并备份数据，升级后 10 天内保留「以前的 Windows 安装」以便回退。
 
+## 常见问题
+
+**Q：卡在「正在配置更新」，能直接断电吗？**
+
+A：不要。断电最容易把系统搞坏；先看硬盘灯和风扇是否还有动静，等 30-60 分钟，有动静就继续等。
+
+**Q：更新反复失败，应该先看什么？**
+
+A：先看错误码和 C 盘剩余空间。空间不到 20GB 先腾空间，再跑 `DISM /RestoreHealth` 修组件存储，最后才重置更新缓存（步骤 2-5）。
+
+**Q：手动装 KB 更新包提示「不适用」怎么办？**
+
+A：先核对系统版本、架构（x64 / ARM64）和 KB 编号是否匹配。三者都对再试；对不上说明包下错了，回 Microsoft Update Catalog 重找。
+
+**Q：重置电脑能保住文件吗？**
+
+A：选「保留我的文件」一般不丢个人文件，但已装软件会被清掉。动手前先建还原点并备份重要数据。
+
 ## 相关教程
 
 - [C 盘爆红快满了，怎么安全清理出空间](./win-c-drive-full-cleanup.html)
@@ -284,3 +302,4 @@ DISM /Online /Add-Package /PackagePath:"C:\Users\你的用户名\Downloads\更�
 |---|---|---|---|
 | 2026-10-11 | 1.0 | 首版发布：四类原因分类 + DISM→sfc 修复顺序 | 内容组 |
 | 2026-10-27 | 1.2 | 补充更新开启、临时暂停和商店/Codex 安装关联路径 | 内容组 |
+| 2026-11-23 | 1.3 | 补充「常见问题」，校对字段与相关教程 | 内容组 |

@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [无法检查更新, 更新被暂停, 更新服务被禁用, 设置里没有检查更新, Windows更新打不开, 更新页面空白, 更新一直显示已暂停]
 keywords: [开启Windows更新, 恢复更新, wuauserv, BITS, Windows Update服务, 暂停更新, 组策略]
 aliases: [系统更新被我关了, 怎么恢复Windows更新, Windows Update服务禁用, 更新功能不见了]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 电脑能正常进入桌面
   - 有管理员权限
@@ -29,7 +29,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/sc-config
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-update-enable.html
 ---
 
@@ -183,6 +183,24 @@ reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /s
 4. 企业设备遵循单位更新策略，不要用个人脚本覆盖组织策略。
 5. 安装过优化工具后如果更新异常，先卸载工具并创建还原点，再排查服务。
 
+## 常见问题
+
+**Q：用脚本开启更新，会改我的文件或组策略吗？**
+
+A：不会。脚本只恢复服务的启动方式并尝试启动，不修改组策略，也不删除个人文件；需要管理员权限，跑完重启一次再检查更新。
+
+**Q：页面显示「你的组织已管理更新」，还能自己改吗？**
+
+A：不能，那是组策略、Intune 或桌管软件在管。个人改不动，也不建议绕过，联系单位 IT。
+
+**Q：服务被设成「已禁用」，改回「自动」可以吗？**
+
+A：可以。前三项正常状态是「手动」或「自动」，USOClient 通常为「手动」；只有 Windows Update Medic Service 是受保护的系统修复服务，不要随意改（步骤 3）。
+
+**Q：更新开着，但检查更新按钮是灰的，怎么办？**
+
+A：先取消「暂停更新」，再跑一遍系统更新疑难解答并重启（步骤 5）。仍不行就查是不是被第三方屏蔽工具又改回禁用了。
+
 ## 相关教程
 
 - [Windows 自动更新怎么安全暂停](./win-update-pause.html)
@@ -194,4 +212,5 @@ reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /s
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：更新服务恢复、暂停状态、组织策略只读判断与一键开关脚本 | 内容组 |

@@ -18,8 +18,8 @@ symptoms:
   - 备份磁盘只读
 keywords: [时间机器, Time Machine, 备份失败, 备份卡住, 磁盘已满, 磁盘工具急救, tmutil, 备份磁盘, APFS]
 aliases: [Time Machine 失败, 备份不动了, 时间机器慢, 备份盘满]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 备份盘在手（移动硬盘或 NAS）
   - Mac 有管理员密码（部分操作要输）
@@ -34,7 +34,7 @@ sources:
   - title: Apple 支持 - 如果 Mac 的时间机器备份磁盘已满
     url: https://support.apple.com/zh-hans/guide/mac-help/mh15137/mac
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-time-machine-troubleshoot.html
 ---
 
@@ -129,6 +129,24 @@ detail_href: ./fix/mac-time-machine-troubleshoot.html
 - 每季度做一次「恢复演练」：真从时间机器恢复一个小文件——**没验证过的备份等于没有备份**。
 - 备份盘专盘专用，不当日常拷贝盘（减少故障与误格式化风险）。
 
+## 常见问题
+
+**Q：卡在「正在准备备份」几个小时，是坏了吗？**
+
+A：未必。首次备份或大更新后会重建快照与变更清单，几百 GB 走 USB 花上数小时到一晚都正常；插着电源过夜等一次，再判断是不是真卡死（步骤 5）。
+
+**Q：备份盘满了，能手动删盘里的备份文件夹吗？**
+
+A：不要手动删，会破坏备份链结构。首选换更大的盘（容量按已用空间两倍买），或让时间机器自动滚动清理最旧备份，也可以在选项里排除不重要的大目录（步骤 4）。
+
+**Q：NTFS 移动硬盘能当时间机器盘吗？**
+
+A：不能。备份盘需要 APFS 或 Mac OS 扩展（HFS+）格式，插上后在「磁盘工具」里能看清格式；格式不对要先抹掉再选为备份盘。
+
+**Q：换新 Mac 后，旧备份怎么用？**
+
+A：用「迁移助理」从备份恢复，不要手动翻备份目录拷文件。备份目录结构由时间机器自己维护，手动拷容易拿到不完整的数据。
+
 ## 相关教程
 
 - [换硬盘 / 重装系统前，怎么把数据备份全](./backup-before-repair.html)
@@ -139,3 +157,4 @@ detail_href: ./fix/mac-time-machine-troubleshoot.html
 ## 更新日志
 
 - 2026-10-25 v1.0：首版发布。排查顺序与「磁盘满/急救/重选盘」口径均参照 Apple 官方时间机器支持文档。
+- 2026-11-23 v1.1：补充「常见问题」，校对字段与相关教程。

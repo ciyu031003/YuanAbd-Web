@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [电脑越来越卡, 电脑很慢, 打开程序慢, 开机慢, 用一会儿就卡, computer slow, 鼠标卡顿, 电脑反应迟钝]
 keywords: [电脑卡顿, 任务管理器占用100%, 磁盘100%, 内存不足, 资源监视器, 电脑变慢原因, 可靠性监视器]
 aliases: [卡顿, 电脑慢, 反应慢, 一顿一顿的, 用着卡]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [能正常进入系统, 有管理员权限可选, 最好接上电源而不是用电池]
 tools: [任务管理器, 资源监视器, 性能监视器, 可靠性监视器, PowerShell, 事件查看器]
 related: [win-startup-apps-disable, win-c-drive-full-cleanup, win-bluescreen-read-code]
@@ -26,7 +26,7 @@ sources:
     url: https://support.microsoft.com/en-us/windows/free-up-drive-space-in-windows-85529ccb-c365-490d-b548-831022bc9b32
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-slow-diagnose.html
 ---
 
@@ -228,6 +228,24 @@ sfc /verifyonly
 3. 浏览器标签页别开几十个，定期重启浏览器。
 4. 每 6-12 个月清一次灰，笔记本注意散热垫和出风口。
 5. 不要安装「系统加速」「深度优化」类工具，它们往往是卡顿的来源。
+
+## 常见问题
+
+**Q：任务管理器里四项都不高，但电脑就是卡？**
+
+A：那就不是单纯的资源瓶颈。按步骤 5 用资源监视器（`resmon`）和可靠性监视器（`perfmon /rel`）记录一段时间，找出间歇性高占用或应用崩溃的时间点，再回步骤 2 对照。
+
+**Q：系统盘还是机械硬盘，加内存有用吗？**
+
+A：作用有限。机械硬盘做系统盘，卡是必然的，先换 SSD 提升最明显（步骤 7）；只有内存 4 GB 或常年吃满时才需要加内存，两者不能互相替代。
+
+**Q：「内存整理」「系统加速」这类工具能装吗？**
+
+A：不建议。正文多处提醒不要迷信这类工具，它们只会让系统更忙；系统自带的存储感知、任务管理器、资源监视器已经够用来定位问题。
+
+**Q：清完灰、关完启动项还是卡，怎么办？**
+
+A：说明瓶颈在硬件。按步骤 7 的对照表判断该换 SSD、加内存还是送修；换过硬件仍然卡，就别再继续买配件试，直接送修检测主板或 CPU。
 
 ## 相关教程
 

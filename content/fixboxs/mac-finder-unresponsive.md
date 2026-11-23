@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Finder卡死, 访达一直转圈, Mac文件夹打不开, 访达彩虹圈, Finder无响应, Mac桌面图标不能点, 外接硬盘打开卡住, finder frozen]
 keywords: [Finder修复, 访达重启, killall Finder, 强制退出, 外接盘卡住, iCloud Drive, 磁盘工具, 安全模式]
 aliases: [访达卡住, 文件管理器卡死, Finder崩溃, 文件夹一直加载, 苹果电脑文件夹打不开]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能打开苹果菜单或终端, 重要文件已有备份, 知道问题是否只发生在外接盘]
 tools: [Finder, 强制退出, 活动监视器, 终端, 磁盘工具]
 related: [mac-spotlight-not-working, mac-external-display-not-detected, mac-storage-system-data, usb-drive-not-recognized]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp1236/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-finder-unresponsive.html
 ---
 
@@ -157,6 +157,24 @@ Finder 能连续打开本机磁盘、下载、文稿和 iCloud Drive 四个位�
 2. 使用质量可靠的线材和有独立供电的扩展坞。
 3. iCloud 和云盘同步异常时，先确认文件是否已经下载到本机。
 4. 定期备份，磁盘出现异常后不要连续“急救”或格式化试运气。
+
+## 常见问题
+
+**Q：重启 Finder 会把没保存的文档弄丢吗？**
+
+A：Finder 重启只重建桌面和访达窗口，不会关闭其他应用（步骤 1）；但未保存的编辑仍可能丢失，稳妥起见先按 `Command + S` 存一遍再动手。
+
+**Q：Finder 一直转圈，直接重启 Mac 行不行？**
+
+A：可以先做更轻的：按住 `Option` 右键 Dock 上的 Finder 选「重新启动」，几秒就能恢复。重启 Mac 会中断正在跑的任务，而且重启后往往还会复现，先按步骤 1、2 定位是哪个盘引起的。
+
+**Q：只有插某个移动硬盘时才卡，是不是硬盘坏了？**
+
+A：有可能。插上立即复现就先别再反复挂载：停止写入、把能读的文件备份出来，数据重要时送专业检测（步骤 2 的失败处理）。别急着在磁盘工具里抹盘。
+
+**Q：在磁盘工具里点「急救」要注意什么？**
+
+A：有备份再跑（步骤 4）；急救期间不要拔线，报告「宗卷似乎没有问题」才算过关。如果提示需要重新格式化，未备份前不要抹盘。
 
 ## 相关教程
 

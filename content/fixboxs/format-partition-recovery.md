@@ -18,8 +18,8 @@ symptoms:
   - 快速格式化
 keywords: [格式化恢复, 误格式化, 分区丢失, DiskGenius, 恢复分区表, 快速格式化, 数据恢复, 原始恢复, 恢复概率]
 aliases: [格式化找回数据, 分区恢复, 误格恢复, 盘符丢了数据]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - **立刻停止往这块盘写入任何东西**（含「装个恢复软件试试」——装到别的盘！）
   - 准备一块容量足够的另一块盘存恢复出来的文件
@@ -32,7 +32,7 @@ sources:
   - title: Microsoft 支持 - 磁盘管理概述（未分配空间与分区操作）
     url: https://learn.microsoft.com/zh-cn/windows-server/storage/disk-management/overview-of-disk-management
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-11-23
 detail_href: ./fix/format-partition-recovery.html
 ---
 
@@ -132,6 +132,24 @@ detail_href: ./fix/format-partition-recovery.html
 - 格式化前执行「三秒确认」：盘符对不对？容量对不对？里面还有没有没搬走的东西？
 - 重要数据的唯一保险是 3-2-1 备份，恢复软件只是事后补救，成功率永远不是 100%。
 
+## 常见问题
+
+**Q：点了「快速格式化」，数据是不是已经没了？**
+
+A：没有，快速格式化主要清了目录，数据还在原处。只要没被新文件覆盖，用 DiskGenius 之类工具扫描大多能找回，关键是立刻停止写入。
+
+**Q：分区不见了和格式化是同一回事吗？**
+
+A：不是。分区不见了多数是分区表损坏，用「搜索已丢失分区」能连盘符、目录、文件名一起恢复，比逐文件扫描更完整，见步骤 3。
+
+**Q：恢复软件能装在被格式化的那块盘上吗？**
+
+A：绝对不能。软件装到系统盘或另一块盘，恢复出来的文件也存到另一块盘，否则扫描过程本身就在覆盖数据。
+
+**Q：固态硬盘格式化后也这么容易恢复吗？**
+
+A：难得多。开了 TRIM 的 SSD 会异步擦除区块，恢复概率明显低于机械盘，所以更要第一时间停写。
+
 ## 相关教程
 
 - [文件误删了怎么恢复（先做这一步，别写磁盘）](./deleted-file-recovery.html)
@@ -142,3 +160,4 @@ detail_href: ./fix/format-partition-recovery.html
 ## 更新日志
 
 - 2026-10-25 v1.0：首版发布。快速格式化原理与恢复流程参照 DiskGenius 官方指南；分区/未分配概念对照微软磁盘管理文档。
+- 2026-11-23 v1.1：补充「常见问题」，校对字段与相关教程。

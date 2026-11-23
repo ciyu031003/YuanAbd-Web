@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [全家断网, 手机也上不了网, wifi连着没网, 光猫亮红灯, 所有设备都没网, 宽带断了, 路由器灯不亮, all devices offline, 家里网断了, 光猫LOS红灯]
 keywords: [光猫, ONU, LOS 红灯, PON, PPPoE 拨号, WAN 口, 宽带欠费, 路由器指示灯]
 aliases: [宽带断了, 没网了, 断网了, 家里上不了网]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能看到光猫和路由器的指示灯, 知道宽带是用哪家运营商, 记得办理宽带时的手机号或宽带账号]
 tools: [手机（可切换移动数据）, 光猫与路由器, 路由器管理页面, 运营商官方 App]
 related: [wifi-connected-but-no-internet, router-admin-page-unreachable, dhcp-no-ip-169-254, wifi-ssid-not-found]
@@ -25,7 +25,7 @@ sources:
   - title: 中国联通 — 官网（宽带报修与客服入口，以官方渠道为准）
     url: https://www.10010.com/
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/home-network-all-offline.html
 ---
 
@@ -226,6 +226,24 @@ nslookup www.baidu.com
 3. 把宽带账号密码、路由器管理地址和密码记在纸上或密码管理器里。
 4. 雷雨季节给光猫、路由器加装合格的防雷插排，打雷时尽量断电。
 5. 每 1-2 个月重启一次光猫和路由器，固件提示更新时及时升级。
+
+## 常见问题
+
+**Q：怎么快速判断是全家断网，还是只有一台设备不行？**
+
+A：用两台设备（手机加电脑）连同一个 Wi-Fi 各打开一个网页（步骤 1）。两台都不行才是全家断网；只有一台不行，转[《Wi-Fi 显示已连接但无法上网》](./wifi-connected-but-no-internet.html)。
+
+**Q：光猫的 `LOS` 灯红闪是什么意思？**
+
+A：表示光信号丢失，问题在运营商线路或光猫（步骤 2）。不要自己拆光纤，直接报修；报修时说清「`LOS` 红闪」能省不少沟通。
+
+**Q：光猫和路由器的重启顺序有讲究吗？**
+
+A：有（步骤 4）：先断两台电源 30 秒，先给光猫通电、等 `PON` 常亮，再给路由器通电。顺序反了，路由器会一直拨号失败。
+
+**Q：宽带欠费也会表现为全家断网吗？**
+
+A：会。先按步骤 6 查运营商 App 里的欠费、到期和片区故障公告，缴费或等修复，别急着换路由器。
 
 ## 相关教程
 

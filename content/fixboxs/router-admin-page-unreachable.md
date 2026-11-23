@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [192.168.1.1打不开, 进不去路由器, 路由器后台打不开, tplogin.cn打不开, 管理页面无法访问, 登录不了路由器, 路由器地址进不去, 192.168.0.1打不开, 浏览器一直转圈进不去, 无法访问此网站]
 keywords: [默认网关, 管理地址, 网段, 桥接模式, 代理设置, 恢复出厂设置, tplogin.cn, 路由器标签]
 aliases: [进不去路由器, 后台打不开, 管理地址不对, 路由器登录不了]
-updated: 2026-10-11
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能连接上自家网络（有线或无线均可）, 能看到路由器机身标签, 手机可以拍照记录配置, 家里没有正在进行的路由器固件升级]
 tools: [命令提示符 / PowerShell, macOS 终端, 浏览器（含无痕模式）, 路由器与光猫机身上的标签]
 related: [home-network-all-offline, wifi-connected-but-no-internet, ip-conflict-locate-device, dhcp-no-ip-169-254]
@@ -27,7 +27,7 @@ sources:
   - title: Microsoft Learn — ipconfig 命令
     url: https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/ipconfig
 reviewer: 内容组
-reviewed_at: 2026-10-11
+reviewed_at: 2026-11-23
 detail_href: ./fix/router-admin-page-unreachable.html
 ---
 
@@ -240,6 +240,24 @@ macOS：**系统设置 → 网络 → 详细信息 → 代理**，关闭全部�
 3. 家里只保留一台设备负责拨号和 DHCP，避免网段重叠。
 4. 路由器提示固件升级时，先确认升级不会清空配置，升级期间不要断电。
 5. 定期用机身标签核对一次管理地址，换过光猫或宽带后重新记录。
+
+## 常见问题
+
+**Q：192.168.1.1 打不开，第一步该查什么？**
+
+A：查真正的默认网关（步骤 1）：Windows 用 `ipconfig`、macOS 用 `netstat -nr`，手机在 Wi-Fi 详情里看「路由器」。很多「打不开」其实就是网段并不是 192.168.1.x。
+
+**Q：`ping` 得通网关，但网页还是打不开？**
+
+A：那是浏览器侧的问题：换无痕窗口、换浏览器、关掉代理和 VPN（步骤 2、3）。部分老机型还只允许用网线直连访问后台。
+
+**Q：恢复出厂之后上不了网了怎么办？**
+
+A：说明宽带拨号配置被清空了（步骤 6 的风险提示）。需要重新填宽带账号密码，不记得就联系运营商重置；光猫的超级管理员账号一般也要找装维人员。
+
+**Q：公司、宿舍、出租屋的网络，能自己进后台改吗？**
+
+A：一般不能。公司、宿舍、酒店的设备由管理方管控（步骤 7）；只有房东给的 Wi-Fi 密码，说明你没有管理权限，需要改配置就找对方。
 
 ## 相关教程
 

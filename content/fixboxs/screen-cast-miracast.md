@@ -1,5 +1,5 @@
 ---
-title: 无线投屏失败 / 搜不到电视怎么修（Win+K、Miracast、手机投屏）
+title: 无线投屏失败、搜不到电视怎么修（Win+K / Miracast）
 slug: screen-cast-miracast
 domain: peripheral
 category: per-display
@@ -18,8 +18,8 @@ symptoms:
   - 无线显示器连接失败
 keywords: [无线投屏, Miracast, Win+K, 投屏到电视, dxdiag, 无线显示器, DLNA, 投屏搜不到, 连接失败]
 aliases: [投屏失败, 电脑投电视, 手机投屏, 无线显示器, 投屏卡]
-updated: 2026-10-25
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 电脑（或手机）与电视/投屏盒连接**同一个 Wi-Fi**（或电视与电脑都在 2.4G/同一频段）
   - 知道电视的品牌与投屏功能入口（设置里的「屏幕镜像/多屏互动/Wireless Projection」）
@@ -32,11 +32,11 @@ sources:
   - title: 华为官方 - 手机/平板无线投屏至电视失败的排查
     url: https://consumer.huawei.com/cn/support/content/zh-cn15871281
 reviewer: 内容组
-reviewed_at: 2026-10-25
+reviewed_at: 2026-11-23
 detail_href: ./fix/screen-cast-miracast.html
 ---
 
-# 无线投屏失败 / 搜不到电视怎么修（Win+K、Miracast、手机投屏）
+# 无线投屏失败、搜不到电视怎么修（Win+K / Miracast）
 
 > ℹ️ 本教程全部是设置与驱动层面的操作，可逆。投屏三要素先记牢：**同一 Wi-Fi、双方功能开启、驱动支持 Miracast**——九成失败案例栽在这三件事上。
 
@@ -131,6 +131,24 @@ detail_href: ./fix/screen-cast-miracast.html
 - 电视固件保持更新（厂商会修投屏兼容性）。
 - 家里 2.4G 拥挤的，给投屏固定用 5G 或专门信道。
 - 重要场合（开会/上课）提前 5 分钟试投，永远留一根 HDMI 备胎。
+
+## 常见问题
+
+**Q：电脑搜不到电视，第一步查什么？**
+
+A：先确认电视端投屏功能真的打开了、处于「等待连接」状态（30 秒排查第 1 条），再确认两端连同一个 Wi-Fi。很多「搜不到」是电视根本没开屏幕镜像。
+
+**Q：提示「此设备不支持 Miracast」怎么办？**
+
+A：按 `Win + R` → `dxdiag` 保存报告，在 txt 里搜 Miracast 看结论（步骤 3）。显示不支持通常是无线网卡或显卡驱动太旧，去笔记本官网更新 Wi-Fi 驱动和显卡驱动；VPN 或虚拟网卡也会干扰，先禁用再试。
+
+**Q：能连上但画面卡、几秒就断？**
+
+A：投屏走 Wi-Fi 直连，两端之间的信号才是关键（步骤 4）。把电脑和电视都靠近路由器，避开微波炉和蓝牙音箱，分辨率降到 1080p，2.4G 太挤就给投屏单独用 5G。
+
+**Q：电视是 5 年前的老机型，一直投不上？**
+
+A：老电视的 Miracast 实现常有缺陷（「还是不行？」最后一条）。最稳的是加一个 HDMI 投屏器；会议或观影要求稳定时，直接用 HDMI 线更快。
 
 ## 相关教程
 

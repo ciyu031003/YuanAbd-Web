@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Mac外接显示器没反应, 扩展坞不识别, 外接屏无信号, Mac检测不到显示器, TypeC转HDMI不显示, Mac扩展屏黑屏, 显示器没有信号, mac external display not detected]
 keywords: [Mac外接显示器, USB-C扩展坞, HDMI, DisplayPort, 合盖模式, 检测显示器, 镜像扩展, 分辨率, 扩展坞供电]
 aliases: [苹果电脑接显示器没反应, 外接屏不亮, 扩展屏黑屏, 显示器检测不到, 扩展坞坏了]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [知道显示器型号和接口类型, 有可替换的线材或接口, Mac能正常开机]
 tools: [系统设置, 显示器, 系统信息, 另一根线材或显示器]
 related: [monitor-no-signal, mac-bluetooth-unavailable, mac-finder-unresponsive, screen-cast-miracast]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchl7c7ebe08/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-external-display-not-detected.html
 ---
 
@@ -156,6 +156,24 @@ system_profiler SPDisplaysDataType
 2. 扩展坞选择有独立供电、明确标注 Mac 兼容和带宽的产品。
 3. 不在 macOS 更新后立刻依赖未经测试的第三方显示驱动。
 4. 拔插线材时不要用力扭动接口，扩展坞异常发热时停止使用。
+
+## 常见问题
+
+**Q：扩展坞接着显示器没画面，能先换线试吗？**
+
+A：更该先直连。拔掉扩展坞、用一根支持视频的线直连 Mac 与显示器（步骤 2），直连能出画面就说明问题在扩展坞的协议、带宽或供电上，而不是 Mac。
+
+**Q：系统设置里根本看不到第二块屏幕？**
+
+A：先按住 `Option` 键再看有没有「检测显示器」（步骤 3）；仍然找不到，就用 `system_profiler SPDisplaysDataType` 看系统有没有识别到显示器（步骤 5），据此判断是线材带宽不够还是接口问题。
+
+**Q：合盖之后外接屏不亮是正常的吗？**
+
+A：不是，但合盖模式对供电要求更高（步骤 4）：要接上电源和键盘鼠标，先确认外接屏已正常显示再合盖；唤醒后不显示，就拔线等 5 秒再插回。
+
+**Q：USB-C 线插上能充电，却没有画面？**
+
+A：很多 USB-C 线只支持充电和数据，不传视频。换一根明确支持 DisplayPort Alt Mode 与视频传输的线，或换一个支持视频输出的口（步骤 1、2）。
 
 ## 相关教程
 

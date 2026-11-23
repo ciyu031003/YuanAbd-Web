@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [IP是169.254开头, 获取不到IP地址, 169.254开头的地址, 没有有效的IP配置, 网络未识别的网络, 无Internet访问, 自动配置IPv4地址, 拿不到IP, DHCP失败, 一直显示正在识别]
 keywords: [APIPA, 169.254, DHCP, 自动专用 IP 地址, 链路本地地址, ipconfig /renew, 网络重置, RFC 3927]
 aliases: [拿不到IP, 没有IP地址, IP是169开头, 自动私有地址]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [能登录路由器管理页面, Windows 有管理员权限, 记得 Wi-Fi 密码（网络重置后要重输）, 如果是有线网络，手边有一根备用网线]
 tools: [命令提示符 / PowerShell, macOS 终端, 路由器管理页面, 网线（备用）]
 related: [ip-conflict-locate-device, wifi-connected-but-no-internet, home-network-all-offline, router-admin-page-unreachable]
@@ -25,7 +25,7 @@ sources:
   - title: Apple 支持 — 如果 Mac 无法通过 Wi-Fi 接入互联网
     url: https://support.apple.com/zh-cn/101588
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/dhcp-no-ip-169-254.html
 ---
 
@@ -253,6 +253,24 @@ macOS：**系统设置 → 网络 → 详细信息 → TCP/IP → 配置 IPv4 �
 3. 只保留一台设备负责 DHCP，扩展器/第二台路由器改为桥接或 AP 模式。
 4. 不要把"手动设置 IP"当成长期方案，用完改回自动获取。
 5. 路由器固件保持更新，设备较多时定期重启路由器。
+
+## 常见问题
+
+**Q：IP 地址是 169.254 开头，是不是网卡坏了？**
+
+A：不是。它是系统没等到 DHCP 应答后自己分配的临时地址（APIPA），说明本机网络本身是好的、只是没要到地址（步骤 1），多数情况下问题在路由器那一侧的 DHCP。
+
+**Q：重启路由器之后要等多久才算数？**
+
+A：路由器断电 30 秒、通电后再等 2 分钟，然后重启电脑（步骤 2）。等不及马上敲 `ipconfig` 容易看到旧地址，反而误判成没修好。
+
+**Q：手动设一个 `192.168.1.240` 能长期用吗？**
+
+A：只能应急（步骤 7）。地址必须选在路由器 DHCP 池之外，并且尽快改回「自动 (DHCP)」；长期手动设地址，迟早会和别的设备撞上 IP 冲突。
+
+**Q：手机连同一个 Wi-Fi 也拿到 169.254 怎么办？**
+
+A：那问题就不在这台电脑，而在路由器或光猫的 DHCP 上。按步骤 4 检查 DHCP 是否开启、地址池是否用完、有没有两台设备同时发地址，也可以直接看[《家里所有设备都上不了网：先分清是谁的问题》](./home-network-all-offline.html)。
 
 ## 相关教程
 

@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [Codex CLI怎么安装, npm安装Codex失败, codex命令找不到, Codex登录不了, Codex升级, Codex doctor报错, Node版本不兼容]
 keywords: [Codex CLI, npm, @openai/codex, codex login, codex doctor, Node.js, Windows终端]
 aliases: [安装Codex命令行, Codex终端版, Codex npm, Codex CLI教程, Codex update]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - Windows 10/11
   - 能安装 Node.js LTS
@@ -33,7 +33,7 @@ sources:
     url: https://nodejs.org/en/download
     type: vendor
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/codex-cli-install.html
 ---
 
@@ -220,6 +220,24 @@ codex app
 4. 不要在公共电脑长期保存登录凭据；使用完运行 `codex logout`。
 5. 不关闭审批、沙箱和权限检查来追求速度，除非你完全清楚命令影响。
 
+## 常见问题
+
+**Q：装 Codex CLI 必须先装 Node.js 吗？**
+
+A：是的，CLI 通过 npm 分发，没有 Node.js 就没有 npm。先按步骤 1 装好 Node.js LTS 并保留「添加到 PATH」，再运行 `npm install -g @openai/codex`。
+
+**Q：装完提示「`codex` 不是内部或外部命令」怎么办？**
+
+A：多数是终端还开着旧环境。关掉所有旧 PowerShell 再开新窗口试一次；仍不行就用 `npm config get prefix` 查到目录，看它在不在 PATH 里（步骤 1）。
+
+**Q：可以用第三方「破解版」或来路不明的安装脚本吗？**
+
+A：不要用。本文明确不支持绕过账号或地区限制的做法，这类脚本有凭据和代码泄露风险；只从 Node.js 官方下载页与 npm 官方包安装。
+
+**Q：我只想用图形界面，是不是也得装 CLI？**
+
+A：不用。只要图形界面就看[「Codex 怎么下载安装：Windows 桌面版」](./codex-desktop-install.html)，CLI 面向的是终端自动化工作流。
+
 ## 相关教程
 
 - [Codex 怎么下载安装：Windows 桌面版](./codex-desktop-install.html)
@@ -231,4 +249,5 @@ codex app
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：Node.js、npm 官方包安装、登录、doctor 自检与首次使用 | 内容组 |

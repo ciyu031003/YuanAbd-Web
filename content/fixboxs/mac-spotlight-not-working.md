@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [Mac聚焦搜索没结果, Spotlight搜不到文件, Command空格没反应, 聚焦搜索一直转圈, 只搜得到应用, Mac搜索不工作, spotlight not working, mdutil]
 keywords: [macOS聚焦, Spotlight索引, mdutil, 搜索隐私, Spotlight重建, 访达搜索, Command加空格]
 aliases: [聚焦坏了, 聚焦搜不到, Mac搜索坏了, 搜索框没有结果, 聚焦索引损坏]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [Mac能正常进入桌面, 知道管理员密码, 预留索引重建时间]
 tools: [聚焦, 系统设置, 访达, 终端]
 related: [mac-finder-unresponsive, mac-app-store-download-stuck, mac-storage-system-data, mac-bluetooth-unavailable]
@@ -20,7 +20,7 @@ sources:
     url: https://support.apple.com/zh-cn/guide/mac-help/mchlp1008/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-spotlight-not-working.html
 ---
 
@@ -180,6 +180,24 @@ sudo mdutil -E /
 3. 保留足够储存空间，避免索引数据库不断失败。
 4. 少装需要读取全部文件的来源不明清理工具。
 
+## 常见问题
+
+**Q：重建索引会把文件删掉吗？**
+
+A：不会，`mdutil` 只重建搜索索引，不动文件本身。重建期间可以正常用 Mac，但不要反复执行同一条命令。
+
+**Q：为什么刚更新系统或迁移数据后搜不到东西？**
+
+A：索引还没扫完。文件多的时候要等数分钟到数小时，先接上电源别让 Mac 休眠，等索引完成再判断。
+
+**Q：某个文件夹里的文件一直搜不到怎么办？**
+
+A：先看「聚焦隐私」里有没有误把磁盘或文件夹加进去，有就选中点 `-` 移除；再确认结果分类里对应类别是勾选的（步骤 2）。
+
+**Q：外接硬盘里的文件搜不到，是硬盘坏了吗？**
+
+A：多数是索引没开。用 `mdutil -s "/Volumes/磁盘名称"` 看索引状态，没开就用 `sudo mdutil -E "/Volumes/磁盘名称"` 重建该卷（步骤 5）。
+
 ## 相关教程
 
 - [Mac Finder 卡死 / 一直转圈怎么修](./mac-finder-unresponsive.html)
@@ -191,4 +209,5 @@ sudo mdutil -E /
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：快捷键、结果分类、mdutil 索引与安全模式排查 | 内容组 |

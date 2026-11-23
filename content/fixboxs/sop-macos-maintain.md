@@ -8,11 +8,11 @@ os: [macOS]
 difficulty: 入门
 time: 10-30 分钟
 risk: 需谨慎
-symptoms: [Mac 维护速查 处理方法, SOP 参考]
+symptoms: [Mac 维护速查 处理方法, SOP 参考, Mac 装系统失败, 开不了机进恢复模式]
 keywords: [Mac 维护速查 SOP, 装系统, 恢复模式, SMC/NVRAM 与资料迁移, 参考手册, 作业指导]
 aliases: [SOP, 作业指导, 参考手册, Mac 维护速查]
-updated: 2026-10-17
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能登录公司内部 SOP 知识库（部分原文需要账号）]
 tools: [浏览器, 内部 SOP 知识库]
 related: [sop-pe-usb-install, sop-diagnose-tools, sop-printer-connected-fix]
@@ -42,18 +42,16 @@ sources:
     url: https://support.apple.com/zh-cn/guide/disk-utility/welcome/mac
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-17
+reviewed_at: 2026-11-23
 ---
 
 # Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移
 
 ## 快速概览
 
-Mac 的问题和 Windows 是两套解法：没有 BIOS、没有 PE，靠的是**恢复模式（Recovery）**、
+排到 Mac 工单——装系统装不上、开机卡住、不充电或风扇不转、资料要导出来——就翻这一页。Mac 没有 BIOS 也没有 PE，靠的是**恢复模式、安全模式、SMC/NVRAM 重置、磁盘工具急救**这四件套；看完你能按机型选对入口，并判断该先修系统还是先取数据。
 
-**安全模式**、**SMC/NVRAM 重置**和**磁盘工具急救**这四件套。
-
-这一页按「先做哪一步」排好 SOP 里 25 条 Mac 原文链接，遇到装不上、开不了机、数据要导出时对照着走。
+这一页按「先做哪一步」排好 SOP 里 47 条 Mac 原文链接，遇到装不上、开不了机、数据要导出时对照着走。
 
 本页共整理 **47** 条 SOP 条目，全部保留原始链接；处理细节以原文为准。
 
@@ -523,6 +521,24 @@ Mac 的问题和 Windows 是两套解法：没有 BIOS、没有 PE，靠的是**
 - 提醒：换线或调整刷新率/分辨率
 
 **原文**：[苹果m芯片连接戴尔显示器闪烁](https://mvs-h5.edianzu.cn/tips-detail?id=3357)
+
+## 常见问题
+
+**Q：怎么快速判断该走哪套安装方法？**
+
+A：先看「关于本机」里的芯片（步骤 1）：Intel 机型走 Intel 安装方法，也能做 Boot Camp 双系统；Apple 芯片走在线安装，流程和 Intel 不同（风险提示第 3 条）。
+
+**Q：重装前最要紧的一步是什么？**
+
+A：备份。抹盘、重装会清空数据（风险提示第 1 条）：能进系统就用时间机器，进不去就按「苹果无法进入系统时导资料方法」用目标磁盘模式导出（步骤 5）。
+
+**Q：重置 SMC 和重置 NVRAM 有什么区别？**
+
+A：SMC 管通电、充电、风扇这类硬件层问题；NVRAM 管分辨率、启动卷、声音、时区（步骤 3）。Apple 芯片机型没有 SMC 重置，断电后直接重试即可。
+
+**Q：重装一直失败，是不是磁盘坏了？**
+
+A：先排除两件事：固件锁（Activation Lock）和 T2/Apple 芯片的启动安全策略没有解除，重装会失败，需确认属于公司资产并已解绑（风险提示第 2 条）。排除后再用「磁盘工具 - 急救」检查磁盘。
 
 ## 仍需帮助
 

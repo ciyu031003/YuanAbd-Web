@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [开机黑屏只有鼠标, 黑屏有鼠标能动, 登录后黑屏, 桌面图标不见, 黑屏没有任务栏, black screen with cursor, 电脑黑屏只看到箭头, 开机后一直黑屏]
 keywords: [黑屏只有鼠标指针, explorer.exe 未启动, 登录后黑屏, 显卡驱动黑屏, 资源管理器, black screen cursor, 桌面不显示]
 aliases: [黑屏有鼠标, 黑屏只剩指针, 开机没桌面, 鼠标能动没有桌面, 只有箭头没图标]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [能移动鼠标并按键盘, 记得开机密码, 知道黑屏前是否装过更新或驱动]
 tools: [任务管理器, Windows 恢复环境, 设备管理器, 系统还原, 命令提示符（管理员）, 注册表编辑器]
 related: [win-stuck-on-boot-logo, win-bluescreen-read-code, win-forgot-password]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-blackscreen-cursor.html
 ---
 
@@ -207,6 +207,24 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 3. 不要用「系统优化」「注册表清理」类工具，它们是黑屏和启动失败的常见来源。
 4. 扩展坞、采集卡、老打印机等外设，不用时拔掉，尤其别留在开机前。
 5. 重要文件按「本机 + 移动硬盘 + 网盘」存三份。
+
+## 常见问题
+
+**Q：黑屏但鼠标能动，是不是系统没启动？**
+
+A：不是。能看见并移动鼠标，说明系统已经启动，只是桌面程序 `explorer.exe` 没起来（步骤 1、2）。按 `Ctrl + Alt + Del` 打开任务管理器，运行新任务 `explorer.exe`，多数情况当场恢复。
+
+**Q：按 `Win + Ctrl + Shift + B` 是干什么的？**
+
+A：那是 Windows 内置的「重启显卡驱动」快捷键（步骤 3）。按完屏幕会闪黑一下、可能响一声，随后显示恢复；如果按完就正常，问题在显卡驱动。
+
+**Q：进安全模式会不会丢文件？**
+
+A：不会，安全模式只是加载基本驱动。会动到系统状态的是步骤 6 的系统还原和步骤 7 的注册表：还原会卸载还原点之后装的软件和驱动，改注册表前先按提示导出备份。
+
+**Q：拔掉某个外设后就不黑屏了，还要修什么？**
+
+A：说明是该外设或它的驱动导致的黑屏（步骤 4）。先别急着装回它的驱动，更新驱动或换一个 USB 口再观察；平时不用就先别插着。
 
 ## 相关教程
 

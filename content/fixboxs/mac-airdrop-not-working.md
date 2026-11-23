@@ -17,8 +17,8 @@ symptoms:
   - 隔空投送只能收到所有人的文件
 keywords: [隔空投送, AirDrop, 搜不到设备, 正在等待, 蓝牙, Wi-Fi, 个人热点, 仅限联系人, 连续互通]
 aliases: [苹果隔空投送失灵, AirDrop 失败, 隔空投送不显示, Mac 传文件给 iPhone]
-updated: 2026-10-31
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - 两台设备都在手边（可以同时改设置）
   - 知道两台设备都支持隔空投送（2012 年后的 Mac 与较新 iPhone/iPad）
@@ -32,7 +32,7 @@ sources:
   - title: Apple 支持 - 保护 Mac 上的「隔空投送」安全
     url: https://support.apple.com/zh-cn/guide/mac-help/mh35869/mac
 reviewer: 内容组
-reviewed_at: 2026-10-31
+reviewed_at: 2026-11-23
 detail_href: ./fix/mac-airdrop-not-working.html
 ---
 
@@ -121,6 +121,24 @@ detail_href: ./fix/mac-airdrop-not-working.html
 - 定期重启 Mac，长期不重启是无线模块抽风的最大来源。
 - 需要传大文件时，提前关掉热点和 VPN。
 
+## 常见问题
+
+**Q：隔空投送需要两台设备连同一个 Wi-Fi 吗？**
+
+A：不需要，但双方都要开着 Wi-Fi 和蓝牙。它靠蓝牙发现、Wi-Fi 直连传输，同一网络下反而更容易受 AP 隔离影响。
+
+**Q：把接收设置改成「所有人」安全吗？**
+
+A：只是临时放宽，用来确认是不是权限问题，传完记得改回「仅限联系人」。长期开着「所有人」意味着附近任何人都能向你发起传输。
+
+**Q：手机热点开着会影响隔空投送吗？**
+
+A：会。个人热点会让 Wi-Fi 模块退出直连模式，传文件前先关掉热点，也别同时挂着 VPN——VPN 改路由，直连打不通。
+
+**Q：搜到设备但一直卡在「正在等待」怎么办？**
+
+A：这属于传输层问题，不是发现层。先确认没开热点和 VPN，再临时关掉防火墙测一次；小文件能传说明链路是通的，大文件分批传（步骤 3）。
+
 ## 相关教程
 
 - 蓝牙本身不可用 → [Mac 蓝牙不可用 / 设备配对失败](./mac-bluetooth-unavailable.html)
@@ -131,4 +149,5 @@ detail_href: ./fix/mac-airdrop-not-working.html
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-31 | 1.0 | 初版：「发现层/传输层」两段式排查 | 内容组 |

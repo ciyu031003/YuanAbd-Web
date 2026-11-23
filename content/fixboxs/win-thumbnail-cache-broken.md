@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [文件图标变白, 缩略图不显示, 图片没有预览图, 视频图标空白, 图标错乱重复, 文件类型图标异常, Windows icon cache, thumbnail missing]
 keywords: [缩略图缓存, 图标缓存, thumbcache, iconcache, 文件资源管理器, 查看选项, 默认应用, 预览窗格]
 aliases: [图标白纸, 图片不显示预览, 缩略图空白, 文件图标乱了, 图标缓存损坏]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能进入 Windows 桌面, 知道问题只影响图标或缩略图, 保存桌面上的工作]
 tools: [文件资源管理器, 文件夹选项, Windows 设置, 命令提示符（管理员）]
 related: [win-search-not-working, win-taskbar-unresponsive, win-c-drive-full-cleanup, win-app-crash-missing-dll]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sfc
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-thumbnail-cache-broken.html
 ---
 
@@ -167,6 +167,24 @@ sfc /scannow
 3. 遇到异常关机后，先正常重启一次再判断缩略图是否损坏。
 4. 来路不明的“图标包”“系统美化包”不要直接写入系统目录。
 
+## 常见问题
+
+**Q：清缓存会让我的文件消失吗？**
+
+A：不会。清的只是缩略图和图标缓存数据库，文件本身不动；清理后桌面和任务栏会闪一下，属正常现象（步骤 3）。
+
+**Q：清理后多久能恢复？**
+
+A：一般 1-3 分钟，别连续刷新文件夹。打开三个不同类型的文件夹测试一下，缓存会边用边重建。
+
+**Q：只有某个扩展名的图标全变白，是文件坏了吗？**
+
+A：多数不是。先双击确认文件能正常打开，再看默认应用是不是为该类型关联了看图或播放器（步骤 4）。
+
+**Q：调过「最佳性能」之后就不显示缩略图了，怎么办？**
+
+A：是那个选项把缩略图关掉了。在「性能选项」里勾选「显示缩略图，而不是显示图标」，或改回「让 Windows 选择」（步骤 4）。
+
 ## 相关教程
 
 - [Windows 搜索没反应 / 搜不到文件怎么修](./win-search-not-working.html)
@@ -178,4 +196,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.1 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-27 | 1.0 | 首版：文件校验、视图设置、缓存重建与默认应用排查 | 内容组 |

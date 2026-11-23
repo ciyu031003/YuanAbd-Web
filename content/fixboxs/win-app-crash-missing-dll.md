@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [软件打不开, 软件闪退, 缺少dll, 0xc000007b, 应用程序无法正常启动, missing dll, 提示找不到dll文件, 游戏闪退]
 keywords: [缺少dll, 0xc000007b, VC++ 运行库, DirectX 运行库, .NET Framework, 依赖查看, 闪退]
 aliases: [dll 缺失, 打不开程序, 程序崩溃, 双击没反应, 一开就闪退]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [知道出问题的是哪个软件, 有管理员权限, 能上网下载运行库]
 tools: [Visual C++ 可再发行程序包, DirectX 终端用户运行时, .NET Framework, DISM, sfc, Dependencies（开源）, 事件查看器]
 related: [win-c-drive-full-cleanup, win-bluescreen-read-code, win-popup-ads-hijack]
@@ -29,7 +29,7 @@ sources:
     url: https://github.com/lucasg/Dependencies
     type: opensource
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-app-crash-missing-dll.html
 ---
 
@@ -238,6 +238,24 @@ sfc /scannow
 4. 安装路径尽量用纯英文，避免中文和特殊符号。
 5. 保持系统更新和显卡驱动为较新版本，减少兼容性问题。
 
+## 常见问题
+
+**Q：提示缺少 dll，是不是系统坏了、要重装？**
+
+A：多数不是。缺 dll 和 0xc000007b 多半是运行库没装齐或位数不匹配，先重装出问题的软件，再装齐 Visual C++（x64 与 x86 都要）和 DirectX 旧版组件（步骤 3）。
+
+**Q：64 位系统为什么还要装 x86 运行库？**
+
+A：因为 32 位软件运行在 64 位系统上时需要 x86 版本。两个安装包都装才覆盖完整，只装 x64 仍可能继续报缺 dll。
+
+**Q：网上搜到的「dll 修复工具」、单个 dll 文件能下载来直接放吗？**
+
+A：不建议。来路不明的 dll 和「修复工具」可能带恶意程序；正确做法是装对应的官方运行库（步骤 3）或重装软件，用官方原版安装包。
+
+**Q：没有任何弹窗、双击就闪退，怎么查原因？**
+
+A：去事件查看器 →「Windows 日志 → 应用程序」，找来源为 `Application Error` 或 `.NET Runtime` 的记录，里面有出错模块名（步骤 1）。
+
 ## 相关教程
 
 - [电脑老是弹广告、浏览器主页被劫持改不回来](./win-popup-ads-hijack.html)
@@ -249,4 +267,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：错误码对照 + 运行库与依赖排查 | 内容组 |

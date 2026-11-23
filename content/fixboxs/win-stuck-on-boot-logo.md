@@ -10,8 +10,8 @@ risk: 有数据风险
 symptoms: [开机一直转圈, 卡在品牌logo, 卡在开机画面, 转圈进不去系统, 开机无限转圈, stuck on boot logo, 正在准备自动修复, 开机卡很久不进去]
 keywords: [开机一直转圈, 卡在品牌logo, 启动修复, 自动修复, winre, bootrec, 开机卡死]
 aliases: [开机卡住, 开机进不去, 卡在开机界面, 转圈转不停, 开机循环重启]
-updated: 2026-10-27
-version: "1.1"
+updated: 2026-11-23
+version: "1.2"
 prerequisites: [记得开机密码, 重要数据有备份或能拆盘备份, 知道电脑是 UEFI 还是 Legacy 启动]
 tools: [Windows 恢复环境（WinRE）, 启动修复, 命令提示符, chkdsk, DISM, sfc, msconfig]
 related: [win-blackscreen-cursor, win-bluescreen-read-code, win-update-stuck]
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/repair-a-windows-image
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-stuck-on-boot-logo.html
 ---
 
@@ -230,6 +230,24 @@ sfc /scannow
 4. 不用的外设（扩展坞、读卡器、老打印机）用完就拔，别留在开机前。
 5. 还用机械硬盘当系统盘的机器，尽早换 SSD，这类启动故障会明显减少。
 
+## 常见问题
+
+**Q：卡在 Logo 界面，直接断电重启可以吗？**
+
+A：先等。正在装更新时会在这个界面停 10-30 分钟，硬盘灯或风扇还有动静就继续等；确认真的卡死，再长按电源键 10 秒关机。
+
+**Q：拔掉 U 盘、打印机这些外设真的有用吗？**
+
+A：有用。外接设备导致卡 Logo 很常见，除键鼠外全部拔掉再开机能排除这一类；网线也可以拔掉，避免反复重试联网检查（步骤 2）。
+
+**Q：「自动修复」进不去，或者修复失败怎么办？**
+
+A：连续强关 3 次、第 4 次正常开机即可进入恢复环境；启动修复无效再按步骤 3-5 卸载最新更新、跑磁盘检查和系统文件修复。
+
+**Q：重置系统会把文件丢掉吗？**
+
+A：选「保留我的文件」一般不丢个人文件，但已装软件会被清掉。有重要数据时先按步骤 8 把硬盘拆下或进 PE 拷出来，再考虑重置。
+
 ## 相关教程
 
 - [电脑开机黑屏只有鼠标指针，怎么救回来](./win-blackscreen-cursor.html)
@@ -241,4 +259,5 @@ sfc /scannow
 
 | 日期 | 版本 | 变更 | 作者/审核 |
 |---|---|---|---|
+| 2026-11-23 | 1.2 | 补充「常见问题」，校对字段与相关教程 | 内容组 |
 | 2026-10-11 | 1.0 | 首版发布：卡 Logo / 转圈的八步排查 | 内容组 |

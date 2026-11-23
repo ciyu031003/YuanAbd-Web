@@ -10,8 +10,8 @@ risk: 安全
 symptoms: [电脑时间不对, 时间总是变慢, 每次开机时间都变, 网页证书时间错误, Windows时间不同步, 系统时间自动变回, 时间比实际慢几个小时, clock wrong]
 keywords: [电脑校时, Windows Time, w32tm, time.windows.com, 自动设置时间, 时区错误, CMOS电池, 主板纽扣电池]
 aliases: [时间不准, 时间老是错, 电脑时间乱跳, 时间同步失败, 开机时间重置]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites: [能进入 Windows 桌面, 有管理员权限, 知道电脑是否属于公司域]
 tools: [Windows 设置, 服务, 命令提示符（管理员）, 事件查看器]
 related: [win-store-not-opening, win-update-enable, codex-cli-install, codex-desktop-install]
@@ -23,7 +23,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/how-the-windows-time-service-works
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-time-repeatedly-wrong.html
 ---
 
@@ -163,6 +163,24 @@ w32tm /query /status
 2. 使用三五年的台式机可提前检查主板电池电压。
 3. 不要安装来源不明的“时间修正器”或“网络加速器”。
 4. 出差跨时区后，先确认自动时区是否随位置更新。
+
+## 常见问题
+
+**Q：手动把时间改对，过几天又变错，是系统坏了吗？**
+
+A：先看时区和「自动设置时间」是否打开、`Windows Time` 服务是否在运行（步骤 1、2）。这两样都正常还反复变，才轮到怀疑主板纽扣电池。
+
+**Q：怎么区分是软件问题还是主板电池没电？**
+
+A：关机、拔电源（笔记本能拆电池也取下）等 1-2 分钟再开机（步骤 5）。时间直接归零或回到多年前，基本就是 `CR2032` 纽扣电池该换了；时间还对，就是服务或网络问题。
+
+**Q：「立即同步」一直失败怎么办？**
+
+A：先确认 `Windows Time` 服务的启动类型是「自动」且正在运行，再用管理员终端执行 `w32tm /resync /force` 看具体报错（步骤 3）。仍失败就换网络测试，可能是 UDP 123 被拦。
+
+**Q：公司电脑上改不了时间怎么办？**
+
+A：那是域策略在统一校时（「不适用」里已写明）。不要改时间源或绕过策略，联系 IT 处理。
 
 ## 相关教程
 

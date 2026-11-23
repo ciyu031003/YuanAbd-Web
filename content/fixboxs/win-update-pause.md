@@ -10,8 +10,8 @@ risk: 需谨慎
 symptoms: [更新时自动重启, 工作时弹更新, 关机被迫更新, 更新太频繁, 想关闭自动更新, 更新影响会议, 更新占用网络]
 keywords: [暂停Windows更新, 关闭自动更新, 更新自动重启, 活动时间, 更新暂停, 临时关闭更新]
 aliases: [不想更新, 怎么关闭系统更新, 暂停更新, Windows更新太烦, 更新老弹窗]
-updated: 2026-10-27
-version: "1.0"
+updated: 2026-11-23
+version: "1.1"
 prerequisites:
   - Windows 10/11 个人电脑
   - 知道暂停期间无法及时获得安全补丁
@@ -26,7 +26,7 @@ sources:
     url: https://learn.microsoft.com/en-us/windows/deployment/update/waas-restart
     type: official
 reviewer: 内容组
-reviewed_at: 2026-10-27
+reviewed_at: 2026-11-23
 detail_href: ./fix/win-update-pause.html
 ---
 
@@ -173,6 +173,24 @@ detail_href: ./fix/win-update-pause.html
 3. 演示或出差前提前检查更新，不要到最后一刻才处理。
 4. 公司设备遵循组织更新窗口，个人脚本不能替代 IT 策略。
 5. 不下载“永久关闭 Windows 更新”的第三方工具或批处理合集。
+
+## 常见问题
+
+**Q：这个 24 小时暂停到期会自动恢复吗？**
+
+A：会。脚本会创建 `Fixbox\RestoreWindowsUpdate` 计划任务，到时自动恢复 Windows Update 服务并删除任务（步骤 3）；也可以再运行脚本选 `[1]` 立即恢复。
+
+**Q：暂停期间要注意什么？**
+
+A：只建议临时用（正文开头）。暂停时间越长，漏洞和兼容风险越高，24 小时内尽量把补丁补上；设置里的「暂停更新」是按周计的正式入口，优先用它。
+
+**Q：运行脚本后设置页还显示「由组织管理」？**
+
+A：说明这台电脑受组策略或单位管控（步骤 4、5 的失败处理）。脚本覆盖不了单位策略，按组织流程处理或联系 IT。
+
+**Q：更新已经暂停了，为什么还提示更新？**
+
+A：暂停的是自动下载、安装与重启，检查更新的提醒仍可能出现；用步骤 1 的「活动时间」也能压住自动重启。想安静就设活动时间，别去禁用更新服务。
 
 ## 相关教程
 

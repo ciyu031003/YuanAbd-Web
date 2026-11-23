@@ -64,7 +64,9 @@
 
   /* ---------- 9. 布局常量 ---------- */
   --fx-max:1200px;
-  --fx-read:760px;
+  /* 正文测量宽度：68ch ≈ 640px（17px 基准字），落在中文长文最舒服的 68–72ch 区间。
+     文章页三栏（领域 / 正文 / 目录）总和仍小于 --fx-max，不需要横向滚动。 */
+  --fx-read:68ch;
   --fx-gutter:clamp(18px,4vw,32px);
   --fx-navy:66px;
   --fx-face:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
@@ -94,6 +96,31 @@
   --ui-shadow-2:0 2px 0 rgba(26,31,43,.05),0 18px 40px -24px rgba(26,31,43,.26);
   --ui-shadow-3:0 3px 0 rgba(26,31,43,.06),0 34px 70px -34px rgba(26,31,43,.30);
   --ui-r-s:10px; --ui-r-m:16px; --ui-r-l:22px; --ui-r-xl:30px;
+
+  /* ---------- 12. 组件令牌（2026-11-23 收敛魔数） ----------
+     新增样式一律优先引用这里的值：圆角、硬边投影、间距节奏、焦点环。
+     旧规则里的字面量保留为兼容，不再扩散。 */
+  --fx-r-xs:8px;
+  --fx-r-s:12px;
+  --fx-r-m:16px;
+  --fx-r-l:20px;
+  --fx-r-xl:26px;
+  --fx-r-pill:999px;
+  --fx-sp-1:6px;
+  --fx-sp-2:10px;
+  --fx-sp-3:14px;
+  --fx-sp-4:20px;
+  --fx-sp-5:28px;
+  --fx-sp-6:40px;
+  --fx-shadow-hard-sm:2.5px 2.5px 0 var(--fx-ink);
+  --fx-shadow-hard:3px 3px 0 var(--fx-ink);
+  --fx-shadow-hard-lg:5px 5px 0 var(--fx-ink);
+  --fx-ring:0 0 0 3px color-mix(in srgb,var(--fx-lav) 62%,transparent);
+  --fx-ring-strong:0 0 0 4px color-mix(in srgb,var(--fx-mint) 55%,transparent);
+  /* 触屏最小点按尺寸（WCAG 2.5.5 建议 44×44） */
+  --fx-tap:44px;
+  /* 正文行高：长文阅读 1.8–1.9 */
+  --fx-lh-prose:1.88;
 }
 
 /* 降级：不支持 color-mix 的老浏览器，用固定值兜底（本站仍可正常阅读） */

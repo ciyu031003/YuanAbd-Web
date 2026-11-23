@@ -234,6 +234,15 @@ body.hw-fallback-on .hw-hint { display: none; }
 
 .hw-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+/* 无 JS 提示：与降级提示同位置 */
+.hw-noscript {
+  position: absolute; left: 50%; transform: translateX(-50%); bottom: 76px; z-index: 7;
+  max-width: min(560px, calc(100vw - 32px)); margin: 0;
+  background: var(--fx-lav-soft); border: 1.5px solid var(--fx-ink); border-radius: 12px;
+  padding: 10px 14px; font-size: 13px; line-height: 1.6; color: var(--fx-ink);
+}
+.hw-noscript a { color: var(--fx-lav-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
 /* ---------- 说明区 ---------- */
 .hw-notes { padding: clamp(40px, 6vw, 72px) 0 20px; background: var(--fx-paper); }
 .hw-notes__inner { max-width: 980px; margin: 0 auto; padding: 0 var(--fx-gutter); }
@@ -254,8 +263,11 @@ body.hw-fallback-on .hw-hint { display: none; }
   }
   .hw-hud--tools { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
   .hw-window, .hw-window-open { bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
-  .hw-tool { padding: 10px 13px; }
-  .hw-device { padding: 8px 13px; }
+  .hw-tool { padding: 10px 13px; min-height: 44px; }
+  .hw-device { padding: 8px 13px; min-height: 44px; }
+  .hw-part { min-height: 44px; }
+  .hw-window__btn { width: 44px; height: 44px; }
+  .hw-window-open { min-height: 44px; }
 }
 
 /* ---------- 响应式 ---------- */

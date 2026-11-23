@@ -59,6 +59,41 @@ const PRIORITY = ["wifi-connected-but-no-internet","win-blackscreen-cursor","ip-
   "router-wifi-leech-check","win-update-stuck","mac-storage-system-data","disk-clicking-failure","monitor-no-signal",
   "win-startup-apps-disable","remote-control-scam","proxy-tool-broke-network"];
 
+/* ---------- 站点级聚合：所有「N 个领域 / N 篇」一律从这里派生 ----------
+   2026-11-23：此前首页写 13 个领域、browse 写「12 个故障 + 2 个参考」、页脚写
+   「全部 13 个领域」并链接了不存在的 #ref-field，三个口径互相矛盾。
+   现在唯一事实来源是 content/taxonomy.json 的 domains + 本次实际构建出的文章：
+   · 页脚、侧栏领域列表由 SITE.domains 生成；
+   · 静态页（index/browse/...）里的计数占位由 syncStaticCounts() 在构建时写回；
+   · 前端再从 articles.js 下发的 window.FX_META 校正一次（无刷新也一致）。 */
+const SITE = {
+  domains: TAXONOMY.domains.map(function (d) {
+    return { id: d.id, name: d.name, count: 0, reference: REFERENCE_DOMAINS.indexOf(d.id) >= 0 };
+  }),
+  total: 0,
+  guides: 0,
+  references: 0,
+  updated: "",
+  bySlug: {},
+  prevNext: {}
+};
+function siteDomainIndex(id) {
+  for (var i = 0; i < SITE.domains.length; i++) if (SITE.domains[i].id === id) return i;
+  return -1;
+}
+function siteFaultDomains() { return SITE.domains.filter(function (d) { return !d.reference; }); }
+function siteRefDomains() { return SITE.domains.filter(function (d) { return d.reference; }); }
+/* 页脚「按领域」：取文章数最多的 3 个故障领域 + 全部参考领域，全部由数据派生，
+   不再手写死链（历史问题：ref-field 领域并不存在却写进了页脚）。 */
+function footDomainItems(prefix) {
+  var top = siteFaultDomains().slice().sort(function (a, b) {
+    return b.count - a.count || siteDomainIndex(a.id) - siteDomainIndex(b.id);
+  }).slice(0, 3);
+  return top.concat(siteRefDomains()).map(function (d) {
+    return '<li><a href="' + prefix + 'browse.html#' + d.id + '">' + esc(d.name) + "</a></li>";
+  }).join("");
+}
+
 /* ---------- 共享 chrome：加载动画 + 转场幕布 + 临界样式 ---------- */
 const CRITICAL = [
   '<style id="fx-critical">',
@@ -71,6 +106,14 @@ const CRITICAL = [
   '.fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}',
   '.fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}',
   '@media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}',
+  /* 兜底：主 JS 没加载/报错时，加载动画与转场幕布不能永远盖住页面（2026-11-24 评审）。
+     正常路径下 JS 会在 1s 左右移除 preloader / 加 fx-ready，这几条动画不会生效。 */
+  '.fx-preloader{animation:fxPreAutoHide .4s ease 2.8s forwards}',
+  '@keyframes fxPreAutoHide{to{opacity:0;visibility:hidden}}',
+  'html.fx-entering .fx-curtain{animation:fxCurtainAutoHide .5s cubic-bezier(.65,0,.35,1) 2.4s forwards}',
+  '@keyframes fxCurtainAutoHide{to{transform:translateY(-100%)}}',
+  'html.fx-entering body{animation:fxBodyAutoShow .3s ease 2.6s forwards}',
+  '@keyframes fxBodyAutoShow{to{opacity:1;transform:none}}',
   '</style>',
 ].join("");
 const BOOT = '<script id="fx-boot">try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}</script>';
@@ -139,18 +182,32 @@ function parseFrontMatter(text) {
   return { meta: r.meta, body: r.body.replace(/\r\n/g, "\n") };
 }
 
+/* URL 白名单：正文由后台/内容源写入，渲染前只放行 http(s)、mailto 与相对地址，
+   防止 markdown 里出现 javascript: / data: / vbscript: 之类的伪协议被拼进 href、src。
+   （2026-11-24 评审：标题/正文最终都会进 innerHTML 与属性，必须在构建期兜一层。） */
+function safeUrl(u, forImage) {
+  const s = String(u == null ? "" : u).trim();
+  if (!s) return false;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(s)) {
+    return forImage ? /^(https?:|data:image\/)/i.test(s) : /^(https?:|mailto:)/i.test(s);
+  }
+  return true; // 相对路径 / 锚点
+}
+
 function inline(s) {
   let t = esc(s);
   t = t.replace(new RegExp(BT + "([^" + BT + "]+)" + BT, "g"), "<code>$1</code>");
   // 行内图片：![替代文字](路径) —— 独立成行时由 mdToHtml 提升为 <figure>
   t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (_, alt, imgSrc) {
+    if (!safeUrl(imgSrc, true)) return alt;
     return '<img class="fx-img" src="' + imgSrc + '" alt="' + alt + '" loading="lazy" decoding="async">';
   });
   t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (_, txt, href) {
     const ext = /^https?:/i.test(href);
     if (href === "#") return '<span class="fx-link" style="cursor:help">' + txt + "</span>";
-    return '<a class="fx-link"' + (ext ? ' target="_blank" rel="noopener"' : "") + ' href="' + href + '">' + txt + "</a>";
+    if (!safeUrl(href, false)) return txt;
+    return '<a class="fx-link"' + (ext ? ' target="_blank" rel="noopener nofollow"' : "") + ' href="' + href + '">' + txt + "</a>";
   });
   t = t.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
   return t;
@@ -180,9 +237,14 @@ function mdToHtml(md) {
       i++;
       const code = buf.join("\n");
       const danger = /diskpart|format |clean |chkdsk \/f|rm -rf|reg delete|bcdedit|diskutil erase|mkfs|分区/i.test(code);
+      /* 代码块：顶部固定「命令 / 风险」标签 + 复制按钮，底部留一个 aria-live 状态位，
+         这样复制成功、复制失败都能被读屏念出来（此前只有成功时改按钮文字）。 */
       out.push('<div class="fx-cmd' + (danger ? " fx-cmd--danger" : "") + '">' +
+        '<div class="fx-cmd__head">' +
+        (danger ? '<span class="fx-cmd__warn">⛔ 有数据风险，逐行核对再执行</span>' : '<span class="fx-cmd__label">命令</span>') +
+        '<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>' +
         "<pre><code>" + esc(code) + "</code></pre>" +
-        '<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>');
+        '<span class="fx-cmd__status fx-vh" role="status" aria-live="polite"></span></div>');
       continue;
     }
     if (/^\s*\|.*\|\s*$/.test(line)) {
@@ -249,26 +311,14 @@ function mdToHtml(md) {
       const credM = figSrc.match(/^([^\s]+)\s+"([^"]*)"$/);
       const realSrc = credM ? credM[1] : figSrc;
       const cred = credM ? credM[2] : "";
-      out.push('<figure class="fx-fig"><div class="fx-fig__frame">' +
-        '<img class="fx-img" src="' + realSrc + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
-        '</div>' + ((cap || alt) ? '<figcaption class="fx-fig__cap">' + (cap || esc(alt)) + "</figcaption>" : "") +
+      if (!safeUrl(realSrc, true)) { continue; }
+      out.push('<figure class="fx-fig"><button class="fx-fig__frame" type="button" data-fx-zoom aria-label="放大查看图片：' + escAttr(cap || alt || "教程配图") + '">' +
+        '<img class="fx-img" src="' + escAttr(realSrc) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
+        '<span class="fx-fig__zoom" aria-hidden="true">点击放大</span></button>' + ((cap || alt) ? '<figcaption class="fx-fig__cap">' + (cap || esc(alt)) + "</figcaption>" : "") +
         (cred ? '<div class="fx-fig__cred">图片来源：' + esc(cred) + "</div>" : "") + "</figure>");
       continue;
     }
     if (!line.trim()) { i++; continue; }
-    // 兜底：段落以图片开头（上一行是 **操作**： 这类无空行的加粗行）时，
-    // 图片若混在段落里会退化成行内 img，丢掉图框与图注。这里把它拆成独立 figure。
-    if (/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/.test(line)) {
-      const mm = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/);
-      const alt = mm[1], figSrc2 = mm[2];
-      i++;
-      let cap2 = "";
-      if (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\||\s*!\[)/.test(lines[i])) { cap2 = inline(lines[i].trim()); i++; }
-      out.push('<figure class="fx-fig"><div class="fx-fig__frame">' +
-        '<img class="fx-img" src="' + figSrc2 + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">' +
-        '</div>' + ((cap2 || alt) ? '<figcaption class="fx-fig__cap">' + (cap2 || esc(alt)) + "</figcaption>" : "") + "</figure>");
-      continue;
-    }
     const buf = [line]; i++;
     while (i < lines.length && lines[i].trim() &&
            !/^(#{1,4}\s|\s*[-*+]\s|\s*\d+[.)]\s|\s*>|\s*\||\s*!\[)/.test(lines[i]) &&
@@ -353,312 +403,355 @@ function renderSteps(md) {
   }).join("\n");
 }
 
-/* ---------- 参考资料页：与故障教程同一套 shell，但正文按手册形态渲染 ----------
-   blockName(name) 容忍同义标题（例如「一句话结论」与「快速概览」并存）。 */
-function refSection(body, names) {
-  const sections = String(body).split(/^##\s+/m);
-  for (const sec of sections) {
-    const nl = sec.indexOf("\n");
-    const name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
-    if (names.indexOf(name) >= 0) return nl >= 0 ? sec.slice(nl + 1) : "";
-  }
-  return "";
+/* ---------- 领域强调色（与 js/fix.js 的 ACCENTS 保持一致，供相关教程卡片用） ---------- */
+const DOMAIN_ACCENT = {
+  "net-basic": "--fx-sky", "win-system": "--fx-sky", "router": "--fx-lav", "ip-dns": "--fx-lav",
+  "win-app": "--fx-mint", "mac-system": "--fx-coral", "mac-app": "--fx-coral", "hardware": "--fx-sun",
+  "peripheral": "--fx-mint", "proxy-vpn": "--fx-lav", "account-sec": "--fx-coral", "data-backup": "--fx-sun",
+  "ref-manual": "--fx-sky"
+};
+function domainAccent(id) { return "var(" + (DOMAIN_ACCENT[id] || "--fx-mint") + ")"; }
+
+/* ---------- 公共 chrome：head / 顶栏 / 页脚 ----------
+   两个模板（故障教程 / 参考资料）共用同一套骨架，避免「改一处漏一处」。 */
+function jsonLdScript(obj) {
+  var escLt = String.fromCharCode(92) + "u003c";
+  return '<script type="application/ld+json">' + JSON.stringify(obj).split("<").join(escLt) + "</script>";
 }
-
-/* 参考资料的分步骤：用 ## 分步骤 下的 ### 步骤 N，渲染成与教程同款步骤卡（无「失败怎么办」折叠时自动省略） */
-function renderReference(meta, body) {
-  const slug = meta.slug || slugify(meta.title);
-  const dom = DOMAINS[meta.domain] || meta.domain || "";
-  const cat = CATS[meta.category] || meta.category || "";
-  body = String(body).replace(/^\s*#\s+[^\n]*\n/, "");
-
-  /* 前言（第一个 ## 之前的文字，如风险提示 blockquote）不是小节。
-     旧逻辑把它当成「name=首行」的幽灵小节，会渲染出空 <h2 id=""> 和空目录项。 */
-  const preIdx = body.search(/^##\s+/m);
-  const preamble = preIdx >= 0 ? body.slice(0, preIdx).trim() : "";
-  const preambleHtml = preamble ? '<div data-reveal>' + mdToHtml(preamble) + "</div>" : "";
-  const sections = (preIdx >= 0 ? body.slice(preIdx) : body)
-    .split(/^##\s+/m).filter(function (x) { return x.trim(); });
-  const blocks = {}, order = [];
-  sections.forEach(function (sec) {
-    const nl = sec.indexOf("\n");
-    const name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
-    blocks[name] = nl >= 0 ? sec.slice(nl + 1) : "";
-    order.push(name);
-  });
-  const taken = function (names) {
-    return order.filter(function (n) { return names.indexOf(n) >= 0; });
-  };
-  const overviewNames = taken(REFERENCE_SECTIONS.overview);
-  const whoNames = taken(REFERENCE_SECTIONS.who);
-  const riskNames = taken(REFERENCE_SECTIONS.risks);
-  const stepNames = taken(REFERENCE_SECTIONS.steps);
-  const originNames = taken(REFERENCE_SECTIONS.origin);
-  const consumed = overviewNames.concat(whoNames, riskNames, stepNames, originNames);
-
-  const overview = overviewNames.map(function (n) { return blocks[n]; }).join("\n");
-  const who = whoNames.map(function (n) { return blocks[n]; }).join("\n");
-  const risks = riskNames.map(function (n) { return blocks[n]; }).join("\n");
-  const stepMd = stepNames.map(function (n) { return blocks[n]; }).join("\n");
-  const originMd = originNames.map(function (n) { return blocks[n]; }).join("\n");
-
-  const riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
-  const rk = riskMap[meta.risk] || riskMap["需谨慎"];
-  const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
-  const osKey = /mac/i.test(osList.join(" ")) ? "macos" : "windows";
-  const srcArr = Array.isArray(meta.sources) ? meta.sources : [];
-  const badges = osList.slice(0, 2).map(function (o) { return '<span class="fx-badge fx-badge--os" data-os="' + osKey + '">' + esc(o) + "</span>"; }).join("") +
-    '<span class="fx-badge fx-badge--ref">参考 SOP</span>' +
-    (meta.time ? '<span class="fx-badge fx-badge--time">' + esc(meta.time) + "</span>" : "") +
-    '<span class="fx-badge fx-badge--' + rk[0] + '">' + rk[1] + "</span>";
-
-  // 原始 SOP 区块：front-matter 的 sources 由模板统一渲染，正文里若重复则不再输出
-  const sourcesHtml = srcArr.length ? '<ul class="fx-refs">' + srcArr.map(function (s) {
-    if (!s || !s.url) return "";
-    return '<li><a class="fx-link" href="' + escAttr(s.url) + '" target="_blank" rel="noopener nofollow">' +
-      esc(s.title || s.url) + '</a><span class="fx-refs__meta">' + esc(String(s.type || "").toUpperCase()) + "</span></li>";
-  }).join("") + "</ul>" : "";
-
-  const relRaw = (Array.isArray(meta.related) ? meta.related : [meta.related]).filter(Boolean).slice(0, 4);
-  const related = relRaw.map(function (r) {
-    const key = String(r).trim();
-    if (TITLES[key]) return { href: "../fix/" + key + ".html", label: TITLES[key] };
-    return { href: "../search.html?q=" + encodeURIComponent(key.replace(/-/g, " ")), label: key };
-  });
-  const concludeTxt = String(overview).replace(/[#*>`]/g, "").replace(/\s+/g, " ").trim();
-  const desc = concludeTxt.slice(0, 110);
-
-  const rest = order.filter(function (n) { return consumed.indexOf(n) < 0; });
-
-  /* 目录条目桌面/移动端共用：桌面在右侧 aside，≤1180 收进文章开头的 details 手风琴 */
-  const tocLinks =
-    (overview ? '<li><a href="#' + slugify("一句话结论") + '">📄 快速概览</a></li>' : "") +
-    (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
-    (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
-    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
-    rest.map(function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; }).join("") +
-    (originMd ? '<li><a href="#' + slugify("原始 SOP") + '">原始 SOP</a></li>' : "") +
-    (sourcesHtml ? '<li><a href="#' + slugify("来源") + '">来源</a></li>' : "");
-  const tocMobile = tocLinks
-    ? '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>"
-    : "";
-
+function pageHead(o) {
   return [
     '<!DOCTYPE html>', '<html lang="zh-CN">', "<head>", '<meta charset="UTF-8">',
     '<meta name="viewport" content="width=device-width,initial-scale=1">',
     '<meta name="theme-color" content="#FBF6EC">',
-    "<title>" + esc(meta.title) + " · 修盒子 FIXBOX</title>",
-    '<meta name="description" content="' + escAttr(desc) + '">',
-    '<meta name="robots" content="' + (meta.index === "no" ? "noindex" : "index,follow") + '">',
-    "<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E'%20font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E\">",
+    "<title>" + esc(o.title) + "</title>",
+    '<meta name="description" content="' + escAttr(o.desc) + '">',
+    o.canonical ? '<link rel="canonical" href="' + escAttr(o.canonical) + '">' : "",
+    o.canonical ? '<meta property="og:type" content="article">' : "",
+    o.canonical ? '<meta property="og:title" content="' + escAttr(o.title) + '">' : "",
+    o.canonical ? '<meta property="og:description" content="' + escAttr(o.desc) + '">' : "",
+    o.canonical ? '<meta property="og:url" content="' + escAttr(o.canonical) + '">' : "",
+    o.canonical ? '<meta name="twitter:card" content="summary">' : "",
+    o.robots ? '<meta name="robots" content="' + o.robots + '">' : "",
+    "<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E\">",
     CRITICAL, BOOT,
+    '<noscript><style>.fx-preloader,.fx-curtain{display:none!important}</style></noscript>',
     '<link rel="stylesheet" href="../../css/tokens.css">',
     '<link rel="stylesheet" href="../css/theme-fix.css">',
     '<link rel="stylesheet" href="../css/fix.css">',
     '<link rel="stylesheet" href="../css/fix-neu.css">',
-    "</head>", '<body data-slug="' + escAttr(slug) + '" data-kind="reference">',
-    PRELOADER,
-    '<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>',
-    '<a class="fx-skip" href="#main">跳到主要内容</a>',
+    o.jsonld ? jsonLdScript(o.jsonld) : "",
+    "</head>"
+  ].filter(Boolean).join("\n");
+}
+function pageTopbar() {
+  return [
     '<header class="fx-top"><div class="fx-top__inner">',
     '<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>',
     '<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>',
     '<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>',
     MOBILE_BURGER,
-    "</div></header>",
+    "</div></header>"
+  ].join("");
+}
+function pageFooter(fallbackUpdated) {
+  var updated = SITE.updated || fallbackUpdated || "";
+  var stats = SITE.total
+    ? '<p class="fx-foot__stat">目前 <b data-fx-count-domains>' + SITE.domains.length + '</b> 个领域 · <b data-fx-count-all>' + SITE.total + "</b> 篇" +
+      (SITE.references ? "（含 " + SITE.references + " 篇参考资料）" : "") + "</p>"
+    : "";
+  return [
+    '<footer class="fx-foot"><div class="fx-wrap">',
+    '<div class="fx-foot__inner">',
+    '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p>' + stats + "</div>",
+    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 <span data-fx-count-domains>' + SITE.domains.length + "</span> 个领域</a></li>" + footDomainItems("../") + "</ul></div>",
+    '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
+    '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
+    "</div>",
+    '<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：' + esc(updated) + "</span></div>",
+    "</div></footer>"
+  ].join("\n");
+}
+
+/* ---------- 正文可复用的区块 ---------- */
+function renderToc(tocLinks) {
+  if (!tocLinks) return "";
+  return '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>";
+}
+function renderStepbar(hasSteps) {
+  if (!hasSteps) return "";
+  return '<div class="fx-stepbar" data-fx-stepbar>' +
+    '<div class="fx-stepbar__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="本页步骤完成进度"><i data-fx-stepprog></i></div>' +
+    '<span class="fx-stepbar__label" data-fx-progress-label>还没有勾选步骤</span>' +
+    '<button class="fx-stepbar__reset" type="button" data-fx-step-reset hidden>重置进度</button>' +
+    '<span class="fx-vh" role="status" aria-live="polite" data-fx-step-status></span></div>';
+}
+function renderRelated(relRaw, isRef) {
+  var cards = relRaw.map(function (r) {
+    var key = String(r).trim();
+    var m = SITE.bySlug[key];
+    if (m) {
+      return '<a class="fx-relcard" href="../fix/' + escAttr(key) + '.html" style="--accent:' + domainAccent(m.domain) + '">' +
+        '<span class="fx-relcard__path">' + esc(m.path || "") + "</span>" +
+        '<b class="fx-relcard__t">' + esc(m.title) + "</b>" +
+        '<span class="fx-relcard__meta">' + (m.time ? "⏱ " + esc(m.time) : "") +
+        (m.risk ? '<em class="fx-relcard__risk">' + esc(m.risk) + "</em>" : "") + "</span></a>";
+    }
+    return '<a class="fx-relcard fx-relcard--search" href="../search.html?q=' + encodeURIComponent(key.replace(/-/g, " ")) + '">' +
+      '<span class="fx-relcard__path">站内搜索</span><b class="fx-relcard__t">' + esc(key) + "</b>" +
+      '<span class="fx-relcard__meta">暂无独立教程，先去搜索</span></a>';
+  }).join("");
+  if (!cards) return "";
+  return '<h2 class="fx-h2">' + (isRef ? "相关资料" : "相关教程") + '</h2><div class="fx-related">' + cards + "</div>";
+}
+function renderPager(slug) {
+  var pn = SITE.prevNext[slug];
+  if (!pn) return "";
+  var items = [];
+  if (pn.prev) {
+    items.push('<a class="fx-pager__item" rel="prev" href="../fix/' + escAttr(pn.prev.slug) + '.html">' +
+      '<span class="fx-pager__k">← 上一篇' + (pn.prev.domainName ? " · " + esc(pn.prev.domainName) : "") + "</span><b>" + esc(pn.prev.title) + "</b></a>");
+  }
+  if (pn.next) {
+    items.push('<a class="fx-pager__item fx-pager__item--next" rel="next" href="../fix/' + escAttr(pn.next.slug) + '.html">' +
+      '<span class="fx-pager__k">下一篇' + (pn.next.domainName ? " · " + esc(pn.next.domainName) : "") + " →</span><b>" + esc(pn.next.title) + "</b></a>");
+  }
+  return items.length ? '<nav class="fx-pager" aria-label="同领域的上一篇与下一篇">' + items.join("") + "</nav>" : "";
+}
+function articleSchema(meta, desc, isRef) {
+  var slug = meta.slug || slugify(meta.title);
+  var base = "https://pc-fixboxs.yuanabd.cn";
+  var url = base + "/fix/" + slug + ".html";
+  var dom = DOMAINS[meta.domain] || "";
+  var article = {
+    "@type": isRef ? "Article" : "TechArticle",
+    "@id": url + "#article",
+    "url": url,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": url },
+    "headline": meta.title,
+    "description": desc,
+    "inLanguage": "zh-CN",
+    "dateModified": meta.updated || undefined,
+    "articleSection": dom || undefined,
+    "keywords": (Array.isArray(meta.keywords) ? meta.keywords.join(", ") : "") || undefined,
+    "isPartOf": { "@type": "WebSite", "@id": base + "/#website", "name": "修盒子 FIXBOX", "url": base + "/" },
+    "publisher": { "@type": "Organization", "name": "修盒子 FIXBOX", "url": "https://www.yuanabd.cn/" }
+  };
+  var crumbs = [{ name: "首页", url: base + "/" }];
+  if (dom) crumbs.push({ name: dom, url: base + "/browse.html#" + (meta.domain || "") });
+  crumbs.push({ name: meta.title });
+  return {
+    "@context": "https://schema.org",
+    "@graph": [article, {
+      "@type": "BreadcrumbList",
+      "itemListElement": crumbs.map(function (c, i) {
+        var item = { "@type": "ListItem", "position": i + 1, "name": c.name };
+        if (c.url) item.item = c.url;
+        return item;
+      })
+    }]
+  };
+}
+
+/* 区块拼接：丢掉空块，并把相邻的两个「虚线箭头」合并成一个。
+   2026-11-24：没有 leadingRest 的文章会在「小白一键修复」和「分步骤」之间出现
+   两个叠在一起的 CONNECTOR（移动端尤其明显）。 */
+function joinBlocks(parts) {
+  const out = [];
+  parts.forEach(function (p) {
+    if (!p) return;
+    if (p === CONNECTOR && out[out.length - 1] === CONNECTOR) return;
+    out.push(p);
+  });
+  return out.join("\n");
+}
+
+/* ---------- 页面主体：故障教程 / 参考资料共用 ----------
+   阅读体验相关结构都在这里：步骤进度条、目录（桌面右栏 + 移动端折叠）、
+   相关教程卡片网格、同领域上一篇/下一篇、更新信息。 */
+function renderDoc(meta, body, forceReference) {
+  var isRef = forceReference === true || isReference(meta);
+  var slug = meta.slug || slugify(meta.title);
+  var dom = DOMAINS[meta.domain] || meta.domain || "";
+  var cat = CATS[meta.category] || meta.category || "";
+  body = String(body).replace(/^\s*#\s+[^\n]*\n/, "");
+
+  /* 前言（第一个 ## 之前的文字，如风险提示 blockquote）不是小节。 */
+  var preIdx = body.search(/^##\s+/m);
+  var preamble = preIdx >= 0 ? body.slice(0, preIdx).trim() : "";
+  var preambleHtml = preamble ? '<div class="fx-preamble" data-reveal>' + mdToHtml(preamble) + "</div>" : "";
+  var sections = (preIdx >= 0 ? body.slice(preIdx) : body)
+    .split(/^##\s+/m).filter(function (x) { return x.trim(); });
+  var blocks = {}, order = [];
+  sections.forEach(function (sec) {
+    var nl = sec.indexOf("\n");
+    var name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
+    blocks[name] = nl >= 0 ? sec.slice(nl + 1) : "";
+    order.push(name);
+  });
+
+  var riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
+  var rk = riskMap[meta.risk] || riskMap["需谨慎"];
+  var osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
+  /* 每一枚系统徽章单独取色：一篇文章可能同时列 Windows 与 macOS（此前统一取首个系统的颜色，
+     会出现「Windows 10」徽章被染成 macOS 灰的情况）。 */
+  var osBadgeKey = function (o) { return /mac/i.test(o) ? "macos" : (/路由|网络设备|光猫/i.test(o) ? "router" : "windows"); };
+  var badges = osList.slice(0, 2).map(function (o) { return '<span class="fx-badge fx-badge--os" data-os="' + osBadgeKey(o) + '">' + esc(o) + "</span>"; }).join("") +
+    (isRef ? '<span class="fx-badge fx-badge--ref">参考 SOP</span>' : (meta.difficulty ? '<span class="fx-badge fx-badge--level">' + esc(meta.difficulty) + "</span>" : "")) +
+    (meta.time ? '<span class="fx-badge fx-badge--time">' + esc(meta.time) + "</span>" : "") +
+    '<span class="fx-badge fx-badge--' + rk[0] + '">' + rk[1] + "</span>";
+
+  var tocItem = function (n) { return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>"; };
+  var sectionHtml = function (n) {
+    return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>";
+  };
+
+  var desc = "", tocLinks = "", bodyHtml = "", feedbackHtml = "", relRaw = [], stepMd = "";
+
+  if (isRef) {
+    var overviewNames = ["快速概览", "一句话结论"].filter(function (n) { return blocks[n]; });
+    var whoNames = ["适用对象", "适用 / 不适用"].filter(function (n) { return blocks[n]; });
+    var riskNames = ["风险提示", "注意事项"].filter(function (n) { return blocks[n]; });
+    var stepNames = ["分步骤", "处理步骤"].filter(function (n) { return blocks[n]; });
+    var originNames = ["原始 SOP", "原文链接"].filter(function (n) { return blocks[n]; });
+    var consumed = overviewNames.concat(whoNames, riskNames, stepNames, originNames);
+    var overview = overviewNames.map(function (n) { return blocks[n]; }).join("\n");
+    var who = whoNames.map(function (n) { return blocks[n]; }).join("\n");
+    var risks = riskNames.map(function (n) { return blocks[n]; }).join("\n");
+    stepMd = stepNames.map(function (n) { return blocks[n]; }).join("\n");
+    var originMd = originNames.map(function (n) { return blocks[n]; }).join("\n");
+    var rest = order.filter(function (n) { return consumed.indexOf(n) < 0; });
+    var srcArr = Array.isArray(meta.sources) ? meta.sources : [];
+    var sourcesHtml = srcArr.length ? '<ul class="fx-refs">' + srcArr.map(function (s) {
+      if (!s || !s.url) return "";
+      return '<li><a class="fx-link" href="' + escAttr(s.url) + '" target="_blank" rel="noopener nofollow">' +
+        esc(s.title || s.url) + '</a><span class="fx-refs__meta">' + esc(String(s.type || "").toUpperCase()) + "</span></li>";
+    }).join("") + "</ul>" : "";
+    relRaw = (Array.isArray(meta.related) ? meta.related : [meta.related]).filter(Boolean).slice(0, 4);
+    desc = String(overview).replace(new RegExp("[#*>" + BT + "]", "g"), "").replace(/\s+/g, " ").trim().slice(0, 110);
+
+    tocLinks =
+      (overview ? '<li><a href="#' + slugify("快速概览") + '">📄 快速概览</a></li>' : "") +
+      (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
+      (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
+      (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
+      rest.map(tocItem).join("") +
+      (originMd ? '<li><a href="#' + slugify("原始 SOP") + '">原始 SOP</a></li>' : "") +
+      (sourcesHtml ? '<li><a href="#' + slugify("来源") + '">来源</a></li>' : "");
+
+    bodyHtml = [
+      preambleHtml,
+      '<div class="fx-refbox" data-reveal>📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
+      overview ? '<div class="fx-conclusion" data-reveal><h2 id="' + slugify("快速概览") + '">📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : "",
+      who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : "",
+      risks ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("风险提示") + '">风险提示</h2>' + mdToHtml(risks) + "</section>" : "",
+      stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><p class="fx-section-note">手册步骤较多，建议勾选完成标记：进度只保存在本机浏览器，刷新后仍在。</p><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : "",
+      rest.map(sectionHtml).join("\n"),
+      originMd ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("原始 SOP") + '">原始 SOP（原文链接）</h2>' + mdToHtml(originMd) + "</section>" : "",
+      sourcesHtml ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("来源") + '">来源</h2>' + sourcesHtml + "</section>" : ""
+    ].join("\n");
+
+    feedbackHtml = [
+      '<div class="fx-feedback fx-feedback--ref" data-fx-feedback-ref>',
+      '<h2>这篇资料对你有帮助吗？</h2>',
+      '<p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>',
+      '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div>',
+      "</div>"
+    ].join("");
+  } else {
+    var conclusion = blocks["一句话结论"] || "";
+    var quickfix = blocks["30 秒快速排查"] || "";
+    var batfixMd = blocks["小白一键修复"] || "";
+    stepMd = blocks["分步骤"] || "";
+    var restG = order.filter(function (n) {
+      return n !== "一句话结论" && n !== "30 秒快速排查" && n !== "小白一键修复" &&
+        n !== "分步骤" && n !== "相关教程";
+    });
+    var batfixHtml = batfixMd ? renderBatfix(batfixMd, slug) : "";
+    var TRAILING_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "怎么确认处理好了",
+      "还是不行？", "预防", "更新日志"];
+    var LEADING_SECTIONS = ["合规提示"];
+    var leadingRest = restG.filter(function (n) { return LEADING_SECTIONS.indexOf(n) >= 0; });
+    var trailingRest = restG.filter(function (n) { return TRAILING_SECTIONS.indexOf(n) >= 0; })
+      .sort(function (a, b) { return TRAILING_SECTIONS.indexOf(a) - TRAILING_SECTIONS.indexOf(b); });
+    var middleRest = restG.filter(function (n) {
+      return LEADING_SECTIONS.indexOf(n) < 0 && TRAILING_SECTIONS.indexOf(n) < 0;
+    });
+    var quickItems = quickfix.split(/\n/).filter(function (l) { return /^\s*(\d+[.)]|[-*+])\s+/.test(l); })
+      .map(function (l) { return "<li>" + inline(l.replace(/^\s*(\d+[.)]|[-*+])\s+/, "")) + "</li>"; });
+    relRaw = (Array.isArray(meta.related) ? meta.related : [meta.related]).filter(Boolean).slice(0, 4);
+    desc = String(conclusion).replace(new RegExp("[#*>" + BT + "]", "g"), "").replace(/\s+/g, " ").trim().slice(0, 110);
+
+    tocLinks =
+      '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
+      (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
+      (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">🧰 小白一键修复</a></li>' : "") +
+      leadingRest.map(tocItem).join("") +
+      (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
+      middleRest.concat(trailingRest).map(tocItem).join("");
+
+    bodyHtml = joinBlocks([
+      preambleHtml,
+      '<div class="fx-conclusion" data-reveal><h2 id="' + slugify("一句话结论") + '">💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
+      quickItems.length ? '<div class="fx-quickfix" data-reveal><h2 id="' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : "",
+      batfixHtml,
+      CONNECTOR,
+      leadingRest.map(sectionHtml).join("\n"),
+      stepMd ? CONNECTOR : "",
+      stepMd ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><p class="fx-section-note">按顺序做，做完一步点右侧「○」勾选。进度只保存在本机浏览器，刷新或下次打开都还在。</p><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : "",
+      middleRest.concat(trailingRest).map(sectionHtml).join("\n")
+    ]);
+
+    feedbackHtml = READER_FEEDBACK;
+  }
+
+  var tocAside = tocLinks ? '<aside class="fx-doc__toc" data-fx-toc aria-label="本页目录"><h3>本页目录</h3><ul>' + tocLinks + "</ul></aside>" : "";
+
+  return [
+    pageHead({
+      title: meta.title + " · 修盒子 FIXBOX",
+      desc: desc,
+      robots: meta.index === "no" ? "noindex" : "",
+      canonical: "https://pc-fixboxs.yuanabd.cn/fix/" + slug + ".html",
+      jsonld: articleSchema(meta, desc, isRef)
+    }),
+    '<body data-slug="' + escAttr(slug) + '" data-kind="' + (isRef ? "reference" : "guide") + '"' +
+      (isRef ? "" : ' data-feedback-endpoint="' + escAttr(FEEDBACK_ENDPOINT) + '"') + ">",
+    PRELOADER,
+    '<div class="fx-progress" aria-hidden="true"><div class="fx-progress__bar" data-fx-readbar></div></div>',
+    '<a class="fx-skip" href="#main">跳到主要内容</a>',
+    pageTopbar(),
     MOBILE_DRAWER,
-    '<main id="main" class="fx-wrap">', '<div class="fx-doc">',
-    '<aside class="fx-doc__nav"><h3>当前领域</h3><ul>' +
-      Object.keys(DOMAINS).map(function (k) { return '<li><a href="../browse.html#' + k + '"' + (k === meta.domain ? ' aria-current="page"' : "") + ">" + DOMAINS[k] + "</a></li>"; }).join("") +
-      "</ul></aside>",
-    "<article>",
+    '<main id="main" class="fx-wrap">',
+    '<div class="fx-doc">',
+    '<aside class="fx-doc__nav" aria-label="领域导航"><h3>当前领域</h3><ul>' +
+      SITE.domains.map(function (d) {
+        return '<li><a href="../browse.html#' + d.id + '"' + (d.id === meta.domain ? ' aria-current="page"' : "") + ">" + esc(d.name) + "</a></li>";
+      }).join("") + "</ul></aside>",
+    '<article class="fx-article">',
     '<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#' + escAttr(meta.domain || "") + '">' + esc(dom) + "</a>" +
       (cat ? '<span class="fx-crumb__sep">›</span><span>' + esc(cat) + "</span>" : "") + "</nav>",
     '<h1 class="fx-title">' + esc(meta.title) + "</h1>",
     '<div class="fx-meta">' + badges +
       '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
-    tocMobile,
-    preambleHtml,
-    '<div class="fx-refbox">📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
-    (overview ? '<div class="fx-conclusion" data-reveal><h2>📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : ""),
-    (who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : ""),
-    (risks ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("风险提示") + '">风险提示</h2>' + mdToHtml(risks) + "</section>" : ""),
-    (stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : ""),
-    rest.map(function (n) { return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>"; }).join("\n"),
-    (originMd ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("原始 SOP") + '">原始 SOP（原文链接）</h2>' + mdToHtml(originMd) + "</section>" : ""),
-    (sourcesHtml ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("来源") + '">来源</h2>' + sourcesHtml + "</section>" : ""),
-    '<div class="fx-feedback"><h2>这篇资料对你有帮助吗？</h2><p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>',
-    '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div></div>',
-    (related.length ? '<h2 class="fx-h2">相关资料</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),
-    '<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：' + esc(meta.updated || "") + " · 复核：" + esc(meta.reviewer || "") + "</p>",
+    renderStepbar(stepMd),
+    renderToc(tocLinks),
+    bodyHtml,
+    feedbackHtml,
+    renderRelated(relRaw, isRef),
+    renderPager(slug),
+    '<p class="fx-updated">最后更新：' + esc(meta.updated || "—") + " · 复核：" + esc(meta.reviewer || "—") + "</p>",
     "</article>",
-    '<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' + tocLinks + "</ul></aside>",
-    "</div>", '<div style="height:60px"></div>', "</main>",
-    '<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
-    '<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
-    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#ref-manual">装机与运维手册</a></li><li><a href="../browse.html#ref-field">现场作业与工单</a></li></ul></div>',
-    '<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
-    '<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
-    "</div>",
-    '<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：' + esc(meta.updated || "") + "</span></div>",
-    "</div></footer>",
-    '<script src="../data/articles.js"></script>', '<script src="../js/fix.js"></script>',
-    "</body>", "</html>",
-  ].join("\n");
+    tocAside,
+    "</div>", "</main>",
+    pageFooter(meta.updated),
+    '<script src="../data/articles.js"></script>',
+    '<script src="../js/fix.js"></script>',
+    "</body>", "</html>"
+  ].filter(Boolean).join("\n");
 }
 
-function renderArticle(meta, body) {
-  if (isReference(meta)) return renderReference(meta, body);
-  const slug = meta.slug || slugify(meta.title);
-  const dom = DOMAINS[meta.domain] || meta.domain || "";
-  const cat = CATS[meta.category] || meta.category || "";
-  // 去掉正文开头与页面标题重复的 H1
-  body = body.replace(/^\s*#\s+[^\n]*\n/, "");
-  /* 前言（第一个 ## 之前的文字，如风险提示 blockquote）不是小节。
-     旧逻辑把它当成「name=首行」的幽灵小节，会渲染出空 <h2 id=""> 和空目录项。 */
-  const preIdx = body.search(/^##\s+/m);
-  const preamble = preIdx >= 0 ? body.slice(0, preIdx).trim() : "";
-  const preambleHtml = preamble ? '<div data-reveal>' + mdToHtml(preamble) + "</div>" : "";
-  const sections = (preIdx >= 0 ? body.slice(preIdx) : body)
-    .split(/^##\s+/m).filter(function (x) { return x.trim(); });
-  const blocks = {};
-  const order = [];
-  sections.forEach(function (sec) {
-    const nl = sec.indexOf("\n");
-    const name = (nl >= 0 ? sec.slice(0, nl) : sec).trim();
-    blocks[name] = nl >= 0 ? sec.slice(nl + 1) : "";
-    order.push(name);
-  });
-  const conclusion = blocks["一句话结论"] || "";
-  const quickfix = blocks["30 秒快速排查"] || "";
-  const batfixMd = blocks["小白一键修复"] || "";
-  const stepMd = blocks["分步骤"] || "";
-  // 「相关教程」由下方模板用 front-matter 的 related 渲染成可点击链接，正文同名段落不再重复输出
-  const rest = order.filter(function (n) {
-    return n !== "一句话结论" && n !== "30 秒快速排查" && n !== "小白一键修复" &&
-      n !== "分步骤" && n !== "相关教程";
-  });
-  const batfixHtml = batfixMd ? renderBatfix(batfixMd, slug) : "";
-
-  /* 段落顺序（2026-11-06）：「小白一键修复」之后直接进「分步骤」，
-     适用性、前置确认、验收、兜底、预防、更新日志这些说明性段落统一后置。
-     合规提示属于风险声明，仍保留在分步骤之前。 */
-  const TRAILING_SECTIONS = ["适用 / 不适用", "开始前确认", "怎么确认修好了", "怎么确认处理好了",
-    "还是不行？", "预防", "更新日志"];
-  const LEADING_SECTIONS = ["合规提示"];
-  const sectionHtml = function (n) {
-    return '<section data-reveal><h2 class="fx-h2" id="' + slugify(n) + '">' + esc(n) + "</h2>" + mdToHtml(blocks[n]) + "</section>";
-  };
-  const tocItem = function (n) {
-    return '<li><a href="#' + slugify(n) + '">' + esc(n) + "</a></li>";
-  };
-  const leadingRest = rest.filter(function (n) { return LEADING_SECTIONS.indexOf(n) >= 0; });
-  const trailingRest = rest.filter(function (n) { return TRAILING_SECTIONS.indexOf(n) >= 0; })
-    .sort(function (a, b) { return TRAILING_SECTIONS.indexOf(a) - TRAILING_SECTIONS.indexOf(b); });
-  const middleRest = rest.filter(function (n) {
-    return LEADING_SECTIONS.indexOf(n) < 0 && TRAILING_SECTIONS.indexOf(n) < 0;
-  });
-
-  const riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
-  const rk = riskMap[meta.risk] || riskMap["需谨慎"];
-  const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
-  const osKey = /mac/i.test(osList.join(" ")) ? "macos" : (/路由|网络设备/.test(osList.join(" ")) ? "router" : "windows");
-  const badges = osList.slice(0, 2).map(function (o) { return '<span class="fx-badge fx-badge--os" data-os="' + osKey + '">' + esc(o) + "</span>"; }).join("") +
-    (meta.difficulty ? '<span class="fx-badge fx-badge--level">' + esc(meta.difficulty) + "</span>" : "") +
-    (meta.time ? '<span class="fx-badge fx-badge--time">' + esc(meta.time) + "</span>" : "") +
-    '<span class="fx-badge fx-badge--' + rk[0] + '">' + rk[1] + "</span>";
-
-  const quickItems = quickfix.split(/\n/).filter(function (l) { return /^\s*(\d+[.)]|[-*+])\s+/.test(l); })
-    .map(function (l) { return "<li>" + inline(l.replace(/^\s*(\d+[.)]|[-*+])\s+/, "")) + "</li>"; });
-  const relRaw = (Array.isArray(meta.related) ? meta.related : [meta.related]).filter(Boolean).slice(0, 4);
-  const related = relRaw.map(function (r) {
-    const key = String(r).trim();
-    if (TITLES[key]) return { href: "../fix/" + key + ".html", label: TITLES[key] };
-    return { href: "../search.html?q=" + encodeURIComponent(key.replace(/-/g, " ")), label: key };
-  });
-  const desc = String(conclusion).replace(/[#*>\x60]/g, "").replace(/\s+/g, " ").trim().slice(0, 110);
-
-  /* 目录条目桌面/移动端共用：桌面在右侧 aside，≤1180 收进文章开头的 details 手风琴 */
-  const tocLinks =
-    '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
-    (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
-    (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">🧰 小白一键修复</a></li>' : "") +
-    leadingRest.map(tocItem).join("") +
-    (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
-    middleRest.concat(trailingRest).map(tocItem).join("");
-  const tocMobile = tocLinks
-    ? '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>"
-    : "";
-
-  return [
-'<!DOCTYPE html>', '<html lang="zh-CN">', "<head>", '<meta charset="UTF-8">',
-'<meta name="viewport" content="width=device-width,initial-scale=1">',
-'<meta name="theme-color" content="#FBF6EC">',
-"<title>" + esc(meta.title) + " · 修盒子 FIXBOX</title>",
-'<meta name="description" content="' + escAttr(desc) + '">',
-"<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E\">",
-CRITICAL, BOOT,
-'<link rel="stylesheet" href="../../css/tokens.css">',
-'<link rel="stylesheet" href="../css/theme-fix.css">',
-'<link rel="stylesheet" href="../css/fix.css">',
-  '<link rel="stylesheet" href="../css/fix-neu.css">',
-"</head>", '<body data-slug="' + escAttr(slug) + '" data-feedback-endpoint="' + escAttr(FEEDBACK_ENDPOINT) + '">',
-PRELOADER,
-'<div class="fx-progress"><div class="fx-progress__bar" data-fx-readbar></div></div>',
-'<a class="fx-skip" href="#main">跳到主要内容</a>',
-'<header class="fx-top"><div class="fx-top__inner">',
-'<a class="fx-brand" href="../index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>',
-'<nav class="fx-nav" aria-label="主导航"><a href="../browse.html">领域</a><a href="../hardware.html">拆机图</a><a href="../wizard.html">症状向导</a><a href="../tools.html">工具</a><a href="../about.html">关于</a></nav>',
-'<a class="fx-topsearch" href="../search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>',
-MOBILE_BURGER,
-"</div></header>",
-MOBILE_DRAWER,
-'<main id="main" class="fx-wrap">', '<div class="fx-doc">',
-'<aside class="fx-doc__nav"><h3>当前领域</h3><ul>' +
-  Object.keys(DOMAINS).map(function (k) { return '<li><a href="../browse.html#' + k + '"' + (k === meta.domain ? ' aria-current="page"' : "") + ">" + DOMAINS[k] + "</a></li>"; }).join("") +
-"</ul></aside>",
-"<article>",
-'<nav class="fx-crumb" aria-label="面包屑"><a href="../index.html">首页</a><span class="fx-crumb__sep">›</span><a href="../browse.html#' + escAttr(meta.domain || "") + '">' + esc(dom) + "</a>" +
-  (cat ? '<span class="fx-crumb__sep">›</span><span>' + esc(cat) + "</span>" : "") + "</nav>",
-'<h1 class="fx-title">' + esc(meta.title) + "</h1>",
-'<div class="fx-meta">' + badges +
-  '<span class="fx-meta__actions"><span style="font-size:13px;color:var(--c-ink-300)" data-fx-progress-label></span>' +
-  '<button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
-tocMobile,
-preambleHtml,
-'<div class="fx-conclusion" data-reveal><h2>💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
-(quickItems.length ? '<div class="fx-quickfix" data-reveal><h2>⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : ""),
-batfixHtml,
-CONNECTOR,
-  leadingRest.map(sectionHtml).join("\n"),
-(stepMd ? CONNECTOR + '<section data-reveal><h2 class="fx-h2" id="' + slugify("分步骤") + '">分步骤</h2><ol class="fx-steps">' + renderSteps(stepMd) + "</ol></section>" : ""),
-  middleRest.concat(trailingRest).map(sectionHtml).join("\n"),
-'<div class="fx-feedback"><h2>这篇教程解决你的问题了吗？</h2><p>你的反馈会帮我们改进内容——尤其是「照做之后没解决」的情况。</p>',
-'<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">✅ 解决了</a><a class="fx-btn fx-btn--ghost" href="../wizard.html">✕ 没解决，重新定位</a></div></div>',
-(related.length ? '<h2 class="fx-h2">相关教程</h2><div class="fx-related">' + related.map(function (r) { return '<a href="' + r.href + '">' + esc(r.label) + "</a>"; }).join("") + "</div>" : ""),
-'<p class="fx-p" style="margin-top:28px;font-size:13.5px;color:var(--c-ink-300)">最后更新：' + esc(meta.updated || "") + " · 复核：" + esc(meta.reviewer || "") + "</p>",
-"</article>",
-'<aside class="fx-doc__toc" data-fx-toc><h3>本页目录</h3><ul>' + tocLinks + "</ul></aside>",
-"</div>", '<div style="height:60px"></div>', "</main>",
-'<footer class="fx-foot"><div class="fx-wrap">', '<div class="fx-foot__inner">',
-'<div><a class="fx-brand" href="../index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a><p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>',
-    '<div><h3>按领域</h3><ul><li><a href="../browse.html">全部 13 个领域</a></li><li><a href="../browse.html#net-basic">网络基础</a></li><li><a href="../browse.html#win-system">Windows 系统与开机</a></li><li><a href="../browse.html#data-backup">数据与备份</a></li></ul></div>',
-'<div><h3>常用</h3><ul><li><a href="../wizard.html">症状向导</a></li><li><a href="../tools.html">命令速查</a></li><li><a href="../search.html">搜索</a></li></ul></div>',
-'<div><h3>关于</h3><ul><li><a href="../about.html">关于本站</a></li><li><a href="../about.html#disclaimer">免责声明</a></li><li><a href="../about.html#privacy">隐私说明</a></li><li><a href="../about.html#feedback">纠错与反馈</a></li></ul></div>',
-"</div>",
-'<div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：' + esc(meta.updated || "") + "</span></div>",
-"</div></footer>",
-'<script src="../data/articles.js"></script>', '<script src="../js/fix.js"></script>',
-"</body>", "</html>",
-].filter(function (line) {
-  return line.indexOf('<div class="fx-feedback"><h2>') === -1 &&
-    line.indexOf('<div class="fx-feedback__row"><a class="fx-btn') === -1;
-}).reduce(function (out, line) {
-  if (line === "</article>") out.push(READER_FEEDBACK);
-  out.push(line);
-  return out;
-}, []).join("\n");
-}
+function renderArticle(meta, body) { return renderDoc(meta, body, false); }
+function renderReference(meta, body) { return renderDoc(meta, body, true); }
 
 function main() {
   if (!fs.existsSync(SRC)) { console.error("源目录不存在：" + SRC); process.exit(1); }
@@ -685,10 +778,6 @@ function main() {
     console.log("  已隔离目录（不参与构建）：" + subdirs.join(", "));
   }
 
-  const articles = [];
-  const parsedAll = {};
-  const errors = [];
-
   /* ---------- 构建闸门：先跑内容校验（与后台共用同一实现） ----------
      校验规则见 content-lint.cjs（V1–V15）。这里只取 error 级：
      warning 不阻塞构建（例如指向「规划中文章」的 related，属于存量内容债，
@@ -711,12 +800,18 @@ function main() {
     process.exitCode = 1;
     return;
   }
+  /* ---------- 第一遍：解析全部文章，汇总站点数据（领域 / 篇数 / 顺序） ---------- */
+  const articles = [];
+  const parsedAll = {};
+  const docs = {};
+  const errors = [];
   files.forEach(function (f) {
     const raw = fs.readFileSync(path.join(SRC, f), "utf8");
     const parsed = parseFrontMatter(raw);
     const meta = parsed.meta;
     if (!meta.slug) meta.slug = f.replace(/\.md$/, "");
     parsedAll[f] = { raw: raw, parsed: parsed, meta: meta };
+    docs[meta.slug] = { meta: meta, body: parsed.body };
     if (meta.title) TITLES[meta.slug] = meta.title;
   });
   /* ---------- 失败策略：fail-closed ----------
@@ -724,17 +819,15 @@ function main() {
      现改为收集全部错误，构建结束时统一以非零退出。 */
   files.forEach(function (f) {
     const entry = parsedAll[f];
-    const raw = entry.raw, parsed = entry.parsed, meta = entry.meta;
+    const parsed = entry.parsed, meta = entry.meta;
     if (!meta.title) { errors.push(f + "：缺少 title（该文章会从站点消失）"); return; }
     if (parsed.shapes && parsed.shapes.sources === "scalar") {
       errors.push(f + "：sources 被解析成标量，应为列表（front-matter 格式异常）");
     }
-    const html = renderArticle(meta, parsed.body);
-    fs.writeFileSync(path.join(OUT_FIX, meta.slug + ".html"), html, "utf8");
     const conclusion = isReference(meta)
       ? (parsed.body.match(/^##\s*(?:一句话结论|快速概览)\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1]
       : (parsed.body.match(/^##\s*一句话结论\s*\n+([\s\S]*?)(?=\n##\s|$)/m) || [null, ""])[1];
-    const summary = conclusion.replace(/[#*>\x60]/g, "").replace(/\s+/g, " ").trim().slice(0, 96);
+    const summary = conclusion.replace(new RegExp("[#*>" + BT + "]", "g"), "").replace(/\s+/g, " ").trim().slice(0, 96);
     const osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
     const osGroup = [];
     if (/mac/i.test(osList.join(" "))) osGroup.push("macos");
@@ -761,7 +854,65 @@ function main() {
       hot: pr >= 0 ? 31 - pr : 1
     });
   });
+
+  /* ---------- 站点计数：唯一来源是 taxonomy.json + 本次实际构建的文章 ----------
+     这里算完，页脚、侧栏、静态页计数占位、articles.js 里的 FX_META 全都引用同一份值，
+     不会再出现「首页 13 个领域 / browse 12+2 / 页脚 13 个领域」这种口径分裂。 */
+  SITE.total = articles.length;
+  SITE.references = articles.filter(function (a) { return a.kind === "reference"; }).length;
+  SITE.guides = SITE.total - SITE.references;
+  SITE.domains.forEach(function (d) {
+    d.count = articles.filter(function (a) { return a.domain === d.id; }).length;
+  });
+  SITE.updated = articles.map(function (a) { return a.updated; }).filter(Boolean).sort().pop() || "";
+  articles.forEach(function (a) { SITE.bySlug[a.slug] = a; });
+
+  /* ---------- 同领域上一篇 / 下一篇：按更新时间倒序，其次热度、标题 ---------- */
+  SITE.domains.forEach(function (d) {
+    const list = articles.filter(function (a) { return a.domain === d.id; })
+      .sort(function (a, b) {
+        if (a.updated !== b.updated) return String(b.updated).localeCompare(String(a.updated));
+        if (a.hot !== b.hot) return b.hot - a.hot;
+        return String(a.title).localeCompare(String(b.title), "zh");
+      });
+    list.forEach(function (a, i) {
+      SITE.prevNext[a.slug] = {
+        prev: i > 0 ? list[i - 1] : null,
+        next: i < list.length - 1 ? list[i + 1] : null
+      };
+    });
+  });
+
+  if (errors.length) {
+    console.error("");
+    console.error("[构建失败] 发现 " + errors.length + " 个问题（构建未通过，不产生产物）：");
+    errors.forEach(function (e) { console.error("  ✗ " + e); });
+    console.error("");
+    console.error("提示：修复以上问题后重新运行 node build-fix.cjs");
+    process.exitCode = 1;
+    return;
+  }
+
   articles.sort(function (a, b) { return b.hot - a.hot; });
+
+  /* ---------- 第二遍：用汇总后的 SITE 渲染文章页 ---------- */
+  const checkMode = process.argv.includes("--check");
+  let pageDrift = 0;
+  articles.forEach(function (a) {
+    const doc = docs[a.slug];
+    if (!doc) return;
+    const html = renderArticle(doc.meta, doc.body);
+    const outFile = path.join(OUT_FIX, a.slug + ".html");
+    if (checkMode) {
+      const old = fs.existsSync(outFile) ? fs.readFileSync(outFile, "utf8") : "";
+      if (old !== html) pageDrift++;
+    } else {
+      fs.writeFileSync(outFile, html, "utf8");
+    }
+  });
+  if (checkMode && pageDrift) {
+    errors.push("有 " + pageDrift + " 篇文章页与模板渲染结果不一致（运行 node build-fix.cjs 重新生成）");
+  }
 
   /* ---------- 草稿隔离第 2 把锁：产物侧双向对账 ----------
      不看实现怎么改，只看结果：产物里的 slug 集合必须与源目录顶层 slug 集合一致。
@@ -784,13 +935,43 @@ function main() {
     errors.push("源目录中的 slug 未产出页面：" + missing.join(", "));
   }
 
+  /* ---------- lists 数据 + 站点元数据（前端计数占位、空态热门、领域筛选都读它） ---------- */
+  const fxMeta = {
+    updated: SITE.updated,
+    total: SITE.total,
+    guides: SITE.guides,
+    references: SITE.references,
+    domainCount: SITE.domains.length,
+    faultDomainCount: siteFaultDomains().length,
+    referenceDomainCount: siteRefDomains().length,
+    domains: SITE.domains.map(function (d) {
+      return {
+        id: d.id, name: d.name, count: d.count,
+        kind: d.reference ? "reference" : "guide",
+        href: "./browse.html#" + d.id
+      };
+    })
+  };
   fs.writeFileSync(path.join(OUT_DATA, "articles.js"),
     "/* 由 build-fix.cjs 生成，请勿手改。源：content/fixboxs/*.md */\nwindow.FX_ARTICLES = " +
-    JSON.stringify(articles, null, 1) + ";\n", "utf8");
+    JSON.stringify(articles, null, 1) + ";\n" +
+    "window.FX_META = " + JSON.stringify(fxMeta, null, 1) + ";\n", "utf8");
+
+  /* ---------- 静态页计数占位：构建时写回，构建校验时对账 ----------
+     index/browse/search/wizard/tools/about/hardware 是手写静态页，但「N 个领域 / N 篇」
+     这类数字不再靠人记：构建把值写回 data-fx-count-* 占位，--check 模式只校验不写。 */
+  const staticDrift = syncStaticPages(checkMode, articles);
+  if (staticDrift.length) {
+    if (checkMode) {
+      errors.push("静态页占位（计数 / 无 JS 列表）未同步：" + staticDrift.join(", ") + "（运行 node build-fix.cjs 写回）");
+    } else {
+      console.log("  已同步静态页计数：" + staticDrift.join(", "));
+    }
+  }
 
   if (errors.length) {
     console.error("");
-    console.error("[构建失败] 发现 " + errors.length + " 个问题（构建未通过，不产生产物）：");
+    console.error("[构建失败] 发现 " + errors.length + " 个问题：");
     errors.forEach(function (e) { console.error("  ✗ " + e); });
     console.error("");
     console.error("提示：修复以上问题后重新运行 node build-fix.cjs");
@@ -798,9 +979,82 @@ function main() {
     return;
   }
 
-  console.log((process.argv.includes("--check") ? "校验" : "构建") + "完成：文章 " + articles.length + " 篇");
+  console.log((checkMode ? "校验" : "构建") + "完成：文章 " + articles.length + " 篇 · " +
+    SITE.domains.length + " 个领域（" + siteFaultDomains().length + " 个故障领域 + " +
+    siteRefDomains().length + " 个参考领域） · " + SITE.references + " 篇参考资料");
   if (articles.length) console.log("  示例：" + articles.slice(0, 3).map(function (a) { return a.slug; }).join(", "));
 }
+
+/* ---------- 静态页计数同步：把 --fx-* 占位里的数字改写为构建结果 ---------- */
+const STATIC_PAGES = ["index.html", "browse.html", "search.html", "wizard.html", "tools.html", "about.html", "hardware.html"];
+const COUNT_SLOTS = [
+  { attr: "data-fx-count-all", value: function () { return String(SITE.total); } },
+  { attr: "data-fx-count-domains", value: function () { return String(SITE.domains.length); } },
+  { attr: "data-fx-count-fault-domains", value: function () { return String(siteFaultDomains().length); } },
+  { attr: "data-fx-count-ref-domains", value: function () { return String(siteRefDomains().length); } },
+  { attr: "data-fx-count-guides", value: function () { return String(SITE.guides); } },
+  { attr: "data-fx-count-refs", value: function () { return String(SITE.references); } },
+  { attr: "data-fx-updated", value: function () { return SITE.updated || ""; } }
+];
+function slotRe(attr) {
+  return new RegExp("(<([a-zA-Z][\\w-]*)\\b[^>]*\\b" + attr + "\\b[^>]*>)[^<]*(</\\2>)", "g");
+}
+function domainSlotRe(id) {
+  return new RegExp('(<([a-zA-Z][\\w-]*)\\b[^>]*\\bdata-fx-domain-count="' + id + '"[^>]*>)[^<]*(</\\2>)', "g");
+}
+/* ---------- 无 JS 兜底列表 ----------
+   列表页的文章行由 fix.js 渲染；脚本不可用时整页只剩领域标题。
+   这里在构建期把同一份数据写成 <noscript> 里的纯链接列表：
+     · 有 JS：<noscript> 不渲染，正常走前端渲染，零额外开销；
+     · 无 JS：仍能按领域看到全部教程并点进文章页。
+   数据源仍是本次构建的 articles，不会与 articles.js 漂移。 */
+function noscriptBody(key, arts) {
+  var list;
+  if (key === "hot") {
+    list = arts.slice(0, 8);
+  } else if (key === "search") {
+    list = arts.slice(0, 10);
+  } else {
+    list = arts.filter(function (a) { return a.domain === key; });
+  }
+  if (!list.length) {
+    return '<p class="fx-noscript-empty">该领域的教程正在陆续上线。</p>';
+  }
+  return '<ul class="fx-noscript-list">' + list.map(function (a) {
+    return '<li><a href="./fix/' + escAttr(a.slug) + '.html">' + esc(a.title) + "</a>" +
+      '<span class="fx-noscript-meta">' + esc(a.time || "") + (a.risk ? " · " + esc(a.risk) : "") + "</span></li>";
+  }).join("") + "</ul>";
+}
+var NOSCRIPT_RE = /(<([a-zA-Z][\w-]*)\b[^>]*\bdata-fx-noscript="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g;
+
+function syncStaticPages(checkMode, arts) {
+  const changed = [];
+  STATIC_PAGES.forEach(function (name) {
+    const file = path.join(OUT, name);
+    if (!fs.existsSync(file)) return;
+    const html = fs.readFileSync(file, "utf8");
+    let next = html;
+    COUNT_SLOTS.forEach(function (slot) {
+      next = next.replace(slotRe(slot.attr), function (m, open, tag, close) {
+        return open + slot.value() + close;
+      });
+    });
+    SITE.domains.forEach(function (d) {
+      next = next.replace(domainSlotRe(d.id), function (m, open, tag, close) {
+        return open + d.count + " 篇" + close;
+      });
+    });
+    next = next.replace(NOSCRIPT_RE, function (m, open, tag, key, inner, close) {
+      return open + noscriptBody(key, arts) + close;
+    });
+    if (next !== html) {
+      changed.push(name);
+      if (!checkMode) fs.writeFileSync(file, next, "utf8");
+    }
+  });
+  return changed;
+}
+
 /* 供管理后台的预览接口复用同一套渲染器（admin server require 本模块时不会触发构建）。
    预览保真：后台「实时预览」看到的 HTML 与线上构建产物完全一致。 */
 if (require.main === module) main();

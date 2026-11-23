@@ -6,13 +6,13 @@
 
    实现要点（都是实测踩过的坑）：
      1. 主题类挂在 <html>（fx-first / fx-js），**不在 <body>**；
-        选择器必须以 html.fx-first 起头，否则整层不生效。
+        选择器必须以 html 起头，否则整层不生效。
      2. 必须显式重置 border / box-shadow / transform，
         否则会出现「描边 + 拟态阴影」叠加的四不像。
      3. 位移投影（4px 4px 0）会破坏拟态的柔和感，一律清掉。
    ============================================================ */
 
-html.fx-first{
+html{
   --neu-hi:#FFFFFF;
   --neu-lo:#E4D9CC;
   --neu-lo-2:#DCCFC0;
@@ -26,39 +26,39 @@ html.fx-first{
 }
 
 /* ---------- 搜索框：凹陷槽 ---------- */
-html.fx-first .fx-search{
+html .fx-search{
   background:var(--neu-bg) !important;
   border:0 !important;
   box-shadow:var(--neu-inset) !important;
   transform:none !important;
   border-radius:20px !important;
 }
-html.fx-first .fx-search:focus-within{
+html .fx-search:focus-within{
   transform:none !important;
   box-shadow:var(--neu-inset), 0 0 0 3px rgba(121,207,255,.45) !important;
 }
-html.fx-first .fx-search input{background:transparent !important;border:0 !important}
+html .fx-search input{background:transparent !important;border:0 !important}
 
 /* ---------- 领域磁贴 ---------- */
-html.fx-first .fx-domain{
+html .fx-domain{
   background:var(--neu-bg) !important;
   border:0 !important;
   border-radius:20px !important;
   box-shadow:var(--neu-raise) !important;
   transition:box-shadow .22s var(--neu-ease), transform .22s var(--neu-ease) !important;
 }
-html.fx-first .fx-domain:hover{
+html .fx-domain:hover{
   transform:translateY(-3px) !important;
   border:0 !important;
   box-shadow:var(--neu-raise-lg) !important;
 }
-html.fx-first .fx-domain:active{
+html .fx-domain:active{
   box-shadow:var(--neu-inset) !important;
   transform:translateY(0) !important;
 }
 
 /* ---------- 紧急条 ---------- */
-html.fx-first .fx-emg{
+html .fx-emg{
   border:0 !important;
   border-radius:18px !important;
   box-shadow:var(--neu-raise-sm) !important;
@@ -66,76 +66,76 @@ html.fx-first .fx-emg{
 }
 
 /* ---------- 热榜 ---------- */
-html.fx-first .fx-hotlist a{
+html .fx-hotlist a{
   border-radius:12px !important;
   box-shadow:var(--neu-raise-sm) !important;
   transition:box-shadow .18s var(--neu-ease) !important;
 }
-html.fx-first .fx-hotlist a:hover{box-shadow:var(--neu-inset-sm) !important}
+html .fx-hotlist a:hover{box-shadow:var(--neu-inset-sm) !important}
 
 /* ---------- 横幅/面板 ---------- */
-html.fx-first .fx-banner{
+html .fx-banner{
   border:0 !important;
   border-radius:22px !important;
   box-shadow:var(--neu-raise) !important;
 }
 
 /* ---------- 按钮：键帽 ---------- */
-html.fx-first .fx-btn{
+html .fx-btn{
   border:0 !important;
   border-radius:14px !important;
   box-shadow:var(--neu-raise-sm) !important;
   transform:none !important;
   transition:box-shadow .18s var(--neu-ease), transform .18s var(--neu-ease) !important;
 }
-html.fx-first .fx-btn:hover{
+html .fx-btn:hover{
   box-shadow:var(--neu-raise) !important;
   transform:translateY(-2px) !important;
 }
-html.fx-first .fx-btn:active{
+html .fx-btn:active{
   box-shadow:var(--neu-inset-sm) !important;
   transform:translateY(0) !important;
 }
 
 /* ---------- 筛选片 ---------- */
-html.fx-first .fx-chip{
+html .fx-chip{
   border:0 !important;
   border-radius:12px !important;
   background:var(--neu-bg) !important;
   box-shadow:var(--neu-raise-sm) !important;
   transition:box-shadow .18s var(--neu-ease), transform .18s var(--neu-ease) !important;
 }
-html.fx-first .fx-chip:hover{
+html .fx-chip:hover{
   box-shadow:var(--neu-raise) !important;
   transform:translateY(-1px) !important;
 }
-html.fx-first .fx-chip[aria-pressed="true"],
-html.fx-first .fx-chip.is-active{
+html .fx-chip[aria-pressed="true"],
+html .fx-chip.is-active{
   box-shadow:var(--neu-inset-sm) !important;
   font-weight:700;
 }
 
 /* ---------- 顶栏搜索 ---------- */
-html.fx-first .fx-topsearch{
+html .fx-topsearch{
   border:0 !important;
   box-shadow:var(--neu-inset-sm) !important;
   background:var(--neu-bg) !important;
 }
 
 /* ---------- 文章页公共组件 ---------- */
-html.fx-first .fx-card,
-html.fx-first .fx-step{
+html .fx-card,
+html .fx-step{
   border:0 !important;
   border-radius:18px !important;
   box-shadow:var(--neu-raise-sm) !important;
 }
-html.fx-first .fx-card::before{opacity:0 !important}
+html .fx-card::before{opacity:0 !important}
 
 @media (prefers-reduced-motion:reduce){
-  html.fx-first .fx-btn,
-  html.fx-first .fx-chip,
-  html.fx-first .fx-domain,
-  html.fx-first .fx-card{
+  html .fx-btn,
+  html .fx-chip,
+  html .fx-domain,
+  html .fx-card{
     transition:none !important;
     transform:none !important;
   }

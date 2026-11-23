@@ -155,8 +155,21 @@
       if (e.target.closest("[data-fx-drawer-close]")) { setOpen(false); return; }
       if (e.target.closest("a")) setOpen(false);
     });
+    /* 打开抽屉时把焦点圈在面板内（Tab 不跑到遮罩后面的正文），Esc 关闭并还给汉堡按钮 */
     doc.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && open) { setOpen(false); burger.focus(); }
+      if (!open) return;
+      if (e.key === "Escape") { setOpen(false); burger.focus(); return; }
+      if (e.key !== "Tab" || !panel) return;
+      var focusables = $$("a[href],button:not([disabled])", panel).filter(function (el) {
+        return el.offsetWidth > 0 || el.offsetHeight > 0;
+      });
+      if (!focusables.length) return;
+      var first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     });
     /* bfcache 返回时若抽屉还挂着，强制复位 */
     window.addEventListener("pageshow", function (e) { if (e.persisted) setOpen(false); });
@@ -197,7 +210,7 @@
   function tokens(s) {
     var out = [], latin = s.match(/[a-z0-9]+/g) || [];
     for (var i = 0; i < latin.length; i++) out.push(latin[i]);
-    var cjk = s.replace(/[a-z0-9]+/g, " ");
+    var cjk = s.replace(/[a-z0-9]+/g, " ").replace(/\s+/g, "");
     for (var j = 0; j < cjk.length - 1; j++) out.push(cjk.slice(j, j + 2));
     if (cjk.length === 1) out.push(cjk);
     return out;
@@ -234,9 +247,13 @@
     res.sort(function (x, y) { return y.score - x.score || (y.a.hot || 0) - (x.a.hot || 0); });
     return res.slice(0, limit || 20);
   }
+  /* 高亮前先做 HTML 转义：articles.js 的标题/摘要来自内容源，直接进 innerHTML
+     会在标题含 < & " 时破坏标记（内容由后台写入，属于可被利用的注入面）。
+     返回的是**已转义**的 HTML 片段，调用方不要再转义一次。 */
   function highlight(text, q) {
+    text = String(text == null ? "" : text);
     var nq = norm(q);
-    if (!nq || !text) return text;
+    if (!nq) return escHtml(text);
     var map = [], lower = "";
     for (var i = 0; i < text.length; i++) {
       var c = norm(text.charAt(i));
@@ -246,12 +263,13 @@
     }
     var spans = [], from = 0, at;
     while ((at = lower.indexOf(nq, from)) >= 0) { spans.push([map[at], map[at + nq.length - 1] + 1]); from = at + nq.length; }
-    if (!spans.length) return text;
-    var out = text;
-    for (var j = spans.length - 1; j >= 0; j--) {
-      out = out.slice(0, spans[j][0]) + "<mark>" + out.slice(spans[j][0], spans[j][1]) + "</mark>" + out.slice(spans[j][1]);
+    if (!spans.length) return escHtml(text);
+    var out = "", prev = 0;
+    for (var j = 0; j < spans.length; j++) {
+      out += escHtml(text.slice(prev, spans[j][0])) + "<mark>" + escHtml(text.slice(spans[j][0], spans[j][1])) + "</mark>";
+      prev = spans[j][1];
     }
-    return out;
+    return out + escHtml(text.slice(prev));
   }
 
   /* ============ 5. 搜索框绑定 ============ */
@@ -259,11 +277,30 @@
     $$("[data-fx-search]").forEach(function (box) {
       var input = $("input", box);
       var panel = $("[data-fx-suggest]", box);
-      var form = box.closest("form") || box;
+      /* 2026-11-24：首页的 <form> 是 [data-fx-search] 的**子**节点，
+         closest("form") 取不到它，导致 submit 处理器从未绑定：
+         点「搜索」走的是浏览器原生提交，跳到 index.html?q=…（结果页根本没打开）。
+         先向上找，再向下找。 */
+      var form = box.closest("form") || $("form", box);
       if (!input) return;
       var timer = 0, active = -1, items = [];
 
-      function close() { if (panel) { panel.classList.remove("is-open"); panel.innerHTML = ""; } active = -1; items = []; }
+      function setExpanded(on) {
+        input.setAttribute("aria-expanded", on ? "true" : "false");
+        if (!on) input.removeAttribute("aria-activedescendant");
+      }
+      function close() {
+        if (panel) { panel.classList.remove("is-open"); panel.innerHTML = ""; }
+        active = -1; items = []; setExpanded(false);
+      }
+      function markActive() {
+        items.forEach(function (el, i) {
+          el.classList.toggle("is-active", i === active);
+          el.setAttribute("aria-selected", i === active ? "true" : "false");
+        });
+        if (items[active]) input.setAttribute("aria-activedescendant", items[active].id);
+        else input.removeAttribute("aria-activedescendant");
+      }
       function render(q) {
         var hits = search(q, 6);
         if (!panel) return;
@@ -272,35 +309,43 @@
             '<div class="fx-suggest__item" role="option" aria-disabled="true"><div><div class="fx-suggest__t">换个说法试试：没网、上不了网、开不了机、蓝屏</div>' +
             '<div class="fx-suggest__m">或用「症状向导」一步步定位</div></div></div>' +
             '<a class="fx-suggest__all" href="./wizard.html">开始症状向导 →</a>';
-          panel.classList.add("is-open"); items = []; return;
+          panel.classList.add("is-open");
+          items = []; active = -1; setExpanded(true);
+          return;
         }
         var html = '<div class="fx-suggest__label">找到 ' + hits.length + ' 条相关教程</div>';
         hits.forEach(function (h, i) {
-          html += '<a class="fx-suggest__item' + (i === 0 ? " is-active" : "") + '" role="option" href="./fix/' + h.a.slug + '.html">' +
+          html += '<a class="fx-suggest__item" id="' + (panel.id || "fx-sg") + '-' + i + '" role="option" aria-selected="false" href="./fix/' + escHtml(h.a.slug) + '.html">' +
             '<div><div class="fx-suggest__t">' + highlight(h.a.title, q) + '</div>' +
-            '<div class="fx-suggest__m">' + (h.a.path || "") + ' · ' + (h.a.time || "") + '</div></div></a>';
+            '<div class="fx-suggest__m">' + escHtml(h.a.path || "") + ' · ' + escHtml(h.a.time || "") + '</div></div></a>';
         });
         html += '<a class="fx-suggest__all" href="./search.html?q=' + encodeURIComponent(q) + '">查看全部结果 →</a>';
         panel.innerHTML = html;
         panel.classList.add("is-open");
-        items = $$(".fx-suggest__item", panel); active = 0;
+        items = $$(".fx-suggest__item", panel);
+        active = items.length ? 0 : -1;
+        markActive();
+        setExpanded(true);
       }
       input.addEventListener("input", function () {
         var q = input.value.trim();
         clearTimeout(timer);
         if (!q) { close(); return; }
-        timer = setTimeout(function () { render(q); }, 180);
+        timer = setTimeout(function () { render(q); }, 200);
       });
       input.addEventListener("keydown", function (e) {
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
           if (!items.length) return;
           e.preventDefault();
-          items[active] && items[active].classList.remove("is-active");
           active = e.key === "ArrowDown" ? (active + 1) % items.length : (active - 1 + items.length) % items.length;
-          items[active].classList.add("is-active");
+          markActive();
           items[active].scrollIntoView({ block: "nearest" });
         } else if (e.key === "Enter") {
-          if (panel && panel.classList.contains("is-open") && items[active]) { e.preventDefault(); location.href = items[active].getAttribute("href"); }
+          /* 有高亮建议 → 打开建议；没有（还没渲染 / 无匹配）→ 交给搜索页，
+             不能因为建议面板没准备好就把 Enter 丢掉。 */
+          e.preventDefault();
+          if (panel && panel.classList.contains("is-open") && items[active]) location.href = items[active].getAttribute("href");
+          else if (input.value.trim()) location.href = "./search.html?q=" + encodeURIComponent(input.value.trim());
         } else if (e.key === "Escape") { close(); input.blur(); }
       });
       input.addEventListener("focus", function () { if (input.value.trim()) render(input.value.trim()); });
@@ -311,16 +356,25 @@
           var q = input.value.trim();
           if (q) location.href = "./search.html?q=" + encodeURIComponent(q);
         });
+        /* 搜索框本体（58–66px 高）里真正的 input 只有 30px 高，点空白处不会聚焦。
+           这里把「点框内非控件区域」也转成聚焦输入框，触屏上整块都是有效热区。 */
+        form.addEventListener("click", function (e) {
+          if (e.target.closest && e.target.closest("input,button,a,label,kbd,select")) return;
+          input.focus();
+        });
       }
-      doc.addEventListener("keydown", function (e) {
-        var tag = (e.target.tagName || "").toLowerCase();
-        if (tag === "input" || tag === "textarea") return;
-        if (e.key === "/" || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) {
-          e.preventDefault();
-          var target = $("[data-fx-search] input.fx-autofocus") || input;
-          target.focus(); target.select && target.select();
-        }
-      });
+    });
+    /* 全局快捷键只绑一次（原先写在 forEach 里：页面有两个搜索框就会重复绑定）。 */
+    doc.addEventListener("keydown", function (e) {
+      var t = e.target || {};
+      var tag = (t.tagName || "").toLowerCase();
+      if (tag === "input" || tag === "textarea" || tag === "select" || t.isContentEditable) return;
+      if (e.key === "/" || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) {
+        var first = $("[data-fx-search] input");
+        if (!first) return;
+        e.preventDefault();
+        first.focus(); first.select && first.select();
+      }
     });
   }
 
@@ -333,34 +387,87 @@
     var empty = $("[data-fx-empty]");
     var count = $("[data-fx-count]");
     var filters = $$("[data-fx-filter]");
-    var state = { q: "", os: "all", risk: "all" };
+    var domainSelect = $("[data-fx-domain-select]");
+    var state = { q: "", os: "all", risk: "all", domain: "all" };
 
+    var meta = fxMeta();
+    if (domainSelect && meta) {
+      domainSelect.innerHTML = '<option value="all">全部领域</option>' + meta.domains.map(function (d) {
+        return '<option value="' + escHtml(d.id) + '">' + escHtml(d.name) + '（' + d.count + '）</option>';
+      }).join("");
+    }
+    var OS_VALUES = ["windows", "macos", "network", "reference"];
+    var RISK_VALUES = ["安全", "需谨慎", "有数据风险"];
     function readURL() {
       var p = new URLSearchParams(location.search);
-      state.q = p.get("q") || ""; state.os = p.get("os") || "all"; state.risk = p.get("risk") || "all";
+      /* 白名单：URL 里的筛选参数会被拼进结果文案与筛选态，
+         任意值既产生 0 结果的怪状态，也让「状态文案」变成不可控输入。 */
+      state.q = p.get("q") || "";
+      state.os = OS_VALUES.indexOf(p.get("os")) >= 0 ? p.get("os") : "all";
+      state.risk = RISK_VALUES.indexOf(p.get("risk")) >= 0 ? p.get("risk") : "all";
+      var domParam = p.get("domain");
+      state.domain = (meta && meta.domains.some(function (d) { return d.id === domParam; })) ? domParam : "all";
       if (input) input.value = state.q;
-      filters.forEach(function (b) { b.classList.toggle("is-on", state[b.getAttribute("data-fx-filter")] === b.getAttribute("data-value")); });
+      filters.forEach(function (b) {
+        var on = state[b.getAttribute("data-fx-filter")] === b.getAttribute("data-value");
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      if (domainSelect) domainSelect.value = state.domain;
     }
+    function hasFilter() { return state.os !== "all" || state.risk !== "all" || state.domain !== "all"; }
     function applyFilters(rows) {
       return rows.filter(function (r) {
         var a = r.a;
-        if (state.os !== "all" && !(a.osGroup || []).includes(state.os)) return false;
+        if (state.os !== "all" && (a.osGroup || []).indexOf(state.os) < 0) return false;
         if (state.risk !== "all" && a.risk !== state.risk) return false;
+        if (state.domain !== "all" && a.domain !== state.domain) return false;
         return true;
       });
     }
     function card(r) {
-      var a = r.a, href = detailHref(a);
-      return '<article class="fx-card fx-card--link" data-reveal style="--accent:' + accentOf(a) + '">' +
+      var a = r.a, href = escHtml(detailHref(a));
+      /* 命中只发生在「症状 / 关键词」时，标题和摘要里看不到高亮，容易让人以为没匹配上。
+         这里补一行「匹配症状」，把命中的原始说法显示出来并高亮。 */
+      var hit = "";
+      if (state.q) {
+        var qn = norm(state.q);
+        var visible = norm((a.title || "") + " " + (a.summary || ""));
+        var hitWords = [].concat(a.symptoms || [], a.keywords || []).filter(function (v) {
+          return norm(v).indexOf(qn) >= 0;
+        });
+        if (hitWords.length && visible.indexOf(qn) < 0) {
+          hit = '<p class="fx-card__hit">匹配症状：' + highlight(hitWords.slice(0, 3).join(" / "), state.q) + "</p>";
+        }
+      }
+      return '<article class="fx-card fx-card--link" style="--accent:' + accentOf(a) + '">' +
         '<div class="fx-card__top"><h3 class="fx-card__t"><a class="fx-card__link" href="' + href + '">' + highlight(a.title, state.q) + '</a></h3>' +
         '<div class="fx-card__badges">' + badges(a) + '</div></div>' +
-        '<p class="fx-card__path">' + (a.path || "") + '</p>' +
-        '<p class="fx-card__snippet">' + (a.summary || "") + '</p>' +
+        '<p class="fx-card__path">' + escHtml(a.path || "") + '</p>' +
+        (hit || '<p class="fx-card__snippet">' + highlight(a.summary || "", state.q) + "</p>") +
         '<a class="fx-card__cover" href="' + href + '" tabindex="-1" aria-hidden="true"></a></article>';
     }
+    /* 注意：这段结果会以 innerHTML 写进 [data-fx-count]，
+       state.risk / state.domain 直接来自 URL 查询参数 —— 必须转义，
+       否则 search.html?risk=<img onerror=…> 就是反射型 XSS（2026-11-24 评审发现）。 */
+    function filterNote() {
+      var bits = [];
+      if (state.os !== "all") bits.push("系统筛选");
+      if (state.risk !== "all") bits.push("风险：" + escHtml(state.risk));
+      if (state.domain !== "all") {
+        var dm = (meta ? meta.domains : []).filter(function (d) { return d.id === state.domain; })[0];
+        bits.push("领域：" + escHtml(dm ? dm.name : state.domain));
+      }
+      return bits.length ? '（' + bits.join(" · ") + '）' : "";
+    }
     function render() {
-      var rows = applyFilters(search(state.q, 100));
-      if (count) count.innerHTML = '「' + state.q + '」找到 <b>' + rows.length + '</b> 篇教程';
+      var rows;
+      if (state.q) rows = applyFilters(search(state.q, 200));
+      else rows = applyFilters(fxArticles().slice().sort(function (a, b) { return (b.hot || 0) - (a.hot || 0); }).map(function (a) { return { a: a, score: 0 }; }));
+      if (count) {
+        if (state.q) count.innerHTML = '「' + escHtml(state.q) + '」找到 <b>' + rows.length + '</b> 篇' + filterNote();
+        else count.innerHTML = '共 <b>' + rows.length + '</b> 篇' + filterNote() + '，按常见程度排序';
+      }
       if (list) list.innerHTML = rows.map(card).join("");
       if (empty) empty.hidden = rows.length > 0;
       revealNew(list);
@@ -370,20 +477,67 @@
       if (state.q) p.set("q", state.q);
       if (state.os !== "all") p.set("os", state.os);
       if (state.risk !== "all") p.set("risk", state.risk);
+      if (state.domain !== "all") p.set("domain", state.domain);
       history.replaceState(null, "", location.pathname + (p.toString() ? "?" + p.toString() : ""));
     }
-    if (input) input.addEventListener("input", function () { state.q = input.value.trim(); clearTimeout(input._t); input._t = setTimeout(function () { render(); syncURL(); }, 150); });
+    function resultLinks() { return list ? $$(".fx-card__link", list) : []; }
+    function focusResult(i) {
+      var links = resultLinks();
+      if (!links.length) return;
+      links[Math.max(0, Math.min(links.length - 1, i))].focus();
+    }
+    if (input) {
+      input.addEventListener("input", function () {
+        state.q = input.value.trim();
+        clearTimeout(input._t);
+        input._t = setTimeout(function () { render(); syncURL(); }, 200);
+      });
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") { e.preventDefault(); focusResult(0); }
+        else if (e.key === "Escape" && (input.value || state.q)) { input.value = ""; state.q = ""; render(); syncURL(); }
+      });
+    }
+    /* 结果列表内 ↑↓ 移动焦点、Enter 打开（链接原生行为），Esc 回搜索框 */
+    doc.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && list && list.contains(e.target)) { if (input) { input.focus(); input.select && input.select(); } return; }
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      if (!list || !list.contains(e.target)) return;
+      var links = resultLinks();
+      var idx = links.indexOf(e.target);
+      if (idx < 0) return;
+      e.preventDefault();
+      focusResult(idx + (e.key === "ArrowDown" ? 1 : -1));
+    });
     filters.forEach(function (b) {
       b.addEventListener("click", function () {
         var k = b.getAttribute("data-fx-filter");
         state[k] = b.getAttribute("data-value");
-        filters.filter(function (x) { return x.getAttribute("data-fx-filter") === k; }).forEach(function (x) { x.classList.toggle("is-on", x === b); });
+        filters.filter(function (x) { return x.getAttribute("data-fx-filter") === k; }).forEach(function (x) {
+          x.classList.toggle("is-on", x === b);
+          x.setAttribute("aria-pressed", x === b ? "true" : "false"); // 屏幕阅读器需要按下态，不能只靠 .is-on
+        });
         render(); syncURL();
       });
     });
+    if (domainSelect) {
+      domainSelect.addEventListener("change", function () {
+        state.domain = domainSelect.value;
+        render(); syncURL();
+      });
+    }
+    var emptyHot = $("[data-fx-empty-hot]");
+    if (emptyHot) {
+      emptyHot.innerHTML = fxArticles().slice()
+        .sort(function (a, b) { return (b.hot || 0) - (a.hot || 0); })
+        .slice(0, 4)
+        .map(function (a) { return '<a class="fx-chip" href="' + escHtml(detailHref(a)) + '">' + escHtml(a.title) + "</a>"; })
+        .join("");
+    }
     readURL();
-    if (state.q) render(); else if (count) count.innerHTML = "输入关键词开始搜索，或先用「症状向导」定位问题";
+    if (state.q || hasFilter()) render();
+    else if (count) count.innerHTML = "共 <b>" + fxArticles().length + "</b> 篇教程，输入关键词开始筛选；也可以按系统 / 领域 / 风险筛选。";
   }
+
   // 动态插入的元素直接显示（入场用 CSS 动画，避免再等一次 IntersectionObserver）
   function revealNew(root2) {
     if (!root2) return;
@@ -401,11 +555,11 @@
   function accentOf(a) { return "var(" + (ACCENTS[a.domain] || "--fx-mint") + ")"; }
   function badges(a) {
     var h = "";
-    (a.os || []).slice(0, 2).forEach(function (o) { h += '<span class="fx-badge fx-badge--os" data-os="' + (o.k || "windows") + '">' + o.t + '</span>'; });
+    (a.os || []).slice(0, 2).forEach(function (o) { h += '<span class="fx-badge fx-badge--os" data-os="' + escHtml(o.k || "windows") + '">' + escHtml(o.t) + '</span>'; });
     /* 参考资料（第三方 SOP / 官方手册）与本站原创教程区分开，避免读者误以为是本站排障结论 */
     if (a.kind === "reference") h += '<span class="fx-badge fx-badge--ref">参考 SOP</span>';
-    if (a.level) h += '<span class="fx-badge fx-badge--level">' + a.level + '</span>';
-    if (a.time) h += '<span class="fx-badge fx-badge--time">' + a.time + '</span>';
+    if (a.level) h += '<span class="fx-badge fx-badge--level">' + escHtml(a.level) + '</span>';
+    if (a.time) h += '<span class="fx-badge fx-badge--time">' + escHtml(a.time) + '</span>';
     h += riskBadge(a.risk);
     return h;
   }
@@ -424,12 +578,12 @@
      但万一将来有人把页面挪到子目录，构建期改一处即可，不用改 JS。 */
   function detailHref(a) { return a.detail_href || ("./fix/" + a.slug + ".html"); }
   function cardHtml(a) {
-    var href = detailHref(a);
+    var href = escHtml(detailHref(a));
     return '<article class="fx-card fx-card--link" data-reveal style="--accent:' + accentOf(a) + '">' +
-      '<div class="fx-card__top"><h3 class="fx-card__t"><a class="fx-card__link" href="' + href + '">' + a.title + '</a></h3>' +
+      '<div class="fx-card__top"><h3 class="fx-card__t"><a class="fx-card__link" href="' + href + '">' + escHtml(a.title) + '</a></h3>' +
       '<div class="fx-card__badges">' + badges(a) + '</div></div>' +
-      '<p class="fx-card__path">' + (a.path || "") + '</p>' +
-      '<p class="fx-card__snippet">' + (a.summary || "") + '</p>' +
+      '<p class="fx-card__path">' + escHtml(a.path || "") + '</p>' +
+      '<p class="fx-card__snippet">' + escHtml(a.summary || "") + '</p>' +
       '<a class="fx-card__cover" href="' + href + '" tabindex="-1" aria-hidden="true"></a></article>';
   }
 
@@ -438,108 +592,230 @@
     $$("[data-fx-list]").forEach(function (host) {
       var mode = host.getAttribute("data-fx-list");
       var limit = parseInt(host.getAttribute("data-limit") || "0", 10);
-      var all = (window.FX_ARTICLES || []).slice();
-      if (mode === "domain") {
+      var all = fxArticles().slice();
+      if (mode === "domain" || mode === "domain-rows") {
         var dom = host.getAttribute("data-domain");
         all = all.filter(function (a) { return a.domain === dom; });
-        if (!all.length) { host.innerHTML = '<p class="fx-card__path" style="padding:14px 2px">该领域教程正在陆续上线中。</p>'; return; }
+        if (!all.length) {
+          host.innerHTML = '<p class="fx-domain-empty">该领域的教程正在陆续上线，先去 <a href="./wizard.html">症状向导</a> 定位问题。</p>';
+          return;
+        }
       }
       if (mode === "hot") all.sort(function (a, b) { return (b.hot || 0) - (a.hot || 0); });
       if (mode === "new") all.sort(function (a, b) { return String(b.updated || "").localeCompare(String(a.updated || "")); });
       if (limit) all = all.slice(0, limit);
-      if (mode === "hot") {
-        host.innerHTML = all.map(function (a) {
-          return '<a class="fx-hotitem" data-reveal href="./fix/' + a.slug + '.html"><span class="fx-hotitem__t">' + a.title + '</span>' +
-            '<span class="fx-hotitem__badges">' + badges(a) + '</span></a>';
-        }).join("");
-      } else {
-        host.innerHTML = all.map(cardHtml).join("");
-      }
+      if (mode === "hot") host.innerHTML = all.map(hotHtml).join("");
+      else if (mode === "domain-rows") host.innerHTML = all.map(rowHtml).join("");
+      else host.innerHTML = all.map(cardHtml).join("");
     });
-    $$("[data-fx-count-all]").forEach(function (el) { el.textContent = (window.FX_ARTICLES || []).length; });
+    $$("[data-fx-count-all]").forEach(function (el) { el.textContent = fxArticles().length; });
+  }
+  /* 「大家都在修」：编号 + 标题 + 面包屑/耗时 + 风险，扫读时先看标题，再看要不要点 */
+  function hotHtml(a) {
+    return '<a class="fx-hotitem" data-reveal href="' + escHtml(detailHref(a)) + '">' +
+      '<span class="fx-hotitem__t">' + escHtml(a.title) + '</span>' +
+      '<span class="fx-hotitem__path">' + escHtml(a.path || "") + (a.time ? ' · ' + escHtml(a.time) : "") + '</span>' +
+      '<span class="fx-hotitem__badges">' + riskBadge(a.risk) + '</span>' +
+      '<span class="fx-hotitem__arrow" aria-hidden="true">→</span></a>';
+  }
+  /* 领域页的紧凑索引行：标题 + 风险/耗时 + 一行简介，比两列大卡片更适合「按索引找」 */
+  function rowHtml(a) {
+    return '<a class="fx-rowitem" data-reveal href="' + escHtml(detailHref(a)) + '" style="--accent:' + accentOf(a) + '">' +
+      '<span class="fx-rowitem__t">' + escHtml(a.title) + '</span>' +
+      '<span class="fx-rowitem__meta">' + riskBadge(a.risk) +
+        (a.time ? '<span class="fx-rowitem__time">' + escHtml(a.time) + '</span>' : "") +
+        (a.level ? '<span class="fx-rowitem__level">' + escHtml(a.level) + '</span>' : "") +
+        (a.kind === "reference" ? '<span class="fx-badge fx-badge--ref">参考</span>' : "") + '</span>' +
+      '<span class="fx-rowitem__sum">' + escHtml(a.summary || "") + '</span>' +
+      '<span class="fx-rowitem__arrow" aria-hidden="true">→</span></a>';
   }
 
-  /* ============ 9. 步骤勾选 + 进度 ============ */
+  /* ============ 9. 步骤勾选 + 进度（localStorage 持久化） ============ */
   function initSteps() {
     var steps = $$("[data-fx-step]");
-    if (!steps.length) return;
-    var docKey = "fx.steps." + (document.body.getAttribute("data-slug") || location.pathname);
-    var saved = store.get(docKey) || {};
-    steps.forEach(function (st) {
-      var id = st.getAttribute("data-step-id");
-      var btn = $("[data-fx-check]", st);
-      function paint(on) {
-        st.classList.toggle("is-done", on);
-        if (btn) { btn.setAttribute("aria-pressed", on ? "true" : "false"); btn.innerHTML = on ? "✓" : "○"; }
-      }
-      paint(!!saved[id]);
-      if (btn) btn.addEventListener("click", function () {
-        saved[id] = !saved[id]; paint(saved[id]); store.set(docKey, saved); updateProgress();
-      });
-    });
-    function updateProgress() {
-      var done = steps.filter(function (s) { return s.classList.contains("is-done"); }).length;
-      var bar = $("[data-fx-progress]");
-      var label = $("[data-fx-progress-label]");
-      if (bar) bar.style.width = Math.round((done / steps.length) * 100) + "%";
-      if (label) label.textContent = done + "/" + steps.length + " 步";
-    }
-    updateProgress();
     var readbar = $("[data-fx-readbar]");
     if (readbar) {
+      /* 每帧最多写一次 width：长文（3.8 万 px 的 SOP 页）滚动时不要每个 scroll 事件都触发布局 */
+      var readTicking = false;
       var onScroll = function () {
-        var h = doc.documentElement.scrollHeight - window.innerHeight;
-        readbar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+        if (readTicking) return;
+        readTicking = true;
+        requestAnimationFrame(function () {
+          readTicking = false;
+          var h = doc.documentElement.scrollHeight - window.innerHeight;
+          readbar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+        });
       };
       window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
     }
+    if (!steps.length) return;
+    var docKey = "fx.steps." + (document.body.getAttribute("data-slug") || location.pathname);
+    var saved = store.get(docKey) || {};
+    var bar = $("[data-fx-stepprog]");
+    var track = $(".fx-stepbar__track");
+    var label = $("[data-fx-progress-label]");
+    var status = $("[data-fx-step-status]");
+    var reset = $("[data-fx-step-reset]");
+    var box = $("[data-fx-stepbar]");
+
+    function announce(msg) { if (status) status.textContent = msg; }
+    function paint(st, btn, on) {
+      st.classList.toggle("is-done", on);
+      if (btn) {
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+        btn.innerHTML = on ? "✓" : "○";
+        var n = st.getAttribute("data-step-id") || "";
+        btn.setAttribute("aria-label", on ? "取消第 " + n.replace(/^s/, "") + " 步的完成标记" : "标记第 " + n.replace(/^s/, "") + " 步已完成");
+      }
+    }
+    function updateProgress() {
+      var done = steps.filter(function (s) { return s.classList.contains("is-done"); }).length;
+      var total = steps.length;
+      var pct = Math.round((done / total) * 100);
+      if (bar) bar.style.width = pct + "%";
+      if (track) track.setAttribute("aria-valuenow", String(pct));
+      if (label) {
+        if (!done) label.textContent = "已完成 0 / " + total + " 步 · 点步骤右侧「○」开始勾选";
+        else if (done === total) label.textContent = "全部 " + total + " 步已完成，建议按「怎么确认修好了」验收";
+        else label.textContent = "已完成 " + done + " / " + total + " 步（" + pct + "%） · 还剩 " + (total - done) + " 步";
+      }
+      if (reset) reset.hidden = done === 0;
+      if (box) box.classList.toggle("is-done-all", done === total);
+    }
+    steps.forEach(function (st) {
+      var id = st.getAttribute("data-step-id");
+      var btn = $("[data-fx-check]", st);
+      paint(st, btn, !!saved[id]);
+      if (btn) btn.addEventListener("click", function () {
+        saved[id] = !saved[id];
+        paint(st, btn, saved[id]);
+        store.set(docKey, saved);
+        updateProgress();
+        announce("第 " + String(id).replace(/^s/, "") + " 步" + (saved[id] ? "已标记完成" : "已取消完成标记"));
+      });
+    });
+    if (reset) reset.addEventListener("click", function () {
+      saved = {};
+      store.set(docKey, saved);
+      steps.forEach(function (st) {
+        var btn = $("[data-fx-check]", st);
+        paint(st, btn, false);
+      });
+      updateProgress();
+      announce("本页步骤进度已重置");
+    });
+    updateProgress();
   }
 
-  /* ============ 10. 命令复制 ============ */
+  /* ============ 10. 命令复制（成功 / 失败都有明确反馈） ============ */
   function initCopy() {
+    function feedback(btn, ok) {
+      var cmd = btn.closest ? btn.closest(".fx-cmd") : null;
+      var status = cmd ? $(".fx-cmd__status", cmd) : null;
+      var label = btn.getAttribute("data-label") || btn.textContent.replace(/\s+/g, "").trim();
+      btn.setAttribute("data-label", label);
+      btn.textContent = ok ? "✓ 已复制" : "✕ 复制失败";
+      btn.classList.toggle("is-done", ok);
+      btn.classList.toggle("is-fail", !ok);
+      if (status) status.textContent = ok ? "命令已复制到剪贴板" : "复制失败，请手动选中命令后复制";
+      clearTimeout(btn._copyTimer);
+      btn._copyTimer = setTimeout(function () {
+        btn.textContent = label;
+        btn.classList.remove("is-done", "is-fail");
+        if (status) status.textContent = "";
+      }, ok ? 1600 : 3600);
+    }
+    function fallbackCopy(text) {
+      return new Promise(function (resolve, reject) {
+        var ta = doc.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        ta.style.opacity = "0";
+        doc.body.appendChild(ta);
+        ta.select();
+        try {
+          var ok = doc.execCommand("copy");
+          doc.body.removeChild(ta);
+          if (ok) resolve(); else reject(new Error("copy-command-rejected"));
+        } catch (e) {
+          doc.body.removeChild(ta);
+          reject(e);
+        }
+      });
+    }
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).catch(function () { return fallbackCopy(text); });
+      }
+      return fallbackCopy(text);
+    }
     $$("[data-fx-copy]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var targetId = btn.getAttribute("data-fx-copy-target");
-        var block = btn.closest(".fx-cmd");
+        var block = btn.closest ? btn.closest(".fx-cmd") : null;
         var code = targetId ? doc.getElementById(targetId) : (block && $("code", block));
-        if (!code) return;
+        if (!code) { feedback(btn, false); return; }
         var text = code.textContent.replace(/^\s*>\s?/gm, "");
-        var done = function () {
-          var old = btn.innerHTML;
-          btn.innerHTML = "✓ 已复制"; btn.classList.add("is-done");
-          setTimeout(function () { btn.innerHTML = old; btn.classList.remove("is-done"); }, 1400);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
-        else fallback(text, done);
+        copyText(text).then(function () { feedback(btn, true); }, function () { feedback(btn, false); });
       });
     });
-    function fallback(text, done) {
-      var ta = doc.createElement("textarea");
-      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
-      doc.body.appendChild(ta); ta.select();
-      try { doc.execCommand("copy"); done(); } catch (e) {}
-      doc.body.removeChild(ta);
-    }
   }
 
-  /* ============ 11. 本页目录高亮 ============ */
+  /* ============ 11. 本页目录高亮（滚动监听，桌面目录与移动端目录同步） ============ */
   function initToc() {
     var toc = $("[data-fx-toc]");
-    if (!toc || !("IntersectionObserver" in window)) return;
-    var links = $$("a", toc);
-    if (!links.length) return;
-    var map = {};
-    links.forEach(function (a) { map[a.getAttribute("href").slice(1)] = a; });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          links.forEach(function (a) { a.classList.remove("is-active"); });
-          var link = map[en.target.id];
-          if (link) link.classList.add("is-active");
-        }
+    var mobile = $(".fx-toc-m");
+    var desktopLinks = toc ? $$("a", toc) : [];
+    var mobileLinks = mobile ? $$("a", mobile) : [];
+    var all = desktopLinks.concat(mobileLinks);
+    if (!all.length) return;
+    var targets = desktopLinks.concat(mobileLinks).map(function (a) {
+      var id = decodeURIComponent((a.getAttribute("href") || "").slice(1));
+      return { id: id, el: doc.getElementById(id) };
+    }).filter(function (t, i, arr) {
+      if (!t.el) return false;
+      return arr.map(function (x) { return x.id; }).indexOf(t.id) === i;
+    });
+    if (!targets.length) return;
+    var stick = parseInt(getComputedStyle(root).getPropertyValue("--fx-navy"), 10) || 66;
+    var ticking = false;
+    function setActive(id) {
+      all.forEach(function (a) {
+        var on = decodeURIComponent((a.getAttribute("href") || "").slice(1)) === id;
+        a.classList.toggle("is-active", on);
+        if (on) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
       });
-    }, { rootMargin: "-84px 0px -70% 0px", threshold: 0 });
-    Object.keys(map).forEach(function (id) { var el = doc.getElementById(id); if (el) io.observe(el); });
+    }
+    function paint() {
+      ticking = false;
+      /* 视口顶部留出吸顶头部的高度：最后一条「已越过阅读线」的标题就是当前段落 */
+      var offset = stick + 28;
+      var cur = targets[0].id;
+      targets.forEach(function (t) { if (t.el.getBoundingClientRect().top <= offset) cur = t.id; });
+      var atBottom = (window.scrollY || 0) + window.innerHeight >= doc.documentElement.scrollHeight - 4;
+      if (atBottom) cur = targets[targets.length - 1].id;
+      setActive(cur);
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+    window.addEventListener("resize", paint, { passive: true });
+    all.forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        var id = decodeURIComponent((a.getAttribute("href") || "").slice(1));
+        var el = doc.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        var top = el.getBoundingClientRect().top + (window.scrollY || 0) - (stick + 16);
+        window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+        if (history.replaceState) history.replaceState(null, "", "#" + id);
+        setActive(id);
+        if (mobile && mobile.open) mobile.open = false;
+      });
+    });
+    paint();
   }
 
   /* ============ 12. 收藏 ============ */
@@ -765,8 +1041,9 @@
     var optsEl = $("[data-fx-wiz-opts]", host);
     var fill = $("[data-fx-wiz-fill]");
     var count = $("[data-fx-wiz-count]");
-    var back = $("[data-fx-wiz-back]");
-    var ans = {}, idx = 0;
+    var dotsEl = $("[data-fx-wiz-dots]", host);
+    var back = $("[data-fx-wiz-back]", host);
+    var ans = {}, idx = 0, done = false;
 
     function questions() { return WIZ.filter(function (w) { return !w.when || w.when(ans); }); }
     function bump() {
@@ -775,63 +1052,104 @@
       void stage.offsetWidth;
       stage.classList.add("fx-wiz__stage");
     }
-    function render() {
+    function paintDots(total) {
+      if (!dotsEl) return;
+      var html = "";
+      for (var i = 0; i < total; i++) {
+        var cls = "fx-wiz__dot";
+        if (done || i < idx) cls += " is-done";
+        else if (i === idx) cls += " is-current";
+        html += '<span class="' + cls + '" aria-hidden="true"></span>';
+      }
+      dotsEl.innerHTML = html;
+    }
+    function paintProgress(total) {
+      var pct = done ? 100 : Math.round((idx / total) * 100);
+      if (fill) fill.style.width = (pct < 6 ? 6 : pct) + "%";
+      if (count) count.textContent = done ? "完成 · 共 " + total + " 题" : "第 " + (idx + 1) + " / " + total + " 题 · " + pct + "%";
+      paintDots(total);
+    }
+    /* 题目总数是按前面答案动态变化的（选了 Mac 就不会问「所有设备都上不了网」那类题）。
+       原先进度写死 WIZ.length（7），实际只有 4–6 题，导致「第 2 / 7 题」到结果页
+       还显示「共 7 题」——数字与实际不符（2026-11-24 评审发现）。 */
+    function render(opts) {
+      done = false;
       var qs = questions();
       if (idx >= qs.length) return result();
       var w = qs[idx];
       qEl.textContent = w.q;
       hintEl.textContent = w.hint || "";
-      if (fill) fill.style.width = Math.min(92, Math.round(((idx + 1) / 8) * 100)) + "%";
-      if (count) count.textContent = "第 " + (idx + 1) + " 题";
+      paintProgress(qs.length);
+      /* 键盘/读屏用户点完选项后，被点的按钮已从 DOM 移除，焦点会掉回 body。
+         把焦点移到题目标题（tabindex=-1）上，读屏能立刻读到下一题。 */
+      if (opts && opts.focus) qEl.focus({ preventScroll: false });
       optsEl.innerHTML = w.opts.map(function (o, i) {
         return '<button class="fx-wiz__opt" type="button" data-i="' + i + '">' + o.t + "</button>";
       }).join("");
       $$("[data-i]", optsEl).forEach(function (b) {
         b.addEventListener("click", function () {
           var o = w.opts[parseInt(b.getAttribute("data-i"), 10)];
-          ans[w.id] = o.t; idx++; render();
+          ans[w.id] = o.t;
+          /* 返回上一题改了答案后，后面题目的旧答案不再可信：只保留已经答到的这一题 */
+          qs.slice(idx + 1).forEach(function (q2) { delete ans[q2.id]; });
+          idx++;
+          render({ focus: true });
         });
       });
       if (back) back.hidden = idx === 0;
       bump();
     }
     function result() {
+      done = true;
       var qs = questions();
-      if (fill) fill.style.width = "100%";
-      if (count) count.textContent = "完成";
+      paintProgress(qs.length);
       var score = {}, reasons = {};
       qs.forEach(function (w) {
         var chosen = w.opts.filter(function (o) { return o.t === ans[w.id]; })[0];
         if (!chosen) return;
         var m = chosen.match || {};
-        (m.slugs || []).forEach(function (s) { score[s] = (score[s] || 0) + 5; reasons[s] = chosen.t; });
+        var note = chosen.t;
+        (m.slugs || []).forEach(function (s) {
+          score[s] = (score[s] || 0) + 5;
+          (reasons[s] = reasons[s] || []).push(note);
+        });
         buildIndex().forEach(function (row) {
           var a = row.a;
-          if (m.domain && a.domain === m.domain) { score[a.slug] = (score[a.slug] || 0) + 2; reasons[a.slug] = reasons[a.slug] || chosen.t; }
-          if (m.os && (a.osGroup || []).indexOf(m.os) >= 0) { score[a.slug] = (score[a.slug] || 0) + 2; reasons[a.slug] = reasons[a.slug] || chosen.t; }
+          if (m.domain && a.domain === m.domain) { score[a.slug] = (score[a.slug] || 0) + 2; (reasons[a.slug] = reasons[a.slug] || []).push(note); }
+          if (m.os && (a.osGroup || []).indexOf(m.os) >= 0) { score[a.slug] = (score[a.slug] || 0) + 2; (reasons[a.slug] = reasons[a.slug] || []).push(note); }
         });
       });
       var ranked = Object.keys(score).map(function (s) { return { slug: s, n: score[s] }; })
         .sort(function (a, b) { return b.n - a.n; }).slice(0, 3)
-        .map(function (x) { return { a: (window.FX_ARTICLES || []).filter(function (y) { return y.slug === x.slug; })[0], reason: reasons[x.slug] }; })
+        .map(function (x) {
+          return {
+            a: fxArticles().filter(function (y) { return y.slug === x.slug; })[0],
+            reason: (reasons[x.slug] || []).filter(function (v, i, arr) { return arr.indexOf(v) === i; }).slice(0, 2)
+          };
+        })
         .filter(function (x) { return x.a; });
-      if (!ranked.length) ranked = (window.FX_ARTICLES || []).slice(0, 3).map(function (a) { return { a: a, reason: "" }; });
+      if (!ranked.length) ranked = fxArticles().slice(0, 3).map(function (a) { return { a: a, reason: [] }; });
 
-      qEl.textContent = "根据你的回答，建议先看这几篇";
-      hintEl.textContent = "按推荐顺序从上往下试；第一篇通常就能解决大部分情况。";
-      optsEl.innerHTML = '<div class="fx-wiz__result">' + ranked.map(function (r) {
-        return '<a class="fx-card" data-reveal style="--accent:' + accentOf(r.a) + '" href="./fix/' + r.a.slug + '.html">' +
-          '<div class="fx-card__top"><h3 class="fx-card__t">' + r.a.title + "</h3>" +
+      qEl.textContent = "根据你的回答，建议先看这 " + ranked.length + " 篇";
+      hintEl.textContent = "按推荐顺序从上往下试，第一篇通常就能解决大部分情况；理由来自你刚才选的现象。";
+      optsEl.innerHTML = '<div class="fx-wiz__result">' + ranked.map(function (r, i) {
+        return '<a class="fx-card fx-card--link" data-reveal style="--accent:' + accentOf(r.a) + '" href="' + escHtml(detailHref(r.a)) + '">' +
+          '<div class="fx-card__top"><h3 class="fx-card__t">' + (i === 0 ? '<span class="fx-wiz__rank">首选</span>' : "") + escHtml(r.a.title) + "</h3>" +
           '<div class="fx-card__badges">' + badges(r.a) + "</div></div>" +
-          '<p class="fx-card__snippet">' + (r.a.summary || "") + "</p>" +
-          (r.reason ? '<p class="fx-wiz__reason">推荐理由：你选择了「<b>' + r.reason + "</b>」</p>" : "") + "</a>";
+          '<p class="fx-card__snippet">' + escHtml(r.a.summary || "") + "</p>" +
+          (r.reason.length ? '<p class="fx-wiz__reason">推荐理由：你选择了「<b>' + escHtml(r.reason.join("」「")) + "</b>」</p>" : "") + "</a>";
       }).join("") + "</div>" +
-      '<div class="fx-empty__links" style="margin-top:22px"><a class="fx-chip" href="./search.html">都不是？去搜索</a><a class="fx-chip" href="./browse.html">按领域浏览</a></div>';
+        '<div class="fx-wiz__actions">' +
+        '<button class="fx-btn fx-btn--ghost" type="button" data-fx-wiz-restart>↺ 重新开始</button>' +
+        '<a class="fx-chip" href="./browse.html">按领域浏览</a>' +
+        '<a class="fx-chip" href="./search.html">直接搜索</a></div>';
       revealNew(optsEl);
+      var restart = $("[data-fx-wiz-restart]", optsEl);
+      if (restart) restart.addEventListener("click", function () { ans = {}; idx = 0; render({ focus: true }); });
       if (back) back.hidden = false;
       bump();
     }
-    if (back) back.addEventListener("click", function () { if (idx > 0) { idx--; render(); } });
+    if (back) back.addEventListener("click", function () { if (idx > 0) { idx--; render({ focus: true }); } });
     render();
   }
 
@@ -899,6 +1217,123 @@
     paintScroll();
   }
 
+  /* ============ 15. 站点计数与领域导航（数据源：构建下发的 window.FX_META） ============ */
+  function fxMeta() { return window.FX_META || null; }
+  function fxArticles() { return window.FX_ARTICLES || []; }
+  function escHtml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function initCounts() {
+    var m = fxMeta();
+    function put(attr, val) { $$("[" + attr + "]").forEach(function (el) { el.textContent = val; }); }
+    if (!m) { put("data-fx-count-all", fxArticles().length); return; }
+    put("data-fx-count-all", m.total);
+    put("data-fx-count-domains", m.domainCount);
+    put("data-fx-count-fault-domains", m.faultDomainCount);
+    put("data-fx-count-ref-domains", m.referenceDomainCount);
+    put("data-fx-count-guides", m.guides);
+    put("data-fx-count-refs", m.references);
+    if (m.updated) put("data-fx-updated", m.updated);
+    (m.domains || []).forEach(function (d) {
+      $$('[data-fx-domain-count="' + d.id + '"]').forEach(function (el) { el.textContent = d.count + " 篇"; });
+    });
+  }
+  /* 领域页顶部吸顶领域条：由 taxonomy 派生，锚点 URL 仍然可用（#domain-id） */
+  function initDomainNav() {
+    var nav = $("[data-fx-domainnav]");
+    var m = fxMeta();
+    if (!nav || !m || !m.domains) return;
+    nav.innerHTML = m.domains.map(function (d) {
+      return '<a class="fx-domnav__item' + (d.kind === "reference" ? " fx-domnav__item--ref" : "") +
+        '" href="#' + escHtml(d.id) + '">' + escHtml(d.name) + '<span aria-hidden="true">' + escHtml(String(d.count)) + '</span></a>';
+    }).join("");
+    var links = $$("a", nav);
+    var sections = m.domains.map(function (d) { return doc.getElementById(d.id); }).filter(Boolean);
+    if (!sections.length) return;
+    var ticking = false;
+    function paint() {
+      ticking = false;
+      var offset = 150;
+      var cur = sections[0].id;
+      sections.forEach(function (el) { if (el.getBoundingClientRect().top <= offset) cur = el.id; });
+      links.forEach(function (a) {
+        var on = a.getAttribute("href") === "#" + cur;
+        a.classList.toggle("is-active", on);
+        if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      });
+      var active = nav.querySelector(".is-active");
+      if (reduce || !active) return;
+      var left = active.offsetLeft - nav.offsetLeft - 16;
+      if (Math.abs(nav.scrollLeft - left) > 60) nav.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+    window.addEventListener("resize", paint, { passive: true });
+    paint();
+  }
+
+  /* ============ 16. 图片灯箱：Esc 关闭、焦点回到触发元素、尊重 reduced-motion ============ */
+  function initLightbox() {
+    var triggers = $$("[data-fx-zoom]");
+    if (!triggers.length) return;
+    var box = null, imgEl = null, capEl = null, closeBtn = null, lastFocus = null;
+    function build() {
+      box = doc.createElement("div");
+      box.className = "fx-lightbox";
+      box.setAttribute("role", "dialog");
+      box.setAttribute("aria-modal", "true");
+      box.setAttribute("aria-label", "图片预览");
+      box.hidden = true;
+      box.innerHTML = '<div class="fx-lightbox__backdrop" data-fx-lb-close></div>' +
+        '<figure class="fx-lightbox__figure"><img class="fx-lightbox__img" alt=""><figcaption class="fx-lightbox__cap"></figcaption></figure>' +
+        '<button class="fx-lightbox__close" type="button" data-fx-lb-close aria-label="关闭图片预览">✕</button>';
+      doc.body.appendChild(box);
+      imgEl = $(".fx-lightbox__img", box);
+      capEl = $(".fx-lightbox__cap", box);
+      closeBtn = $(".fx-lightbox__close", box);
+      box.addEventListener("click", function (e) {
+        if (e.target.closest && e.target.closest("[data-fx-lb-close]")) close();
+      });
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { e.preventDefault(); close(); return; }
+      if (e.key === "Tab") { e.preventDefault(); closeBtn.focus(); }
+    }
+    function open(trigger) {
+      if (!box) build();
+      var img = $("img", trigger);
+      if (!img) return;
+      lastFocus = trigger;
+      imgEl.src = img.currentSrc || img.getAttribute("src");
+      imgEl.alt = img.getAttribute("alt") || "";
+      capEl.textContent = img.getAttribute("alt") || "";
+      box.hidden = false;
+      doc.body.style.overflow = "hidden";
+      root.classList.add("fx-lb-open");
+      requestAnimationFrame(function () { box.classList.add("is-open"); });
+      closeBtn.focus({ preventScroll: true });
+      doc.addEventListener("keydown", onKey);
+    }
+    function close() {
+      if (!box || box.hidden) return;
+      box.hidden = true;
+      box.classList.remove("is-open");
+      doc.body.style.overflow = "";
+      root.classList.remove("fx-lb-open");
+      doc.removeEventListener("keydown", onKey);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+    doc.addEventListener("click", function (e) {
+      var trigger = e.target.closest ? e.target.closest("[data-fx-zoom]") : null;
+      if (!trigger) return;
+      e.preventDefault();
+      open(trigger);
+    });
+  }
+
   /* ============ 启动 ============ */
   function boot() {
     initPreloader();
@@ -906,10 +1341,12 @@
     initTopbar();
     initMobileNav();
     initToTop();
+    initCounts();
     initAtmosphere();
     initSearch();
     initSearchPage();
     initLists();
+    initDomainNav();
     initReveal();
     initSteps();
     initCopy();
@@ -917,6 +1354,7 @@
     initFeedback();
     initFav();
     initWizard();
+    initLightbox();
   }
   if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", boot);
   else boot();

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FBF6EC">
 <title>搜索教程 · 修盒子 FIXBOX</title>
-<meta name="description" content="按现象搜索电脑与网络故障教程。">
+<meta name="description" content="按现象搜索电脑与网络故障教程：关键词命中标题、症状、关键词与分类，支持系统、领域、风险筛选。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
 <style id="fx-critical">
 /* 临界样式内联：避免首帧闪烁（外链 CSS 到达前就要生效） */
@@ -18,14 +18,22 @@ html.fx-leaving .fx-curtain{transform:translateY(0)}
 .fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}
 .fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
 @media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}
+/* 兜底：主 JS 没加载/报错时，加载动画与转场幕布不能永远盖住页面 */
+.fx-preloader{animation:fxPreAutoHide .4s ease 2.8s forwards}
+@keyframes fxPreAutoHide{to{opacity:0;visibility:hidden}}
+html.fx-entering .fx-curtain{animation:fxCurtainAutoHide .5s cubic-bezier(.65,0,.35,1) 2.4s forwards}
+@keyframes fxCurtainAutoHide{to{transform:translateY(-100%)}}
+html.fx-entering body{animation:fxBodyAutoShow .3s ease 2.6s forwards}
+@keyframes fxBodyAutoShow{to{opacity:1;transform:none}}
 </style>
+<noscript><style>.fx-preloader,.fx-curtain{display:none!important}</style></noscript>
 <script id="fx-boot">/* 在首帧前决定：首次访问→显示加载动画；二次进入→幕布先盖住再做转场 */
 try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}
 </script>
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="./css/theme-fix.css">
 <link rel="stylesheet" href="./css/fix.css">
-  <link rel="stylesheet" href="./css/fix-neu.css">
+<link rel="stylesheet" href="./css/fix-neu.css">
 </head>
 <body>
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
@@ -49,70 +57,78 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
     <a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
     <nav class="fx-nav" aria-label="主导航">
       <a href="./browse.html">领域</a>
-<a href="./hardware.html">拆机图</a>
+      <a href="./hardware.html">拆机图</a>
       <a href="./wizard.html">症状向导</a>
       <a href="./tools.html">工具</a>
       <a href="./about.html">关于</a>
     </nav>
-    <a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
-  <button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
-</div>
+    <a class="fx-topsearch" href="./search.html" aria-current="page"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+    <button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+  </div>
 </header>
 <div class="fx-drawer" id="fx-drawer" hidden>
   <div class="fx-drawer__backdrop" data-fx-drawer-close></div>
   <nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">
-    <div class="fx-drawer__head">
-      <span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span>
-      <button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button>
-    </div>
+    <div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>
     <a class="fx-drawer__link" href="./index.html">首页</a>
     <a class="fx-drawer__link" href="./browse.html">领域</a>
     <a class="fx-drawer__link" href="./hardware.html">拆机图</a>
     <a class="fx-drawer__link" href="./wizard.html">症状向导</a>
     <a class="fx-drawer__link" href="./tools.html">工具</a>
-    <a class="fx-drawer__link" aria-current="page" href="./search.html">搜索教程</a>
+    <a class="fx-drawer__link" href="./search.html" aria-current="page">搜索教程</a>
     <a class="fx-drawer__link" href="./about.html">关于</a>
     <p class="fx-drawer__foot">修盒子 FIXBOX · 自助排障手册</p>
   </nav>
 </div>
 <main id="main" class="fx-wrap" data-fx-searchpage>
-  <div style="padding-block:26px 0;max-width:900px" data-reveal>
-    <div class="fx-searchbar" data-fx-search>
+  <div style="padding-block:24px 0;max-width:960px" data-reveal>
+    <nav class="fx-crumb" aria-label="面包屑" style="padding-block:0 14px"><a href="./index.html">首页</a><span class="fx-crumb__sep">›</span><span aria-current="page">搜索</span></nav>
+    <h1 class="fx-title" style="margin-top:0">搜索教程</h1>
+    <p class="fx-p" style="max-width:60ch;margin-top:10px">输入你看到的现象、报错或关键词。匹配标题、症状、关键词与分类；也可以用下面的筛选缩小区间。</p>
+
+    <form class="fx-searchbar" data-fx-search role="search" action="./search.html" method="get" style="margin-top:18px">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <label class="fx-vh" for="sq">搜索故障现象</label>
-      <input id="sq" class="fx-autofocus" data-fx-searchpage-input type="search" placeholder="描述你的故障，例如「连不上网」「IP 冲突」…" role="combobox" aria-autocomplete="list" aria-expanded="false">
-      <div class="fx-suggest" data-fx-suggest role="listbox" aria-label="搜索建议" style="top:calc(100% - 4px)"></div>
-    </div>
+      <input id="sq" class="fx-autofocus" data-fx-searchpage-input type="search" name="q" placeholder="描述你的故障，例如「连不上网」「IP 冲突」…" aria-label="搜索故障现象" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fx-page-suggest">
+      <div class="fx-suggest" id="fx-page-suggest" data-fx-suggest role="listbox" aria-label="搜索建议" style="top:calc(100% - 4px)"></div>
+    </form>
+
     <div class="fx-filters">
-      <div class="fx-filter"><span class="fx-filter__label">系统</span>
-        <button class="fx-filter__btn is-on" data-fx-filter="os" data-value="all">全部</button>
-        <button class="fx-filter__btn" data-fx-filter="os" data-value="windows">Windows</button>
-        <button class="fx-filter__btn" data-fx-filter="os" data-value="macos">macOS</button>
-        <button class="fx-filter__btn" data-fx-filter="os" data-value="network">路由器 / 网络</button>
-        <button class="fx-filter__btn" data-fx-filter="os" data-value="reference">参考 SOP</button>
+      <div class="fx-filter"><span class="fx-filter__label" id="f-os">系统</span>
+        <button class="fx-filter__btn is-on" type="button" data-fx-filter="os" data-value="all" aria-pressed="true">全部</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="os" data-value="windows" aria-pressed="false">Windows</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="os" data-value="macos" aria-pressed="false">macOS</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="os" data-value="network" aria-pressed="false">路由器 / 网络</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="os" data-value="reference" aria-pressed="false">参考 SOP</button>
       </div>
-      <div class="fx-filter"><span class="fx-filter__label">风险</span>
-        <button class="fx-filter__btn is-on" data-fx-filter="risk" data-value="all">全部</button>
-        <button class="fx-filter__btn" data-fx-filter="risk" data-value="安全">安全</button>
-        <button class="fx-filter__btn" data-fx-filter="risk" data-value="需谨慎">需谨慎</button>
-        <button class="fx-filter__btn" data-fx-filter="risk" data-value="有数据风险">有数据风险</button>
+      <div class="fx-filter"><span class="fx-filter__label" id="f-risk">风险</span>
+        <button class="fx-filter__btn is-on" type="button" data-fx-filter="risk" data-value="all" aria-pressed="true">全部</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="risk" data-value="安全" aria-pressed="false">安全</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="risk" data-value="需谨慎" aria-pressed="false">需谨慎</button>
+        <button class="fx-filter__btn" type="button" data-fx-filter="risk" data-value="有数据风险" aria-pressed="false">有数据风险</button>
+      </div>
+      <div class="fx-filter fx-filter--select">
+        <label class="fx-filter__label" for="domain-filter">领域</label>
+        <select class="fx-select" id="domain-filter" data-fx-domain-select aria-label="按领域筛选">
+          <option value="all">全部领域</option>
+        </select>
       </div>
     </div>
-    <p class="fx-resultcount" data-fx-count></p>
+
+    <p class="fx-resultcount" data-fx-count role="status" aria-live="polite"></p>
+    <p class="fx-kb-hint" style="font-size:12.5px;color:var(--fx-ink-3);margin-top:6px">键盘：<kbd>↑</kbd> <kbd>↓</kbd> 选择结果 · <kbd>Enter</kbd> 打开 · <kbd>Esc</kbd> 回到搜索框</p>
     <div class="fx-cards" style="margin-top:20px" data-fx-results></div>
+    <noscript><div class="fx-noscript-block"><p class="fx-noscript-hint">搜索与筛选需要启用 JavaScript。下面是常用教程，也可以直接 <a class="fx-link" href="./browse.html">按领域浏览全部教程</a>。</p><div data-fx-noscript="search"><ul class="fx-noscript-list"><li><a href="./fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><span class="fx-noscript-meta">15-45 分钟 · 需谨慎</span></li><li><a href="./fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a><span class="fx-noscript-meta">15-45 分钟 · 需谨慎</span></li><li><a href="./fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li><li><a href="./fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><span class="fx-noscript-meta">15-40 分钟 · 需谨慎</span></li><li><a href="./fix/win-forgot-password.html">电脑开机密码忘了 / PIN 突然用不了</a><span class="fx-noscript-meta">20-90 分钟 · 有数据风险</span></li><li><a href="./fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><span class="fx-noscript-meta">20-60 分钟 · 安全</span></li><li><a href="./fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li></ul></div></div></noscript>
+
     <div class="fx-empty" data-fx-empty hidden>
-      <h3>没找到？</h3>
-      <p>换个说法试试，或者用症状向导一步步定位。</p>
-      <div class="fx-empty__links">
-        <a class="fx-chip" href="./search.html?q=没网">没网</a>
-        <a class="fx-chip" href="./search.html?q=断网">断网</a>
-        <a class="fx-chip" href="./search.html?q=上不了网">上不了网</a>
-        <a class="fx-chip" href="./search.html?q=网络连接受限">网络连接受限</a>
-      </div>
-      <div class="fx-empty__links" style="margin-top:14px">
+      <h3>没找到？换两条路试试</h3>
+      <p>换个更口语的说法（「有信号没网」→「连上但上不了网」），或者直接让向导带你定位。</p>
+      <div class="fx-empty__links" style="margin-top:6px">
         <a class="fx-btn fx-btn--primary" href="./wizard.html">用症状向导定位</a>
         <a class="fx-btn fx-btn--ghost" href="./browse.html">按领域浏览</a>
       </div>
+      <p style="margin-top:24px;font-size:13px;font-weight:700;color:var(--fx-ink-3)">大家在修的：</p>
+      <div class="fx-empty__links" data-fx-empty-hot></div>
     </div>
     <div style="height:60px"></div>
   </div>
@@ -120,12 +136,13 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 <footer class="fx-foot"><div class="fx-wrap">
   <div class="fx-foot__inner">
     <div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
-    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 13 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li></ul></div>
+    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p>
+    <p class="fx-foot__stat">目前 <b data-fx-count-domains>13</b> 个领域 · <b data-fx-count-all>96</b> 篇（含 <span data-fx-count-refs>10</span> 篇参考资料）</p></div>
+    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 <span data-fx-count-domains>13</span> 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li></ul></div>
     <div><h3>常用</h3><ul><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
     <div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
   </div>
-  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：<span data-fx-updated>2026-11-23</span></span></div>
 </div></footer>
 <script src="./data/articles.js"></script>
 <script src="./js/fix.js"></script>

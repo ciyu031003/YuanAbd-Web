@@ -53,7 +53,7 @@ window.FX_ARTICLES = [
    "nslookup",
    "netsh winsock reset"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/wifi-connected-but-no-internet.html",
   "kind": "guide",
   "hot": 31
@@ -102,7 +102,7 @@ window.FX_ARTICLES = [
    "black screen cursor",
    "桌面不显示"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-blackscreen-cursor.html",
   "kind": "guide",
   "hot": 30
@@ -159,7 +159,7 @@ window.FX_ARTICLES = [
    "nbtstat",
    "DHCP 客户端列表"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/ip-conflict-locate-device.html",
   "kind": "guide",
   "hot": 29
@@ -207,7 +207,7 @@ window.FX_ARTICLES = [
    "tplogin.cn",
    "路由器标签"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/router-admin-page-unreachable.html",
   "kind": "guide",
   "hot": 28
@@ -256,7 +256,7 @@ window.FX_ARTICLES = [
    "小内存转储",
    "驱动导致蓝屏"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-bluescreen-read-code.html",
   "kind": "guide",
   "hot": 27
@@ -304,7 +304,7 @@ window.FX_ARTICLES = [
    "宽带欠费",
    "路由器指示灯"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/home-network-all-offline.html",
   "kind": "guide",
   "hot": 26
@@ -362,7 +362,7 @@ window.FX_ARTICLES = [
    "hosts",
    "223.5.5.5"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/dns-broken-but-app-works.html",
   "kind": "guide",
   "hot": 25
@@ -411,7 +411,7 @@ window.FX_ARTICLES = [
    "登录选项",
    "net user 改密码"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-forgot-password.html",
   "kind": "guide",
   "hot": 24
@@ -460,7 +460,7 @@ window.FX_ARTICLES = [
    "电脑变慢原因",
    "可靠性监视器"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-slow-diagnose.html",
   "kind": "guide",
   "hot": 23
@@ -510,7 +510,7 @@ window.FX_ARTICLES = [
    "hiberfil.sys",
    "Windows.old"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-c-drive-full-cleanup.html",
   "kind": "guide",
   "hot": 22
@@ -568,7 +568,7 @@ window.FX_ARTICLES = [
    "Get-PnpDevice",
    "网络重置"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/wifi-adapter-missing.html",
   "kind": "guide",
   "hot": 21
@@ -621,7 +621,7 @@ window.FX_ARTICLES = [
    "代理设置残留",
    "proxy server"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/proxy-server-not-responding.html",
   "kind": "guide",
   "hot": 20
@@ -670,7 +670,7 @@ window.FX_ARTICLES = [
    "计划任务",
    "Process Explorer 定位弹窗"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-popup-ads-hijack.html",
   "kind": "guide",
   "hot": 19
@@ -718,7 +718,7 @@ window.FX_ARTICLES = [
    "散热",
    "pmset"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-fan-noise-overheat.html",
   "kind": "guide",
   "hot": 18
@@ -774,7 +774,7 @@ window.FX_ARTICLES = [
    "以前的版本",
    "时间机器"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/deleted-file-recovery.html",
   "kind": "guide",
   "hot": 17
@@ -823,7 +823,7 @@ window.FX_ARTICLES = [
    "bootrec",
    "开机卡死"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-stuck-on-boot-logo.html",
   "kind": "guide",
   "hot": 16
@@ -881,7 +881,7 @@ window.FX_ARTICLES = [
    "网络重置",
    "RFC 3927"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/dhcp-no-ip-169-254.html",
   "kind": "guide",
   "hot": 15
@@ -935,7 +935,7 @@ window.FX_ARTICLES = [
    "网络打印机",
    "打印机驱动"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/printer-offline.html",
   "kind": "guide",
   "hot": 14
@@ -990,7 +990,7 @@ window.FX_ARTICLES = [
    "磁盘管理",
    "数据恢复"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/usb-drive-not-recognized.html",
   "kind": "guide",
   "hot": 13
@@ -1039,7 +1039,7 @@ window.FX_ARTICLES = [
    "依赖查看",
    "闪退"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-app-crash-missing-dll.html",
   "kind": "guide",
   "hot": 12
@@ -1097,7 +1097,7 @@ window.FX_ARTICLES = [
    "netsh wlan show networks",
    "无线诊断"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/wifi-ssid-not-found.html",
   "kind": "guide",
   "hot": 11
@@ -1153,7 +1153,7 @@ window.FX_ARTICLES = [
    "账号密码",
    "安全模式"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/malware-first-response.html",
   "kind": "guide",
   "hot": 10
@@ -1199,7 +1199,7 @@ window.FX_ARTICLES = [
    "WPS",
    "router-qos"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/router-wifi-leech-check.html",
   "kind": "guide",
   "hot": 9
@@ -1248,7 +1248,7 @@ window.FX_ARTICLES = [
    "组件存储损坏",
    "更新疑难解答"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-update-stuck.html",
   "kind": "guide",
   "hot": 8
@@ -1296,7 +1296,7 @@ window.FX_ARTICLES = [
    "可清除空间",
    "tmutil"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-storage-system-data.html",
   "kind": "guide",
   "hot": 7
@@ -1352,7 +1352,7 @@ window.FX_ARTICLES = [
    "坏道",
    "固态掉盘"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/disk-clicking-failure.html",
   "kind": "guide",
   "hot": 6
@@ -1408,7 +1408,7 @@ window.FX_ARTICLES = [
    "显示设置",
    "多显示器"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/monitor-no-signal.html",
   "kind": "guide",
   "hot": 5
@@ -1457,7 +1457,7 @@ window.FX_ARTICLES = [
    "Autoruns",
    "计划任务开机启动"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-startup-apps-disable.html",
   "kind": "guide",
   "hot": 4
@@ -1502,7 +1502,7 @@ window.FX_ARTICLES = [
    "国家反诈中心",
    "报警"
   ],
-  "updated": "2026-10-11",
+  "updated": "2026-11-23",
   "detail_href": "./fix/remote-control-scam.html",
   "kind": "guide",
   "hot": 3
@@ -1557,7 +1557,7 @@ window.FX_ARTICLES = [
    "netsh winsock reset",
    "网络重置"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/proxy-tool-broke-network.html",
   "kind": "guide",
   "hot": 2
@@ -1610,7 +1610,7 @@ window.FX_ARTICLES = [
    "321原则",
    "迁移"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-11-23",
   "detail_href": "./fix/backup-before-repair.html",
   "kind": "guide",
   "hot": 1
@@ -1663,7 +1663,7 @@ window.FX_ARTICLES = [
    "蓝牙适配器",
    "2.4G 干扰"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/bluetooth-device-not-pairing.html",
   "kind": "guide",
   "hot": 1
@@ -1715,7 +1715,7 @@ window.FX_ARTICLES = [
    "系统代理",
    "浏览器插件代理"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/browser-proxy.html",
   "kind": "guide",
   "hot": 1
@@ -1763,7 +1763,7 @@ window.FX_ARTICLES = [
    "Node.js",
    "Windows终端"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/codex-cli-install.html",
   "kind": "guide",
   "hot": 1
@@ -1811,7 +1811,7 @@ window.FX_ARTICLES = [
    "Codex安装",
    "Codex登录"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/codex-desktop-install.html",
   "kind": "guide",
   "hot": 1
@@ -1872,7 +1872,7 @@ window.FX_ARTICLES = [
    "DoH",
    "运营商劫持"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/dns-hijack.html",
   "kind": "guide",
   "hot": 1
@@ -1923,7 +1923,7 @@ window.FX_ARTICLES = [
    "OEM 驱动",
    "第三方驱动工具"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/driver-install-rollback.html",
   "kind": "guide",
   "hot": 1
@@ -1977,7 +1977,7 @@ window.FX_ARTICLES = [
    "办公网络",
    "802.1X"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/enterprise-proxy.html",
   "kind": "guide",
   "hot": 1
@@ -2028,7 +2028,7 @@ window.FX_ARTICLES = [
    "网络重置",
    "链路指示灯"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/ethernet-no-link.html",
   "kind": "guide",
   "hot": 1
@@ -2079,7 +2079,7 @@ window.FX_ARTICLES = [
    "原始恢复",
    "恢复概率"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/format-partition-recovery.html",
   "kind": "guide",
   "hot": 1
@@ -2130,7 +2130,7 @@ window.FX_ARTICLES = [
    "5GB 免费",
    "家人共享"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-11-23",
   "detail_href": "./fix/icloud-storage-full.html",
   "kind": "guide",
   "hot": 1
@@ -2189,7 +2189,7 @@ window.FX_ARTICLES = [
    "电池健康",
    "充电阈值"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/laptop-battery-not-charging.html",
   "kind": "guide",
   "hot": 1
@@ -2246,7 +2246,7 @@ window.FX_ARTICLES = [
    "异地登录",
    "止损"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/leak-check.html",
   "kind": "guide",
   "hot": 1
@@ -2304,7 +2304,7 @@ window.FX_ARTICLES = [
    "仅限联系人",
    "连续互通"
   ],
-  "updated": "2026-10-31",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-airdrop-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -2357,7 +2357,7 @@ window.FX_ARTICLES = [
    "隐私与安全性",
    "开发者验证"
   ],
-  "updated": "2026-10-31",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-app-damaged-cant-open.html",
   "kind": "guide",
   "hot": 1
@@ -2411,7 +2411,7 @@ window.FX_ARTICLES = [
    "网络代理",
    "App Store缓存"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-app-store-download-stuck.html",
   "kind": "guide",
   "hot": 1
@@ -2465,7 +2465,7 @@ window.FX_ARTICLES = [
    "续航",
    "system_profiler"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-battery-health.html",
   "kind": "guide",
   "hot": 1
@@ -2519,7 +2519,7 @@ window.FX_ARTICLES = [
    "2.4G干扰",
    "Apple诊断"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-bluetooth-unavailable.html",
   "kind": "guide",
   "hot": 1
@@ -2574,7 +2574,7 @@ window.FX_ARTICLES = [
    "分辨率",
    "扩展坞供电"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-external-display-not-detected.html",
   "kind": "guide",
   "hot": 1
@@ -2628,7 +2628,7 @@ window.FX_ARTICLES = [
    "磁盘工具",
    "安全模式"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-finder-unresponsive.html",
   "kind": "guide",
   "hot": 1
@@ -2679,7 +2679,7 @@ window.FX_ARTICLES = [
    "Reset Password Assistant",
    "登录钥匙串"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-forgot-password.html",
   "kind": "guide",
   "hot": 1
@@ -2732,7 +2732,7 @@ window.FX_ARTICLES = [
    "蓝牙耳机",
    "NVRAM"
   ],
-  "updated": "2026-10-31",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-no-sound.html",
   "kind": "guide",
   "hot": 1
@@ -2785,7 +2785,7 @@ window.FX_ARTICLES = [
    "打印中心",
    "驱动"
   ],
-  "updated": "2026-10-31",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-printer-offline.html",
   "kind": "guide",
   "hot": 1
@@ -2838,7 +2838,7 @@ window.FX_ARTICLES = [
    "DNS缓存",
    "日期时间"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-safari-cant-load.html",
   "kind": "guide",
   "hot": 1
@@ -2891,7 +2891,7 @@ window.FX_ARTICLES = [
    "访达搜索",
    "Command加空格"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-spotlight-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -2946,7 +2946,7 @@ window.FX_ARTICLES = [
    "备份磁盘",
    "APFS"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-time-machine-troubleshoot.html",
   "kind": "guide",
   "hot": 1
@@ -2999,7 +2999,7 @@ window.FX_ARTICLES = [
    "强制关机",
    "安装器"
   ],
-  "updated": "2026-10-31",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-update-stuck.html",
   "kind": "guide",
   "hot": 1
@@ -3053,7 +3053,7 @@ window.FX_ARTICLES = [
    "SMC",
    "无线漫游"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-wifi-keeps-dropping.html",
   "kind": "guide",
   "hot": 1
@@ -3107,7 +3107,7 @@ window.FX_ARTICLES = [
    "SMC",
    "苹果标志卡住"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-11-23",
   "detail_href": "./fix/mac-wont-boot.html",
   "kind": "guide",
   "hot": 1
@@ -3157,7 +3157,7 @@ window.FX_ARTICLES = [
    "GPT",
    "数据备份"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-11-23",
   "detail_href": "./fix/partition-manager.html",
   "kind": "guide",
   "hot": 1
@@ -3217,7 +3217,7 @@ window.FX_ARTICLES = [
    "风道",
    "HWMonitor"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/pc-overheat-cleaning.html",
   "kind": "guide",
   "hot": 1
@@ -3275,7 +3275,7 @@ window.FX_ARTICLES = [
    "官方渠道核实",
    "反诈"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/phishing-message-check.html",
   "kind": "guide",
   "hot": 1
@@ -3336,7 +3336,7 @@ window.FX_ARTICLES = [
    "热凝器",
    "打印质量报告"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/printer-jam-quality.html",
   "kind": "guide",
   "hot": 1
@@ -3394,7 +3394,7 @@ window.FX_ARTICLES = [
    "静态 IP",
    "打印机 IP 查询"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/printer-network-ip-fixed.html",
   "kind": "guide",
   "hot": 1
@@ -3447,7 +3447,7 @@ window.FX_ARTICLES = [
    "RPC",
    "打印机共享"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/printer-shared-error-11b.html",
   "kind": "guide",
   "hot": 1
@@ -3501,7 +3501,7 @@ window.FX_ARTICLES = [
    "自动关机",
    "功率不足"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/psu-no-power-check.html",
   "kind": "guide",
   "hot": 1
@@ -3556,7 +3556,7 @@ window.FX_ARTICLES = [
    "双通道",
    "XMP"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/ram-reseat-no-boot.html",
   "kind": "guide",
   "hot": 1
@@ -3612,7 +3612,7 @@ window.FX_ARTICLES = [
    "no_more_ransom",
    "报警"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/ransomware-encrypted-response.html",
   "kind": "guide",
   "hot": 1
@@ -3661,7 +3661,7 @@ window.FX_ARTICLES = [
    "TP-Link",
    "小米"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/router-firmware-reset.html",
   "kind": "guide",
   "hot": 1
@@ -3718,7 +3718,7 @@ window.FX_ARTICLES = [
    "IPv6",
    "安全暴露"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/router-port-forward.html",
   "kind": "guide",
   "hot": 1
@@ -3782,7 +3782,7 @@ window.FX_ARTICLES = [
    "2.4G 5G",
    "穿墙模式"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/router-wifi-coverage.html",
   "kind": "guide",
   "hot": 1
@@ -3836,14 +3836,14 @@ window.FX_ARTICLES = [
    "面板",
    "交叉测试"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/screen-artifacts-flicker.html",
   "kind": "guide",
   "hot": 1
  },
  {
   "slug": "screen-cast-miracast",
-  "title": "无线投屏失败 / 搜不到电视怎么修（Win+K、Miracast、手机投屏）",
+  "title": "无线投屏失败、搜不到电视怎么修（Win+K / Miracast）",
   "domain": "peripheral",
   "domainName": "外设",
   "category": "per-display",
@@ -3895,7 +3895,7 @@ window.FX_ARTICLES = [
    "投屏搜不到",
    "连接失败"
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-23",
   "detail_href": "./fix/screen-cast-miracast.html",
   "kind": "guide",
   "hot": 1
@@ -3955,7 +3955,7 @@ window.FX_ARTICLES = [
    "网线",
    "信道拥堵"
   ],
-  "updated": "2026-10-24",
+  "updated": "2026-11-23",
   "detail_href": "./fix/slow-network.html",
   "kind": "guide",
   "hot": 1
@@ -3968,7 +3968,7 @@ window.FX_ARTICLES = [
   "category": "ref-paid-maint",
   "categoryName": "有偿维修与延保",
   "path": "装机与运维手册 › 有偿维修与延保",
-  "summary": "有一部分故障不在标准保修范围内：摔、砸、进水、人为损坏，以及过了保修期的机器。",
+  "summary": "客户机器出现屏裂、进水、摔落、外壳开裂，或已过保修期需要报价时，用这一页做定性速查。看完你能判断哪些属于人为损坏、哪些必须走有偿流程，以及现场检测到哪一步就该停手。",
   "os": [
    {
     "t": "Windows",
@@ -3989,7 +3989,9 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "有偿维修与延保速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "屏幕碎裂 / 屏轴损坏",
+   "进水与摔落"
   ],
   "keywords": [
    "有偿维修与延保速查 SOP",
@@ -4000,7 +4002,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-billable-repair.html",
   "kind": "reference",
   "hot": 1
@@ -4013,7 +4015,7 @@ window.FX_ARTICLES = [
   "category": "ref-bios-secure",
   "categoryName": "BIOS 与加密锁定",
   "path": "装机与运维手册 › BIOS 与加密锁定",
-  "summary": "「开机开不了」在 SOP 里被拆成了十几条具体现象：不加电、加电无显、滴滴报警、fan error、",
+  "summary": "这份索引用在「开机开不了、报错又五花八门」的现场：从完全不加电、加电无显、滴滴报警，到进系统前的各种报错和登录异常。看完你能按现象对上号，拿到对应原文条目和「先记代码、先换线、非必要不拆机」的",
   "os": [
    {
     "t": "Windows",
@@ -4029,7 +4031,12 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "开机报错与 BIOS 速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "电脑按电源没反应",
+   "开机滴滴报警",
+   "开机报 fan error",
+   "开机提示时间/电池错误",
+   "PIN 不可用无法登录"
   ],
   "keywords": [
    "开机报错与 BIOS 速查 SOP",
@@ -4040,7 +4047,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-bios-post-errors.html",
   "kind": "reference",
   "hot": 1
@@ -4053,7 +4060,7 @@ window.FX_ARTICLES = [
   "category": "ref-data-migrate",
   "categoryName": "数据迁移与备份还原",
   "path": "装机与运维手册 › 数据迁移与备份还原",
-  "summary": "换机、重装、返修之前，数据是唯一不能重来的东西。",
+  "summary": "安排换机、重装或返修之前，先用这一页把数据清单走一遍。看完你能拿到一份可直接照做的备份与校验流程：该备哪几类东西、用什么方式备、怎么验证拷完的数据真能打开。",
   "os": [
    {
     "t": "Windows",
@@ -4074,7 +4081,9 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "换机与重装前的数据备份速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "换机前数据迁移",
+   "微信与企微聊天记录备份"
   ],
   "keywords": [
    "换机与重装前的数据备份速查 SOP",
@@ -4085,7 +4094,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-data-backup-migrate.html",
   "kind": "reference",
   "hot": 1
@@ -4098,7 +4107,7 @@ window.FX_ARTICLES = [
   "category": "ref-tools-diag",
   "categoryName": "检测工具与日志",
   "path": "装机与运维手册 › 检测工具与日志",
-  "summary": "「查不出原因」通常不是技术难度问题，而是没有证据。",
+  "summary": "当故障说不清、复现不了，又要给客户或后方一个明确结论时，用这份工具索引。看完你能挑出对应的检测工具、知道该看哪个字段、该留哪张截图，把「我觉得是硬盘」变成事件 ID、蓝屏代码、SMART 这类",
   "os": [
    {
     "t": "Windows",
@@ -4114,7 +4123,12 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "故障检测工具速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "蓝屏代码看不懂",
+   "怀疑硬盘坏道",
+   "内存检测怎么做",
+   "电脑温度过高降频",
+   "事件查看器不会看"
   ],
   "keywords": [
    "故障检测工具速查 SOP",
@@ -4126,20 +4140,20 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-diagnose-tools.html",
   "kind": "reference",
   "hot": 1
  },
  {
   "slug": "sop-driver-image-misc",
-  "title": "驱动、镜像与软件环境杂项：Ubuntu 驱动、WPS VBA、CAD 与网页视频",
+  "title": "驱动与软件环境杂项：Ubuntu 驱动、WPS VBA 与 CAD 卡死",
   "domain": "ref-manual",
   "domainName": "装机与运维手册",
   "category": "ref-driver",
   "categoryName": "驱动与镜像",
   "path": "装机与运维手册 › 驱动与镜像",
-  "summary": "SOP 里还有一批「装完系统/装完软件之后的杂项」：Ubuntu 显卡驱动与 CUDA、",
+  "summary": "装完系统或装完软件后，遇到「Ubuntu 装不上显卡驱动 / WPS 打不开 VBA / CAD 一开就卡死 / 网页视频有声音没画面」这类杂项问题时，用这一页按「系统 / 软件 / 网页」三",
   "os": [
    {
     "t": "Windows",
@@ -4160,7 +4174,9 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "驱动、镜像与软件环境杂项 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "Ubuntu 显卡驱动与 CUDA",
+   "WPS 无法运行 VBA"
   ],
   "keywords": [
    "驱动",
@@ -4171,7 +4187,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-driver-image-misc.html",
   "kind": "reference",
   "hot": 1
@@ -4184,7 +4200,7 @@ window.FX_ARTICLES = [
   "category": "ref-hardware",
   "categoryName": "硬件检测与拆装",
   "path": "装机与运维手册 › 硬件检测与拆装",
-  "summary": "屏幕、键盘、鼠标、音频、蓝牙、指纹、摄像头这些「小问题」的处理套路高度一致：",
+  "summary": "屏幕、键盘、鼠标、触摸板、音频、蓝牙、指纹、摄像头这类外围故障，需要判断「换机还是修」时用这份索引。看完你能按「换设备交叉验证 → 查驱动 → 查系统设置 → 判断是否硬件」的顺序套用，并拿到",
   "os": [
    {
     "t": "Windows",
@@ -4200,7 +4216,12 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "外设与显示速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "屏幕花屏闪屏",
+   "键盘或鼠标不灵",
+   "麦克风没声音",
+   "摄像头打不开",
+   "电池续航变短"
   ],
   "keywords": [
    "外设与显示速查 SOP",
@@ -4213,7 +4234,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-hardware-peripheral.html",
   "kind": "reference",
   "hot": 1
@@ -4226,7 +4247,7 @@ window.FX_ARTICLES = [
   "category": "ref-macos",
   "categoryName": "macOS 维护",
   "path": "装机与运维手册 › macOS 维护",
-  "summary": "Mac 的问题和 Windows 是两套解法：没有 BIOS、没有 PE，靠的是恢复模式（Recovery）、",
+  "summary": "排到 Mac 工单——装系统装不上、开机卡住、不充电或风扇不转、资料要导出来——就翻这一页。Mac 没有 BIOS 也没有 PE，靠的是恢复模式、安全模式、SMC/NVRAM 重置、磁盘工具急",
   "os": [
    {
     "t": "macOS",
@@ -4242,7 +4263,9 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "Mac 维护速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "Mac 装系统失败",
+   "开不了机进恢复模式"
   ],
   "keywords": [
    "Mac 维护速查 SOP",
@@ -4252,7 +4275,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-macos-maintain.html",
   "kind": "reference",
   "hot": 1
@@ -4265,7 +4288,7 @@ window.FX_ARTICLES = [
   "category": "ref-os",
   "categoryName": "装系统与 PE",
   "path": "装机与运维手册 › 装系统与 PE",
-  "summary": "SOP 的「客户类」把新员工领电脑这件事拆成了几步：开箱检测 → 跳过联网激活 → 性能优化 → 使用规范。",
+  "summary": "这份索引用于「新机交付、新员工领电脑」这类不是故障、但要按流程做完的场景。看完你能拿到开箱检测、跳过联网激活、性能优化到使用规范的分步入口，也知道哪几步必须在客户面前完成、哪些第三方工具不能碰",
   "os": [
    {
     "t": "Windows",
@@ -4281,7 +4304,12 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "新机交付与日常使用规范 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "新机要跳过联网激活",
+   "新电脑用着很卡",
+   "系统被改坏想一键还原",
+   "新员工领电脑怎么交付",
+   "开箱检测要做什么"
   ],
   "keywords": [
    "新机交付与日常使用规范 SOP",
@@ -4291,7 +4319,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-new-device-onboarding.html",
   "kind": "reference",
   "hot": 1
@@ -4304,7 +4332,7 @@ window.FX_ARTICLES = [
   "category": "ref-os",
   "categoryName": "装系统与 PE",
   "path": "装机与运维手册 › 装系统与 PE",
-  "summary": "装系统是桌面运维最高频的动作，也最容易翻车：PE 不认硬盘、引导不对、装完没有驱动。",
+  "summary": "要重装系统、第一次做 PE 盘，或者卡在「PE 不认硬盘 / 引导不对 / 装完没驱动」时，用这一页按「PE 制作 → 进 PE → 分区 → 装系统 → 收尾」的顺序走。",
   "os": [
    {
     "t": "Windows",
@@ -4325,7 +4353,9 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "PE 制作与系统安装速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "PE 不认硬盘",
+   "系统安装与引导修复"
   ],
   "keywords": [
    "PE 制作与系统安装速查 SOP",
@@ -4335,7 +4365,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-pe-usb-install.html",
   "kind": "reference",
   "hot": 1
@@ -4348,7 +4378,7 @@ window.FX_ARTICLES = [
   "category": "ref-peripheral-setup",
   "categoryName": "打印机与外设配置",
   "path": "装机与运维手册 › 打印机与外设配置",
-  "summary": "打印机是工单里最高频的外设，也是「到现场十分钟解决」的典型场景：",
+  "summary": "打印不出、卡纸、缺墨、异响、扫描配置，或者要给新设备连 USB / 共享 / 网络打印机时，用这份索引。看完你能先分清是连接方式的问题还是打印机本身的问题，再按原文条目重连或报修，不至于在现场",
   "os": [
    {
     "t": "Windows",
@@ -4369,7 +4399,12 @@ window.FX_ARTICLES = [
   "risk": "需谨慎",
   "symptoms": [
    "打印机连接与故障速查 处理方法",
-   "SOP 参考"
+   "SOP 参考",
+   "打印机连不上",
+   "打印机卡纸",
+   "打印不清晰缺墨",
+   "打印机故障灯亮",
+   "扫描配置不会设"
   ],
   "keywords": [
    "打印机连接与故障速查 SOP",
@@ -4379,7 +4414,7 @@ window.FX_ARTICLES = [
    "参考手册",
    "作业指导"
   ],
-  "updated": "2026-10-17",
+  "updated": "2026-11-23",
   "detail_href": "./fix/sop-printer-connected-fix.html",
   "kind": "reference",
   "hot": 1
@@ -4435,7 +4470,7 @@ window.FX_ARTICLES = [
    "联想",
    "会议软件"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/webcam-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -4484,7 +4519,7 @@ window.FX_ARTICLES = [
    "重启explorer",
    "系统文件"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-clipboard-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -4534,7 +4569,7 @@ window.FX_ARTICLES = [
    "会议软件",
    "蓝牙耳机麦克风"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-microphone-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -4584,7 +4619,7 @@ window.FX_ARTICLES = [
    "Windows 更新后无声",
    "音频驱动"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-no-sound.html",
   "kind": "guide",
   "hot": 1
@@ -4634,7 +4669,7 @@ window.FX_ARTICLES = [
    "卸载更新",
    "恢复选项"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-safe-restore.html",
   "kind": "guide",
   "hot": 1
@@ -4684,7 +4719,7 @@ window.FX_ARTICLES = [
    "资源管理器搜索",
    "开始菜单搜索"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-search-not-working.html",
   "kind": "guide",
   "hot": 1
@@ -4737,7 +4772,7 @@ window.FX_ARTICLES = [
    "区域设置",
    "应用商店"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-store-not-opening.html",
   "kind": "guide",
   "hot": 1
@@ -4786,7 +4821,7 @@ window.FX_ARTICLES = [
    "Windows更新",
    "系统文件修复"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-taskbar-unresponsive.html",
   "kind": "guide",
   "hot": 1
@@ -4836,7 +4871,7 @@ window.FX_ARTICLES = [
    "默认应用",
    "预览窗格"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-thumbnail-cache-broken.html",
   "kind": "guide",
   "hot": 1
@@ -4886,7 +4921,7 @@ window.FX_ARTICLES = [
    "CMOS电池",
    "主板纽扣电池"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-time-repeatedly-wrong.html",
   "kind": "guide",
   "hot": 1
@@ -4934,7 +4969,7 @@ window.FX_ARTICLES = [
    "暂停更新",
    "组策略"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-update-enable.html",
   "kind": "guide",
   "hot": 1
@@ -4981,9 +5016,111 @@ window.FX_ARTICLES = [
    "更新暂停",
    "临时关闭更新"
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-23",
   "detail_href": "./fix/win-update-pause.html",
   "kind": "guide",
   "hot": 1
  }
 ];
+window.FX_META = {
+ "updated": "2026-11-23",
+ "total": 96,
+ "guides": 86,
+ "references": 10,
+ "domainCount": 13,
+ "faultDomainCount": 12,
+ "referenceDomainCount": 1,
+ "domains": [
+  {
+   "id": "net-basic",
+   "name": "网络基础",
+   "count": 6,
+   "kind": "guide",
+   "href": "./browse.html#net-basic"
+  },
+  {
+   "id": "win-system",
+   "name": "Windows 系统与开机",
+   "count": 10,
+   "kind": "guide",
+   "href": "./browse.html#win-system"
+  },
+  {
+   "id": "router",
+   "name": "路由器与家庭网络",
+   "count": 5,
+   "kind": "guide",
+   "href": "./browse.html#router"
+  },
+  {
+   "id": "ip-dns",
+   "name": "IP 与 DNS",
+   "count": 4,
+   "kind": "guide",
+   "href": "./browse.html#ip-dns"
+  },
+  {
+   "id": "win-app",
+   "name": "Windows 软件与性能",
+   "count": 12,
+   "kind": "guide",
+   "href": "./browse.html#win-app"
+  },
+  {
+   "id": "mac-system",
+   "name": "macOS 系统与开机",
+   "count": 6,
+   "kind": "guide",
+   "href": "./browse.html#mac-system"
+  },
+  {
+   "id": "mac-app",
+   "name": "macOS 软件与性能",
+   "count": 8,
+   "kind": "guide",
+   "href": "./browse.html#mac-app"
+  },
+  {
+   "id": "hardware",
+   "name": "硬件与主机",
+   "count": 6,
+   "kind": "guide",
+   "href": "./browse.html#hardware"
+  },
+  {
+   "id": "peripheral",
+   "name": "外设",
+   "count": 16,
+   "kind": "guide",
+   "href": "./browse.html#peripheral"
+  },
+  {
+   "id": "proxy-vpn",
+   "name": "代理与 VPN",
+   "count": 4,
+   "kind": "guide",
+   "href": "./browse.html#proxy-vpn"
+  },
+  {
+   "id": "account-sec",
+   "name": "账号与安全",
+   "count": 5,
+   "kind": "guide",
+   "href": "./browse.html#account-sec"
+  },
+  {
+   "id": "data-backup",
+   "name": "数据与备份",
+   "count": 4,
+   "kind": "guide",
+   "href": "./browse.html#data-backup"
+  },
+  {
+   "id": "ref-manual",
+   "name": "装机与运维手册",
+   "count": 10,
+   "kind": "reference",
+   "href": "./browse.html#ref-manual"
+  }
+ ]
+};

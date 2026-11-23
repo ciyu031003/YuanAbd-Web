@@ -126,7 +126,8 @@
 .fx-hero__cue{
   position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
   display:grid;justify-items:center;gap:8px;font-family:var(--fx-mono);font-size:10px;
-  letter-spacing:.18em;color:rgba(26,31,43,.52);transition:opacity .25s,transform .25s;
+  /* 10px 小字对比度不足（实测 3.37:1）；装饰文案也按 4.5:1 处理 */
+  letter-spacing:.18em;color:rgba(26,31,43,.72);transition:opacity .25s,transform .25s;
 }
 .fx-hero__cue i{width:1px;height:38px;background:linear-gradient(180deg,rgba(26,31,43,.56),transparent);animation:fxCue 1.9s ease-in-out infinite}
 .fx-scrolled .fx-hero__cue{opacity:0;transform:translate(-50%,12px)}
@@ -177,6 +178,10 @@
 @keyframes fxBeam{0%,100%{opacity:.24;scale:.94 1}50%{opacity:.72;scale:1 1}}
 @keyframes fxCue{0%,100%{transform:scaleY(.55);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
 
+/* 短视口：首屏内容（标题/搜索/热词两行）会压到 SCROLL 指引上，隐藏装饰指引避免叠字 */
+@media(max-height:1000px){
+  .fx-hero__cue{display:none}
+}
 @media(max-width:900px){
   .fx-atmos__tile--a{width:96px;height:96px;left:-22px;top:14%}
   .fx-atmos__tile--b{width:140px;height:48px;right:-28px}
@@ -192,7 +197,7 @@
   .fx-hero--atmosphere .fx-hero__sub{margin-top:18px;font-size:14.5px;line-height:1.7}
   .fx-hero--atmosphere .fx-searchwrap{margin-top:22px}
   .fx-hero--atmosphere .fx-search{height:58px}
-  .fx-hero--atmosphere .fx-search__go{height:42px;padding-inline:17px}
+  .fx-hero--atmosphere .fx-search__go{height:44px;padding-inline:17px}
   .fx-hero--atmosphere .fx-hotwords{margin-top:14px;gap:7px}
   .fx-atmos__halftone{opacity:.48}
 }

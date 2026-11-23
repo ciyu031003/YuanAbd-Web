@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FBF6EC">
 <title>全部领域 · 修盒子 FIXBOX</title>
-<meta name="description" content="12 个故障领域：网络基础、Windows、macOS、硬件、外设、路由器、IP 与 DNS、代理与 VPN、账号安全、数据备份。">
+<meta name="description" content="按领域浏览修盒子的电脑与网络故障教程：网络基础、Windows、macOS、硬件外设、路由器、IP 与 DNS、代理与 VPN、账号安全、数据备份与装机运维手册。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2391E6C1'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%230B3B2E' font-family='sans-serif'%3E%E4%BF%AE%3C/text%3E%3C/svg%3E">
 <style id="fx-critical">
 /* 临界样式内联：避免首帧闪烁（外链 CSS 到达前就要生效） */
@@ -18,14 +18,23 @@ html.fx-leaving .fx-curtain{transform:translateY(0)}
 .fx-preloader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#A995FF}
 .fx-preloader.is-done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
 @media (prefers-reduced-motion:reduce){.fx-preloader{display:none}html.fx-entering body{opacity:1!important}}
+/* 兜底：主 JS 没加载/报错时，加载动画与转场幕布不能永远盖住页面 */
+.fx-preloader{animation:fxPreAutoHide .4s ease 2.8s forwards}
+@keyframes fxPreAutoHide{to{opacity:0;visibility:hidden}}
+html.fx-entering .fx-curtain{animation:fxCurtainAutoHide .5s cubic-bezier(.65,0,.35,1) 2.4s forwards}
+@keyframes fxCurtainAutoHide{to{transform:translateY(-100%)}}
+html.fx-entering body{animation:fxBodyAutoShow .3s ease 2.6s forwards}
+@keyframes fxBodyAutoShow{to{opacity:1;transform:none}}
 </style>
+<noscript><style>.fx-preloader,.fx-curtain{display:none!important}</style></noscript>
 <script id="fx-boot">/* 在首帧前决定：首次访问→显示加载动画；二次进入→幕布先盖住再做转场 */
 try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classList.add("fx-entering")}else{document.documentElement.classList.add("fx-first")}}catch(e){document.documentElement.classList.add("fx-first")}
 </script>
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="./css/theme-fix.css">
 <link rel="stylesheet" href="./css/fix.css">
-  <link rel="stylesheet" href="./css/fix-neu.css">
+<link rel="stylesheet" href="./css/fix-neu.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","@id":"https://pc-fixboxs.yuanabd.cn/browse.html#page","name":"全部领域 · 修盒子 FIXBOX","description":"按领域浏览修盒子的电脑与网络故障教程：网络基础、Windows、macOS、硬件、外设、路由器、IP 与 DNS、代理、账号安全、数据备份与装机运维手册。","url":"https://pc-fixboxs.yuanabd.cn/browse.html","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","@id":"https://pc-fixboxs.yuanabd.cn/#website","name":"修盒子 FIXBOX"}}</script>
 </head>
 <body>
 <div class="fx-preloader" data-fx-preloader role="status" aria-label="正在载入修盒子">
@@ -49,14 +58,14 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
     <a class="fx-brand" href="./index.html" aria-label="修盒子 FIXBOX 首页"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
     <nav class="fx-nav" aria-label="主导航">
       <a href="./browse.html" aria-current="page">领域</a>
-<a href="./hardware.html">拆机图</a>
+      <a href="./hardware.html">拆机图</a>
       <a href="./wizard.html">症状向导</a>
       <a href="./tools.html">工具</a>
       <a href="./about.html">关于</a>
     </nav>
-    <a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
-  <button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
-</div>
+    <a class="fx-topsearch" href="./search.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></a>
+    <button class="fx-burger" type="button" aria-expanded="false" aria-controls="fx-drawer" aria-label="打开菜单"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+  </div>
 </header>
 <div class="fx-drawer" id="fx-drawer" hidden>
   <div class="fx-drawer__backdrop" data-fx-drawer-close></div>
@@ -77,153 +86,162 @@ try{if(sessionStorage.getItem("fx.seen")==="1"){document.documentElement.classLi
 </div>
 <main id="main" class="fx-wrap">
   <nav class="fx-crumb" aria-label="面包屑"><a href="./index.html">首页</a><span class="fx-crumb__sep">›</span><span aria-current="page">全部领域</span></nav>
-  <h1 class="fx-title">全部领域</h1>
-  <p class="fx-p" style="max-width:64ch">12 个故障领域 + 2 个参考领域 · <strong data-fx-count-all>0</strong> 篇 · 领域按常见程度排序——最上面的是最常被搜到的。</p>
-  <section class="fx-section" data-reveal id="net-basic">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/></svg></span>
-        <div><h2>网络基础</h2><p>网线、Wi-Fi、网卡驱动、完全上不了网</p></div>
-      </div>
+  <div class="fx-browse-head">
+    <div>
+      <h1 class="fx-title">全部领域</h1>
+      <p class="fx-p" style="max-width:66ch"><span data-fx-count-fault-domains>12</span> 个故障领域 + <span data-fx-count-ref-domains>1</span> 个参考领域 · 共 <strong data-fx-count-all>96</strong> 篇。领域按常见程度排序，最上面的是最常被搜到的。</p>
     </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="net-basic"></div>
-  </section>
-  <section class="fx-section" data-reveal id="win-system">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
-        <div><h2>Windows 系统与开机</h2><p>开机黑屏、蓝屏、更新失败、密码</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="win-system"></div>
-  </section>
-  <section class="fx-section" data-reveal id="router">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13" width="18" height="8" rx="2"/><path d="M7 17h.01M11 17h.01M15 17h2M12 13V9M8.5 6.5a5 5 0 017 0M6 4a8.5 8.5 0 0112 0"/></svg></span>
-        <div><h2>路由器与家庭网络</h2><p>拨号、桥接、限速、固件、后台</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="router"></div>
-  </section>
-  <section class="fx-section" data-reveal id="ip-dns">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span>
-        <div><h2>IP 与 DNS</h2><p>IP 冲突、DHCP、169.254、DNS 解析</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="ip-dns"></div>
-  </section>
-  <section class="fx-section" data-reveal id="win-app">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6v4h2a2 2 0 010 4v6h-4v-2a2 2 0 10-4 0v2H5v-6H3a2 2 0 010-4h2z"/></svg></span>
-        <div><h2>Windows 软件与性能</h2><p>卡顿、C 盘满、自启、闪退、弹窗</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="win-app"></div>
-  </section>
-  <section class="fx-section" data-reveal id="mac-system">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8c-3 0-5 2-5 5.5 0 3 2 6 5 6s5-3 5-6C17 10 15 8 12 8z"/><path d="M12 8c0-2 1-4 3-4.5"/></svg></span>
-        <div><h2>macOS 系统与开机</h2><p>开不了机、恢复模式、权限、更新</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="mac-system"></div>
-  </section>
-  <section class="fx-section" data-reveal id="mac-app">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8c-3 0-5 2-5 5.5 0 3 2 6 5 6s5-3 5-6C17 10 15 8 12 8z"/><path d="M12 8c0-2 1-4 3-4.5"/></svg></span>
-        <div><h2>macOS 软件与性能</h2><p>发热、风扇、存储、电池、闪退</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="mac-app"></div>
-  </section>
-  <section class="fx-section" data-reveal id="hardware">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5a4 4 0 015.6 5.6l-9 9L6 21l-3-3 1.9-5.1 9-9z"/></svg></span>
-        <div><h2>硬件与主机</h2><p>内存、硬盘、显卡、电源、散热</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="hardware"></div>
-  </section>
-  <section class="fx-section" data-reveal id="peripheral">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 17h10v4H7z"/></svg></span>
-        <div><h2>外设</h2><p>打印机、显示器、键鼠、蓝牙、U 盘</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="peripheral"></div>
-  </section>
-  <section class="fx-section" data-reveal id="proxy-vpn">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/></svg></span>
-        <div><h2>代理与 VPN</h2><p>系统代理、浏览器代理、PAC、抓包冲突</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="proxy-vpn"></div>
-  </section>
-  <section class="fx-section" data-reveal id="account-sec">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 118 0v3"/></svg></span>
-        <div><h2>账号与安全</h2><p>登录、密码、恶意软件、诈骗防范</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="account-sec"></div>
-  </section>
-  <section class="fx-section" data-reveal id="data-backup">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5"/></svg></span>
-        <div><h2>数据与备份</h2><p>误删恢复、备份、迁移、分区</p></div>
-      </div>
-    </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="data-backup"></div>
-  </section>
+    <a class="fx-btn fx-btn--ghost fx-btn--sm" href="./wizard.html">说不清？用症状向导</a>
+  </div>
 
-  <section class="fx-section" data-reveal id="hardware-3d" style="margin-top:40px">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/><path d="M7 10l3 2-3 2"/></svg></span>
-        <div><h2>硬件拆解图（3D）</h2><p>一台笔记本里有什么：点开每个零件，看位置、看症状、跳对应教程</p></div>
-      </div>
+  <nav class="fx-domnav" data-fx-domainnav aria-label="快速跳到领域"></nav>
+  <noscript><p class="fx-p" style="margin-top:14px">为了按领域显示文章列表，本页需要启用 JavaScript；也可以直接 <a class="fx-link" href="./search.html">搜索</a> 或 <a class="fx-link" href="./wizard.html">用症状向导</a>。</p></noscript>
+
+  <section class="fx-browse-group" id="net-basic" aria-labelledby="h-net-basic">
+    <div class="fx-browse-group__head">
+      <h2 id="h-net-basic">网络基础</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="net-basic">6 篇</span>
+      <span class="fx-browse-group__desc">网线、Wi-Fi、网卡驱动、完全上不了网</span>
     </div>
-    <a class="fx-card" href="./hardware.html" style="--accent:var(--fx-lav);display:block;text-decoration:none;color:inherit">
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="net-basic"></div>
+    <noscript><div data-fx-noscript="net-basic"><ul class="fx-noscript-list"><li><a href="./fix/wifi-connected-but-no-internet.html">Wi-Fi 显示已连接但无法上网（打不开网页）</a><span class="fx-noscript-meta">15-45 分钟 · 需谨慎</span></li><li><a href="./fix/home-network-all-offline.html">家里所有设备都上不了网：先分清是谁的问题</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li><li><a href="./fix/wifi-adapter-missing.html">电脑没有 WLAN 选项 / 网络适配器不见了</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/wifi-ssid-not-found.html">Wi-Fi 列表里找不到自家网络怎么办</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/ethernet-no-link.html">网线插着却提示「网络电缆被拔出」怎么修</a><span class="fx-noscript-meta">10-40 分钟 · 需谨慎</span></li><li><a href="./fix/slow-network.html">网速慢怎么定位：是宽带、路由器还是电脑的问题</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="win-system" aria-labelledby="h-win-system">
+    <div class="fx-browse-group__head">
+      <h2 id="h-win-system">Windows 系统与开机</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="win-system">10 篇</span>
+      <span class="fx-browse-group__desc">开机黑屏、蓝屏、更新失败、登录密码</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="win-system"></div>
+    <noscript><div data-fx-noscript="win-system"><ul class="fx-noscript-list"><li><a href="./fix/win-blackscreen-cursor.html">电脑开机黑屏只有鼠标指针，怎么救回来</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/win-bluescreen-read-code.html">电脑蓝屏了怎么办：先学会读蓝屏代码</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/win-forgot-password.html">电脑开机密码忘了 / PIN 突然用不了</a><span class="fx-noscript-meta">20-90 分钟 · 有数据风险</span></li><li><a href="./fix/win-stuck-on-boot-logo.html">电脑开机一直转圈 / 卡在品牌 Logo 进不去系统</a><span class="fx-noscript-meta">30-90 分钟 · 有数据风险</span></li><li><a href="./fix/win-update-stuck.html">Windows 更新卡在 0% / 一直失败，怎么强制修好</a><span class="fx-noscript-meta">40-120 分钟 · 需谨慎</span></li><li><a href="./fix/driver-install-rollback.html">驱动装错出问题？安装与回退的正确姿势（从哪下、怎么退）</a><span class="fx-noscript-meta">10-40 分钟 · 需谨慎</span></li><li><a href="./fix/win-safe-restore.html">系统改坏了进不去？安全模式、系统还原与重置的正确顺序</a><span class="fx-noscript-meta">20-90 分钟 · 需谨慎</span></li><li><a href="./fix/win-time-repeatedly-wrong.html">电脑时间总是不对 / 每次开机都变慢怎么办</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/win-update-enable.html">Windows 更新被关闭了，怎么重新开启并恢复检查更新</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/win-update-pause.html">Windows 自动更新太烦，怎样安全暂停或临时关闭</a><span class="fx-noscript-meta">5-15 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="router" aria-labelledby="h-router">
+    <div class="fx-browse-group__head">
+      <h2 id="h-router">路由器与家庭网络</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="router">5 篇</span>
+      <span class="fx-browse-group__desc">拨号、桥接、限速、固件、管理后台</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="router"></div>
+    <noscript><div data-fx-noscript="router"><ul class="fx-noscript-list"><li><a href="./fix/router-admin-page-unreachable.html">路由器后台 192.168.1.1 打不开怎么办</a><span class="fx-noscript-meta">15-45 分钟 · 需谨慎</span></li><li><a href="./fix/router-wifi-leech-check.html">怎么查谁在蹭网 / 给设备限速与拉黑</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/router-firmware-reset.html">路由器固件升级与恢复出厂的正确姿势（含变砖救援）</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li><li><a href="./fix/router-port-forward.html">端口映射怎么做：外网访问家里的 NAS / 摄像头 / 电脑</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/router-wifi-coverage.html">某些房间 WiFi 信号差 / 一进卧室就断流怎么优化</a><span class="fx-noscript-meta">20-60 分钟 · 安全</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="ip-dns" aria-labelledby="h-ip-dns">
+    <div class="fx-browse-group__head">
+      <h2 id="h-ip-dns">IP 与 DNS</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="ip-dns">4 篇</span>
+      <span class="fx-browse-group__desc">IP 冲突、DHCP、169.254、DNS 解析</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="ip-dns"></div>
+    <noscript><div data-fx-noscript="ip-dns"><ul class="fx-noscript-list"><li><a href="./fix/ip-conflict-locate-device.html">IP 地址冲突怎么查是哪台设备</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/dns-broken-but-app-works.html">网页打不开但 QQ / 微信能用：DNS 问题怎么修</a><span class="fx-noscript-meta">15-40 分钟 · 需谨慎</span></li><li><a href="./fix/dhcp-no-ip-169-254.html">电脑获取不到 IP 地址 / IP 是 169.254 开头</a><span class="fx-noscript-meta">20-60 分钟 · 需谨慎</span></li><li><a href="./fix/dns-hijack.html">DNS 被劫持怎么判断：打开网页要等很久 / 被插广告的根治方法</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="win-app" aria-labelledby="h-win-app">
+    <div class="fx-browse-group__head">
+      <h2 id="h-win-app">Windows 软件与性能</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="win-app">12 篇</span>
+      <span class="fx-browse-group__desc">卡顿、C 盘满、自启、闪退、弹窗劫持</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="win-app"></div>
+    <noscript><div data-fx-noscript="win-app"><ul class="fx-noscript-list"><li><a href="./fix/win-slow-diagnose.html">电脑越来越卡怎么办：一张表定位是哪里卡</a><span class="fx-noscript-meta">20-60 分钟 · 安全</span></li><li><a href="./fix/win-c-drive-full-cleanup.html">C 盘爆红快满了，怎么安全清理出空间</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/win-popup-ads-hijack.html">电脑老是弹广告、浏览器主页被劫持改不回来</a><span class="fx-noscript-meta">40-120 分钟 · 需谨慎</span></li><li><a href="./fix/win-app-crash-missing-dll.html">软件打不开、闪退，提示缺少 dll 或 0xc000007b</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/win-startup-apps-disable.html">开机太慢：关掉这些开机自启软件</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/codex-cli-install.html">Codex CLI 下载安装与登录：Windows 一条命令搞定</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/codex-desktop-install.html">Codex 怎么下载安装：Windows 桌面版与第一次使用</a><span class="fx-noscript-meta">10-20 分钟 · 安全</span></li><li><a href="./fix/win-clipboard-not-working.html">Windows 剪贴板不能用 / 复制粘贴失效怎么修</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/win-search-not-working.html">Windows 搜索没反应 / 搜不到文件怎么修</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/win-store-not-opening.html">Microsoft Store 打不开 / 商店应用装不上怎么修</a><span class="fx-noscript-meta">10-45 分钟 · 需谨慎</span></li><li><a href="./fix/win-taskbar-unresponsive.html">Windows 任务栏卡死 / 点击没反应怎么修</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/win-thumbnail-cache-broken.html">Windows 文件图标变白 / 缩略图不显示怎么修</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="mac-system" aria-labelledby="h-mac-system">
+    <div class="fx-browse-group__head">
+      <h2 id="h-mac-system">macOS 系统与开机</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="mac-system">6 篇</span>
+      <span class="fx-browse-group__desc">开不了机、恢复模式、登录、系统更新</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="mac-system"></div>
+    <noscript><div data-fx-noscript="mac-system"><ul class="fx-noscript-list"><li><a href="./fix/mac-airdrop-not-working.html">隔空投送用不了：搜不到设备 / 一直等待 / 传到一半失败</a><span class="fx-noscript-meta">5-15 分钟 · 安全</span></li><li><a href="./fix/mac-forgot-password.html">Mac 忘记开机密码怎么办（Apple Silicon / Intel 都覆盖）</a><span class="fx-noscript-meta">10-40 分钟 · 有数据风险</span></li><li><a href="./fix/mac-safari-cant-load.html">Mac Safari 打不开网页 / 只有浏览器上不了网怎么修</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/mac-update-stuck.html">macOS 更新卡住：下载不动 / 安装进度条不动怎么办</a><span class="fx-noscript-meta">10 分钟-2 小时 · 需谨慎</span></li><li><a href="./fix/mac-wifi-keeps-dropping.html">Mac 的 Wi-Fi 反复断连 / 自己关掉怎么修</a><span class="fx-noscript-meta">10-45 分钟 · 需谨慎</span></li><li><a href="./fix/mac-wont-boot.html">Mac 开不了机 / 卡在苹果标志怎么办</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="mac-app" aria-labelledby="h-mac-app">
+    <div class="fx-browse-group__head">
+      <h2 id="h-mac-app">macOS 软件与性能</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="mac-app">8 篇</span>
+      <span class="fx-browse-group__desc">发热、风扇、储存空间、电池、App Store</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="mac-app"></div>
+    <noscript><div data-fx-noscript="mac-app"><ul class="fx-noscript-list"><li><a href="./fix/mac-fan-noise-overheat.html">Mac 风扇狂转、机身发烫怎么办</a><span class="fx-noscript-meta">15-40 分钟 · 安全</span></li><li><a href="./fix/mac-storage-system-data.html">Mac 储存空间不足 /「系统数据」占了上百 G</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/icloud-storage-full.html">iCloud 储存空间不足怎么办：先看谁在吃空间，再决定清还是升</a><span class="fx-noscript-meta">10-30 分钟 · 安全</span></li><li><a href="./fix/mac-app-damaged-cant-open.html">Mac 应用打不开：提示「已损坏」或「无法验证开发者」怎么修</a><span class="fx-noscript-meta">5-20 分钟 · 需谨慎</span></li><li><a href="./fix/mac-app-store-download-stuck.html">Mac App Store 下载卡住 / 应用装不上怎么修</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/mac-battery-health.html">Mac 电池健康怎么看：循环次数、续航变差与「建议维修」</a><span class="fx-noscript-meta">5-30 分钟 · 安全</span></li><li><a href="./fix/mac-finder-unresponsive.html">Mac Finder 卡死 / 一直转圈怎么修</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li><li><a href="./fix/mac-spotlight-not-working.html">Mac 聚焦搜索搜不到文件 / Spotlight 不工作怎么修</a><span class="fx-noscript-meta">15-60 分钟 · 安全</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="hardware" aria-labelledby="h-hardware">
+    <div class="fx-browse-group__head">
+      <h2 id="h-hardware">硬件与主机</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="hardware">6 篇</span>
+      <span class="fx-browse-group__desc">内存、硬盘、显卡、电源、散热清灰</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="hardware"></div>
+    <noscript><div data-fx-noscript="hardware"><ul class="fx-noscript-list"><li><a href="./fix/disk-clicking-failure.html">硬盘咔咔响 / 电脑识别不到硬盘，是不是要坏了</a><span class="fx-noscript-meta">30-120 分钟 · 有数据风险</span></li><li><a href="./fix/laptop-battery-not-charging.html">笔记本插着电却提示「未充电」/ 电量 0% 怎么修</a><span class="fx-noscript-meta">15-60 分钟 · 安全</span></li><li><a href="./fix/partition-manager.html">硬盘怎么分区 / C 盘不够想扩容怎么办</a><span class="fx-noscript-meta">20-90 分钟 · 有数据风险</span></li><li><a href="./fix/pc-overheat-cleaning.html">电脑温度过高 / 风扇狂转？清灰降温实操指南</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/psu-no-power-check.html">电脑按开机键没反应？电源故障自查清单（含短接启动法）</a><span class="fx-noscript-meta">15-45 分钟 · 需谨慎</span></li><li><a href="./fix/ram-reseat-no-boot.html">电脑反复重启 / 开机报警一长两短？先重插内存条</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="peripheral" aria-labelledby="h-peripheral">
+    <div class="fx-browse-group__head">
+      <h2 id="h-peripheral">外设</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="peripheral">16 篇</span>
+      <span class="fx-browse-group__desc">打印机、显示器、键鼠蓝牙、U 盘、摄像头</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="peripheral"></div>
+    <noscript><div data-fx-noscript="peripheral"><ul class="fx-noscript-list"><li><a href="./fix/printer-offline.html">打印机显示脱机 / 打印没反应怎么修</a><span class="fx-noscript-meta">20-60 分钟 · 安全</span></li><li><a href="./fix/usb-drive-not-recognized.html">U 盘 / 移动硬盘不识别、提示格式化怎么办</a><span class="fx-noscript-meta">20-90 分钟 · 有数据风险</span></li><li><a href="./fix/monitor-no-signal.html">显示器无信号 / 分辨率不对 / 外接屏不亮</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/bluetooth-device-not-pairing.html">蓝牙耳机 / 键鼠连不上、一直配对失败怎么修</a><span class="fx-noscript-meta">5-30 分钟 · 安全</span></li><li><a href="./fix/mac-bluetooth-unavailable.html">Mac 蓝牙不可用 / 设备突然消失怎么修</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li><li><a href="./fix/mac-external-display-not-detected.html">Mac 外接显示器 / 扩展坞不识别怎么修</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/mac-no-sound.html">Mac 没声音：内置扬声器/耳机没声音怎么修</a><span class="fx-noscript-meta">5-20 分钟 · 安全</span></li><li><a href="./fix/mac-printer-offline.html">Mac 打印机没反应 / 显示离线怎么修</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/printer-jam-quality.html">打印机卡纸 / 打印有横纹、颜色淡怎么处理</a><span class="fx-noscript-meta">10-45 分钟 · 需谨慎</span></li><li><a href="./fix/printer-network-ip-fixed.html">网络打印机 IP 变了就离线？固定 IP 与端口配置</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/printer-shared-error-11b.html">共享打印机连不上 / 报错 0x0000011b 怎么修</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li><li><a href="./fix/screen-artifacts-flicker.html">花屏 / 闪屏 / 有条纹：显卡、线还是屏坏了怎么分</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li><li><a href="./fix/screen-cast-miracast.html">无线投屏失败、搜不到电视怎么修（Win+K / Miracast）</a><span class="fx-noscript-meta">10-40 分钟 · 安全</span></li><li><a href="./fix/webcam-not-working.html">摄像头打不开 / 视频会议对方看不到我怎么修</a><span class="fx-noscript-meta">5-30 分钟 · 安全</span></li><li><a href="./fix/win-microphone-not-working.html">电脑麦克风没声音 / 会议里对方听不到怎么修</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/win-no-sound.html">电脑没声音 / 右下角喇叭有红叉怎么修</a><span class="fx-noscript-meta">5-30 分钟 · 安全</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="proxy-vpn" aria-labelledby="h-proxy-vpn">
+    <div class="fx-browse-group__head">
+      <h2 id="h-proxy-vpn">代理与 VPN</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="proxy-vpn">4 篇</span>
+      <span class="fx-browse-group__desc">系统代理、浏览器代理、PAC、抓包冲突</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="proxy-vpn"></div>
+    <noscript><div data-fx-noscript="proxy-vpn"><ul class="fx-noscript-list"><li><a href="./fix/proxy-server-not-responding.html">浏览器提示「代理服务器无响应」怎么修</a><span class="fx-noscript-meta">15-40 分钟 · 需谨慎</span></li><li><a href="./fix/proxy-tool-broke-network.html">装了抓包/加速工具后全网断网怎么恢复</a><span class="fx-noscript-meta">30-90 分钟 · 需谨慎</span></li><li><a href="./fix/browser-proxy.html">浏览器打不开网页但其他应用正常？浏览器代理与 PAC 设置修复</a><span class="fx-noscript-meta">5-25 分钟 · 需谨慎</span></li><li><a href="./fix/enterprise-proxy.html">公司电脑上不了网 / 提示证书不受信任？企业代理环境排查</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="account-sec" aria-labelledby="h-account-sec">
+    <div class="fx-browse-group__head">
+      <h2 id="h-account-sec">账号与安全</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="account-sec">5 篇</span>
+      <span class="fx-browse-group__desc">登录、密码、恶意软件、诈骗识别</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="account-sec"></div>
+    <noscript><div data-fx-noscript="account-sec"><ul class="fx-noscript-list"><li><a href="./fix/malware-first-response.html">电脑中病毒了怎么办：先做这三件事再杀毒</a><span class="fx-noscript-meta">60-240 分钟 · 需谨慎</span></li><li><a href="./fix/remote-control-scam.html">有人让我下载软件并远程控制电脑，是诈骗吗</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/leak-check.html">担心密码泄露？账号泄露自查与止损清单</a><span class="fx-noscript-meta">15-45 分钟 · 安全</span></li><li><a href="./fix/phishing-message-check.html">收到「账户异常」「快递赔付」短信/邮件？三步识别钓鱼</a><span class="fx-noscript-meta">5-15 分钟 · 安全</span></li><li><a href="./fix/ransomware-encrypted-response.html">文件被加密 / 弹出勒索要钱怎么办：勒索软件应急指南</a><span class="fx-noscript-meta">30-120 分钟 · 有数据风险</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="data-backup" aria-labelledby="h-data-backup">
+    <div class="fx-browse-group__head">
+      <h2 id="h-data-backup">数据与备份</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="data-backup">4 篇</span>
+      <span class="fx-browse-group__desc">误删恢复、备份、迁移、分区</span>
+    </div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="data-backup"></div>
+    <noscript><div data-fx-noscript="data-backup"><ul class="fx-noscript-list"><li><a href="./fix/deleted-file-recovery.html">文件误删了怎么恢复（先做这一步，别写磁盘）</a><span class="fx-noscript-meta">20-90 分钟 · 有数据风险</span></li><li><a href="./fix/backup-before-repair.html">换硬盘 / 重装系统前，怎么把数据备份全</a><span class="fx-noscript-meta">30-120 分钟 · 安全</span></li><li><a href="./fix/format-partition-recovery.html">格式化后 / 分区不见了，数据还能救回来吗</a><span class="fx-noscript-meta">30-180 分钟 · 有数据风险</span></li><li><a href="./fix/mac-time-machine-troubleshoot.html">时间机器备份卡住 / 失败怎么修（含备份盘满了怎么办）</a><span class="fx-noscript-meta">15-60 分钟 · 需谨慎</span></li></ul></div></noscript>
+  </section>
+  <section class="fx-browse-group" id="hardware-3d" aria-labelledby="h-hardware-3d">
+    <div class="fx-browse-group__head">
+      <h2 id="h-hardware-3d">硬件拆解图（3D）</h2>
+      <span class="fx-browse-group__desc">一台笔记本里有什么：点开每个零件，看位置、看症状、跳对应教程</span>
+    </div>
+    <a class="fx-card fx-card--link" href="./hardware.html" style="--accent:var(--fx-lav);text-decoration:none;color:inherit">
       <div class="fx-card__top"><h3 class="fx-card__t">笔记本 3D 拆解图</h3></div>
-      <div class="fx-card__badges" style="margin:8px 0 10px"><span class="fx-badge fx-badge--ref">可交互 3D</span><span class="fx-badge fx-badge--level">4 种机型</span><span class="fx-badge fx-badge--time">19 个零件</span></div>
-      <p class="fx-card__path">装机与运维手册 › 零件位置</p>
-      <p class="fx-card__snippet">支持笔记本与联想 ThinkCentre / 戴尔 OptiPlex / 惠普 ProDesk 三款塔式主机。拖动旋转、滚轮缩放、点零件分解——每个零件都连着对应的排障教程，还标出了各品牌的非标件。工程师拆机查位置、给客户讲结构都用得上。</p>
+      <div class="fx-card__badges"><span class="fx-badge fx-badge--ref">可交互 3D</span><span class="fx-badge fx-badge--level">4 种机型</span><span class="fx-badge fx-badge--time">19 个零件</span></div>
+      <p class="fx-card__snippet">支持笔记本与联想 ThinkCentre / 戴尔 OptiPlex / 惠普 ProDesk 三款塔式主机。拖动旋转、滚轮缩放、点零件分解——每个零件都连着对应的排障教程，还标出了各品牌的非标件。</p>
     </a>
   </section>
 
-  <h2 class="fx-h2" id="reference" style="margin-top:44px">参考资料</h2>
-  <p class="fx-p" style="max-width:64ch">团队 SOP 里「会做但不必背」的部分：装系统、分区、换件、装机运维。标着「参考 SOP」的都是别人整理好的手册，我们只做索引、分类和一句话提醒，处理细节请以原文为准。</p>
-  <section class="fx-section" data-reveal id="ref-manual">
-    <div class="fx-head">
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="fx-domain__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M8 8h7M8 11.5h7"/></svg></span>
-        <div><h2>装机与运维手册</h2><p>装系统、PE、分区引导、驱动镜像、拆装换件、数据迁移、BIOS 与加密、打印外设</p></div>
-      </div>
+  <div id="reference" style="margin-top:38px">
+    <h2 class="fx-h2">参考资料</h2>
+    <p class="fx-p" style="max-width:66ch">团队 SOP 里「会做但不必背」的部分：装系统、分区、换件、装机运维。标着「参考 SOP」的都是别人整理好的手册，我们只做索引、分类和一句话提醒，处理细节请以原文为准。</p>
+  </div>
+
+  <section class="fx-browse-group" id="ref-manual" aria-labelledby="h-ref-manual">
+    <div class="fx-browse-group__head">
+      <h2 id="h-ref-manual">装机与运维手册</h2>
+      <span class="fx-browse-group__count" data-fx-domain-count="ref-manual">10 篇</span>
+      <span class="fx-browse-group__desc">装系统与 PE、分区引导、驱动镜像、数据迁移、BIOS 与加密、打印外设配置</span>
     </div>
-    <div class="fx-cards" data-fx-list="domain" data-domain="ref-manual"></div>
+    <div class="fx-rows" data-fx-list="domain-rows" data-domain="ref-manual"></div>
+    <noscript><div data-fx-noscript="ref-manual"><ul class="fx-noscript-list"><li><a href="./fix/sop-billable-repair.html">有偿维修与延保速查：摔碎、进水、屏轴、外壳与付费检测</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-bios-post-errors.html">开机报错与 BIOS 速查：不加电、报警、电池/时间错、密码与启动项</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-data-backup-migrate.html">换机与重装前的数据备份速查：桌面、文档、浏览器、微信与企业微信</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-diagnose-tools.html">故障检测工具速查：蓝屏、DMP、硬盘、内存、温度与日志</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-driver-image-misc.html">驱动与软件环境杂项：Ubuntu 驱动、WPS VBA 与 CAD 卡死</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-hardware-peripheral.html">外设与显示速查：屏幕、键鼠、触摸板、音频、蓝牙、指纹与摄像头</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-macos-maintain.html">Mac 维护速查：装系统、恢复模式、SMC/NVRAM 与资料迁移</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-new-device-onboarding.html">新机交付与日常使用规范：开箱检测、跳过联网、防卡顿与一键还原</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-pe-usb-install.html">PE 制作与系统安装速查：PE 盘、多合一、U 盘与在线安装</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li><li><a href="./fix/sop-printer-connected-fix.html">打印机连接与故障速查：USB / 共享 / 网络、卡纸、缺墨与扫描</a><span class="fx-noscript-meta">10-30 分钟 · 需谨慎</span></li></ul></div></noscript>
   </section>
 </main>
 <footer class="fx-foot"><div class="fx-wrap">
   <div class="fx-foot__inner">
     <div><a class="fx-brand" href="./index.html" style="margin-bottom:10px"><span class="fx-brand__mark" aria-hidden="true">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></a>
-    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p></div>
-    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 13 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li><li><a href="./browse.html#ref-manual">装机与运维手册</a></li></ul></div>
+    <p style="margin-top:10px;max-width:34ch">电脑与网络故障的自助排障手册。把「我电脑坏了」翻译成「照着做就能修好」。</p>
+    <p class="fx-foot__stat">目前 <b data-fx-count-domains>13</b> 个领域 · <b data-fx-count-all>96</b> 篇（含 <span data-fx-count-refs>10</span> 篇参考资料）</p></div>
+    <div><h3>按领域</h3><ul><li><a href="./browse.html">全部 <span data-fx-count-domains>13</span> 个领域</a></li><li><a href="./browse.html#net-basic">网络基础</a></li><li><a href="./browse.html#win-system">Windows 系统与开机</a></li><li><a href="./browse.html#data-backup">数据与备份</a></li><li><a href="./browse.html#ref-manual">装机与运维手册</a></li></ul></div>
     <div><h3>常用</h3><ul><li><a href="./wizard.html">症状向导</a></li><li><a href="./tools.html">命令速查</a></li><li><a href="./search.html">搜索</a></li></ul></div>
     <div><h3>关于</h3><ul><li><a href="./about.html">关于本站</a></li><li><a href="./about.html#disclaimer">免责声明</a></li><li><a href="./about.html#privacy">隐私说明</a></li><li><a href="./about.html#feedback">纠错与反馈</a></li></ul></div>
   </div>
-  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：2026-10-27</span></div>
+  <div class="fx-foot__legal"><span>© 2026 YUAN.ABD</span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a><span>本站内容仅供自助排查参考；涉及数据丢失风险的操作请先备份。</span><span style="margin-left:auto">最近更新：<span data-fx-updated>2026-11-23</span></span></div>
 </div></footer>
 <script src="./data/articles.js"></script>
 <script src="./js/fix.js"></script>

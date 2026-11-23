@@ -3,8 +3,21 @@
    设计原则：产物是本项目自包含单文件风格 —— 内联 CSS，不引外部资源，
    因此 CSP 可以收得很紧（default-src 'self'）。 */
 "use strict";
+const fs = require("fs");
+const path = require("path");
 const h = require("./http.cjs");
 const esc = h.esc;
+
+/* 界面层 v3（2026-11）：在 v2 新拟物层之上做「白卡 + 细边 + 轻投影」的结构化修订。
+   单独成文件是为了让设计调整不必在 1000+ 行的 BASE_CSS 里翻找；启动时读入并内联，
+   保持「产物是自包含单文件、CSP 只允许 'self'」的既有约束。 */
+let V3_CSS = "";
+try {
+  V3_CSS = fs.readFileSync(path.join(__dirname, "ui-v3.css"), "utf8");
+} catch (e) {
+  /* 缺少样式文件时降级到 v2 皮肤，而不是让整个后台启动失败 */
+  console.error("[views] 未能加载 ui-v3.css，已回退到 v2 样式：" + e.message);
+}
 
 /* 正文段落规则的兜底值。
    真实值由服务端从 content-lint.cjs 注入（opts.sections），
@@ -48,6 +61,14 @@ const ICONS = {
 
 /* 渲染一个图标。name 不存在时返回空串（不抛错，避免一个笔误炸整页）。
    默认 aria-hidden：本站所有图标的含义都有可见文字标签，图标属于装饰。 */
+/* 外部链接 href 白名单：只放行 http/https。
+   为什么需要：转义只能防「提前闭合属性」，防不了 `javascript:` 这类协议。
+   来源体检的 URL 来自外部探测报告，属于「不可信输入」，必须过这里。 */
+function safeHref(u) {
+  const s = String(u === undefined || u === null ? "" : u).trim();
+  return /^https?:\/\//i.test(s) ? s : "#";
+}
+
 function icon(name, size, cls) {
   const d = ICONS[name];
   if (!d) return "";
@@ -59,6 +80,29 @@ function icon(name, size, cls) {
 }
 
 const BASE_CSS = `
+/* ============================================================
+   ⚠ 分层说明（2026-11 评审补充）
+   ---------------------------------------------------------------------------
+   本文件是 v2「新拟物」皮肤，运行时按 BASE_CSS → V3_CSS 的顺序内联进 <style>，
+   因此 ui-v3.css 里同名选择器会**覆盖**这里。保留 BASE_CSS 的目的是兜底：
+   ui-v3.css 加载失败（或将来要回退皮肤）时后台仍可用、可读。
+
+   已被 ui-v3.css 完全覆盖、无需在 v3 上继续维护的组件组（改样式请改 v3）：
+     .sidebar / .navitem / .topbar / .work        —— 骨架与导航
+     .card / .card__hd / .card__bd / .card__ft     —— 卡片
+     .page-head                                    —— 页头（v2 是裸 h1，v3 才有题头）
+     .btn / .btn--primary / .btn--ghost / .btn--sm —— 按钮
+     input / select / textarea / label             —— 表单控件
+     table / thead th / tbody td                   —— 表格
+     .pill / .alert / .empty / .kbd                —— 徽章、提示、空态
+     .pager__btn / .statustab / .filters__chip     —— 分页与筛选
+     .editor-actions / .md-toolbar / .meter        —— 编辑器工具条
+
+   未使用的组件样式已直接删除（不要“留着以后用”）：
+     .stat* / .spark / .tiles / .tile* / .feed* / .heat--wide /
+     .chart__bar--muted|hot|good / .btn--tint / .btn--block / .tax-list / .field__err
+   判断依据：渲染后的 15 个页面 HTML 里没有任何对应 class。
+   ============================================================ */
 /* ============================================================
    新拟物（Neumorphism / Soft UI）后台设计系统
    依据项目负责人提供的 7 张参考图逐字落地：
@@ -202,31 +246,10 @@ main{padding:0 30px 60px;max-width:1560px;width:100%}
 .card__bd{padding:0 24px 24px}
 .card__ft{padding:16px 24px;box-shadow:inset 0 1px 0 rgba(214,200,189,.5)}
 
-/* ============ 统计卡 + 迷你柱状图 ============ */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:26px}
-@media(max-width:1040px){.stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.stats{grid-template-columns:1fr}}
-.stat{
-  background:var(--base);border-radius:var(--r-card);padding:20px 22px;
-  box-shadow:var(--raise);display:block;color:inherit;text-decoration:none;
-  transition:box-shadow .2s cubic-bezier(.34,1.56,.64,1), transform .2s;
-}
-.stat:hover{box-shadow:var(--raise-lg);transform:translateY(-2px)}
-.stat:active{box-shadow:var(--inset-sm);transform:translateY(0)}
-.stat__k{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:7px;
-  font-weight:600;letter-spacing:.01em}
-.stat__v{font-size:34px;font-weight:700;line-height:1.15;margin-top:8px;
-  letter-spacing:-.03em;font-family:var(--mono);color:var(--ink)}
-.stat__h{font-size:11.5px;color:var(--ink-3);margin-top:4px}
-.stat--ok .stat__v,.stat--on .stat__v{color:var(--accent)}   /* 关键数据用钴蓝 */
-.stat--warn .stat__v{color:var(--warn)}
-.stat--danger .stat__v{color:var(--warn)}
-
-/* 迷你柱状图：关闭态灰、开启态钴蓝（参考图 03） */
-.spark{display:flex;align-items:flex-end;gap:4px;height:34px;margin-top:12px}
-.spark i{flex:1;border-radius:3px;background:var(--lo);opacity:.55;
-  transition:background .3s, opacity .3s}
-.stat--on .spark i,.stat--ok .spark i{background:var(--accent);opacity:.85}
+/* ============ 统计卡（已废弃） ============
+   v3 用 .kpistrip（数据条）+ .hero（总览横幅）替代了 .stat 系列统计卡，
+   模板里已经没有任何 .stat/.stat__k/.spark 标记。整段删除，避免「看着有、
+   改了半天才发现根本没渲染」的死代码。相关清理也覆盖 .stat 在媒体查询里的残留引用。 */
 
 /* ============ 按钮：键帽 ============ */
 .btn{
@@ -245,7 +268,6 @@ main{padding:0 30px 60px;max-width:1560px;width:100%}
 .btn--danger{color:var(--warn)} .btn--danger:hover{color:#B93D19}
 .btn--ghost{box-shadow:none;color:var(--ink-2)} .btn--ghost:hover{box-shadow:var(--raise-sm)}
 .btn--sm{height:32px;padding:0 13px;font-size:12.5px;border-radius:12px}
-.btn--block{width:100%}
 .btn[disabled]{opacity:.5;cursor:not-allowed;box-shadow:var(--inset-sm)}
 .btn--loading{color:transparent!important;position:relative}
 .btn--loading::after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;
@@ -275,7 +297,6 @@ select{appearance:none;background-image:none;cursor:pointer}
 textarea{font-family:var(--mono);font-size:13px;line-height:1.8;min-height:460px;resize:vertical}
 .field{margin-bottom:20px}
 .field__help{font-size:11.5px;color:var(--ink-3);margin-top:6px;line-height:1.6}
-.field__err{font-size:11.5px;color:var(--warn);margin-top:6px;font-weight:600}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
@@ -435,7 +456,10 @@ main > h1 + p,main > .spread + p{margin-top:0}
 
 /* ---- 修正：表格列宽约束，日期/复核列不得折行 ---- */
 .tablewrap table{min-width:720px}
-.tablewrap td:nth-last-child(-n+3),.tablewrap th:nth-last-child(-n+3){white-space:nowrap}
+/* 原先这里写的是 td:nth-last-child(-n+3) —— 对只有 3 列的明细表，
+   等于「所有列都不许换行」，中文长标题因此撑破表格（工作台陈旧内容表、数据分析反馈表）。
+   改成只锁语义上「不该折行」的短列：数字 / 日期 / 状态（.num / .tight）。 */
+.tablewrap .num,.tablewrap .tight{white-space:nowrap}
 .dash-table{min-width:640px}
 .dash-table td,.dash-table th{padding:14px 18px}
 .dash-table td:first-child{min-width:240px}
@@ -476,47 +500,6 @@ main > h1 + p,main > .spread + p{margin-top:0}
 .dash-hello__date{font-size:12.5px;color:var(--ink-2);font-weight:600}
 .dash-hello__acts{display:flex;gap:10px;align-items:center}
 
-/* ---------------- 彩色统计磁贴（图2 统计卡 + 图3 撞色） ---------------- */
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:26px}
-@media(max-width:1040px){.tiles{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.tiles{grid-template-columns:1fr}}
-.tile{
-  position:relative;border-radius:22px;padding:20px 22px;display:block;
-  color:inherit;text-decoration:none;overflow:hidden;
-  box-shadow:var(--raise-sm);
-  transition:box-shadow .22s var(--neu-ease), transform .22s var(--neu-ease);
-}
-.tile:hover{text-decoration:none;transform:translateY(-3px);box-shadow:var(--raise)}
-.tile:active{transform:translateY(0)}
-.tile__hd{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;
-  letter-spacing:.01em;opacity:.95}
-.tile__ico{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;
-  font-size:13px;background:rgba(255,255,255,.72);flex:none}
-.tile__v{font-size:36px;font-weight:800;line-height:1.1;margin-top:10px;
-  letter-spacing:-.035em;font-family:var(--mono)}
-.tile__h{font-size:11.5px;margin-top:5px;opacity:.8;font-weight:600}
-.tile__spark{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:12px}
-.tile__spark i{flex:1;border-radius:2px;background:currentColor;opacity:.32}
-.tile__spark i.on{opacity:.85}
-/* 环比徽章 */
-.tile__delta{position:absolute;right:18px;top:18px;font-size:11px;font-weight:800;
-  padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.78);
-  display:inline-flex;align-items:center;gap:3px}
-
-/* 六色分布 */
-.tile--indigo{background:linear-gradient(140deg,#EDEFFF,var(--t-indigo));color:var(--i-indigo)}
-.tile--indigo .tile__ico{color:var(--d-indigo)}
-.tile--mint{background:linear-gradient(140deg,#E9FAF3,var(--t-mint));color:var(--i-mint)}
-.tile--mint .tile__ico{color:var(--d-mint)}
-.tile--amber{background:linear-gradient(140deg,#FFF7E6,var(--t-amber));color:var(--i-amber)}
-.tile--amber .tile__ico{color:var(--d-amber)}
-.tile--coral{background:linear-gradient(140deg,#FFEFEA,var(--t-coral));color:var(--i-coral)}
-.tile--coral .tile__ico{color:var(--d-coral)}
-.tile--sky{background:linear-gradient(140deg,#EAF5FF,var(--t-sky));color:var(--i-sky)}
-.tile--sky .tile__ico{color:var(--d-sky)}
-.tile--violet{background:linear-gradient(140deg,#F5ECFF,var(--t-violet));color:var(--i-violet)}
-.tile--violet .tile__ico{color:var(--d-violet)}
-
 /* ---------------- 图表卡（纯 CSS 柱状图 / 环形图，不引图表库） ---------------- */
 .chart{display:flex;align-items:flex-end;gap:7px;height:130px;padding:8px 0}
 .chart__col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;
@@ -526,9 +509,6 @@ main > h1 + p,main > .spread + p{margin-top:0}
   background:linear-gradient(180deg,var(--d-indigo),color-mix(in srgb,var(--d-indigo) 62%,#fff));
   transition:filter .18s;
 }
-.chart__bar--muted{background:linear-gradient(180deg,#CFC6BB,#E2DAD0)}
-.chart__bar--hot{background:linear-gradient(180deg,var(--d-amber),#E8B84E)}
-.chart__bar--good{background:linear-gradient(180deg,var(--d-mint),#5FCBA6)}
 .chart__col:hover .chart__bar{filter:brightness(1.08)}
 .chart__lab{font-size:10.5px;color:var(--ink-2);font-weight:600}
 .chart__val{font-size:10.5px;font-weight:700;color:var(--ink);font-family:var(--mono)}
@@ -560,22 +540,10 @@ main > h1 + p,main > .spread + p{margin-top:0}
 .bar > i{display:block;height:100%;border-radius:999px;
   background:linear-gradient(90deg,var(--d-indigo),#6C7BE8)}
 
-/* 通知流（图2 右侧） */
-.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
-.feed li{display:flex;gap:11px;align-items:flex-start;font-size:12.5px}
-.feed__av{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;
-  font-size:11px;font-weight:800;box-shadow:var(--raise-sm)}
-.feed__t{color:var(--ink);font-weight:600;line-height:1.5}
-.feed__m{color:var(--ink-2);font-size:11.5px}
-
-/* ---- 图表卡等高与热力图铺满（避免一侧留大片空白）---- */
+/* ---- 图表卡等高（避免一侧留大片空白）----
+   .feed（通知流）与 .heat--wide（40 列宽热力图）已随模板改版废弃，
+   模板里统一用 .heat（10 列自适应）—— 死规则已删除。 */
 .chart--tall{height:196px}
-.heat--wide{grid-template-columns:repeat(40,1fr);gap:5px}
-@media(max-width:1100px){.heat--wide{grid-template-columns:repeat(20,1fr)}}
-@media(max-width:900px){.heat--wide{grid-template-columns:repeat(10,1fr)}}
-/* 热力格不强制正方，避免 80 个格子撑出大片空白 */
-.heat--wide i{aspect-ratio:auto;height:26px}
-.heat--wide i{border-radius:7px}
 
 /* 图表标签：最多一行，超出用省略号（避免撑破柱宽） */
 .chart__lab{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
@@ -676,8 +644,6 @@ body[data-accent="violet"]{--pg:var(--c-violet);--pg-s:var(--s-violet);--pg-i:va
 .btn--primary{background:var(--pg);box-shadow:var(--raise-sm),0 0 0 1px rgba(0,0,0,.06)}
 .btn--primary:hover{background:var(--pg);filter:brightness(.93);box-shadow:var(--raise)}
 .btn--primary:active{filter:brightness(.88)}
-.btn--tint{background:var(--pg-s);color:var(--pg-i);box-shadow:var(--inset-sm)}
-.btn--tint:hover{color:var(--pg-i);box-shadow:var(--raise-sm)}
 a.link-strong{font-weight:600;color:var(--pg-i)}
 a.link-strong:hover{color:var(--pg);text-decoration:underline;text-underline-offset:3px}
 
@@ -1001,7 +967,6 @@ td,th{line-height:1.5}
 
 /* ---- 规范 P2：错误必须对读屏可见（role=alert / aria-live）---- */
 .alert--err{font-weight:600}
-.field__err{display:flex;align-items:center;gap:6px}
 
 /* ---- 规范：尊重 reduced-motion（动画全部关闭，但保留最终态）---- */
 @media (prefers-reduced-motion:reduce){
@@ -1220,8 +1185,7 @@ td,th{line-height:1.5}
   tbody tr{background:var(--base)}
   tbody tr:hover td{background:var(--base-2)}
   .login-body{background:var(--base)}
-  .tax-list{background:var(--base-2)}
-  .tax-add{border-top-color:rgba(255,255,255,.08)}
+    .tax-add{border-top-color:rgba(255,255,255,.08)}
   .pill--archived,.pill--viewer{background:#2A3039;color:#AAB4C0}
   .alert--err{color:#FFB4A0}
   .alert--warn{color:#EFC98A}
@@ -1260,23 +1224,26 @@ function layout(title, bodyHtml, opts) {
   }
   let nav = "";
   if (user) {
-    nav = '<div class="sidebar__sec">内容</div><nav class="sidebar__nav">' +
+    /* 导航按「工作动线」而非系统模块分组：
+         写内容 → 审内容 → 看数据；管理类收进最后一组，减少日常干扰。
+       「待审」徽章只在有可审稿件时出现，空队列不制造焦虑。 */
+    const reviewBadge = opts.counts && opts.counts.review;
+    nav = '<div class="sidebar__sec">写作</div><nav class="sidebar__nav">' +
       navItem("/dashboard", icon("dashboard"), "工作台", "dashboard", null, "content") +
-      navItem("/dashboard#reader-feedback", icon("chart"), "数据分析", "analytics", null, "content") +
       navItem("/articles", icon("articles"), "文章", "articles", opts.counts && opts.counts.articles, "content") +
       navItem("/articles/new", icon("plus"), "新建文章", "new", null, "content") +
       navItem("/media", icon("media"), "媒体库", "media", null, "content") +
-      navItem("/sources-check", icon("search"), "来源体检", "sources", null, "content") +
       '</nav>' +
-      (isReviewer ? '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
-        navItem("/audit", icon("audit"), "审计日志", "audit", null, "collab") +
-        navItem("/publish", icon("publish"), "发布", "publish", null, "collab") + '</nav>' :
-        '<div class="sidebar__sec sidebar__sec--collab">协作</div><nav class="sidebar__nav">' +
-        navItem("/publish", icon("publish"), "发布", "publish", null, "collab") + '</nav>') +
-      (isAdmin ? '<div class="sidebar__sec sidebar__sec--admin">管理</div><nav class="sidebar__nav">' +
+      '<div class="sidebar__sec">协作</div><nav class="sidebar__nav">' +
+      (isReviewer ? navItem("/review", icon("review"), "审核台", "review", reviewBadge, "collab") : "") +
+      navItem("/publish", icon("publish"), "发布", "publish", null, "collab") +
+      navItem("/analytics", icon("chart"), "数据分析", "analytics", null, "collab") +
+      navItem("/sources-check", icon("search"), "来源体检", "sources", null, "collab") +
+      (isReviewer ? navItem("/audit", icon("audit"), "审计日志", "audit", null, "collab") : "") +
+      '</nav>' +
+      (isAdmin ? '<div class="sidebar__sec">管理</div><nav class="sidebar__nav">' +
         navItem("/users", icon("users"), "账号", "users", null, "admin") +
-        navItem("/taxonomy", icon("taxonomy"), "领域与分类", "taxonomy", null, "admin") +
-        navItem("/security", icon("security"), "账号安全", "security", null, "admin") + '</nav>' : "");
+        navItem("/taxonomy", icon("taxonomy"), "领域与分类", "taxonomy", null, "admin") + '</nav>' : "");
   }
 
   let sidebar = "";
@@ -1292,6 +1259,9 @@ function layout(title, bodyHtml, opts) {
           '<span style="min-width:0;overflow:hidden;text-overflow:ellipsis"><strong style="display:block;color:var(--text-0)">' + esc(user.name || user.email) + '</strong>' + rolePill + '</span>' +
         '</div>' +
         '<div class="row" style="margin-top:10px;gap:6px">' +
+          /* 账号安全（2FA）是每个登录用户自己的设置，不能只挂在 admin 分组里 ——
+             否则 reviewer/editor 从界面上根本进不去（虽然路由是允许的）。 */
+          '<a class="btn btn--sm btn--ghost" href="/security">账号安全</a>' +
           '<a class="btn btn--sm btn--ghost" href="/change-password">修改密码</a>' +
           '<form method="post" action="/logout" style="display:inline">' +
             '<input type="hidden" name="_csrf" value="' + esc(opts.csrf||"") + '">' +
@@ -1314,13 +1284,33 @@ function layout(title, bodyHtml, opts) {
     }).join("") + '</nav>';
   }
 
-  const topbar = (user && cs.length)
-    ? '<div class="topbar">' + crumbs + '<span class="topbar__sp"></span>' + (opts.actions || "") + '</div>'
-    : (user && opts.actions ? '<div class="topbar"><span class="topbar__sp"></span>' + opts.actions + '</div>' : "");
+  /* 顶部条固定包含「全局搜索入口」：后台最常用的动作是「找到某一篇」，
+     它不该依赖先进某个列表页再筛选。Ctrl/Cmd+K 打开命令面板。 */
+  const cmdkBtn = user
+    ? '<button class="cmdbtn" type="button" data-cmdk-open aria-label="搜索文章与跳转（Ctrl 或 Cmd 加 K）">' +
+        icon("search", 14) + '<span>搜索 / 跳转</span><kbd>Ctrl K</kbd></button>'
+    : "";
+  const topbar = user
+    ? '<div class="topbar">' + crumbs + '<span class="topbar__sp"></span>' + cmdkBtn + (opts.actions || "") + '</div>'
+    : "";
 
   const inner = opts.nav === false
     ? bodyHtml
     : '<div class="shell">' + sidebar + '<div class="work">' + topbar + '<main>' + bodyHtml + '</main></div></div>';
+
+  /* ---------------- 全局命令面板（Ctrl/Cmd+K） ----------------
+     纯前端渲染、数据来自 /api/search（服务端只返回当前用户可见的文章摘要）。
+     没有它时，找一篇老文章要先点进列表再筛选三层，是后台里最高频的摩擦点。 */
+  const cmdk = user
+    ? '<dialog class="cmdk" id="fx-cmdk" aria-label="搜索与跳转">' +
+        '<div class="cmdk__panel">' +
+          /* 搜索框必须有可访问名称：placeholder 只是提示，读屏把它当「空名输入框」。
+             role=combobox + aria-autocomplete 是「输入即过滤列表」的标准语义。 */
+          '<input class="cmdk__input" id="fx-cmdk-input" type="search" role="combobox" aria-autocomplete="list" aria-label="搜索文章或页面" placeholder="搜索文章标题 / slug，或输入页面名称…" autocomplete="off" aria-controls="fx-cmdk-list" aria-expanded="false">' +
+          '<div class="cmdk__list" id="fx-cmdk-list" role="listbox" aria-label="结果"></div>' +
+          '<div class="cmdk__foot"><span>↑↓ 选择</span><span>Enter 打开</span><span>Esc 关闭</span><span style="margin-left:auto">输入 ? 查看全部页面</span></div>' +
+        '</div></dialog>'
+    : "";
 
   // 无障碍：toast 与提示用 aria-live 播报（Popover API 不会自动向读屏宣告）
   return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n' +
@@ -1328,12 +1318,15 @@ function layout(title, bodyHtml, opts) {
     '<meta name="color-scheme" content="light dark">\n' +
     '<meta name="robots" content="noindex,nofollow">\n' +
     '<title>' + esc(title) + ' · 修盒子内容后台</title>\n' +
-    '<style>' + BASE_CSS + '</style>\n</head>\n' +
+    '<style>' + BASE_CSS + V3_CSS + '</style>\n</head>\n' +
     // data-* 供 editor.js 读取（上传接口与 CSRF），避免把令牌写进内联脚本（CSP 更严）
-    '<body class="' + esc(opts.bodyClass || "") + '" data-accent="' + esc(opts.accent || "indigo") + '" data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '">\n' +
-    '<div id="live" aria-live="polite" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip(0 0 0 0)"></div>' +
+    '<body class="' + esc(opts.bodyClass || "") + '" data-accent="' + esc(opts.accent || "indigo") + '" data-upload-endpoint="/media/upload" data-csrf="' + esc(opts.csrf || "") + '" data-can-review="' + (isReviewer ? "1" : "0") + '" data-can-admin="' + (isAdmin ? "1" : "0") + '">\n' +
+    '<div id="live" role="status" aria-live="polite" class="sr-only"></div>' +
+    '<noscript><div style="margin:0 0 14px;padding:10px 14px;border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;background:var(--warn-weak);color:var(--warn);font-size:13px">浏览器禁用了 JavaScript：文章可以正常读写，但命令面板、分栏预览、图片上传与自动保存不可用。</div></noscript>' +
     inner +
+    cmdk +
     '\n<script src="/static/app.js" defer></script>\n' +
+    (user ? '<script src="/static/cmdk.js" defer></script>\n' : '') +
     // 页面级脚本：editor.js 只在编辑器页引入（元素缺失即跳过，见 public/editor.js）。
     // 修复：该文件此前在 server.cjs 有路由、却没有任何页面引用，
     //       导致正文导航、骨架插入、图片上传、领域联动、快捷键、字数统计全部失效。
@@ -1380,7 +1373,10 @@ function loginPage(opts) {
     '<label for="password">密码</label><input id="password" name="password" type="password" required autocomplete="current-password">' +
     '<div style="margin-top:20px"><button class="btn btn--primary" type="submit" style="width:100%">登录</button></div>' +
     "</form></div>" +
-    '<p class="muted" style="text-align:center">账号信息仅用于内容协作。请勿分享登录凭据。</p></div>',
+    '<p class="muted" style="text-align:center">账号信息仅用于内容协作。请勿分享登录凭据。</p></div>' +
+    /* 这里必须有两层收尾：.login-wrap 与 .login-page。
+       少写一层会让 .login-page 一直“开着”，后续节点被浏览器并入其中（结构不合法）。 */
+    "</div>",
     { nav: false, accent: "indigo", bodyClass: "login-body" });
 }
 
@@ -1448,7 +1444,7 @@ function articlesPage(opts) {
     const descNow = (f.sort || "-updated").charAt(0) === "-";
     const next = (isCur && !descNow) ? "-" + key : key;
     const arrow = isCur ? (descNow ? " ↓" : " ↑") : "";
-    return "<th><a class=\"sortlink\" href=\"" + qs({ sort: next, page: "" }) + "\">" + esc(label) + arrow + "</a></th>";
+    return "<th><a class=\"sortlink\" href=\"" + esc(qs({ sort: next, page: "" })) + "\">" + esc(label) + arrow + "</a></th>";
   }
 
   /* 行内快捷操作 + 批量能力的公共前置（rows / 批量条 / 状态 tab 都要用，必须先于 rows 定义） */
@@ -1513,12 +1509,12 @@ function articlesPage(opts) {
       else if (nums[nums.length - 1] !== "…") nums.push("…");
     }
     pager = '<div class="pager">' +
-      (cur > 1 ? '<a class="pager__btn" href="' + qs({ page: cur - 1 }) + '">上一页</a>' : '<span class="pager__btn" aria-disabled="true">上一页</span>') +
+      (cur > 1 ? '<a class="pager__btn" href="' + esc(qs({ page: cur - 1 })) + '">上一页</a>' : '<span class="pager__btn" aria-disabled="true">上一页</span>') +
       nums.map(function (n) {
         return n === "…" ? '<span class="pager__btn" aria-disabled="true">…</span>'
-          : '<a class="pager__btn" href="' + qs({ page: n }) + '"' + (n === cur ? ' aria-current="page"' : "") + ">" + n + "</a>";
+          : '<a class="pager__btn" href="' + esc(qs({ page: n })) + '"' + (n === cur ? ' aria-current="page"' : "") + ">" + n + "</a>";
       }).join("") +
-      (cur < totalPages ? '<a class="pager__btn" href="' + qs({ page: cur + 1 }) + '">下一页</a>' : '<span class="pager__btn" aria-disabled="true">下一页</span>') +
+      (cur < totalPages ? '<a class="pager__btn" href="' + esc(qs({ page: cur + 1 })) + '">下一页</a>' : '<span class="pager__btn" aria-disabled="true">下一页</span>') +
       '<span class="muted" style="margin-left:8px">共 ' + (opts.filtered || 0) + ' 篇</span>' +
       "</div>";
   }
@@ -1539,7 +1535,7 @@ function articlesPage(opts) {
     STATUS_TABS.map(function (t) {
       const n = t[0] === "" ? (opts.total || 0) : (sc[t[0]] || 0);
       const on = (f.status || "") === t[0];
-      return '<a class="statustab' + (t[2] ? " statustab--" + t[2] : "") + (on ? " is-on" : "") + '" href="' + qs({ status: t[0], page: "" }) + '"' +
+      return '<a class="statustab' + (t[2] ? " statustab--" + t[2] : "") + (on ? " is-on" : "") + '" href="' + esc(qs({ status: t[0], page: "" })) + '"' +
         (on ? ' aria-current="page"' : "") + ">" + t[1] + "<b>" + n + "</b></a>";
     }).join("") + "</nav>";
 
@@ -1563,7 +1559,7 @@ function articlesPage(opts) {
   // 生效中的筛选用彩色胶囊回显——原先只能靠「清除」按钮猜测当前过滤了什么
   function chip(label, href) {
     return '<span class="filters__chip">' + esc(label) +
-      '<a href="' + href + '" aria-label="移除筛选：' + esc(label) + '" title="移除该筛选">✕</a></span>';
+      '<a href="' + esc(href) + '" aria-label="移除筛选：' + esc(label) + '" title="移除该筛选">✕</a></span>';
   }
   const chips = [];
   if (f.q) chips.push(chip("搜索：" + f.q, qs({ q: "", page: "" })));
@@ -1588,9 +1584,12 @@ function articlesPage(opts) {
       acts: (canCreate ? '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' : "")
     }) +
     (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
+    /* error 原先没有渲染出口：行内「发布/退回」失败时服务端 302 回 /articles?error=…，
+       页面却只显示 notice，用户点了没反应也看不到原因。 */
+    (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
 
     activeFilters +
-    viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf }) +
+    viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf, userId: opts.user && opts.user.user_id }) +
     statusTabs +
     batchBar +
     '<form class="card" method="get" action="/articles" style="padding:14px 20px">' +
@@ -1605,13 +1604,13 @@ function articlesPage(opts) {
         (hasFilter ? '<a class="btn btn--ghost" href="/articles">清除</a>' : "") +
       "</div>" +
       '<div class="row" style="margin-top:10px;gap:8px">' +
-        '<a class="btn btn--sm' + (f.stale ? " btn--primary" : "") + '" href="' + qs({ stale: f.stale ? "" : "1", page: "" }) + '">超 180 天未复核</a>' +
-        '<a class="btn btn--sm' + (f.missing === "sources" ? " btn--primary" : "") + '" href="' + qs({ missing: f.missing === "sources" ? "" : "sources", page: "" }) + '">缺参考资料</a>' +
+        '<a class="btn btn--sm' + (f.stale ? " btn--primary" : "") + '" href="' + esc(qs({ stale: f.stale ? "" : "1", page: "" })) + '">超 180 天未复核</a>' +
+        '<a class="btn btn--sm' + (f.missing === "sources" ? " btn--primary" : "") + '" href="' + esc(qs({ missing: f.missing === "sources" ? "" : "sources", page: "" })) + '">缺参考资料</a>' +
       "</div>" +
     "</form>" +
 
     '<div class="card card--flush">' +
-      '<div class="tablewrap"><table><thead><tr>' +
+      '<div class="tablewrap"><table class="table--articles"><thead><tr>' +
         (canBatch ? '<th class="tight batch-cell"><input type="checkbox" id="batch-all" form="fx-batch" aria-label="全选本页"></th>' : "") +
         "<th>标题</th>" + th("status", "状态") + th("domain", "领域 / 分类") + th("risk", "风险 / 难度") +
         th("sourcesCount", "来源") + th("updated", "更新") + "<th></th>" +
@@ -1653,12 +1652,15 @@ function editorPage(opts) {
   // 原先用无索引的 src_title/src_url/src_type 三个数组「按位置对齐」，
   // 一旦某一项缺失（例如某行没填类型），数组会错位，把 URL 配到别的行上。
   // 带索引后每行自成一个三元组，缺项也不会串行。
+  /* 每行的三个控件用 aria-label 带出行号（序号信息对读屏用户是必需的：
+     「标题」出现 N 次，若不说明第几行，读屏里无法区分）。 */
   const sourceRows = sources.map(function (s, idx) {
+    const no = idx + 1;
     return '<div class="row src-row" style="margin-bottom:8px">' +
-      '<input type="text" name="src_title_' + idx + '" placeholder="标题（必填）" value="' + esc(s.title || "") + '" style="flex:2">' +
-      '<input type="text" name="src_url_' + idx + '" placeholder="https://…（必填）" value="' + esc(s.url || "") + '" style="flex:3">' +
-      '<select name="src_type_' + idx + '" style="flex:1">' + typeOptsFor(s.type) + "</select>" +
-      '<button class="btn btn--sm" type="button" data-src-remove>删除</button></div>';
+      '<input type="text" name="src_title_' + idx + '" aria-label="参考资料 ' + no + " 标题（必填）" + '" placeholder="标题（必填）" value="' + esc(s.title || "") + '" style="flex:2">' +
+      '<input type="text" name="src_url_' + idx + '" aria-label="参考资料 ' + no + " URL（必填）" + '" placeholder="https://…（必填）" value="' + esc(s.url || "") + '" style="flex:3">' +
+      '<select name="src_type_' + idx + '" aria-label="参考资料 ' + no + ' 类型" style="flex:1">' + typeOptsFor(s.type) + "</select>" +
+      '<button class="btn btn--sm" type="button" data-src-remove aria-label="删除第 ' + no + ' 条参考资料">删除</button></div>';
   }).join("");
   const buttons = (opts.canPublish && !isNew)
     ? '<button class="btn btn--primary" type="submit" name="action" value="publish">保存并发布</button>' : "";
@@ -1735,8 +1737,13 @@ function editorPage(opts) {
     return head + '<ul class="check">' + chk.map(function (c) {
       // 用 SVG 替代 ✓ / ! / ✗ 字形：字形在不同平台字重不一致，SVG 笔画统一
       const icoName = c.level === "ok" ? "check" : (c.level === "warn" ? "warning" : "rejected");
+      /* 锚点必须指向真实存在的 id：
+         field() 生成的包裹层是 f-<name>，但「正文」与「参考资料」不是 field() 生成的
+         （分别是 textarea#body 与 div#src-list），拼成 #f-body / #f-src-list 是不存在的锚点
+         （禁用 JS 时点了不动）。editor.js 的 data-jump 也读这个 id。 */
+      const anchor = (c.target === "body" || c.target === "src-list") ? c.target : "f-" + c.target;
       return '<li class="check--' + c.level + '"><span class="check__ic">' + icon(icoName, 14) + "</span>" +
-        '<a href="#f-' + c.target + '" data-jump="' + c.target + '">' + esc(c.label) + "</a></li>";
+        '<a href="#' + anchor + '" data-jump="' + anchor + '">' + esc(c.label) + "</a></li>";
     }).join("") + "</ul>";
   }
 
@@ -1793,15 +1800,33 @@ function editorPage(opts) {
         '<p class="muted" style="margin-top:0">正文可自由组织，支持任意 Markdown、图片与思维导图。' +
           '只需包含 <strong>' + REQ_SEC.map(function (s) { return "「" + esc(s) + "」"; }).join(" 与 ") + "</strong> 两个必要段落即可发布。" +
           '建议保留：' + SUG_SEC.map(function (s) { return esc(s); }).join(" / ") + "（仅提示，不阻塞）。</p>" +
-        '<div class="row" style="margin-bottom:8px;gap:6px">' +
-          '<button class="btn btn--sm" type="button" data-insert-skeleton>插入完整骨架</button>' +
-          '<button class="btn btn--sm" type="button" data-insert-image>插入图片</button>' +
-          '<button class="btn btn--sm" type="button" id="preview-toggle" aria-pressed="false" title="与线上渲染同一套引擎，所见即所得">分栏预览</button>' +
-          '<span class="muted" style="font-size:12px">或在编辑器内直接粘贴/拖入图片</span>' +
+        /* 正文工具条：把最高频的 Markdown 结构变成一键插入。
+           之前只有「插入骨架」和「插入图片」两个按钮，写正文要记语法。 */
+        '<div class="md-toolbar" role="toolbar" aria-label="Markdown 快捷格式">' +
+          '<button class="btn" type="button" data-md="h2" title="二级标题（Ctrl+Alt+2）">H2</button>' +
+          '<button class="btn" type="button" data-md="bold" title="加粗（Ctrl+B）"><b>B</b></button>' +
+          '<button class="btn" type="button" data-md="italic" title="斜体（Ctrl+I）"><i>I</i></button>' +
+          '<button class="btn" type="button" data-md="code" title="行内代码">代码</button>' +
+          '<span class="md-toolbar__sep"></span>' +
+          '<button class="btn" type="button" data-md="ul" title="无序列表">列表</button>' +
+          '<button class="btn" type="button" data-md="ol" title="有序步骤">步骤</button>' +
+          '<button class="btn" type="button" data-md="quote" title="引用 / 提示">引用</button>' +
+          '<button class="btn" type="button" data-md="table" title="插入排查表">表格</button>' +
+          '<button class="btn" type="button" data-md="link" title="插入链接">链接</button>' +
+          '<span class="md-toolbar__sep"></span>' +
+          '<button class="btn" type="button" data-insert-skeleton>插入骨架</button>' +
+          '<button class="btn" type="button" data-upload-image title="上传并插入图片">图片</button>' +
+          '<input type="file" id="fx-img-file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" hidden>' +
+          '<span class="md-toolbar__sep"></span>' +
+          '<button class="btn" type="button" id="preview-toggle" aria-pressed="false" title="与线上渲染同一套引擎，所见即所得">分栏预览</button>' +
+          '<span class="md-toolbar__hint">支持拖入 / 粘贴图片 · Ctrl+S 保存</span>' +
         '</div>' +
+        /* 正文框的可访问名称：视觉上分组标题已经说明「正文」，但读屏进入 textarea 时
+           没有 label 只会播报「多行文本」——用 sr-only label 补齐，不占版面。 */
+        '<label class="sr-only" for="body">正文（Markdown）</label>' +
         '<textarea id="body" name="body" spellcheck="false" data-toc-source>' + esc(opts.body || "") + '</textarea>' +
         '<div id="md-preview" class="md-preview" hidden aria-live="polite"></div>' +
-        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span id="rt"></span><span>中文按字符计 · Ctrl/Cmd+S 保存</span>' +
+        '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span id="rt"></span><span id="autosave-state">未修改</span>' +
           (isNew ? "" : '<button class="btn btn--sm" type="button" id="autosave-toggle" aria-pressed="true" style="min-height:26px;padding:0 10px;font-size:12px;margin-left:8px">自动保存：开</button>') +
         "</div>" +
       '</div></details>' +
@@ -1830,10 +1855,12 @@ function editorPage(opts) {
         '<div class="grid3">' +
           field("版本", "version", inp("version", "version", F.version)) +
           field("更新日期", "updated", '<input id="updated" name="updated" type="date" value="' + esc(F.updated) + '">') +
-          field("状态", "status", '<select id="status" name="status">' +
-            ["draft", "in_review", "changes_requested", "published", "archived"].map(function (s) {
-              return '<option value="' + s + '"' + (F.status === s ? " selected" : "") + ">" + esc(statusLabel(s)) + "</option>";
-            }).join("") + "</select>") +
+          /* 状态不再是表单控件：它由「提交审核 / 通过 / 退回 / 归档」这些工作流动作驱动。
+             给下拉框时，editor 角色可以直接选 published 写进 front-matter，
+             等于绕过审核与发布队列（DB 状态又不会跟着变，两边立刻不一致）。 */
+          field("当前状态", "status-ro",
+            '<div class="readonly-pill" id="status-ro"><span class="pill pill--' + esc(F.status) + '">' + esc(statusLabel(F.status)) + "</span>" +
+            '<span class="field__help">状态由审核/发布流程控制，不在这里修改。</span></div>') +
         '</div>' +
       '</div></details>' +
 
@@ -1858,8 +1885,11 @@ function editorPage(opts) {
           tocHost + '</div>' +
       "</div>" +
     "</div>" +
-    commentsBlock({ slug: opts.slug, comments: opts.comments || [], csrf: opts.csrf }) +
     "</form>" +
+    /* 评论区必须在 </form> 之后：commentsBlock 里自身是若干 <form>（发表评论 / 标记已解决），
+       嵌套 form 是非法 HTML，浏览器会直接丢掉内层 form 标签 ——
+       结果是「发表评论」实际提交了整张文章表单，「标记已解决」不会带 slug/csrf。 */
+    commentsBlock({ slug: opts.slug, comments: opts.comments || [], csrf: opts.csrf }) +
     '<template id="src-type-options">' + typeOptionsHtml + "</template>";
 
   return layout((isNew ? "新建文章" : "编辑：" + (m.title || opts.slug)), err + ok + body,
@@ -1957,10 +1987,23 @@ function commentsBlock(opts) {
 function viewsBar(opts) {
   const views = opts.views || [];
   const cur = opts.currentQs || "";
+  const me = opts.userId;
   const chips = views.map(function (v) {
     const active = (v.querystring || "") === cur;
-    return '<a class=\"btn btn--sm' + (active ? " btn--primary" : "") + '" href=\"/articles' + (v.querystring ? "?" + v.querystring : "") + '\">' +
-      esc(v.name) + (v.is_shared ? " · 共享" : "") + "</a>";
+    const href = "/articles" + (v.querystring ? "?" + esc(v.querystring) : "");
+    /* 只有自己的视图能删（服务端 deleteView 也按 owner_id 过滤）。
+       旧实现里有 /views/delete 路由却没有任何入口 —— 保存错了只能一直留着。 */
+    const canDelete = me && v.owner_id === me;
+    const del = canDelete
+      ? '<form method="post" action="/views/delete" style="display:inline">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
+          '<input type="hidden" name="id" value="' + esc(v.id) + '">' +
+          '<button class="viewchip__del" type="submit" aria-label="删除视图「' + esc(v.name) + '」" title="删除该视图" data-confirm="删除视图「' + esc(v.name) + '」？不会影响文章。" data-confirm-ok="删除">✕</button>' +
+        "</form>"
+      : "";
+    return '<span class="viewchip' + (active ? " viewchip--on" : "") + '">' +
+      '<a class=\"btn btn--sm' + (active ? " btn--primary" : "") + '" href="' + href + '\">' +
+      esc(v.name) + (v.is_shared ? " · 共享" : "") + "</a>" + del + "</span>";
   }).join("");
   return '<div class=\"row\" style=\"gap:8px;margin-bottom:12px\">' +
     '<span class=\"muted\">保存的视图：</span>' +
@@ -1981,126 +2024,76 @@ function viewsBar(opts) {
 }
 
 function dashboardPage(opts) {
-  function readerFeedbackSection() {
-    const fb = opts.feedback || {};
-    const fs = fb.stats || {};
-    const issueLabels = {
-      premise: "适用前提", steps: "步骤或顺序", command: "命令或脚本",
-      error: "报错或现象", result: "修复结果", source: "链接或资料", other: "其他"
-    };
-    const issueChips = (fb.issues || []).map(function (item) {
-      return '<span class="feedback-issue-chip">' + esc(issueLabels[item.issue_type] || "其他") +
-        '<b>' + (item.n || 0) + "</b></span>";
-    }).join("");
-    const articleRows = (fb.articles || []).slice(0, 12).map(function (item) {
-      return '<div class="feedback-article-row"><div class="feedback-article-row__title">' +
-        '<a href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
-        '<div class="slug">' + esc(item.slug) + "</div></div>" +
-        '<div class="feedback-article-counts"><span class="feedback-article-count"><b>' +
-          (item.resolved || 0) + "</b>已解决</span><span class=\"feedback-article-count feedback-article-count--unresolved\"><b>" +
-          (item.unresolved || 0) + "</b>未解决</span></div></div>";
-    }).join("");
-    const recentItems = (fb.recent || []).slice(0, 12).map(function (item) {
-      const location = item.issue_location || "未指定具体位置";
-      return '<div class="feedback-item">' +
-        '<div class="feedback-item__hd"><span class="pill pill--changes_requested">未解决</span>' +
-          '<a href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
-          '<span class="feedback-item__time">' + esc(String(item.created_at || "").slice(0, 16).replace("T", " ")) + "</span>" +
-        "</div>" +
-        '<div class="feedback-item__loc"><span>问题类型：<strong>' +
-          esc(issueLabels[item.issue_type] || "其他") + "</strong></span>" +
-          '<span>文章位置：<strong>' + esc(location) + "</strong></span></div>" +
-        '<p class="feedback-item__msg">' +
-          esc(item.message || "读者只标记了问题位置，没有填写补充说明。") + "</p></div>";
-    }).join("");
-
-    return '<section id="reader-feedback" aria-labelledby="reader-feedback-title">' +
-      '<div class="feedback-kpis">' +
-        '<div class="feedback-kpi feedback-kpi--mint"><div class="feedback-kpi__top">' +
-          '<span class="feedback-kpi__ico">' + icon("check", 17) + '</span>已解决</div>' +
-          '<div class="feedback-kpi__n">' + (fs.resolved || 0) + '</div>' +
-          '<div class="feedback-kpi__h">累计有效反馈</div></div>' +
-        '<div class="feedback-kpi feedback-kpi--coral"><div class="feedback-kpi__top">' +
-          '<span class="feedback-kpi__ico">' + icon("warning", 17) + '</span>未解决</div>' +
-          '<div class="feedback-kpi__n">' + (fs.unresolved || 0) + '</div>' +
-          '<div class="feedback-kpi__h">已附问题位置与说明</div></div>' +
-        '<div class="feedback-kpi"><div class="feedback-kpi__top">' +
-          '<span class="feedback-kpi__ico">' + icon("chart", 17) + '</span>解决率</div>' +
-          '<div class="feedback-kpi__n">' + (fs.resolutionRate || 0) + '%</div>' +
-          '<div class="feedback-kpi__h">已解决 / 全部反馈</div></div>' +
-        '<div class="feedback-kpi feedback-kpi--amber"><div class="feedback-kpi__top">' +
-          '<span class="feedback-kpi__ico">' + icon("clock", 17) + '</span>近 7 天未解决</div>' +
-          '<div class="feedback-kpi__n">' + (fs.unresolved7 || 0) + '</div>' +
-          '<div class="feedback-kpi__h">建议优先回到原文核对</div></div>' +
-      "</div>" +
-      '<div class="feedback-grid">' +
-        '<div class="card card--flush">' +
-          '<div class="card__hd"><span class="card__ico" style="background:var(--s-coral);color:var(--i-coral)">' +
-            icon("warning", 16) + '</span><h3 id="reader-feedback-title">文章反馈分布</h3>' +
-            '<span class="topbar__sp"></span><span class="muted">按未解决数排序</span></div>' +
-          '<div class="feedback-articles">' + (articleRows ||
-            '<div class="feedback-inline-empty"><div class="empty__ico">' + icon("chart", 24) +
-            '</div><div class="empty__t">还没有读者反馈</div><div>文章页收到反馈后会自动汇总到这里</div></div>') +
-          "</div></div>" +
-        '<div class="card card--flush">' +
-          '<div class="card__hd"><span class="card__ico" style="background:var(--s-amber);color:var(--i-amber)">' +
-            icon("inbox", 16) + '</span><h3>最近未解决反馈</h3><span class="topbar__sp"></span>' +
-            '<span class="muted">最多显示 12 条</span></div>' +
-          '<div class="feedback-issues">' + (issueChips || '<span class="muted">暂无问题类型统计</span>') + "</div>" +
-          '<div class="feedback-feed">' + (recentItems ||
-            '<div class="feedback-inline-empty">暂无“未解决”反馈。收到反馈后会显示问题类型、文章位置和补充说明。</div>') +
-          "</div></div>" +
-      "</div></section>";
-  }
-
   const s = opts.stats || {};
-  const TILE_COLORS = ["indigo", "mint", "amber", "coral", "sky", "violet"];
+  const fb = opts.feedback || {};
+  /* 命名为 fbs 而不是 fs：fs 是本文件顶部 require 的 node 模块，
+     在函数里重新声明同名变量会把它遮蔽掉（将来在这里用 fs 会静默拿到一个统计对象）。 */
+  const fbs = fb.stats || {};
 
-  // ---- 问候语（参考图2 顶部）----
   function greeting() {
     const h = new Date().getHours();
-    const word = h < 6 ? "夜深了" : (h < 12 ? "早上好" : (h < 18 ? "下午好" : "晚上好"));
-    return word;
+    return h < 6 ? "夜深了" : (h < 12 ? "早上好" : (h < 18 ? "下午好" : "晚上好"));
   }
   const now = new Date();
   const dateStr = now.getFullYear() + " 年 " + (now.getMonth() + 1) + " 月 " + now.getDate() + " 日";
   const who = (opts.user && (opts.user.name || opts.user.email)) || "";
+  const total = opts.total || 0;
 
-  // ---- 彩色统计磁贴（图2 结构 + 图3 撞色）----
-  // 每个磁贴一个色系，颜色**承载语义**而不是随机装饰：
-  //   靛蓝=待我处理  薄荷=健康  琥珀=需关注  珊瑚=有问题  天蓝=已上线  紫=其他
-  function tile(key, label, hint, ico, color, href) {
+  /* ---------------- 今日待办 ----------------
+     工作台的第一职责是回答「我现在该干什么」，所以把可执行的四类待办提到最上面，
+     数字直接链到对应列表（审核台 / 筛选后的文章列表）。 */
+  function queueItem(key, label, hint, tone, href) {
     const v = s[key] === undefined ? 0 : s[key];
-    const tag = href ? "a" : "div";
-    // 迷你柱：值为 0 时压平变淡（对应图3「断电」语义），有值则高低起伏
-    const shape = [0.45, 0.7, 0.4, 0.85, 0.55, 0.95, 0.6, 0.42, 0.75, 0.5];
-    const bars = shape.map(function (b, i) {
-      const h = v > 0 ? Math.round(b * 100) : Math.round(22 + (i % 3) * 4);
-      return '<i class="' + (v > 0 ? "on" : "") + '" style="height:' + h + '%"></i>';
-    }).join("");
-    return "<" + tag + " class=\"tile tile--" + color + "\"" + (href ? " href=\"" + href + "\"" : "") + ">" +
-      '<div class="tile__hd"><span class="tile__ico" aria-hidden="true">' + ico + "</span>" + esc(label) + "</div>" +
-      '<div class="tile__v">' + v + "</div>" +
-      (hint ? '<div class="tile__h">' + esc(hint) + "</div>" : "") +
-      '<div class="tile__spark">' + bars + "</div>" +
-      "</" + tag + ">";
+    return '<a class="queue-item" data-tone="' + tone + '" href="' + href + '">' +
+      '<span class="queue-item__k">' + esc(label) + "</span>" +
+      '<span class="queue-item__v">' + v + "</span>" +
+      '<span class="queue-item__h">' + esc(hint) + "</span></a>";
   }
+  const queue = '<section class="queue-card" aria-label="今日待办">' +
+    '<div class="queue-card__hd">' + icon("inbox", 16) + '<h2>今日待办</h2>' +
+      '<span class="muted">按「需要我处理」的顺序排列，点数字直达</span>' +
+      '<span class="topbar__sp"></span>' +
+      '<a class="btn btn--sm" href="/review">进入审核台</a></div>' +
+    '<div class="queue-list">' +
+      queueItem("inReview", "待我审核", "等我给出结论", "indigo", "/review") +
+      queueItem("changesRequested", "退回修改", "等作者改完再交", "coral", "/articles?status=changes_requested") +
+      queueItem("drafts", "我的草稿", "还没提交审核", "amber", "/articles?status=draft") +
+      queueItem("missingSources", "缺参考资料", "发布前的硬性检查", "sky", "/articles?missing=sources") +
+    "</div></section>";
 
-  // ---- 领域分布柱状图（真实数据，非装饰）----
+  /* ---------------- 总览横幅（真实派生指标） ---------------- */
+  const published = s.published || 0;
+  const withSrc = Math.max(0, total - (s.missingSources || 0));
+  const srcPct = total ? Math.round(withSrc / total * 100) : 0;
+  const okRev = Math.max(0, published - (s.stale || 0));
+  const revPct = published ? Math.round(okRev / published * 100) : 0;
+  const hero = '<div class="hero">' +
+    '<div class="hero__main">' +
+      '<div class="hero__k">知识库总量</div>' +
+      '<div class="hero__n">' + total + '</div>' +
+      '<div class="hero__sub">篇教程 · 其中 ' + published + ' 篇已上线</div>' +
+    "</div>" +
+    '<div class="hero__side">' +
+      '<div class="hero__m"><b>' + srcPct + '%</b><span>来源覆盖率</span></div>' +
+      '<div class="hero__m"><b>' + revPct + '%</b><span>复核在有效期内</span></div>' +
+      '<div class="hero__m"><b>' + (s.stale || 0) + '</b><span>超 180 天未复核</span></div>' +
+    "</div></div>";
+
+  /* ---------------- 领域分布（横向条，比竖柱更易读中文标签） ---------------- */
   const byDomain = opts.byDomain || [];
   const maxDom = byDomain.reduce(function (m, d) { return Math.max(m, d.n); }, 1);
-  const domainBars = byDomain.slice(0, 8).map(function (d) {
-    const pct = Math.max(6, Math.round(d.n / maxDom * 100));
-    return '<div class="chart__col" title="' + esc(d.name) + "：" + d.n + ' 篇">' +
-      '<div class="chart__val">' + d.n + "</div>" +
-      '<div class="chart__bar" style="height:' + pct + '%"></div>' +
-      '<div class="chart__lab">' + esc(d.short || d.name) + "</div></div>";
+  const domainRows = byDomain.slice(0, 10).map(function (d) {
+    const pct = Math.max(3, Math.round(d.n / maxDom * 100));
+    return '<a class="hbar" href="/articles?domain=' + encodeURIComponent(d.id) + '" title="' + esc(d.name) + "：" + d.n + ' 篇">' +
+      '<span class="hbar__lab">' + esc(d.short || d.name) + "</span>" +
+      '<span class="hbar__track"><i style="width:' + pct + '%"></i></span>' +
+      '<span class="hbar__n">' + d.n + "</span></a>";
   }).join("");
 
-  // ---- 状态分布环形图（conic-gradient，零依赖）----
+  /* ---------------- 状态构成（环形图，零依赖） ---------------- */
   const st = opts.byStatus || { published: 0, draft: 0, in_review: 0, changes_requested: 0, archived: 0 };
   const stTotal = Object.keys(st).reduce(function (a, k) { return a + st[k]; }, 0) || 1;
-  const ST_COLORS = { published: "#1F9E76", draft: "#C78510", in_review: "#3B4BC8", changes_requested: "#DB5A38", archived: "#A99E93" };
+  const ST_COLORS = { published: "#157F5B", draft: "#D79B24", in_review: "#2F49C8", changes_requested: "#C0441D", archived: "#A99E93" };
   const ST_LABELS = { published: "已发布", draft: "草稿", in_review: "审核中", changes_requested: "退回", archived: "归档" };
   let acc = 0;
   const segs = [], legend = [];
@@ -2114,14 +2107,42 @@ function dashboardPage(opts) {
     legend.push('<li><span class="legend__dot" style="background:' + ST_COLORS[k] + '"></span>' +
       ST_LABELS[k] + '<span class="legend__n">' + n + "</span></li>");
   });
-  const donutStyle = segs.length ? ("background:conic-gradient(" + segs.join(",") + ")") : "background:#E6DCD1";
+  const donutStyle = segs.length ? ("background:conic-gradient(" + segs.join(",") + ")") : "background:var(--surface-3)";
 
-  // ---- 近 12 周更新热力（真实数据，来自 front-matter 的 updated）----
+  /* ---------------- 更新热力 ---------------- */
   const heat = opts.heat || [];
   const heatCells = heat.map(function (c) {
-    return '<i data-l="' + (c.level || 0) + '" title="' + esc(c.label) + '：' + c.n + ' 篇更新"></i>';
+    return '<i data-l="' + (c.level || 0) + '" title="' + esc(c.label) + "：" + c.n + ' 篇更新"></i>';
+  }).join("");
+  const heatSum = heat.reduce(function (a, c) { return a + (c.n || 0); }, 0);
+
+  /* ---------------- 发布节奏 ---------------- */
+  const trend = opts.pubTrend || [];
+  const totalPub = trend.reduce(function (a, d) { return a + d.n; }, 0);
+  const maxPub = trend.reduce(function (m, d) { return Math.max(m, d.n); }, 1);
+  const trendBars = trend.map(function (d) {
+    const pct = d.n === 0 ? 3 : Math.max(12, Math.round(d.n / maxPub * 100));
+    /* 标签必须转义：虽然当前是服务端按日期生成的 "10/26"，
+       但同一段数据将来可能来自 publish_jobs 的其它字段 —— 不转义就是一个属性注入点。 */
+    return '<div class="chart__col" title="' + esc(d.label) + "：发布 " + (d.n || 0) + ' 次">' +
+      '<div class="chart__val">' + (d.n || "") + "</div>" +
+      '<div class="chart__bar' + (d.n ? " chart__bar--on" : "") + '" style="height:' + pct + '%"></div>' +
+      '<div class="chart__lab">' + esc(d.label) + "</div></div>";
   }).join("");
 
+  /* ---------------- 读者反馈摘要（详情进数据分析页） ---------------- */
+  const fbCard = '<div class="card">' +
+    '<div class="card__hd"><span class="card__ico">' + icon("chart", 15) + '</span><h3>读者反馈</h3>' +
+      '<span class="topbar__sp"></span><span class="muted">文章页底部「这篇教程解决你的问题了吗？」</span>' +
+      '<a class="btn btn--sm" href="/analytics" style="margin-left:10px">查看数据分析</a></div>' +
+    '<div class="card__bd"><div class="kpistrip" style="margin:0">' +
+      '<div class="kpistrip__c"><div class="kpistrip__k">已解决</div><div class="kpistrip__v">' + (fbs.resolved || 0) + '</div></div>' +
+      '<div class="kpistrip__c"><div class="kpistrip__k">未解决</div><div class="kpistrip__v">' + (fbs.unresolved || 0) + '</div></div>' +
+      '<div class="kpistrip__c"><div class="kpistrip__k">解决率</div><div class="kpistrip__v">' + (fbs.resolutionRate || 0) + '<small>%</small></div></div>' +
+      '<div class="kpistrip__c"><div class="kpistrip__k">近 7 天未解决</div><div class="kpistrip__v">' + (fbs.unresolved7 || 0) + '</div></div>' +
+    "</div></div></div>";
+
+  /* ---------------- 明细表 ---------------- */
   const recentRows = (opts.recent || []).map(function (a) {
     return "<tr><td><a class=\"link-strong\" href=\"/articles/" + esc(a.slug) + "\">" + esc(a.title || a.slug) + "</a>" +
       '<div class="slug">' + esc(a.slug) + "</div></td>" +
@@ -2136,128 +2157,74 @@ function dashboardPage(opts) {
       '<td class="num tight">' + esc(days) + "</td>" +
       '<td class="muted tight">' + esc(a.reviewed_at || "从未复核") + "</td></tr>";
   }).join("");
-
-  const emptyStale = '<tr><td colspan="3" class="empty">' + '<div class="empty__ico">' + icon("check", 24) + '</div>' + '' +
+  const emptyStale = '<tr><td colspan="3" class="empty"><div class="empty__ico">' + icon("check", 22) + '</div>' +
     '<div class="empty__t">全部在复核周期内</div><div>没有超过 180 天未复核的文章</div></td></tr>';
 
   return layout("工作台",
-    // ---- 问候头部 ----
     '<div class="dash-hello">' +
-      '<div><h1>' + greeting() + "，" + esc(who) + "！</h1>" +
-        // total 由服务端作为顶层参数传入（不是 stats 的字段）—— 曾误读 s.total 导致恒显示 0
-        '<div class="dash-hello__date">' + dateStr + " · 共 " + (opts.total || 0) + ' 篇文章</div></div>' +
+      '<div><h1>' + greeting() + "，" + esc(who) + "</h1>" +
+        '<div class="dash-hello__date">' + dateStr + " · 共 " + total + " 篇文章 · 今日建议先看「今日待办」</div></div>" +
       '<div class="dash-hello__acts">' +
-        '<a class="btn btn--sm" href="/articles?missing=sources">检查结构</a>' +
-        '<a class="btn btn--sm" href="/media">媒体库</a>' +
+        '<a class="btn" href="/review">审核台</a>' +
+        '<a class="btn" href="/analytics">数据分析</a>' +
         '<a class="btn btn--primary" href="/articles/new">＋ 新建文章</a>' +
       "</div>" +
     "</div>" +
 
-    // ---- 主视觉横幅（图3 结构：一张高饱和渐变大卡领衔）----
-    // 指标都是真实派生值，不是装饰：来源覆盖率与复核覆盖率
-    (function () {
-      const tot = opts.total || 0;
-      const withSrc = Math.max(0, tot - (s.missingSources || 0));
-      const srcPct = tot ? Math.round(withSrc / tot * 100) : 0;
-      const pub = s.published || 0;
-      const okRev = Math.max(0, pub - (s.stale || 0));
-      const revPct = pub ? Math.round(okRev / pub * 100) : 0;
-      return '<div class="hero">' +
-        '<div class="hero__main">' +
-          '<div class="hero__k">知识库总量</div>' +
-          '<div class="hero__n">' + tot + '</div>' +
-          '<div class="hero__sub">篇教程 · 其中 ' + pub + ' 篇已上线</div>' +
-        '</div>' +
-        '<div class="hero__side">' +
-          '<div class="hero__m"><b>' + srcPct + '%</b><span>来源覆盖率</span></div>' +
-          '<div class="hero__m"><b>' + revPct + '%</b><span>复核在有效期内</span></div>' +
-          '<div class="hero__m"><b>' + (s.missingSources || 0) + '</b><span>缺参考资料</span></div>' +
-        '</div>' +
-      '</div>';
-    })() +
+    queue + hero +
 
-    // ---- 彩色磁贴 ----
-    readerFeedbackSection() +
-
-    '<div class="tiles">' +
-      tile("inReview", "待我审核", "需要我给出结论", icon("review"), "indigo", "/articles?status=in_review") +
-      tile("drafts", "我的草稿", "尚未提交", icon("draft"), "amber", "/articles?status=draft") +
-      tile("changesRequested", "退回修改", "需要我处理", icon("rejected"), "coral", "/articles?status=changes_requested") +
-      tile("published", "已发布", "线上可访问", icon("check"), "mint", "/articles?status=published") +
-      tile("stale", "超 180 天未复核", "知识库健康度", icon("clock"), "violet", "/articles?stale=1") +
-      tile("missingSources", "缺参考资料", "sources 少于 1 条", icon("warning"), "sky", "/articles?missing=sources") +
-    "</div>" +
-
-    // ---- 数据看板：领域分布 + 状态构成 + 更新活动 ----
-    // 布局要点：柱状图与环形图并排且等高（避免一侧留大片空白）；
-    // 热力网格信息密度大，单独占满一行。
-    '<div class="grid2" style="gap:20px;align-items:stretch">' +
-      '<div class="card" style="display:flex;flex-direction:column">' +
-        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-sky);color:var(--i-sky)">▤</span><h3>各领域文章数</h3><span class="topbar__sp"></span>' +
-        '<span class="muted">按篇数排序</span></div>' +
-        '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end">' +
-          (domainBars ? '<div class="chart chart--tall">' + domainBars + "</div>"
-                       : '<div class="empty"><div class="empty__ico">▤</div><div class="empty__t">暂无数据</div></div>') +
-        "</div>" +
+    '<div class="grid2" style="align-items:stretch">' +
+      '<div class="card" style="margin-bottom:18px">' +
+        '<div class="card__hd"><span class="card__ico">' + icon("taxonomy", 15) + '</span><h3>各领域文章数</h3>' +
+          '<span class="topbar__sp"></span><span class="muted">点击进入该领域列表</span></div>' +
+        '<div class="card__bd">' + (domainRows || '<div class="muted">暂无数据</div>') + "</div>" +
       "</div>" +
-      '<div class="card" style="display:flex;flex-direction:column">' +
-        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-mint);color:var(--i-mint)">◕</span><h3>状态构成</h3><span class="topbar__sp"></span>' +
-        '<span class="muted">共 ' + stTotal + ' 篇</span></div>' +
-        '<div class="card__bd" style="flex:1;display:flex;flex-direction:column;justify-content:center">' +
-          '<div class="row" style="gap:26px;align-items:center;flex-wrap:nowrap">' +
-            '<div class="donut" style="' + donutStyle + '">' +
-              '<div class="donut__c"><div><div class="donut__n">' + stTotal + '</div>' +
-              '<div class="donut__l">篇</div></div></div></div>' +
+      '<div class="card" style="margin-bottom:18px;display:flex;flex-direction:column">' +
+        '<div class="card__hd"><span class="card__ico">' + icon("chart", 15) + '</span><h3>状态构成</h3>' +
+          '<span class="topbar__sp"></span><span class="muted">共 ' + stTotal + ' 篇</span></div>' +
+        '<div class="card__bd" style="flex:1;display:flex;align-items:center">' +
+          '<div class="row" style="gap:24px;align-items:center;flex-wrap:nowrap">' +
+            '<div class="donut" style="' + donutStyle + '"><div class="donut__c"><div><div class="donut__n">' +
+              stTotal + '</div><div class="donut__l">篇</div></div></div></div>' +
             '<ul class="legend">' + (legend.join("") || '<li class="muted">暂无数据</li>') + "</ul>" +
           "</div>" +
         "</div>" +
       "</div>" +
     "</div>" +
 
-    // ---- 更新活动热力图（占满一行）----
-    '<div class="card">' +
-      '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-indigo);color:var(--i-indigo)">▦</span><h3>更新活动</h3><span class="topbar__sp"></span>' +
-      '<span class="muted">最近 80 天 · 颜色越深当天更新越多</span></div>' +
-      '<div class="card__bd"><div class="heat heat--wide">' + (heatCells || "") + "</div></div>" +
+    '<div class="grid2" style="align-items:stretch">' +
+      '<div class="card">' +
+        '<div class="card__hd"><span class="card__ico">' + icon("clock", 15) + '</span><h3>更新活动</h3>' +
+          '<span class="topbar__sp"></span><span class="muted">最近 80 天 · 共 ' + heatSum + ' 次更新</span></div>' +
+        '<div class="card__bd"><div class="heat">' + (heatCells || "") + "</div></div>" +
+      "</div>" +
+      '<div class="card">' +
+        '<div class="card__hd"><span class="card__ico">' + icon("publish", 15) + '</span><h3>发布节奏</h3>' +
+          '<span class="topbar__sp"></span><span class="muted">近 30 天成功 ' + totalPub + ' 次</span>' +
+          '<a class="btn btn--sm" href="/publish" style="margin-left:10px">发布页</a></div>' +
+        '<div class="card__bd"><div class="chart chart--trend">' + (trendBars || '<span class="muted">暂无发布记录</span>') + "</div></div>" +
+      "</div>" +
     "</div>" +
 
-    // ---- 发布节奏（近 30 天成功发布，来自 publish_jobs 真实记录）----
-    (function () {
-      const trend = opts.pubTrend || [];
-      const totalPub = trend.reduce(function (a, d) { return a + d.n; }, 0);
-      const maxPub = trend.reduce(function (m, d) { return Math.max(m, d.n); }, 1);
-      const bars = trend.map(function (d) {
-        const pct = d.n === 0 ? 4 : Math.max(10, Math.round(d.n / maxPub * 100));
-        return '<div class="chart__col" title="' + d.label + '：发布 ' + d.n + ' 次">' +
-          '<div class="chart__val">' + (d.n || "") + "</div>" +
-          '<div class="chart__bar' + (d.n ? " chart__bar--on" : "") + '" style="height:' + pct + '%"></div>' +
-          '<div class="chart__lab">' + d.label + "</div></div>";
-      }).join("");
-      return '<div class="card">' +
-        '<div class="card__hd"><span class="card__ico" aria-hidden="true" style="background:var(--s-mint);color:var(--i-mint)">▲</span><h3>发布节奏</h3><span class="topbar__sp"></span>' +
-          '<span class="muted">近 30 天成功发布 ' + totalPub + ' 次</span>' +
-          '<a class="btn btn--sm" href="/publish" style="margin-left:12px">发布页</a></div>' +
-        '<div class="card__bd"><div class="chart chart--trend">' + (bars || '<div class="muted">暂无发布记录</div>') + "</div></div>" +
-      "</div>";
-    })() +
-    // ---- 明细表 ----
-    '<div class="dash-cols" style="margin-top:20px">' +
+    fbCard +
+
+    '<div class="dash-cols">' +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><span class="card__ico" style="background:var(--s-violet);color:var(--i-violet)">' + icon("draft", 16) + '</span>' + '<h3>最近编辑</h3><span class="topbar__sp"></span>' +
-        '<a class="btn btn--sm" href="/articles">全部文章</a></div>' +
+        '<div class="card__hd"><span class="card__ico">' + icon("draft", 15) + '</span><h3>最近编辑</h3>' +
+          '<span class="topbar__sp"></span><a class="btn btn--sm" href="/articles">全部文章</a></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">状态</th><th class="tight">更新</th><th class="tight">复核</th>' +
         "</tr></thead><tbody>" +
-        (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">' + icon("empty", 24) + '</div>' + '<div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
+        (recentRows || '<tr><td colspan="4" class="empty"><div class="empty__ico">' + icon("empty", 22) +
+          '</div><div class="empty__t">暂无内容</div><div>新建第一篇文章后会出现在这里</div></td></tr>') +
         "</tbody></table></div>" +
       "</div>" +
       '<div class="card card--flush">' +
-        '<div class="card__hd"><span class="card__ico" style="background:var(--s-amber);color:var(--i-amber)">' + icon("clock", 16) + '</span>' + '<h3>陈旧内容</h3><span class="muted" style="font-size:12px">超 180 天未复核</span></div>' +
+        '<div class="card__hd"><span class="card__ico">' + icon("warning", 15) + '</span><h3>陈旧内容</h3>' +
+          '<span class="muted" style="font-size:11.5px">超 180 天未复核</span></div>' +
         '<div class="tablewrap"><table class="dash-table"><thead><tr>' +
         '<th style="width:auto">标题</th><th class="tight">距上次</th><th class="tight">上次复核</th>' +
-        "</tr></thead><tbody>" +
-        (staleRows || emptyStale) +
-        "</tbody></table></div>" +
+        "</tr></thead><tbody>" + (staleRows || emptyStale) + "</tbody></table></div>" +
       "</div>" +
     "</div>",
     Object.assign({ current: "dashboard", accent: "indigo", crumbs: [{ label: "工作台" }] }, opts));
@@ -2273,9 +2240,9 @@ function publishPage(opts) {
     return "<tr><td>#" + j.id + "</td>" +
       "<td>" + esc(JOB_ACTION[j.action] || j.action) + ' <span class="muted">' + esc(j.slug || "") + "</span></td>" +
       '<td><span class="pill ' + cls + '">' + esc(JOB_STATUS[j.status] || j.status) + "</span></td>" +
-      "<td>" + esc(String(j.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
-      "<td>" + dur + "</td>" +
-      "<td>" + (j.error ? '<span style="color:#DC2626">' + esc(String(j.error).slice(0,140)) + "</span>" : "") + "</td></tr>";
+      '<td class="num tight">' + esc(String(j.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
+      '<td class="num tight">' + dur + "</td>" +
+      "<td>" + (j.error ? '<span style="color:var(--warn)">' + esc(String(j.error).slice(0,140)) + "</span>" : "") + "</td></tr>";
   }).join("");
   return layout("发布",
     pageHead({
@@ -2305,7 +2272,13 @@ function usersPage(opts) {
   const ROLE_LABEL = { admin: "管理员", editor: "编辑", reviewer: "审核", viewer: "只读" };
   const domNameById = {};
   ((opts.taxonomy && opts.taxonomy.domains) || []).forEach(function (d) { domNameById[d.id] = d.name; });
-  function roleLabel(r) { return ROLE_LABEL[r] || r || ""; }
+  /* roles 来自 string_agg，可能是 null（无角色）或 "admin, editor" 这样的串：
+     未知值原样返回即可，但不能返回 undefined（会渲染成字面量 "undefined"）。 */
+  function roleLabel(r) {
+    const key = String(r === undefined || r === null ? "" : r).trim();
+    if (!key) return "—";
+    return ROLE_LABEL[key] || key;
+  }
   const rows = opts.users.map(function (u) {
     const rl = roleLabel(u.roles || "");
     const scoped = u.scope_domain
@@ -2325,13 +2298,24 @@ function usersPage(opts) {
       "<td>" + esc(u.name || "") + "</td>" +
       "<td>" + esc(rl) + scoped + "</td>" +
       '<td><span class="pill ' + (u.status === "active" ? "pill--published" : "pill--archived") + '">' + (u.status === "active" ? "启用" : "停用") + "</span></td>" +
-      "<td>" + (esc(String(u.last_login_at || "").slice(0,19).replace("T"," ")) || "—") + "</td>" +
+      '<td class="num tight">' + (esc(String(u.last_login_at || "").slice(0,19).replace("T"," ")) || "—") + "</td>" +
       '<td class="rowacts">' + action + "</td></tr>";
   }).join("");
   const invites = opts.invites.map(function (v) {
-    const st = v.used_at ? "已使用" : (v.revoked_at ? "已撤销" : (new Date(v.expires_at) < new Date() ? "已过期" : "待使用"));
-    return "<tr><td>" + esc(v.email) + "</td><td>" + esc(roleLabel(v.role)) + "</td><td>" + st + "</td>" +
-      "<td>" + esc(String(v.created_at || "").slice(0,19).replace("T"," ")) + "</td></tr>";
+    const expired = v.expires_at ? new Date(v.expires_at) < new Date() : false;
+    const st = v.used_at ? "已使用" : (v.revoked_at ? "已撤销" : (expired ? "已过期" : "待使用"));
+    /* 未使用、未撤销的邀请才需要撤销入口（链接泄露时止损） */
+    const revoke = (!v.used_at && !v.revoked_at)
+      ? '<form method="post" action="/invites/' + esc(v.id) + '/revoke" style="display:inline">' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<button class="btn btn--sm btn--ghost" type="submit" aria-label="撤销发给 ' + esc(v.email) + ' 的邀请"' +
+          ' data-confirm="撤销后该激活链接立即失效（对方点开会提示链接无效）。"' +
+          ' data-confirm-ok="撤销邀请">撤销</button></form>'
+      : "";
+    return "<tr><td>" + esc(v.email) + "</td><td>" + esc(roleLabel(v.role)) + "</td>" +
+      '<td class="tight">' + st + "</td>" +
+      '<td class="num tight">' + esc(String(v.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
+      '<td class="rowacts">' + revoke + "</td></tr>";
   }).join("");
   const domOpts = opts.taxonomy.domains.map(function (d) {
     return '<option value="' + esc(d.id) + '">' + esc(d.name) + "</option>";
@@ -2344,7 +2328,7 @@ function usersPage(opts) {
     }) +
     (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
     (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
-    (opts.inviteLink ? '<div class="alert alert--info" role="status"><strong>一次性激活链接（只显示这一次，请立即复制）：</strong><br><code style="word-break:break-all">' + esc(opts.inviteLink) + '</code><br><span class="muted">有效期 ' + opts.inviteHours + ' 小时；一次性；可由管理员撤销。</span></div>' : "") +
+    (opts.inviteLink ? '<div class="alert alert--info" role="status"><strong>一次性激活链接（只显示这一次，请立即复制）：</strong><br><code style="word-break:break-all">' + esc(opts.inviteLink) + '</code><br><span class="muted">有效期 ' + (opts.inviteHours || 72) + ' 小时；一次性；可由管理员撤销。</span></div>' : "") +
     '<div class="card card--accent">' +
     '<div class="card__hd" style="padding:0 0 14px"><span class="card__ico">' + icon("plus") + '</span><h3>创建账号（分发邀请）</h3></div>' +
     '<form method="post" action="/users/invite">' +
@@ -2364,8 +2348,8 @@ function usersPage(opts) {
     '<div class="card card--flush">' +
     '<div class="card__hd"><span class="card__ico" aria-hidden="true">↪</span><h3>邀请记录</h3></div>' +
     '<div class="tablewrap"><table>' +
-    "<thead><tr><th>邮箱</th><th>角色</th><th>状态</th><th>创建</th></tr></thead><tbody>" +
-    (invites || '<tr><td colspan="4" class="empty"><div class="empty__ico">↪</div><div class="empty__t">暂无邀请</div></td></tr>') +
+    '<thead><tr><th>邮箱</th><th>角色</th><th class="tight">状态</th><th class="num tight">创建</th><th></th></tr></thead><tbody>' +
+    (invites || '<tr><td colspan="5" class="empty"><div class="empty__ico">↪</div><div class="empty__t">暂无邀请</div></td></tr>') +
     "</tbody></table></div></div>",
     Object.assign({ current: "users", accent: "coral", crumbs: [{ label: "账号" }] }, opts));
 }
@@ -2378,13 +2362,15 @@ function taxonomyPage(opts) {
     const tint = tints[i % tints.length];
     const domCount = usage.domains[d.id] || 0;
     const cats = (d.cats || []).map(function (cat) {
+      const catInputId = "cat-name-" + d.id + "-" + cat.id;
       return '<div class="tax-cat">' +
         '<form class="tax-cat__edit" method="post" action="/taxonomy/category">' +
           '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
           '<input type="hidden" name="action" value="save">' +
           '<input type="hidden" name="domain_id" value="' + esc(d.id) + '">' +
           '<input type="hidden" name="id" value="' + esc(cat.id) + '">' +
-          '<input type="text" name="name" value="' + esc(cat.name) + '" maxlength="40" required>' +
+          /* 每个分类一个唯一 id：否则读屏只听到一串「编辑框」，分不清在改哪个分类。 */
+          '<input id="' + esc(catInputId) + '" type="text" name="name" value="' + esc(cat.name) + '" maxlength="40" required aria-label="分类「' + esc(cat.name) + "」的名称" + '">' +
           '<button class="btn btn--sm" type="submit">保存</button>' +
         '</form>' +
         '<form method="post" action="/taxonomy/category">' +
@@ -2392,7 +2378,7 @@ function taxonomyPage(opts) {
           '<input type="hidden" name="action" value="delete">' +
           '<input type="hidden" name="domain_id" value="' + esc(d.id) + '">' +
           '<input type="hidden" name="id" value="' + esc(cat.id) + '">' +
-          '<button class="btn btn--sm btn--danger" type="submit" data-confirm="删除分类「' + esc(cat.name) + '」？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除</button>' +
+          '<button class="btn btn--sm btn--danger" type="submit" aria-label="删除分类「' + esc(cat.name) + '」" data-confirm="删除分类「' + esc(cat.name) + '」？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除</button>' +
         '</form>' +
         '<div class="tax-cat__id">' + esc(cat.id) + ' · ' + (usage.cats[cat.id] || 0) + ' 篇</div>' +
       '</div>';
@@ -2418,7 +2404,7 @@ function taxonomyPage(opts) {
           '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
           '<input type="hidden" name="action" value="delete">' +
           '<input type="hidden" name="id" value="' + esc(d.id) + '">' +
-          '<button class="btn btn--sm btn--danger" type="submit" data-confirm="删除领域「' + esc(d.name) + '」及其下分类？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除领域</button>' +
+          '<button class="btn btn--sm btn--danger" type="submit" aria-label="删除领域「' + esc(d.name) + '」及其下分类" data-confirm="删除领域「' + esc(d.name) + '」及其下分类？已有文章引用时系统会阻止。" data-confirm-danger data-confirm-ok="删除">删除领域</button>' +
         '</form>' +
       '</div>' +
       '<div class="tax-cats">' + (cats || '<div class="muted">该领域还没有分类，可在下方添加。</div>') + '</div>' +
@@ -2472,7 +2458,7 @@ function auditPage(opts) {
     const a = String(l.action || "");
     const tint = a.indexOf("auth") === 0 ? "amber" : (a.indexOf("user") === 0 ? "coral"
       : (a.indexOf("comment") === 0 ? "sky" : (a.indexOf("publish") === 0 ? "mint" : "indigo")));
-    return "<tr><td>" + esc(String(l.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
+    return '<tr><td class="num tight">' + esc(String(l.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
       "<td>" + esc(l.user_email || "—") + "</td>" +
       '<td><span class="pill" style="background:var(--s-' + tint + ');color:var(--i-' + tint + ')">' + esc(l.action) + "</span></td>" +
       "<td>" + esc(l.target || "") + "</td>" +
@@ -2546,11 +2532,14 @@ function securityConfirmPage(opts) {
       "<li>选择「手动输入密钥」，粘贴下面的密钥</li>" +
       "<li>把 App 显示的 6 位验证码填到下面</li>" +
     "</ol>" +
-    '<label>密钥（手动输入用）</label>' +
+    '<label for="secret">密钥（手动输入用）</label>' +
+    /* 复制按钮走 data-copy（app.js 里统一处理）：
+       内联 onclick 会被后台的 CSP（script-src 'self'，无 unsafe-inline）拦掉，
+       表现为「按钮点了没反应」，且控制台只有一行 CSP 违规。 */
     '<div class="row"><input type="text" readonly value="' + esc(opts.secret) + '" style="font-family:var(--mono)" id="secret">' +
-    '<button class="btn" type="button" onclick="navigator.clipboard.writeText(document.getElementById(\'secret\').value)">复制</button></div>' +
-    '<label style="margin-top:14px">otpauth 链接（可贴到二维码生成器）</label>' +
-    '<input type="text" readonly value="' + esc(opts.uri) + '" style="font-family:var(--mono);font-size:12px">' +
+    '<button class="btn" type="button" data-copy-from="secret">复制</button></div>' +
+    '<label for="otpauth-uri" style="margin-top:14px">otpauth 链接（可贴到二维码生成器）</label>' +
+    '<input id="otpauth-uri" type="text" readonly value="' + esc(opts.uri) + '" style="font-family:var(--mono);font-size:12px">' +
     '<form method="post" action="/security/confirm" style="margin-top:20px">' +
       '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
       '<label for="code">验证码（6 位数字）</label>' +
@@ -2630,7 +2619,11 @@ function mediaPage(opts) {
 
 function sourcesCheckPage(opts) {
   const job = opts.job || { status: "idle" };
-  const rep = job.report;
+  /* report 来自 check-sources.cjs（另一个模块）且可能是一轮旧任务留下的对象：
+     缺 summary / urls 时不能让整页 500，退化为「没有可展示的结果」。 */
+  const rawRep = job.report;
+  const rep = rawRep && rawRep.summary && Array.isArray(rawRep.urls) ? rawRep : null;
+  const summary = rep ? rep.summary : null;
   const csrf = opts.csrf || "";
   const KIND_LABEL = { ok: "正常", dead: "死链", blocked: "疑似反爬", network: "疑似被墙/网络", server: "服务端错误" };
   const KIND_PILL = { ok: "published", dead: "changes_requested", blocked: "draft", network: "in_review", server: "changes_requested" };
@@ -2638,7 +2631,7 @@ function sourcesCheckPage(opts) {
   let body = pageHead({
     ico: "search", title: "来源体检",
     sub: "批量探测全部文章的来源外链与正文外链。服务器在广州，探测结果≈大陆读者能否打开。",
-    acts: rep ? '<span class="page-head__chip">' + rep.summary.total + " 条外链</span>" : ""
+    acts: summary ? '<span class="page-head__chip">' + (summary.total || 0) + " 条外链</span>" : ""
   });
 
   if (job.status === "running") {
@@ -2663,7 +2656,7 @@ function sourcesCheckPage(opts) {
   }
 
   if (rep) {
-    const s = rep.summary;
+    const s = summary;
     const pill = function (kind, label, count) {
       return '<span class="pill pill--' + KIND_PILL[kind] + '">' + label + " " + count + "</span>";
     };
@@ -2682,12 +2675,14 @@ function sourcesCheckPage(opts) {
 
     const rows = rep.urls.filter(function (u) { return opts.showAll || u.kind !== "ok"; });
     const trs = rows.map(function (u) {
+      const kindLabel = KIND_LABEL[u.kind] || "其他";
+      const kindPill = KIND_PILL[u.kind] || "archived";
       return "<tr>" +
-        '<td><span class="pill pill--' + KIND_PILL[u.kind] + '">' + KIND_LABEL[u.kind] + "</span></td>" +
+        '<td><span class="pill pill--' + kindPill + '">' + esc(kindLabel) + "</span></td>" +
         "<td>" + (u.status ? u.status : "—") + (u.error ? '<div class="muted" style="font-size:12px">' + esc(u.error) + "</div>" : "") + "</td>" +
-        '<td style="max-width:34em;word-break:break-all"><a href="' + esc(u.url) + '" target="_blank" rel="noopener noreferrer">' + esc(u.url) + "</a>" +
+        '<td style="max-width:34em;word-break:break-all"><a href="' + esc(safeHref(u.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(u.url) + "</a>" +
           (u.finalUrl && u.finalUrl !== u.url ? '<div class="muted" style="font-size:12px">→ ' + esc(u.finalUrl) + "</div>" : "") + "</td>" +
-        "<td>" + u.articles.map(function (slug) {
+        "<td>" + (Array.isArray(u.articles) ? u.articles : []).map(function (slug) {
           return '<a href="/articles/' + esc(slug) + '">' + esc(slug) + "</a>";
         }).join(", ") + "</td>" +
         "</tr>";
@@ -2706,14 +2701,241 @@ function sourcesCheckPage(opts) {
   return layout("来源体检", body, Object.assign({ current: "sources", accent: "sky", crumbs: [{ label: "来源体检" }] }, opts));
 }
 
+/* ---------------- 审核台 ----------------
+   为什么单独做一页，而不是「列表 + 编辑器」两页来回跳：
+   审核是「读 → 判断 → 给结论」的连续动作，跳页会丢掉上下文。
+   这里左队列、右全文、下操作区，一次评审不离开页面；
+   建议/退回意见直接写成文章评论（和编辑器里的评论区同一份数据）。 */
+function reviewPage(opts) {
+  const csrf = opts.csrf || "";
+  const queue = opts.queue || [];
+  const cur = opts.current || null;
+  const counts = opts.counts || {};
+  const filter = opts.filter || "in_review";
+  const notice = opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "";
+  const error = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+
+  /* 注意：这里不要用 role="tablist"。tablist 要求子元素是 role="tab" 并配 aria-selected，
+     而这两个是**导航链接**（改变 URL 后整页重渲染），用 <nav> + aria-current 才是正确语义。 */
+  const tabs = '<nav class="statustabs" aria-label="审核队列">' +
+    '<a class="statustab' + (filter === "in_review" ? " is-on" : "") + '" href="/review"' + (filter === "in_review" ? ' aria-current="page"' : "") + ">待审核<b>" + (counts.in_review || 0) + "</b></a>" +
+    '<a class="statustab' + (filter === "changes_requested" ? " is-on" : "") + '" href="/review?status=changes_requested"' + (filter === "changes_requested" ? ' aria-current="page"' : "") + ">退回修改<b>" + (counts.changes_requested || 0) + "</b></a>" +
+    "</nav>";
+
+  const queueHtml = queue.length
+    ? queue.map(function (it) {
+        const on = cur && cur.slug === it.slug;
+        return '<a class="rq-item' + (on ? " is-on" : "") + '" href="/review?status=' + encodeURIComponent(filter) + "&slug=" + encodeURIComponent(it.slug) + '"' + (on ? ' aria-current="page"' : "") + ">" +
+          '<span class="rq-item__t">' + esc(it.title || it.slug) + "</span>" +
+          '<span class="rq-item__m">' +
+            '<span class="pill pill--' + esc(it.status) + '">' + esc(statusLabel(it.status)) + "</span>" +
+            (it.domainName ? "<span>" + esc(it.domainName) + "</span>" : "") +
+            (it.updated ? '<span class="mono">' + esc(it.updated) + "</span>" : "") +
+          "</span></a>";
+      }).join("")
+    : '<div class="rq-empty">' +
+        (filter === "in_review" ? "当前没有待审核的文章。作者提交审核后会出现在这里。" : "没有退回修改中的文章。") +
+      "</div>";
+
+  const queueCard = '<aside class="review-queue" aria-label="审核队列">' +
+    '<div class="review-queue__hd">' + icon("review", 15) + "<h2>审核队列</h2>" +
+      '<span class="muted" style="margin-left:auto">' + queue.length + " 篇</span></div>" +
+    '<div class="review-queue__list">' + queueHtml + "</div></aside>";
+
+  if (!cur) {
+    return layout("审核台",
+      pageHead({ ico: "review", title: "审核台", sub: "读全文、看检查项、一次给出结论。退回意见会写成文章评论，作者在编辑器里能看到。",
+        acts: '<span class="page-head__chip">待审核 ' + (counts.in_review || 0) + " 篇</span>" }) +
+      notice + error + tabs +
+      '<div class="review-grid">' + queueCard +
+        '<div class="review-main"><div class="card"><div class="empty">' +
+          '<div class="empty__ico">' + icon("review", 24) + "</div>" +
+          '<div class="empty__t">队列已清空</div><div>没有需要审核的文章。可以从左侧切换查看「退回修改」。</div>' +
+          '<div style="margin-top:14px"><a class="btn" href="/articles">去文章列表</a></div>' +
+        "</div></div></div></div>",
+      Object.assign({ current: "review", accent: "indigo", crumbs: [{ label: "审核台" }] }, opts));
+  }
+
+  const m = cur.meta || {};
+  const sec = cur.sections || {};
+  const required = sec.required || [];
+  const missing = sec.missing || [];
+  const present = required.filter(function (n) { return missing.indexOf(n) < 0; });
+  const srcN = cur.sourcesCount || 0;
+  const canPublish = !!opts.canPublish;
+  const canReview = !!opts.canReview;
+
+  const checkRows = required.map(function (n) {
+    const ok = missing.indexOf(n) < 0;
+    return '<li class="check--' + (ok ? "ok" : "bad") + '"><span class="check__ic">' +
+      icon(ok ? "check" : "rejected", 13) + "</span><span>" + esc(n) + (ok ? "" : "（正文缺少该段落）") + "</span></li>";
+  }).join("") +
+    '<li class="check--' + (srcN ? "ok" : "bad") + '"><span class="check__ic">' +
+      icon(srcN ? "check" : "rejected", 13) + "</span><span>参考资料 " + srcN + " 条" + (srcN ? "" : "（发布前应至少 1 条）") + "</span></li>" +
+    '<li class="check--' + (cur.revCount ? "ok" : "warn") + '"><span class="check__ic">' +
+      icon(cur.revCount ? "check" : "warning", 13) + "</span><span>修订记录 " + (cur.revCount || 0) + " 版</span></li>";
+
+  const metaTable = '<table class="meta-table"><tbody>' +
+    "<tr><th>领域</th><td>" + esc(cur.domainName || m.domain || "—") + "</td></tr>" +
+    "<tr><th>分类</th><td>" + esc(cur.categoryName || m.category || "—") + "</td></tr>" +
+    "<tr><th>风险</th><td>" + esc(m.risk || "—") + " · " + esc(m.difficulty || "—") + " · " + esc(m.time || "—") + "</td></tr>" +
+    "<tr><th>适用</th><td>" + esc((Array.isArray(m.os) ? m.os.join(" / ") : m.os) || "—") + "</td></tr>" +
+    "<tr><th>更新</th><td>" + esc(m.updated || "—") + " · 复核 " + esc(m.reviewed_at || "未复核") + "</td></tr>" +
+    "<tr><th>slug</th><td class=\"mono\">" + esc(cur.slug) + "</td></tr>" +
+    "</tbody></table>";
+
+  const comments = (cur.comments || []).map(function (c) {
+    return '<div class="cmt' + (c.resolved_at ? " cmt--done" : "") + '">' +
+      '<div class="cmt__hd"><strong>' + esc(c.author_name || c.author_email || "—") + "</strong>" +
+        '<span class="muted">' + esc(String(c.created_at || "").slice(0, 16).replace("T", " ")) + "</span>" +
+        (c.resolved_at ? '<span class="pill pill--published">已解决</span>' : "") + "</div>" +
+      '<div class="cmt__bd">' + esc(c.body).replace(/\n/g, "<br>") + "</div></div>";
+  }).join("");
+
+  const decideForm = '<form method="post" action="/review/decision" id="review-decide">' +
+    '<input type="hidden" name="_csrf" value="' + esc(csrf) + '">' +
+    '<input type="hidden" name="slug" value="' + esc(cur.slug) + '">' +
+    '<input type="hidden" name="status" value="' + esc(filter) + '">' +
+    '<label for="rnote">审核意见（退回时必填，会作为评论记录）</label>' +
+    '<textarea id="rnote" name="note" style="min-height:96px;font-family:inherit;font-size:13px" placeholder="例如：第 3 步的 netsh 命令需要管理员权限，请补充说明；来源里微软文档链接已失效，换当前页面。"></textarea>' +
+    '<div class="review-act" style="margin-top:12px">' +
+      (canPublish ? '<button class="btn btn--primary" type="submit" name="decision" value="approve">通过并发布</button>' : '<span class="review-note">你的角色可以给意见，但发布需要 reviewer / admin 权限。</span>') +
+      (canReview ? '<button class="btn btn--danger" type="submit" name="decision" value="reject">退回修改</button>' : "") +
+      '<span class="review-note">通过 = 立即入发布队列；退回 = 状态变为「退回修改」并通知作者。</span>' +
+    "</div></form>";
+
+  const docCard = '<section class="review-doc">' +
+    '<div class="review-doc__hd">' +
+      "<h2>" + esc(m.title || cur.slug) + "</h2>" +
+      '<span class="pill pill--' + esc(m.status || "in_review") + '">' + esc(statusLabel(m.status || "in_review")) + "</span>" +
+      '<a class="btn btn--sm" href="/articles/' + esc(cur.slug) + '">打开编辑器</a>' +
+      '<a class="btn btn--sm" href="/articles/' + esc(cur.slug) + '/revisions">修订历史</a>' +
+      /* 不再加 role="button"：它是一个在新标签页打开链接的 <a>，读屏报「按钮」会误导用户预期。 */
+      '<a class="btn btn--sm" href="/articles/' + esc(cur.slug) + '/preview-page" target="_blank" rel="noopener">新窗口预览</a>' +
+    "</div>" +
+    '<iframe title="文章预览" src="' + esc(opts.previewUrl || ("/articles/" + cur.slug + "/preview-page")) + '" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>' +
+  "</section>";
+
+  const sideCards = '<div class="review-side">' +
+    '<div class="card" style="margin:0"><div class="card__hd"><span class="card__ico">' + icon("check", 15) + '</span><h3>发布前检查</h3>' +
+      '<span class="topbar__sp"></span><span class="muted">' + present.length + "/" + required.length + " 必备段落</span></div>" +
+      '<div class="card__bd">' + metaTable + '<ul class="check" style="margin-top:12px">' + checkRows + "</ul></div></div>" +
+    '<div class="card" style="margin:0"><div class="card__hd"><span class="card__ico">' + icon("review", 15) + '</span><h3>审核结论</h3></div>' +
+      '<div class="card__bd">' + decideForm + "</div></div>" +
+    "</div>";
+
+  const commentCard = comments
+    ? '<div class="card"><div class="card__hd"><span class="card__ico">' + icon("draft", 15) + '</span><h3>历史审核意见</h3></div><div class="card__bd">' + comments + "</div></div>"
+    : "";
+
+  return layout("审核台",
+    pageHead({ ico: "review", title: "审核台",
+      sub: "左侧队列 · 右侧全文 · 下方结论。通过后自动入发布队列；退回意见会写成文章评论。",
+      acts: '<span class="page-head__chip">待审核 ' + (counts.in_review || 0) + " 篇</span>" }) +
+    notice + error + tabs +
+    '<div class="review-grid">' + queueCard +
+      '<div class="review-main">' + docCard + sideCards + commentCard + "</div>" +
+    "</div>" +
+    /* 常驻结论条：长文读到一半也能直接给结论，不必滚回底部的表单。
+       form 属性把按钮关联到页面里的 #review-decide，textarea 仍在原位置。 */
+    '<div class="review-bar">' +
+      '<span class="review-bar__t">正在审核：<b>' + esc(m.title || cur.slug) + "</b></span>" +
+      '<span class="topbar__sp"></span>' +
+      /* 两个按钮都必须按能力渲染：旧实现无条件渲染「退回修改」，
+         只有 review 权限的人看到能点、点了却被服务端 403 打回。 */
+      (canReview ? '<button class="btn btn--danger" type="submit" form="review-decide" name="decision" value="reject" data-review-reject>退回修改</button>' : "") +
+      (canPublish ? '<button class="btn btn--primary" type="submit" form="review-decide" name="decision" value="approve">通过并发布</button>' : "") +
+    "</div>" +
+    '<div style="height:64px"></div>',
+    Object.assign({ current: "review", accent: "indigo", crumbs: [{ label: "审核台" }] }, opts));
+}
+
+/* ---------------- 数据分析 ----------------
+   页面职责：回答「内容有没有真的帮到人」。
+   数据来源是文章页的匿名反馈（无 IP、无指纹），以及内容本身的健康度。
+   这里不做「访问量」之类的虚荣指标 —— 后台没有埋点，就不编造。 */
+function analyticsPage(opts) {
+  const fb = opts.feedback || {};
+  const fbs = fb.stats || {};   // 同上：不要遮蔽 fs 模块
+  const health = opts.health || {};
+  const issueLabels = { premise: "适用前提", steps: "步骤或顺序", command: "命令或脚本",
+    error: "报错或现象", result: "修复结果", source: "链接或资料", other: "其他" };
+  const issues = fb.issues || [];
+  const issueTotal = issues.reduce(function (a, i) { return a + (i.n || 0); }, 0) || 1;
+
+  const issueRows = issues.map(function (item) {
+    const pct = Math.round((item.n || 0) / issueTotal * 100);
+    return '<div class="hbar" title="' + esc(issueLabels[item.issue_type] || "其他") + "：" + item.n + ' 条">' +
+      '<span class="hbar__lab">' + esc(issueLabels[item.issue_type] || "其他") + "</span>" +
+      '<span class="hbar__track"><i style="width:' + Math.max(3, pct) + '%"></i></span>' +
+      '<span class="hbar__n">' + (item.n || 0) + "</span></div>";
+  }).join("");
+
+  const articleRows = (fb.articles || []).map(function (item) {
+    return '<tr><td><a class="link-strong" href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
+      '<div class="slug">' + esc(item.slug) + "</div></td>" +
+      '<td class="num">' + (item.resolved || 0) + "</td>" +
+      '<td class="num">' + (item.unresolved || 0) + "</td></tr>";
+  }).join("");
+
+  const recentItems = (fb.recent || []).map(function (item) {
+    return '<div class="feedback-item">' +
+      '<div class="feedback-item__hd"><span class="pill pill--changes_requested">未解决</span>' +
+        '<a href="/articles/' + esc(item.slug) + '">' + esc(item.title || item.slug) + "</a>" +
+        '<span class="feedback-item__time">' + esc(String(item.created_at || "").slice(0, 16).replace("T", " ")) + "</span></div>" +
+      '<div class="feedback-item__loc"><span>问题类型：<strong>' + esc(issueLabels[item.issue_type] || "其他") + "</strong></span>" +
+        "<span>文章位置：<strong>" + esc(item.issue_location || "未指定") + "</strong></span></div>" +
+      '<p class="feedback-item__msg">' + esc(item.message || "读者只标记了问题位置，没有填写补充说明。") + "</p></div>";
+  }).join("");
+
+  const healthCards = '<div class="kpistrip">' +
+    '<div class="kpistrip__c"><div class="kpistrip__k">已发布</div><div class="kpistrip__v">' + (health.published || 0) + '</div></div>' +
+    '<div class="kpistrip__c"><div class="kpistrip__k">超 180 天未复核</div><div class="kpistrip__v">' + (health.stale || 0) + '</div></div>' +
+    '<div class="kpistrip__c"><div class="kpistrip__k">缺参考资料</div><div class="kpistrip__v">' + (health.missingSources || 0) + '</div></div>' +
+    '<div class="kpistrip__c"><div class="kpistrip__k">近 30 天有更新</div><div class="kpistrip__v">' + (health.updated30 || 0) + '</div></div>' +
+  "</div>";
+
+  return layout("数据分析",
+    pageHead({ ico: "chart", title: "数据分析",
+      sub: "读者反馈（匿名，不记录 IP 与设备）+ 内容健康度。反馈里的问题位置会指向具体段落，便于回到原文核对。",
+      acts: '<a class="btn btn--sm" href="/dashboard">回工作台</a>' }) +
+    '<div class="feedback-kpis">' +
+      '<div class="feedback-kpi feedback-kpi--mint"><div class="feedback-kpi__top"><span class="feedback-kpi__ico">' + icon("check", 14) + '</span>已解决</div>' +
+        '<div class="feedback-kpi__n">' + (fbs.resolved || 0) + '</div><div class="feedback-kpi__h">累计有效反馈</div></div>' +
+      '<div class="feedback-kpi feedback-kpi--coral"><div class="feedback-kpi__top"><span class="feedback-kpi__ico">' + icon("warning", 14) + '</span>未解决</div>' +
+        '<div class="feedback-kpi__n">' + (fbs.unresolved || 0) + '</div><div class="feedback-kpi__h">附问题位置与说明</div></div>' +
+      '<div class="feedback-kpi"><div class="feedback-kpi__top"><span class="feedback-kpi__ico">' + icon("chart", 14) + '</span>解决率</div>' +
+        '<div class="feedback-kpi__n">' + (fbs.resolutionRate || 0) + '%</div><div class="feedback-kpi__h">已解决 / 全部反馈</div></div>' +
+      '<div class="feedback-kpi feedback-kpi--amber"><div class="feedback-kpi__top"><span class="feedback-kpi__ico">' + icon("clock", 14) + '</span>近 7 天未解决</div>' +
+        '<div class="feedback-kpi__n">' + (fbs.unresolved7 || 0) + '</div><div class="feedback-kpi__h">建议优先回原文核对</div></div>' +
+    "</div>" +
+    healthCards +
+    '<div class="feedback-grid">' +
+      '<div class="card"><div class="card__hd"><span class="card__ico">' + icon("chart", 15) + '</span><h3>问题类型分布</h3>' +
+        '<span class="topbar__sp"></span><span class="muted">共 ' + issueTotal + " 条</span></div>" +
+        '<div class="card__bd">' + (issueRows || '<div class="muted">还没有反馈数据。</div>') + "</div></div>" +
+      '<div class="card"><div class="card__hd"><span class="card__ico">' + icon("articles", 15) + '</span><h3>反馈最多的文章</h3>' +
+        '<span class="topbar__sp"></span><span class="muted">按未解决数排序</span></div>' +
+        '<div class="tablewrap"><table><thead><tr><th>文章</th><th class="tight">已解决</th><th class="tight">未解决</th></tr></thead><tbody>' +
+        (articleRows || '<tr><td colspan="3" class="empty"><div class="empty__t">还没有读者反馈</div><div>文章页收到反馈后会自动汇总到这里</div></td></tr>') +
+        "</tbody></table></div></div>" +
+    "</div>" +
+    '<div class="card"><div class="card__hd"><span class="card__ico">' + icon("inbox", 15) + '</span><h3>最近未解决反馈</h3>' +
+      '<span class="topbar__sp"></span><span class="muted">最多显示 12 条</span></div>' +
+      '<div class="card__bd">' + (recentItems || '<div class="muted">暂无未解决反馈。</div>') + "</div></div>",
+    Object.assign({ current: "analytics", accent: "violet", crumbs: [{ label: "数据分析" }] }, opts));
+}
+
 function simplePage(title, msg, opts) {
   return layout(title, '<div class="card"><h1>' + esc(title) + "</h1><p>" + esc(msg) + '</p><a class="btn" href="/articles">返回文章列表</a></div>', opts);
 }
 
 module.exports = {
+  safeHref: safeHref,
   layout: layout, loginPage: loginPage, changePasswordPage: changePasswordPage,
   articlesPage: articlesPage, editorPage: editorPage, publishPage: publishPage,
   usersPage: usersPage, taxonomyPage: taxonomyPage, auditPage: auditPage, simplePage: simplePage, dashboardPage: dashboardPage,
+  reviewPage: reviewPage, analyticsPage: analyticsPage,
   revisionsPage: revisionsPage, revisionDiffPage: revisionDiffPage, commentsBlock: commentsBlock, viewsBar: viewsBar,
   mediaPage: mediaPage, sourcesCheckPage: sourcesCheckPage,
   securityPage: securityPage, securityConfirmPage: securityConfirmPage, totpChallengePage: totpChallengePage,

@@ -328,6 +328,93 @@
     }
   })();
 
+  /* ---------------- 复制按钮（媒体库「复制路径」、2FA「复制密钥」） ----------------
+     页面里早就有 data-copy / data-copy-from 按钮，但一直没有任何处理器 ——
+     点了完全没反应。这里统一实现，并提供「复制失败」时的可行动反馈。 */
+  (function () {
+    function copyText(text) {
+      if (!text) return Promise.reject(new Error("empty"));
+      if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+      // 剪贴板 API 不可用（http 页面 / 旧浏览器）时的兜底
+      return new Promise(function (resolve, reject) {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.cssText = "position:fixed;top:-1000px;opacity:0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+        ta.remove();
+        if (ok) resolve(); else reject(new Error("copy-failed"));
+      });
+    }
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-copy], [data-copy-from]");
+      if (!btn) return;
+      e.preventDefault();
+      var text = btn.getAttribute("data-copy");
+      var fromId = btn.getAttribute("data-copy-from");
+      if (fromId) {
+        var src = document.getElementById(fromId);
+        text = src ? (src.value !== undefined ? src.value : src.textContent) : "";
+      }
+      copyText(String(text || "")).then(function () {
+        toast("已复制到剪贴板");
+      }).catch(function () {
+        toast("复制失败，请手动选中后按 Ctrl+C", "error");
+      });
+    });
+  })();
+
+  /* ---------------- 媒体库：修改 alt 文本 ----------------
+     同样的原因：按钮渲染了 data-setalt 但没人监听。alt 是无障碍硬要求，
+     所以这里必须能用；POST 到 /media/:id/alt（服务端有 CSRF + 权限校验）。 */
+  (function () {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-setalt]");
+      if (!btn) return;
+      e.preventDefault();
+      var id = btn.getAttribute("data-setalt");
+      var cur = btn.getAttribute("data-cur") || "";
+      var next = window.prompt("描述这张图要说明什么（alt 文本，读屏用户靠它理解内容）：", cur);
+      if (next === null) return;
+      next = String(next).trim();
+      if (!next) { toast("alt 文本不能为空（无障碍要求）", "error"); return; }
+      var csrf = document.body.getAttribute("data-csrf") || "";
+      var fd = new FormData();
+      fd.append("_csrf", csrf);
+      fd.append("alt", next);
+      fetch("/media/" + encodeURIComponent(id) + "/alt", {
+        method: "POST", body: fd, credentials: "same-origin", redirect: "follow"
+      }).then(function (res) {
+        if (res.status >= 400) throw new Error("http-" + res.status);
+        window.location.reload();
+      }).catch(function () {
+        toast("保存失败（网络或会话过期），请刷新重试", "error");
+      });
+    });
+  })();
+
+  /* ---------------- 审核台：退回前先要意见 ----------------
+     退回的核心理由必须写下来（作者要知道改什么）。这里只做「别让空表单直接提交」，
+     真正的长度校验在服务端，前端不做唯一防线。 */
+  (function () {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-review-reject]");
+      if (!btn) return;
+      var note = document.getElementById("rnote");
+      if (!note) return;
+      if (String(note.value || "").trim().length < 4) {
+        e.preventDefault();
+        note.focus();
+        note.style.boxShadow = "0 0 0 3px var(--warn-weak)";
+        setTimeout(function () { note.style.boxShadow = ""; }, 1600);
+        toast("请先在「审核意见」里写清需要修改的地方", "error");
+      }
+    }, true);
+  })();
+
   /* ---------------- 来源体检：任务后台运行中时自动刷新 ---------------- */
   (function () {
     "use strict";

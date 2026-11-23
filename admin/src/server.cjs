@@ -17,6 +17,9 @@ const media = require("./media.cjs");
 const totp = require("./totp.cjs");
 const mailer = require("./mailer.cjs");
 const readerFeedback = require("./feedback.cjs");
+/* 状态机与 URL 辅助：纯函数模块，列表页 / 批量条 / 审核台共用同一份规则，
+   并且可以脱离数据库单测（见 test/run.cjs）。 */
+const workflow = require("./workflow.cjs");
 /* 来源体检：直接复用仓库里的 check-sources.cjs（同一份实现，CLI 与后台共用）。
    REPO_ROOT 挂载点即仓库根，__dirname 指向仓库根，content 目录随之确定。 */
 const sourcesChecker = require(path.join(config.repo.root, "check-sources.cjs"));
@@ -25,7 +28,30 @@ const sourcesChecker = require(path.join(config.repo.root, "check-sources.cjs"))
 const sourcesJob = { status: "idle", startedAt: null, finishedAt: null, error: null, report: null };
 
 const taxPath = path.join(config.repo.root, "content", "taxonomy.json");
-function taxonomy() { return JSON.parse(fs.readFileSync(taxPath, "utf8")); }
+/* taxonomy.json 是编辑器下拉框、列表筛选与站点构建共用的数据源。
+   读取失败（文件被误删 / 权限 / JSON 写坏）时不能让每个页面都 500：
+   退化为「上一次成功读到的内容」，再不行就给一份空结构，页面仍可打开。 */
+const TAXONOMY_FALLBACK = { updated: "", domains: [], enums: { risk: [], difficulty: [], sourceType: [] } };
+let _taxCache = { raw: null, mtime: 0, source: "" };
+function taxonomy() {
+  try {
+    const st = fs.statSync(taxPath);
+    if (_taxCache.raw && st.mtimeMs === _taxCache.mtime) return _taxCache.raw;
+    const parsed = JSON.parse(fs.readFileSync(taxPath, "utf8"));
+    if (!parsed || !Array.isArray(parsed.domains)) throw new Error("taxonomy.json 结构不合法（缺少 domains 数组）");
+    parsed.enums = parsed.enums || TAXONOMY_FALLBACK.enums;
+    _taxCache = { raw: parsed, mtime: st.mtimeMs, source: "" };
+    return parsed;
+  } catch (e) {
+    if (_taxCache.raw) {
+      if (_taxCache.source !== "stale") console.error("[taxonomy] 读取失败，沿用上次成功的结果：" + e.message);
+      _taxCache.source = "stale";
+      return _taxCache.raw;
+    }
+    console.error("[taxonomy] 读取失败，使用空结构兜底（编辑器将没有可选项）：" + e.message);
+    return TAXONOMY_FALLBACK;
+  }
+}
 function writeTaxonomy(tax) {
   tax.updated = new Date().toISOString().slice(0, 10);
   const tmp = taxPath + ".tmp-" + process.pid;
@@ -68,12 +94,51 @@ function sectionRules() {
   }
 }
 
+
+/* ---------------- 侧栏徽章计数 ----------------
+   文章数以「文件真源」为准（与工作台「共 N 篇」一致），待审数来自 DB 状态。
+   带 5 秒缓存：每个页面都算会白读 96 个 front-matter。 */
+let _navCache = { at: 0, counts: { articles: 0, review: 0 } };
+async function navCounts() {
+  if (Date.now() - _navCache.at < 5000) return _navCache.counts;
+  const counts = { articles: 0, review: 0 };
+  try { counts.articles = articles.listAll().length; } catch (e) {}
+  try {
+    const r = await db.query("SELECT count(*)::int AS n FROM articles_meta WHERE status = 'in_review'");
+    counts.review = r.rows[0] ? r.rows[0].n : 0;
+  } catch (e) {}
+  _navCache = { at: Date.now(), counts: counts };
+  return counts;
+}
+
+/* 搜索索引（关键词 / 症状 / 别名）：只在命令面板搜索时按需构建。
+   索引数据直接取 listAll() 已经解析好的 front-matter（articles.cjs 里附带 searchText），
+   因此这里不再对 96 个文件二次读盘 —— 旧实现每 60 秒额外做 96 次 readFileSync + 解析。
+   写盘（保存/发布/归档）后由 invalidateSearchIndex() 立刻失效，避免改了关键词搜不到。 */
+let _searchIdx = { at: 0, map: null };
+function searchIndex(items) {
+  if (_searchIdx.map && Date.now() - _searchIdx.at < 60000) return _searchIdx.map;
+  const map = {};
+  (items || []).forEach(function (a) {
+    map[a.slug] = a.searchText || "";
+  });
+  _searchIdx = { at: Date.now(), map: map };
+  return map;
+}
+function invalidateSearchIndex() { _searchIdx = { at: 0, map: null }; }
+/* 写盘后同时清掉内容缓存与搜索索引（两者都是派生数据） */
+function invalidateContentCaches() {
+  invalidateSearchIndex();
+  if (typeof articles.invalidate === "function") articles.invalidate();
+}
+
 /* 静态资源（仅 /static/*，只服务 public/ 下的白名单文件）
    白名单而非目录映射：避免路径穿越，也让「可对外文件」一目了然。 */
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const STATIC = {
   "/static/editor.js": { file: path.join(PUBLIC_DIR, "editor.js"), type: "application/javascript; charset=utf-8" },
-  "/static/app.js": { file: path.join(PUBLIC_DIR, "app.js"), type: "application/javascript; charset=utf-8" }
+  "/static/app.js": { file: path.join(PUBLIC_DIR, "app.js"), type: "application/javascript; charset=utf-8" },
+  "/static/cmdk.js": { file: path.join(PUBLIC_DIR, "cmdk.js"), type: "application/javascript; charset=utf-8" }
 };
 
 function html(res, status, body) {
@@ -94,14 +159,20 @@ async function currentUser(req) {
   return { user: s, roles: roles, token: token };
 }
 
-/* 读取全部文章并与 DB 状态合并（DB 是派生视图，文件为准） */
+/* 读取全部文章并与 DB 元数据合并。
+   一次查询同时带回 status / author_id / reviewer_id：
+   工作台与审核台都要按「负责人」过滤，旧实现是各自再查一次 articles_meta，
+   等于每页多一次全表查询。现在统一在这里合并。 */
 async function loadArticlesWithStatus() {
   const items = articles.listAll();
-  const metaRows = await db.query("SELECT slug, status FROM articles_meta");
-  const statusBySlug = {};
-  metaRows.rows.forEach(function (r) { statusBySlug[r.slug] = r.status; });
+  const metaRows = await db.query("SELECT slug, status, author_id, reviewer_id FROM articles_meta");
+  const bySlug = {};
+  metaRows.rows.forEach(function (r) { bySlug[r.slug] = r; });
   items.forEach(function (a) {
-    a.status = statusBySlug[a.slug] || (a.where === "draft" ? "draft" : (a.where === "archive" ? "archived" : "published"));
+    const row = bySlug[a.slug];
+    a.status = (row && row.status) || (a.where === "draft" ? "draft" : (a.where === "archive" ? "archived" : "published"));
+    a.author_id = row ? row.author_id : null;
+    a.reviewer_id = row ? row.reviewer_id : null;
   });
   return items;
 }
@@ -365,38 +436,59 @@ async function handle(req, res) {
     return redirect(res, "/change-password");
   }
 
-  const pageOpts = { user: sess.user, roles: sess.roles, csrf: sess.user.csrf_token };
+  const pageOpts = { user: sess.user, roles: sess.roles, csrf: sess.user.csrf_token, counts: await navCounts() };
 
-  /* ---------------- 文章状态流转（行内快捷操作 / 批量操作共用） ----------------
-     统一在这里定义「哪些流转合法、需要什么能力」，列表页与路由都引用同一份，
-     避免「界面上给了按钮、路由却拒绝」的两套规则漂移。 */
-  const STATUS_TRANSITIONS = {
-    in_review:         { from: ["draft"], cap: "article:submit",  label: "提交审核" },
-    published:         { from: ["draft", "in_review"], cap: "article:publish", label: "发布" },
-    changes_requested: { from: ["in_review"], cap: "article:review", label: "退回修改" },
-    draft:             { from: ["changes_requested", "in_review", "archived"], cap: "article:edit", label: "转回草稿" },
-    archived:          { from: ["published", "draft"], cap: "article:archive", label: "归档" }
-  };
-  /* 对单篇执行状态流转：校验合法性 + 权限 + 领域范围，返回 {ok, reason}。
-     发布走完整链路（更新 reviewer、入发布队列），其余只改状态。 */
+  /* ---------------- 文章状态流转（行内快捷操作 / 批量操作 / 审核结论共用） ----------------
+     规则本身在 workflow.cjs（纯函数、可单测）；这里只负责「读真源状态 → 校验 → 落库 → 入队」。
+     两处关键修正（2026-11 评审）：
+       1) 状态真源是 articles_meta.status。列表、审核队列、工作台都按 DB 状态展示，
+          文件 front-matter 的 status 只在 DB 没有记录时兜底。旧实现读文件状态，
+          于是「已发布文章被重新提交审核（DB=审核中、文件仍是已发布）」时，
+          发布/退回都会被拒 —— 界面显示审核中，操作却提示「当前状态不允许」。
+       2) 发布必须把 _drafts/ 里的文件移进构建目录（articles.publish 负责移动并写
+          status: published）。旧实现只改 DB 状态并入队，草稿永远留在 _drafts/，
+          DB 显示已发布、站点上却根本没有这篇。移动失败则不写 DB，保持两边一致。 */
+  const STATUS_TRANSITIONS = workflow.STATUS_TRANSITIONS;
+  async function currentStatusOf(slug, fallback) {
+    try {
+      const r = await db.query("SELECT status FROM articles_meta WHERE slug = $1", [slug]);
+      const row = r.rows[0];
+      if (row && row.status) return row.status;
+    } catch (e) { /* DB 不可用时退回文件状态，至少不阻塞单篇操作 */ }
+    return fallback || "draft";
+  }
+  /* 对单篇执行状态流转：校验合法性 + 权限 + 领域范围，返回 {ok, reason, from}。 */
   async function applyStatusTransition(slug, to, user, ip) {
-    const rule = STATUS_TRANSITIONS[to];
+    const rule = workflow.transitionFor(to);
     if (!rule) return { ok: false, reason: "未知的目标状态：" + to };
     let art;
     try { art = articles.read(slug); } catch (e) { return { ok: false, reason: "文章不存在" }; }
-    if (rule.from.indexOf(art.meta.status || "draft") < 0) {
-      return { ok: false, reason: "当前状态（" + (views.statusLabel ? views.statusLabel(art.meta.status) : art.meta.status) + "）不允许" + rule.label };
+    const current = await currentStatusOf(slug, art.meta.status || "draft");
+    if (!workflow.canTransition(current, to)) {
+      return { ok: false, reason: "当前状态（" + workflow.statusLabel(current) + "）不允许" + rule.label };
     }
     if (!await auth.can(user, rule.cap)) return { ok: false, reason: "没有「" + rule.label + "」权限" };
     if (!await auth.canEditDomain(user, art.meta.domain)) return { ok: false, reason: "超出可编辑领域" };
+
+    let moved = null;
+    if (to === "published" && art.where !== "published") {
+      try {
+        moved = articles.publish(slug, art.meta, art.body);
+      } catch (e) {
+        return { ok: false, reason: "写入构建目录失败：" + (e && e.message ? e.message : String(e)) };
+      }
+    }
     if (to === "published") {
-      await db.query("UPDATE articles_meta SET status='published', reviewer_id=$2, updated_at=now() WHERE slug=$1", [slug, user.user_id]);
+      await db.query(
+        "UPDATE articles_meta SET status='published', reviewer_id=$2, content_hash=COALESCE($3, content_hash), updated_at=now() WHERE slug=$1",
+        [slug, user.user_id, moved ? moved.contentHash : null]);
       await publisher.enqueue(slug, "publish", user.user_id);
     } else {
       await db.query("UPDATE articles_meta SET status=$2, updated_at=now() WHERE slug=$1", [slug, to]);
     }
-    await auth.audit(user, "article.status." + to, slug, { from: art.meta.status || "draft" }, ip);
-    return { ok: true };
+    await auth.audit(user, "article.status." + to, slug, { from: current, fileMoved: !!moved }, ip);
+    invalidateContentCaches();
+    return { ok: true, from: current };
   }
 
 
@@ -434,17 +526,11 @@ async function handle(req, res) {
   // 只统计能触发动作的信息（研究结论：不要虚荣指标）
   if (p === "/dashboard") {
     const all = await loadArticlesWithStatus();
-    // 每篇的负责人（author_id / reviewer_id）——「待我审核」必须按当前用户过滤，
-    // 否则给的是全站总数，等于没有待办。
-    // 注意：me / isMine 曾在一次重构中丢失定义，导致本路由运行时报
-    // ReferenceError（模块能加载不代表路由能跑）。这里补回并加兜底。
-    const ownerRows = await db.query("SELECT slug, author_id, reviewer_id FROM articles_meta");
-    const owners = {};
-    ownerRows.rows.forEach(function (r) { owners[r.slug] = r; });
+    // 每篇的负责人（author_id / reviewer_id）由 loadArticlesWithStatus 一次查询带回。
+    // 「待我审核」必须按当前用户过滤，否则给的是全站总数，等于没有待办。
     const me = sess.user.user_id;
     const isMine = function (a) {
-      const o = owners[a.slug];
-      return !!o && (o.author_id === me || o.reviewer_id === me);
+      return a.author_id === me || a.reviewer_id === me;
     };
     const today = Date.now();
     const daysSince = function (d) {
@@ -568,6 +654,222 @@ async function handle(req, res) {
       pubTrend: pubTrend, feedback: articleFeedback,
       total: all.length
     }, pageOpts)));
+  }
+
+  /* ---------------- 审核台 ----------------
+     为什么新增：原流程是「文章列表 → 打开编辑器 → 读正文 → 回列表改状态」，
+     审核人每篇要跳 4 次页面，且看不到「通过/退回」的上下文。
+     现在一页完成：左队列 + 右全文（线上同款渲染）+ 检查项 + 结论。 */
+  if (p === "/review") {
+    if (!await auth.can(sess.user, "article:review") && !await auth.can(sess.user, "article:publish")) {
+      return html(res, 403, views.simplePage("没有权限", "你的角色没有审核权限。", pageOpts));
+    }
+    const filter = url.searchParams.get("status") === "changes_requested" ? "changes_requested" : "in_review";
+    const all = await loadArticlesWithStatus();
+    /* 负责人过滤：队列里「分给我审的」排前面，但不是只给我看 ——
+       小团队里互相补位很常见，硬过滤会造成「没人看到」的盲区。
+       author_id / reviewer_id 由 loadArticlesWithStatus 一次查询带回。 */
+    const me = sess.user.user_id;
+    const mine = function (a) {
+      return a.reviewer_id === me || a.author_id === me;
+    };
+    const counts = {
+      in_review: all.filter(function (a) { return a.status === "in_review"; }).length,
+      changes_requested: all.filter(function (a) { return a.status === "changes_requested"; }).length
+    };
+    const tax = taxonomy();
+    const domName = {}, catName = {};
+    (tax.domains || []).forEach(function (d) {
+      domName[d.id] = d.name;
+      (d.cats || []).forEach(function (c) { catName[c.id] = c.name; });
+    });
+    const queueAll = all.filter(function (a) { return a.status === filter; })
+      .sort(function (a, b) {
+        const am = mine(a) ? 0 : 1, bm = mine(b) ? 0 : 1;
+        if (am !== bm) return am - bm;
+        return String(b.updated || "").localeCompare(String(a.updated || ""));
+      });
+    const queue = queueAll.map(function (a) {
+      return {
+        slug: a.slug, title: a.title || a.slug, status: a.status,
+        domainName: domName[a.domain] || a.domain || "",
+        updated: a.updated || ""
+      };
+    });
+    const wantSlug = String(url.searchParams.get("slug") || "");
+    const selected = wantSlug ? queueAll.filter(function (a) { return a.slug === wantSlug; })[0] : queueAll[0];
+    let current = null;
+    if (selected) {
+      let art = null;
+      try { art = articles.read(selected.slug); } catch (e) { art = null; }
+      if (art) {
+        let cmts = [];
+        try { cmts = await collab.listComments(selected.slug); } catch (e) {}
+        let revs = [];
+        try { revs = await collab.listRevisions(selected.slug); } catch (e) {}
+        const rules = sectionRules();
+        const hasSec = function (name) {
+          const list = rules.aliases && rules.aliases[name] ? rules.aliases[name] : [name];
+          return list.some(function (n) {
+            return String(art.body || "").indexOf("## " + n) >= 0;
+          });
+        };
+        const missing = (rules.required || []).filter(function (n) { return !hasSec(n); });
+        current = {
+          slug: selected.slug,
+          meta: art.meta,
+          comments: cmts,
+          revCount: revs.length,
+          sourcesCount: Array.isArray(art.meta.sources) ? art.meta.sources.length : 0,
+          domainName: domName[art.meta.domain] || art.meta.domain || "",
+          categoryName: catName[art.meta.category] || art.meta.category || "",
+          sections: { required: rules.required || [], missing: missing }
+        };
+      }
+    }
+    return html(res, 200, views.reviewPage(Object.assign({
+      queue: queue, counts: counts, filter: filter, current: current,
+      canPublish: await auth.can(sess.user, "article:publish"),
+      canReview: await auth.can(sess.user, "article:review"),
+      notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
+    }, pageOpts)));
+  }
+
+  /* ---------------- 审核结论（通过 / 退回，一次提交） ---------------- */
+  if (p === "/review/decision" && method === "POST") {
+    const form = h.parseForm(await h.readBody(req, 32 * 1024));
+    /* 返回哪个 tab 只认两个合法值；error/notice 一律走 withQuery 拼接，
+       避免手写 ? / & 判断时出现「?status=x?error=y」这种坏 URL。 */
+    const backTo = workflow.reviewBackTo(String(form.status || ""));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) {
+      return redirect(res, workflow.withQuery(backTo, { error: "CSRF 校验失败，请刷新页面重试" }));
+    }
+    const slug = String(form.slug || "");
+    const decision = String(form.decision || "");
+    const note = String(form.note || "").trim();
+    if (!/^[a-z0-9-]{1,80}$/.test(slug)) {
+      return redirect(res, workflow.withQuery(backTo, { error: "文章标识不合法" }));
+    }
+    if (decision === "approve") {
+      const r = await applyStatusTransition(slug, "published", sess.user, c.ip);
+      if (!r.ok) return redirect(res, workflow.withQuery(backTo, { slug: slug, error: slug + "：" + r.reason }));
+      return redirect(res, workflow.withQuery(backTo, { notice: "已通过并发布：" + slug }));
+    }
+    if (decision === "reject") {
+      if (note.length < 4) {
+        return redirect(res, workflow.withQuery(backTo, { slug: slug, error: "退回时请写清修改意见（至少 4 个字）" }));
+      }
+      const r = await applyStatusTransition(slug, "changes_requested", sess.user, c.ip);
+      if (!r.ok) return redirect(res, workflow.withQuery(backTo, { slug: slug, error: slug + "：" + r.reason }));
+      try {
+        await collab.addComment(slug, sess.user.user_id, note, null);
+        await auth.audit(sess.user, "comment.add", slug, { from: "review" }, c.ip);
+      } catch (e) { /* 评论失败不阻塞退回本身：状态已改，评论可在编辑器里补 */ }
+      return redirect(res, workflow.withQuery(backTo, { slug: slug, notice: "已退回修改：" + slug }));
+    }
+    return redirect(res, workflow.withQuery(backTo, { slug: slug || null, error: "未知的审核动作" }));
+  }
+
+  /* ---------------- 数据分析 ----------------
+     把原先藏在工作台 #reader-feedback 的内容独立成页：反馈是「复盘」用，
+     工作台是「今天做什么」用，两种节奏混在一页会互相打断。 */
+  if (p === "/analytics") {
+    let feedback = readerFeedback.emptyDashboard();
+    try { feedback = await readerFeedback.dashboardData(); } catch (e) { console.error("[feedback] " + e.message); }
+    const all = await loadArticlesWithStatus();
+    const now = Date.now();
+    const days = function (d) {
+      if (!d) return null;
+      const t = new Date(String(d) + "T00:00:00Z").getTime();
+      return isNaN(t) ? null : Math.floor((now - t) / 86400000);
+    };
+    const health = {
+      published: all.filter(function (a) { return a.status === "published"; }).length,
+      stale: all.filter(function (a) { if (a.status !== "published") return false; const d = days(a.reviewed_at); return d === null || d > 180; }).length,
+      missingSources: all.filter(function (a) { return (a.sourcesCount || 0) < 1; }).length,
+      updated30: all.filter(function (a) { const d = days(a.updated); return d !== null && d <= 30; }).length
+    };
+    return html(res, 200, views.analyticsPage(Object.assign({ feedback: feedback, health: health }, pageOpts)));
+  }
+
+  /* ---------------- 全局搜索（命令面板） ----------------
+     只返回标题/slug/领域等摘要，不返回正文，避免把整库内容塞进一次请求。 */
+  if (p === "/api/search") {
+    /* q 来自 URL：截断到 80 字符（更长的查询没有意义，还会让 haystack.indexOf 做无用功），
+       limit 收敛到 [1, 20]。 */
+    const q = String(url.searchParams.get("q") || "").trim().slice(0, 80).toLowerCase();
+    const limit = Math.min(20, Math.max(1, parseInt(url.searchParams.get("limit") || "8", 10) || 8));
+    const tax = taxonomy();
+    const domName = {};
+    (tax.domains || []).forEach(function (d) { domName[d.id] = d.name; });
+    const items = await loadArticlesWithStatus();
+    const map = function (a) {
+      return {
+        slug: a.slug, title: a.title || a.slug, domainName: domName[a.domain] || a.domain || "",
+        status: a.status, statusLabel: views.statusLabel(a.status), updated: a.updated || ""
+      };
+    };
+    if (!q) {
+      const recent = items.slice().sort(function (a, b) {
+        return String(b.updated || "").localeCompare(String(a.updated || ""));
+      }).slice(0, limit).map(map);
+      return h.sendJson(res, 200, { recent: recent }, h.securityHeaders());
+    }
+    /* 关键词与症状也参与匹配：用户常常记得「提示 0x8007」而不是标题。
+       这些字段不在 listAll 的轻量索引里，按需读文件并做 60s 缓存。 */
+    const idx = searchIndex(items);
+    const hits = [];
+    items.forEach(function (a) {
+      const extra = idx[a.slug] || "";
+      const hay = (a.title + " " + a.slug + " " + (domName[a.domain] || "") + " " + extra).toLowerCase();
+      if (hay.indexOf(q) >= 0) hits.push(a);
+    });
+    hits.sort(function (a, b) {
+      const at = String(a.title || "").toLowerCase().indexOf(q) >= 0 ? 0 : 1;
+      const bt = String(b.title || "").toLowerCase().indexOf(q) >= 0 ? 0 : 1;
+      if (at !== bt) return at - bt;
+      return String(b.updated || "").localeCompare(String(a.updated || ""));
+    });
+    return h.sendJson(res, 200, { articles: hits.slice(0, limit).map(map) }, h.securityHeaders());
+  }
+
+  /* ---------------- 审核台用的整页预览 ----------------
+     与线上产物同源（复用 build-fix.cjs 的 renderArticle），相对资源换成站点绝对地址。
+     单独的 CSP 是为它放行站点域名：后台自身 CSP 只允许 'self'，直接 iframe 会失去样式。 */
+  const mPreviewPage = p.match(/^\/articles\/([a-z0-9-]+)\/preview-page$/);
+  if (mPreviewPage) {
+    const slug = mPreviewPage[1];
+    if (!await auth.can(sess.user, "article:edit") && !await auth.can(sess.user, "article:review")) {
+      return h.send(res, 403, "forbidden", h.securityHeaders());
+    }
+    let art = null;
+    try { art = articles.read(slug); } catch (e) { return h.send(res, 404, "not found", h.securityHeaders()); }
+    try {
+      const siteBuild = require(path.join(config.repo.root, "build-fix.cjs"));
+      const isRef = /^(reference|sop)$/.test(String(art.meta.kind || "")) || /^ref-/.test(String(art.meta.domain || ""));
+      let page = isRef ? siteBuild.renderReference(art.meta, art.body) : siteBuild.renderArticle(art.meta, art.body);
+      const site = String(config.siteUrl || "").replace(/\/+$/, "");
+      page = page.replace(/(?:\.\.\/)+/g, site + "/");
+      return h.send(res, 200, page, {
+        "Content-Type": "text/html; charset=utf-8",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+        "Cache-Control": "no-store",
+        "Content-Security-Policy": [
+          "default-src 'self' " + site,
+          "img-src 'self' data: " + site,
+          "style-src 'self' 'unsafe-inline' " + site,
+          "script-src 'self' 'unsafe-inline' " + site,
+          "font-src 'self' data: " + site,
+          "frame-ancestors 'self'",
+          "base-uri 'none'",
+          "object-src 'none'"
+        ].join("; ")
+      });
+    } catch (e) {
+      return h.send(res, 500, "预览渲染失败：" + e.message, h.securityHeaders());
+    }
   }
 
   // ---- Taxonomy management ----
@@ -713,9 +1015,11 @@ async function handle(req, res) {
       });
     }
 
-    // 排序
+    // 排序（sort 来自 URL，只接受白名单字段，未知字段退回默认的 updated）
+    const SORTABLE = ["updated", "title", "status", "domain", "risk", "sourcesCount"];
     const desc = qSort.charAt(0) === "-";
-    const key = desc ? qSort.slice(1) : qSort;
+    let key = desc ? qSort.slice(1) : qSort;
+    if (SORTABLE.indexOf(key) < 0) key = "updated";
     items.sort(function (a, b) {
       let x = a[key], y = b[key];
       if (key === "sourcesCount") { x = a.sourcesCount; y = b.sourcesCount; }
@@ -726,13 +1030,19 @@ async function handle(req, res) {
 
     // 分页（非技术用户场景一律分页，不用无限滚动）
     const perPage = 20;
-    const pageNo = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10) || 1);
     const filtered = items.length;
     const pages = Math.max(1, Math.ceil(filtered / perPage));
+    /* 页码收敛到 [1, pages]：手改 URL 到 page=999 时应该看到最后一页，
+       而不是一张「空列表」——那会让人以为筛选坏了。 */
+    const pageNo = workflow.clampPage(url.searchParams.get("page"), pages);
     const pageItems = items.slice((pageNo - 1) * perPage, pageNo * perPage);
 
     const savedViews = await collab.listViews(sess.user.user_id);
-    const currentQs = url.searchParams.toString().replace(/(^|&)notice=[^&]*/g, "").replace(/^&/, "");
+    /* 当前查询串（用于「保存视图」和保存后跳回）：去掉 notice/error 这类一次性参数，
+       也去掉 page —— 视图应该保存筛选条件，而不是「我上次停在第几页」。 */
+    const currentQs = url.searchParams.toString()
+      .replace(/(^|&)(notice|error|page)=[^&]*/g, "").replace(/^&+/, "").replace(/&+/g, "&");
+    const tax = taxonomy();
     /* 行内快捷操作/批量条的按钮可见性：按当前用户的真实能力渲染（路由层仍会逐条校验） */
     const rowCaps = {
       submit: await auth.can(sess.user, "article:submit"),
@@ -746,8 +1056,8 @@ async function handle(req, res) {
       total: total, filtered: filtered, page: pageNo, pages: pages, perPage: perPage,
       statusCounts: statusCounts, rowCaps: rowCaps,
       filters: { status: qStatus, domain: qDomain, risk: qRisk, q: qSearch, stale: qStale, missing: qMissing, sort: qSort },
-      domains: taxonomy().domains, risks: taxonomy().enums.risk,
-      notice: url.searchParams.get("notice")
+      domains: tax.domains, risks: (tax.enums && tax.enums.risk) || [],
+      notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
     }, pageOpts)));
   }
 
@@ -767,13 +1077,15 @@ async function handle(req, res) {
     if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
     try {
       const meta = formToMeta(form);
+      meta.status = "draft";          // 新建一律是草稿，状态由工作流推进
       const r = articles.createDraft(meta.slug, meta, form.body);
       await db.query(
         "INSERT INTO articles_meta (slug, title, domain, category, status, content_hash, author_id, file_path) " +
         "VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT (slug) DO UPDATE SET title=$2, content_hash=$6, updated_at=now()",
         [meta.slug, meta.title, meta.domain, meta.category, "draft", r.contentHash, sess.user.user_id, "drafts"]);
       await auth.audit(sess.user, "article.create", meta.slug, { title: meta.title }, c.ip);
-      return redirect(res, "/articles/" + meta.slug + "?notice=" + encodeURIComponent("草稿已创建"));
+      invalidateContentCaches();
+      return redirect(res, workflow.withQuery("/articles/" + meta.slug, { notice: "草稿已创建" }));
     } catch (e) {
       return html(res, e.status || 500, views.editorPage(Object.assign({
         isExisting: false, meta: formToMeta(form), body: form.body,
@@ -799,10 +1111,15 @@ async function handle(req, res) {
       const splitList = function (v) {
         return String(v || "").split(/[,，、\s]+/).map(function (x) { return x.trim(); }).filter(Boolean);
       };
+      /* kind 决定用 renderArticle 还是 renderReference 渲染。
+         表单里没有 kind 字段，所以从磁盘上的那篇文章继承 —— 否则参考/SOP 类文章
+         在预览里会被当成普通故障教程排版，用户会以为样式坏了。 */
+      let existingMeta = {};
+      try { existingMeta = articles.read(String(form.slug || "")).meta || {}; } catch (e) { existingMeta = {}; }
       const meta = {
         title: String(form.title || "（未命名文章）"),
         slug: String(form.slug || "preview"),
-        kind: String(form.kind || "fix"),
+        kind: String(form.kind || existingMeta.kind || "fix"),
         domain: String(form.domain || ""),
         category: String(form.category || ""),
         os: splitList(form.os).length ? splitList(form.os) : ["Windows"],
@@ -838,10 +1155,13 @@ async function handle(req, res) {
     if (!auth.verifyCsrf(sess.user, form._csrf)) return h.sendJson(res, 403, { error: "CSRF 校验失败" }, h.securityHeaders());
     try {
       const meta = formToMeta(form, art.meta);
+      // 自动保存同样不允许改状态（见手动保存处的说明）
+      meta.status = art.meta.status || "draft";
       const saved = articles.save(slug, meta, form.body, { baseHash: form.baseHash || null });
       await db.query("UPDATE articles_meta SET title=$2, domain=$3, category=$4, content_hash=$5, updated_at=now() WHERE slug=$1",
         [slug, meta.title, meta.domain, meta.category, saved.contentHash]);
       await auth.audit(sess.user, "article.autosave", slug, null, c.ip);
+      invalidateContentCaches();
       return h.sendJson(res, 200, { ok: true, hash: saved.contentHash, at: new Date().toISOString() }, h.securityHeaders());
     } catch (e) {
       return h.sendJson(res, e.status || 500, { error: e.message }, h.securityHeaders());
@@ -853,9 +1173,10 @@ async function handle(req, res) {
   if (mRowStatus && method === "POST") {
     const form = h.parseForm(await h.readBody(req, 8192));
     if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
-    const r = await applyStatusTransition(mRowStatus[1], String(form.to || ""), sess.user, c.ip);
-    if (!r.ok) return redirect(res, "/articles?error=" + encodeURIComponent(mRowStatus[1] + "：" + r.reason));
-    return redirect(res, "/articles?notice=" + encodeURIComponent("已" + (STATUS_TRANSITIONS[String(form.to || "")] || { label: "更新" }).label + "：" + mRowStatus[1]));
+    const to = String(form.to || "");
+    const r = await applyStatusTransition(mRowStatus[1], to, sess.user, c.ip);
+    if (!r.ok) return redirect(res, workflow.withQuery("/articles", { error: mRowStatus[1] + "：" + r.reason }));
+    return redirect(res, workflow.withQuery("/articles", { notice: "已" + workflow.transitionLabel(to) + "：" + mRowStatus[1] }));
   }
 
   /* ---------------- 批量状态流转（列表页多选） ----------------
@@ -865,16 +1186,16 @@ async function handle(req, res) {
     if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
     const to = String(form.to || "");
     const slugs = Array.isArray(form.slugs) ? form.slugs : (form.slugs ? [form.slugs] : []);
-    if (!slugs.length) return redirect(res, "/articles?error=" + encodeURIComponent("没有勾选任何文章"));
+    if (!slugs.length) return redirect(res, workflow.withQuery("/articles", { error: "没有勾选任何文章" }));
     let done = 0;
     const skipped = [];
     for (const slug of slugs.slice(0, 100)) {
       const r = await applyStatusTransition(String(slug), to, sess.user, c.ip);
       if (r.ok) done++; else skipped.push(slug + "（" + r.reason + "）");
     }
-    const msg = "批量" + (STATUS_TRANSITIONS[to] ? STATUS_TRANSITIONS[to].label : "更新") + "：成功 " + done + " 篇" +
+    const msg = "批量" + workflow.transitionLabel(to) + "：成功 " + done + " 篇" +
       (skipped.length ? "，跳过 " + skipped.length + " 篇：" + skipped.slice(0, 3).join("；") + (skipped.length > 3 ? " 等" : "") : "");
-    return redirect(res, "/articles?" + (done ? "notice=" : "error=") + encodeURIComponent(msg));
+    return redirect(res, workflow.withQuery("/articles", done ? { notice: msg } : { error: msg }));
   }
 
   // ---- 单篇：编辑 / 保存 / 发布 ----
@@ -928,7 +1249,11 @@ async function handle(req, res) {
       }
     }
     try {
+      /* 状态（status）只能由「提交审核 / 通过 / 退回 / 归档」这些工作流动作改，
+         编辑器表单里的 status 一律忽略（否则 editor 角色可以绕过审核直接写 published）。
+         这里强制沿用文件当前状态，工作流状态以 DB 为准。 */
       const meta = formToMeta(form, art.meta);
+      meta.status = art.meta.status || "draft";
       // 保存前记录 sources 数量，用于 V14 式保护
       const beforeSources = Array.isArray(art.meta.sources) ? art.meta.sources.length : 0;
       const saved = articles.save(slug, meta, form.body, { baseHash: form.baseHash || null });
@@ -945,7 +1270,8 @@ async function handle(req, res) {
           [slug, saved.contentHash, sess.user.user_id]);
         const job = await publisher.enqueue(slug, "publish", sess.user.user_id);
         await auth.audit(sess.user, "article.publish", slug, { jobId: job.id }, c.ip);
-        return redirect(res, "/publish?notice=" + encodeURIComponent("已发布并加入发布队列（任务 #" + job.id + "）"));
+        invalidateContentCaches();
+        return redirect(res, workflow.withQuery("/publish", { notice: "已发布并加入发布队列（任务 #" + job.id + "）" }));
       }
       await db.query("UPDATE articles_meta SET title=$2, domain=$3, category=$4, content_hash=$5, updated_at=now() WHERE slug=$1",
         [slug, meta.title, meta.domain, meta.category, saved.contentHash]);
@@ -953,7 +1279,8 @@ async function handle(req, res) {
       await collab.addRevision(slug, fs.readFileSync(articles.locate(slug).file, "utf8"),
         { title: meta.title, status: "saved", contentHash: saved.contentHash }, sess.user.user_id, "保存");
       await auth.audit(sess.user, "article.save", slug, { sources: afterSources }, c.ip);
-      return redirect(res, "/articles/" + slug + "?notice=" + encodeURIComponent("已保存"));
+      invalidateContentCaches();
+      return redirect(res, workflow.withQuery("/articles/" + slug, { notice: "已保存" }));
     } catch (e) {
       const code = e.status || 500;
       return html(res, code, views.editorPage(Object.assign({
@@ -969,9 +1296,10 @@ async function handle(req, res) {
     const form = h.parseForm(await h.readBody(req, 8192));
     if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
     try {
-      await collab.saveView(sess.user.user_id, form.name, form.qs || "", form.is_shared === "1");
-      await auth.audit(sess.user, "view.save", form.name, { qs: form.qs }, c.ip);
-      return redirect(res, "/articles?" + String(form.qs || "").replace(/^\?/, "") + (form.qs ? "&" : "") + "notice=" + encodeURIComponent("视图已保存"));
+      const savedQs = String(form.qs || "").replace(/^\?/, "");
+      await collab.saveView(sess.user.user_id, form.name, savedQs, form.is_shared === "1");
+      await auth.audit(sess.user, "view.save", form.name, { qs: savedQs }, c.ip);
+      return redirect(res, "/articles?" + (savedQs ? savedQs + "&" : "") + "notice=" + encodeURIComponent("视图已保存"));
     } catch (e) {
       return redirect(res, "/articles?error=" + encodeURIComponent(e.message));
     }
@@ -1105,6 +1433,14 @@ async function handle(req, res) {
       saved.alt = alt;
       const id = await media.record(saved, sess.user.user_id);
       await auth.audit(sess.user, "media.upload", saved.filename, { bytes: saved.bytes, alt: alt }, c.ip);
+      /* 编辑器内拖拽/粘贴上传需要知道文件路径才能立刻插入 Markdown；
+         传统表单上传仍走 302 回媒体库。用 X-FX-JSON: 1 区分，不改变原有行为。 */
+      if (String(req.headers["x-fx-json"] || "") === "1") {
+        return h.sendJson(res, 200, {
+          ok: true, id: id, filename: saved.filename, relPath: saved.relPath,
+          alt: alt, bytes: saved.bytes
+        }, h.securityHeaders());
+      }
       return redirect(res, "/media?notice=" + encodeURIComponent("已上传：" + saved.relPath));
     } catch (e) {
       return redirect(res, "/media?error=" + encodeURIComponent(e.message));
@@ -1213,6 +1549,11 @@ async function handle(req, res) {
       const form = h.parseForm(await h.readBody(req, 4096));
       if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
       if (!await auth.can(sess.user, "article:publish")) return html(res, 403, views.simplePage("没有权限", "你的角色不能发布。", pageOpts));
+      /* 通道关闭时入队只会留下一个永远 queued 的任务（没有消费者），
+         与其让用户以为「已提交」，不如明确告诉他发布未开启。 */
+      if (!config.publish.enabled) {
+        return redirect(res, workflow.withQuery("/publish", { error: "发布通道已关闭（PUBLISH_ENABLED=false），请联系运维" }));
+      }
       const job = await publisher.enqueue(null, "publish", sess.user.user_id);
       await auth.audit(sess.user, "publish.manual", null, { jobId: job.id }, c.ip);
       return redirect(res, "/publish?notice=" + encodeURIComponent("已加入发布队列（任务 #" + job.id + "）"));
@@ -1339,6 +1680,23 @@ async function handle(req, res) {
     }, h.securityHeaders());
   }
 
+  /* 撤销邀请：原先 invites 模块里只有一个没人调用的 revoke()，
+     链接泄露时管理员无法止损，用户页文案却写着「可由管理员撤销」。 */
+  const mInviteRevoke = p.match(/^\/invites\/(\d+)\/revoke$/);
+  if (mInviteRevoke && method === "POST") {
+    if (!await auth.can(sess.user, "user:manage")) return html(res, 403, views.simplePage("没有权限", "只有管理员可以撤销邀请。", pageOpts));
+    const form = h.parseForm(await h.readBody(req, 4096));
+    if (!auth.verifyCsrf(sess.user, form._csrf)) return html(res, 403, views.simplePage("请求被拒绝", "CSRF 校验失败。", pageOpts));
+    const id = parseInt(mInviteRevoke[1], 10);
+    const row = (await db.query("SELECT id, email, used_at, revoked_at FROM invites WHERE id = $1", [id])).rows[0];
+    if (!row) return redirect(res, workflow.withQuery("/users", { error: "邀请不存在" }));
+    if (row.used_at) return redirect(res, workflow.withQuery("/users", { error: "该邀请已被使用，无法撤销" }));
+    if (row.revoked_at) return redirect(res, workflow.withQuery("/users", { notice: "该邀请已经是撤销状态" }));
+    if (!await invites.revokeById(id)) return redirect(res, workflow.withQuery("/users", { error: "该邀请已使用或已撤销，无需再撤销" }));
+    await auth.audit(sess.user, "user.invite.revoke", row.email, { id: id }, c.ip);
+    return redirect(res, workflow.withQuery("/users", { notice: "已撤销邀请：" + row.email }));
+  }
+
   const mToggle = p.match(/^\/users\/(\d+)\/toggle$/);
   if (mToggle && method === "POST") {
     if (!await auth.can(sess.user, "user:manage")) return html(res, 403, views.simplePage("没有权限", "只有管理员可以管理账号。", pageOpts));
@@ -1425,11 +1783,12 @@ function formToMeta(form, base) {
   };
 }
 
-/* 单篇 lint（复用站点同一份规则，仅取 error 级） */
-async function lintFileCheck(meta, body, slug) {
+/* 单篇发布前校验（表单值版本）
+   注意：这里**刻意不调用 content-lint 的 lintFile** —— 它读的是磁盘上的旧文件，
+   对「尚未落盘的表单」没有任何意义（旧实现调用了却丢弃返回值，属于死代码）。
+   前端需要的规则常量与 loadTaxonomy 仍复用 content-lint.cjs，保证两边同一套口径。 */
+function lintFileCheck(meta, body, slug) {
   const lint = require(path.join(config.repo.root, "content-lint.cjs"));
-  const issues = lint.lintFile(slug + ".md", { taxonomy: lint.loadTaxonomy() });
-  // 表单里的 meta 尚未落盘，lintFile 读的是旧文件；因此这里额外做几项针对表单值的检查
   const errs = [];
   const tax = lint.loadTaxonomy();
   if (!meta.title) errs.push("标题不能为空");
@@ -1447,13 +1806,8 @@ async function lintFileCheck(meta, body, slug) {
   // 只硬性要求两个底线段落，其余段落自由组织。
   // 与 content-lint.cjs 的 V6a/V6b 保持一致 —— 两处都要改，否则会出现
   // 「后台说能发、构建失败」或反之。这里复用 lint 模块的常量，避免再次分叉。
-  let req = ["一句话结论", "分步骤"];
-  let alts = { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
-  try {
-    const lintMod = require(path.join(config.repo.root, "content-lint.cjs"));
-    if (lintMod.REQUIRED_SECTIONS) req = lintMod.REQUIRED_SECTIONS;
-    if (lintMod.SECTION_ALIASES) alts = lintMod.SECTION_ALIASES;
-  } catch (e) { /* 用上面的默认值兜底 */ }
+  const req = lint.REQUIRED_SECTIONS || ["一句话结论", "分步骤"];
+  const alts = lint.SECTION_ALIASES || { "怎么确认修好了": ["怎么确认修好了", "怎么确认处理好了"] };
   const h2 = String(body || "").split(/\r?\n/).filter(function (l) { return /^##\s+/.test(l); })
     .map(function (l) { return l.replace(/^##\s+/, "").trim(); });
   req.forEach(function (n) {
@@ -1467,14 +1821,35 @@ async function lintFileCheck(meta, body, slug) {
 
 const server = http.createServer(function (req, res) {
   handle(req, res).catch(function (e) {
-    console.error("[server] 未处理异常：" + (e && e.stack || e));
-    try { h.send(res, 500, "服务器内部错误", h.securityHeaders()); } catch (_) {}
+    /* 带 status 的错误是「可预期的客户端错误」（请求体过大 413、请求体非法 400、
+       乐观锁冲突 409 …）。旧实现一律回 500「服务器内部错误」，
+       于是用户看到的是「后台挂了」，实际只是表单太大。 */
+    const status = e && e.status && e.status >= 400 && e.status < 500 ? e.status : 500;
+    if (status === 500) console.error("[server] 未处理异常：" + (e && e.stack || e));
+    else console.warn("[server] 请求被拒绝（" + status + "）：" + (e && e.message));
+    const msg = status === 413 ? "请求内容过大，请精简后重试"
+      : (status === 400 ? "请求内容不合法" : (status === 409 ? "内容已被他人修改，请刷新后重试" : "服务器内部错误"));
+    try {
+      if (res.headersSent) return res.end();
+      h.send(res, status, msg, h.securityHeaders({ "Content-Type": "text/plain; charset=utf-8" }));
+    } catch (_) {}
   });
 });
 
 async function start() {
-  await db.assertCorrectDatabase();      // 防止连错库（V2 §4.2 D 项）
-  await db.query("SELECT 1");            // 探活
+  /* 启动自检失败（数据库没起、密码错、连错库）必须给出**可行动**的错误并退出：
+     旧实现直接 await，异常变成未捕获的 Promise rejection，日志里只有一段栈，
+     运维看不出到底是连不上还是配置错。 */
+  try {
+    await db.assertCorrectDatabase();    // 防止连错库（V2 §4.2 D 项）
+    await db.query("SELECT 1");          // 探活
+  } catch (e) {
+    console.error("[admin] 启动失败：无法连接数据库（" + config.db.user + "@" + config.db.host + ":" + config.db.port + "/" + config.db.database + "）");
+    console.error("  原因：" + (e && e.message ? e.message : String(e)));
+    console.error("  排查：1) PostgreSQL 是否已启动；2) DB_* 环境变量是否正确；3) 数据库是否已执行 migrate。");
+    process.exitCode = 1;
+    return;
+  }
   publisher.start();                     // 启动发布队列消费者
   server.listen(config.port, config.host, function () {
     console.log("[admin] 已启动 http://" + config.host + ":" + config.port);
@@ -1484,6 +1859,11 @@ async function start() {
   });
 }
 
-if (require.main === module) start();
+if (require.main === module) {
+  start().catch(function (e) {
+    console.error("[admin] 启动失败：" + (e && e.stack || e));
+    process.exitCode = 1;
+  });
+}
 
 module.exports = { server: server, start: start, formToMeta: formToMeta };

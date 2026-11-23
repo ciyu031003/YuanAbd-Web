@@ -4,6 +4,12 @@
 "use strict";
 const crypto = require("crypto");
 
+/* 安全解码：畸形百分号编码（"%E0%A4%A"、"%zz"）会让 decodeURIComponent 抛错。
+   旧实现下，一个手改过的 Cookie 就能把每个请求打成 500 —— 解码失败按原样保留即可。 */
+function safeDecode(s) {
+  try { return decodeURIComponent(s); } catch (e) { return String(s || ""); }
+}
+
 function parseCookies(header) {
   const out = {};
   (header || "").split(";").forEach(function (part) {
@@ -11,7 +17,7 @@ function parseCookies(header) {
     if (i < 0) return;
     const k = part.slice(0, i).trim();
     const v = part.slice(i + 1).trim();
-    if (k) out[k] = decodeURIComponent(v);
+    if (k) out[k] = safeDecode(v);
   });
   return out;
 }
@@ -66,9 +72,14 @@ function parseForm(body) {
   String(body || "").split("&").forEach(function (kv) {
     if (!kv) return;
     const i = kv.indexOf("=");
-    const k = decodeURIComponent((i < 0 ? kv : kv.slice(0, i)).replace(/\+/g, " "));
-    const v = i < 0 ? "" : decodeURIComponent(kv.slice(i + 1).replace(/\+/g, " "));
-    out[k] = v;
+    const k = safeDecode((i < 0 ? kv : kv.slice(0, i)).replace(/\+/g, " "));
+    const v = i < 0 ? "" : safeDecode(kv.slice(i + 1).replace(/\+/g, " "));
+    // 同名多值（批量勾选 slugs）不能互相覆盖：累积成数组，路由层再判断
+    if (Object.prototype.hasOwnProperty.call(out, k)) {
+      out[k] = Array.isArray(out[k]) ? out[k].concat([v]) : [out[k], v];
+    } else {
+      out[k] = v;
+    }
   });
   return out;
 }
@@ -89,8 +100,6 @@ function esc(s) {
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
-
-function escAttr(s) { return esc(s); }
 
 /* 后台专属安全头（V2 §6.1） */
 function securityHeaders(extra) {
@@ -130,8 +139,9 @@ function clientIp(req, trustProxy) {
 function randomToken(bytes) { return crypto.randomBytes(bytes || 32).toString("base64url"); }
 
 module.exports = {
+  safeDecode: safeDecode,
   parseCookies: parseCookies, cookieHeader: cookieHeader, clearCookieHeader: clearCookieHeader,
   readBody: readBody, readBodyRaw: readBodyRaw, parseForm: parseForm,
-  send: send, sendJson: sendJson, esc: esc, escAttr: escAttr,
+  send: send, sendJson: sendJson, esc: esc,
   securityHeaders: securityHeaders, clientIp: clientIp, randomToken: randomToken
 };

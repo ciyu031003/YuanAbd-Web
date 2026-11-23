@@ -79,11 +79,13 @@ async function consume(token, password) {
   });
 }
 
-async function revoke(token) {
-  const inv = await verify(token);
-  if (!inv) return false;
-  await db.query("UPDATE invites SET revoked_at = now() WHERE id = $1", [inv.id]);
-  return true;
+/* 按 id 撤销邀请（后台账号页以列表行操作，直接持有 id）。
+   已使用/已撤销的邀请不会被重复处理：WHERE 里带上前置条件，返回是否真的改了行。 */
+async function revokeById(id) {
+  const r = await db.query(
+    "UPDATE invites SET revoked_at = now() WHERE id = $1 AND used_at IS NULL AND revoked_at IS NULL RETURNING id",
+    [id]);
+  return r.rowCount > 0;
 }
 
-module.exports = { create: create, verify: verify, consume: consume, revoke: revoke, INVITE_TTL_HOURS: INVITE_TTL_HOURS };
+module.exports = { create: create, verify: verify, consume: consume, revokeById: revokeById, INVITE_TTL_HOURS: INVITE_TTL_HOURS };

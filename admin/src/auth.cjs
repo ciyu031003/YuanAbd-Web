@@ -153,22 +153,44 @@ async function getRoles(userId) {
   return r.rows;
 }
 
+/* 请求级角色缓存。
+   为什么要缓存：一次页面渲染里 can() 会被调用 5-8 次（新建 / 提交 / 审核 / 发布 /
+   归档 / 设置），旧实现每次都单独 SELECT user_roles —— 同一份数据被查 8 遍。
+   缓存在**用户对象**上（不是全局 Map）：currentUser() 每个请求都会拿到一个新的
+   用户行对象，所以缓存天然只活一个请求，不会出现「改了角色要等缓存过期」。
+   __caps / __roles 用不可枚举属性定义，不污染 JSON.stringify(audit detail) 之类的输出。 */
+function memo(user, key, value) {
+  try {
+    Object.defineProperty(user, key, { value: value, enumerable: false, configurable: true, writable: true });
+  } catch (e) { user[key] = value; }
+  return value;
+}
+async function rolesOf(user) {
+  if (!user) return [];
+  if (user.__roles) return user.__roles;
+  return memo(user, "__roles", await getRoles(user.user_id));
+}
+async function capsOf(user) {
+  if (!user) return [];
+  if (user.__caps) return user.__caps;
+  const roles = await rolesOf(user);
+  const caps = new Set();
+  roles.forEach(function (r) { (CAP[r.role] || []).forEach(function (cp) { caps.add(cp); }); });
+  return memo(user, "__caps", caps);
+}
+
 async function can(user, capability) {
   if (!user) return false;
   if (user.is_root) return true;              // root 拥有一切
-  const roles = await getRoles(user.user_id);
-  for (const r of roles) {
-    const caps = CAP[r.role] || [];
-    if (caps.indexOf(capability) >= 0) return true;
-  }
-  return false;
+  const caps = await capsOf(user);
+  return caps.has(capability);
 }
 
 /* 作用域校验：编辑者可能被限定只能改某个领域 */
 async function canEditDomain(user, domain) {
   if (!user) return false;
   if (user.is_root) return true;
-  const roles = await getRoles(user.user_id);
+  const roles = await rolesOf(user);
   const scoped = roles.filter(function (r) { return r.scope_domain; });
   if (!scoped.length) return true;             // 无作用域限制 = 不限
   return scoped.some(function (r) { return r.scope_domain === domain; });

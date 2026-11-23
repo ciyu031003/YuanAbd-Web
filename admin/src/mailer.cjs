@@ -48,6 +48,15 @@ function assertSendAllowed(email) {
   sendLog.set(email, arr);
 }
 
+/* HTML 转义：userName 来自邀请时填写的邮箱前缀 / 管理员输入，
+   直接拼进 HTML 邮件 = 收件人邮箱里的一次 HTML 注入（可插入钓鱼链接）。
+   邮件正文不属于后台页面，不能复用 http.esc（模块依赖方向也要保持单向）。 */
+function escHtml(s) {
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
 /* ---------- 发送验证码邮件 ---------- */
 async function sendBindCode(toEmail, code, userName) {
   if (!config.mail.enabled) {
@@ -74,7 +83,7 @@ async function sendBindCode(toEmail, code, userName) {
       '<div style="font-family:-apple-system,\'PingFang SC\',\'Microsoft YaHei\',sans-serif;max-width:520px;margin:0 auto;' +
       'padding:28px;border-radius:14px;background:#F6F8FC;color:#1A2233;line-height:1.8">' +
       '<h2 style="margin:0 0 14px;font-size:18px">修盒子内容后台 · 邮箱绑定验证</h2>' +
-      '<p style="margin:0 0 10px">你好' + (userName ? "，" + userName : "") + "：</p>" +
+      '<p style="margin:0 0 10px">你好' + (userName ? "，" + escHtml(userName) : "") + "：</p>" +
       '<p style="margin:0 0 14px">管理员正在为你的账号绑定此邮箱。请把下面的验证码告知管理员完成绑定：</p>' +
       '<div style="font-size:32px;font-weight:800;letter-spacing:10px;font-family:Consolas,monospace;' +
       'background:#fff;border-radius:12px;padding:16px 0;text-align:center;margin:0 0 14px">' + code + "</div>" +

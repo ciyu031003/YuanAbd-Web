@@ -66,8 +66,20 @@ function read(slug) {
   };
 }
 
-/* 列出全部（文章列表页用；只读 front-matter 头，不读正文） */
-function listAll() {
+/* 列出全部（文章列表页用；只读 front-matter 头，不读正文）。
+   性能：96 个文件 × 每个请求解析一次 = 明显的固定开销（工作台一次请求会用到
+   文章列表、侧栏徽章、搜索索引三处）。这里加 1.5 秒的短缓存 + 写盘主动失效：
+     · 短 TTL 兜住同一页面内的多次调用（导航徽章、列表、搜索索引）；
+     · 写盘（save/publish/archive/createDraft）立即 invalidate()，不会读到旧内容；
+     · 进程外手工改文件时最多 1.5 秒后生效，仍然「文件是真源」。 */
+const LIST_TTL_MS = 1500;
+let _listCache = { at: 0, data: null };
+function invalidate() { _listCache = { at: 0, data: null }; }
+
+function listAll(force) {
+  /* 命中缓存时返回**数组副本**：调用方（列表页、工作台）会原地 sort/filter，
+     直接给缓存数组会被改乱顺序，后续请求拿到的基准顺序就不稳定了。 */
+  if (!force && _listCache.data && Date.now() - _listCache.at < LIST_TTL_MS) return _listCache.data.slice();
   ensureDirs();
   const out = [];
   function scan(dir, where) {
@@ -89,6 +101,13 @@ function listAll() {
           reviewer: parsed.meta.reviewer || "",
           reviewed_at: parsed.meta.reviewed_at || "",
           sourcesCount: Array.isArray(parsed.meta.sources) ? parsed.meta.sources.length : 0,
+          /* 命令面板搜索需要的关键词/症状/别名：front-matter 已经解析过，
+             顺手拼进列表结果，省掉「搜索时再读一遍 96 个文件」的开销。 */
+          searchText: []
+            .concat(Array.isArray(parsed.meta.keywords) ? parsed.meta.keywords : [])
+            .concat(Array.isArray(parsed.meta.symptoms) ? parsed.meta.symptoms : [])
+            .concat(Array.isArray(parsed.meta.aliases) ? parsed.meta.aliases : [])
+            .join(" "),
           where: where,
           file: e.name,
           contentHash: contentHash(raw)
@@ -98,7 +117,9 @@ function listAll() {
   scan(CONTENT_DIR, "published");
   scan(DRAFTS_DIR, "draft");
   scan(ARCHIVE_DIR, "archive");
-  return out.sort(function (a, b) { return (b.updated || "").localeCompare(a.updated || ""); });
+  out.sort(function (a, b) { return (b.updated || "").localeCompare(a.updated || ""); });
+  _listCache = { at: Date.now(), data: out };
+  return out.slice();
 }
 
 /* 保存（乐观锁 + 最小改写序列化）
@@ -158,6 +179,7 @@ function save(slug, meta, body, opts) {
 
   const target = loc ? loc.file : fileFor(slug, opts.where === "published" ? "published" : "draft");
   fs.writeFileSync(target, text, "utf8");
+  invalidate();
   return { slug: slug, where: loc ? loc.where : (opts.where || "draft"), file: target, contentHash: contentHash(text) };
 }
 
@@ -182,7 +204,10 @@ function publish(slug, meta, body) {
   const dst = fileFor(slug, "published");
   const text = fx.serialize(merged, { original: fx.parse(fs.readFileSync(loc.file, "utf8")), body: body === undefined ? parsed.body : body });
   fs.writeFileSync(dst, text, "utf8");
-  if (loc.where === "draft" && fs.existsSync(loc.file)) fs.unlinkSync(loc.file);  // 移动而非复制
+  /* 移动而非复制：源文件无论是 _drafts/ 还是 _archive/，都在写成功后删掉，
+     否则归档文章「发布」后会同时存在于 _archive/ 与顶层，构建会读到两份。 */
+  if (loc.file !== dst && fs.existsSync(loc.file)) fs.unlinkSync(loc.file);
+  invalidate();
   return { slug: slug, where: "published", file: dst, contentHash: contentHash(text) };
 }
 
@@ -201,6 +226,7 @@ function archive(slug, supersededBy) {
   const text = fx.serialize(merged, { original: parsed, body: parsed.body });
   fs.writeFileSync(dst, text, "utf8");
   if (loc.file !== dst && fs.existsSync(loc.file)) fs.unlinkSync(loc.file);
+  invalidate();
   return { slug: slug, where: "archive", file: dst, contentHash: contentHash(text) };
 }
 
@@ -275,7 +301,7 @@ const BODY_SKELETON = [
 ].join("\n");
 
 module.exports = {
-  ensureDirs: ensureDirs, locate: locate, read: read, listAll: listAll,
+  ensureDirs: ensureDirs, locate: locate, read: read, listAll: listAll, invalidate: invalidate,
   save: save, createDraft: createDraft, publish: publish, archive: archive,
   contentHash: contentHash, assertSafeSlug: assertSafeSlug,
   CONTENT_DIR: CONTENT_DIR, DRAFTS_DIR: DRAFTS_DIR, ARCHIVE_DIR: ARCHIVE_DIR,

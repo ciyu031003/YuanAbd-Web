@@ -21,11 +21,12 @@
   function rowHtml() {
     var opts = tpl ? tpl.innerHTML : '<option value="">（无）</option>';
     var i = nextIndex();
+    var no = i + 1;
     return '<div class="row src-row" style="margin-bottom:8px">' +
-      '<input type="text" name="src_title_' + i + '" placeholder="标题（必填）" style="flex:2">' +
-      '<input type="text" name="src_url_' + i + '" placeholder="https://…（必填）" style="flex:3">' +
-      '<select name="src_type_' + i + '" style="flex:1">' + opts + '</select>' +
-      '<button class="btn btn--sm" type="button" data-src-remove>删除</button></div>';
+      '<input type="text" name="src_title_' + i + '" aria-label="参考资料 ' + no + ' 标题（必填）" placeholder="标题（必填）" style="flex:2">' +
+      '<input type="text" name="src_url_' + i + '" aria-label="参考资料 ' + no + ' URL（必填）" placeholder="https://…（必填）" style="flex:3">' +
+      '<select name="src_type_' + i + '" aria-label="参考资料 ' + no + ' 类型" style="flex:1">' + opts + '</select>' +
+      '<button class="btn btn--sm" type="button" data-src-remove aria-label="删除第 ' + no + ' 条参考资料">删除</button></div>';
   }
   if (addBtn && list) {
     addBtn.addEventListener("click", function () {
@@ -140,9 +141,11 @@
     }
   });
 
-  /* ---------------- 正文：插入骨架 / 插入图片 / 粘贴上传 ---------------- */
+  /* ---------------- 正文：插入骨架 / 插入图片 / 粘贴上传 ----------------
+     注意：只保留真实存在的控件。旧代码里还有一个 [data-insert-image] 分支，
+     但模板中从来没有这个属性（图片按钮用的是 [data-upload-image]），
+     整段逻辑（两个 window.prompt）是永远执行不到的死代码，已删除。 */
   var skeletonBtn = document.querySelector("[data-insert-skeleton]");
-  var imageBtn = document.querySelector("[data-insert-image]");
 
   function insertAtCursor(text) {
     if (!ta) return;
@@ -178,46 +181,60 @@
     });
   }
 
-  // 插入图片：优先尝试从剪贴板读，否则提示去媒体库复制路径
-  if (imageBtn) {
-    imageBtn.addEventListener("click", function () {
-      var md = window.prompt("粘贴图片路径（在媒体库里点「复制路径」得到），例如 media/20261013-ab12cd.png", "media/");
-      if (!md) return;
-      var alt = window.prompt("替代文本 alt（必填，描述这张图说明什么）", "");
-      if (!alt) { alert("alt 文本是必填的（无障碍要求）"); return; }
-      insertAtCursor("\n![" + alt + "](" + md + ")\n");
-    });
-  }
-
-  /* 拖拽 / 粘贴图片：直接走上传接口，成功后把 Markdown 插到光标处。
-     需要页面提供 data-upload-endpoint 与 data-csrf。 */
+  /* ---------------- 图片：上传 → 立即插入 Markdown ----------------
+     上一版上传成功后只提示「去媒体库复制路径」，多两步且容易漏。
+     现在服务端在 X-FX-JSON: 1 时返回 relPath，前端直接插到光标处。 */
   var uploadEndpoint = document.body.getAttribute("data-upload-endpoint");
   var pageCsrf = document.body.getAttribute("data-csrf");
+  var imgFile = document.getElementById("fx-img-file");
+  var uploadBtn = document.querySelector("[data-upload-image]");
 
-  function uploadFile(file) {
+  function note(msg, kind) {
+    var el = document.getElementById("fx-upload-note");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "fx-upload-note";
+      el.style.cssText = "position:fixed;right:18px;bottom:58px;z-index:99;padding:9px 14px;border-radius:10px;" +
+        "font-size:12.5px;font-weight:600;box-shadow:0 10px 30px -12px rgba(0,0,0,.4);transition:opacity .3s;max-width:320px";
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.background = kind === "err" ? "var(--warn-weak)" : "var(--ok-weak)";
+    el.style.color = kind === "err" ? "var(--warn)" : "var(--ok)";
+    el.style.opacity = "1";
+    clearTimeout(note._t);
+    note._t = setTimeout(function () { el.style.opacity = "0"; }, 3200);
+  }
+
+  function uploadFile(file, altText) {
     if (!uploadEndpoint || !ta) return;
-    var alt = window.prompt("这张图说明什么？（alt 文本，必填）", "");
-    if (!alt) { alert("必须填写 alt 文本才能上传"); return; }
+    var alt = altText || window.prompt("这张图说明什么？（alt 文本，必填）", "");
+    if (!alt) { note("必须填写 alt 文本才能上传", "err"); return; }
     var fd = new FormData();
     fd.append("_csrf", pageCsrf || "");
     fd.append("alt", alt);
     fd.append("desensitized", "1");
     fd.append("file", file, file.name);
-    var note = document.createElement("div");
-    note.className = "alert alert--info";
-    note.textContent = "正在上传 " + file.name + " …";
-    var host = document.getElementById("editor") || document.body;
-    host.parentNode.insertBefore(note, host);
-    fetch(uploadEndpoint, { method: "POST", body: fd, credentials: "same-origin" })
-      .then(function () {
-        note.className = "alert alert--ok";
-        note.textContent = "已上传。请在媒体库复制路径后插入，或刷新本页查看。";
-        setTimeout(function () { note.remove(); }, 4000);
+    note("正在上传 " + file.name + " …");
+    fetch(uploadEndpoint, {
+      method: "POST", body: fd, credentials: "same-origin",
+      headers: { "X-FX-JSON": "1" }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok) { note((j && j.error) || "上传失败", "err"); return; }
+        insertAtCursor("\n![" + alt + "](" + j.relPath + ")\n");
+        note("已插入图片：" + j.relPath);
       })
-      .catch(function () {
-        note.className = "alert alert--err";
-        note.textContent = "上传失败，请改用媒体库页面上传。";
-      });
+      .catch(function () { note("上传失败（网络或会话过期），请改用媒体库", "err"); });
+  }
+
+  if (uploadBtn && imgFile) {
+    uploadBtn.addEventListener("click", function () { imgFile.click(); });
+    imgFile.addEventListener("change", function () {
+      if (imgFile.files && imgFile.files[0]) uploadFile(imgFile.files[0]);
+      imgFile.value = "";
+    });
   }
 
   if (ta && uploadEndpoint) {
@@ -259,12 +276,25 @@
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (seq !== previewSeq) return;   // 只采纳最新一次输入的渲染结果
-        if (j.error) { previewBox.innerHTML = '<p class="muted">预览失败：' + j.error + '</p>'; return; }
+        if (j.error) {
+          /* 错误文本用 textContent 写入：服务端的渲染错误里可能带 Markdown 片段/文件名，
+             拼进 innerHTML 等于给自己开一个自 XSS 的口子。 */
+          previewBox.textContent = "";
+          var p = document.createElement("p");
+          p.className = "muted";
+          p.textContent = "预览失败：" + j.error;
+          previewBox.appendChild(p);
+          return;
+        }
         /* 2026-11-06：预览改为 iframe 承载线上整页 HTML ——
            段落顺序（分步骤在前）、卡片与步骤样式都与线上完全一致。 */
         var ifr = document.createElement("iframe");
         ifr.setAttribute("title", "文章预览");
-        ifr.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
+        /* 只给 allow-scripts + allow-popups，**不给 allow-same-origin**：
+           srcdoc 配合 allow-same-origin 时文档继承后台自身的源，
+           正文 Markdown 里若混入 <script>，就能直接读写后台 DOM / 会话。
+           去掉之后文档是 opaque origin，脚本照常运行但碰不到后台。 */
+        ifr.setAttribute("sandbox", "allow-scripts allow-popups");
         ifr.style.cssText = "width:100%;height:74vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block";
         ifr.srcdoc = j.html || "";
         previewBox.innerHTML = "";
@@ -350,6 +380,9 @@
         .then(function (j) {
           if (j.ok) {
             dirty = false;
+            /* app.js 的 beforeunload 守卫有自己的 dirty 标记：
+               不同步清掉会导致「已经自动保存了，关页面还提示未保存」。 */
+            if (window.FXAdmin && window.FXAdmin.markClean) window.FXAdmin.markClean();
             if (baseInput && j.hash) baseInput.value = j.hash;
             autosaveFlash("已自动保存 " + new Date().toLocaleTimeString("zh-CN", { hour12: false }), true);
           } else if (j.error && /被他人修改/.test(j.error)) {
@@ -367,4 +400,117 @@
     function autosaveTick() { setTimeout(doAutosave, 30000); }
     autosaveTick();
   }
+  /* ---------------- 正文快捷格式（工具条 + 快捷键） ----------------
+     只做「围绕选区」的可靠变换：多行选中时逐行加前缀，单行/无选区时插入模板。
+     不引入 Markdown 解析器，保持零依赖。 */
+  (function () {
+    if (!ta) return;
+    var state = document.getElementById("autosave-state");
+
+    function setState(text, tone) {
+      if (!state) return;
+      state.textContent = text;
+      state.style.color = tone === "warn" ? "var(--warn)" : (tone === "ok" ? "var(--ok)" : "var(--ink-3)");
+    }
+
+    function lineBounds(v, s, e) {
+      var start = v.lastIndexOf("\n", Math.max(0, s - 1)) + 1;
+      var end = v.indexOf("\n", e);
+      if (end < 0) end = v.length;
+      return [start, end];
+    }
+    function wrap(mark) {
+      var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+      var sel = v.slice(s, e) || "文本";
+      var next = v.slice(0, s) + mark + sel + mark + v.slice(e);
+      ta.value = next;
+      ta.selectionStart = s + mark.length;
+      ta.selectionEnd = s + mark.length + sel.length;
+      ta.focus();
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    function prefixLines(prefix) {
+      var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+      var b = lineBounds(v, s, e);
+      var block = v.slice(b[0], b[1]);
+      var lines = block.split("\n");
+      var numbered = prefix === "1. ";
+      var next = lines.map(function (ln, i) {
+        if (numbered) return (i + 1) + ". " + ln.replace(/^\d+\.\s+/, "");
+        return prefix + ln.replace(new RegExp("^" + prefix.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")), "");
+      }).join("\n");
+      ta.value = v.slice(0, b[0]) + next + v.slice(b[1]);
+      ta.selectionStart = b[0];
+      ta.selectionEnd = b[0] + next.length;
+      ta.focus();
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    function insertBlock(text) {
+      var v = ta.value, s = ta.selectionStart;
+      var before = v.slice(0, s);
+      var pad = before && !/\n\n$/.test(before) ? (before.slice(-1) === "\n" ? "\n" : "\n\n") : "";
+      insertAtCursor(pad + text);
+    }
+
+    var TEMPLATES = {
+      table: "| 现象 | 先查什么 | 命令 / 操作 |\n|---|---|---|\n|  |  |  |",
+      quote: "> 提示：\n"
+    };
+
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-md]");
+      if (!btn || !ta) return;
+      var kind = btn.getAttribute("data-md");
+      if (kind === "bold") wrap("**");
+      else if (kind === "italic") wrap("*");
+      else if (kind === "code") wrap("\u0060");
+      else if (kind === "h2") prefixLines("## ");
+      else if (kind === "ul") prefixLines("- ");
+      else if (kind === "ol") prefixLines("1. ");
+      else if (kind === "quote") prefixLines("> ");
+      else if (kind === "table") insertBlock(TEMPLATES.table);
+      else if (kind === "link") {
+        var url = window.prompt("链接地址（站内可写 ./slug.html）", "./");
+        if (!url) return;
+        var vv = ta.value, ss = ta.selectionStart, ee = ta.selectionEnd;
+        var txt = vv.slice(ss, ee) || "链接文字";
+        var md = "[" + txt + "](" + url + ")";
+        ta.value = vv.slice(0, ss) + md + vv.slice(ee);
+        ta.selectionStart = ss + 1;
+        ta.selectionEnd = ss + 1 + txt.length;
+        ta.focus();
+        ta.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      /* 只有焦点在正文框里才处理格式快捷键：
+         旧实现在焦点位于标题/领域等输入框时也拦 Ctrl+B / Ctrl+I，
+         会在用户没看正文的时候悄悄改正文内容。 */
+      if (!ta || document.activeElement !== ta) return;
+      var mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key.toLowerCase() === "b") { e.preventDefault(); wrap("**"); }
+      else if (mod && e.key.toLowerCase() === "i") { e.preventDefault(); wrap("*"); }
+      else if (mod && e.altKey && e.key === "2") { e.preventDefault(); prefixLines("## "); }
+      else if (e.key === "Tab" && document.activeElement === ta) {
+        e.preventDefault();
+        var v = ta.value, s = ta.selectionStart;
+        ta.value = v.slice(0, s) + "  " + v.slice(ta.selectionEnd);
+        ta.selectionStart = ta.selectionEnd = s + 2;
+      }
+    });
+
+    // 输入即提示「未保存」；提交时置为「保存中」
+    if (ta) {
+      var t2 = null;
+      ta.addEventListener("input", function () {
+        setState("未保存…", "warn");
+        clearTimeout(t2);
+        t2 = setTimeout(function () { setState("未保存（30 秒后自动保存）", "warn"); }, 900);
+      });
+    }
+    var form = document.getElementById("editor");
+    if (form) form.addEventListener("submit", function () { setState("正在保存…"); });
+  })();
+
 })();

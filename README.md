@@ -62,6 +62,22 @@ node content/sop-source/gen.cjs                      # 由 catalog 重新生成 
 
 SOP 资料为什么单独维护、怎么更新，见 [content/sop-source/README.md](content/sop-source/README.md)。
 
+### 内容后台（dashboard.pc-fixboxs.yuanabd.cn）
+
+后台是独立 Node 服务（`admin/`，Docker :3020 + 独立 PostgreSQL 库 `yuanabd_pc_fixboxs`），
+与站点构建依赖分开；路由/权限/发布链路见 `docs/` 下的管理后台方案与部署手册。
+
+主要页面：`/dashboard` 工作台（今日待办 + 数据面板）、`/review` 审核台（左队列 + 右全文 + 通过/退回）、
+`/articles` 文章列表、`/articles/:slug` 编辑器（Markdown 工具条 + 实时预览）、`/analytics` 数据分析、
+`/media` 媒体库、`/publish` 发布队列；`Ctrl/⌘ + K` 打开全局搜索。
+
+```bash
+cd admin && npm ci && npm test     # 视图/反馈校验（不连数据库）
+node admin/tools/preview.cjs       # 无数据库看版式 → http://localhost:3025/p/dashboard
+```
+
+
+
 > **门户口径同步**：门户 `demo/index.html` 里修盒子的数字是硬编码的——03 节描述
 > 与 chips、右栏浮动徽章（13 DOMAINS）、JSON-LD、NOW 列表、页脚 `fcard--fix`、
 > marquee 数据带。每批内容上线后要同步改这些数字并重新构建门户。

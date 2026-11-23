@@ -60,6 +60,9 @@
 - 前台：git push → 服务器 `git pull --ff-only` → 容器内 `build-fix.cjs` + `deploy-fixboxs.cjs` → tar → 宿主 `fixboxs-deploy.sh`（原子切换 + 103 URL 全量校验）。
 - 后台：`admin/` 镜像重建（新增 ui-v3.css / cmdk.js / workflow.cjs）→ `docker compose up -d`。
 - 部署后校验脚本覆盖：站点首页/文章页（FAQ、JSON-LD）/领域页/搜索页/articles.js、后台 healthz/登录页（v3 样式）/未登录路由 302/静态脚本/安全头。
+- 部署结果（2026-11-24 01:48）：前台 `SWITCH_OK files=185`，线上 `VERIFY_OK checked=103`；后台镜像重建并 `Up (healthy)`；部署后独立校验 25 项全通过（首页/文章页 FAQ/JSON-LD/领域页/搜索/articles.js/healthz/登录页 v3/未登录路由 302/cmdk.js/安全头）。
+- 运维备注：服务器到 GitHub 的 HTTPS 偶发不可达，本次通过 `git bundle` 传输提交（服务器 HEAD `8c19d81` 与 GitHub main 一致）；`/srv/fixboxs/repo/dist/fixboxs` 目录曾为 root 所有导致 `deploy-fixboxs.cjs` EACCES，已 `chown -R ubuntu:ubuntu dist` 修正。
+
 
 ### 2026-11-23 修盒子三线优化：文章内容 · Web 前台 · 内容后台 UI
 

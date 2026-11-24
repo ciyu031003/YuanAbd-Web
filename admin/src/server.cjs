@@ -186,6 +186,22 @@ function ctx(req) {
   };
 }
 
+/* 登录类 POST 的来源校验，防御 login CSRF：
+   攻击者若能让受害者浏览器向 /login 提交自己的账号密码，受害者会被静默登入攻击者账号，
+   之后上传/反馈都记到错误的人头上。校验 Sec-Fetch-Site 与 Origin（同站才放行）；
+   没有这两个头的旧浏览器/命令行客户端按同站处理，不引入额外依赖。 */
+function sameOriginPost(req) {
+  const sfs = String(req.headers["sec-fetch-site"] || "").toLowerCase();
+  if (sfs === "cross-site") return false;
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch (e) {
+    return false;
+  }
+}
+
 async function handle(req, res) {
   const url = new URL(req.url, "http://localhost");
   const p = url.pathname;
@@ -196,8 +212,14 @@ async function handle(req, res) {
   if (STATIC[p]) {
     const s = STATIC[p];
     if (!fs.existsSync(s.file)) return h.send(res, 404, "not found", h.securityHeaders());
-    return h.send(res, 200, fs.readFileSync(s.file, "utf8"),
-      h.securityHeaders({ "Content-Type": s.type, "Cache-Control": "public, max-age=300" }));
+    const body = fs.readFileSync(s.file, "utf8");
+    const st = fs.statSync(s.file);
+    // no-cache + ETag：部署后立刻能拿到新脚本，避免「新 HTML + 旧 login.js」导致控件状态错位；
+    // 未变化时浏览器只发一个 304，代价很小。
+    const etag = '"' + st.size.toString(16) + "-" + Math.floor(st.mtimeMs).toString(16) + '"';
+    const hdr = { "Content-Type": s.type, "Cache-Control": "no-cache", ETag: etag };
+    if (req.headers["if-none-match"] === etag) return h.send(res, 304, "", h.securityHeaders(hdr));
+    return h.send(res, 200, body, h.securityHeaders(hdr));
   }
 
   // ---- 健康检查（供 nginx/监控探测；不泄露内部信息） ----
@@ -264,6 +286,7 @@ async function handle(req, res) {
     return html(res, 200, views.loginPage({}));
   }
   if (p === "/login" && method === "POST") {
+    if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
     // 限流（V2 §6.3）
     if (auth.isRateLimited(c.ip)) {
       await auth.audit(null, "login.ratelimited", null, { ip: c.ip }, c.ip);
@@ -332,6 +355,7 @@ async function handle(req, res) {
     if (method === "GET") {
       return html(res, 200, views.totpChallengePage({ csrf: "" }));
     }
+    if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
     const form = h.parseForm(await h.readBody(req, 8192));
     // 限流同样适用，防止暴力猜 6 位码
     if (auth.isRateLimited(c.ip)) {
@@ -361,7 +385,9 @@ async function handle(req, res) {
       // 校验失败要重新走第一步（pending 已作废），避免无限重试
       const np = await auth.createPendingTotp(u2.id, c.ip, c.ua);
       const pc2 = h.cookieHeader("fx_totp_pending", np, { secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax" });
-      return h.send(res, 401, views.totpChallengePage({ error: "验证码不正确，请重试（确认手机时间准确）" }), h.securityHeaders({
+      // 失败后按输入形态回到对应模式，避免用户重填时还要再切一次「使用恢复码」
+      const otpMode = /^[0-9]{6}$/.test(code) ? "code" : "recovery";
+      return h.send(res, 401, views.totpChallengePage({ error: "验证码不正确，请重试（确认手机时间准确）", otpMode: otpMode }), h.securityHeaders({
         "Content-Type": "text/html; charset=utf-8", "Set-Cookie": pc2
       }));
     }

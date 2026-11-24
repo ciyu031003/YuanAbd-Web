@@ -537,6 +537,52 @@ test("登录页：div 开闭数量一致（原先少关一层 .login-page）", f
   assert.match(html, /邮箱或密码不正确/);
 });
 
+test("登录页 · shadcn 增强：流星层 / 卡片光晕与高光 / 提交载入态 / 无内联脚本", function () {
+  const html = views.loginPage({ error: "邮箱或密码不正确。" });
+  // 动态层：流星（≥12 条）+ 旋转光晕 + 指针高光挂点
+  assert.ok((html.match(/class="lg-meteors"/g) || []).length === 1);
+  assert.ok((html.match(/<i style="--meteor-x:/g) || []).length >= 12, "流星数量不足");
+  assert.match(html, /class="lg-card-wrap"/);
+  assert.match(html, /class="lg-card-glow"/);
+  assert.match(html, /data-lg-card/);
+  // 提交按钮：spinner + 自定义载入态（表单带 data-lg-form，跳过 app.js 的通用 pending）
+  assert.match(html, /data-lg-form/);
+  assert.match(html, /data-no-pending/);
+  assert.match(html, /class="lg-spinner"/);
+  assert.match(html, /data-lg-submit/);
+  // 错误态：输入框标记 aria-invalid 并关联错误说明
+  assert.match(html, /aria-invalid="true"/);
+  assert.match(html, /aria-describedby="login-error"/);
+  assert.match(html, /id="login-error"/);
+  // 大写锁定提示：常驻 aria-live 节点（视觉显隐交给 CSS :empty，读屏更可靠）
+  assert.match(html, /class="lg-caps" data-lg-caps aria-live="polite"><\/p>/);
+  // 页面不得出现内联事件处理器（CSP script-src 'self'）
+  assert.doesNotMatch(html, /\son(?:click|load|error|submit|focus|input)=/);
+});
+
+test("登录页 · 结构健康：id 唯一、div 配平、h1 唯一、表单动作不变", function () {
+  const html = views.loginPage({});
+  const ids = (html.match(/\sid="([^"]+)"/g) || []).map(function (s) { return s.replace(/.*id="/, "").replace(/"$/, ""); });
+  const dup = ids.filter(function (id, i) { return ids.indexOf(id) !== i; });
+  assert.deepStrictEqual(dup, [], "重复 id：" + dup.join(","));
+  assert.strictEqual((html.match(/<div\b/g) || []).length, (html.match(/<\/div>/g) || []).length);
+  assert.strictEqual((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(html, /action="\/login"/);
+});
+
+test("登录页 · 静态脚本白名单：server.cjs 必须注册 /static/login.js", function () {
+  const src = fs.readFileSync(path.join(__dirname, "..", "src", "server.cjs"), "utf8");
+  assert.match(src, /"\/static\/login\.js"\s*:/);
+});
+
+test("登录页 · 样式层：shadcn 增强样式与 reduced-motion 降级都在 ui-v3.css 中", function () {
+  const css = fs.readFileSync(path.join(__dirname, "..", "src", "ui-v3.css"), "utf8");
+  [".lg-meteors", ".lg-card-glow", ".lg-otp__cells", ".lg-otp__input", ".lg-spinner", ".lg-title"].forEach(function (sel) {
+    assert.ok(css.indexOf(sel) >= 0, "缺少样式：" + sel);
+  });
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]{0,400}lg-meteors/);
+});
+
 test("登录页 · 电影镜头：四幅场景 + 可访问的切换控件 + 外部脚本（无内联处理器）", function () {
   const html = views.loginPage({});
   // 四幅内联 SVG 场景，且初始只有第一幅点亮
@@ -579,6 +625,50 @@ test("2FA 验证页：使用电影镜头外壳且保留一次性验证码输入�
   const opens = (html.match(/<div\b/g) || []).length;
   const closes = (html.match(/<\/div>/g) || []).length;
   assert.strictEqual(opens, closes, "2FA 页 <div> 未配平");
+});
+
+test("2FA 验证页 · shadcn InputOTP 结构：6 分格 + 恢复码切换 + 无 JS 降级", function () {
+  const html = views.totpChallengePage({ csrf: "c" });
+  assert.match(html, /data-otp data-mode="code"/);
+  assert.strictEqual((html.match(/class="lg-otp__cells" aria-hidden="true">(?:<i><\/i>){6}/g) || []).length, 1, "应有 6 个视觉分格");
+  assert.match(html, /class="lg-otp__input"[^>]*pattern="\[0-9\]\{6\}"/);
+  assert.match(html, /maxlength="6"/);
+  assert.match(html, /aria-describedby="otp-help"/);
+  assert.match(html, /data-otp-switch[^>]*hidden/, "无 JS 时切换按钮应隐藏");
+  assert.match(html, /data-lg-form/);
+  assert.match(html, /class="lg-spinner"/);
+});
+
+test("2FA 验证页 · 恢复码模式：服务端失败后可回到恢复码输入", function () {
+  const html = views.totpChallengePage({ csrf: "c", otpMode: "recovery", error: "验证码不正确" });
+  assert.match(html, /data-mode="recovery"/);
+  assert.match(html, /placeholder="输入恢复码"/);
+  assert.doesNotMatch(html, /pattern="\[0-9\]\{6\}"/);
+  assert.match(html, /data-otp-hint>恢复码</);
+  assert.match(html, /使用验证码/);
+});
+
+test("静态资源：/static/* 必须 no-cache + ETag（避免部署后新旧脚本错配）", function () {
+  const src = fs.readFileSync(path.join(__dirname, "..", "src", "server.cjs"), "utf8");
+  assert.match(src, /Cache-Control": "no-cache"/);
+  assert.match(src, /ETag/);
+});
+
+test("登录 POST：必须做同站来源校验（防 login CSRF）", function () {
+  const src = fs.readFileSync(path.join(__dirname, "..", "src", "server.cjs"), "utf8");
+  assert.match(src, /function sameOriginPost/);
+  assert.match(src, /sameOriginPost\(req\)/);
+  assert.match(src, /sec-fetch-site/);
+});
+
+test("改密页：提交加载态钩子与玻璃卡外壳", function () {
+  const html = views.changePasswordPage({ csrf: "c", forced: false });
+  assert.match(html, /data-lg-form/);
+  assert.match(html, /data-no-pending/);
+  assert.match(html, /data-lg-submit/);
+  assert.match(html, /class="lg-card-wrap"/);
+  assert.match(html, /class="lg-spinner"/);
+  assert.match(html, /name="current"/);
 });
 
 test("改密页：强制改密时不显示「当前密码」输入", function () {

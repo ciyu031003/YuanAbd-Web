@@ -804,7 +804,8 @@ main{min-width:0}
   position:relative;min-height:100vh;min-height:100svh;overflow:hidden;
   display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,500px);
 }
-.lg-cinema--single{grid-template-columns:minmax(0,1fr) minmax(400px,500px)}
+/* 单场景认证页（改密 / 2FA）与登录页共用同一网格；媒体查询里同样切单列 */
+
 
 /* ---------------- 舞台 ---------------- */
 .lg-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#05080F}
@@ -832,7 +833,7 @@ main{min-width:0}
 .lg-shade{
   position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(3,6,12,.55) 0%,rgba(3,6,12,0) 11%),
+    linear-gradient(180deg,rgba(3,6,12,.8) 0%,rgba(3,6,12,.45) 7%,rgba(3,6,12,0) 17%),
     linear-gradient(0deg,rgba(3,6,12,.66) 0%,rgba(3,6,12,0) 27%),
     linear-gradient(90deg,rgba(3,6,12,0) 0%,rgba(3,6,12,0) 44%,rgba(3,6,12,.34) 58%,rgba(3,6,12,.68) 72%,rgba(3,6,12,.8) 100%);
 }
@@ -855,7 +856,8 @@ main{min-width:0}
   background:linear-gradient(135deg,#8FE9D8,#6D8BE0);color:#071018;font-weight:800;font-size:14px;
   box-shadow:0 8px 18px -10px rgba(110,242,194,.8);
 }
-.lg-top__name{font-size:13.5px;font-weight:650;letter-spacing:.02em;display:flex;align-items:baseline;gap:8px}
+.lg-top__name{font-size:13.5px;font-weight:650;letter-spacing:.02em;display:flex;align-items:baseline;gap:8px;text-shadow:0 1px 14px rgba(0,0,0,.65),0 0 2px rgba(0,0,0,.5)}
+.lg-top__brand{text-shadow:0 1px 14px rgba(0,0,0,.65),0 0 2px rgba(0,0,0,.5)}
 .lg-top__name em{font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:rgba(255,255,255,.55)}
 .lg-top__meta{font-size:11px;letter-spacing:.18em;color:rgba(255,255,255,.5)}
 
@@ -884,7 +886,10 @@ main{min-width:0}
 }
 .lg-dot i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .2s}
 .lg-dot:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.1)}
-.lg-dot:focus-visible,.lg-pause:focus-visible{outline:2px solid #8FE9D8;outline-offset:3px}
+.lg-dot:focus-visible,.lg-pause:focus-visible{
+  outline:2px solid #fff;outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(3,6,12,.55);
+}
 .lg-dot.is-on{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.14)}
 .lg-dot.is-on i{width:8px;height:8px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.9)}
 .lg-pause{
@@ -901,7 +906,6 @@ main{min-width:0}
 .lg-progress{width:132px;height:2px;border-radius:2px;background:rgba(255,255,255,.16);overflow:hidden}
 .lg-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8FE9D8,#CFC7FF)}
 .lg-progress i.is-run{animation:lgProgress 7.5s linear forwards}
-.lg-progress[data-paused="1"] i{animation-play-state:paused}
 
 /* ---------------- 右侧登录卡 ---------------- */
 .lg-side{
@@ -914,7 +918,7 @@ main{min-width:0}
   background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.6);
   color:var(--ink);
   box-shadow:0 44px 100px -46px rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.5) inset;
-  backdrop-filter:blur(22px) saturate(1.18);-webkit-backdrop-filter:blur(22px) saturate(1.18);
+  backdrop-filter:blur(10px) saturate(1.12);-webkit-backdrop-filter:blur(10px) saturate(1.12);
   animation:lgCardIn .95s cubic-bezier(.22,.61,.36,1) both;
 }
 .lg-brand{display:flex;align-items:center;gap:11px;margin-bottom:20px}
@@ -995,10 +999,7 @@ main{min-width:0}
   text-align:center;line-height:1.6;
 }
 .lg-rule{font-size:11.5px;line-height:1.65;color:var(--ink-3);margin:-1px 0 3px}
-.lg-input--code input{
-  font-family:var(--mono);font-size:19px;letter-spacing:.3em;text-align:center;
-  padding-left:40px;padding-right:12px;
-}
+
 
 /* ---------------- 场景内动画 ---------------- */
 .lg-scene .lg-stars circle{animation:lgTwinkle 4.8s ease-in-out infinite alternate}
@@ -1124,4 +1125,194 @@ main{min-width:0}
   .lg-progress i{animation:none;width:100%;opacity:.35}
   .lg-submit::after{display:none}
   .lg-caption,.lg-caption *{transition:none!important}
+}
+
+/* =============================================================================
+   登录页 v2 · shadcn 组件化增强（2026-11-25）
+   -----------------------------------------------------------------------------
+   参照 shadcn registry（@shadcn）的实际组件结构：
+     · login-02 / login-04 → FieldGroup / FieldLabel / FieldDescription 结构
+     · input-otp            → 单输入框 + 视觉分格的验证码输入（无 JS 可退化）
+     · spinner              → 提交按钮载入态
+   动态层（meteors / border glow / spotlight / aurora 标题）由纯 CSS + login.js 实现，
+   不引入 React/打包链，保持后台零框架与 CSP 'self' 约束。
+   ============================================================================= */
+
+/* ---------------- 动态层：流星 ---------------- */
+.lg-meteors{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.lg-meteors i{
+  position:absolute;top:-12%;left:var(--meteor-x);
+  width:2px;height:var(--ml,120px);border-radius:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(143,233,216,.45) 45%,rgba(255,255,255,0));
+  opacity:0;transform:rotate(215deg);
+  animation:lgMeteor var(--md,7s) linear var(--mdl,0s) infinite;
+  will-change:transform,opacity;
+}
+.lg-meteors i::after{
+  content:"";position:absolute;left:-1px;top:0;width:3px;height:10px;border-radius:50%;
+  background:rgba(255,255,255,.9);filter:blur(1px);
+}
+@keyframes lgMeteor{
+  0%{transform:translate3d(0,-18vh,0) rotate(215deg);opacity:0}
+  6%{opacity:var(--mo,.6)}
+  55%{opacity:calc(var(--mo,.6) * .6)}
+  100%{transform:translate3d(-70vw,105vh,0) rotate(215deg);opacity:0}
+}
+
+/* ---------------- 卡片外壳：旋转光晕 + 鼠标高光 ---------------- */
+.lg-card-wrap{position:relative;width:100%;max-width:420px;isolation:isolate}
+.lg-card-glow{
+  position:absolute;inset:-3px;border-radius:25px;z-index:0;pointer-events:none;
+  background:conic-gradient(from 0deg,
+    rgba(143,233,216,0) 0deg,rgba(143,233,216,.85) 52deg,rgba(144,163,255,.9) 96deg,
+    rgba(185,174,255,.15) 132deg,rgba(185,174,255,0) 190deg,rgba(143,233,216,0) 360deg);
+  filter:blur(12px);opacity:.7;
+  animation:lgGlowSpin 9s linear infinite;
+}
+@keyframes lgGlowSpin{to{transform:rotate(360deg)}}
+.lg-card{position:relative;z-index:1;isolation:isolate}
+.lg-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(240px circle at var(--spot-x,72%) var(--spot-y,0%),rgba(255,255,255,.2),rgba(255,255,255,0) 62%);
+  opacity:0;transition:opacity .35s ease;
+}
+.lg-card-wrap:hover .lg-card::after,.lg-card:focus-within::after{opacity:1}
+
+/* 标题极光渐变（保持可读：主色仍是 --ink，只有中段带一点品牌色） */
+.lg-title{
+  background-image:linear-gradient(100deg,#1B1713 0%,#1B1713 51%,#7C8ADB 60%,#6FB3A2 68%,#1B1713 79%,#1B1713 100%);
+  background-size:240% 100%;background-position:0% 50%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:lgAurora 16s ease-in-out infinite;
+}
+@media (prefers-color-scheme: dark){
+  .lg-title{background-image:linear-gradient(100deg,#F2F5FA 0%,#F2F5FA 51%,#B9C3FF 60%,#9FE3D2 68%,#F2F5FA 79%,#F2F5FA 100%)}
+}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .lg-title{color:var(--ink)!important;background:none!important}
+}
+@keyframes lgAurora{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ---------------- shadcn Field 结构补充 ---------------- */
+.lg-fieldgroup{display:flex;flex-direction:column;gap:14px}
+.lg-field__desc{font-size:11px;line-height:1.55;color:var(--ink-3);margin:0}
+.lg-input input[aria-invalid="true"]{border-color:var(--warn);box-shadow:0 0 0 3px var(--warn-weak)}
+.lg-input input[aria-invalid="true"]:focus{border-color:var(--warn);box-shadow:0 0 0 3px var(--warn-weak)}
+.lg-caps{
+  margin:2px 0 0;font-size:11px;font-weight:600;color:var(--i-amber);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.lg-caps:empty{display:none}
+
+/* ---------------- 提交按钮：载入态（shadcn spinner） ---------------- */
+.lg-spinner{
+  display:none;width:16px;height:16px;flex:none;border-radius:50%;
+  border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  animation:lgSpin .7s linear infinite;
+}
+.lg-submit.is-loading .lg-spinner{display:block}
+.lg-submit.is-loading .lg-submit__arrow{display:none}
+.lg-submit.is-loading{pointer-events:none;filter:saturate(.9) brightness(.96)}
+.lg-submit[disabled]{opacity:.75;cursor:progress;transform:none;box-shadow:0 8px 18px -12px rgba(47,73,200,.9)}
+.lg-submit.btn--loading::after{display:none}
+
+/* ---------------- 验证码：分格输入（shadcn input-otp 语义） ---------------- */
+.lg-otp{position:relative}
+.lg-otp__cells{display:none;gap:8px}
+.lg-otp__cells i{
+  flex:1 1 0;min-width:0;height:54px;border-radius:10px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.58);border:1px solid var(--line-strong);
+  font-family:var(--mono);font-size:20px;font-weight:600;color:var(--ink);
+  transition:border-color .16s,box-shadow .16s,background .16s,transform .16s;
+}
+.lg-otp__cells i.is-active{
+  border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-weak);
+  transform:translateY(-1px);
+}
+.lg-otp__cells i.is-filled{background:#fff;border-color:var(--accent-line)}
+.lg-otp[data-otp-ready="1"] .lg-otp__cells{display:flex}
+.lg-otp[data-otp-ready="1"] .lg-otp__input{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;
+  color:transparent;caret-color:transparent;background:transparent;border:0;
+  font-size:16px;letter-spacing:.4em;text-align:center;cursor:text;
+}
+.lg-otp[data-otp-ready="1"] .lg-otp__input:focus{box-shadow:none;outline:none}
+.lg-otp[data-otp-ready="1"]:focus-within .lg-otp__cells i.is-active{
+  border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weak);
+}
+/* 恢复码模式：隐藏分格，显示普通输入框 */
+.lg-otp[data-mode="recovery"] .lg-otp__cells{display:none}
+.lg-otp[data-mode="recovery"] .lg-otp__input{
+  position:relative;inset:auto;opacity:1;width:100%;height:46px;
+  color:var(--ink);caret-color:auto;background:rgba(255,255,255,.58);
+  border:1px solid var(--line-strong);border-radius:11px;
+  padding:0 14px;font-family:var(--mono);font-size:15px;letter-spacing:.06em;text-align:left;
+}
+.lg-otp__switch{
+  align-self:flex-start;margin-top:2px;padding:0;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:11.5px;font-weight:600;color:var(--accent);
+  text-decoration:underline;text-underline-offset:3px;
+}
+.lg-otp__switch:hover{color:var(--accent-deep)}
+.lg-otp__switch:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lg-otp__switch[hidden]{display:none}
+
+/* ---------------- 深色模式补充 ---------------- */
+@media (prefers-color-scheme: dark){
+  .lg-card-glow{opacity:.42}
+  .lg-otp__cells i{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.16)}
+  .lg-otp__cells i.is-filled{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.24)}
+  .lg-otp__cells i.is-active{background:rgba(255,255,255,.12);border-color:#8497FF;box-shadow:0 0 0 3px rgba(132,151,255,.2)}
+  .lg-otp[data-mode="recovery"] .lg-otp__input{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.16);color:#F2F5FA}
+  .lg-card::after{background:radial-gradient(240px circle at var(--spot-x,72%) var(--spot-y,0%),rgba(140,160,255,.16),transparent 62%)}
+}
+
+/* ---------------- 减少动态 ---------------- */
+@media (prefers-reduced-motion: reduce){
+  .lg-meteors{display:none}
+  .lg-card-glow{animation:none;opacity:.3}
+  .lg-title{animation:none;background:none;color:var(--ink);-webkit-text-fill-color:currentColor}
+  .lg-card::after{display:none}
+  .lg-spinner{animation-duration:1.4s}
+}
+
+/* 无 JS / 尚未增强时的验证码输入：可正常输入（分格与切换按钮由 JS 增强） */
+.lg-otp__input{
+  width:100%;height:52px;border-radius:11px;padding:0 12px;
+  background:rgba(255,255,255,.58);border:1px solid var(--line-strong);color:var(--ink);
+  font-family:var(--mono);font-size:19px;letter-spacing:.3em;text-align:center;
+  transition:border-color .16s,box-shadow .16s,background .16s;
+}
+.lg-otp__input::placeholder{color:var(--ink-3);opacity:.6;letter-spacing:.12em;font-family:inherit}
+.lg-otp__input:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-weak)}
+@media (prefers-color-scheme: dark){
+  .lg-otp__input{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.16);color:#F2F5FA}
+  .lg-otp__input:focus{background:rgba(255,255,255,.09);border-color:#8497FF;box-shadow:0 0 0 3px rgba(132,151,255,.2)}
+}
+
+/* 无 JS 时隐藏轮播控件（没有脚本，圆点/暂停点了也没反应） */
+.lg-cinema:not([data-lg-ready="1"]) .lg-controls{
+  opacity:0;visibility:hidden;pointer-events:none;
+}
+.lg-cinema[data-lg-ready="1"] .lg-controls{transition:opacity .4s ease .15s}
+@media (max-width:520px){
+  .lg-card-glow{animation:none;opacity:.42;filter:blur(10px)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .lg-pause,.lg-progress{display:none}
+  .lg-controls{gap:10px}
+}
+
+/* 非当前场景不做动画（4 幅 SVG 常驻，但只有一幅在跑，省 GPU/电量） */
+.lg-scene:not(.is-on) *{animation-play-state:paused!important}
+/* 页面不可见时整体暂停 */
+.lg-cinema.is-hidden *{animation-play-state:paused!important}
+/* 强制色彩/高对比度：渐变文字会被系统覆盖，必须给不透明前景色 */
+@media (forced-colors: active){
+  .lg-title{color:CanvasText!important;background:none!important;-webkit-text-fill-color:CanvasText!important}
+  .lg-card{background:Canvas!important;border:1px solid CanvasText!important;backdrop-filter:none!important}
+  .lg-card-glow{display:none!important}
+  .lg-meteors{display:none!important}
 }

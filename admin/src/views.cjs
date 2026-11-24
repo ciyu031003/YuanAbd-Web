@@ -1362,9 +1362,37 @@ function pageHead(opts) {
    登录、强制改密、2FA 验证共用同一套「电影镜头」舞台与玻璃卡：
    同一视觉语言让登录链路里的每一步都不会突然变成一张朴素白卡。
    opts.scene 选择静态背景（0-3），缺省用第 1 幅。 */
-function lgStage(inner) {
+/* 流星层：参考 shadcn 生态动态组件（MagicUI meteors）的实现思路，
+   用纯 CSS 变量 + 关键帧表达，不引入 canvas/第三方脚本。
+   n 颗，位置/时长/延迟由确定性随机生成，刷新不跳动。 */
+function lgMeteors(n, seed) {
+  let x = (seed || 3) * 9301 + 49297;
+  const r = function () { x = (x * 9301 + 49297) % 233280; return x / 233280; };
+  const out = [];
+  for (let i = 0; i < (n || 16); i++) {
+    const left = (r() * 120 - 10).toFixed(1);
+    const dur = (5.5 + r() * 5).toFixed(2);
+    const delay = (-r() * 12).toFixed(2);
+    const len = Math.round(80 + r() * 130);
+    const op = (0.25 + r() * 0.5).toFixed(2);
+    out.push('<i style="--meteor-x:' + left + "%;--md:" + dur + "s;--mdl:" + delay + "s;--ml:" + len + "px;--mo:" + op + '"></i>');
+  }
+  return '<div class="lg-meteors" aria-hidden="true">' + out.join("") + "</div>";
+}
+
+/* 卡片外壳：旋转的锥形光晕（border beam）+ 跟随鼠标的高光（spotlight） */
+function lgCardWrap(cardHtml) {
+  return '<div class="lg-card-wrap">' +
+    '<span class="lg-card-glow" aria-hidden="true"></span>' +
+    '<div class="lg-card" data-lg-card>' + cardHtml + "</div>" +
+  "</div>";
+}
+
+function lgStage(inner, opts) {
+  opts = opts || {};
   return '<div class="lg-stage" aria-hidden="true">' +
     (inner || "") +
+    (opts.meteors ? lgMeteors(opts.meteors, opts.seed || 3) : "") +
     '<div class="lg-leak"></div>' +
     '<div class="lg-shade"></div>' +
     '<svg class="lg-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
@@ -1384,6 +1412,13 @@ function lgTopbar() {
   "</header>";
 }
 
+function lgEyeButton() {
+  return '<button class="lg-eye" type="button" data-pw-toggle aria-pressed="false" aria-label="显示密码" title="显示密码">' +
+    '<svg class="lg-eye__on" viewBox="0 0 20 20" aria-hidden="true"><path d="M1.8 10S4.9 4.6 10 4.6 18.2 10 18.2 10 15.1 15.4 10 15.4 1.8 10 1.8 10Z"/><circle cx="10" cy="10" r="2.6"/></svg>' +
+    '<svg class="lg-eye__off" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3l14 14"/><path d="M8.1 4.9A7.7 7.7 0 0 1 10 4.6c5.1 0 8.2 5.4 8.2 5.4a15 15 0 0 1-2.6 3.2"/><path d="M5.4 6.4A15.6 15.6 0 0 0 1.8 10s3.1 5.4 8.2 5.4a8.4 8.4 0 0 0 3.2-.6"/></svg>' +
+  "</button>";
+}
+
 function lgBrandBlock() {
   return '<div class="lg-brand">' +
     '<span class="lg-brand__mark" aria-hidden="true">修</span>' +
@@ -1396,19 +1431,18 @@ function authPage(title, cardHtml, opts) {
   opts = opts || {};
   const scene = LOGIN_SCENES[opts.scene || 0];
   return layout(title,
-    '<div class="lg-cinema lg-cinema--single">' +
-      lgStage('<div class="lg-scenes"><div class="lg-scene is-on">' + scene.svg + "</div></div>") +
+    '<div class="lg-cinema lg-cinema--single" data-lg-cinema>' +
+      lgStage('<div class="lg-scenes"><div class="lg-scene is-on">' + scene.svg + "</div></div>", { meteors: 12, seed: (opts.scene || 0) + 11 }) +
       lgTopbar() +
-      '<div class="lg-side"><div class="lg-card">' + cardHtml + "</div>" +
+      '<div class="lg-side">' + lgCardWrap(cardHtml) +
         '<p class="lg-foot">登录行为会写入审计日志 · 请勿分享账号凭据</p>' +
       "</div>" +
     "</div>",
-    { nav: false, accent: "indigo", bodyClass: "login-body lg-page", csrf: opts.csrf });
+    { nav: false, accent: "indigo", bodyClass: "login-body lg-page", csrf: opts.csrf, scripts: ["/static/login.js"] });
 }
 
 function loginPage(opts) {
   opts = opts || {};
-  const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
   const info = opts.info ? '<div class="alert alert--info" role="status">' + esc(opts.info) + "</div>" : "";
 
   /* ---------------- 电影镜头式登录 ----------------
@@ -1437,18 +1471,8 @@ function loginPage(opts) {
 
   return layout("登录",
     '<div class="lg-cinema" data-lg-cinema>' +
-      /* 舞台：四幅画面 + 暖光 + 颗粒 + 暗角 */
-      '<div class="lg-stage" aria-hidden="true">' +
-        '<div class="lg-scenes" data-lg-scenes>' + scenesHtml + "</div>" +
-        '<div class="lg-leak"></div>' +
-        '<div class="lg-shade"></div>' +
-        '<svg class="lg-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
-          '<filter id="lg-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>' +
-          '<feColorMatrix type="saturate" values="0"/></filter>' +
-          '<rect width="100%" height="100%" filter="url(#lg-noise)"/>' +
-        "</svg>" +
-        '<div class="lg-vignette"></div>' +
-      "</div>" +
+      /* 舞台：四幅画面 + 流星 + 暖光 + 颗粒 + 暗角 */
+      lgStage('<div class="lg-scenes" data-lg-scenes>' + scenesHtml + "</div>", { meteors: 18, seed: 7 }) +
 
       /* 顶部品牌条 */
       '<header class="lg-top">' +
@@ -1470,46 +1494,50 @@ function loginPage(opts) {
         '<div class="lg-progress" aria-hidden="true"><i data-lg-progress></i></div>' +
       "</div>" +
 
-      /* 右侧表单卡 */
+      /* 右侧表单卡（结构参考 shadcn login-02 / login-04：FieldGroup + FieldLabel +
+         FieldDescription + 带 Spinner 的提交按钮；视觉沿用本项目的玻璃卡） */
       '<div class="lg-side">' +
-        '<div class="lg-card">' +
-          '<div class="lg-brand">' +
-            '<span class="lg-brand__mark" aria-hidden="true">修</span>' +
-            '<span class="lg-brand__txt"><b>修盒子 · 内容后台</b><span>FIXBOX CONTENT STUDIO</span></span>' +
-          "</div>" +
-          "<h1>登录内容后台</h1>" +
+        lgCardWrap(
+          lgBrandBlock() +
+          '<h1 class="lg-title">登录内容后台</h1>' +
           '<p class="lg-sub">继续编辑、审核与发布修盒子的排障教程。</p>' +
-          err + info +
-          '<form method="post" action="/login" class="lg-form">' +
-            '<div class="lg-field">' +
-              '<div class="lg-field__head"><label for="email">邮箱</label></div>' +
-              '<div class="lg-input">' +
-                '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="2.5" y="4.5" width="15" height="11" rx="2.4"/><path d="m3.4 6 6.6 5 6.6-5"/></svg></span>' +
-                '<input id="email" name="email" type="email" required autocomplete="username" autofocus placeholder="you@example.com" spellcheck="false">' +
+          (opts.error ? '<div class="alert alert--err" role="alert" id="login-error">' + esc(opts.error) + "</div>" : "") +
+          info +
+          '<form method="post" action="/login" class="lg-form" data-no-pending data-lg-form>' +
+            '<div class="lg-fieldgroup">' +
+              '<div class="lg-field">' +
+                '<div class="lg-field__head"><label for="email">邮箱</label></div>' +
+                '<div class="lg-input">' +
+                  '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="2.5" y="4.5" width="15" height="11" rx="2.4"/><path d="m3.4 6 6.6 5 6.6-5"/></svg></span>' +
+                  '<input id="email" name="email" type="email" required autocomplete="username" autofocus placeholder="you@example.com" spellcheck="false"' +
+                    (opts.error ? ' aria-invalid="true" aria-describedby="login-error"' : "") + ">" +
+                "</div>" +
+                '<p class="lg-field__desc">使用管理员分配的邮箱登录。</p>' +
+              "</div>" +
+              '<div class="lg-field">' +
+                '<div class="lg-field__head"><label for="password">密码</label>' +
+                  '<span class="lg-field__hint">忘记密码请联系管理员</span></div>' +
+                '<div class="lg-input">' +
+                  '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="8.4" rx="2.2"/><path d="M7 9V6.6a3 3 0 0 1 6 0V9"/><circle cx="10" cy="13.2" r="1.2"/></svg></span>' +
+                  '<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="请输入密码"' +
+                    (opts.error ? ' aria-invalid="true" aria-describedby="login-error"' : "") + ">" +
+                  lgEyeButton() +
+                "</div>" +
+                '<p class="lg-caps" data-lg-caps aria-live="polite"></p>' +
               "</div>" +
             "</div>" +
-            '<div class="lg-field">' +
-              '<div class="lg-field__head"><label for="password">密码</label><span class="lg-field__hint">忘记密码请联系管理员</span></div>' +
-              '<div class="lg-input">' +
-                '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="8.4" rx="2.2"/><path d="M7 9V6.6a3 3 0 0 1 6 0V9"/><circle cx="10" cy="13.2" r="1.2"/></svg></span>' +
-                '<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="请输入密码">' +
-                '<button class="lg-eye" type="button" data-pw-toggle aria-pressed="false" aria-label="显示密码" title="显示密码">' +
-                  '<svg class="lg-eye__on" viewBox="0 0 20 20" aria-hidden="true"><path d="M1.8 10S4.9 4.6 10 4.6 18.2 10 18.2 10 15.1 15.4 10 15.4 1.8 10 1.8 10Z"/><circle cx="10" cy="10" r="2.6"/></svg>' +
-                  '<svg class="lg-eye__off" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3l14 14"/><path d="M8.1 4.9A7.7 7.7 0 0 1 10 4.6c5.1 0 8.2 5.4 8.2 5.4a15 15 0 0 1-2.6 3.2"/><path d="M5.4 6.4A15.6 15.6 0 0 0 1.8 10s3.1 5.4 8.2 5.4a8.4 8.4 0 0 0 3.2-.6"/></svg>' +
-                "</button>" +
-              "</div>" +
-            "</div>" +
-            '<button class="lg-submit" type="submit">' +
-              "<span>进入后台</span>" +
-              '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+            '<button class="lg-submit" type="submit" data-lg-submit>' +
+              '<span class="lg-submit__label">进入后台</span>' +
+              '<span class="lg-spinner" aria-hidden="true"></span>' +
+              '<svg class="lg-submit__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
             "</button>" +
           "</form>" +
           '<div class="lg-card__foot">' +
             '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.6 9.8 1.8 1.8 3.2-3.4"/></svg>' +
             "<span>仅限内部编辑人员 · 账号由管理员分发</span>" +
             '<span class="lg-card__ver">v2.9</span>' +
-          "</div>" +
-        "</div>" +
+          "</div>"
+        ) +
         '<p class="lg-foot">登录行为会写入审计日志 · 请勿分享账号凭据</p>' +
       "</div>" +
     "</div>",
@@ -1538,18 +1566,19 @@ function changePasswordPage(opts) {
         (help ? '<span class="lg-field__hint">' + help + "</span>" : "") + "</div>" +
       '<div class="lg-input">' + lockIco +
         '<input id="' + id + '" name="' + name + '" type="password" required autocomplete="new-password" placeholder="' + esc(placeholder) + '">' +
+        lgEyeButton() +
       "</div></div>";
   }
 
   const card = lgBrandBlock() +
-    "<h1>" + (opts.activateToken ? "设置登录密码" : "设置新密码") + "</h1>" +
+    '<h1 class="lg-title">' + (opts.activateToken ? "设置登录密码" : "设置新密码") + "</h1>" +
     '<p class="lg-sub">' +
       (opts.activateToken
         ? "设置后即可用这个密码登录修盒子内容后台。"
         : "为保护内容安全，请设置一个足够强的密码。") +
     "</p>" +
     forced + err +
-    '<form method="post" action="' + action + '" class="lg-form">' +
+    '<form method="post" action="' + action + '" class="lg-form" data-no-pending data-lg-form>' +
       hidden +
       (opts.forced ? "" :
         '<div class="lg-field">' +
@@ -1560,9 +1589,10 @@ function changePasswordPage(opts) {
       pwField("np", "新密码", "password", "至少 12 位") +
       pwField("np2", "确认新密码", "password2", "再输入一次") +
       '<p class="lg-rule">至少 12 位；需包含大写字母、小写字母、数字、符号中的至少 3 类；不得含常见词。</p>' +
-      '<button class="lg-submit" type="submit">' +
-        "<span>" + (opts.activateToken ? "设置密码并激活" : "保存并继续") + "</span>" +
-        '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+      '<button class="lg-submit" type="submit" data-lg-submit>' +
+        '<span class="lg-submit__label">' + (opts.activateToken ? "设置密码并激活" : "保存并继续") + "</span>" +
+        '<span class="lg-spinner" aria-hidden="true"></span>' +
+        '<svg class="lg-submit__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
       "</button>" +
     "</form>" +
     '<div class="lg-card__foot">' +
@@ -2727,22 +2757,37 @@ function securityConfirmPage(opts) {
 function totpChallengePage(opts) {
   const shieldIco = '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.4 9.8 1.9 1.9 3.4-3.6"/></svg></span>';
   const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
+  /* 分格验证码输入：结构参考 shadcn 的 InputOTP（单输入框 + 视觉分格），
+     无 JS 时自动退化成普通输入框（cells/切换按钮由 CSS+JS 增强）。 */
+  const otpCells = new Array(6).fill("<i></i>").join("");
+  const mode = opts.otpMode === "recovery" ? "recovery" : "code";
+  const recovery = mode === "recovery";
   const card = lgBrandBlock() +
-    "<h1>双因素验证</h1>" +
-    '<p class="lg-sub">请输入手机 App 上的 6 位验证码；手机不在身边时也可以用一枚恢复码。</p>' +
+    '<h1 class="lg-title">双因素验证</h1>' +
+    '<p class="lg-sub">请输入身份验证器上的 6 位验证码。手机不在身边时，也可以使用一枚恢复码。</p>' +
     err +
-    '<form method="post" action="/login/totp" class="lg-form">' +
+    '<form method="post" action="/login/totp" class="lg-form" data-no-pending data-lg-form>' +
       '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
       '<div class="lg-field">' +
-        '<div class="lg-field__head"><label for="code">验证码 / 恢复码</label>' +
-          '<span class="lg-field__hint">6 位数字或恢复码</span></div>' +
-        '<div class="lg-input lg-input--code">' + shieldIco +
-          '<input id="code" name="code" type="text" required autofocus autocomplete="one-time-code" inputmode="numeric" placeholder="000000">' +
+        '<div class="lg-field__head"><label for="code" id="otp-label">验证码</label>' +
+          '<span class="lg-field__hint" data-otp-hint>' + (recovery ? "恢复码" : "6 位数字") + "</span></div>" +
+        '<div class="lg-otp" data-otp data-mode="' + mode + '">' +
+          '<input id="code" name="code" class="lg-otp__input" type="text"' +
+            (recovery ? ' maxlength="24" placeholder="输入恢复码"' : ' inputmode="numeric" pattern="[0-9]{6}" maxlength="6"') +
+            ' autocomplete="one-time-code" required autofocus' +
+            ' aria-labelledby="otp-label" aria-describedby="otp-help">' +
+          '<div class="lg-otp__cells" aria-hidden="true">' + otpCells + "</div>" +
         "</div>" +
+        '<p class="lg-field__desc" id="otp-help" data-otp-help>' +
+          (recovery ? "恢复码可在「账号安全」中生成，每枚只能使用一次。" : "验证码每 30 秒更新一次；也可以使用一枚恢复码。") +
+        "</p>" +
+        '<button class="lg-otp__switch" type="button" data-otp-switch hidden>' +
+          (recovery ? "使用验证码" : "使用恢复码") + "</button>" +
       "</div>" +
-      '<button class="lg-submit" type="submit">' +
-        "<span>验证并进入</span>" +
-        '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+      '<button class="lg-submit" type="submit" data-lg-submit>' +
+        '<span class="lg-submit__label">验证并进入</span>' +
+        '<span class="lg-spinner" aria-hidden="true"></span>' +
+        '<svg class="lg-submit__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
       "</button>" +
     "</form>" +
     '<div class="lg-card__foot">' +

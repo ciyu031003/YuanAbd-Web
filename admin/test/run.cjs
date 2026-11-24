@@ -28,6 +28,9 @@ process.env.CONTENT_DIR = TMP_CONTENT;
 process.env.DRAFTS_DIR = "_drafts";
 process.env.ARCHIVE_DIR = "_archive";
 const TMP_ABS = path.join(REPO_ROOT, TMP_CONTENT);
+/* 开跑前先清一次：上一次失败中断会留下 _drafts 夹具，导致「slug 已存在」误报。
+   测试必须幂等 —— 无论上一次是否正常结束，这一次都从干净目录开始。 */
+try { fs.rmSync(TMP_ABS, { recursive: true, force: true }); } catch (e) { /* 首次运行没有该目录 */ }
 
 const feedback = require(path.join(__dirname, "..", "src", "feedback.cjs"));
 const views = require(path.join(__dirname, "..", "src", "views.cjs"));
@@ -532,6 +535,50 @@ test("登录页：div 开闭数量一致（原先少关一层 .login-page）", f
   const closes = (html.match(/<\/div>/g) || []).length;
   assert.strictEqual(opens, closes, "登录页 <div> 未配平：" + opens + " vs " + closes);
   assert.match(html, /邮箱或密码不正确/);
+});
+
+test("登录页 · 电影镜头：四幅场景 + 可访问的切换控件 + 外部脚本（无内联处理器）", function () {
+  const html = views.loginPage({});
+  // 四幅内联 SVG 场景，且初始只有第一幅点亮
+  assert.strictEqual((html.match(/class="lg-scene(?: is-on)?"/g) || []).length, 4);
+  assert.strictEqual((html.match(/class="lg-scene is-on"/g) || []).length, 1);
+  assert.strictEqual((html.match(/data-lg-go="/g) || []).length, 4);
+  assert.strictEqual((html.match(/aria-label="切换到第 \d 幅画面：/g) || []).length, 4);
+  // 暂停控件与进度条
+  assert.match(html, /data-lg-pause/);
+  assert.match(html, /data-lg-progress/);
+  // 脚本走 /static（CSP script-src 'self'），不得有内联事件处理器
+  assert.match(html, /<script src="\/static\/login\.js" defer><\/script>/);
+  assert.doesNotMatch(html, /onclick=|onload=|onerror=/);
+  // 密码可见性切换（可访问名称 + aria-pressed）
+  assert.match(html, /data-pw-toggle[^>]*aria-pressed="false"[^>]*aria-label="显示密码"/);
+  // 表单字段仍保持原有 name，登录行为不变
+  assert.match(html, /name="email"/);
+  assert.match(html, /name="password"/);
+  assert.match(html, /action="\/login"/);
+  // 页面只有一个 h1，且场景层对读屏隐藏
+  assert.strictEqual((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(html, /class="lg-stage" aria-hidden="true"/);
+});
+
+test("激活链接页：表单提交到 /activate 并带上一次性 token（原先提交到 /change-password，邀请无法激活）", function () {
+  const html = views.changePasswordPage({ csrf: "", forced: true, activateToken: "inv-token-123" });
+  assert.match(html, /action="\/activate"/);
+  assert.match(html, /name="t" value="inv-token-123"/);
+  assert.match(html, /设置密码并激活/);
+  assert.doesNotMatch(html, /name="current"/);
+  assert.match(html, /class="lg-cinema/);
+});
+
+test("2FA 验证页：使用电影镜头外壳且保留一次性验证码输入语义", function () {
+  const html = views.totpChallengePage({ error: "验证码不正确" });
+  assert.match(html, /class="lg-cinema/);
+  assert.match(html, /name="code"/);
+  assert.match(html, /autocomplete="one-time-code"/);
+  assert.match(html, /验证码不正确/);
+  const opens = (html.match(/<div\b/g) || []).length;
+  const closes = (html.match(/<\/div>/g) || []).length;
+  assert.strictEqual(opens, closes, "2FA 页 <div> 未配平");
 });
 
 test("改密页：强制改密时不显示「当前密码」输入", function () {

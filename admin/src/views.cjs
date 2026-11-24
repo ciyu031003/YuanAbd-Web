@@ -19,6 +19,9 @@ try {
   console.error("[views] 未能加载 ui-v3.css，已回退到 v2 样式：" + e.message);
 }
 
+/* 登录页的四幅内联 SVG 插画（静态结构；切换/视差由 public/login.js 驱动） */
+const LOGIN_SCENES = require("./login-scenes.cjs");
+
 /* 正文段落规则的兜底值。
    真实值由服务端从 content-lint.cjs 注入（opts.sections），
    以保证「后台校验」与「构建校验」永远同一套规则；
@@ -1355,48 +1358,219 @@ function pageHead(opts) {
     "</div>";
 }
 
+/* ---------------- 认证页共用外壳 ----------------
+   登录、强制改密、2FA 验证共用同一套「电影镜头」舞台与玻璃卡：
+   同一视觉语言让登录链路里的每一步都不会突然变成一张朴素白卡。
+   opts.scene 选择静态背景（0-3），缺省用第 1 幅。 */
+function lgStage(inner) {
+  return '<div class="lg-stage" aria-hidden="true">' +
+    (inner || "") +
+    '<div class="lg-leak"></div>' +
+    '<div class="lg-shade"></div>' +
+    '<svg class="lg-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
+      '<filter id="lg-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>' +
+      '<feColorMatrix type="saturate" values="0"/></filter>' +
+      '<rect width="100%" height="100%" filter="url(#lg-noise)"/>' +
+    "</svg>" +
+    '<div class="lg-vignette"></div>' +
+  "</div>";
+}
+
+function lgTopbar() {
+  return '<header class="lg-top">' +
+    '<span class="lg-top__brand"><span class="lg-top__mark" aria-hidden="true">修</span>' +
+      '<span class="lg-top__name">修盒子<em>FIXBOX</em></span></span>' +
+    '<span class="lg-top__meta">内容协作与发布后台</span>' +
+  "</header>";
+}
+
+function lgBrandBlock() {
+  return '<div class="lg-brand">' +
+    '<span class="lg-brand__mark" aria-hidden="true">修</span>' +
+    '<span class="lg-brand__txt"><b>修盒子 · 内容后台</b><span>FIXBOX CONTENT STUDIO</span></span>' +
+  "</div>";
+}
+
+/* 单场景认证页（强制改密 / 2FA 验证）：无轮播控件，只有静止插画 + 玻璃卡 */
+function authPage(title, cardHtml, opts) {
+  opts = opts || {};
+  const scene = LOGIN_SCENES[opts.scene || 0];
+  return layout(title,
+    '<div class="lg-cinema lg-cinema--single">' +
+      lgStage('<div class="lg-scenes"><div class="lg-scene is-on">' + scene.svg + "</div></div>") +
+      lgTopbar() +
+      '<div class="lg-side"><div class="lg-card">' + cardHtml + "</div>" +
+        '<p class="lg-foot">登录行为会写入审计日志 · 请勿分享账号凭据</p>' +
+      "</div>" +
+    "</div>",
+    { nav: false, accent: "indigo", bodyClass: "login-body lg-page", csrf: opts.csrf });
+}
+
 function loginPage(opts) {
   opts = opts || {};
   const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
   const info = opts.info ? '<div class="alert alert--info" role="status">' + esc(opts.info) + "</div>" : "";
+
+  /* ---------------- 电影镜头式登录 ----------------
+     设计说明：
+       · 舞台是四幅内联 SVG 插画，7.5s 自动换景 + 交叉淡入 + 缓慢运镜（Ken Burns）；
+       · 右侧玻璃卡承载表单：任何画面下都保证可读、可填、可键盘操作；
+       · 切换、视差、暂停由 /static/login.js 驱动（CSP 只允许 'self' 脚本，无内联脚本）；
+       · 用户暂停 / 系统 reduced-motion / 标签页隐藏时停止自动轮播。 */
+  const scenesHtml = LOGIN_SCENES.map(function (s, i) {
+    return '<div class="lg-scene' + (i === 0 ? " is-on" : "") + '" data-lg-scene="' + i + '">' + s.svg + "</div>";
+  }).join("");
+
+  const dotsHtml = LOGIN_SCENES.map(function (s, i) {
+    return '<button class="lg-dot' + (i === 0 ? " is-on" : "") + '" type="button" data-lg-go="' + i + '"' +
+      ' aria-pressed="' + (i === 0 ? "true" : "false") + '" aria-label="切换到第 ' + (i + 1) + " 幅画面：" + esc(s.title) + '"' +
+      ' data-lg-title="' + esc(s.title) + '" data-lg-line="' + esc(s.line) + '">' +
+      "<i></i></button>";
+  }).join("");
+
+  const pad2 = function (n) { return (n < 10 ? "0" : "") + n; };
+  const captionText = function (s, i) {
+    return '<span class="lg-caption__idx">' + pad2(i + 1) + " / " + pad2(LOGIN_SCENES.length) + "</span>" +
+      '<span class="lg-caption__t">' + esc(s.title) + "</span>" +
+      '<span class="lg-caption__l">' + esc(s.line) + "</span>";
+  };
+
   return layout("登录",
-    '<div class="login-page">' +
-    '<div class="login-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>' +
-    '<div class="login-wrap"><div class="card">' +
-    '<div class="login-brand"><span class="mark" aria-hidden="true">修</span>' +
-      '<span><b>修盒子 · 内容后台</b><span>FIXBOX 内容协作与发布</span></span></div>' +
-    "<h1>登录内容后台</h1>" +
-    '<p class="muted" style="margin:0 0 22px">仅限内部编辑人员使用。账号由管理员分发。</p>' +
-    err + info +
-    '<form method="post" action="/login">' +
-    '<label for="email">邮箱</label><input id="email" name="email" type="email" required autocomplete="username" autofocus>' +
-    '<label for="password">密码</label><input id="password" name="password" type="password" required autocomplete="current-password">' +
-    '<div style="margin-top:20px"><button class="btn btn--primary" type="submit" style="width:100%">登录</button></div>' +
-    "</form></div>" +
-    '<p class="muted" style="text-align:center">账号信息仅用于内容协作。请勿分享登录凭据。</p></div>' +
-    /* 这里必须有两层收尾：.login-wrap 与 .login-page。
-       少写一层会让 .login-page 一直“开着”，后续节点被浏览器并入其中（结构不合法）。 */
+    '<div class="lg-cinema" data-lg-cinema>' +
+      /* 舞台：四幅画面 + 暖光 + 颗粒 + 暗角 */
+      '<div class="lg-stage" aria-hidden="true">' +
+        '<div class="lg-scenes" data-lg-scenes>' + scenesHtml + "</div>" +
+        '<div class="lg-leak"></div>' +
+        '<div class="lg-shade"></div>' +
+        '<svg class="lg-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
+          '<filter id="lg-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>' +
+          '<feColorMatrix type="saturate" values="0"/></filter>' +
+          '<rect width="100%" height="100%" filter="url(#lg-noise)"/>' +
+        "</svg>" +
+        '<div class="lg-vignette"></div>' +
+      "</div>" +
+
+      /* 顶部品牌条 */
+      '<header class="lg-top">' +
+        '<span class="lg-top__brand"><span class="lg-top__mark" aria-hidden="true">修</span>' +
+          '<span class="lg-top__name">修盒子<em>FIXBOX</em></span></span>' +
+        '<span class="lg-top__meta">内容协作与发布后台</span>' +
+      "</header>" +
+
+      /* 左侧画面说明 */
+      '<div class="lg-caption" data-lg-caption aria-hidden="true">' + captionText(LOGIN_SCENES[0], 0) + "</div>" +
+
+      /* 画面控制：圆点 + 暂停 + 进度 */
+      '<div class="lg-controls" data-lg-controls role="group" aria-label="登录页画面切换">' +
+        '<div class="lg-dots">' + dotsHtml + "</div>" +
+        '<button class="lg-pause" type="button" data-lg-pause aria-pressed="false" aria-label="暂停画面自动切换">' +
+          '<svg class="lg-pause__ico lg-pause__ico--pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="1"/><rect x="9.4" y="3" width="2.6" height="10" rx="1"/></svg>' +
+          '<svg class="lg-pause__ico lg-pause__ico--play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.4v9.2c0 .8.9 1.3 1.6.9l7-4.6c.6-.4.6-1.4 0-1.8l-7-4.6C5.9 2.1 5 2.6 5 3.4Z"/></svg>' +
+          "<span data-lg-pause-label>暂停</span></button>" +
+        '<div class="lg-progress" aria-hidden="true"><i data-lg-progress></i></div>' +
+      "</div>" +
+
+      /* 右侧表单卡 */
+      '<div class="lg-side">' +
+        '<div class="lg-card">' +
+          '<div class="lg-brand">' +
+            '<span class="lg-brand__mark" aria-hidden="true">修</span>' +
+            '<span class="lg-brand__txt"><b>修盒子 · 内容后台</b><span>FIXBOX CONTENT STUDIO</span></span>' +
+          "</div>" +
+          "<h1>登录内容后台</h1>" +
+          '<p class="lg-sub">继续编辑、审核与发布修盒子的排障教程。</p>' +
+          err + info +
+          '<form method="post" action="/login" class="lg-form">' +
+            '<div class="lg-field">' +
+              '<div class="lg-field__head"><label for="email">邮箱</label></div>' +
+              '<div class="lg-input">' +
+                '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="2.5" y="4.5" width="15" height="11" rx="2.4"/><path d="m3.4 6 6.6 5 6.6-5"/></svg></span>' +
+                '<input id="email" name="email" type="email" required autocomplete="username" autofocus placeholder="you@example.com" spellcheck="false">' +
+              "</div>" +
+            "</div>" +
+            '<div class="lg-field">' +
+              '<div class="lg-field__head"><label for="password">密码</label><span class="lg-field__hint">忘记密码请联系管理员</span></div>' +
+              '<div class="lg-input">' +
+                '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="8.4" rx="2.2"/><path d="M7 9V6.6a3 3 0 0 1 6 0V9"/><circle cx="10" cy="13.2" r="1.2"/></svg></span>' +
+                '<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="请输入密码">' +
+                '<button class="lg-eye" type="button" data-pw-toggle aria-pressed="false" aria-label="显示密码" title="显示密码">' +
+                  '<svg class="lg-eye__on" viewBox="0 0 20 20" aria-hidden="true"><path d="M1.8 10S4.9 4.6 10 4.6 18.2 10 18.2 10 15.1 15.4 10 15.4 1.8 10 1.8 10Z"/><circle cx="10" cy="10" r="2.6"/></svg>' +
+                  '<svg class="lg-eye__off" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3l14 14"/><path d="M8.1 4.9A7.7 7.7 0 0 1 10 4.6c5.1 0 8.2 5.4 8.2 5.4a15 15 0 0 1-2.6 3.2"/><path d="M5.4 6.4A15.6 15.6 0 0 0 1.8 10s3.1 5.4 8.2 5.4a8.4 8.4 0 0 0 3.2-.6"/></svg>' +
+                "</button>" +
+              "</div>" +
+            "</div>" +
+            '<button class="lg-submit" type="submit">' +
+              "<span>进入后台</span>" +
+              '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+            "</button>" +
+          "</form>" +
+          '<div class="lg-card__foot">' +
+            '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.6 9.8 1.8 1.8 3.2-3.4"/></svg>' +
+            "<span>仅限内部编辑人员 · 账号由管理员分发</span>" +
+            '<span class="lg-card__ver">v2.9</span>' +
+          "</div>" +
+        "</div>" +
+        '<p class="lg-foot">登录行为会写入审计日志 · 请勿分享账号凭据</p>' +
+      "</div>" +
     "</div>",
-    { nav: false, accent: "indigo", bodyClass: "login-body" });
+    { nav: false, accent: "indigo", bodyClass: "login-body lg-page", scripts: ["/static/login.js"] });
 }
 
 function changePasswordPage(opts) {
   opts = opts || {};
+  const lockIco = '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="8.4" rx="2.2"/><path d="M7 9V6.6a3 3 0 0 1 6 0V9"/><circle cx="10" cy="13.2" r="1.2"/></svg></span>';
+  const keyIco = '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="3.2"/><path d="M10.2 10h6.4"/><path d="M14 10v2.6"/><path d="M16.6 10v3.6"/></svg></span>';
   const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
-  const forced = opts.forced ? '<div class="alert alert--info" role="status">这是首次登录（或密码已被重置），必须先设置新密码才能继续。</div>' : "";
-  const curField = opts.forced ? "" :
-    '<label for="current">当前密码</label><input id="current" name="current" type="password" required autocomplete="current-password">';
-  return layout("修改密码",
-    '<div class="login-wrap"><div class="card"><h1>设置新密码</h1>' + forced + err +
-    '<form method="post" action="/change-password">' +
-    '<input type="hidden" name="_csrf" value="' + esc(opts.csrf||"") + '">' +
-    curField +
-    '<label for="np">新密码</label><input id="np" name="password" type="password" required autocomplete="new-password">' +
-    '<label for="np2">确认新密码</label><input id="np2" name="password2" type="password" required autocomplete="new-password">' +
-    '<p class="muted" style="margin-top:8px">至少 12 位；需包含大写字母、小写字母、数字、符号中的至少 3 类；不得含常见词。</p>' +
-    '<div style="margin-top:18px"><button class="btn btn--primary" type="submit" style="width:100%">保存并继续</button></div>' +
-    "</form></div></div>",
-    { nav: false, csrf: opts.csrf, user: null });
+  const forced = opts.forced
+    ? '<div class="alert alert--info" role="status">' +
+        (opts.activateToken
+          ? "欢迎加入。请先设置登录密码，设置后账号即被激活。"
+          : "这是首次登录（或密码已被重置），必须先设置新密码才能继续。") +
+      "</div>"
+    : "";
+  const action = opts.activateToken ? "/activate" : "/change-password";
+  const hidden = (opts.csrf ? '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' : "") +
+    (opts.activateToken ? '<input type="hidden" name="t" value="' + esc(opts.activateToken) + '">' : "");
+
+  function pwField(id, label, name, placeholder, help) {
+    return '<div class="lg-field">' +
+      '<div class="lg-field__head"><label for="' + id + '">' + esc(label) + "</label>" +
+        (help ? '<span class="lg-field__hint">' + help + "</span>" : "") + "</div>" +
+      '<div class="lg-input">' + lockIco +
+        '<input id="' + id + '" name="' + name + '" type="password" required autocomplete="new-password" placeholder="' + esc(placeholder) + '">' +
+      "</div></div>";
+  }
+
+  const card = lgBrandBlock() +
+    "<h1>" + (opts.activateToken ? "设置登录密码" : "设置新密码") + "</h1>" +
+    '<p class="lg-sub">' +
+      (opts.activateToken
+        ? "设置后即可用这个密码登录修盒子内容后台。"
+        : "为保护内容安全，请设置一个足够强的密码。") +
+    "</p>" +
+    forced + err +
+    '<form method="post" action="' + action + '" class="lg-form">' +
+      hidden +
+      (opts.forced ? "" :
+        '<div class="lg-field">' +
+          '<div class="lg-field__head"><label for="current">当前密码</label></div>' +
+          '<div class="lg-input">' + keyIco +
+            '<input id="current" name="current" type="password" required autocomplete="current-password" placeholder="当前使用的密码">' +
+          "</div></div>") +
+      pwField("np", "新密码", "password", "至少 12 位") +
+      pwField("np2", "确认新密码", "password2", "再输入一次") +
+      '<p class="lg-rule">至少 12 位；需包含大写字母、小写字母、数字、符号中的至少 3 类；不得含常见词。</p>' +
+      '<button class="lg-submit" type="submit">' +
+        "<span>" + (opts.activateToken ? "设置密码并激活" : "保存并继续") + "</span>" +
+        '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+      "</button>" +
+    "</form>" +
+    '<div class="lg-card__foot">' +
+      '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.6 9.8 1.8 1.8 3.2-3.4"/></svg>' +
+      "<span>" + (opts.activateToken ? "一次性激活链接 · 设置后失效" : "改动会写入审计日志") + "</span>" +
+    "</div>";
+
+  return authPage(opts.activateToken ? "激活账号" : "修改密码", card, { csrf: opts.csrf, scene: 1 });
 }
 
 function articlesPage(opts) {
@@ -2551,18 +2725,31 @@ function securityConfirmPage(opts) {
 
 /* ---------------- 2FA 验证页（登录第二步） ---------------- */
 function totpChallengePage(opts) {
+  const shieldIco = '<span class="lg-input__ico" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.4 9.8 1.9 1.9 3.4-3.6"/></svg></span>';
   const err = opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "";
-  return layout("双因素验证",
-    '<div class="login-wrap"><div class="card">' +
+  const card = lgBrandBlock() +
     "<h1>双因素验证</h1>" +
-    '<p class="muted" style="margin:0 0 20px">请输入手机 App 上的 6 位验证码；也可使用一枚恢复码。</p>' + err +
-    '<form method="post" action="/login/totp">' +
+    '<p class="lg-sub">请输入手机 App 上的 6 位验证码；手机不在身边时也可以用一枚恢复码。</p>' +
+    err +
+    '<form method="post" action="/login/totp" class="lg-form">' +
       '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
-      '<label for="code">验证码 / 恢复码</label>' +
-      '<input id="code" name="code" type="text" required autofocus autocomplete="one-time-code" style="font-family:var(--mono);font-size:18px;letter-spacing:3px">' +
-      '<div style="margin-top:16px"><button class="btn btn--primary" type="submit" style="width:100%">验证</button></div>' +
-    "</form></div></div>",
-    { nav: false, user: null });
+      '<div class="lg-field">' +
+        '<div class="lg-field__head"><label for="code">验证码 / 恢复码</label>' +
+          '<span class="lg-field__hint">6 位数字或恢复码</span></div>' +
+        '<div class="lg-input lg-input--code">' + shieldIco +
+          '<input id="code" name="code" type="text" required autofocus autocomplete="one-time-code" inputmode="numeric" placeholder="000000">' +
+        "</div>" +
+      "</div>" +
+      '<button class="lg-submit" type="submit">' +
+        "<span>验证并进入</span>" +
+        '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11"/><path d="m11 5 5 5-5 5"/></svg>' +
+      "</button>" +
+    "</form>" +
+    '<div class="lg-card__foot">' +
+      '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6 16 5v5.2c0 3.6-2.4 6.4-6 7.4-3.6-1-6-3.8-6-7.4V5l6-2.4Z"/><path d="m7.6 9.8 1.8 1.8 3.2-3.4"/></svg>' +
+      "<span>验证失败 5 次会暂时锁定，请确认手机时间准确</span>" +
+    "</div>";
+  return authPage("双因素验证", card, { csrf: opts.csrf, scene: 3 });
 }
 
 function mediaPage(opts) {

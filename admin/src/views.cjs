@@ -1504,6 +1504,7 @@ function loginPage(opts) {
           (opts.error ? '<div class="alert alert--err" role="alert" id="login-error">' + esc(opts.error) + "</div>" : "") +
           info +
           '<form method="post" action="/login" class="lg-form" data-no-pending data-lg-form>' +
+            '<input type="hidden" name="_csrf" value="' + esc(opts.csrf || "") + '">' +
             '<div class="lg-fieldgroup">' +
               '<div class="lg-field">' +
                 '<div class="lg-field__head"><label for="email">邮箱</label></div>' +

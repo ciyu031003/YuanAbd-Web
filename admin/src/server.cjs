@@ -194,12 +194,37 @@ function sameOriginPost(req) {
   const sfs = String(req.headers["sec-fetch-site"] || "").toLowerCase();
   if (sfs === "cross-site") return false;
   const origin = req.headers.origin;
-  if (!origin) return true;
+  // Origin: null 出现在两种情况：跨站沙箱页面，以及本项目 Referrer-Policy: no-referrer
+  // 下的同站表单提交（Chrome 实测会发 "null"）。因此 null 只能作为辅助判断，
+  // 真正防登录 CSRF 的是下面的双提交 token（verifyLoginCsrf）。
+  if (!origin || origin === "null") return sfs !== "cross-site";
   try {
     return new URL(origin).host === req.headers.host;
   } catch (e) {
     return false;
   }
+}
+
+/* ---- 登录前的 CSRF（双提交 token）----
+   为什么需要：登录表单在会话建立之前，没有用户级 CSRF token；
+   攻击者可以诱导受害者浏览器 POST 自己的账号密码（login CSRF），
+   让受害者后续操作记到攻击者账号上。
+   做法：GET 表单时下发 HttpOnly cookie + 表单隐藏字段，POST 时两者必须一致。
+   跨站页面既读不到 cookie 也无法预知 token，因此无法伪造。 */
+var LOGIN_CSRF_COOKIE = "fx_login_csrf";
+function issueLoginCsrf() {
+  var token = crypto.randomBytes(24).toString("hex");
+  var cookie = h.cookieHeader(LOGIN_CSRF_COOKIE, token, {
+    secure: config.session.secure, maxAge: 30 * 60 * 1000, httpOnly: true, sameSite: "Lax", path: "/"
+  });
+  return { token: token, cookie: cookie };
+}
+function verifyLoginCsrf(req, form) {
+  var cookies = h.parseCookies(req.headers.cookie);
+  var a = String(cookies[LOGIN_CSRF_COOKIE] || "");
+  var b = String((form && form._csrf) || "");
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch (e) { return false; }
 }
 
 async function handle(req, res) {
@@ -283,7 +308,9 @@ async function handle(req, res) {
   // 导致健康检查/监控/抓取工具（含 curl -I）报 "too many redirects"。
   if (p === "/login" && (method === "GET" || method === "HEAD")) {
     if (sess) return redirect(res, "/articles");
-    return html(res, 200, views.loginPage({}));
+    var lg = issueLoginCsrf();
+    return h.send(res, 200, views.loginPage({ csrf: lg.token }),
+      h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": lg.cookie }));
   }
   if (p === "/login" && method === "POST") {
     if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
@@ -293,6 +320,13 @@ async function handle(req, res) {
       return html(res, 429, views.loginPage({ error: "尝试次数过多，请 15 分钟后再试。" }));
     }
     const form = h.parseForm(await h.readBody(req, 16 * 1024));
+    if (!verifyLoginCsrf(req, form)) {
+      // token 过期/缺失：重新发一枚，提示刷新后重试（不暴露任何账号信息）
+      var fresh = issueLoginCsrf();
+      await auth.audit(null, "login.csrf_rejected", null, { ip: c.ip }, c.ip);
+      return h.send(res, 403, views.loginPage({ csrf: fresh.token, error: "登录页已过期，请刷新后重试。" }),
+        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": fresh.cookie }));
+    }
     const email = String(form.email || "").trim().toLowerCase();
     const password = String(form.password || "");
     const r = await db.query(
@@ -328,7 +362,10 @@ async function handle(req, res) {
       const pc = h.cookieHeader("fx_totp_pending", pending, {
         secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax"
       });
-      return h.send(res, 302, "", h.securityHeaders({ Location: "/login/totp", "Set-Cookie": pc }));
+      return h.send(res, 302, "", h.securityHeaders({
+        Location: "/login/totp",
+        "Set-Cookie": [pc, h.clearCookieHeader(LOGIN_CSRF_COOKIE, { secure: config.session.secure })]
+      }));
     }
     // 成功
     auth.clearAttempts(c.ip);
@@ -340,7 +377,7 @@ async function handle(req, res) {
     });
     return h.send(res, 302, "", h.securityHeaders({
       Location: u.must_change_password ? "/change-password" : "/articles",
-      "Set-Cookie": cookie
+      "Set-Cookie": [cookie, h.clearCookieHeader(LOGIN_CSRF_COOKIE, { secure: config.session.secure })]
     }));
   }
 
@@ -353,14 +390,24 @@ async function handle(req, res) {
       return redirect(res, "/login");
     }
     if (method === "GET") {
-      return html(res, 200, views.totpChallengePage({ csrf: "" }));
+      var tg = issueLoginCsrf();
+      return h.send(res, 200, views.totpChallengePage({ csrf: tg.token }),
+        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": tg.cookie }));
     }
     if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
     const form = h.parseForm(await h.readBody(req, 8192));
+    if (!verifyLoginCsrf(req, form)) {
+      var tf = issueLoginCsrf();
+      await auth.audit(null, "totp.csrf_rejected", null, { ip: c.ip }, c.ip);
+      return h.send(res, 403, views.totpChallengePage({ csrf: tf.token, error: "页面已过期，请刷新后重试。" }),
+        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": tf.cookie }));
+    }
     // 限流同样适用，防止暴力猜 6 位码
     if (auth.isRateLimited(c.ip)) {
       await auth.audit(null, "totp.ratelimited", null, { ip: c.ip }, c.ip);
-      return html(res, 429, views.totpChallengePage({ error: "尝试次数过多，请稍后再试。" }));
+      var trl = issueLoginCsrf();
+      return h.send(res, 429, views.totpChallengePage({ csrf: trl.token, error: "尝试次数过多，请稍后再试。" }),
+        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": trl.cookie }));
     }
     const used = auth.takePendingTotp(pendTok);
     if (!used) return redirect(res, "/login");
@@ -387,8 +434,9 @@ async function handle(req, res) {
       const pc2 = h.cookieHeader("fx_totp_pending", np, { secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax" });
       // 失败后按输入形态回到对应模式，避免用户重填时还要再切一次「使用恢复码」
       const otpMode = /^[0-9]{6}$/.test(code) ? "code" : "recovery";
-      return h.send(res, 401, views.totpChallengePage({ error: "验证码不正确，请重试（确认手机时间准确）", otpMode: otpMode }), h.securityHeaders({
-        "Content-Type": "text/html; charset=utf-8", "Set-Cookie": pc2
+      const tfail = issueLoginCsrf();
+      return h.send(res, 401, views.totpChallengePage({ csrf: tfail.token, error: "验证码不正确，请重试（确认手机时间准确）", otpMode: otpMode }), h.securityHeaders({
+        "Content-Type": "text/html; charset=utf-8", "Set-Cookie": [pc2, tfail.cookie]
       }));
     }
     // 通过：建立正式会话
@@ -402,7 +450,7 @@ async function handle(req, res) {
     const clr = "fx_totp_pending=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax";
     return h.send(res, 302, "", h.securityHeaders({
       Location: u2.must_change_password ? "/change-password" : "/articles",
-      "Set-Cookie": [ck, clr]
+      "Set-Cookie": [ck, clr, h.clearCookieHeader(LOGIN_CSRF_COOKIE, { secure: config.session.secure })]
     }));
   }
   // ---- 登出 ----

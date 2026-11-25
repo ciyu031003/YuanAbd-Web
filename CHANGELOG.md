@@ -38,6 +38,12 @@
 
 ## 二、改动时间线
 
+### 2026-11-25 · 热修：登录 403 / 空白页（Referrer-Policy 导致 Origin: null）
+
+- **现象**：部署评审修复后，点击“进入后台”直接显示纯文本 `forbidden`，无法登录。
+- **根因**：后台安全头 `Referrer-Policy: no-referrer` 会让 Chrome 在同站表单 POST 时发送 `Origin: null`；上一轮新增的 `sameOriginPost` 把 `null` 当非法来源拒绝，返回 403。
+- **修复**：登录/2FA 改为**双提交 CSRF token**（HttpOnly cookie `fx_login_csrf` + 表单隐藏 `_csrf`，`timingSafeEqual` 比对），来源校验降为辅助（`Origin: null` 时按 `Sec-Fetch-Site` 判断）；token 过期时返回带新 token 的登录页并提示刷新。
+- 测试增至 53 组（token 字段、双提交实现、`null` 来源分支）。
 ### 2026-11-25 · 登录页评审修复（安全 / 对比度 / 性能 / 可访问性）
 
 - **安全**：`/login`、`/login/totp` 增加同站来源校验（`Sec-Fetch-Site`/`Origin`），跨站自动提交返回 403，防 login CSRF；`/static/*` 改 `no-cache` + ETag，避免部署后新旧脚本错配。

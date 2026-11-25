@@ -654,11 +654,24 @@ test("静态资源：/static/* 必须 no-cache + ETag（避免部署后新旧脚
   assert.match(src, /ETag/);
 });
 
-test("登录 POST：必须做同站来源校验（防 login CSRF）", function () {
+test("登录 POST：同站来源校验 + 双提交 CSRF token（防 login CSRF）", function () {
   const src = fs.readFileSync(path.join(__dirname, "..", "src", "server.cjs"), "utf8");
   assert.match(src, /function sameOriginPost/);
   assert.match(src, /sameOriginPost\(req\)/);
   assert.match(src, /sec-fetch-site/);
+  // Referrer-Policy: no-referrer 下 Chrome 会发 Origin: null，必须走 token 校验而不是直接拒绝
+  assert.match(src, /origin === "null"/);
+  assert.match(src, /function issueLoginCsrf/);
+  assert.match(src, /function verifyLoginCsrf/);
+  assert.match(src, /timingSafeEqual/);
+  assert.match(src, /LOGIN_CSRF_COOKIE = "fx_login_csrf"/);
+});
+
+test("登录表单：带隐藏 _csrf 字段；2FA 页面同样带 token", function () {
+  const login = views.loginPage({ csrf: "tok-123" });
+  assert.match(login, /name="_csrf" value="tok-123"/);
+  const totp = views.totpChallengePage({ csrf: "tok-456" });
+  assert.match(totp, /name="_csrf" value="tok-456"/);
 });
 
 test("改密页：提交加载态钩子与玻璃卡外壳", function () {

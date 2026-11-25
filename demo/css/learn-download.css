@@ -53,7 +53,23 @@
 
 /* ---------- 1. 首屏 ---------- */
 .dlp-hero{padding-top:clamp(116px,15vh,150px);padding-bottom:clamp(28px,4vw,44px)}
+/* 顶栏与 1180 内容列对齐：learn.css 的 .topbar 是全出血布局（3.2vw），
+   本页正文是居中列，滚动后实底一出现就会露出「logo 骑在内容列外」。 */
+.dlp .topbar{padding-inline:max(3.2vw,calc((100% - 1180px)/2))}
 .dlp .topbar.is-solid{background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 14px 34px -30px rgba(24,32,42,.45)}
+/* 甜途入口胶囊：.portal-link 只在 learn-sunny.css 定义，本页不加载该层 */
+.dlp .portal-link{
+  display:inline-flex;align-items:center;gap:.35em;height:42px;padding:0 18px;border-radius:100px;
+  border:1px solid color-mix(in srgb,var(--accent) 26%,transparent);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  font:600 .78rem/1 var(--font-sans);letter-spacing:.06em;color:var(--accent-2);text-decoration:none;
+  transition:border-color .2s var(--ui-ease),color .2s var(--ui-ease),transform .2s var(--ui-ease-out);
+}
+.dlp .portal-link:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+@media (max-width:700px){.dlp .portal-link{display:none}}
+/* 设备提示：只在脚本写入内容后出现，避免空段落占位 */
+.dlp-device{display:none;margin-top:14px;font:500 .8rem/1.6 var(--font-sans);color:var(--accent-2)}
+.dlp-device.is-on{display:inline-flex;align-items:center;gap:.5em}
 .dlp .brand{display:inline-flex;align-items:center;gap:.52em;font-size:clamp(22px,2vw,27px)}
 .dlp .brand__logo{width:30px;height:30px;border-radius:9px;object-fit:cover;box-shadow:0 6px 14px -8px rgba(24,32,42,.55)}
 .dlp-hero__grid{
@@ -85,10 +101,6 @@
   position:relative;display:inline-block;padding-inline:.06em;
   background-image:linear-gradient(180deg,transparent 60%,color-mix(in srgb,var(--brand-2) 58%,transparent) 60%);
   background-repeat:no-repeat;background-size:100% 100%;
-}
-.dlp-title .grad{
-  background:linear-gradient(96deg,var(--accent-2) 0%,#4B8FCC 55%,var(--accent) 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .dlp-sub{
   margin-top:clamp(16px,2vw,22px);max-width:44ch;
@@ -294,7 +306,6 @@
 .dlp-trust{
   border-block:1px solid var(--line);
   background:color-mix(in srgb,var(--bg-2) 42%,transparent);
-  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
 }
 .dlp-trust__grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
@@ -490,6 +501,9 @@
   margin-top:clamp(20px,3vw,34px);
   border-radius:28px;
   padding:clamp(32px,4.4vw,56px);
+  /* 先给不含 color-mix 的底：不支持 color-mix 的浏览器会把整条声明丢弃，
+     若只写下面那条，深色面板会退成白底 + 近白文字（1.05:1）。 */
+  background:linear-gradient(128deg,#16202B 0%,#1D3048 52%,#123A5C 100%);
   background:
     radial-gradient(40rem 24rem at 88% 0%,color-mix(in srgb,var(--brand-2) 34%,transparent),transparent 62%),
     radial-gradient(36rem 26rem at 0% 100%,color-mix(in srgb,#4B8FCC 60%,transparent),transparent 60%),
@@ -518,10 +532,10 @@
 .dlp-cta .dlp-btn--ghost:hover{border-color:var(--brand-2);color:var(--brand-2)}
 
 /* ---------- 9. 页脚微调 ---------- */
-.dlp .footer{padding-block:clamp(28px,4vw,40px);border-top:1px solid var(--line);margin-top:clamp(40px,6vw,72px)}
+.dlp .footer{padding-block:clamp(28px,4vw,40px);padding-inline:0;border-top:1px solid var(--line);margin-top:clamp(40px,6vw,72px)}
 .dlp .footer__meta{gap:.5em}
 
-/* ---------- 10. 复制反馈（沿用全局 toast） ---------- */
+/* ---------- 10. 复制反馈（页面自有 toast，文案在复制时写入） ---------- */
 .dlp-toast{
   position:fixed;left:50%;bottom:28px;z-index:90;transform:translate(-50%,16px);
   display:inline-flex;align-items:center;gap:8px;padding:.7em 1.1em;border-radius:100px;
@@ -535,6 +549,19 @@
 /* ---------- 10b. 滚动揭示 ---------- */
 .dlp-reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ui-ease-out),transform .7s var(--ui-ease-out)}
 .dlp-reveal.is-in{opacity:1;transform:none}
+
+/* ---------- 10c. 降级：不支持 color-mix 时的实色兜底 ---------- */
+@supports not (background:color-mix(in srgb,red 50%,transparent)){
+  .dlp{background:var(--bg)}
+  .dlp-card{background:var(--bg-2)}
+  .dlp-trust{background:var(--bg-2)}
+  .dlp-note{background:var(--bg-2);border-color:var(--brand-2)}
+  .dlp-spec{background:var(--bg-2)}
+  .dlp-rel-card{background:var(--bg)}
+  .dlp-badge,.dlp-qr,.dlp-float,.dlp-btn--ghost{background:var(--bg)}
+  .dlp .portal-link{border-color:var(--line-strong);background:var(--bg)}
+  .dlp-cta{background:linear-gradient(128deg,#16202B 0%,#1D3048 52%,#123A5C 100%)}
+}
 
 /* ---------- 11. 响应式 ---------- */
 @media (max-width:1080px){
@@ -553,14 +580,19 @@
 }
 @media (max-width:620px){
   .dlp-wrap{width:calc(100% - 36px)}
+  .dlp-meta{gap:.35rem .9rem}
+  .dlp-meta span + span::before{display:none}
   .dlp-hero{padding-top:108px}
   .dlp-title{font-size:clamp(2.05rem,9.4vw,2.8rem)}
   .dlp-sub{font-size:.98rem}
   .dlp-actions{width:100%;flex-direction:column;align-items:stretch}
   .dlp-btn{width:100%}
   .dlp-btn--text{width:auto;align-self:center}
-  .dlp-meta{gap:.4rem 0;font-size:.68rem}
-  .dlp-meta span + span::before{margin-inline:.45em}
+  .dlp-meta{font-size:.68rem}
+  .dlp .topbar{padding-inline:18px}
+  /* learn.css 在 ≤560 会隐藏 .ticket-button（落地页有底部 dock 兜底）；
+     下载页没有 dock，这里恢复一个紧凑的工作台入口 */
+  .dlp .ticket-button{display:inline-grid;height:42px;min-width:auto;padding:0 16px;font-size:11px}
   .dlp-checks{justify-content:center;font-size:.76rem}
   .dlp-stage{padding:8px 0}
   .dlp-phone{width:min(244px,74%);border-radius:38px;padding:8px}

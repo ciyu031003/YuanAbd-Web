@@ -36,11 +36,6 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"苦旅 KuLv","softwareVersion":"2.8.2","operatingSystem":"Android 8.0+","applicationCategory":"EducationalApplication","url":"https://learn.yuanabd.cn/download.html","downloadUrl":"https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk","fileSize":"84157878","datePublished":"2026-11-22","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"author":{"@type":"Organization","name":"YUAN.ABD"}}
   </script>
-  <style>
-    /* 单处小补丁：设备提示只在有内容时出现，避免空段落占据间距（其余样式在 learn-download.css） */
-    .dlp-device{display:none;margin-top:14px;font:500 .8rem/1.6 var(--font-sans);color:var(--accent-2)}
-    .dlp-device.is-on{display:inline-flex;align-items:center;gap:.5em}
-  </style>
 </head>
 <body class="learn">
   <a class="skip-link" href="#dlp-main">跳到下载内容</a>
@@ -58,7 +53,7 @@
       </div>
     </header>
 
-    <main id="dlp-main">
+    <main id="dlp-main" tabindex="-1">
       <!-- ========== 1. 首屏 ========== -->
       <section class="dlp-hero" aria-labelledby="dlp-title">
         <div class="dlp-wrap dlp-hero__grid">
@@ -70,19 +65,16 @@
               装进<span class="mark">口袋</span>。
             </h1>
 
-            <p class="dlp-sub">
-              路线图、今日任务、专注计时、求职看板——<b>把求职这件事拆成每天能做完的一格</b>。
-              扫码或一键安装，登录后与网页版自动同步。
-            </p>
+            <p class="dlp-sub">路线图、今日任务、专注计时、求职看板——<b>把求职这件事拆成每天能做完的一格</b>。扫码或一键安装，登录后与网页版自动同步。</p>
 
             <div class="dlp-actions">
-              <a class="dlp-btn dlp-btn--primary" data-download
+              <a class="dlp-btn dlp-btn--primary" data-dlp-download
                  href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk"
                  download="learn-workbench-v2.8.2.apk" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
                 <span data-dl-label>下载 Android 版 · 80 MB</span>
               </a>
-              <button type="button" class="dlp-btn dlp-btn--ghost" data-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">
+              <button type="button" class="dlp-btn dlp-btn--ghost" data-dlp-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
                 <span>复制下载链接</span>
               </button>
@@ -392,18 +384,20 @@
                 <p>Android 版 v2.8.2 · 80.3 MB · 官网直连，登录后与网页版同步。</p>
               </div>
               <div class="dlp-cta__actions">
-                <a class="dlp-btn dlp-btn--primary" data-download href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk" download="learn-workbench-v2.8.2.apk" rel="noopener">
+                <a class="dlp-btn dlp-btn--primary" data-dlp-download href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk" download="learn-workbench-v2.8.2.apk" rel="noopener">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
                   下载 Android 版
                 </a>
-                <button type="button" class="dlp-btn dlp-btn--ghost" data-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">复制下载链接</button>
+                <button type="button" class="dlp-btn dlp-btn--ghost" data-dlp-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">复制下载链接</button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer class="footer">
+    </main>
+
+    <footer class="footer">
         <div class="dlp-wrap">
           <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
           <div class="footer__meta">
@@ -418,13 +412,12 @@
             <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010602017246" target="_blank" rel="noopener">粤公网安备44010602017246号</a>
           </div>
         </div>
-      </footer>
-    </main>
+    </footer>
   </div>
 
   <div class="dlp-toast" id="dlpToast" role="status" aria-live="polite">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-    <span>已复制下载链接</span>
+    <span></span>
   </div>
 
   <script src="./js/project.js?v=20261125a"></script>
@@ -453,17 +446,20 @@
 
       /* 2) 复制链接（navigator.clipboard 不可用时退化为 prompt，不静默失败） */
       var toast = document.getElementById("dlpToast");
+      var toastText = toast ? toast.querySelector("span") : null;
       var toastTimer = 0;
       function showToast() {
         if (!toast) return;
+        /* 文本在复制时才写入：常驻空 live region 不会被读屏提前播报 */
+        if (toastText) toastText.textContent = "已复制下载链接";
         toast.classList.add("is-on");
         window.clearTimeout(toastTimer);
         toastTimer = window.setTimeout(function () { toast.classList.remove("is-on"); }, 2200);
       }
       document.addEventListener("click", function (e) {
-        var t = e.target && e.target.closest ? e.target.closest("[data-copy]") : null;
+        var t = e.target && e.target.closest ? e.target.closest("[data-dlp-copy]") : null;
         if (!t) return;
-        var url = t.getAttribute("data-copy");
+        var url = t.getAttribute("data-dlp-copy");
         var span = t.querySelector("span");
         function done() {
           showToast();
@@ -481,7 +477,8 @@
       });
 
       /* 3) 滚动揭示：元素进入视口才淡入；无 IntersectionObserver 时直接显示 */
-      var els = Array.prototype.slice.call(document.querySelectorAll(".dlp-section, .dlp-trust, .dlp-hero__copy, .dlp-stage"));
+      /* 首屏不进揭示集合：LCP 元素不应等 IntersectionObserver + 0.7s 过渡 */
+      var els = Array.prototype.slice.call(document.querySelectorAll(".dlp-section, .dlp-trust"));
       if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         els.forEach(function (el) { el.classList.add("is-in"); });
       } else {

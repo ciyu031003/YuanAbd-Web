@@ -605,6 +605,9 @@ test("新手可读性：流程条 / 3 步引导 / 底部操作条 / slug 自动�
   assert.match(editor, /class="writebar"/, "编辑器需要常驻底部操作条");
   assert.match(editor, /id="writebar-hint"/);
   assert.match(editor, /data-fs-open/);
+  assert.match(editor, /id="publish-check"/, "检查清单需要可局部更新的容器");
+  assert.match(editor, /data-chk="/, "检查项需要 data-chk 供前端重算");
+  assert.match(fsx, /refreshChecklist/);
 });
 
 test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {

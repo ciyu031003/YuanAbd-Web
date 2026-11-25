@@ -1964,7 +1964,7 @@ function editorPage(opts) {
          （分别是 textarea#body 与 div#src-list），拼成 #f-body / #f-src-list 是不存在的锚点
          （禁用 JS 时点了不动）。editor.js 的 data-jump 也读这个 id。 */
       const anchor = (c.target === "body" || c.target === "src-list") ? c.target : "f-" + c.target;
-      return '<li class="check--' + c.level + '"><span class="check__ic">' + icon(icoName, 14) + "</span>" +
+      return '<li class="check--' + c.level + '" data-chk="' + esc(c.target) + '"><span class="check__ic">' + icon(icoName, 14) + "</span>" +
         '<a href="#' + anchor + '" data-jump="' + anchor + '">' + esc(c.label) + "</a></li>";
     }).join("") + "</ul>";
   }
@@ -2112,7 +2112,7 @@ function editorPage(opts) {
       '<div class="editor-side">' +
         '<div class="card card--accent" style="padding:16px">' +
           '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("check") + '</span><h3>发布前检查</h3></div>' +
-          checklist() + '</div>' +
+          '<div id="publish-check">' + checklist() + "</div></div>" +
         '<div class="card" style="padding:16px">' +
           '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">¶</span><h3>段落导航</h3></div>' +
           tocHost + '</div>' +

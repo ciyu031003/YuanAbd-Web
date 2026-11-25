@@ -106,11 +106,68 @@
       wbHint.textContent = "必填项已齐全，可以保存并提交审核";
     }
   }
+  /* ---------------- 右侧发布前检查：随填写实时更新 ----------------
+     服务端渲染时字段还是空的，清单会一直显示红色「填写标题」；
+     这里按同一套规则在前端重算，让清单和底部提示保持一致（最终校验仍在服务端）。 */
+  var GLYPH = { ok: "✓", warn: "!", bad: "✕" };
+  function splitCount(v) { return String(v || "").split(/[,，、]/).filter(function (x) { return x.trim(); }).length; }
+  function refreshChecklist() {
+    var box = document.getElementById("publish-check");
+    if (!box) return;
+    var val = function (id) { var el = document.getElementById(id); return el ? String(el.value || "").trim() : ""; };
+    var bodyVal = ta ? ta.value : "";
+    var srcCount = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('[name^="src_title_"]'), function (el) {
+      if (String(el.value || "").trim()) srcCount++;
+    });
+    function sectionOk(names) {
+      return names.some(function (n) { return bodyVal.indexOf("## " + n) >= 0; });
+    }
+    var states = {
+      title: val("title") ? "ok" : "bad",
+      slug: val("slug") ? "ok" : "bad",
+      domain: (val("domain") && val("category")) ? "ok" : "bad",
+      risk: val("risk") ? "ok" : "bad",
+      symptoms: splitCount(val("symptoms")) >= 3 ? "ok" : "warn",
+      keywords: splitCount(val("keywords")) >= 5 ? "ok" : "warn",
+      aliases: splitCount(val("aliases")) >= 2 ? "ok" : "warn",
+      related: splitCount(val("related")) >= 2 ? "ok" : "warn",
+      "src-list": srcCount >= 1 ? "ok" : "bad",
+      body: (sectionOk(["一句话结论", "快速概览"]) && sectionOk(["分步骤"])) ? "ok" : "bad"
+    };
+    var bad = 0, warn = 0;
+    Array.prototype.forEach.call(box.querySelectorAll("[data-chk]"), function (li) {
+      var key = li.getAttribute("data-chk");
+      var st = states[key] || (li.className.indexOf("check--warn") >= 0 ? "warn" : "ok");
+      li.className = "check--" + st;
+      if (st === "bad") bad++; else if (st === "warn") warn++;
+      var ic = li.querySelector(".check__ic");
+      if (ic) { ic.innerHTML = ""; ic.textContent = GLYPH[st]; }
+    });
+    var alert = box.querySelector(".alert");
+    if (alert) {
+      if (bad) {
+        alert.className = "alert alert--err";
+        alert.style.marginBottom = "12px";
+        alert.textContent = "有 " + bad + " 项必须修复，否则构建会失败";
+      } else if (warn) {
+        alert.className = "alert alert--warn";
+        alert.style.marginBottom = "12px";
+        alert.textContent = "有 " + warn + " 项建议完善（不阻塞发布）";
+      } else {
+        alert.className = "alert alert--ok";
+        alert.style.marginBottom = "12px";
+        alert.textContent = "全部检查通过";
+      }
+    }
+  }
+
   var editorForm = document.getElementById("editor");
   if (editorForm) {
-    editorForm.addEventListener("input", updateWritebar);
-    editorForm.addEventListener("change", updateWritebar);
+    editorForm.addEventListener("input", function () { updateWritebar(); refreshChecklist(); });
+    editorForm.addEventListener("change", function () { updateWritebar(); refreshChecklist(); });
     updateWritebar();
+    refreshChecklist();
   }
 
   /* ---------------- 正文：段落导航 + 字数统计 ---------------- */

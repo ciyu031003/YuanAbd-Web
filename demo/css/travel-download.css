@@ -77,6 +77,13 @@
   .dl-modal.is-open .dl-modal__panel{transform:none}
 }
 
+.dl-modal__full{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:14px;padding:.72rem 1rem;border-radius:14px;
+  border:1px dashed rgba(232,99,143,.4);background:rgba(255,255,255,.5);color:var(--accent-2);
+  font:600 .8rem/1.4 var(--font-sans);text-decoration:none;transition:background .2s ease,border-color .2s ease}
+.dl-modal__full:hover{background:rgba(232,99,143,.1);border-color:rgba(232,99,143,.65)}
+.dl-modal__full span{transition:transform .2s ease}
+.dl-modal__full:hover span{transform:translateX(3px)}
+
 .dl-modal__copy{display:inline-flex;align-items:center;gap:.35rem;margin-top:10px;padding:.5rem .9rem;border-radius:12px;background:rgba(232,99,143,.1);color:var(--accent-2);font:600 .78rem/1 var(--font-sans);transition:background .2s ease,transform .2s ease}
 .dl-modal__copy:hover{background:rgba(232,99,143,.2)}
 .dl-modal__copy:active{transform:scale(.96)}

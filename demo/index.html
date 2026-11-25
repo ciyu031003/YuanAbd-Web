@@ -375,7 +375,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .marquee__group span::after{content:"✦";font-size:.62rem;color:var(--sun);padding-left:56px}
 @keyframes marquee{to{transform:translateX(-50%)}}
 /* 章节通用 */
-.section{position:relative;padding:130px 0}
+.section{position:relative;padding:130px 0;scroll-margin-top:96px}
 .section__head{display:flex;align-items:baseline;gap:22px;margin-bottom:64px;position:relative;z-index:3}
 .section__index{font:600 .8rem/1 var(--font-mono);letter-spacing:.2em;color:var(--ink-mute)}
 .section__label{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mute);display:inline-flex;align-items:center;gap:12px}
@@ -412,6 +412,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mock__card--wide{grid-column:1/-1;display:flex;align-items:center;gap:16px}
 .mock__card i.mico{width:34px;height:34px;border-radius:10px;flex:none;display:block;background:rgba(121,207,255,.25);position:relative}
 .mock__card i.mico::after{content:"";position:absolute;inset:9px;border-radius:3px;border:1.5px solid rgba(75,143,204,.85)}
+/* 有真实图标的格子：隐藏占位方框，用 1.7 描边线性图标（与三站其余图标同一套语言） */
+.mock__card i.mico--ico::after{display:none}
+.mock__card i.mico--ico{background:rgba(121,207,255,.22);color:#2A6FB5}
+.mock__card i.mico--ico svg{position:absolute;inset:7px;width:20px;height:20px}
 .mock__card--wide .mico{border-radius:50%}
 /* 卡片标签按文档大纲使用 h3（原为 h4，造成 h2→h4 跳级）*/
 .mock__card h3,.mock__card h4{font:500 .92rem/1.4 var(--font-sans)}
@@ -1398,12 +1402,12 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         <div class="mock ui-lift" data-spotlight data-reveal data-reveal-delay="2" role="img" aria-label="苦旅界面示意：五本手册与学习进度">
           <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i></div>
           <div class="mock__grid" aria-hidden="true">
-            <div class="mock__card" data-spotlight><i class="mico"></i><h3>市场雷达</h3><p>Market</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h3>面试题库</h3><p>Questions</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h3>学习路线图</h3><p>Roadmap</p></div>
-            <div class="mock__card" data-spotlight><i class="mico"></i><h3>求职看板</h3><p>Kanban</p></div>
+            <div class="mock__card" data-spotlight><i class="mico mico--ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="4"/><path d="M12 12l5.6-5.6"/></svg></i><h3>市场雷达</h3><p>Market</p></div>
+            <div class="mock__card" data-spotlight><i class="mico mico--ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7h9M9 12h9M9 17h6"/><circle cx="5.5" cy="7" r="0.9" fill="currentColor" stroke="none"/><circle cx="5.5" cy="12" r="0.9" fill="currentColor" stroke="none"/><circle cx="5.5" cy="17" r="0.9" fill="currentColor" stroke="none"/></svg></i><h3>面试题库</h3><p>Questions</p></div>
+            <div class="mock__card" data-spotlight><i class="mico mico--ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 18l4.5-6 3.5 3.5L19 8"/><circle cx="5" cy="18" r="1.5"/><circle cx="19" cy="8" r="1.5"/></svg></i><h3>学习路线图</h3><p>Roadmap</p></div>
+            <div class="mock__card" data-spotlight><i class="mico mico--ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="4.5" height="14" rx="1.4"/><rect x="9.75" y="5" width="4.5" height="9" rx="1.4"/><rect x="15.5" y="5" width="4.5" height="11" rx="1.4"/></svg></i><h3>求职看板</h3><p>Kanban</p></div>
             <div class="mock__card mock__card--wide" data-spotlight>
-              <i class="mico"></i>
+              <i class="mico mico--ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17a7 7 0 1 1 14 0"/><path d="M12 17l3.6-4.6"/><circle cx="12" cy="17" r="1.4"/></svg></i>
               <div style="flex:1">
                 <h3>就绪度 · 本周</h3>
                 <div class="mock__chart"><i style="height:34%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:80%"></i><i style="height:94%"></i></div>
@@ -1456,7 +1460,7 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
           </div>
           <div class="duo__actions" data-reveal data-reveal-delay="4">
             <a class="btn btn--travel" data-ripple href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener noreferrer">走进甜途 <i aria-hidden="true">→</i></a>
-            <a class="btn btn--ghost" data-ripple href="https://travel-notes.yuanabd.cn/downloads/tiantu.apk" target="_blank" rel="noopener noreferrer">下载甜途 App</a>
+            <a class="btn btn--ghost" data-ripple href="https://travel-notes.yuanabd.cn/download" target="_blank" rel="noopener noreferrer">下载甜途 App</a>
           </div>
         </div>
       </div>

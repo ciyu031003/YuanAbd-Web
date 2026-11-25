@@ -130,6 +130,7 @@ ssh travel-notes 'chmod 644 /var/www/yuanabd/index.html.new && chown ubuntu:ubun
 scp demo/learn.html demo/download.html demo/privacy.html travel-notes:/data/learn-workbench/landing/
 scp demo/css/tokens.css demo/css/base.css demo/css/components.css \
     demo/css/theme-learn.css demo/css/learn.css demo/css/learn-sunny.css \
+    demo/css/learn-download.css \
     travel-notes:/data/learn-workbench/landing/css/
 scp demo/js/ui.js travel-notes:/data/learn-workbench/landing/js/
 

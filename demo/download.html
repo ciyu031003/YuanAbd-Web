@@ -3,197 +3,509 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>下载工作台 · 把手册装进口袋</title>
-  <meta name="description" content="下载学习工作台 Android 客户端，扫码或一键下载 APK，把路线图、今日任务、专注计时与求职看板装进口袋。" />
-  <meta name="theme-color" content="#29251d" />
+  <title>下载苦旅 · 把五本手册装进口袋</title>
+  <meta name="description" content="下载苦旅（学习工作台）Android 客户端：路线图、今日任务、专注计时、求职看板与就绪度评估装进口袋。官网直连下载，扫码或一键安装，登录后与网页版自动同步。" />
+  <meta name="theme-color" content="#FFFDF7" />
   <link rel="icon" type="image/png" sizes="64x64" href="./img/kulv-favicon-64.png" />
+  <link rel="icon" type="image/png" sizes="180x180" href="./img/kulv-favicon-180.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./img/kulv-favicon-180.png" />
+  <link rel="canonical" href="https://learn.yuanabd.cn/download.html" />
+
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="学习工作台 · Learn Workbench" />
-  <meta property="og:title" content="下载工作台 · 把手册装进口袋" />
-  <meta property="og:description" content="下载学习工作台 Android 客户端，扫码或一键下载 APK。" />
+  <meta property="og:site_name" content="苦旅 · KuLv" />
+  <meta property="og:title" content="下载苦旅 · 把五本手册装进口袋" />
+  <meta property="og:description" content="路线图、今日任务、专注计时、求职看板与就绪度评估装进口袋。官网直连下载 Android 版。" />
+  <meta property="og:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.yuanabd.cn/img/og-cover.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- 字体请求按实测字重收敛（.tmp-shots/font-usage.cjs）：
-       Noto Serif SC 仅用 900（learn 页中文标题少量用字）；IBM Plex Mono 用 400/500；
-       Inter 用 600。原请求 300..600 可变字体会拉入整条字重轴。 -->
+  <!-- 字体按实测字重收敛：页面只用 Inter 600 与 IBM Plex Mono 400/500；
+       中文标题走系统衬线（Songti / Noto Serif），不额外拉整条字重轴。 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@600&display=swap" media="print" onload="this.media='all';this.removeAttribute('onload')" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@600&display=swap" /></noscript>
 
-  <link rel="stylesheet" href="./css/tokens.css?v=20261001m" />
-  <link rel="stylesheet" href="./css/base.css?v=20261001m" />
-  <link rel="stylesheet" href="./css/components.css?v=20261001m" />
-  <link rel="stylesheet" href="./css/learn.css?v=20261001m" />
-  <link rel="stylesheet" href="./css/theme-learn.css?v=20261001m" />
+  <link rel="stylesheet" href="./css/tokens.css?v=20261125a" />
+  <link rel="stylesheet" href="./css/base.css?v=20261125a" />
+  <link rel="stylesheet" href="./css/components.css?v=20261125a" />
+  <link rel="stylesheet" href="./css/learn.css?v=20261125a" />
+  <link rel="stylesheet" href="./css/theme-learn.css?v=20261125a" />
+  <link rel="stylesheet" href="./css/learn-download.css?v=20261125a" />
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"苦旅 KuLv","softwareVersion":"2.8.2","operatingSystem":"Android 8.0+","applicationCategory":"EducationalApplication","url":"https://learn.yuanabd.cn/download.html","downloadUrl":"https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk","fileSize":"84157878","datePublished":"2026-11-22","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"author":{"@type":"Organization","name":"YUAN.ABD"}}
+  </script>
   <style>
-    /* 下载页独有布局：沿用门户暖纸墨 token，保持设计统一 */
-    .download-main{position:relative;isolation:isolate;min-height:100vh;}
-    .learn-download{padding-top:clamp(120px,17vh,180px);}
-    .download-hero{display:grid;grid-template-columns:auto 1fr;gap:clamp(30px,5.5vw,60px);align-items:center;
-      margin:clamp(30px,5vh,48px) 0 clamp(26px,4vh,38px);}
-    .qr-card{display:flex;flex-direction:column;align-items:center;gap:16px;}
-    .qr-card__wrap{width:clamp(186px,30vw,232px);background:color-mix(in srgb,var(--accent-2) 6%,transparent);
-      border:1px solid var(--line-strong);border-radius:22px;padding:clamp(13px,2vw,18px);
-      box-shadow:0 30px 70px -32px color-mix(in srgb,var(--accent) 65%,transparent);}
-    .qr-card__wrap svg,.qr-card__wrap img{display:block;width:100%;height:auto;border-radius:8px;}
-    .qr-card__cap{font-family:var(--font-mono);letter-spacing:.24em;text-transform:uppercase;
-      color:var(--accent-2);font-size:.72rem;}
-    .download-hero__body .hero-kicker{font-family:var(--font-mono);letter-spacing:.2em;text-transform:uppercase;
-      font-size:.74rem;color:var(--accent);}
-    .hero-title{font-family:var(--font-display);font-weight:560;font-size:clamp(1.6rem,3vw,2.4rem);
-      letter-spacing:-.015em;color:var(--ink);margin:.7rem 0 .5rem;}
-    .hero-desc{color:var(--ink-soft);font-size:1.02rem;line-height:1.8;max-width:46ch;}
-    .download-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
-    .download-actions .btn{gap:.55em;font-family:var(--font-display);}
-    @media (max-width:760px){
-      .download-hero{grid-template-columns:1fr;justify-items:center;text-align:center;}
-      .hero-desc{margin-inline:auto;}
-      .download-actions{justify-content:center;}
-    }
+    /* 单处小补丁：设备提示只在有内容时出现，避免空段落占据间距（其余样式在 learn-download.css） */
+    .dlp-device{display:none;margin-top:14px;font:500 .8rem/1.6 var(--font-sans);color:var(--accent-2)}
+    .dlp-device.is-on{display:inline-flex;align-items:center;gap:.5em}
   </style>
 </head>
 <body class="learn">
-  <a class="skip-link" href="#download">跳到下载</a>
+  <a class="skip-link" href="#dlp-main">跳到下载内容</a>
   <div class="scroll-progress" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <a class="brand" href="https://www.yuanabd.cn/" aria-label="学习工作台首页">学习工作台</a>
-    <div class="nav-actions">
-      <a class="ticket-button" data-login>进入工作台</a>
-    </div>
-  </header>
+  <div class="dlp">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="苦旅首页">
+        <img class="brand__logo" src="./img/kulv-logo.png" alt="" width="28" height="28" />苦旅
+      </a>
+      <div class="nav-actions">
+        <a class="portal-link" href="https://travel-notes.yuanabd.cn/portal/">甜途 <span aria-hidden="true">↗</span></a>
+        <a class="ticket-button" data-login>进入工作台</a>
+      </div>
+    </header>
 
-  <main class="download-main" id="top">
-    <section class="section learn-download" id="download">
-      <div class="wrap">
-        <div class="section__head" data-reveal>
-          <span class="section__label">下载工作台 · Download</span>
-          <h1 class="section__title">把手册装进口袋</h1>
-          <p class="section__desc">在手机上使用学习工作台：路线图、今日任务、专注计时、求职看板。扫码或一键下载安卓版，随时随地打开。</p>
-        </div>
+    <main id="dlp-main">
+      <!-- ========== 1. 首屏 ========== -->
+      <section class="dlp-hero" aria-labelledby="dlp-title">
+        <div class="dlp-wrap dlp-hero__grid">
+          <div class="dlp-hero__copy">
+            <span class="dlp-badge"><i aria-hidden="true"></i>Android 版<b>·</b>v2.8.2 已发布</span>
 
-        <div class="download-hero" data-reveal>
-          <div class="qr-card">
-<div class="qr-card__wrap ui-lift" data-spotlight><img src="./img/learn-download-qr.png?v=20261122b" data-fade alt="扫码下载学习工作台" width="320" height="320"/></div>
-            <span class="qr-card__cap">扫码下载</span>
-          </div>
-          <div class="download-hero__body">
-            <span class="hero-kicker">Android · APK 直装</span>
-            <h2 class="hero-title">学习工作台 v2.8.2</h2>
-            <p class="hero-desc">用手机摄像头扫描左侧二维码，或直接点击下方按钮下载安装包。</p>
-            <div class="download-actions">
-              <a class="btn btn--solid" data-ripple href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk" download target="_blank" rel="noopener">
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
-                下载 APK
+            <h1 class="dlp-title" id="dlp-title">
+              把五本手册，<br />
+              装进<span class="mark">口袋</span>。
+            </h1>
+
+            <p class="dlp-sub">
+              路线图、今日任务、专注计时、求职看板——<b>把求职这件事拆成每天能做完的一格</b>。
+              扫码或一键安装，登录后与网页版自动同步。
+            </p>
+
+            <div class="dlp-actions">
+              <a class="dlp-btn dlp-btn--primary" data-download
+                 href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk"
+                 download="learn-workbench-v2.8.2.apk" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
+                <span data-dl-label>下载 Android 版 · 80 MB</span>
               </a>
-              <button type="button" class="btn btn--line" data-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+              <button type="button" class="dlp-btn dlp-btn--ghost" data-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
                 <span>复制下载链接</span>
               </button>
-              <a class="btn btn--line" data-login>立即使用网页版</a>
+              <a class="dlp-btn dlp-btn--text" data-login>或直接用网页版 <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+
+            <p class="dlp-device" data-os-hint aria-live="polite"></p>
+
+            <div class="dlp-meta">
+              <span>版本 <b>v2.8.2</b></span>
+              <span>构建 <b>129</b></span>
+              <span>安装包 <b>80.3 MB</b></span>
+              <span>更新于 <b>2026-11-22</b></span>
+            </div>
+
+            <div class="dlp-checks">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>官网直连</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>支持断点续传</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>无广告 · 无内购</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>登录即同步</span>
+            </div>
+          </div>
+
+          <div class="dlp-stage">
+            <span class="dlp-stage__glow" aria-hidden="true"></span>
+
+            <div class="dlp-phone" aria-hidden="true">
+              <div class="dlp-phone__screen">
+                <span class="dlp-phone__island"></span>
+                <div class="dlp-app">
+                  <div class="dlp-app__top">
+                    <div>
+                      <p class="dlp-app__date">周四 · 11月22日</p>
+                      <p class="dlp-app__hi">下午好，继续前进</p>
+                    </div>
+                    <span class="dlp-app__ava"></span>
+                  </div>
+
+                  <div class="dlp-mini dlp-mini--tasks">
+                    <div class="dlp-mini__head">
+                      <span class="dlp-mini__title">今日任务</span>
+                      <span class="dlp-mini__count">3 / 5</span>
+                    </div>
+                    <div class="dlp-bar"><i></i></div>
+                    <div class="dlp-task is-done"><span class="box">✓</span><span>复盘两道算法题</span></div>
+                    <div class="dlp-task is-done"><span class="box">✓</span><span>投递 3 个后端岗位</span></div>
+                    <div class="dlp-task"><span class="box"></span><span>专注 45 分钟</span></div>
+                  </div>
+
+                  <div class="dlp-mini dlp-mini--focus">
+                    <div class="dlp-ring"><em>25:00</em></div>
+                    <div class="dlp-mini__focus-copy">
+                      <b>专注计时</b>
+                      <span>今晚 20:00 · 系统设计</span>
+                    </div>
+                  </div>
+
+                  <div class="dlp-mini dlp-mini--road">
+                    <div class="dlp-mini__head">
+                      <span class="dlp-mini__title">路线 · 第 3 阶段</span>
+                      <span class="dlp-mini__count">6 / 19</span>
+                    </div>
+                    <div class="dlp-bar dlp-bar--thin"><i style="width:34%"></i></div>
+                    <div class="dlp-mini__focus-copy"><span>系统设计 · 下一节：限流与降级</span></div>
+                  </div>
+
+                  <div class="dlp-mini dlp-mini--ready">
+                    <div class="dlp-mini__head">
+                      <span class="dlp-mini__title">就绪度</span>
+                      <span class="dlp-mini__count">72%</span>
+                    </div>
+                    <div class="dlp-ready__bars">
+                      <span><i style="--p:82%"></i></span>
+                      <span><i style="--p:64%"></i></span>
+                      <span><i style="--p:71%"></i></span>
+                      <span><i style="--p:58%"></i></span>
+                    </div>
+                    <div class="dlp-ready__labels"><span>技能</span><span>项目</span><span>简历</span><span>面试</span></div>
+                  </div>
+
+                  <div class="dlp-pillrow">
+                    <span class="dlp-chip">连续 12 天</span>
+                    <span class="dlp-chip">本周 9.5h</span>
+                  </div>
+
+
+                </div>
+
+                <div class="dlp-phone__tabs">
+                  <span class="is-on"><i></i>今日</span>
+                  <span><i></i>路线</span>
+                  <span><i></i>看板</span>
+                  <span><i></i>我的</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dlp-qr">
+              <div class="dlp-qr__frame">
+                <img src="./img/learn-download-qr.png" alt="扫码下载苦旅 Android 版" width="320" height="320" />
+                <span class="dlp-qr__scan" aria-hidden="true"></span>
+              </div>
+              <p class="dlp-qr__cap"><b>扫码下载</b>Android 安装包</p>
+            </div>
+
+            <span class="dlp-float dlp-float--ver"><i aria-hidden="true"></i>v2.8.2 · build 129</span>
+            <span class="dlp-float dlp-float--size">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              80.3 MB
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. 信任条 ========== -->
+      <section class="dlp-trust" aria-label="下载保障">
+        <div class="dlp-wrap dlp-trust__grid">
+          <div class="dlp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+            <div><b>官网直连</b><span>不经过第三方应用商店</span></div>
+          </div>
+          <div class="dlp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+            <div><b>断点续传</b><span>弱网中断后可继续下载</span></div>
+          </div>
+          <div class="dlp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/><circle cx="7" cy="7" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="1.6" fill="currentColor" stroke="none"/></svg>
+            <div><b>离线可用</b><span>缓存路线图与今日任务</span></div>
+          </div>
+          <div class="dlp-trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor" stroke="none"/></svg>
+            <div><b>数据加密同步</b><span>账号数据仅本人可见</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 3. 能力 ========== -->
+      <section class="dlp-section" aria-labelledby="dlp-feat-title">
+        <div class="dlp-wrap">
+          <span class="dlp-eyebrow">为什么装进口袋</span>
+          <h2 class="dlp-h2" id="dlp-feat-title">手机上的工作台，<em>只做今天这一格</em>。</h2>
+          <p class="dlp-lead">电脑上做规划，手机上做执行。五本手册在两端是同一份数据，地铁上想清楚的那一步，回到工位就能接着做。</p>
+
+          <div class="dlp-bento">
+            <article class="dlp-card dlp-card--wide">
+              <span class="dlp-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="12" r="2.4"/><circle cx="8" cy="19" r="2.4"/><path d="M8.2 7.2L15.8 11M15.7 13.1L10.1 17.7"/></svg></span>
+              <h3>路线图 · 从 Offer 倒推今天学什么</h3>
+              <p>把目标岗位拆成 4 个阶段、19 个主题。今天该学什么不用再想，路线图会告诉你下一步。</p>
+              <div class="dlp-card__viz dlp-road" aria-hidden="true">
+                <span class="is-done">1</span><span class="is-done">2</span><span class="is-now">3</span><span>4</span><span>5</span>
+              </div>
+            </article>
+
+            <article class="dlp-card">
+              <span class="dlp-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg></span>
+              <h3>今日任务</h3>
+              <p>每天 3–5 条，做完就收工。进度会同步到桌面端的看板。</p>
+              <div class="dlp-card__viz dlp-tasks" aria-hidden="true">
+                <span><i class="dlp-dot is-done"></i>复盘两道算法题</span>
+                <span><i class="dlp-dot is-done"></i>投递 3 个后端岗位</span>
+                <span><i class="dlp-dot"></i>专注 45 分钟</span>
+              </div>
+            </article>
+
+            <article class="dlp-card dlp-card--sm">
+              <span class="dlp-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></span>
+              <h3>专注计时</h3>
+              <p>25 分钟一格，记录真正投入的时间。</p>
+              <div class="dlp-card__viz dlp-timer" aria-hidden="true">
+                <b>25:00</b><span>专注中 · 系统设计</span>
+              </div>
+            </article>
+
+            <article class="dlp-card dlp-card--sm">
+              <span class="dlp-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="2"/><rect x="14" y="4" width="7" height="10" rx="2"/></svg></span>
+              <h3>求职看板</h3>
+              <p>投递、面试、Offer 三列，进度一眼看完。</p>
+              <div class="dlp-card__viz dlp-kanban" aria-hidden="true"><i></i><i></i><i></i></div>
+            </article>
+
+            <article class="dlp-card dlp-card--sm">
+              <span class="dlp-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18V9M10 18V5M16 18v-6M22 18h-2"/><path d="M3 21h18"/></svg></span>
+              <h3>就绪度评估</h3>
+              <p>技能、项目、简历、面试四项打分。</p>
+              <div class="dlp-card__viz">
+                <div class="dlp-gauge"><b>72%</b><span>就绪度</span></div>
+                <div class="dlp-gauge__bar"><i></i></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. 安装 ========== -->
+      <section class="dlp-section" aria-labelledby="dlp-install-title">
+        <div class="dlp-wrap">
+          <span class="dlp-eyebrow">安装 · 3 步</span>
+          <h2 class="dlp-h2" id="dlp-install-title">装好大概需要<em>一分钟</em>。</h2>
+
+          <div class="dlp-install__grid">
+            <ol class="dlp-steps">
+              <li class="dlp-step">
+                <div>
+                  <h3>下载安装包</h3>
+                  <p>点上方按钮，或扫码把 <code>learn-workbench-v2.8.2.apk</code> 存到手机。文件约 80 MB，建议在 Wi-Fi 下下载。</p>
+                </div>
+              </li>
+              <li class="dlp-step">
+                <div>
+                  <h3>允许「未知来源」安装</h3>
+                  <p>第一次安装时，Android 会提示来源未知：在弹窗里选择「设置」→ 允许浏览器安装应用，再返回继续。</p>
+                </div>
+              </li>
+              <li class="dlp-step">
+                <div>
+                  <h3>打开，登录同一个账号</h3>
+                  <p>用网页版同一个账号登录，路线图、任务与看板会自动同步；之后更新都走应用内提示。</p>
+                </div>
+              </li>
+            </ol>
+
+            <aside class="dlp-note">
+              <h3>下载前先确认</h3>
+              <dl>
+                <div><dt>系统版本</dt><dd>Android 8.0+</dd></div>
+                <div><dt>安装包</dt><dd>80.3 MB</dd></div>
+                <div><dt>可用空间</dt><dd>约 150 MB</dd></div>
+                <div><dt>当前版本</dt><dd>v2.8.2 · 129</dd></div>
+              </dl>
+              <p>安装包由官方服务器直出。下载完成后可在文件管理器里核对 SHA-256，确认文件没有被篡改。</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. 更新日志 ========== -->
+      <section class="dlp-section" aria-labelledby="dlp-rel-title">
+        <div class="dlp-wrap">
+          <span class="dlp-eyebrow">发布记录</span>
+          <h2 class="dlp-h2" id="dlp-rel-title">这次更新，修掉了<em>最难复现的崩溃</em>。</h2>
+
+          <div class="dlp-release__grid">
+            <article class="dlp-rel-card">
+              <div class="dlp-rel-card__head">
+                <span class="dlp-rel-card__ver">v2.8.2</span>
+                <span class="dlp-rel-card__date">2026-11-22 · versionCode 129</span>
+              </div>
+              <ul>
+                <li>修复部分场景下的原生闪退（SIGSEGV / 栈溢出）：关闭 Android 端玻璃截图背景，避免视图递归重绘。</li>
+                <li>玻璃层级改为半透明染色实底，可读性不变；iOS 系统玻璃不受影响。</li>
+                <li>发布 2.8.2 完整安装包（versionCode 129），网页版与 App 数据口径同步。</li>
+              </ul>
+            </article>
+
+            <aside class="dlp-spec">
+              <h3>安装包信息</h3>
+              <dl>
+                <div><dt>文件</dt><dd>learn-workbench-v2.8.2.apk</dd></div>
+                <div><dt>大小</dt><dd>84,157,878 字节</dd></div>
+                <div><dt>发布</dt><dd>2026-11-22 10:29 (UTC+8)</dd></div>
+                <div class="dlp-spec__stack"><dt>SHA-256</dt><dd class="dlp-spec__sha">f076ec5e61a18023b577b9612925890c4db172ac684020b972671ea4259bccf8</dd></div>
+              </dl>
+              <p>版本信息由发布清单提供；应用内「设置 → 关于」可随时查看当前构建号。</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6. FAQ ========== -->
+      <section class="dlp-section" aria-labelledby="dlp-faq-title">
+        <div class="dlp-wrap">
+          <span class="dlp-eyebrow">常见问题</span>
+          <h2 class="dlp-h2" id="dlp-faq-title">装之前，你可能想知道。</h2>
+
+          <div class="dlp-faq">
+            <details>
+              <summary>安装时提示「未知来源应用」怎么办？</summary>
+              <div class="dlp-faq__body">这是 Android 对非应用商店安装包的默认限制，不是报错。在提示里点「设置」，打开浏览器（或文件管理器）的「允许安装未知应用」开关，再回到安装界面点「安装」即可。</div>
+            </details>
+            <details>
+              <summary>手机和网页版的数据是同一份吗？</summary>
+              <div class="dlp-faq__body">是。两端登录同一个账号，路线图、任务、专注记录与求职看板共用一份数据。手机上标记完成的任务，网页端刷新即可看到。</div>
+            </details>
+            <details>
+              <summary>下载中断、安装包损坏怎么办？</summary>
+              <div class="dlp-faq__body">服务器支持断点续传：重新点击下载，浏览器通常会自动接着上次的进度。如果提示「解析包时出现问题」，删除已下载文件后重新下载，并核对上方 SHA-256。</div>
+            </details>
+            <details>
+              <summary>iOS 能用吗？</summary>
+              <div class="dlp-faq__body">目前 App 只提供 Android 安装包。iPhone 与 iPad 可以直接使用 <a href="https://learn.yuanabd.cn/" data-login>网页版</a>，功能与 App 一致；iOS 版本还在准备中。</div>
+            </details>
+            <details>
+              <summary>怎么更新到新版本？</summary>
+              <div class="dlp-faq__body">已安装的 App 会在有新版本时提示，按提示下载安装即可覆盖，数据不受影响。也可以回到本页下载最新安装包手动覆盖安装。</div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. 尾 CTA ========== -->
+      <section class="dlp-section" aria-labelledby="dlp-cta-title">
+        <div class="dlp-wrap">
+          <div class="dlp-cta">
+            <div class="dlp-cta__inner">
+              <div>
+                <h2 id="dlp-cta-title">无论在地铁还是排队，<em>今天该学的那一格</em>都在口袋里。</h2>
+                <p>Android 版 v2.8.2 · 80.3 MB · 官网直连，登录后与网页版同步。</p>
+              </div>
+              <div class="dlp-cta__actions">
+                <a class="dlp-btn dlp-btn--primary" data-download href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk" download="learn-workbench-v2.8.2.apk" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
+                  下载 Android 版
+                </a>
+                <button type="button" class="dlp-btn dlp-btn--ghost" data-copy="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk">复制下载链接</button>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="download-list" data-reveal>
-          <a class="dl-row ui-lift" data-spotlight href="https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk" download data-download>
-            <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
-            <div class="dl-row__body">
-              <span class="dl-row__name">Android</span>
-              <span class="dl-row__meta">APK 直装 · 移动端</span>
-              <span class="dl-row__ver">v2.8.2</span>
-            </div>
-            <span class="dl-row__go">下载 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-          <div class="dl-row dl-row--soon">
-            <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M16 2v3M5 7h14v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7z"/></svg></span>
-            <div class="dl-row__body">
-              <span class="dl-row__name">iOS</span>
-              <span class="dl-row__meta">敬请期待</span>
-              <span class="dl-row__ver">TestFlight / App Store</span>
-            </div>
-            <span class="dl-row__go">即将上线</span>
+      <footer class="footer">
+        <div class="dlp-wrap">
+          <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
+          <div class="footer__meta">
+            <span>© <span id="year">2026</span> 苦旅 · Learn Workbench</span>
+            <span aria-hidden="true">·</span>
+            <a href="https://learn.yuanabd.cn/">产品首页</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://learn.yuanabd.cn/privacy.html">隐私说明</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010602017246" target="_blank" rel="noopener">粤公网安备44010602017246号</a>
           </div>
-          <div class="dl-row dl-row--soon">
-            <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
-            <div class="dl-row__body">
-              <span class="dl-row__name">桌面端</span>
-              <span class="dl-row__meta">Windows · macOS</span>
-              <span class="dl-row__ver">开发中</span>
-            </div>
-            <span class="dl-row__go">即将上线</span>
-          </div>
-          <a class="dl-row ui-lift" data-spotlight href="https://learn.yuanabd.cn/login" data-login>
-            <span class="dl-row__platform" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18"/></svg></span>
-            <div class="dl-row__body">
-              <span class="dl-row__name">Web 版</span>
-              <span class="dl-row__meta">浏览器直接使用</span>
-              <span class="dl-row__ver">无需安装</span>
-            </div>
-            <span class="dl-row__go">立即使用 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
         </div>
-      </div>
-    </section>
+      </footer>
+    </main>
+  </div>
 
-    <footer class="footer">
-      <div class="wrap">
-        <a class="footer__back" href="https://www.yuanabd.cn/">← 回到首页</a>
-        <div class="footer__meta">
-          <span>© <span id="year">2026</span> 学习工作台 · Learn Workbench</span>
-          <span aria-hidden="true">·</span>
-          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">赣ICP备2024031528号-2</a>
-          <span aria-hidden="true">·</span>
-          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010602017246" target="_blank" rel="noopener">粤公网安备44010602017246号</a>
-        </div>
-      </div>
-    </footer>
-  </main>
+  <div class="dlp-toast" id="dlpToast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    <span>已复制下载链接</span>
+  </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script src="./js/project.js?v=20261001m"></script>
-  <script src="./js/ui.js?v=20261001m" defer></script>
-  <script>
-    (function () {
-      "use strict";
-      document.addEventListener("click", function (e) {
-        var t = e.target && e.target.closest ? e.target.closest("[data-copy]") : null;
-        if (!t) return;
-        var url = t.getAttribute("data-copy");
-        var label = t.querySelector("span");
-        function done() {
-          if (label) {
-            var old = label.textContent;
-            label.textContent = "已复制 ✓";
-            window.setTimeout(function () { label.textContent = old; }, 2000);
-          }
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done).catch(function () { window.prompt("复制下载链接", url); done(); });
-        } else {
-          window.prompt("复制下载链接", url);
-          done();
-        }
-      });
-    })();
-  </script>
+  <script src="./js/project.js?v=20261125a"></script>
+  <script src="./js/ui.js?v=20261125a" defer></script>
   <script>
     (function () {
       "use strict";
       document.documentElement.classList.add("js");
-      var els = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
-      function add(el) { el.classList.add("is-in"); }
-      if (!("IntersectionObserver" in window)) { els.forEach(add); return; }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
-        });
-      }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
-      els.forEach(function (el) { io.observe(el); });
+
+      /* 1) 设备提示：把「该点哪个按钮」直接说清楚（Android 直装 / iOS 走网页版） */
+      var ua = navigator.userAgent || "";
+      var hint = document.querySelector("[data-os-hint]");
+      var label = document.querySelector("[data-dl-label]");
+      var isAndroid = /android/i.test(ua);
+      var isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (hint) {
+        if (isAndroid) {
+          hint.textContent = "检测到 Android 设备 · 点击即可直接安装";
+          hint.classList.add("is-on");
+        } else if (isIOS) {
+          hint.textContent = "检测到 iOS 设备 · App 暂只支持 Android，可先用网页版";
+          hint.classList.add("is-on");
+        }
+      }
+      if (label && isAndroid) label.textContent = "在手机上安装 · 80 MB";
+
+      /* 2) 复制链接（navigator.clipboard 不可用时退化为 prompt，不静默失败） */
+      var toast = document.getElementById("dlpToast");
+      var toastTimer = 0;
+      function showToast() {
+        if (!toast) return;
+        toast.classList.add("is-on");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () { toast.classList.remove("is-on"); }, 2200);
+      }
+      document.addEventListener("click", function (e) {
+        var t = e.target && e.target.closest ? e.target.closest("[data-copy]") : null;
+        if (!t) return;
+        var url = t.getAttribute("data-copy");
+        var span = t.querySelector("span");
+        function done() {
+          showToast();
+          if (span) {
+            var old = span.textContent;
+            span.textContent = "已复制 ✓";
+            window.setTimeout(function () { span.textContent = old; }, 2000);
+          }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(function () { window.prompt("复制下载链接", url); });
+        } else {
+          window.prompt("复制下载链接", url);
+        }
+      });
+
+      /* 3) 滚动揭示：元素进入视口才淡入；无 IntersectionObserver 时直接显示 */
+      var els = Array.prototype.slice.call(document.querySelectorAll(".dlp-section, .dlp-trust, .dlp-hero__copy, .dlp-stage"));
+      if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        els.forEach(function (el) { el.classList.add("is-in"); });
+      } else {
+        els.forEach(function (el) { el.classList.add("dlp-reveal"); });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+        els.forEach(function (el) { io.observe(el); });
+        /* 兜底：若观察器因故未触发（嵌入式浏览器、打印等），2.5s 后全部显示 */
+        window.setTimeout(function () { els.forEach(function (el) { el.classList.add("is-in"); }); }, 2500);
+      }
+
+      /* 4) 顶栏实底：滚动后内容不再从玻璃导航后面透出来 */
+      var topbar = document.querySelector(".topbar");
+      if (topbar) {
+        var onScroll = function () { topbar.classList.toggle("is-solid", window.scrollY > 12); };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+
+      var year = document.getElementById("year");
+      if (year) year.textContent = String(new Date().getFullYear());
     })();
   </script>
 </body>

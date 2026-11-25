@@ -665,6 +665,11 @@ test("登录 POST：同站来源校验 + 双提交 CSRF token（防 login CSRF�
   assert.match(src, /function verifyLoginCsrf/);
   assert.match(src, /timingSafeEqual/);
   assert.match(src, /LOGIN_CSRF_COOKIE = "fx_login_csrf"/);
+  // 复用已有 token（favicon/预取/第二个标签页不应让已打开表单失效）
+  assert.match(src, /function issueLoginCsrf\(req\)/);
+  assert.match(src, /existing && \/\^\[0-9a-f\]\{48\}\$\//);
+  // favicon 不再兜底跳 /login（否则会被当图片再请求一次 /login）
+  assert.match(src, /p === "\/favicon\.ico"/);
 });
 
 test("登录表单：带隐藏 _csrf 字段；2FA 页面同样带 token", function () {

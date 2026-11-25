@@ -212,10 +212,14 @@ function sameOriginPost(req) {
    做法：GET 表单时下发 HttpOnly cookie + 表单隐藏字段，POST 时两者必须一致。
    跨站页面既读不到 cookie 也无法预知 token，因此无法伪造。 */
 var LOGIN_CSRF_COOKIE = "fx_login_csrf";
-function issueLoginCsrf() {
+function issueLoginCsrf(req) {
+  // 复用已有 token：浏览器会为 favicon、预取、第二个标签页等再 GET 一次 /login，
+  // 如果每次都换 token，已打开页面的隐藏字段就会和 cookie 对不上（表现为“登录页已过期”）。
+  var existing = h.parseCookies(req && req.headers ? req.headers.cookie : "")[LOGIN_CSRF_COOKIE];
+  if (existing && /^[0-9a-f]{48}$/.test(existing)) return { token: existing, cookie: null };
   var token = crypto.randomBytes(24).toString("hex");
   var cookie = h.cookieHeader(LOGIN_CSRF_COOKIE, token, {
-    secure: config.session.secure, maxAge: 30 * 60 * 1000, httpOnly: true, sameSite: "Lax", path: "/"
+    secure: config.session.secure, maxAge: 2 * 60 * 60 * 1000, httpOnly: true, sameSite: "Lax", path: "/"
   });
   return { token: token, cookie: cookie };
 }
@@ -246,6 +250,10 @@ async function handle(req, res) {
     if (req.headers["if-none-match"] === etag) return h.send(res, 304, "", h.securityHeaders(hdr));
     return h.send(res, 200, body, h.securityHeaders(hdr));
   }
+
+  // ---- favicon：显式 204，避免未登录时被兜底成 302 /login，
+  //       再被浏览器当作图片请求一次 /login（会白白刷新 CSRF token、扰乱日志） ----
+  if (p === "/favicon.ico") return h.send(res, 204, "", h.securityHeaders());
 
   // ---- 健康检查（供 nginx/监控探测；不泄露内部信息） ----
   if (p === "/healthz") {
@@ -308,9 +316,10 @@ async function handle(req, res) {
   // 导致健康检查/监控/抓取工具（含 curl -I）报 "too many redirects"。
   if (p === "/login" && (method === "GET" || method === "HEAD")) {
     if (sess) return redirect(res, "/articles");
-    var lg = issueLoginCsrf();
-    return h.send(res, 200, views.loginPage({ csrf: lg.token }),
-      h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": lg.cookie }));
+    var lg = issueLoginCsrf(req);
+    var lgHeaders = { "Content-Type": "text/html; charset=utf-8" };
+    if (lg.cookie) lgHeaders["Set-Cookie"] = lg.cookie;
+    return h.send(res, 200, views.loginPage({ csrf: lg.token }), h.securityHeaders(lgHeaders));
   }
   if (p === "/login" && method === "POST") {
     if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
@@ -322,10 +331,12 @@ async function handle(req, res) {
     const form = h.parseForm(await h.readBody(req, 16 * 1024));
     if (!verifyLoginCsrf(req, form)) {
       // token 过期/缺失：重新发一枚，提示刷新后重试（不暴露任何账号信息）
-      var fresh = issueLoginCsrf();
+      var fresh = issueLoginCsrf(null);
       await auth.audit(null, "login.csrf_rejected", null, { ip: c.ip }, c.ip);
+      var freshHeaders = { "Content-Type": "text/html; charset=utf-8" };
+      if (fresh.cookie) freshHeaders["Set-Cookie"] = fresh.cookie;
       return h.send(res, 403, views.loginPage({ csrf: fresh.token, error: "登录页已过期，请刷新后重试。" }),
-        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": fresh.cookie }));
+        h.securityHeaders(freshHeaders));
     }
     const email = String(form.email || "").trim().toLowerCase();
     const password = String(form.password || "");
@@ -390,22 +401,25 @@ async function handle(req, res) {
       return redirect(res, "/login");
     }
     if (method === "GET") {
-      var tg = issueLoginCsrf();
-      return h.send(res, 200, views.totpChallengePage({ csrf: tg.token }),
-        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": tg.cookie }));
+      var tg = issueLoginCsrf(req);
+      var tgHeaders = { "Content-Type": "text/html; charset=utf-8" };
+      if (tg.cookie) tgHeaders["Set-Cookie"] = tg.cookie;
+      return h.send(res, 200, views.totpChallengePage({ csrf: tg.token }), h.securityHeaders(tgHeaders));
     }
     if (!sameOriginPost(req)) return h.send(res, 403, "forbidden", h.securityHeaders());
     const form = h.parseForm(await h.readBody(req, 8192));
     if (!verifyLoginCsrf(req, form)) {
-      var tf = issueLoginCsrf();
+      var tf = issueLoginCsrf(null);
       await auth.audit(null, "totp.csrf_rejected", null, { ip: c.ip }, c.ip);
+      var tfHeaders = { "Content-Type": "text/html; charset=utf-8" };
+      if (tf.cookie) tfHeaders["Set-Cookie"] = tf.cookie;
       return h.send(res, 403, views.totpChallengePage({ csrf: tf.token, error: "页面已过期，请刷新后重试。" }),
-        h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": tf.cookie }));
+        h.securityHeaders(tfHeaders));
     }
     // 限流同样适用，防止暴力猜 6 位码
     if (auth.isRateLimited(c.ip)) {
       await auth.audit(null, "totp.ratelimited", null, { ip: c.ip }, c.ip);
-      var trl = issueLoginCsrf();
+      var trl = issueLoginCsrf(req);
       return h.send(res, 429, views.totpChallengePage({ csrf: trl.token, error: "尝试次数过多，请稍后再试。" }),
         h.securityHeaders({ "Content-Type": "text/html; charset=utf-8", "Set-Cookie": trl.cookie }));
     }
@@ -434,7 +448,7 @@ async function handle(req, res) {
       const pc2 = h.cookieHeader("fx_totp_pending", np, { secure: config.session.secure, maxAge: 5 * 60 * 1000, httpOnly: true, sameSite: "Lax" });
       // 失败后按输入形态回到对应模式，避免用户重填时还要再切一次「使用恢复码」
       const otpMode = /^[0-9]{6}$/.test(code) ? "code" : "recovery";
-      const tfail = issueLoginCsrf();
+      const tfail = issueLoginCsrf(req);
       return h.send(res, 401, views.totpChallengePage({ csrf: tfail.token, error: "验证码不正确，请重试（确认手机时间准确）", otpMode: otpMode }), h.securityHeaders({
         "Content-Type": "text/html; charset=utf-8", "Set-Cookie": [pc2, tfail.cookie]
       }));

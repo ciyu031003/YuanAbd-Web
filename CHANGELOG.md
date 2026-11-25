@@ -38,6 +38,11 @@
 
 ## 二、改动时间线
 
+### 2026-11-25 · 热修 2：登录表单 token 与 cookie 错配（favicon 兜底跳转触发）
+
+- 现象：热修 1 之后真实浏览器提交仍偶发“登录页已过期”（403），curl 单发请求却正常。
+- 根因：未登录时 `/favicon.ico` 被兜底 302 到 `/login`，浏览器把它当图片再请求一次 `/login`，而每次 GET 都会换发 CSRF cookie，导致已打开表单的隐藏 token 与 cookie 不一致；多标签页同理。
+- 修复：`issueLoginCsrf(req)` 复用已有合法 cookie（仅缺失/过期才换发）；`/favicon.ico` 显式 204，不再跳登录；token 有效期 30 分钟→2 小时。
 ### 2026-11-25 · 热修：登录 403 / 空白页（Referrer-Policy 导致 Origin: null）
 
 - **现象**：部署评审修复后，点击“进入后台”直接显示纯文本 `forbidden`，无法登录。

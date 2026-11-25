@@ -1514,3 +1514,9 @@ body.fs-open{overflow:hidden}
   .review-tips{padding:0 14px 10px}
   .publish-steps{margin:8px 0 12px}
 }
+
+/* 移动端顶栏导航：三个 nav 分组不能被 flex 压缩，否则组内按钮会互相重叠 */
+@media (max-width:860px){
+  .sidebar__nav{flex:none}
+  .sidebar{gap:12px}
+}

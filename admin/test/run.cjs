@@ -555,6 +555,7 @@ test("previewDocument：内联 CSS、去脚本、改写相对路径与图片地�
   assert.match(out, /href="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/index\.html"/);
   assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/img\/demo\.png"/);
   assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/media\/upload\.png"/);
+  assert.match(out, /fx-preloader[^}]*display:none/, "预览必须用 CSS 隐藏站点首屏遮罩");
 });
 
 test("previewDocument：对真实 build-fix 输出可用（图片可渲染、无外链样式）", function () {

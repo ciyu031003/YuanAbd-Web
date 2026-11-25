@@ -39,6 +39,8 @@ function previewDocument(page) {
   out = inlineStylesheets(out);
   // 站点脚本：srcdoc 的 CSP 不放行外站脚本，预览也不需要交互
   out = out.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
+  // 站点靠 JS 关闭首屏 preloader；预览里脚本被移除，必须用 CSS 兜底隐藏，否则整页被遮罩挡住
+  out = out.replace(/<\/head>/i, "<style>.fx-preloader,.fx-curtain{display:none!important}</style></head>");
   // 相对路径：文章页位于 /fixboxs/fix/，因此 ../ 指向 /fixboxs/，../../ 指向站点根
   out = out.replace(/(src|href)="\.\.\/\.\.\//g, '$1="' + site + "/");
   out = out.replace(/(src|href)="\.\.\//g, '$1="' + site + "/fixboxs/");

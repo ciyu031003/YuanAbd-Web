@@ -2023,7 +2023,7 @@ function editorPage(opts) {
           '<button class="btn" type="button" data-upload-image title="上传并插入图片">图片</button>' +
           '<input type="file" id="fx-img-file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" hidden>' +
           '<span class="md-toolbar__sep"></span>' +
-          '<button class="btn" type="button" id="preview-toggle" aria-pressed="false" title="与线上渲染同一套引擎，所见即所得">分栏预览</button>' +
+          '<button class="btn" type="button" data-fs-open title="全屏分栏：左侧可编辑原文，右侧实时渲染">全屏分栏</button>' +
           '<span class="md-toolbar__hint">支持拖入 / 粘贴图片 · Ctrl+S 保存</span>' +
         '</div>' +
         /* 正文图片清单：上传/粘贴后立刻显示路径 + 缩略图，点路径打开原图 */
@@ -2032,7 +2032,6 @@ function editorPage(opts) {
            没有 label 只会播报「多行文本」——用 sr-only label 补齐，不占版面。 */
         '<label class="sr-only" for="body">正文（Markdown）</label>' +
         '<textarea id="body" name="body" spellcheck="false" data-toc-source>' + esc(opts.body || "") + '</textarea>' +
-        '<div id="md-preview" class="md-preview" hidden aria-live="polite"></div>' +
         '<div class="meter" style="margin-top:6px"><span id="wc">—</span><span id="rt"></span><span id="autosave-state">未修改</span>' +
           (isNew ? "" : '<button class="btn btn--sm" type="button" id="autosave-toggle" aria-pressed="true" style="min-height:26px;padding:0 10px;font-size:12px;margin-left:8px">自动保存：开</button>') +
         "</div>" +
@@ -2097,6 +2096,31 @@ function editorPage(opts) {
        嵌套 form 是非法 HTML，浏览器会直接丢掉内层 form 标签 ——
        结果是「发表评论」实际提交了整张文章表单，「标记已解决」不会带 slug/csrf。 */
     commentsBlock({ slug: opts.slug, comments: opts.comments || [], csrf: opts.csrf }) +
+    /* 全屏分栏编辑器（原生 <dialog>：自带焦点圈定、Esc 关闭、顶层渲染）
+       左侧原文可直接改，右侧用与线上同一套引擎实时渲染；textarea 不参与表单提交，
+       内容实时同步回 #body，保存时仍是同一张表单。 */
+    '<dialog id="fs-editor" class="fs-editor" aria-labelledby="fs-title">' +
+      '<header class="fs-editor__bar">' +
+        '<span class="fs-editor__dot" aria-hidden="true"></span>' +
+        '<h2 class="fs-editor__title" id="fs-title">全屏分栏 · 左侧原文 / 右侧渲染</h2>' +
+        '<span class="fs-editor__status" id="fs-status" role="status" aria-live="polite">已同步</span>' +
+        '<span class="sp"></span>' +
+        '<button class="btn btn--sm" type="button" id="fs-save" title="保存草稿（Ctrl+S）">保存草稿</button>' +
+        '<button class="btn btn--sm" type="button" id="fs-close" aria-label="退出全屏分栏（Esc）">退出</button>' +
+      '</header>' +
+      '<div class="fs-editor__body">' +
+        '<section class="fs-editor__pane fs-editor__pane--src">' +
+          '<div class="fs-editor__panehd"><label for="fs-source">原文（Markdown，可直接编辑）</label>' +
+            '<span class="muted" id="fs-count"></span></div>' +
+          '<textarea id="fs-source" spellcheck="false" aria-describedby="fs-count"></textarea>' +
+        '</section>' +
+        '<section class="fs-editor__pane fs-editor__pane--prev">' +
+          '<div class="fs-editor__panehd"><span>渲染结果（与线上同一引擎）</span>' +
+            '<span class="muted">随输入自动刷新</span></div>' +
+          '<div class="fs-editor__prev" id="fs-preview"><p class="muted" style="padding:18px">打开后开始渲染…</p></div>' +
+        '</section>' +
+      '</div>' +
+    '</dialog>' +
     '<template id="src-type-options">' + typeOptionsHtml + "</template>";
 
   return layout((isNew ? "新建文章" : "编辑：" + (m.title || opts.slug)), err + ok + body,

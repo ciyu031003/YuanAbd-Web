@@ -581,6 +581,28 @@ test("编辑器：正文图片清单容器 + 预览请求走 urlencoded（form �
   assert.match(fsx, /\.\.\/media\//);
 });
 
+test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {
+  const html = views.editorPage({
+    isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
+    body: "## 一句话结论\n\n内容\n", slug: "demo", csrf: "c",
+    taxonomy: { domains: [{ id: "win", name: "Windows", cats: [{ id: "c1", name: "网络" }] }],
+      enums: { risk: ["需谨慎"], difficulty: ["入门"], sourceType: ["官方文档"] } }
+  });
+  assert.match(html, /<dialog id="fs-editor"/, "需要原生 dialog 全屏容器");
+  assert.match(html, /id="fs-source"/, "左侧原文输入框");
+  assert.match(html, /id="fs-preview"/, "右侧渲染容器");
+  assert.match(html, /data-fs-open/, "工具栏打开按钮");
+  assert.match(html, /id="fs-close"/);
+  assert.match(html, /id="fs-save"/);
+  // 全屏 textarea 不能参与表单提交（否则会多一个同名字段）
+  assert.doesNotMatch(html, /name="fs-source"/);
+  const js = fs.readFileSync(path.join(__dirname, "..", "public", "editor.js"), "utf8");
+  assert.match(js, /showModal/);
+  assert.match(js, /fsSyncToForm/);
+  assert.match(js, /fsSchedule/);
+  assert.match(js, /allow-scripts allow-popups/);
+});
+
 /* =========================================================================
    8. 登录 / 改密 / 2FA / 媒体 / 来源体检
    ========================================================================= */

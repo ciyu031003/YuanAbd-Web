@@ -323,77 +323,134 @@
       }
     });
   }
-  /* ---------------- 分栏预览：与线上构建共用同一套渲染引擎 ---------------- */
-  var previewBtn = document.getElementById("preview-toggle");
-  var previewBox = document.getElementById("md-preview");
-  var previewOn = false, previewTimer = null, previewSeq = 0;
+  /* ---------------- 全屏分栏：左侧原文可编辑，右侧实时渲染 ----------------
+     用原生 <dialog> 进入顶层：自带焦点圈定与 Esc 关闭，不用自己实现遮罩层。
+     左侧 textarea 内容实时同步回 #body（保存/自动保存/图片清单都走同一份数据），
+     右侧 iframe 以与线上相同的 build-fix 引擎渲染，输入停顿 500ms 后刷新。 */
+  var fsDlg = document.getElementById("fs-editor");
+  var fsSrc = document.getElementById("fs-source");
+  var fsPrev = document.getElementById("fs-preview");
+  var fsStatus = document.getElementById("fs-status");
+  var fsCount = document.getElementById("fs-count");
+  var fsOpenBtn = document.querySelector("[data-fs-open]");
+  var fsCloseBtn = document.getElementById("fs-close");
+  var fsSaveBtn = document.getElementById("fs-save");
+  var fsTimer = null, fsSeq = 0;
 
-  function renderPreviewNow() {
-    if (!previewOn || !ta || !previewBox) return;
-    var seq = ++previewSeq;
-    var f = document.getElementById("editor");
-    var csrfEl = f && f.querySelector('[name="_csrf"]');
-    if (!csrfEl) return;
-    // 带上整张表单（标题 / 领域 / 风险 / 时间等），服务端据此渲染与线上一致的整页
-    /* 注意：预览接口用 h.parseForm() 解析 application/x-www-form-urlencoded。
-       之前这里直接提交 FormData（multipart/form-data），服务端拿不到 _csrf，
-       于是一点预览就报「CSRF 校验失败」。这里显式转成 urlencoded。 */
+  function fsForm() { return document.getElementById("editor"); }
+
+  function fsSyncToForm() {
+    if (!ta || !fsSrc) return;
+    if (ta.value === fsSrc.value) return;
+    ta.value = fsSrc.value;
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function fsPaintCount() {
+    if (!fsCount || !fsSrc) return;
+    var v = fsSrc.value || "";
+    fsCount.textContent = v.length + " 字 · " + (v ? v.split("\n").length : 0) + " 行";
+  }
+
+  function fsRender() {
+    if (!fsDlg || !fsDlg.open || !fsPrev || !fsSrc) return;
+    var f = fsForm();
+    if (!f) return;
+    var seq = ++fsSeq;
+    /* 预览接口用 parseForm 解析 urlencoded；FormData 是 multipart，必须显式转换 */
     var fd = new URLSearchParams();
     new FormData(f).forEach(function (v, k) { if (typeof v === "string") fd.append(k, v); });
-    fd.set("md", ta.value);
-    previewBox.innerHTML = '<p class="muted">渲染中…</p>';
+    fd.set("md", fsSrc.value);
+    if (fsStatus) fsStatus.textContent = "渲染中…";
     fetch("/articles/preview", {
       method: "POST", body: fd.toString(), credentials: "same-origin",
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
     })
       .then(function (r) { return r.json(); })
       .then(function (j) {
-        if (seq !== previewSeq) return;   // 只采纳最新一次输入的渲染结果
+        if (seq !== fsSeq) return;                 // 只采纳最新一次渲染
         if (j.error) {
-          /* 错误文本用 textContent 写入：服务端的渲染错误里可能带 Markdown 片段/文件名，
-             拼进 innerHTML 等于给自己开一个自 XSS 的口子。 */
-          previewBox.textContent = "";
+          fsPrev.textContent = "";
           var p = document.createElement("p");
           p.className = "muted";
+          p.style.padding = "18px";
           p.textContent = "预览失败：" + j.error;
-          previewBox.appendChild(p);
+          fsPrev.appendChild(p);
+          if (fsStatus) fsStatus.textContent = "预览失败";
           return;
         }
-        /* 2026-11-06：预览改为 iframe 承载线上整页 HTML ——
-           段落顺序（分步骤在前）、卡片与步骤样式都与线上完全一致。 */
         var ifr = document.createElement("iframe");
         ifr.setAttribute("title", "文章预览");
-        /* 只给 allow-scripts + allow-popups，**不给 allow-same-origin**：
-           srcdoc 配合 allow-same-origin 时文档继承后台自身的源，
-           正文 Markdown 里若混入 <script>，就能直接读写后台 DOM / 会话。
-           去掉之后文档是 opaque origin，脚本照常运行但碰不到后台。 */
+        /* 不给 allow-same-origin：预览文档是 opaque origin，文章里的脚本碰不到后台 DOM */
         ifr.setAttribute("sandbox", "allow-scripts allow-popups");
-        ifr.style.cssText = "width:100%;height:74vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block";
         ifr.srcdoc = j.html || "";
-        previewBox.innerHTML = "";
-        previewBox.appendChild(ifr);
+        fsPrev.innerHTML = "";
+        fsPrev.appendChild(ifr);
+        if (fsStatus) {
+          var t = new Date();
+          fsStatus.textContent = "已更新 " + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
+        }
       })
       .catch(function () {
-        if (seq !== previewSeq) return;
-        previewBox.innerHTML = '<p class="muted">预览请求失败（网络）</p>';
+        if (seq !== fsSeq) return;
+        fsPrev.textContent = "";
+        var p2 = document.createElement("p");
+        p2.className = "muted";
+        p2.style.padding = "18px";
+        p2.textContent = "预览请求失败（网络或会话过期）";
+        fsPrev.appendChild(p2);
+        if (fsStatus) fsStatus.textContent = "预览失败";
       });
   }
-  function setPreview(on) {
-    previewOn = !!on;
-    if (!previewBtn || !previewBox || !ta) return;
-    previewBtn.setAttribute("aria-pressed", on ? "true" : "false");
-    previewBtn.classList.toggle("btn--primary", on);
-    var bd = ta.closest(".grp__bd");
-    if (bd) bd.classList.toggle("previewing", on);
-    previewBox.hidden = !on;
-    if (on) renderPreviewNow();
+
+  function fsSchedule() {
+    fsSyncToForm();
+    fsPaintCount();
+    if (fsTimer) clearTimeout(fsTimer);
+    fsTimer = setTimeout(fsRender, 500);
   }
-  if (previewBtn && previewBox && ta) {
-    previewBtn.addEventListener("click", function () { setPreview(!previewOn); });
-    ta.addEventListener("input", function () {
-      if (!previewOn) return;
-      if (previewTimer) clearTimeout(previewTimer);
-      previewTimer = setTimeout(renderPreviewNow, 600);
+
+  function fsOpen() {
+    if (!fsDlg || !fsSrc || !ta) return;
+    fsSrc.value = ta.value;
+    fsPaintCount();
+    if (typeof fsDlg.showModal === "function") fsDlg.showModal();
+    else fsDlg.setAttribute("open", "");
+    document.body.classList.add("fs-open");
+    if (fsStatus) fsStatus.textContent = "渲染中…";
+    fsRender();
+    setTimeout(function () {
+      fsSrc.focus();
+      try { fsSrc.setSelectionRange(fsSrc.value.length, fsSrc.value.length); } catch (e) {}
+    }, 40);
+  }
+
+  function fsClose() {
+    if (!fsDlg) return;
+    fsSyncToForm();
+    if (typeof fsDlg.close === "function") fsDlg.close();
+    else fsDlg.removeAttribute("open");
+    document.body.classList.remove("fs-open");
+    if (ta) ta.focus();
+  }
+
+  function fsSave() {
+    fsSyncToForm();
+    var btn = document.querySelector('#editor button[name="action"][value="save"]');
+    if (btn) btn.click();
+  }
+
+  if (fsDlg && fsSrc && ta) {
+    if (fsOpenBtn) fsOpenBtn.addEventListener("click", fsOpen);
+    if (fsCloseBtn) fsCloseBtn.addEventListener("click", fsClose);
+    if (fsSaveBtn) fsSaveBtn.addEventListener("click", fsSave);
+    fsSrc.addEventListener("input", fsSchedule);
+    // Esc / 点击遮罩关闭（dialog 的 cancel 会带默认关闭行为，这里统一走 fsClose 以同步内容）
+    fsDlg.addEventListener("cancel", function (e) { e.preventDefault(); fsClose(); });
+    fsDlg.addEventListener("click", function (e) { if (e.target === fsDlg) fsClose(); });
+    document.addEventListener("keydown", function (e) {
+      if (!fsDlg.open) return;
+      if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "S")) { e.preventDefault(); fsSave(); }
     });
   }
 

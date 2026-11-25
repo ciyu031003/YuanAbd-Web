@@ -1316,3 +1316,16 @@ main{min-width:0}
   .lg-card-glow{display:none!important}
   .lg-meteors{display:none!important}
 }
+
+/* ---------------- 编辑器：正文图片路径清单 ---------------- */
+.fx-uploads{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}
+.fx-uploads[hidden]{display:none}
+.fx-up{
+  display:flex;align-items:center;gap:9px;max-width:100%;padding:6px 10px 6px 6px;
+  border:1px solid var(--line);border-radius:11px;background:var(--surface-2);
+  text-decoration:none;transition:border-color .16s,background .16s,transform .16s;
+}
+.fx-up:hover{border-color:var(--accent-line);background:var(--surface-3);transform:translateY(-1px);text-decoration:none}
+.fx-up img{width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#fff;flex:none}
+.fx-up code{font-size:11px;line-height:1.45;color:var(--ink-2);word-break:break-all;font-family:var(--mono)}
+.fx-up::after{content:"↗";font-size:12px;color:var(--ink-3);margin-left:2px}

@@ -14,6 +14,7 @@ const publisher = require("./publish.cjs");
 const invites = require("./invites.cjs");
 const collab = require("./collab.cjs");
 const media = require("./media.cjs");
+const preview = require("./preview.cjs");
 const totp = require("./totp.cjs");
 const mailer = require("./mailer.cjs");
 const readerFeedback = require("./feedback.cjs");
@@ -937,8 +938,7 @@ async function handle(req, res) {
       const siteBuild = require(path.join(config.repo.root, "build-fix.cjs"));
       const isRef = /^(reference|sop)$/.test(String(art.meta.kind || "")) || /^ref-/.test(String(art.meta.domain || ""));
       let page = isRef ? siteBuild.renderReference(art.meta, art.body) : siteBuild.renderArticle(art.meta, art.body);
-      const site = String(config.siteUrl || "").replace(/\/+$/, "");
-      page = page.replace(/(?:\.\.\/)+/g, site + "/");
+      page = preview.previewDocument(page);
       return h.send(res, 200, page, {
         "Content-Type": "text/html; charset=utf-8",
         "X-Frame-Options": "SAMEORIGIN",
@@ -1221,9 +1221,7 @@ async function handle(req, res) {
       };
       const isRef = /^(reference|sop)$/.test(meta.kind) || /^ref-/.test(meta.domain);
       let page = isRef ? siteBuild.renderReference(meta, md) : siteBuild.renderArticle(meta, md);
-      const site = String(config.siteUrl || "").replace(/\/+$/, "");
-      // 所有 ../ 与 ../../ 前缀统一换成站点根：CSS/JS/图片与站内链接在预览里都能正常加载
-      page = page.replace(/(?:\.\.\/)+/g, site + "/");
+      page = preview.previewDocument(page);
       return h.sendJson(res, 200, { html: page }, h.securityHeaders());
     } catch (e) {
       return h.sendJson(res, 500, { error: "渲染失败：" + e.message }, h.securityHeaders());

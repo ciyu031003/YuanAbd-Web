@@ -206,6 +206,61 @@
     note._t = setTimeout(function () { el.style.opacity = "0"; }, 3200);
   }
 
+  /* 媒体路径：服务端返回 relPath = "media/<file>.png"（站点 /fixboxs/ 下）。
+     文章页在 /fixboxs/fix/<slug>.html，因此正文里必须写 ../media/<file>.png，
+     否则线上会解析成 /fixboxs/fix/media/... 而 404。
+     预览/缩略图则走后台自己的 /media/<file>（与本站同源，CSP img-src 'self' 可加载）。 */
+  function mediaPaths(relPath) {
+    var name = String(relPath || "").replace(/^\.?\/?(?:fixboxs\/)?media\//, "");
+    return { file: name, md: "../media/" + name, view: "/media/" + name };
+  }
+
+  function addUploadChip(name, alt) {
+    var host = document.getElementById("fx-uploads");
+    if (!host || !name) return;
+    for (var i = 0; i < host.children.length; i++) {
+      if (host.children[i].getAttribute("data-name") === name) return;
+    }
+    var md = "../media/" + name;
+    var a = document.createElement("a");
+    a.className = "fx-up";
+    a.href = "/media/" + name;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.setAttribute("data-name", name);
+    a.title = "打开原图：" + md;
+    var img = document.createElement("img");
+    img.src = "/media/" + name;
+    img.alt = alt || "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    var code = document.createElement("code");
+    code.textContent = md;
+    a.appendChild(img);
+    a.appendChild(code);
+    host.appendChild(a);
+    host.hidden = false;
+  }
+
+  /* 从正文里扫出所有图片，生成「路径 + 缩略图」清单：
+     上传成功、粘贴/拖入、手写 Markdown、打开旧文章时都能看到图片路径，点路径看原图。 */
+  function refreshUploadChips() {
+    var host = document.getElementById("fx-uploads");
+    if (!host || !ta) return;
+    host.innerHTML = "";
+    var re = /!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+    var m, seen = {};
+    while ((m = re.exec(ta.value))) {
+      var src = String(m[2] || "").trim();
+      if (/^(https?:|data:)/i.test(src)) continue;
+      var mm = /(?:^|\/)media\/([^)\s]+)$/.exec(src);
+      if (!mm || seen[mm[1]]) continue;
+      seen[mm[1]] = 1;
+      addUploadChip(mm[1], m[1]);
+    }
+    if (!host.children.length) host.hidden = true;
+  }
+
   function uploadFile(file, altText) {
     if (!uploadEndpoint || !ta) return;
     var alt = altText || window.prompt("这张图说明什么？（alt 文本，必填）", "");
@@ -223,10 +278,21 @@
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (!j || !j.ok) { note((j && j.error) || "上传失败", "err"); return; }
-        insertAtCursor("\n![" + alt + "](" + j.relPath + ")\n");
-        note("已插入图片：" + j.relPath);
+        var p = mediaPaths(j.relPath);
+        insertAtCursor("\n![" + alt + "](" + p.md + ")\n");
+        addUploadChip(p.file, alt);
+        note("已上传并插入：" + p.md + "（点击图片路径可查看原图）");
       })
       .catch(function () { note("上传失败（网络或会话过期），请改用媒体库", "err"); });
+  }
+
+  if (ta) {
+    refreshUploadChips();
+    var chipTimer = null;
+    ta.addEventListener("input", function () {
+      if (chipTimer) clearTimeout(chipTimer);
+      chipTimer = setTimeout(refreshUploadChips, 500);
+    });
   }
 
   if (uploadBtn && imgFile) {
@@ -269,10 +335,17 @@
     var csrfEl = f && f.querySelector('[name="_csrf"]');
     if (!csrfEl) return;
     // 带上整张表单（标题 / 领域 / 风险 / 时间等），服务端据此渲染与线上一致的整页
-    var fd = new FormData(f);
+    /* 注意：预览接口用 h.parseForm() 解析 application/x-www-form-urlencoded。
+       之前这里直接提交 FormData（multipart/form-data），服务端拿不到 _csrf，
+       于是一点预览就报「CSRF 校验失败」。这里显式转成 urlencoded。 */
+    var fd = new URLSearchParams();
+    new FormData(f).forEach(function (v, k) { if (typeof v === "string") fd.append(k, v); });
     fd.set("md", ta.value);
     previewBox.innerHTML = '<p class="muted">渲染中…</p>';
-    fetch("/articles/preview", { method: "POST", body: fd, credentials: "same-origin" })
+    fetch("/articles/preview", {
+      method: "POST", body: fd.toString(), credentials: "same-origin",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
+    })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (seq !== previewSeq) return;   // 只采纳最新一次输入的渲染结果

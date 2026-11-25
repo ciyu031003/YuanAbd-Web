@@ -38,6 +38,15 @@
 
 ## 二、改动时间线
 
+### 2026-11-25 · 编辑器：图片上传清单 + 分栏预览修复（CSRF / 图片路径 / 样式内联）
+
+- **预览报「CSRF 校验失败」**：前端用 `FormData`（multipart）提交，服务端 `parseForm` 只解析 urlencoded，拿不到 `_csrf`。改为 `URLSearchParams` + `application/x-www-form-urlencoded`，预览恢复；打开「分栏预览」后输入即 600ms 防抖刷新。
+- **图片路径不可见 / 渲染不出来**：
+  - 上传后除插入 Markdown 外，正文下方新增**图片清单**（缩略图 + 路径 + 点击打开原图），打开旧文章/粘贴/手写 Markdown 也会自动扫描生成；
+  - 正文图片路径改为 `../media/<file>`（文章页在 `/fixboxs/fix/`，原来的 `media/...` 在线上会 404）；
+  - 预览 HTML 新增 `admin/src/preview.cjs` 后处理：站内 CSS 内联（srcdoc 继承后台 CSP，外链样式会被拦）、移除站点脚本、`../` 映射到 `/fixboxs/`、`media/` 映射到 `/fixboxs/media/`；
+  - 后台 CSP `img-src` 放行公开站点源，预览里的站内配图不再破图。
+- 测试增至 56 组（预览后处理、图片清单、urlencoded 预览请求）。
 ### 2026-11-25 · 热修 2：登录表单 token 与 cookie 错配（favicon 兜底跳转触发）
 
 - 现象：热修 1 之后真实浏览器提交仍偶发“登录页已过期”（403），curl 单发请求却正常。

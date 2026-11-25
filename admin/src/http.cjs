@@ -3,6 +3,7 @@
    只把 pg 与 gray-matter 作为依赖。 */
 "use strict";
 const crypto = require("crypto");
+const config = require("./config.cjs");
 
 /* 安全解码：畸形百分号编码（"%E0%A4%A"、"%zz"）会让 decodeURIComponent 抛错。
    旧实现下，一个手改过的 Cookie 就能把每个请求打成 500 —— 解码失败按原样保留即可。 */
@@ -112,7 +113,9 @@ function securityHeaders(extra) {
     // 后台是自包含页面（无外部资源），可以用很严的 CSP
     "Content-Security-Policy": [
       "default-src 'self'",
-      "img-src 'self' data:",
+      // 图片额外放行站点源：编辑器分栏预览用 srcdoc iframe，会继承后台 CSP；
+      // 文章配图托管在公开站点（/fixboxs/media、/fixboxs/img），不放行就只剩破图。
+      "img-src 'self' data: " + String(config.siteUrl || "").replace(/\/+$/, ""),
       "style-src 'self' 'unsafe-inline'",          // 内联样式（模板内联，无外部 CSS 依赖）
       "script-src 'self'",
       "connect-src 'self'",

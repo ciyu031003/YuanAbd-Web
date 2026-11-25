@@ -2026,6 +2026,8 @@ function editorPage(opts) {
           '<button class="btn" type="button" id="preview-toggle" aria-pressed="false" title="与线上渲染同一套引擎，所见即所得">分栏预览</button>' +
           '<span class="md-toolbar__hint">支持拖入 / 粘贴图片 · Ctrl+S 保存</span>' +
         '</div>' +
+        /* 正文图片清单：上传/粘贴后立刻显示路径 + 缩略图，点路径打开原图 */
+        '<div id="fx-uploads" class="fx-uploads" hidden aria-label="正文中的图片"></div>' +
         /* 正文框的可访问名称：视觉上分组标题已经说明「正文」，但读屏进入 textarea 时
            没有 label 只会播报「多行文本」——用 sr-only label 补齐，不占版面。 */
         '<label class="sr-only" for="body">正文（Markdown）</label>' +

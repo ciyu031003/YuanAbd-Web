@@ -36,6 +36,7 @@ const feedback = require(path.join(__dirname, "..", "src", "feedback.cjs"));
 const views = require(path.join(__dirname, "..", "src", "views.cjs"));
 const workflow = require(path.join(__dirname, "..", "src", "workflow.cjs"));
 const articles = require(path.join(__dirname, "..", "src", "articles.cjs"));
+const preview = require(path.join(__dirname, "..", "src", "preview.cjs"));
 
 let count = 0;
 function test(name, fn) {
@@ -524,6 +525,59 @@ test("编辑器：参考资料与命令面板控件都有可访问名称", funct
   assert.match(editorHtml, /aria-label="参考资料 1 类型"/);
   assert.match(editorHtml, /aria-label="搜索文章或页面"/);
   assert.match(editorHtml, /role="combobox"/);
+});
+
+/* =========================================================================
+   7b. 编辑器预览后处理（preview.cjs）
+   -------------------------------------------------------------------------
+   线上文章页 → 后台沙箱 iframe：
+     · 外链 CSS 必须内联（srcdoc 继承后台 CSP，外站样式会被拦）
+     · 站点脚本必须移除
+     · ../ 按文章页位置换成 /fixboxs/，../../ 换成站点根
+     · media/x.png 兼容成 /fixboxs/media/x.png
+   ========================================================================= */
+test("previewDocument：内联 CSS、去脚本、改写相对路径与图片地址", function () {
+  const page =
+    '<!doctype html><html><head>' +
+    '<link rel="stylesheet" href="../../css/tokens.css">' +
+    '<link rel="stylesheet" href="../css/fix.css">' +
+    '<script src="../js/fix.js"></script>' +
+    '</head><body>' +
+    '<a href="../index.html">首页</a>' +
+    '<img src="../img/demo.png" alt="a">' +
+    '<img src="media/upload.png" alt="b">' +
+    '</body></html>';
+  const out = preview.previewDocument(page);
+  assert.doesNotMatch(out, /rel="stylesheet",/);
+  assert.doesNotMatch(out, /<link[^>]*stylesheet/i, "外链样式必须被内联替换");
+  assert.match(out, /<style>/, "应产出内联样式");
+  assert.doesNotMatch(out, /<script/i, "站点脚本必须移除");
+  assert.match(out, /href="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/index\.html"/);
+  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/img\/demo\.png"/);
+  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/media\/upload\.png"/);
+});
+
+test("previewDocument：对真实 build-fix 输出可用（图片可渲染、无外链样式）", function () {
+  const build = require(path.join(__dirname, "..", "..", "build-fix.cjs"));
+  const md = "## 一句话结论\n\n结论\n\n![图](../media/x.png)\n\n## 分步骤\n\n### 步骤 1\n\n内容\n";
+  const html = build.renderArticle({
+    title: "预览测试", slug: "preview-test", domain: "win", category: "c1",
+    risk: "需谨慎", difficulty: "入门", os: ["Windows"], time: "10 分钟",
+    related: [], updated: "2026-11-25"
+  }, md);
+  const out = preview.previewDocument(html);
+  assert.ok(out.length > 2000);
+  assert.doesNotMatch(out, /<link\b[^>]*stylesheet/i);
+  assert.doesNotMatch(out, /<script/i);
+  assert.match(out, /<img[^>]+src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/media\/x\.png"/);
+});
+
+test("编辑器：正文图片清单容器 + 预览请求走 urlencoded（form 解析才能拿到 _csrf）", function () {
+  const fsx = fs.readFileSync(path.join(__dirname, "..", "public", "editor.js"), "utf8");
+  assert.match(fsx, /id="fx-uploads"|fx-uploads/);
+  assert.match(fsx, /URLSearchParams/);
+  assert.match(fsx, /application\/x-www-form-urlencoded/);
+  assert.match(fsx, /\.\.\/media\//);
 });
 
 /* =========================================================================

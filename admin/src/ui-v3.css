@@ -1376,3 +1376,88 @@ body.fs-open{overflow:hidden}
 @media (prefers-color-scheme: dark){
   .fs-editor__prev{background:#0f1319}
 }
+
+/* =============================================================================
+   2026-11-25 · 新手可读性优化
+   内容流程条 / 工作台 3 步引导 / 编辑器写作引导 / 底部常驻操作条
+   ============================================================================= */
+
+/* ---- 文章列表：写 → 审 → 发 流程条 ---- */
+.flowbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:12px 16px;margin-bottom:14px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--raise-sm);
+}
+.flowbar__step{
+  display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:10px;
+  text-decoration:none;color:var(--ink);transition:background .16s;
+}
+.flowbar__step:hover{background:var(--surface-2);text-decoration:none}
+.flowbar__step b{
+  width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;
+  font-family:var(--mono);font-size:11.5px;background:var(--accent-weak);color:var(--accent);
+}
+.flowbar__step span{display:flex;flex-direction:column;font-size:13px;font-weight:650;line-height:1.25}
+.flowbar__step em{font-style:normal;font-size:11px;font-weight:500;color:var(--ink-3)}
+.flowbar__arrow{color:var(--ink-3);font-size:14px}
+.flowbar__tip{font-size:11.5px;color:var(--ink-3)}
+.flowbar .sp{flex:1}
+
+/* ---- 工作台：3 步上手引导 ---- */
+.flowguide{
+  padding:14px 16px;margin:16px 0;border-radius:16px;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--raise-sm);
+}
+.flowguide__hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;font-size:13.5px;flex-wrap:wrap}
+.flowguide__hd .muted{font-size:11.5px}
+.flowguide__steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.flowguide__steps li{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;
+  background:var(--surface-2);border:1px solid var(--line);
+}
+.flowguide__steps li>b{
+  width:24px;height:24px;border-radius:50%;background:var(--accent-weak);color:var(--accent);
+  display:grid;place-items:center;font-family:var(--mono);font-size:12px;flex:none;
+}
+.flowguide__steps div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.flowguide__steps strong{font-size:13px}
+.flowguide__steps span{font-size:11.5px;color:var(--ink-3);line-height:1.45}
+@media (max-width:900px){.flowguide__steps{grid-template-columns:1fr}}
+
+/* ---- 编辑器：写作 3 步引导 ---- */
+.write-guide{
+  margin:0 0 14px;padding:12px 14px;border-radius:16px;
+  border:1px solid var(--line);background:linear-gradient(135deg,var(--surface),var(--surface-2));
+  box-shadow:var(--raise-sm);
+}
+.write-guide__steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wg-step{
+  display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border-radius:10px;
+  border:1px solid transparent;background:transparent;text-align:left;text-decoration:none;
+  color:var(--ink);cursor:pointer;font:inherit;transition:background .16s,border-color .16s;
+}
+.wg-step:hover{background:var(--surface);border-color:var(--line);text-decoration:none}
+.wg-step b{
+  width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-family:var(--mono);font-size:11.5px;flex:none;
+}
+.wg-step span{display:flex;flex-direction:column;gap:2px;font-size:12.5px;font-weight:650}
+.wg-step em{font-style:normal;font-size:11px;font-weight:500;color:var(--ink-3);line-height:1.45}
+.write-guide__tip{margin:8px 2px 0;font-size:11.5px;color:var(--ink-3);line-height:1.55}
+@media (max-width:900px){.write-guide__steps{grid-template-columns:1fr}}
+
+/* ---- 编辑器：底部常驻操作条 ---- */
+.writebar{
+  position:sticky;bottom:0;z-index:30;display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  margin:18px 0 6px;padding:10px 14px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);
+  box-shadow:0 12px 30px -18px rgba(0,0,0,.45);
+}
+.writebar__state{display:flex;flex-direction:column;gap:1px;min-width:0}
+.writebar__state b{font-size:12.5px}
+.writebar__state .muted{font-size:11px;line-height:1.4}
+.writebar .sp{flex:1}
+@media (max-width:760px){
+  .writebar{position:fixed;left:12px;right:12px;bottom:12px;margin:0;z-index:120}
+  .writebar__state{display:none}
+}

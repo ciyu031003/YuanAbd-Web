@@ -1688,7 +1688,8 @@ function articlesPage(opts) {
       "<td class=\"num\">" + (a.sourcesCount || 0) + "</td>" +
       "<td class=\"muted num\">" + esc(a.updated || "") + "</td>" +
       '<td class="tight rowacts">' + (acts || "") +
-        '<a class="btn btn--sm" href="/articles/' + esc(a.slug) + '">编辑</a></td>' +
+        '<a class="btn btn--sm" href="/articles/' + esc(a.slug) + '">' + (a.status === "draft" ? "继续写" : "编辑") + "</a>" +
+        '<a class="btn btn--sm btn--ghost" href="/articles/' + esc(a.slug) + '/preview-page" target="_blank" rel="noopener" title="用线上同一引擎渲染整页预览">预览</a></td>' +
       "</tr>";
   }).join("");
 
@@ -1778,6 +1779,21 @@ function articlesPage(opts) {
       '<a class="btn btn--sm btn--ghost" href="/articles">全部清除</a></div>'
     : "";
 
+  /* 内容流程条：第一次用也能一眼看到「写草稿 → 审核 → 发布」以及每步有多少篇 */
+  const flowbar = '<section class="flowbar" aria-label="内容流程">' +
+    '<a class="flowbar__step" href="' + esc(qs({ status: "draft", page: "" })) + '"><b>1</b>' +
+      '<span>写草稿<em>' + (sc.draft || 0) + ' 篇待处理</em></span></a>' +
+    '<span class="flowbar__arrow" aria-hidden="true">→</span>' +
+    '<a class="flowbar__step" href="/review"><b>2</b>' +
+      '<span>提交审核<em>' + (sc.in_review || 0) + ' 篇待审</em></span></a>' +
+    '<span class="flowbar__arrow" aria-hidden="true">→</span>' +
+    '<a class="flowbar__step" href="' + esc(qs({ status: "published", page: "" })) + '"><b>3</b>' +
+      '<span>发布上线<em>' + (sc.published || 0) + ' 篇已上线</em></span></a>' +
+    '<span class="sp"></span>' +
+    '<span class="flowbar__tip">草稿点「提交审核」→ 审核台给结论 → 通过后发布</span>' +
+    (canCreate ? '<a class="btn btn--sm btn--primary" href="/articles/new">＋ 写一篇文章</a>' : "") +
+  "</section>";
+
   return layout("文章",
     pageHead({
       ico: "articles",
@@ -1794,6 +1810,7 @@ function articlesPage(opts) {
     (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
 
     activeFilters +
+    flowbar +
     viewsBar({ views: opts.views || [], currentQs: opts.currentQs || "", csrf: opts.csrf, userId: opts.user && opts.user.user_id }) +
     statusTabs +
     batchBar +
@@ -1975,6 +1992,16 @@ function editorPage(opts) {
       '<button class="btn" type="submit" name="action" value="save">保存草稿</button>' + buttons +
     "</div>" +
 
+    /* 写作步骤引导：第一次用也知道「先写正文 → 补信息 → 预览保存」 */
+    '<div class="write-guide" id="write-guide">' +
+      '<div class="write-guide__steps">' +
+        '<a class="wg-step" href="#body" data-jump="body"><b>1</b><span>写正文<em>先写「一句话结论」+「分步骤」，其余自由组织</em></span></a>' +
+        '<a class="wg-step" href="#f-title" data-jump="f-title"><b>2</b><span>补必填信息<em>标题、URL 标识、领域分类、≥1 条参考资料</em></span></a>' +
+        '<button class="wg-step" type="button" data-fs-open><b>3</b><span>预览并保存<em>左侧原文、右侧实时渲染，确认后再保存/提交</em></span></button>' +
+      "</div>" +
+      '<p class="write-guide__tip">不确定从哪开始？先写正文，其它信息可以在发布前再补。必填项没补齐时，右侧检查清单会列出来。</p>' +
+    "</div>" +
+
     '<div class="editor-grid">' +
       // ============ 左：字段 + 正文 ============
       '<div>' +
@@ -2091,7 +2118,30 @@ function editorPage(opts) {
           tocHost + '</div>' +
       "</div>" +
     "</div>" +
+
+    /* 常驻底部操作条：长表单滚到任何位置都能保存/提交/预览 */
+    '<div class="writebar" id="writebar">' +
+      '<div class="writebar__state">' +
+        '<b id="writebar-title">' + (isNew ? "开始写草稿" : "当前状态：" + esc(statusLabel(F.status))) + "</b>" +
+        '<span id="writebar-hint" class="muted">' + (isNew ? "保存后会进入草稿，再提交审核" : "必填项补齐后可提交审核 · Ctrl+S 保存") + "</span>" +
+      "</div>" +
+      '<span class="sp"></span>' +
+      '<a class="btn btn--sm btn--ghost" href="#body" data-jump="body">跳到正文</a>' +
+      '<button class="btn btn--sm" type="button" data-fs-open>全屏分栏</button>' +
+      '<button class="btn btn--sm" type="submit" name="action" value="save">保存草稿</button>' +
+      buttons +
+      (!isNew && opts.canSubmit && F.status === "draft"
+        ? '<button class="btn btn--sm btn--primary" type="submit" form="status-form">提交审核</button>' : "") +
+      (!isNew && opts.canReview && F.status === "in_review"
+        ? '<a class="btn btn--sm btn--primary" href="/review">去审核</a>' : "") +
+    "</div>" +
     "</form>" +
+    /* 「提交审核」用独立表单（嵌套 form 非法），按钮用 form= 关联 */
+    (!isNew && opts.canSubmit
+      ? '<form id="status-form" method="post" action="/articles/' + esc(opts.slug) + '/status" hidden>' +
+          '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
+          '<input type="hidden" name="to" value="in_review">' +
+        "</form>" : "") +
     /* 评论区必须在 </form> 之后：commentsBlock 里自身是若干 <form>（发表评论 / 标记已解决），
        嵌套 form 是非法 HTML，浏览器会直接丢掉内层 form 标签 ——
        结果是「发表评论」实际提交了整张文章表单，「标记已解决」不会带 slug/csrf。 */
@@ -2292,6 +2342,21 @@ function dashboardPage(opts) {
       queueItem("missingSources", "缺参考资料", "发布前的硬性检查", "sky", "/articles?missing=sources") +
     "</div></section>";
 
+  /* ---------------- 第一次使用也看得懂的 3 步流程 ----------------
+     工作台是登录后的第一屏：先用一句话说明「写 → 审 → 发」，
+     并且每一步都能直接点进去，减少摸索成本。 */
+  const flowguide = '<section class="flowguide" aria-label="内容流程：从写作到上线">' +
+    '<div class="flowguide__hd"><b>怎么用：从写到上线 3 步</b>' +
+      '<span class="muted">第一次用先看这里；每一步都可以直接点进去</span></div>' +
+    '<ol class="flowguide__steps">' +
+      '<li><b>1</b><div><strong>写草稿</strong><span>「文章 → 新建文章」，先写正文，再补必填信息</span></div>' +
+        '<a class="btn btn--sm" href="/articles/new">去写</a></li>' +
+      '<li><b>2</b><div><strong>提交审核</strong><span>文章页点「提交审核」，审核台读完给结论</span></div>' +
+        '<a class="btn btn--sm" href="/review">审核台</a></li>' +
+      '<li><b>3</b><div><strong>发布上线</strong><span>审核通过后点「保存并发布」，自动构建并切换</span></div>' +
+        '<a class="btn btn--sm" href="/publish">发布页</a></li>' +
+    "</ol></section>";
+
   /* ---------------- 总览横幅（真实派生指标） ---------------- */
   const published = s.published || 0;
   const withSrc = Math.max(0, total - (s.missingSources || 0));
@@ -2402,7 +2467,7 @@ function dashboardPage(opts) {
       "</div>" +
     "</div>" +
 
-    queue + hero +
+    queue + flowguide + hero +
 
     '<div class="grid2" style="align-items:stretch">' +
       '<div class="card" style="margin-bottom:18px">' +

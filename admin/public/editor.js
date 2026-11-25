@@ -57,6 +57,62 @@
     sync();
   }
 
+  /* ---------------- 标题 → URL 标识（slug）自动生成 ----------------
+     第一次写文章的人不知道 slug 是什么；标题是中文时又无法直接音译。
+     规则：标题里有足够 ASCII 字符就转成 kebab-case；纯中文标题生成
+     fix-YYYYMMDD-随机4位，保证可发布、可改。用户手动改过 slug 后不再自动覆盖。 */
+  var titleEl = document.getElementById("title");
+  var slugEl = document.getElementById("slug");
+  var slugTouched = false;
+
+  function autoSlug(title) {
+    var ascii = String(title || "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+    if (ascii.length >= 3) return ascii;
+    var d = new Date();
+    var p = function (n) { return ("0" + n).slice(-2); };
+    var rnd = Math.random().toString(36).slice(2, 6);
+    return "fix-" + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" + rnd;
+  }
+  if (titleEl && slugEl && !slugEl.readOnly) {
+    slugEl.addEventListener("input", function () { slugTouched = true; updateWritebar(); });
+    titleEl.addEventListener("input", function () {
+      if (slugTouched || slugEl.value) return;
+      slugEl.value = autoSlug(titleEl.value);
+      updateWritebar();
+    });
+  }
+
+  /* ---------------- 底部操作条：实时提示还差几项必填 ---------------- */
+  var wbHint = document.getElementById("writebar-hint");
+  function updateWritebar() {
+    if (!wbHint) return;
+    var missing = [], els = {
+      title: document.getElementById("title"), slug: document.getElementById("slug"),
+      domain: document.getElementById("domain"), category: document.getElementById("category")
+    };
+    var label = { title: "标题", slug: "URL 标识", domain: "领域", category: "分类" };
+    Object.keys(els).forEach(function (k) {
+      var el = els[k];
+      if (el && !String(el.value || "").trim()) missing.push(label[k]);
+    });
+    var srcInputs = document.querySelectorAll('[name^="src_title_"]');
+    var hasSrc = false;
+    Array.prototype.forEach.call(srcInputs, function (i) { if (String(i.value || "").trim()) hasSrc = true; });
+    if (!hasSrc) missing.push("参考资料");
+    if (missing.length) {
+      wbHint.textContent = "还差 " + missing.length + " 项必填：" + missing.join("、");
+    } else {
+      wbHint.textContent = "必填项已齐全，可以保存并提交审核";
+    }
+  }
+  var editorForm = document.getElementById("editor");
+  if (editorForm) {
+    editorForm.addEventListener("input", updateWritebar);
+    editorForm.addEventListener("change", updateWritebar);
+    updateWritebar();
+  }
+
   /* ---------------- 正文：段落导航 + 字数统计 ---------------- */
   var ta = document.querySelector("[data-toc-source]");
   var toc = document.getElementById("toc");
@@ -332,7 +388,7 @@
   var fsPrev = document.getElementById("fs-preview");
   var fsStatus = document.getElementById("fs-status");
   var fsCount = document.getElementById("fs-count");
-  var fsOpenBtn = document.querySelector("[data-fs-open]");
+  var fsOpenBtns = document.querySelectorAll("[data-fs-open]");
   var fsCloseBtn = document.getElementById("fs-close");
   var fsSaveBtn = document.getElementById("fs-save");
   var fsTimer = null, fsSeq = 0;
@@ -441,7 +497,7 @@
   }
 
   if (fsDlg && fsSrc && ta) {
-    if (fsOpenBtn) fsOpenBtn.addEventListener("click", fsOpen);
+    Array.prototype.forEach.call(fsOpenBtns, function (b) { b.addEventListener("click", fsOpen); });
     if (fsCloseBtn) fsCloseBtn.addEventListener("click", fsClose);
     if (fsSaveBtn) fsSaveBtn.addEventListener("click", fsSave);
     fsSrc.addEventListener("input", fsSchedule);

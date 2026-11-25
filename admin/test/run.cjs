@@ -581,6 +581,32 @@ test("编辑器：正文图片清单容器 + 预览请求走 urlencoded（form �
   assert.match(fsx, /\.\.\/media\//);
 });
 
+test("新手可读性：流程条 / 3 步引导 / 底部操作条 / slug 自动生成", function () {
+  const fsx = fs.readFileSync(path.join(__dirname, "..", "public", "editor.js"), "utf8");
+  assert.match(fsx, /autoSlug/);
+  assert.match(fsx, /updateWritebar/);
+  assert.match(fsx, /writebar-hint/);
+  const list = views.articlesPage({
+    items: [], filters: {}, domains: [], risks: [], total: 0, filtered: 0, statusCounts: {},
+    rowCaps: {}, csrf: "c", canCreate: true, views: [], currentQs: "", page: 1, pages: 1
+  });
+  assert.match(list, /class="flowbar"/, "文章列表需要写→审→发流程条");
+  assert.match(list, /写草稿/);
+  assert.match(list, /提交审核/);
+  assert.match(list, /发布上线/);
+  const editor = views.editorPage({
+    isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
+    body: "## 一句话结论\n\n内容\n", slug: "demo", csrf: "c",
+    canSubmit: true, canReview: true,
+    taxonomy: { domains: [{ id: "win", name: "Windows", cats: [{ id: "c1", name: "网络" }] }],
+      enums: { risk: ["需谨慎"], difficulty: ["入门"], sourceType: ["官方文档"] } }
+  });
+  assert.match(editor, /class="write-guide"/, "编辑器需要写作步骤引导");
+  assert.match(editor, /class="writebar"/, "编辑器需要常驻底部操作条");
+  assert.match(editor, /id="writebar-hint"/);
+  assert.match(editor, /data-fs-open/);
+});
+
 test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {
   const html = views.editorPage({
     isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },

@@ -1158,7 +1158,9 @@ async function handle(req, res) {
       return html(res, 200, views.editorPage(Object.assign({
         isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
         body: articles.BODY_SKELETON, taxonomy: taxonomy(), sections: sectionRules(),
-        canManageTaxonomy: await auth.can(sess.user, "settings:write")
+        canManageTaxonomy: await auth.can(sess.user, "settings:write"),
+        canSubmit: await auth.can(sess.user, "article:submit"),
+        canReview: await auth.can(sess.user, "article:review")
       }, pageOpts)));
     }
     // POST 新建
@@ -1178,7 +1180,9 @@ async function handle(req, res) {
     } catch (e) {
       return html(res, e.status || 500, views.editorPage(Object.assign({
         isExisting: false, meta: formToMeta(form), body: form.body,
-        taxonomy: taxonomy(), error: e.message
+        taxonomy: taxonomy(), error: e.message,
+        canSubmit: await auth.can(sess.user, "article:submit"),
+        canReview: await auth.can(sess.user, "article:review")
       }, pageOpts)));
     }
   }
@@ -1307,6 +1311,8 @@ async function handle(req, res) {
         isExisting: true, slug: slug, meta: art.meta, body: art.body,
         contentHash: art.contentHash, taxonomy: taxonomy(), canPublish: canPublish,
         comments: cmts, revCount: revCount, sections: sectionRules(),
+        canSubmit: await auth.can(sess.user, "article:submit"),
+        canReview: await auth.can(sess.user, "article:review"),
         canManageTaxonomy: await auth.can(sess.user, "settings:write"),
         notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
       }, pageOpts)));
@@ -1331,7 +1337,9 @@ async function handle(req, res) {
         return html(res, 400, views.editorPage(Object.assign({
           isExisting: true, slug: slug, meta: formToMeta(form, art.meta), body: form.body,
           contentHash: art.contentHash, taxonomy: taxonomy(), error: e.message,
-          canPublish: await auth.can(sess.user, "article:publish")
+          canPublish: await auth.can(sess.user, "article:publish"),
+          canSubmit: await auth.can(sess.user, "article:submit"),
+          canReview: await auth.can(sess.user, "article:review")
         }, pageOpts)));
       }
     }
@@ -1373,7 +1381,9 @@ async function handle(req, res) {
       return html(res, code, views.editorPage(Object.assign({
         isExisting: true, slug: slug, meta: formToMeta(form, art.meta), body: form.body,
         contentHash: art.contentHash, taxonomy: taxonomy(), error: e.message,
-        canPublish: await auth.can(sess.user, "article:publish")
+        canPublish: await auth.can(sess.user, "article:publish"),
+        canSubmit: await auth.can(sess.user, "article:submit"),
+        canReview: await auth.can(sess.user, "article:review")
       }, pageOpts)));
     }
   }

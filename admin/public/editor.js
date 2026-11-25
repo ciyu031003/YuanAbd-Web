@@ -162,6 +162,8 @@
     }
   }
 
+  if (document.getElementById("writebar")) document.body.classList.add("has-writebar");
+
   var editorForm = document.getElementById("editor");
   if (editorForm) {
     editorForm.addEventListener("input", function () { updateWritebar(); refreshChecklist(); });

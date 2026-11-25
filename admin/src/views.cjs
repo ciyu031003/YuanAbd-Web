@@ -1756,6 +1756,7 @@ function articlesPage(opts) {
     ? '<form id="fx-batch" class="batchbar" method="post" action="/articles/batch-status" data-batchbar>' +
       '<input type="hidden" name="_csrf" value="' + esc(csrf) + '">' +
       '<span class="batchbar__count" data-batch-count>未勾选</span>' +
+      '<span class="batchbar__hint">勾选下方文章后，可批量提交审核 / 发布 / 退回</span>' +
       '<select name="to" aria-label="批量目标状态">' + batchOpts + "</select>" +
       '<button class="btn btn--sm btn--primary" type="submit" disabled data-batch-apply>应用到所选</button>' +
       '<button class="btn btn--sm" type="button" data-batch-clear disabled>取消选择</button>' +
@@ -2065,7 +2066,7 @@ function editorPage(opts) {
       '</div></details>' +
 
       // 组 3：检索（默认展开——知识库站点的核心）
-      '<details class="grp grp--search" open><summary>检索与关联<span class="grp__hint">决定用户能不能搜到</span></summary><div class="grp__bd">' +
+      '<details class="grp grp--search"><summary>检索与关联（发布前补充）<span class="grp__hint">决定用户能不能搜到，可先空着</span></summary><div class="grp__bd">' +
         field("症状词", "symptoms", inp("symptoms", "symptoms", F.symptoms), "用户会怎么描述这个问题？<strong>≥3 条</strong>，逗号分隔。", true) +
         field("关键词", "keywords", inp("keywords", "keywords", F.keywords), "<strong>≥5 条</strong>，含口语词与常见错别字。", true) +
         field("别名 / 口语说法", "aliases", inp("aliases", "aliases", F.aliases), "<strong>≥2 条</strong>，影响口语召回。", true) +
@@ -2542,22 +2543,27 @@ function publishPage(opts) {
   }).join("");
   return layout("发布",
     pageHead({
-      ico: "publish", title: "发布队列",
-      sub: "发布是串行的：同一时刻只允许一个任务运行（构建目录共享、部署是整目录切换）。",
+      ico: "publish", title: "发布到线上",
+      sub: "把最新内容同步到公开站点：生成网站 → 替换线上文件 → 自动检查。同一时刻只跑一个任务。",
       acts: '<span class="page-head__chip">手动发布通道</span>'
     }) +
     (opts.notice ? '<div class="alert alert--ok" role="status">' + esc(opts.notice) + "</div>" : "") +
     (opts.error ? '<div class="alert alert--err" role="alert">' + esc(opts.error) + "</div>" : "") +
     '<div class="card card--accent">' +
-    '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("publish") + '</span><h3>手动触发一次完整发布</h3></div>' +
-    '<form method="post" action="/publish">' +
+    '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("publish") + "</span><h3>发布到线上</h3>" +
+      '<span class="topbar__sp"></span><span class="muted">不改文章内容，只更新公开站点</span></div>' +
+    '<ol class="publish-steps">' +
+      "<li><b>1</b><div><strong>生成网站</strong><span>把文章编译成网页文件</span></div></li>" +
+      "<li><b>2</b><div><strong>替换线上文件</strong><span>整目录一次性切换，读者不会看到半成品</span></div></li>" +
+      "<li><b>3</b><div><strong>自动检查</strong><span>逐页访问线上地址，确认都能打开</span></div></li>" +
+    "</ol>" +
+    '<form method="post" action="/publish" class="publish-act">' +
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
-    "<p>走完整链路：构建 → 产物化 → 原子切换 → 线上全量校验。</p>" +
-    '<button class="btn btn--primary" type="submit">立即发布</button>' +
-    '<span class="muted" style="margin-left:10px">发布不会修改内容本身。</span></form></div>' +
+    '<button class="btn btn--primary" type="submit">立即发布到线上</button>' +
+    '<span class="muted">通常 1–2 分钟完成，期间可以继续写文章。</span></form></div>' +
     '<div class="card card--flush"><div class="tablewrap"><table>' +
-    "<thead><tr><th>#</th><th>动作</th><th>状态</th><th>创建时间</th><th>耗时</th><th>错误</th></tr></thead><tbody>" +
-    (jobs || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("publish", 24) + '</div>' + '<div class="empty__t">还没有发布记录</div><div>点击上方「立即发布」会在此显示每一步的进度</div></td></tr>') +
+    "<thead><tr><th>任务</th><th>类型</th><th>状态</th><th>时间</th><th>耗时</th><th>问题</th></tr></thead><tbody>" +
+    (jobs || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("publish", 24) + '</div>' + '<div class="empty__t">还没有发布记录</div><div>点击上方「立即发布到线上」后，这里会显示进度与结果</div></td></tr>') +
     "</tbody></table></div></div>",
     Object.assign({ current: "publish", accent: "mint", crumbs: [{ label: "发布" }] }, opts));
 }
@@ -3072,11 +3078,20 @@ function reviewPage(opts) {
         acts: '<span class="page-head__chip">待审核 ' + (counts.in_review || 0) + " 篇</span>" }) +
       notice + error + tabs +
       '<div class="review-grid">' + queueCard +
-        '<div class="review-main"><div class="card"><div class="empty">' +
-          '<div class="empty__ico">' + icon("review", 24) + "</div>" +
-          '<div class="empty__t">队列已清空</div><div>没有需要审核的文章。可以从左侧切换查看「退回修改」。</div>' +
-          '<div style="margin-top:14px"><a class="btn" href="/articles">去文章列表</a></div>' +
-        "</div></div></div></div>",
+        '<div class="review-main">' +
+          '<div class="card"><div class="empty" style="padding-bottom:14px">' +
+            '<div class="empty__ico">' + icon("review", 24) + "</div>" +
+            '<div class="empty__t">现在没有待审核的文章</div>' +
+            "<div>作者提交审核后会自动出现在左侧队列；可以先看看审核要做什么。</div>" +
+          "</div>" +
+          '<ol class="review-tips">' +
+            "<li><b>1</b><div><strong>读全文</strong><span>结论是否说清、步骤能否照做、命令是否需要管理员权限</span></div></li>" +
+            "<li><b>2</b><div><strong>看检查项</strong><span>必要段落、参考资料、配图 alt 是否齐全</span></div></li>" +
+            "<li><b>3</b><div><strong>给结论</strong><span>通过＝自动发布；退回＝意见会变成作者看得见的评论</span></div></li>" +
+          "</ol>" +
+          '<div style="display:flex;gap:8px;justify-content:flex-end;padding:0 18px 16px"><a class="btn btn--sm" href="/articles">去文章列表</a>' +
+            '<a class="btn btn--sm" href="/articles/new">写一篇新文章</a></div>' +
+          "</div></div></div>",
       Object.assign({ current: "review", accent: "indigo", crumbs: [{ label: "审核台" }] }, opts));
   }
 

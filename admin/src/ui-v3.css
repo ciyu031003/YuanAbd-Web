@@ -1461,3 +1461,56 @@ body.fs-open{overflow:hidden}
   .writebar{position:fixed;left:12px;right:12px;bottom:12px;margin:0;z-index:120}
   .writebar__state{display:none}
 }
+
+/* =============================================================================
+   2026-11-25 · 第三轮：发布页去术语 / 审核三步 / 批量条收起 / 移动端
+   ============================================================================= */
+
+/* ---- 发布页：3 步说明 ---- */
+.publish-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 16px;padding:0}
+.publish-steps li{display:flex;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.publish-steps b{
+  width:24px;height:24px;border-radius:50%;background:var(--accent-weak);color:var(--accent);
+  display:grid;place-items:center;font-family:var(--mono);font-size:12px;flex:none;
+}
+.publish-steps div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.publish-steps strong{font-size:13px}
+.publish-steps span{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+.publish-act{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media (max-width:760px){.publish-steps{grid-template-columns:1fr}}
+
+/* ---- 审核台：空队列时的「审核三步」 ---- */
+.review-tips{list-style:none;margin:0;padding:0 18px 12px}
+.review-tips li{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.review-tips b{
+  width:22px;height:22px;border-radius:50%;background:var(--accent-weak);color:var(--accent);
+  display:grid;place-items:center;font-family:var(--mono);font-size:11.5px;flex:none;
+}
+.review-tips div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.review-tips strong{font-size:12.5px}
+.review-tips span{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+
+/* ---- 列表批量条：未勾选时收起，只留一句提示 ---- */
+.batchbar__hint{display:none;font-size:11.5px;color:var(--ink-3)}
+.batchbar.is-idle .batchbar__hint{display:inline}
+.batchbar.is-idle .batchbar__count,
+.batchbar.is-idle select,
+.batchbar.is-idle button{display:none}
+.batchbar.is-idle{padding:8px 14px}
+
+/* ---- 移动端：编辑器底部操作条不遮内容 / 列表与流程条更紧凑 ---- */
+@media (max-width:760px){
+  body.has-writebar{padding-bottom:88px}
+  .write-guide{padding:10px}
+  .write-guide__tip{display:none}
+  .flowbar{padding:10px 12px;gap:6px}
+  .flowbar__tip{display:none}
+  .flowbar__step{padding:4px 6px}
+  .flowbar .btn{margin-left:auto}
+  .flowguide__steps li{padding:8px 10px}
+  .statustabs{gap:6px}
+  .statustab{padding:6px 10px;font-size:12px}
+  .editor-actions{flex-wrap:wrap;gap:6px}
+  .review-tips{padding:0 14px 10px}
+  .publish-steps{margin:8px 0 12px}
+}

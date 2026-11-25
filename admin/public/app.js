@@ -166,6 +166,7 @@
     function paint() {
       var n = checked().length;
       if (count) count.textContent = n ? "已选 " + n + " 篇" : "未勾选";
+      bar.classList.toggle("is-idle", n === 0);
       if (apply) apply.disabled = n === 0;
       if (clear) clear.disabled = n === 0;
       if (all) {

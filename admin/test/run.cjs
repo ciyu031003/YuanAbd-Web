@@ -336,7 +336,7 @@ test("审核台：队列为空时渲染空态而不是崩溃", function () {
     user: USER, roles: [{ role: "root" }], csrf: CSRF, queue: [], counts: {},
     filter: "in_review", current: null, canPublish: true, canReview: true
   });
-  assert.match(html, /队列已清空/);
+  assert.match(html, /现在没有待审核的文章/);
   assert.match(html, /去文章列表/);
   assert.doesNotMatch(html, /review-decide/, "没有当前稿件时不应渲染结论表单");
   assert.doesNotMatch(html, /<iframe/, "没有当前稿件时不应渲染预览 iframe");
@@ -608,6 +608,30 @@ test("新手可读性：流程条 / 3 步引导 / 底部操作条 / slug 自动�
   assert.match(editor, /id="publish-check"/, "检查清单需要可局部更新的容器");
   assert.match(editor, /data-chk="/, "检查项需要 data-chk 供前端重算");
   assert.match(fsx, /refreshChecklist/);
+});
+
+test("第三轮优化：发布页 3 步说明 / 审核三步 / 批量条收起 / 检索组默认折叠", function () {
+  const pub = views.publishPage({ jobs: [], csrf: "c" });
+  assert.match(pub, /class="publish-steps"/);
+  assert.match(pub, /立即发布到线上/);
+  assert.doesNotMatch(pub, /产物化/, "发布页不应再出现构建术语");
+  const rev = views.reviewPage({ queue: [], counts: {}, csrf: "c" });
+  assert.match(rev, /class="review-tips"/);
+  assert.match(rev, /通过＝自动发布/);
+  const list = views.articlesPage({
+    items: [], filters: {}, domains: [], risks: [], total: 0, filtered: 0, statusCounts: {},
+    rowCaps: { submit: true }, csrf: "c", canCreate: true, views: [], currentQs: "", page: 1, pages: 1
+  });
+  assert.match(list, /class="batchbar__hint"/, "批量条未勾选时应显示提示而不是一排禁用控件");
+  const ed = views.editorPage({
+    isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
+    body: "## 一句话结论\n\n内容\n", slug: "demo", csrf: "c",
+    taxonomy: { domains: [{ id: "win", name: "Windows", cats: [{ id: "c1", name: "网络" }] }],
+      enums: { risk: ["需谨慎"], difficulty: ["入门"], sourceType: ["官方文档"] } }
+  });
+  assert.match(ed, /<details class="grp grp--search">/, "检索与关联应默认折叠，先让用户写正文");
+  const appjs = fs.readFileSync(path.join(__dirname, "..", "public", "app.js"), "utf8");
+  assert.match(appjs, /classList\.toggle\("is-idle"/);
 });
 
 test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {

@@ -98,6 +98,14 @@
   function initFade() {
     var imgs = $$("[data-fade], .ui-card__media img");
     imgs.forEach(loadImage);
+    /* loading="lazy" 的图片默认被 opacity:0 藏起（.city img[loading=lazy]）。
+       这里只监听 load，不调 decode()：decode 会立刻触发下载，lazy 就失效了。 */
+    $$('img[loading="lazy"]').forEach(function (img) {
+      if (img.classList.contains("is-loaded")) return;
+      if (img.complete && img.naturalWidth > 0) { img.classList.add("is-loaded"); return; }
+      on(img, "load", function () { img.classList.add("is-loaded"); }, { once: true });
+      on(img, "error", function () { img.classList.add("is-loaded"); }, { once: true });
+    });
   }
 
   /* ---------- 4. 复制按钮 ---------- */

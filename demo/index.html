@@ -456,7 +456,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (hover:hover) and (pointer:fine){ .gallery__rows:hover .gallery__track{animation-play-state:paused} }
 .city{flex:0 0 250px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);transition:transform .45s var(--ease-out),border-color .3s;box-shadow:var(--shadow-soft)}
 .city:hover{transform:translateY(-6px);border-color:rgba(255,146,120,.5)}
-.city img{aspect-ratio:3/4;object-fit:cover;width:100%;transition:transform .8s var(--ease-out)}
+.city img{aspect-ratio:3/4;object-fit:cover;width:100%;height:auto;transition:transform .8s var(--ease-out)}
 .city:hover img{transform:scale(1.06)}
 .city figcaption{position:absolute;inset:auto 0 0;padding:34px 16px 14px;background:linear-gradient(to top,rgba(24,32,42,.78),transparent);display:flex;justify-content:space-between;align-items:baseline}
 .city b{font:600 .95rem/1 var(--font-sans);color:#fff}
@@ -527,7 +527,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* 首屏元素的入场转场缩短到 .5s：
    实测原 1s 转场会把 LCP（首屏文字）推迟到 1.4s 之后才被记录。
    滚动进入的区块仍用 1s，观感不变。 */
-.hero [data-reveal]{transition-duration:.5s}
+/* 首屏不参与滚动揭示：LCP 元素必须在首次绘制即可见。
+   原实现靠 transition-duration:.5s 仍然要从 opacity:0 开始，实测 LCP 被推到 2.7s。 */
+.hero [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}
 [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
 [data-reveal].is-in{opacity:1;transform:none}
 [data-reveal-delay="1"]{transition-delay:.1s}[data-reveal-delay="2"]{transition-delay:.2s}
@@ -1431,11 +1433,11 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       <div class="duo">
         <div class="tvisual ui-lift" data-spotlight data-reveal data-reveal-delay="2">
           <figure class="tvisual__main">
-            <img src="./img/cover-900.webp" alt="山间晨雾与日出——甜途 App 的旅行记忆" width="900" height="620" loading="eager" />
+            <img src="./img/cover-900.webp" alt="山间晨雾与日出——甜途 App 的旅行记忆" width="900" height="620" loading="lazy" decoding="async" />
             <figcaption class="tvisual__tag" aria-hidden="true">57.4°N · ISLE OF SKYE</figcaption>
           </figure>
           <figure class="tvisual__card">
-            <img src="./img/chongqing-900.webp" alt="重庆城市夜景" width="900" height="675" loading="eager" />
+            <img src="./img/chongqing-900.webp" alt="重庆城市夜景" width="900" height="675" loading="lazy" decoding="async" />
             <figcaption><span>重庆</span><span>29.6°N</span></figcaption>
           </figure>
         </div>
@@ -1474,28 +1476,28 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
         <div class="gallery__rows" data-reveal>
           <div class="gallery__row gallery__row--ltr" aria-label="城市画廊 · 第一行">
             <div class="gallery__track">
-              <figure class="city ui-lift" data-spotlight><img src="./img/beijing-900.webp" alt="北京" loading="eager" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-a.webp" alt="山野公路" loading="eager" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/shanghai-900.webp" alt="上海" loading="eager" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="eager" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/hangzhou-900.webp" alt="杭州" loading="eager" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="eager" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-d.webp" alt="城市车流" loading="eager" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="eager" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-f.webp" alt="海岸线" loading="eager" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/beijing-900.webp" alt="北京" loading="lazy" width="900" height="600" decoding="async" /><figcaption><b>北京</b><span>39.9°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-a.webp" alt="山野公路" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>山野</b><span>在路上</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/shanghai-900.webp" alt="上海" loading="lazy" width="900" height="600" decoding="async" /><figcaption><b>上海</b><span>31.2°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-b.webp" alt="城市天际线" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>天际线</b><span>夜色</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/hangzhou-900.webp" alt="杭州" loading="lazy" width="900" height="598" decoding="async" /><figcaption><b>杭州</b><span>30.3°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-c.webp" alt="街巷光影" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>街巷</b><span>光影</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-d.webp" alt="城市车流" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>车流</b><span>黄昏</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-e.webp" alt="山湖之间" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>山湖</b><span>旷野</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-f.webp" alt="海岸线" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>海岸</b><span>风与浪</span></figcaption></figure>
             </div>
           </div>
           <div class="gallery__row gallery__row--rtl" aria-label="城市画廊 · 第二行">
             <div class="gallery__track">
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="eager" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/chengdu-900.webp" alt="成都" loading="eager" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-h.webp" alt="森林步道" loading="eager" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/chongqing-900.webp" alt="重庆" loading="eager" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="eager" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/xian-900.webp" alt="西安" loading="eager" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-j.webp" alt="山间公路" loading="eager" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="eager" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
-              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="eager" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-g.webp" alt="群山云雾" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>群山</b><span>云雾</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/chengdu-900.webp" alt="成都" loading="lazy" width="900" height="600" decoding="async" /><figcaption><b>成都</b><span>30.6°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-h.webp" alt="森林步道" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>森林</b><span>步道</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/chongqing-900.webp" alt="重庆" loading="lazy" width="900" height="506" decoding="async" /><figcaption><b>重庆</b><span>29.6°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-i.webp" alt="林间晨光" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>林间</b><span>晨光</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/xian-900.webp" alt="西安" loading="lazy" width="900" height="675" decoding="async" /><figcaption><b>西安</b><span>34.3°N</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-j.webp" alt="山间公路" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>山间</b><span>公路</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-k.webp" alt="雪山星空" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>雪山</b><span>星空</span></figcaption></figure>
+              <figure class="city ui-lift" data-spotlight><img src="./img/travel/trip-l.webp" alt="海岸晚霞" loading="lazy" width="900" height="1200" decoding="async" /><figcaption><b>海岸</b><span>晚霞</span></figcaption></figure>
             </div>
           </div>
         </div>
@@ -1679,14 +1681,14 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       <h2 class="footer__title" data-reveal>三件作品，都在等你。<br /><em>从这一页出发。</em></h2>
       <div class="footer__cards">
         <a class="fcard fcard--learn ui-lift" data-spotlight href="https://learn.yuanabd.cn" target="_blank" rel="noopener noreferrer" data-reveal>
-          <span class="fcard__logo"><img src="./img/kulv-logo.png" alt="苦旅 App 图标" width="44" height="44" loading="lazy" /></span>
+          <span class="fcard__logo"><img src="./img/kulv-logo.png" alt="苦旅 App 图标" width="44" height="44" loading="lazy" decoding="async" /></span>
           <span class="fcard__mono">01 · LEARN-WORKBENCH · KU LV</span>
           <h3>苦旅</h3>
           <p>把求职与学习装订成五本手册：市场雷达、题库、路线图、看板、就绪度评估。</p>
           <span class="fcard__bar" aria-hidden="true"><i></i></span>
         </a>
         <a class="fcard fcard--travel ui-lift" data-spotlight href="https://travel-notes.yuanabd.cn" target="_blank" rel="noopener noreferrer" data-reveal data-reveal-delay="1">
-          <span class="fcard__logo"><img src="./img/tiantu-logo.png" alt="甜途 App 图标" width="44" height="44" loading="lazy" /></span>
+          <span class="fcard__logo"><img src="./img/tiantu-logo.png" alt="甜途 App 图标" width="44" height="44" loading="lazy" decoding="async" /></span>
           <span class="fcard__mono">02 · TRAVEL-NOTES · TIAN TU</span>
           <h3>甜途</h3>
           <p>一座安静的旅行记忆空间：足迹地图、城市画册、相册同步与旅行圈。</p>
@@ -1840,11 +1842,22 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       burger.setAttribute("aria-expanded", open ? "true" : "false");
       burger.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
     });
+    function close(){
+      inner.classList.remove("nav--open");
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-label", "打开菜单");
+    }
     inner.querySelectorAll(".nav__links a").forEach(function(a){
-      a.addEventListener("click", function(){
-        inner.classList.remove("nav--open");
-        burger.setAttribute("aria-expanded", "false");
-      });
+      a.addEventListener("click", close);
+    });
+    /* 真机测试补充：Esc 与「点击菜单外」都应关闭；此前只能点链接或再点汉堡 */
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && inner.classList.contains("nav--open")) { close(); burger.focus(); }
+    });
+    document.addEventListener("click", function(e){
+      if (!inner.classList.contains("nav--open")) return;
+      if (inner.contains(e.target)) return;
+      close();
     });
   }
 
@@ -2025,6 +2038,14 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   function initFade() {
     var imgs = $$("[data-fade], .ui-card__media img");
     imgs.forEach(loadImage);
+    /* loading="lazy" 的图片默认被 opacity:0 藏起（.city img[loading=lazy]）。
+       这里只监听 load，不调 decode()：decode 会立刻触发下载，lazy 就失效了。 */
+    $$('img[loading="lazy"]').forEach(function (img) {
+      if (img.classList.contains("is-loaded")) return;
+      if (img.complete && img.naturalWidth > 0) { img.classList.add("is-loaded"); return; }
+      on(img, "load", function () { img.classList.add("is-loaded"); }, { once: true });
+      on(img, "error", function () { img.classList.add("is-loaded"); }, { once: true });
+    });
   }
 
   /* ---------- 4. 复制按钮 ---------- */
@@ -2367,7 +2388,10 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
   }
   function initSplit(){
     if (reduce) return;
-    var targets = document.querySelectorAll(".hero h1, .now__title, .footer__title");
+    /* 首屏 h1 不再拆字：DOMContentLoaded 后把文本换成逐字 inline-block 会重新断行，
+       实测在首帧之后产生 0.032 的 CLS（hero__sub/roles/actions 一起位移）。
+       首屏标题保持整段排版，逐字动画只留给下方区块。 */
+    var targets = document.querySelectorAll(".now__title, .footer__title");
     if (!targets.length || !("IntersectionObserver" in window)) return;
     targets.forEach(splitChars);
     var io = new IntersectionObserver(function(entries){
@@ -2376,10 +2400,6 @@ html:not(.js) [data-fade]{opacity:1;transform:none}
       });
     }, { threshold: 0.25 });
     targets.forEach(function(el){ io.observe(el); });
-    // 首屏 hero 立即播放（避免与现有 reveal 叠加延迟）
-    setTimeout(function(){
-      document.querySelectorAll(".hero h1").forEach(function(el){ el.classList.add("play"); });
-    }, 350);
   }
 
   /* ---------- P2 卡片 3D 倾斜 ---------- */

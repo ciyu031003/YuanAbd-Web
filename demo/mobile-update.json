@@ -1,17 +1,22 @@
 {
-  "versionName": "2.8.2",
-  "versionCode": 129,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.2.apk",
-  "sizeBytes": 84157878,
-  "sha256": "f076ec5e61a18023b577b9612925890c4db172ac684020b972671ea4259bccf8",
+  "versionName": "2.8.3",
+  "versionCode": 130,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.3.apk",
+  "sizeBytes": 84221494,
+  "sha256": "c960dfe02ed5f6c6d107d20012e81135e3f85124135f0cb46897eef0df7dfbb9",
   "releaseNotes": [
-    "2.8.2 修复",
-    "· 修复部分场景下的原生闪退（SIGSEGV / 栈溢出）：关闭 Android 端玻璃截图背景，避免视图递归重绘。",
-    "· 玻璃层级改为半透明染色实底，可读性不变；iOS 系统玻璃不受影响。",
-    "· 版本 2.8.2（versionCode 129）。"
+    "2.8.3 移动端 UI 重构",
+    "· 底栏改为真液态玻璃：去掉白色背板，新增镜面高光与玻璃选中胶囊。",
+    "· 新增右下角液态玻璃加号，睡眠 / 饮食 / 训练随手添加。",
+    "· 速览卡支持 3D 翻面看答案，切卡加入高斯模糊过渡。",
+    "· 新增岗位 3D 卡组：居中悬浮、左右滑动、一键投递。",
+    "· 新增健康打印分享卡：四项数据打印成纸 + 专属条形码。",
+    "· 408 刷完弹出 3D 金属庆祝卡（正确率 / 已刷 / 日期 / 编号）。",
+    "· 新增全屏电影感登录注册页，悬浮液态玻璃表单。",
+    "· 版本 2.8.3（versionCode 130）。"
   ],
-  "publishedAt": "2026-11-22T02:29:02.944Z",
+  "publishedAt": "2026-11-25T18:41:16.858Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "PqVp-evNfnOhaCKynwk3qULocq8RFAFjMWkrAT4Q88YU0yLzgkogWCRH8rahzifwGo1DLcnd3AiPXlr8PumECg"
+  "signature": "W8UhabskO400_0lkrtSHCwlendA8BtOAhma4nLmkK8rr-XtjUwhqdsto2b7VFC2WVp85rhfWZ4Wt1gt3yWjGCA"
 }

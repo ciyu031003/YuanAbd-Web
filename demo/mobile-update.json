@@ -1,26 +1,23 @@
 {
-  "versionName": "2.8.6",
-  "versionCode": 133,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.6.apk",
-  "sizeBytes": 84320222,
-  "sha256": "2d41f865ea63adfc13a1f8afd76f1bf7e087b3fdeb239b0454ef5ba9ab2182ed",
+  "versionName": "2.8.7",
+  "versionCode": 134,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.7.apk",
+  "sizeBytes": 84145890,
+  "sha256": "2f7fdad9dd1238565ade1424c6dc7be12665f28703cf64823311884a4956263e",
   "releaseNotes": [
-    "移动端 2.8.6（133）",
-    "· 饮食页按 demo v15 重做：周日期条 / 能量双环 / 记录·饮水·趋势三入口 / 今日餐食 / 近 7 天热量 / 饮水 / 常吃 / 今日洞察",
-    "· 新增全屏「记录饮食」：餐次分段、营养库搜索、克数换算、手动记录与最近吃过，保存仍走离线发件箱",
-    "· 训练页重做：Weekly Load / 恢复建议 / 每日训练柱状图 / 近 7 天动作构成 / 最近训练，不展示数据里不存在的热量",
-    "· 新增全屏「记录训练」：动作库、组数 / 次数 / 重量步进器、时长与备注，支持新建与编辑",
-    "· 睡眠分析重做：深蓝评分 Hero / 睡眠分期比例 / 6 项关键指标 / 近 7 晚趋势 / 规律性 / 睡眠债 / 洞察",
-    "· 新增全屏「记录睡眠」：日期、入睡起床、自动计算时长、深睡 / REM / 夜醒 / 效率，支持编辑与删除",
-    "· 首页 / 学习 / 职业 / 成长 / 我的补上 demo 的页面底纹（暖橙 / 蓝 / 暖米 / 淡紫）",
-    "· 首页任务清单改为白卡勾选列表，主按钮改为蓝色；窄屏标题自动缩放不再折行",
-    "· 职业页新增页头与「滑动选岗」卡组入口，目标方向卡按 demo 重排",
-    "· 成长页新增首屏 9 秒兜底，弱网下不再长时间停在骨架屏；宏量营养增加空态说明",
-    "· 我的页个人卡改为白卡档案（头像 / 昵称 / 登录状态 / deviceId），页头改为蓝色 eyebrow",
-    "· 睡眠编辑支持回填 Health Connect 记录，不再打开空表单"
+    "移动端 2.8.7（134）",
+    "· 修复：睡眠编辑回填原始时间戳；未填写时长时不再显示「—hm」，填写后实时显示「8h20m」与评分",
+    "· 修复：饮食「最近吃过 +」把 300 kcal 记成 0 —— 营养库字符串数字先转数值再换算",
+    "· 修复：匿名新增饮食服务端 500 —— SQL 占位符从 $2 起连续编号（原实现 $2 悬空，PG 42P18）",
+    "· 修复：匿名编辑饮食会把名称/餐次/营养写坏 —— SET 参数避开 anon_id 作用域参数，不再撞号",
+    "· 修复：同一顿饭并发补发落两条 —— 客户端 flush 单飞锁 + 匿名 client_id 唯一索引 + 23505 幂等回读",
+    "· 修复：训练保存成功但列表 0 条 / 匿名训练列表 500 —— workout_items 没有 anon_id，改按已鉴权的 workout id 取明细",
+    "· 修复：刷新遇到 304 空响应时刚记的餐不显示 —— 读接口绕开 HTTP 缓存，并在 304 时保留待同步条目",
+    "· 优化：未登录时「存入常用食物」开关置灰并提示登录，不再记录成功后再弹一次保存失败",
+    "· 全量回归：mobile 1442 用例 / web 2146 用例；typecheck / lint / 字体缩放 / UI 矩阵 / 动效预算全部通过"
   ],
-  "publishedAt": "2026-11-26T20:08:05.477Z",
+  "publishedAt": "2026-11-26T23:18:42.738Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "SpvuvAlWUjTWcDgBZgEjncW-ZiVX-IvKCUuFW7_NhXIv3tTFPGSw9PYtTAfdw4YEbuK60aZqe7cyavbLa6QOAA"
+  "signature": "A9LeoruA2rVHpR90gNHpL9ZlzPHVzbkuGSt-CpHMet67YeN2GTXNjQxJ_n43qDOeb0SG8UFMoeUAuOHb6gq0AQ"
 }

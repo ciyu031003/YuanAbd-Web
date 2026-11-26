@@ -1,22 +1,23 @@
 {
-  "versionName": "2.8.3",
-  "versionCode": 130,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.3.apk",
-  "sizeBytes": 84221494,
-  "sha256": "c960dfe02ed5f6c6d107d20012e81135e3f85124135f0cb46897eef0df7dfbb9",
+  "versionName": "2.8.5",
+  "versionCode": 132,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.5.apk",
+  "sizeBytes": 84254686,
+  "sha256": "3597d7b1b884743681ac59094021cebf35ba0ab1cc7e19b028f79cd96a6cc32f",
   "releaseNotes": [
-    "2.8.3 移动端 UI 重构",
-    "· 底栏改为真液态玻璃：去掉白色背板，新增镜面高光与玻璃选中胶囊。",
-    "· 新增右下角液态玻璃加号，睡眠 / 饮食 / 训练随手添加。",
-    "· 速览卡支持 3D 翻面看答案，切卡加入高斯模糊过渡。",
-    "· 新增岗位 3D 卡组：居中悬浮、左右滑动、一键投递。",
-    "· 新增健康打印分享卡：四项数据打印成纸 + 专属条形码。",
-    "· 408 刷完弹出 3D 金属庆祝卡（正确率 / 已刷 / 日期 / 编号）。",
-    "· 新增全屏电影感登录注册页，悬浮液态玻璃表单。",
-    "· 版本 2.8.3（versionCode 130）。"
+    "移动端 2.8.5（132）",
+    "· 成长洞察页对齐 v12：连续记录、体重、宏量营养素、热量与每日目标一屏可读",
+    "· 全局加号统一为液态玻璃快捷入口：睡眠 / 饮食 / 训练 / 饮水 / 体重 / 习惯",
+    "· 底部 Tab 栏升级为真实液态玻璃背板，保留模糊、通透与高光层次",
+    "· 学习页新增 3 张金属成就卡（连续学习 / 阶段推进 / 知识积累），可横滑查看",
+    "· 学习工具扩展为 2×3：新增「阶段路线」「材料阅读」直达入口",
+    "· 我的页新增加「学习者档案」页头，14 周成长热力图默认展开",
+    "· 408 刷卡新增堆叠卡片与高斯模糊切卡过渡，保留 3D 翻面与三档自评",
+    "· 修复题库历史抓取残留的 <p> 标签，题干 / 选项 / 解析按纯文本正常显示",
+    "· 修复健康与任务接口“今天”的时区口径，统一按 Asia/Shanghai 计算"
   ],
-  "publishedAt": "2026-11-25T18:41:16.858Z",
+  "publishedAt": "2026-11-26T19:14:20.786Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "W8UhabskO400_0lkrtSHCwlendA8BtOAhma4nLmkK8rr-XtjUwhqdsto2b7VFC2WVp85rhfWZ4Wt1gt3yWjGCA"
+  "signature": "sS1DICGuNr851EGfAiOC8w5UpqVvVf4LJgt7wsmbbE5MskInt1cPCS_QJ9WsqW6_otV3lzjGn297XVo2or8NAQ"
 }

@@ -1582,3 +1582,10 @@ body.fs-open{overflow:hidden}
   .kbd-help__list dd{font-size:12px}
   .kbd-hint{margin:8px 0 10px}
 }
+
+/* 移动端状态筛选：改为横向滚动，避免标签被压成竖排文字 */
+@media (max-width:760px){
+  .statustabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .statustabs::-webkit-scrollbar{display:none}
+  .statustab{flex:none;white-space:nowrap}
+}

@@ -1,23 +1,26 @@
 {
-  "versionName": "2.8.5",
-  "versionCode": 132,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.5.apk",
-  "sizeBytes": 84254686,
-  "sha256": "3597d7b1b884743681ac59094021cebf35ba0ab1cc7e19b028f79cd96a6cc32f",
+  "versionName": "2.8.6",
+  "versionCode": 133,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.6.apk",
+  "sizeBytes": 84320222,
+  "sha256": "2d41f865ea63adfc13a1f8afd76f1bf7e087b3fdeb239b0454ef5ba9ab2182ed",
   "releaseNotes": [
-    "移动端 2.8.5（132）",
-    "· 成长洞察页对齐 v12：连续记录、体重、宏量营养素、热量与每日目标一屏可读",
-    "· 全局加号统一为液态玻璃快捷入口：睡眠 / 饮食 / 训练 / 饮水 / 体重 / 习惯",
-    "· 底部 Tab 栏升级为真实液态玻璃背板，保留模糊、通透与高光层次",
-    "· 学习页新增 3 张金属成就卡（连续学习 / 阶段推进 / 知识积累），可横滑查看",
-    "· 学习工具扩展为 2×3：新增「阶段路线」「材料阅读」直达入口",
-    "· 我的页新增加「学习者档案」页头，14 周成长热力图默认展开",
-    "· 408 刷卡新增堆叠卡片与高斯模糊切卡过渡，保留 3D 翻面与三档自评",
-    "· 修复题库历史抓取残留的 <p> 标签，题干 / 选项 / 解析按纯文本正常显示",
-    "· 修复健康与任务接口“今天”的时区口径，统一按 Asia/Shanghai 计算"
+    "移动端 2.8.6（133）",
+    "· 饮食页按 demo v15 重做：周日期条 / 能量双环 / 记录·饮水·趋势三入口 / 今日餐食 / 近 7 天热量 / 饮水 / 常吃 / 今日洞察",
+    "· 新增全屏「记录饮食」：餐次分段、营养库搜索、克数换算、手动记录与最近吃过，保存仍走离线发件箱",
+    "· 训练页重做：Weekly Load / 恢复建议 / 每日训练柱状图 / 近 7 天动作构成 / 最近训练，不展示数据里不存在的热量",
+    "· 新增全屏「记录训练」：动作库、组数 / 次数 / 重量步进器、时长与备注，支持新建与编辑",
+    "· 睡眠分析重做：深蓝评分 Hero / 睡眠分期比例 / 6 项关键指标 / 近 7 晚趋势 / 规律性 / 睡眠债 / 洞察",
+    "· 新增全屏「记录睡眠」：日期、入睡起床、自动计算时长、深睡 / REM / 夜醒 / 效率，支持编辑与删除",
+    "· 首页 / 学习 / 职业 / 成长 / 我的补上 demo 的页面底纹（暖橙 / 蓝 / 暖米 / 淡紫）",
+    "· 首页任务清单改为白卡勾选列表，主按钮改为蓝色；窄屏标题自动缩放不再折行",
+    "· 职业页新增页头与「滑动选岗」卡组入口，目标方向卡按 demo 重排",
+    "· 成长页新增首屏 9 秒兜底，弱网下不再长时间停在骨架屏；宏量营养增加空态说明",
+    "· 我的页个人卡改为白卡档案（头像 / 昵称 / 登录状态 / deviceId），页头改为蓝色 eyebrow",
+    "· 睡眠编辑支持回填 Health Connect 记录，不再打开空表单"
   ],
-  "publishedAt": "2026-11-26T19:14:20.786Z",
+  "publishedAt": "2026-11-26T20:08:05.477Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "sS1DICGuNr851EGfAiOC8w5UpqVvVf4LJgt7wsmbbE5MskInt1cPCS_QJ9WsqW6_otV3lzjGn297XVo2or8NAQ"
+  "signature": "SpvuvAlWUjTWcDgBZgEjncW-ZiVX-IvKCUuFW7_NhXIv3tTFPGSw9PYtTAfdw4YEbuK60aZqe7cyavbLa6QOAA"
 }

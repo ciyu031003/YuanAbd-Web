@@ -533,8 +533,8 @@ test("编辑器：参考资料与命令面板控件都有可访问名称", funct
    线上文章页 → 后台沙箱 iframe：
      · 外链 CSS 必须内联（srcdoc 继承后台 CSP，外站样式会被拦）
      · 站点脚本必须移除
-     · ../ 按文章页位置换成 /fixboxs/，../../ 换成站点根
-     · media/x.png 兼容成 /fixboxs/media/x.png
+     · ../ 按文章页位置换成站点根，../../ 同样回落到站点根
+     · media/x.png 兼容成 /media/x.png
    ========================================================================= */
 test("previewDocument：内联 CSS、去脚本、改写相对路径与图片地址", function () {
   const page =
@@ -552,9 +552,9 @@ test("previewDocument：内联 CSS、去脚本、改写相对路径与图片地�
   assert.doesNotMatch(out, /<link[^>]*stylesheet/i, "外链样式必须被内联替换");
   assert.match(out, /<style>/, "应产出内联样式");
   assert.doesNotMatch(out, /<script/i, "站点脚本必须移除");
-  assert.match(out, /href="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/index\.html"/);
-  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/img\/demo\.png"/);
-  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/media\/upload\.png"/);
+  assert.match(out, /href="https:\/\/pc-fixboxs\.yuanabd\.cn\/index\.html"/);
+  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/img\/demo\.png"/);
+  assert.match(out, /src="https:\/\/pc-fixboxs\.yuanabd\.cn\/media\/upload\.png"/);
   assert.match(out, /fx-preloader[^}]*display:none/, "预览必须用 CSS 隐藏站点首屏遮罩");
 });
 
@@ -570,7 +570,7 @@ test("previewDocument：对真实 build-fix 输出可用（图片可渲染、无
   assert.ok(out.length > 2000);
   assert.doesNotMatch(out, /<link\b[^>]*stylesheet/i);
   assert.doesNotMatch(out, /<script/i);
-  assert.match(out, /<img[^>]+src="https:\/\/pc-fixboxs\.yuanabd\.cn\/fixboxs\/media\/x\.png"/);
+  assert.match(out, /<img[^>]+src="https:\/\/pc-fixboxs\.yuanabd\.cn\/media\/x\.png"/);
 });
 
 test("编辑器：正文图片清单容器 + 预览请求走 urlencoded（form 解析才能拿到 _csrf）", function () {

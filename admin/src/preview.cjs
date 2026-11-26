@@ -41,11 +41,12 @@ function previewDocument(page) {
   out = out.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
   // 站点靠 JS 关闭首屏 preloader；预览里脚本被移除，必须用 CSS 兜底隐藏，否则整页被遮罩挡住
   out = out.replace(/<\/head>/i, "<style>.fx-preloader,.fx-curtain{display:none!important}</style></head>");
-  // 相对路径：文章页位于 /fixboxs/fix/，因此 ../ 指向 /fixboxs/，../../ 指向站点根
+  /* 相对路径：修盒子站点部署在域名根目录（文章页 /fix/<slug>.html），
+     所以 ../ 与 ../../ 都指向站点根；上传图片的 media/x.png = /media/x.png。
+     旧实现写死了 /fixboxs/ 前缀，导致预览里的图片 404（线上站已不在子路径下）。 */
   out = out.replace(/(src|href)="\.\.\/\.\.\//g, '$1="' + site + "/");
-  out = out.replace(/(src|href)="\.\.\//g, '$1="' + site + "/fixboxs/");
-  // 上传图片的兼容写法：media/x.png = /fixboxs/media/x.png
-  out = out.replace(/(src)="(?:\.\/)?media\//g, '$1="' + site + "/fixboxs/media/");
+  out = out.replace(/(src|href)="\.\.\//g, '$1="' + site + "/");
+  out = out.replace(/(src)="(?:\.\/)?media\//g, '$1="' + site + "/media/");
   return out;
 }
 

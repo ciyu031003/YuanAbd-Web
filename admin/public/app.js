@@ -422,4 +422,33 @@
     if (!document.querySelector("[data-srcpoll]")) return;
     setTimeout(function () { window.location.reload(); }, 6000);
   })();
+
+  /* ---------------- 快捷键帮助弹层（? 打开 / Esc 关闭） ---------------- */
+  (function () {
+    var dlg = document.getElementById("kbd-help");
+    if (!dlg) return;
+    function openHelp() {
+      if (typeof dlg.showModal === "function") dlg.showModal();
+      else dlg.setAttribute("open", "");
+    }
+    function closeHelp() {
+      if (typeof dlg.close === "function") dlg.close();
+      else dlg.removeAttribute("open");
+    }
+    Array.prototype.forEach.call(document.querySelectorAll("[data-kbd-help]"), function (b) {
+      b.addEventListener("click", function (e) { e.preventDefault(); openHelp(); });
+    });
+    var closeBtn = dlg.querySelector("[data-kbd-close]");
+    if (closeBtn) closeBtn.addEventListener("click", closeHelp);
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) closeHelp(); });
+    document.addEventListener("keydown", function (e) {
+      var t = e.target;
+      var typing = t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable);
+      if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === "?" ) {
+        e.preventDefault();
+        if (dlg.open) closeHelp(); else openHelp();
+      }
+    });
+  })();
 })();

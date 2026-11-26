@@ -634,6 +634,42 @@ test("第三轮优化：发布页 3 步说明 / 审核三步 / 批量条收起 /
   assert.match(appjs, /classList\.toggle\("is-idle"/);
 });
 
+test("第四轮：快捷键帮助 / 审核键盘流 / 发布记录折叠 / 正文优先", function () {
+  const pub = views.publishPage({ jobs: Array.from({ length: 10 }, function (_, i) {
+    return { id: 100 - i, action: "publish", status: "succeeded", created_at: "2026-11-26T10:00:00.000Z", started_at: "2026-11-26T10:00:00.000Z", finished_at: "2026-11-26T10:00:01.000Z" };
+  }), csrf: "c" });
+  assert.match(pub, /class="more-jobs"/, "发布记录超过 8 条应折叠");
+  assert.match(pub, /查看更早的 2 条发布记录/);
+  assert.match(pub, /默认显示最近 8 条/);
+
+  const rev = views.reviewPage({
+    user: USER, roles: [{ role: "root" }], csrf: CSRF,
+    queue: [{ slug: "a", title: "A", status: "in_review" }, { slug: "b", title: "B", status: "in_review" }],
+    counts: { in_review: 2, changes_requested: 0 }, filter: "in_review",
+    current: { slug: "a", title: "A", status: "in_review", body: "## 一句话结论\n\nx", meta: {}, sources: [], sections: [], comments: [] }
+  });
+  assert.match(rev, /class="kbd-hint"/, "审核台应有键盘提示");
+  assert.match(rev, /\/static\/review\.js/, "审核台应加载键盘脚本");
+  const reviewJs = fs.readFileSync(path.join(__dirname, "..", "public", "review.js"), "utf8");
+  assert.match(reviewJs, /ArrowDown/);
+  assert.match(reviewJs, /value="approve"/);
+  assert.match(reviewJs, /rnote/);
+
+  const dash = views.dashboardPage({
+    user: USER, roles: [{ role: "root" }], csrf: CSRF, total: 1,
+    stats: {}, recent: [], stale: [], byDomain: [], byStatus: {}, heat: [], pubTrend: [],
+    feedback: { stats: {}, articles: [], recent: [], issues: [] }
+  });
+  assert.match(dash, /id="kbd-help"/, "所有登录页应有快捷键帮助弹层");
+  assert.match(dash, /data-kbd-help/);
+  assert.match(dash, /class="kbd-btn"/);
+  const appjs = fs.readFileSync(path.join(__dirname, "..", "public", "app.js"), "utf8");
+  assert.match(appjs, /kbd-help/);
+  const edjs = fs.readFileSync(path.join(__dirname, "..", "public", "editor.js"), "utf8");
+  assert.match(edjs, /grp--body/, "新建文章应把正文组提前");
+  assert.match(edjs, /insertBefore\(bodyGrp/);
+});
+
 test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {
   const html = views.editorPage({
     isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },

@@ -1293,8 +1293,11 @@ function layout(title, bodyHtml, opts) {
     ? '<button class="cmdbtn" type="button" data-cmdk-open aria-label="搜索文章与跳转（Ctrl 或 Cmd 加 K）">' +
         icon("search", 14) + '<span>搜索 / 跳转</span><kbd>Ctrl K</kbd></button>'
     : "";
+  const kbdBtn = user
+    ? '<button class="kbd-btn" type="button" data-kbd-help aria-label="查看快捷键（问号键）" title="快捷键（?）">?</button>'
+    : "";
   const topbar = user
-    ? '<div class="topbar">' + crumbs + '<span class="topbar__sp"></span>' + cmdkBtn + (opts.actions || "") + '</div>'
+    ? '<div class="topbar">' + crumbs + '<span class="topbar__sp"></span>' + cmdkBtn + kbdBtn + (opts.actions || "") + '</div>'
     : "";
 
   const inner = opts.nav === false
@@ -1315,6 +1318,22 @@ function layout(title, bodyHtml, opts) {
         '</div></dialog>'
     : "";
 
+  /* 快捷键帮助：第一次用的人不知道有哪些键盘捷径，集中放一处可查 */
+  const kbdHelp = user
+    ? '<dialog id="kbd-help" class="kbd-help" aria-labelledby="kbd-help-title">' +
+        '<header class="kbd-help__hd"><h2 id="kbd-help-title">快捷键</h2>' +
+          '<button class="btn btn--sm" type="button" data-kbd-close>关闭（Esc）</button></header>' +
+        '<dl class="kbd-help__list">' +
+          "<div><dt><kbd>Ctrl</kbd><kbd>K</kbd></dt><dd>搜索文章 / 跳转页面（命令面板）</dd></div>" +
+          "<div><dt><kbd>Ctrl</kbd><kbd>S</kbd></dt><dd>保存当前文章（编辑器内）</dd></div>" +
+          "<div><dt><kbd>J</kbd><kbd>K</kbd></dt><dd>切换审核队列里的上一篇 / 下一篇</dd></div>" +
+          "<div><dt><kbd>A</kbd></dt><dd>通过并发布（审核台）</dd></div>" +
+          "<div><dt><kbd>R</kbd></dt><dd>退回修改，并跳到意见输入框（审核台）</dd></div>" +
+          "<div><dt><kbd>?</kbd></dt><dd>打开 / 关闭这个帮助</dd></div>" +
+          "<div><dt><kbd>Esc</kbd></dt><dd>关闭弹层；在全屏分栏里退出</dd></div>" +
+        "</dl></dialog>"
+    : "";
+
   // 无障碍：toast 与提示用 aria-live 播报（Popover API 不会自动向读屏宣告）
   return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
@@ -1328,6 +1347,7 @@ function layout(title, bodyHtml, opts) {
     '<noscript><div style="margin:0 0 14px;padding:10px 14px;border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;background:var(--warn-weak);color:var(--warn);font-size:13px">浏览器禁用了 JavaScript：文章可以正常读写，但命令面板、分栏预览、图片上传与自动保存不可用。</div></noscript>' +
     inner +
     cmdk +
+    kbdHelp +
     '\n<script src="/static/app.js" defer></script>\n' +
     (user ? '<script src="/static/cmdk.js" defer></script>\n' : '') +
     // 页面级脚本：editor.js 只在编辑器页引入（元素缺失即跳过，见 public/editor.js）。
@@ -2530,7 +2550,7 @@ function publishPage(opts) {
   // 状态与动作原先直接显示英文枚举（succeeded / publish / archive）
   const JOB_STATUS = { succeeded: "成功", failed: "失败", running: "进行中", queued: "排队中" };
   const JOB_ACTION = { publish: "发布", archive: "归档", revert: "回滚" };
-  const jobs = opts.jobs.map(function (j) {
+  const jobRows = opts.jobs.map(function (j) {
     const dur = j.finished_at && j.started_at
       ? Math.round((new Date(j.finished_at) - new Date(j.started_at)) / 1000) + "s" : "—";
     const cls = j.status === "succeeded" ? "pill--published" : (j.status === "failed" ? "pill--changes_requested" : "pill--draft");
@@ -2540,7 +2560,23 @@ function publishPage(opts) {
       '<td class="num tight">' + esc(String(j.created_at || "").slice(0,19).replace("T"," ")) + "</td>" +
       '<td class="num tight">' + dur + "</td>" +
       "<td>" + (j.error ? '<span style="color:var(--warn)">' + esc(String(j.error).slice(0,140)) + "</span>" : "") + "</td></tr>";
-  }).join("");
+  });
+  /* 发布记录默认只显示最近 8 条，更早的折叠起来：历史多了以后页面不会无限拉长 */
+  const JOB_HEAD = "<thead><tr><th>任务</th><th>类型</th><th>状态</th><th>时间</th><th>耗时</th><th>问题</th></tr></thead>";
+  const recentJobs = jobRows.slice(0, 8).join("");
+  const olderJobs = jobRows.slice(8);
+  const jobsTable = '<div class="card card--flush">' +
+    '<div class="tablewrap"><table>' + JOB_HEAD + "<tbody>" +
+      (jobRows.length ? recentJobs
+        : '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("publish", 24) + '</div>' +
+          '<div class="empty__t">还没有发布记录</div><div>点击上方「立即发布到线上」后，这里会显示进度与结果</div></td></tr>') +
+    "</tbody></table></div>" +
+    (olderJobs.length
+      ? '<details class="more-jobs"><summary>查看更早的 ' + olderJobs.length + " 条发布记录</summary>" +
+        '<div class="tablewrap"><table>' + JOB_HEAD + "<tbody>" + olderJobs.join("") + "</tbody></table></div></details>"
+      : "") +
+    (jobRows.length ? '<div class="card__ft muted" style="font-size:11.5px">共 ' + jobRows.length + " 条记录，默认显示最近 8 条</div>" : "") +
+    "</div>";
   return layout("发布",
     pageHead({
       ico: "publish", title: "发布到线上",
@@ -2561,10 +2597,7 @@ function publishPage(opts) {
     '<input type="hidden" name="_csrf" value="' + esc(opts.csrf) + '">' +
     '<button class="btn btn--primary" type="submit">立即发布到线上</button>' +
     '<span class="muted">通常 1–2 分钟完成，期间可以继续写文章。</span></form></div>' +
-    '<div class="card card--flush"><div class="tablewrap"><table>' +
-    "<thead><tr><th>任务</th><th>类型</th><th>状态</th><th>时间</th><th>耗时</th><th>问题</th></tr></thead><tbody>" +
-    (jobs || '<tr><td colspan="6" class="empty">' + '<div class="empty__ico">' + icon("publish", 24) + '</div>' + '<div class="empty__t">还没有发布记录</div><div>点击上方「立即发布到线上」后，这里会显示进度与结果</div></td></tr>') +
-    "</tbody></table></div></div>",
+    jobsTable,
     Object.assign({ current: "publish", accent: "mint", crumbs: [{ label: "发布" }] }, opts));
 }
 
@@ -3172,6 +3205,9 @@ function reviewPage(opts) {
       sub: "左侧队列 · 右侧全文 · 下方结论。通过后自动入发布队列；退回意见会写成文章评论。",
       acts: '<span class="page-head__chip">待审核 ' + (counts.in_review || 0) + " 篇</span>" }) +
     notice + error + tabs +
+    '<div class="kbd-hint" aria-label="审核快捷键">' +
+      "<span>键盘操作</span><kbd>J</kbd><kbd>K</kbd> 切换队列 · <kbd>A</kbd> 通过并发布 · " +
+      "<kbd>R</kbd> 退回并填意见 · <kbd>?</kbd> 全部快捷键</div>" +
     '<div class="review-grid">' + queueCard +
       '<div class="review-main">' + docCard + sideCards + commentCard + "</div>" +
     "</div>" +
@@ -3186,7 +3222,7 @@ function reviewPage(opts) {
       (canPublish ? '<button class="btn btn--primary" type="submit" form="review-decide" name="decision" value="approve">通过并发布</button>' : "") +
     "</div>" +
     '<div style="height:64px"></div>',
-    Object.assign({ current: "review", accent: "indigo", crumbs: [{ label: "审核台" }] }, opts));
+    Object.assign({ current: "review", accent: "indigo", crumbs: [{ label: "审核台" }], scripts: ["/static/review.js"] }, opts));
 }
 
 /* ---------------- 数据分析 ----------------

@@ -140,7 +140,8 @@ const STATIC = {
   "/static/editor.js": { file: path.join(PUBLIC_DIR, "editor.js"), type: "application/javascript; charset=utf-8" },
   "/static/app.js": { file: path.join(PUBLIC_DIR, "app.js"), type: "application/javascript; charset=utf-8" },
   "/static/cmdk.js": { file: path.join(PUBLIC_DIR, "cmdk.js"), type: "application/javascript; charset=utf-8" },
-  "/static/login.js": { file: path.join(PUBLIC_DIR, "login.js"), type: "application/javascript; charset=utf-8" }
+  "/static/login.js": { file: path.join(PUBLIC_DIR, "login.js"), type: "application/javascript; charset=utf-8" },
+  "/static/review.js": { file: path.join(PUBLIC_DIR, "review.js"), type: "application/javascript; charset=utf-8" }
 };
 
 function html(res, status, body) {

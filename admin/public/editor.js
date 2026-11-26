@@ -165,6 +165,26 @@
   if (document.getElementById("writebar")) document.body.classList.add("has-writebar");
 
   var editorForm = document.getElementById("editor");
+
+  /* 新建文章：把「正文」组提到「核心信息」之前 —— 第一次写的人先看到写作区，
+     标题/领域/分类等元信息放到下面，发布前再补。已有文章保持原顺序（先改标题/分类）。 */
+  if (editorForm && /\/articles\/new$/.test(editorForm.getAttribute("action") || "")) {
+    var bodyGrp = document.querySelector(".grp--body");
+    var coreGrp = document.querySelector(".grp--core");
+    if (bodyGrp && coreGrp && bodyGrp.parentNode === coreGrp.parentNode) {
+      bodyGrp.parentNode.insertBefore(bodyGrp, coreGrp);
+      bodyGrp.setAttribute("open", "");
+      var bodyTa = document.getElementById("body");
+      if (bodyTa) {
+        setTimeout(function () {
+          try {
+            bodyTa.focus({ preventScroll: true });
+            bodyTa.setSelectionRange(bodyTa.value.length, bodyTa.value.length);
+          } catch (e) {}
+        }, 80);
+      }
+    }
+  }
   if (editorForm) {
     editorForm.addEventListener("input", function () { updateWritebar(); refreshChecklist(); });
     editorForm.addEventListener("change", function () { updateWritebar(); refreshChecklist(); });

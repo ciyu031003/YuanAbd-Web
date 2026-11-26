@@ -1161,7 +1161,8 @@ async function handle(req, res) {
         body: articles.BODY_SKELETON, taxonomy: taxonomy(), sections: sectionRules(),
         canManageTaxonomy: await auth.can(sess.user, "settings:write"),
         canSubmit: await auth.can(sess.user, "article:submit"),
-        canReview: await auth.can(sess.user, "article:review")
+        canReview: await auth.can(sess.user, "article:review"),
+        mediaItems: await media.list(60)
       }, pageOpts)));
     }
     // POST 新建
@@ -1314,6 +1315,7 @@ async function handle(req, res) {
         comments: cmts, revCount: revCount, sections: sectionRules(),
         canSubmit: await auth.can(sess.user, "article:submit"),
         canReview: await auth.can(sess.user, "article:review"),
+        mediaItems: await media.list(60),
         canManageTaxonomy: await auth.can(sess.user, "settings:write"),
         notice: url.searchParams.get("notice"), error: url.searchParams.get("error")
       }, pageOpts)));

@@ -670,6 +670,48 @@ test("第四轮：快捷键帮助 / 审核键盘流 / 发布记录折叠 / 正�
   assert.match(edjs, /insertBefore\(bodyGrp/);
 });
 
+test("第五轮：Lucide 图标 / 公式渲染 / 图片库选择 / 写作工具栏", function () {
+  const icons = require(path.join(__dirname, "..", "src", "icons-data.cjs"));
+  const keys = Object.keys(icons);
+  assert.ok(keys.length >= 40, "图标库应包含常用图标");
+  keys.forEach(function (k) {
+    assert.ok(icons[k] && icons[k].indexOf("<") >= 0, "图标 " + k + " 应有 SVG 内容");
+    assert.ok(icons[k].indexOf("<svg") < 0, "图标数据只存内部节点，不嵌套 <svg>");
+  });
+  const fsx = fs.readFileSync(path.join(__dirname, "..", "public", "editor.js"), "utf8");
+  assert.match(fsx, /fx-formula/);
+  assert.match(fsx, /data-media-path/);
+  assert.match(fsx, /showModal/);
+
+  const editor = views.editorPage({
+    isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },
+    body: "## 一句话结论\n\n内容\n", slug: "demo", csrf: "c",
+    taxonomy: { domains: [{ id: "win", name: "Windows", cats: [{ id: "c1", name: "网络" }] }],
+      enums: { risk: ["需谨慎"], difficulty: ["入门"], sourceType: ["官方文档"] } },
+    mediaItems: [{ filename: "a.png", alt: "示例图" }, { filename: "b.jpg", alt: "" }]
+  });
+  assert.match(editor, /id="fx-formula"/, "需要公式插入弹层");
+  assert.match(editor, /id="fx-media"/, "需要图片库弹层");
+  assert.match(editor, /data-formula-open/);
+  assert.match(editor, /data-media-open/);
+  assert.match(editor, /data-media-path="\.\.\/media\/a\.png"/);
+  assert.match(editor, /class="fx-media__item"/);
+  assert.match(editor, /class="btn btn--icon"/, "工具栏应使用图标按钮");
+  assert.doesNotMatch(editor, />¶</, "不应用字形当图标");
+
+  const build = require(path.join(__dirname, "..", "..", "build-fix.cjs"));
+  const bt = String.fromCharCode(96);
+  const md = "## 一句话结论\n\n行内 $E=mc^2$。\n\n$$\n\\frac{a}{b}\n$$\n\n代码 " + bt + "$x$" + bt + " 不渲染。\n";
+  const html = build.mdToHtml(md);
+  assert.match(html, /<math/, "公式应渲染为 MathML");
+  assert.match(html, /fx-math--block/);
+  assert.match(html, new RegExp("<code>\\$x\\$</code>"), "代码里的 $ 不应被当作公式");
+  const page = build.renderArticle({ title: "T", slug: "t", domain: "net-basic", category: "net-nowifi",
+    os: ["Windows"], difficulty: "入门", time: "10 分钟", risk: "安全", updated: "2026-11-27", related: [] }, md);
+  assert.match(page, /class="fx-ico"/, "站点图标应使用 Lucide SVG");
+  assert.doesNotMatch(page, /[\u2705\u26D4\u26A0\u{1F4A1}\u{1F4D1}\u{1F4C4}\u{1F4DA}]/u, "页面不应再用 emoji 当图标");
+});
+
 test("编辑器：全屏分栏（左原文可编辑 / 右实时渲染）结构与脚本", function () {
   const html = views.editorPage({
     isExisting: false, meta: { version: "1.0", risk: "需谨慎", difficulty: "入门" },

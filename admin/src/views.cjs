@@ -37,30 +37,9 @@ const SECTION_ALIASES = { "怎么确认修好了": ["怎么确认修好了", "�
        无法跟随 currentColor、无法精确控制笔画粗细、读屏行为不可控
      · 内联 SVG 零额外请求、任意 DPI 清晰、currentColor 自动继承文字色
    统一 24×24 viewBox + stroke 1.8 + round 端点，视觉重量一致。 */
-const ICONS = {
-  dashboard: "M3 12h7V3H3v9Zm11 9h7v-9h-7v9ZM3 21h7v-6H3v6Zm11-12h7V3h-7v6Z",
-  articles:  "M4 5h16M4 12h16M4 19h10",
-  plus:      "M12 5v14M5 12h14",
-  media:     "M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6",
-  audit:     "M12 7v5l3 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
-  publish:   "M12 19V5M5 12l7-7 7 7",
-  users:     "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 20c0-3.3 3.6-6 8-6s8 2.7 8 6",
-  taxonomy:  "M3 6h6l2 3h10M4 19h7l2-3h7",
-  security:  "M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3ZM9.5 12l2 2 3.5-3.5",
-  review:    "M12 3a9 9 0 1 0 9 9M12 7v5l3 2",
-  draft:     "M4 20h4l10-10-4-4L4 16v4ZM14 6l4 4",
-  rejected:  "M9 14l6-6M9 8l6 6M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
-  check:     "M4 12.5l5 5L20 6.5",
-  warning:   "M12 8v5M12 17h.01M10.3 3.9L2.4 17a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z",
-  empty:     "M3 7h18v13H3zM3 7l2-4h14l2 4M9 12h6",
-  logout:    "M15 12H4M8 8l-4 4 4 4M14 4h5v16h-5",
-  key:       "M15 8a4 4 0 1 0-3.5 4L10 13.5V16H7.5l-1 1v2.5H4V17l7-7A4 4 0 0 1 15 8Z",
-  external:  "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5",
-  search:    "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM21 21l-4.3-4.3",
-  chart:     "M4 20V10M10 20V4M16 20v-7M22 20H2",
-  clock:     "M12 7v5l3 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z",
-  inbox:     "M3 12h5l1.5 3h5L16 12h5M3 12l2.5-7h13L21 12v7H3v-7Z"
-};
+/* 图标数据来自 Lucide（ISC，https://lucide.dev）。生成脚本：admin/tools/gen-icons.cjs
+   —— 手绘 path 换成开源图标库：24×24 网格、2px 描边、圆角端点，跨平台一致。 */
+const ICONS = require("./icons-data.cjs");
 
 /* 渲染一个图标。name 不存在时返回空串（不抛错，避免一个笔误炸整页）。
    默认 aria-hidden：本站所有图标的含义都有可见文字标签，图标属于装饰。 */
@@ -73,13 +52,13 @@ function safeHref(u) {
 }
 
 function icon(name, size, cls) {
-  const d = ICONS[name];
-  if (!d) return "";
+  const inner = ICONS[name];
+  if (!inner) return "";
   const s = size || 20;
   return '<svg class="fx-icon' + (cls ? " " + cls : "") + '" width="' + s + '" height="' + s + '" ' +
-    'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+    'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
-    '<path d="' + d + '"/></svg>';
+    inner + "</svg>";
 }
 
 const BASE_CSS = `
@@ -2056,22 +2035,24 @@ function editorPage(opts) {
         /* 正文工具条：把最高频的 Markdown 结构变成一键插入。
            之前只有「插入骨架」和「插入图片」两个按钮，写正文要记语法。 */
         '<div class="md-toolbar" role="toolbar" aria-label="Markdown 快捷格式">' +
-          '<button class="btn" type="button" data-md="h2" title="二级标题（Ctrl+Alt+2）">H2</button>' +
-          '<button class="btn" type="button" data-md="bold" title="加粗（Ctrl+B）"><b>B</b></button>' +
-          '<button class="btn" type="button" data-md="italic" title="斜体（Ctrl+I）"><i>I</i></button>' +
-          '<button class="btn" type="button" data-md="code" title="行内代码">代码</button>' +
+          '<button class="btn btn--icon" type="button" data-md="h2" title="二级标题（Ctrl+Alt+2）" aria-label="插入二级标题">' + icon("heading2", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="bold" title="加粗（Ctrl+B）" aria-label="加粗">' + icon("bold", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="italic" title="斜体（Ctrl+I）" aria-label="斜体">' + icon("italic", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="code" title="行内代码" aria-label="行内代码">' + icon("code", 16) + "</button>" +
           '<span class="md-toolbar__sep"></span>' +
-          '<button class="btn" type="button" data-md="ul" title="无序列表">列表</button>' +
-          '<button class="btn" type="button" data-md="ol" title="有序步骤">步骤</button>' +
-          '<button class="btn" type="button" data-md="quote" title="引用 / 提示">引用</button>' +
-          '<button class="btn" type="button" data-md="table" title="插入排查表">表格</button>' +
-          '<button class="btn" type="button" data-md="link" title="插入链接">链接</button>' +
+          '<button class="btn btn--icon" type="button" data-md="ul" title="无序列表" aria-label="无序列表">' + icon("list", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="ol" title="有序步骤" aria-label="有序步骤">' + icon("ordered", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="quote" title="引用 / 提示块" aria-label="插入引用提示块">' + icon("quote", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="table" title="插入排查表" aria-label="插入排查表">' + icon("table", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-md="link" title="插入链接" aria-label="插入链接">' + icon("link", 16) + "</button>" +
           '<span class="md-toolbar__sep"></span>' +
-          '<button class="btn" type="button" data-insert-skeleton>插入骨架</button>' +
-          '<button class="btn" type="button" data-upload-image title="上传并插入图片">图片</button>' +
+          '<button class="btn btn--icon" type="button" data-insert-skeleton title="插入建议的段落骨架" aria-label="插入段落骨架">' + icon("template", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-formula-open title="插入 LaTeX 公式" aria-label="插入公式">' + icon("formula", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-media-open title="从图片库选择" aria-label="从图片库选择图片">' + icon("library", 16) + "</button>" +
+          '<button class="btn btn--icon" type="button" data-upload-image title="上传图片（也可直接粘贴/拖入）" aria-label="上传图片">' + icon("imagePlus", 16) + "</button>" +
           '<input type="file" id="fx-img-file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" hidden>' +
           '<span class="md-toolbar__sep"></span>' +
-          '<button class="btn" type="button" data-fs-open title="全屏分栏：左侧可编辑原文，右侧实时渲染">全屏分栏</button>' +
+          '<button class="btn btn--icon" type="button" data-fs-open title="全屏分栏：左侧可编辑原文，右侧实时渲染" aria-label="打开全屏分栏预览">' + icon("fullscreen", 16) + "</button>" +
           '<span class="md-toolbar__hint">支持拖入 / 粘贴图片 · Ctrl+S 保存</span>' +
         '</div>' +
         /* 正文图片清单：上传/粘贴后立刻显示路径 + 缩略图，点路径打开原图 */
@@ -2135,7 +2116,7 @@ function editorPage(opts) {
           '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("check") + '</span><h3>发布前检查</h3></div>' +
           '<div id="publish-check">' + checklist() + "</div></div>" +
         '<div class="card" style="padding:16px">' +
-          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico" aria-hidden="true">¶</span><h3>段落导航</h3></div>' +
+          '<div class="card__hd" style="padding:0 0 12px"><span class="card__ico">' + icon("list") + '</span><h3>段落导航</h3></div>' +
           tocHost + '</div>' +
       "</div>" +
     "</div>" +
@@ -2192,6 +2173,42 @@ function editorPage(opts) {
         '</section>' +
       '</div>' +
     '</dialog>' +
+
+    /* 插入公式：插入 $…$ / $$…$$，右侧渲染结果里由构建同款引擎转成 MathML */
+    '<dialog id="fx-formula" class="fx-dialog" aria-labelledby="fx-formula-title">' +
+      '<header class="fx-dialog__hd"><h2 id="fx-formula-title">插入公式</h2>' +
+        '<button class="btn btn--sm" type="button" data-formula-close>关闭（Esc）</button></header>' +
+      '<div class="fx-dialog__bd">' +
+        '<label for="fx-formula-tex">LaTeX 公式</label>' +
+        '<textarea id="fx-formula-tex" rows="4" spellcheck="false" placeholder="例如：E=mc^2、\\frac{a}{b}、\\sum_{i=1}^{n} i"></textarea>' +
+        '<div class="fx-formula__mode" role="radiogroup" aria-label="公式排版">' +
+          '<label><input type="radio" name="fx-formula-mode" value="inline" checked> 行内公式 <code>$…$</code></label>' +
+          '<label><input type="radio" name="fx-formula-mode" value="block"> 独立公式 <code>$$…$$</code></label>' +
+        "</div>" +
+        '<p class="muted" style="margin:8px 0 0">支持 LaTeX 语法；插入后在右侧渲染结果里实时预览。</p>' +
+      "</div>" +
+      '<footer class="fx-dialog__ft"><button class="btn btn--sm" type="button" data-formula-close>取消</button>' +
+        '<button class="btn btn--sm btn--primary" type="button" data-formula-insert>插入公式</button></footer>' +
+    "</dialog>" +
+
+    /* 图片库：不用重新上传，直接从已上传素材里挑 */
+    '<dialog id="fx-media" class="fx-dialog fx-media-picker" aria-labelledby="fx-media-title">' +
+      '<header class="fx-dialog__hd"><h2 id="fx-media-title">从图片库选择</h2>' +
+        '<button class="btn btn--sm" type="button" data-media-close>关闭（Esc）</button></header>' +
+      '<div class="fx-dialog__bd">' +
+        ((opts.mediaItems || []).length
+          ? '<div class="fx-media__grid">' + (opts.mediaItems || []).map(function (m) {
+            return '<button type="button" class="fx-media__item" data-media-path="../media/' + esc(m.filename) + '" data-media-alt="' + esc(m.alt || "") + '">' +
+              '<img src="/media/' + esc(m.filename) + '" alt="' + esc(m.alt || "") + '" loading="lazy">' +
+              '<span class="fx-media__name">' + esc(m.alt || m.filename) + "</span></button>";
+          }).join("") + "</div>"
+          : '<div class="empty"><div class="empty__ico">' + icon("media", 24) + "</div>" +
+            '<div class="empty__t">图片库还没有图片</div><div>用工具栏的「上传图片」或直接粘贴 / 拖入图片</div></div>') +
+      "</div>" +
+      '<footer class="fx-dialog__ft"><a class="btn btn--sm btn--ghost" href="/media">打开媒体库</a>' +
+        '<button class="btn btn--sm" type="button" data-media-close>取消</button></footer>' +
+    "</dialog>" +
+
     '<template id="src-type-options">' + typeOptionsHtml + "</template>";
 
   return layout((isNew ? "新建文章" : "编辑：" + (m.title || opts.slug)), err + ok + body,
@@ -2239,7 +2256,7 @@ function revisionDiffPage(opts) {
   const nDel = (opts.rows || []).filter(function (r) { return r.t === "del"; }).length;
   return layout("修订对比",
     pageHead({
-      ico: "⇄", title: "v" + esc(opts.rev.revision_no) + " → 当前",
+      ico: "save", title: "v" + esc(opts.rev.revision_no) + " → 当前",
       sub: "作者 " + esc(opts.rev.author_email || "—") + " · " + esc(String(opts.rev.created_at || "").slice(0, 19).replace("T", " ")),
       acts: '<a class="btn" href="/articles/' + esc(opts.slug) + '/revisions">返回历史</a>' +
             '<a class="btn" href="/articles/' + esc(opts.slug) + '">打开文章</a>'

@@ -21,6 +21,33 @@ const OUT_DATA = path.join(OUT, "data");
 const FEEDBACK_ENDPOINT = process.env.FIXBOXS_FEEDBACK_ENDPOINT ||
   "https://dashboard.pc-fixboxs.yuanabd.cn/api/public/article-feedback";
 
+/* 公式：KaTeX（MIT）本地文件，output: "mathml" —— 只输出浏览器原生 MathML，
+   不需要加载 CSS/字体，预览与线上都不依赖外部资源。
+   缺失时降级为原样文本，构建不会失败。 */
+const KATEX = (function () {
+  try { return require(path.join(ROOT, "admin", "vendor", "katex.min.js")); } catch (e) { return null; }
+})();
+/* 图标：Lucide（ISC）生成的图标数据，与后台共用同一份 */
+const SITE_ICONS = (function () {
+  try { return require(path.join(ROOT, "admin", "src", "icons-data.cjs")); } catch (e) { return {}; }
+})();
+function siteIcon(name, size) {
+  var inner = SITE_ICONS[name];
+  if (!inner) return "";
+  var s = size || 16;
+  return '<svg class="fx-ico" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" ' +
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    inner + "</svg>";
+}
+function renderMath(tex, display) {
+  if (!KATEX) return null;
+  try {
+    return KATEX.renderToString(String(tex).trim(), {
+      output: "mathml", displayMode: !!display, throwOnError: false, strict: false
+    });
+  } catch (e) { return null; }
+}
+
 /* 分类字典已外置到 content/taxonomy.json（原先硬编码在此处）。
    外置的意义：后台编辑器的 domain/category 下拉框与构建读**同一份数据**，
    避免两处各维护一份而漂移。校验规则见 content-lint.cjs 的 V4。 */
@@ -122,7 +149,7 @@ const CONNECTOR = '<div class="fx-connector" aria-hidden="true"></div>';
 const READER_FEEDBACK = [
   '<div class="fx-feedback" data-fx-feedback>',
   '<div class="fx-feedback__intro"><span class="fx-feedback__eyebrow">读者反馈</span><h2>这篇教程解决你的问题了吗？</h2><p>点一下告诉我们结果。「没解决」可以指出问题段落，管理员会回到原文核对并更新。</p></div>',
-  '<div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">✅ 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">✕ 没解决，反馈问题</button></div>',
+  '<div class="fx-feedback__row" data-fx-feedback-actions><button class="fx-btn fx-btn--primary" type="button" data-fx-feedback-outcome="resolved">' + siteIcon("check", 14) + ' 解决了</button><button class="fx-btn fx-btn--ghost" type="button" data-fx-feedback-outcome="unresolved" aria-expanded="false">' + siteIcon("close", 13) + ' 没解决，反馈问题</button></div>',
   '<div class="fx-feedback__status" data-fx-feedback-status role="status" aria-live="polite" hidden></div>',
   '<form class="fx-feedback__form" data-fx-feedback-form hidden novalidate>',
   '<fieldset><legend>问题主要出在哪？</legend><div class="fx-feedback__types">',
@@ -146,7 +173,7 @@ const MOBILE_DRAWER = [
   '<div class="fx-drawer" id="fx-drawer" hidden>',
   '<div class="fx-drawer__backdrop" data-fx-drawer-close></div>',
   '<nav class="fx-drawer__panel" aria-label="站内导航" tabindex="-1">',
-  '<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">✕</button></div>',
+  '<div class="fx-drawer__head"><span class="fx-brand" aria-hidden="true"><span class="fx-brand__mark">修</span><span class="fx-brand__text">修盒子<em>FIXBOX</em></span></span><button class="fx-drawer__x" type="button" data-fx-drawer-close aria-label="关闭菜单">' + siteIcon("close", 18) + "</button></div>",
   '<a class="fx-drawer__link" href="../index.html">首页</a>',
   '<a class="fx-drawer__link" href="../browse.html">领域</a>',
   '<a class="fx-drawer__link" href="../hardware.html">拆机图</a>',
@@ -195,8 +222,21 @@ function safeUrl(u, forImage) {
 }
 
 function inline(s) {
-  let t = esc(s);
-  t = t.replace(new RegExp(BT + "([^" + BT + "]+)" + BT, "g"), "<code>$1</code>");
+  /* 先把行内代码与公式抽成占位符，再转义其余文本：
+     否则代码里的 $x$、**、[]() 会被当成 Markdown 语法改写。 */
+  const stash = [];
+  let t = String(s);
+  t = t.replace(new RegExp(BT + "([^" + BT + "]+)" + BT, "g"), function (_, code) {
+    stash.push("<code>" + esc(code) + "</code>");
+    return "\u0000" + (stash.length - 1) + "\u0000";
+  });
+  t = t.replace(/\$([^\s$](?:[^$\n]*[^\s$])?)\$/g, function (m, tex) {
+    const h = renderMath(tex, false);
+    if (!h) return m;
+    stash.push('<span class="fx-math fx-math--inline">' + h + "</span>");
+    return "\u0000" + (stash.length - 1) + "\u0000";
+  });
+  t = esc(t);
   // 行内图片：![替代文字](路径) —— 独立成行时由 mdToHtml 提升为 <figure>
   t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (_, alt, imgSrc) {
     if (!safeUrl(imgSrc, true)) return alt;
@@ -210,6 +250,7 @@ function inline(s) {
     return '<a class="fx-link"' + (ext ? ' target="_blank" rel="noopener nofollow"' : "") + ' href="' + href + '">' + txt + "</a>";
   });
   t = t.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+  t = t.replace(/\u0000(\d+)\u0000/g, function (_, i) { return stash[Number(i)] || ""; });
   return t;
 }
 
@@ -241,12 +282,31 @@ function mdToHtml(md) {
          这样复制成功、复制失败都能被读屏念出来（此前只有成功时改按钮文字）。 */
       out.push('<div class="fx-cmd' + (danger ? " fx-cmd--danger" : "") + '">' +
         '<div class="fx-cmd__head">' +
-        (danger ? '<span class="fx-cmd__warn">⛔ 有数据风险，逐行核对再执行</span>' : '<span class="fx-cmd__label">命令</span>') +
+        (danger ? '<span class="fx-cmd__warn">' + siteIcon("shieldAlert", 14) + ' 有数据风险，逐行核对再执行</span>' : '<span class="fx-cmd__label">命令</span>') +
         '<button class="fx-cmd__copy" type="button" data-fx-copy aria-label="复制命令">复制</button></div>' +
         "<pre><code>" + esc(code) + "</code></pre>" +
         '<span class="fx-cmd__status fx-vh" role="status" aria-live="polite"></span></div>');
       continue;
     }
+
+    /* 独立公式：$$ … $$（支持单行与多行）→ MathML */
+    if (/^\s*\$\$/.test(line)) {
+      let tex = line.replace(/^\s*\$\$/, "");
+      i++;
+      if (!tex.trim()) {
+        const buf = [];
+        while (i < lines.length && !/^\s*\$\$\s*$/.test(lines[i])) { buf.push(lines[i]); i++; }
+        i++;
+        tex = buf.join("\n");
+      } else {
+        tex = tex.replace(/\$\$\s*$/, "");
+      }
+      const html = renderMath(tex, true);
+      if (html) out.push('<div class="fx-math fx-math--block">' + html + "</div>");
+      else out.push("<p>" + esc(tex.trim()) + "</p>");
+      continue;
+    }
+
     if (/^\s*\|.*\|\s*$/.test(line)) {
       const buf = [];
       while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) { buf.push(lines[i]); i++; }
@@ -258,7 +318,7 @@ function mdToHtml(md) {
       while (i < lines.length && /^\s*>/.test(lines[i])) { buf.push(lines[i].replace(/^\s*>\s?/, "")); i++; }
       const raw = buf.join("\n");
       const kind = /⛔|有数据风险/.test(raw) ? "danger" : (/⚠|需谨慎/.test(raw) ? "caution" : "safe");
-      const ico = kind === "danger" ? "⛔" : (kind === "caution" ? "⚠" : "✅");
+      const ico = kind === "danger" ? siteIcon("shieldAlert", 16) : (kind === "caution" ? siteIcon("warning", 16) : siteIcon("check", 16));
       out.push('<div class="fx-callout fx-callout--' + kind + '"><span class="fx-callout__ico" aria-hidden="true">' + ico + "</span><div>" +
         raw.split("\n").map(inline).join("<br>") + "</div></div>");
       continue;
@@ -292,7 +352,7 @@ function mdToHtml(md) {
         const m = txt.match(/^\[([ xX])\]\s*(.*)$/);   // 任务清单：- [ ] / - [x]
         if (m) {
           const on = m[1].toLowerCase() === "x";
-          checks.push('<li class="fx-check' + (on ? " is-on" : "") + '"><span class="fx-check__box" aria-hidden="true">' + (on ? "✓" : "") + "</span>" + inline(m[2]) + "</li>");
+          checks.push('<li class="fx-check' + (on ? " is-on" : "") + '"><span class="fx-check__box" aria-hidden="true">' + (on ? siteIcon("check", 11) : "") + "</span>" + inline(m[2]) + "</li>");
         } else items.push("<li>" + inline(txt) + "</li>");
       }
       if (items.length) out.push('<ul class="fx-ul">' + items.join("") + "</ul>");
@@ -475,7 +535,7 @@ function pageFooter(fallbackUpdated) {
 /* ---------- 正文可复用的区块 ---------- */
 function renderToc(tocLinks) {
   if (!tocLinks) return "";
-  return '<details class="fx-toc-m"><summary>📑 本页目录</summary><ul>' + tocLinks + "</ul></details>";
+  return '<details class="fx-toc-m"><summary>' + siteIcon("list", 15) + " 本页目录</summary><ul>" + tocLinks + "</ul></details>";
 }
 function renderStepbar(hasSteps) {
   if (!hasSteps) return "";
@@ -509,11 +569,11 @@ function renderPager(slug) {
   var items = [];
   if (pn.prev) {
     items.push('<a class="fx-pager__item" rel="prev" href="../fix/' + escAttr(pn.prev.slug) + '.html">' +
-      '<span class="fx-pager__k">← 上一篇' + (pn.prev.domainName ? " · " + esc(pn.prev.domainName) : "") + "</span><b>" + esc(pn.prev.title) + "</b></a>");
+      '<span class="fx-pager__k">' + siteIcon("chevronLeft", 14) + " 上一篇" + (pn.prev.domainName ? " · " + esc(pn.prev.domainName) : "") + "</span><b>" + esc(pn.prev.title) + "</b></a>");
   }
   if (pn.next) {
     items.push('<a class="fx-pager__item fx-pager__item--next" rel="next" href="../fix/' + escAttr(pn.next.slug) + '.html">' +
-      '<span class="fx-pager__k">下一篇' + (pn.next.domainName ? " · " + esc(pn.next.domainName) : "") + " →</span><b>" + esc(pn.next.title) + "</b></a>");
+      '<span class="fx-pager__k">下一篇' + (pn.next.domainName ? " · " + esc(pn.next.domainName) : "") + " " + siteIcon("chevronRight", 14) + "</span><b>" + esc(pn.next.title) + "</b></a>");
   }
   return items.length ? '<nav class="fx-pager" aria-label="同领域的上一篇与下一篇">' + items.join("") + "</nav>" : "";
 }
@@ -589,7 +649,7 @@ function renderDoc(meta, body, forceReference) {
     order.push(name);
   });
 
-  var riskMap = { "安全": ["safe", "✅ 安全"], "需谨慎": ["caution", "⚠ 需谨慎"], "有数据风险": ["danger", "⛔ 有数据风险"] };
+  var riskMap = { "安全": ["safe", siteIcon("check", 13) + " 安全"], "需谨慎": ["caution", siteIcon("warning", 13) + " 需谨慎"], "有数据风险": ["danger", siteIcon("shieldAlert", 13) + " 有数据风险"] };
   var rk = riskMap[meta.risk] || riskMap["需谨慎"];
   var osList = (Array.isArray(meta.os) ? meta.os : [meta.os]).filter(Boolean);
   /* 每一枚系统徽章单独取色：一篇文章可能同时列 Windows 与 macOS（此前统一取首个系统的颜色，
@@ -630,7 +690,7 @@ function renderDoc(meta, body, forceReference) {
     desc = String(overview).replace(new RegExp("[#*>" + BT + "]", "g"), "").replace(/\s+/g, " ").trim().slice(0, 110);
 
     tocLinks =
-      (overview ? '<li><a href="#' + slugify("快速概览") + '">📄 快速概览</a></li>' : "") +
+      (overview ? '<li><a href="#' + slugify("快速概览") + '">' + siteIcon("articles", 14) + ' 快速概览</a></li>' : "") +
       (who ? '<li><a href="#' + slugify("适用对象") + '">适用对象</a></li>' : "") +
       (risks ? '<li><a href="#' + slugify("风险提示") + '">风险提示</a></li>' : "") +
       (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
@@ -640,7 +700,7 @@ function renderDoc(meta, body, forceReference) {
 
     bodyHtml = [
       preambleHtml,
-      '<div class="fx-refbox" data-reveal>📚 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
+      '<div class="fx-refbox" data-reveal>' + siteIcon("library", 16) + ' 本文是<b>参考资料</b>：处理方法整理自团队 SOP 与官方文档，原始链接在文末「原始 SOP」保留，可点击核对。</div>',
       overview ? '<div class="fx-conclusion" data-reveal><h2 id="' + slugify("快速概览") + '">📄 快速概览</h2>' + mdToHtml(overview) + "</div>" : "",
       who ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("适用对象") + '">适用对象</h2>' + mdToHtml(who) + "</section>" : "",
       risks ? '<section data-reveal><h2 class="fx-h2" id="' + slugify("风险提示") + '">风险提示</h2>' + mdToHtml(risks) + "</section>" : "",
@@ -654,7 +714,7 @@ function renderDoc(meta, body, forceReference) {
       '<div class="fx-feedback fx-feedback--ref" data-fx-feedback-ref>',
       '<h2>这篇资料对你有帮助吗？</h2>',
       '<p>发现处理方法已经过时或有遗漏，请告诉我们，我们会回到原始 SOP 核对后更新。</p>',
-      '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">👍 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">✕ 去看故障教程</a></div>',
+      '<div class="fx-feedback__row"><a class="fx-btn fx-btn--primary" href="../about.html#feedback">' + siteIcon("thumbUp", 15) + ' 有帮助</a><a class="fx-btn fx-btn--ghost" href="../browse.html">' + siteIcon("close", 13) + ' 去看故障教程</a></div>',
       "</div>"
     ].join("");
   } else {
@@ -682,17 +742,17 @@ function renderDoc(meta, body, forceReference) {
     desc = String(conclusion).replace(new RegExp("[#*>" + BT + "]", "g"), "").replace(/\s+/g, " ").trim().slice(0, 110);
 
     tocLinks =
-      '<li><a href="#' + slugify("一句话结论") + '">💡 一句话结论</a></li>' +
-      (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查</a></li>' : "") +
-      (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">🧰 小白一键修复</a></li>' : "") +
+      '<li><a href="#' + slugify("一句话结论") + '">' + siteIcon("lightbulb", 14) + " 一句话结论</a></li>" +
+      (quickItems.length ? '<li><a href="#' + slugify("30 秒快速排查") + '">' + siteIcon("clock", 14) + " 30 秒快速排查</a></li>" : "") +
+      (batfixHtml ? '<li><a href="#' + slugify("小白一键修复") + '">' + siteIcon("save", 14) + " 小白一键修复</a></li>" : "") +
       leadingRest.map(tocItem).join("") +
       (stepMd ? '<li><a href="#' + slugify("分步骤") + '">分步骤</a></li>' : "") +
       middleRest.concat(trailingRest).map(tocItem).join("");
 
     bodyHtml = joinBlocks([
       preambleHtml,
-      '<div class="fx-conclusion" data-reveal><h2 id="' + slugify("一句话结论") + '">💡 一句话结论</h2>' + mdToHtml(conclusion) + "</div>",
-      quickItems.length ? '<div class="fx-quickfix" data-reveal><h2 id="' + slugify("30 秒快速排查") + '">⚡ 30 秒快速排查（先试这个）</h2><ol>' + quickItems.join("") + "</ol></div>" : "",
+      '<div class="fx-conclusion" data-reveal><h2 id="' + slugify("一句话结论") + '">' + siteIcon("lightbulb", 20) + " 一句话结论</h2>" + mdToHtml(conclusion) + "</div>",
+      quickItems.length ? '<div class="fx-quickfix" data-reveal><h2 id="' + slugify("30 秒快速排查") + '">' + siteIcon("clock", 20) + " 30 秒快速排查（先试这个）</h2><ol>" + quickItems.join("") + "</ol></div>" : "",
       batfixHtml,
       CONNECTOR,
       leadingRest.map(sectionHtml).join("\n"),
@@ -732,7 +792,7 @@ function renderDoc(meta, body, forceReference) {
       (cat ? '<span class="fx-crumb__sep">›</span><span>' + esc(cat) + "</span>" : "") + "</nav>",
     '<h1 class="fx-title">' + esc(meta.title) + "</h1>",
     '<div class="fx-meta">' + badges +
-      '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">☆ 收藏</button></span></div>',
+      '<span class="fx-meta__actions"><button class="fx-iconbtn" type="button" data-fx-fav aria-pressed="false">' + siteIcon("star", 14) + ' 收藏</button></span></div>',
     renderStepbar(stepMd),
     renderToc(tocLinks),
     bodyHtml,

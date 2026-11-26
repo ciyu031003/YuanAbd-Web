@@ -778,4 +778,59 @@
     if (form) form.addEventListener("submit", function () { setState("正在保存…"); });
   })();
 
+  /* ---------------- 插入公式（LaTeX → 构建时渲染为 MathML） ---------------- */
+  var formulaDlg = document.getElementById("fx-formula");
+  var formulaTex = document.getElementById("fx-formula-tex");
+  if (formulaDlg) {
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-formula-open]")) {
+        e.preventDefault();
+        formulaDlg.showModal();
+        if (formulaTex) { formulaTex.focus(); formulaTex.select(); }
+      }
+      if (e.target.closest("[data-formula-close]")) formulaDlg.close();
+      if (e.target.closest("[data-formula-insert]")) {
+        var tex = formulaTex ? formulaTex.value.trim() : "";
+        if (!tex) { if (formulaTex) formulaTex.focus(); return; }
+        var mode = formulaDlg.querySelector('input[name="fx-formula-mode"]:checked');
+        var block = mode && mode.value === "block";
+        insertAtCursor(block ? "\n$$\n" + tex + "\n$$\n" : "$" + tex + "$");
+        formulaDlg.close();
+        if (typeof renderToc === "function") renderToc();
+      }
+    });
+    formulaDlg.addEventListener("click", function (e) { if (e.target === formulaDlg) formulaDlg.close(); });
+    if (formulaTex) formulaTex.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        var btn = formulaDlg.querySelector("[data-formula-insert]");
+        if (btn) btn.click();
+      }
+    });
+  }
+
+  /* ---------------- 从图片库插入 ---------------- */
+  var mediaDlg = document.getElementById("fx-media");
+  if (mediaDlg) {
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-media-open]")) {
+        e.preventDefault();
+        mediaDlg.showModal();
+      }
+      if (e.target.closest("[data-media-close]")) mediaDlg.close();
+      var item = e.target.closest("[data-media-path]");
+      if (item && mediaDlg.contains(item)) {
+        e.preventDefault();
+        var p = item.getAttribute("data-media-path") || "";
+        var alt = item.getAttribute("data-media-alt") || "";
+        if (!p) return;
+        insertAtCursor("\n![" + alt + "](" + p + ")\n");
+        mediaDlg.close();
+        if (typeof refreshUploadChips === "function") refreshUploadChips();
+        if (typeof renderToc === "function") renderToc();
+      }
+    });
+    mediaDlg.addEventListener("click", function (e) { if (e.target === mediaDlg) mediaDlg.close(); });
+  }
+
 })();

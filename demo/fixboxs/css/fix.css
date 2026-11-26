@@ -1336,3 +1336,27 @@ html.fx-lb-open,html.fx-lb-open body{overflow:hidden}
   .fx-fig__frame{border-radius:12px;box-shadow:4px 4px 0 var(--fx-ink)}
   .fx-fig__cap{font-size:13.5px;padding:0 2%}
 }
+
+/* =============================================================================
+   2026-11-27 · 公式（MathML）与开源图标（Lucide）
+   ============================================================================= */
+.fx-math{font-size:1.02em}
+.fx-math--inline math{font-size:1.04em}
+.fx-math--block{
+  display:block;margin:16px 0;padding:4px 0;text-align:center;
+  overflow-x:auto;overflow-y:hidden;
+}
+.fx-math--block math{font-size:1.12em}
+.fx-math math{font-family:"Latin Modern Math","STIX Two Math","Cambria Math","Times New Roman",serif}
+
+.fx-ico{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex:none;pointer-events:none}
+.fx-callout__ico .fx-ico{width:18px;height:18px}
+.fx-cmd__warn .fx-ico{width:14px;height:14px;vertical-align:-2px;margin-right:3px}
+.fx-conclusion h2 .fx-ico,.fx-quickfix h2 .fx-ico{width:20px;height:20px;vertical-align:-3px;margin-right:6px}
+.fx-check__box .fx-ico{width:11px;height:11px}
+.fx-badge .fx-ico{width:13px;height:13px;vertical-align:-2px;margin-right:2px}
+.fx-pager__k .fx-ico{width:14px;height:14px;vertical-align:-2px}
+.fx-drawer__x .fx-ico,.fx-toc-m summary .fx-ico{vertical-align:-2px;margin-right:4px}
+.fx-btn .fx-ico{vertical-align:-2px;margin-right:2px}
+.fx-refbox .fx-ico{vertical-align:-3px;margin-right:4px}
+.fx-iconbtn .fx-ico{vertical-align:-2px}

@@ -1589,3 +1589,53 @@ body.fs-open{overflow:hidden}
   .statustabs::-webkit-scrollbar{display:none}
   .statustab{flex:none;white-space:nowrap}
 }
+
+/* =============================================================================
+   2026-11-27 · 写作工具：图标按钮 / 公式插入 / 图片库选择
+   ============================================================================= */
+.btn--icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:32px;height:32px;padding:0 7px;
+}
+.btn--icon .fx-icon{width:16px;height:16px;display:block}
+.md-toolbar .btn--icon{padding:0 6px}
+.md-toolbar .md-toolbar__hint{margin-left:4px}
+
+/* ---- 通用弹层（公式 / 图片库） ---- */
+.fx-dialog{
+  border:0;padding:0;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 64px);
+  border-radius:18px;background:var(--surface);color:var(--ink);
+  box-shadow:0 30px 80px -40px rgba(0,0,0,.55);
+}
+.fx-dialog::backdrop{background:rgba(3,6,12,.45);backdrop-filter:blur(2px)}
+.fx-dialog__hd{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px;border-bottom:1px solid var(--line);
+}
+.fx-dialog__hd h2{margin:0;font-size:15.5px}
+.fx-dialog__bd{padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.fx-dialog__ft{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line)}
+
+/* ---- 公式 ---- */
+.fx-formula textarea{font-family:var(--mono);min-height:96px;line-height:1.7}
+.fx-formula__mode{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
+.fx-formula__mode label{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.fx-formula__mode code{font-size:11px;color:var(--ink-3);background:var(--surface-2);padding:1px 5px;border-radius:5px}
+
+/* ---- 图片库 ---- */
+.fx-media-picker{width:min(760px,calc(100vw - 32px))}
+.fx-media__grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;
+  max-height:54vh;overflow:auto;padding:2px;
+}
+.fx-media__item{
+  display:flex;flex-direction:column;gap:6px;padding:6px;border-radius:12px;
+  border:1px solid var(--line);background:var(--surface-2);cursor:pointer;
+  color:var(--ink);font:inherit;text-align:left;transition:border-color .16s,transform .16s;
+}
+.fx-media__item:hover{border-color:var(--accent);transform:translateY(-1px)}
+.fx-media__item img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;background:var(--surface-3)}
+.fx-media__name{
+  font-size:11.5px;line-height:1.35;color:var(--ink-2);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-all;
+}

@@ -1,18 +1,20 @@
 {
-  "versionName": "2.8.8",
-  "versionCode": 135,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.8.apk",
-  "sizeBytes": 84165722,
-  "sha256": "6029b67e36afbf0501f0f0df04843c95076b37ffa1a8a7868db9775a7acc1396",
+  "versionName": "2.8.9",
+  "versionCode": 136,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.9.apk",
+  "sizeBytes": 84260642,
+  "sha256": "f6bd3b1426e476652e414618c63a54ef1f7f8a576a7ffe5a1bffbe3ce5910daa",
   "releaseNotes": [
-    "v2.8.8",
-    "· 睡眠：修复时间输入无法聚焦、退格跳字，输入 740 自动变 07:40",
-    "· 饮食：手动录入的新食材会同步到公共食物库，同名自动去重，其他人可直接搜索使用",
-    "· 修复快捷添加菜单偶发残留、训练记录时长为 0 时的文案错误",
-    "· 睡眠记录编辑入口换成更直观的铅笔图标"
+    "v2.8.9",
+    "· 新增「健康基线」：按身高、体重、年龄、性别与活动量推算 BMR / TDEE，给出每日热量、蛋白质、碳水、脂肪目标",
+    "· 睡眠升级为六维综合判定（时长 / 效率 / 分期 / 规律 / 睡眠债 / 夜醒），不足 5 晚只提示积累、不下结论",
+    "· 满 7 天或 28 天有效数据后，自动识别蛋白偏低、睡眠不足、作息不规律，并支持早睡 / 补蛋白本地提醒",
+    "· 睡眠目标跟随个人设置，成长页、饮食页、睡眠页的目标与进度同步刷新",
+    "· 修复睡眠新增/编辑切到无记录日期时会把原记录「挪走」；成长页快捷记录直达新增页",
+    "· 所有建议仅作生活方式参考，不构成医疗诊断"
   ],
-  "publishedAt": "2026-11-27T18:40:43.560Z",
+  "publishedAt": "2026-11-27T21:47:40.390Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "qkakkKNRZjvJMiytHxvZQLJhJaU2NON0wTHSL1ou0KwaLuNNpxpVS4bk9vwNMVAc_S-46R3pIN__1EfBqiRfBw"
+  "signature": "ulmGHrGF_FnXIoeRY_dpqNfunM-9F9EWM68lq05t33pXhGrKd6IG0ZP_E-dLxGDogbaP6MdKy6xxo2tRukJ-Bg"
 }

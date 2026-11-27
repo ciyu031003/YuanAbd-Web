@@ -2,8 +2,8 @@
   "versionName": "2.8.9",
   "versionCode": 136,
   "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.9.apk",
-  "sizeBytes": 84260642,
-  "sha256": "f6bd3b1426e476652e414618c63a54ef1f7f8a576a7ffe5a1bffbe3ce5910daa",
+  "sizeBytes": 84254514,
+  "sha256": "b8f06c970e0bcf2d0acb81bc54041a908ed2a8c980b146ed3367789e9082f4ee",
   "releaseNotes": [
     "v2.8.9",
     "· 新增「健康基线」：按身高、体重、年龄、性别与活动量推算 BMR / TDEE，给出每日热量、蛋白质、碳水、脂肪目标",
@@ -13,8 +13,8 @@
     "· 修复睡眠新增/编辑切到无记录日期时会把原记录「挪走」；成长页快捷记录直达新增页",
     "· 所有建议仅作生活方式参考，不构成医疗诊断"
   ],
-  "publishedAt": "2026-11-27T21:47:40.390Z",
+  "publishedAt": "2026-11-27T22:01:24.825Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "ulmGHrGF_FnXIoeRY_dpqNfunM-9F9EWM68lq05t33pXhGrKd6IG0ZP_E-dLxGDogbaP6MdKy6xxo2tRukJ-Bg"
+  "signature": "fD4FaGH2ltMasLSOIM-T10l4zkWzxrp6hBPY0jIqLByu-IBgfokHnuSw47Gh3nx9Jk7mqswW40FDSebXe2p6Bg"
 }

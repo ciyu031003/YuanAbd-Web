@@ -1,23 +1,18 @@
 {
-  "versionName": "2.8.7",
-  "versionCode": 134,
-  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.7.apk",
-  "sizeBytes": 84145890,
-  "sha256": "2f7fdad9dd1238565ade1424c6dc7be12665f28703cf64823311884a4956263e",
+  "versionName": "2.8.8",
+  "versionCode": 135,
+  "apkUrl": "https://learn.yuanabd.cn/download/learn-workbench-v2.8.8.apk",
+  "sizeBytes": 84165722,
+  "sha256": "6029b67e36afbf0501f0f0df04843c95076b37ffa1a8a7868db9775a7acc1396",
   "releaseNotes": [
-    "移动端 2.8.7（134）",
-    "· 修复：睡眠编辑回填原始时间戳；未填写时长时不再显示「—hm」，填写后实时显示「8h20m」与评分",
-    "· 修复：饮食「最近吃过 +」把 300 kcal 记成 0 —— 营养库字符串数字先转数值再换算",
-    "· 修复：匿名新增饮食服务端 500 —— SQL 占位符从 $2 起连续编号（原实现 $2 悬空，PG 42P18）",
-    "· 修复：匿名编辑饮食会把名称/餐次/营养写坏 —— SET 参数避开 anon_id 作用域参数，不再撞号",
-    "· 修复：同一顿饭并发补发落两条 —— 客户端 flush 单飞锁 + 匿名 client_id 唯一索引 + 23505 幂等回读",
-    "· 修复：训练保存成功但列表 0 条 / 匿名训练列表 500 —— workout_items 没有 anon_id，改按已鉴权的 workout id 取明细",
-    "· 修复：刷新遇到 304 空响应时刚记的餐不显示 —— 读接口绕开 HTTP 缓存，并在 304 时保留待同步条目",
-    "· 优化：未登录时「存入常用食物」开关置灰并提示登录，不再记录成功后再弹一次保存失败",
-    "· 全量回归：mobile 1442 用例 / web 2146 用例；typecheck / lint / 字体缩放 / UI 矩阵 / 动效预算全部通过"
+    "v2.8.8",
+    "· 睡眠：修复时间输入无法聚焦、退格跳字，输入 740 自动变 07:40",
+    "· 饮食：手动录入的新食材会同步到公共食物库，同名自动去重，其他人可直接搜索使用",
+    "· 修复快捷添加菜单偶发残留、训练记录时长为 0 时的文案错误",
+    "· 睡眠记录编辑入口换成更直观的铅笔图标"
   ],
-  "publishedAt": "2026-11-26T23:18:42.738Z",
+  "publishedAt": "2026-11-27T18:40:43.560Z",
   "rolloutPercent": 100,
   "minSupportedVersionCode": 60,
-  "signature": "A9LeoruA2rVHpR90gNHpL9ZlzPHVzbkuGSt-CpHMet67YeN2GTXNjQxJ_n43qDOeb0SG8UFMoeUAuOHb6gq0AQ"
+  "signature": "qkakkKNRZjvJMiytHxvZQLJhJaU2NON0wTHSL1ou0KwaLuNNpxpVS4bk9vwNMVAc_S-46R3pIN__1EfBqiRfBw"
 }
